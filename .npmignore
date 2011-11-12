@@ -1,0 +1,8 @@
+test
+.settings
+node_modules
+example
+benchmark
+docs
+support
+Makefile

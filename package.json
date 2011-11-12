@@ -1,0 +1,23 @@
+{
+    "name": "moose-query",
+    "description": "Moose query engine",
+    "version": "0.0.1",
+	"keywords" : ["mysql", "MySQL", "MySql", "SQL", "sql", "query", "database", "dataset"],
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:doug-martin/moose-query.git"
+    },
+    "author": "Pollenware (http://pollenware.github.com)",
+    "main": "index.js",
+    "dependencies" :
+    {
+        "mysql" : "*",
+        "comb" : ">=0.0.2"
+    },
+    "directories": {
+        "lib": "lib"
+    },
+    "engines": {
+        "node": ">= 0.4.10"
+    }
+}
