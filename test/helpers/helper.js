@@ -27,14 +27,14 @@ var MockDataset = comb.define(Dataset, {
         }
 
     }
-}).export(exports, "MockDataset");
+}).as(exports, "MockDataset");
 
 var MockDB = comb.define(Database, {
 
     instance : {
         constructor : function() {
-            this.super(arguments);
-            this.type = this.static.type;
+            this._super(arguments);
+            this.type = this._static.type;
             this.quoteIdentifiers = false;
             this.identifierInputMethod = null;
             this.identifierOutputMethod = null;
@@ -86,14 +86,14 @@ var MockDB = comb.define(Database, {
         }
     }
 
-}).export(exports, "MockDatabase");
+}).as(exports, "MockDatabase");
 
 MockDB.setAdapterType("mau");
 
 comb.define(Database, {
     instance : {
         constructor : function() {
-            this.super(arguments);
+            this._super(arguments);
             this.identifierInputMethod = null;
             this.identifierOutputMethod = null;
             this.sqls = [];
@@ -106,4 +106,4 @@ comb.define(Database, {
             return ret;
         }
     }
-}).export(exports, "SchemaDummyDatabase");
+}).as(exports, "SchemaDummyDatabase");

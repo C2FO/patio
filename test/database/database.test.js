@@ -35,8 +35,10 @@ var DummyDataset = comb.define(moose.Dataset, {
 var DummyDatabase = comb.define(moose.Database, {
     instance : {
         constructor : function() {
-            this.super(arguments);
+            this._super(arguments);
             this.sqls = [];
+            this.identifierInputMethod = null;
+            this.identifierOutputMethod = null;
         },
 
         execute : function(sql, opts) {
@@ -86,8 +88,10 @@ var DummyConnection = comb.define(null, {
 var Dummy3Database = comb.define(Database, {
     instance : {
         constructor : function() {
-            this.super(arguments);
+            this._super(arguments);
             this.sqls = [];
+            this.identifierInputMethod = null;
+            this.identifierOutputMethod = null;
         },
 
         execute : function(sql, opts) {
@@ -216,7 +220,7 @@ suite.addBatch({
         },
 
         "should respect the identifierInputMethodDefault method if moose.identifierInputMethod = null" : function() {
-            moose.identifierInputMethod = null;
+            moose.identifierInputMethod = undefined;
             assert.equal(new Database().identifierInputMethod, "toUpperCase");
             var x = comb.define(Database, {instance : {getters : {identifierInputMethodDefault : function() {
                 return "toLowerCase";
@@ -229,7 +233,7 @@ suite.addBatch({
         },
 
         "should respect the identifierOutputMethodDefault method if moose.identifierOutputMethod = null" : function() {
-            moose.identifierOutputMethod = null;
+            moose.identifierOutputMethod = undefined;
             assert.equal(new Database().identifierOutputMethod, "toLowerCase");
             var x = comb.define(Database, {instance : {getters : {identifierOutputMethodDefault : function() {
                 return "toLowerCase";
@@ -396,6 +400,8 @@ suite.addBatch({
 
     "Database.dataset" : {
         topic : function() {
+            moose.identifierInputMethod = null;
+            moose.identifierOutputMethod = null;
             moose.quoteIdentifiers = false;
             var db = new Database();
             return {
@@ -495,7 +501,7 @@ suite.addBatch({
                 instance : {
 
                     constructor : function() {
-                        this.super(arguments);
+                        this._super(arguments);
                         this.sqls = [];
                     },
 
@@ -1242,9 +1248,11 @@ suite.addBatch({
             assert.deepEqual(m("'2009-10-29'", "date"), comb.date.parse('2009-10-29', 'yyyy-MM-dd'));
             assert.equal(m("CURRENT_TIMESTAMP", "date"), null);
             assert.equal(m("today()", "date"), null);
-            assert.deepEqual(m("'2009-10-29T10:20:30-07:00'", "datetime"), comb.date.parse('2009-10-29T10:20:30-07:00', 'yyyy-MM-ddThh:mm:ssZ'));
-            assert.deepEqual(m("'2009-10-29 10:20:30'", "datetime"), comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-ddThh:mm:ss'));
-            assert.deepEqual(m("'10:20:30'", "time"), comb.date.parse("10:20:30", "hh:mm:ss"));
+            assert.deepEqual(m("'2009-10-29 10:20:30-07:00'", "datetime"), new sql.DateTime(comb.date.parse('2009-10-29 10:20:30-07:00', 'yyyy-MM-dd HH:mm:ssZ')));
+            assert.deepEqual(m("'2009-10-29 10:20:30'", "datetime"), new sql.DateTime(comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-dd HH:mm:ss')));
+            assert.deepEqual(m("'2009-10-29 10:20:30'", "timestamp"), new sql.TimeStamp(comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-dd HH:mm:ss')));
+            assert.deepEqual(m("'10:20:30'", "time"), new sql.Time(comb.date.parse("10:20:30", "HH:mm:ss")));
+            assert.deepEqual(m("'2002'", "year"), new sql.Year(comb.date.parse("2002", "yyyy")));
             assert.isNull(m("NaN", "float"));
 
             db.type = "postgres";
@@ -1255,8 +1263,8 @@ suite.addBatch({
             assert.equal(m("(-1.0)", "float"), -1.0);
             assert.equal(m('(-1.0)', "decimal"), -1.0);
             assert.deepEqual(m("'2009-10-29'::date", "date"), comb.date.parse("2009-10-29", "yyyy-MM-dd"));
-            assert.deepEqual(m("'2009-10-29 10:20:30.241343'::timestamp without time zone", "datetime"), comb.date.parse("2009-10-29 10:20:30.241343", "yyyy-MM-dd hh:mm:ss.SSZ"));
-            assert.deepEqual(m("'10:20:30'::time without time zone", "time"), comb.date.parse("10:20:30", "hh:mm:ss"));
+            assert.deepEqual(m("'2009-10-29 10:20:30.241343'::timestamp without time zone", "datetime"), new sql.DateTime(comb.date.parse("2009-10-29 10:20:30.241343", "yyyy-MM-dd HH:mm:ss.SSZ")));
+            assert.deepEqual(m("'10:20:30'::time without time zone", "time"), new sql.Time(comb.date.parse("10:20:30", "HH:mm:ss")));
 
             db.type = "mysql";
             assert.equal(m("\\a'b", "string"), "\\a'b");
@@ -1265,10 +1273,11 @@ suite.addBatch({
             assert.equal(m("-1", "float"), -1.0);
             assert.equal(m('-1', "decimal"), -1.0);
             assert.deepEqual(m("2009-10-29", "date"), comb.date.parse("2009-10-29", "yyyy-MM-dd"));
-            assert.deepEqual(m("2009-10-29 10:20:30", "datetime"), comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-ddThh:mm:ss'));
-            assert.deepEqual(m("10:20:30", "time"), comb.date.parse("10:20:30", "hh:mm:ss"));
+            assert.deepEqual(m("2009-10-29 10:20:30", "datetime"), new sql.DateTime(comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-dd HH:mm:ss')));
+            assert.deepEqual(m("10:20:30", "time"), new sql.Time(comb.date.parse("10:20:30", "HH:mm:ss")));
             assert.equal(m("CURRENT_DATE", "date"), null);
             assert.equal(m("CURRENT_TIMESTAMP", "datetime"), null);
+            assert.equal(m("CURRENT_TIMESTAMP", "timestamp"), null);
             assert.equal(m("a", "enum"), "a");
 
             db.type = "mssql";

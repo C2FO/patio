@@ -20,12 +20,13 @@ var vows = require('vows'),
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset actions");
 
-
+moose.identifierInputMethod = null;
+moose.identifierOutputMethod = null;
 var c = comb.define(Dataset, {
     instance : {
 
         fetchRows : function(sql, cb) {
-            this.static.sql = sql;
+            this._static.sql = sql;
             this.__columns = [sql.match(/SELECT COUNT/i) ? "count" : "a"];
             var val = {};
             val[this.__columns[0]] = 1;
@@ -195,7 +196,7 @@ suite.addBatch({
             var C = comb.define(c, {
                 instance : {
                     fetchRows : function(sql, cb) {
-                        this.static.sql = sql;
+                        this._static.sql = sql;
                         return new comb.Promise().callback(cb(sql.match(/WHERE \'f\'/) ? null : {1 : 1}));
                     }
                 }
@@ -313,12 +314,12 @@ suite.addBatch({
 
                     getters : {
                         lastSql : function() {
-                            return this.static.sql;
+                            return this._static.sql;
                         }
                     },
 
                     fetchRows : function(sql, cb) {
-                        this.static.sql = sql;
+                        this._static.sql = sql;
                         return new comb.Promise().callback(cb({v1 : 1, v2 : 10}));
                     }
                 },
@@ -362,12 +363,12 @@ suite.addBatch({
 
                     getters : {
                         lastSql : function() {
-                            return this.static.sql;
+                            return this._static.sql;
                         }
                     },
 
                     fetchRows : function(sql, cb) {
-                        this.static.sql = sql;
+                        this._static.sql = sql;
                         return new comb.Promise().callback(cb({v : 1234}));
                     }
                 },
@@ -451,12 +452,12 @@ suite.addBatch({
         "should set the limit and return an array of records if the given number is > 1" : function(d) {
             var i = parseInt(Math.random() * 10) + 10;
             d.order("a").first(i).then(function(r) {
-                assert.length(r, i);
+                assert.lengthOf(r, i);
                 assert.deepEqual(r[0], ["a",1,"b",2, comb.string.format("SELECT * FROM test ORDER BY a LIMIT %d", i)]);
             });
             i = parseInt(Math.random() * 10) + 10;
             d.order("a").last(i).then(function(r) {
-                assert.length(r, i);
+                assert.lengthOf(r, i);
                 assert.deepEqual(r[0], ["a",1,"b",2, comb.string.format("SELECT * FROM test ORDER BY a DESC LIMIT %d", i)]);
             });
         },
@@ -497,7 +498,7 @@ suite.addBatch({
                 function() {
                     return this.z.sqlNumber.gt(26)
                 }).then(function(r) {
-                    assert.length(r, i);
+                    assert.lengthOf(r, i);
                     assert.deepEqual(r[0], ["a",1,"b",2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY a LIMIT %d", i)]);
                 });
             i = parseInt(Math.random() * 10) + 10;
@@ -505,7 +506,7 @@ suite.addBatch({
                 function() {
                     return this.z.sqlNumber.gt(26)
                 }).then(function(r) {
-                    assert.length(r, i);
+                    assert.lengthOf(r, i);
                     assert.deepEqual(r[0], ["a",1,"b",2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT %d", i)]);
                 });
         },
@@ -702,7 +703,7 @@ suite.addBatch({
             };
 
             dataset.all().then(function(rows) {
-                assert.length(rows, 10);
+                assert.lengthOf(rows, 10);
                 rows.forEach(function(r) {
                     assert.deepEqual(r.der, r.kind + 2);
                 });

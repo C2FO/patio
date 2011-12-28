@@ -19,6 +19,9 @@ var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset graphing");
 
 moose.quoteIdentifiers = false;
+moose.identifierInputMethod = null;
+moose.identifierOutputMethod = null;
+
 var DS1 = comb.define(Dataset, {
     instance : {
         getters : {
@@ -273,7 +276,7 @@ suite.addBatch({
                     return new comb.Promise().callback(block({id : 1, x : 2, y : 3, lines_id : 4, lines_x : 5, lines_y : 6, graphId : 7}));
                 };
                 ds.all().then(function(results) {
-                    assert.length(results, 1);
+                    assert.lengthOf(results, 1);
                     assert.deepEqual(results[0], {points : {id : 1, x : 2, y : 3}, lines : {id : 4, x : 5, y : 6, graphId : 7}});
                 });
             });
@@ -283,7 +286,7 @@ suite.addBatch({
                         return new comb.Promise().callback(block({id : 1, x : 2, y : 3, lines_id : 4, lines_x : 5, lines_y : 6, graphId : 7, graphs_id : 8, name : 9, graphs_x : 10, graphs_y : 11, linesX : 12}));
                     };
                     ds.all().then(function(results) {
-                        assert.length(results, 1);
+                        assert.lengthOf(results, 1);
                         assert.deepEqual(results[0], {points : {id : 1, x : 2, y : 3}, lines : {id : 4, x : 5, y : 6, graphId : 7}, graphs : {id : 8, name : 9, x : 10, y : 11, linesX : 12}});
                     })
                 });
@@ -295,7 +298,7 @@ suite.addBatch({
                         return new comb.Promise().callback(block({id : 1, x : 2, y : 3, lines_id : 4, lines_x : 5, lines_y : 6, graphId : 7, graph_id : 8,  graph_x : 9, graph_y : 10, graph_graphId : 11}));
                     };
                     ds.all().then(function(results) {
-                        assert.length(results, 1);
+                        assert.lengthOf(results, 1);
                         assert.deepEqual(results[0], {points : {id : 1, x : 2, y : 3}, lines : {id : 4, x : 5, y : 6, graphId : 7}, graph : {id : 8, x : 9, y : 10, graphId : 11}});
                     });
                 });
@@ -322,7 +325,7 @@ suite.addBatch({
                     return new comb.Promise().callback(block({id : 1, x : 2, y : 3, lines_id : null, lines_x : null, lines_y : null, graphId : null}));
                 }
                 ds.all().then(function(r) {
-                    assert.length(r, 1);
+                    assert.lengthOf(r, 1);
                     assert.deepEqual(r[0], {points : {id : 1, x : 2, y : 3}, lines : null});
                 })
             });
@@ -337,7 +340,7 @@ suite.addBatch({
                         return ret.callback();
                     };
                     ds.all().then(function(r) {
-                        assert.length(r, 4);
+                        assert.lengthOf(r, 4);
                         assert.deepEqual(r[0], {points:{id:1, x:2, y:3}, lines:{id:4, x:5, y:6, graphId:7}, graphs:null})
                         assert.deepEqual(r[1], {points:{id:2, x:4, y:5}, lines:null, graphs:null})
                         assert.deepEqual(r[2], {points:{id:3, x:5, y:6}, lines:{id:4, x:5, y:6, graphId:7}, graphs:{id:7, name:8, x:9, y:10, linesX:11}})
@@ -367,7 +370,7 @@ suite.addBatch({
                         return new comb.Promise().callback(block({id:1, x:2, y:3, graphs_id:8, name:9, graphs_x:10, graphs_y:11, linesX:12}));
                     }
                     ds.all().then(function(results) {
-                        assert.length(results, 1);
+                        assert.lengthOf(results, 1);
                         assert.deepEqual(results[0], {points:{id:1, x:2, y:3}, graphs:{id:8, name:9, x:10, y:11, linesX:12}});
                     });
                 });
@@ -381,7 +384,7 @@ suite.addBatch({
                     return new comb.Promise().callback(block({x:2, y:3}));
                 };
                 ds.all().then(function(results) {
-                    assert.length(results, 1);
+                    assert.lengthOf(results, 1);
                     assert.deepEqual(results[0], {points:{x:2}, lines:{y:3}});
                 });
             });
@@ -392,7 +395,7 @@ suite.addBatch({
                     return new comb.Promise().callback(block({x:2}));
                 };
                 ds.all().then(function(results) {
-                    assert.length(results, 1);
+                    assert.lengthOf(results, 1);
                     assert.deepEqual(results[0], {points:{x:2}, lines:null});
                 });
                 ds = ds.addGraphAliases({q:["points", "r", 18]});

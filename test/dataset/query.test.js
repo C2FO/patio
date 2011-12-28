@@ -18,6 +18,9 @@ var vows = require('vows'),
 
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset queries");
+moose.identifierInputMethod = null;
+moose.identifierOutputMethod = null;
+
 suite.addBatch({
     "a simple datatset " : {
 
@@ -1464,7 +1467,7 @@ suite.addBatch({
                 assert.equal(joinAlias, "c");
                 assert.equal(lastJoinAlias, "blah");
                 assert.instanceOf(joins, Array);
-                assert.length(joins, 1);
+                assert.lengthOf(joins, 1);
                 assert.instanceOf(joins[0], sql.JoinClause)
                 assert.equal(joins[0].joinType, "inner");
             });
@@ -1473,7 +1476,7 @@ suite.addBatch({
                 assert.equal(joinAlias, "c");
                 assert.equal(lastJoinAlias, "b");
                 assert.instanceOf(joins, Array);
-                assert.length(joins, 1);
+                assert.lengthOf(joins, 1);
                 assert.instanceOf(joins[0], sql.JoinClause)
                 assert.equal(joins[0].joinType, "natural");
             });
@@ -1482,7 +1485,7 @@ suite.addBatch({
                 assert.equal(joinAlias, "blah2");
                 assert.equal(lastJoinAlias, "categories");
                 assert.instanceOf(joins, Array);
-                assert.length(joins, 2);
+                assert.lengthOf(joins, 2);
                 assert.instanceOf(joins[0], sql.JoinClause)
                 assert.equal(joins[0].table, "blah");
                 assert.instanceOf(joins[1], sql.JoinClause)
