@@ -1,14 +1,13 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("../../lib"),
+    moose = require("index"),
     Dataset = moose.Dataset,
     Database = moose.Database,
-    SQL = require("../../lib/sql"),
-    sql = SQL.sql,
+    sql = moose.SQL,
     Identifier = sql.Identifier,
     QualifiedIdentifier = sql.QualifiedIdentifier,
     SQLFunction = sql.SQLFunction,
-    LiteralString = SQL.LiteralString,
+    LiteralString = sql.LiteralString,
     helper = require("../helpers/helper"),
     MockDatabase = helper.MockDatabase,
     SchemaDatabase = helper.SchemaDatabase,
@@ -50,6 +49,25 @@ var DummyDataset = comb.define(Dataset, {
             var ret = new comb.Promise();
             ret.callback(this.VALUES.forEach(block));
             return ret;
+        }
+    }
+});
+
+suite.addBatch({
+    "Dataset.rowCb" : {
+        topic : new DummyDataset().from("items"),
+
+        "should allow the setting of a rowCb " : function(ds){
+            [function(){}, null].forEach(function(rowCb){
+                assert.doesNotThrow(function(){
+                    ds.rowCb = rowCb;
+                }, rowCb + " should not have thrown an exception");
+            });
+            ["HI", new Date(), true, false, undefined].forEach(function(rowCb){
+                assert.throws(function(){
+                    ds.rowCb = rowCb;
+                }, rowCb + " should have thrown an exception");
+            });
         }
     }
 });
@@ -205,11 +223,11 @@ suite.addBatch({
         },
         "should return true if records exist in the dataset" : function(C) {
             var ds = new C().from("test");
-            ds.empty().then(function(res) {
+            ds.isEmpty().then(function(res) {
                 assert.isFalse(res);
                 assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
             });
-            ds.filter(false).empty().then(function(res) {
+            ds.filter(false).isEmpty().then(function(res) {
                 assert.isTrue(res);
                 assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
             });
@@ -409,7 +427,7 @@ suite.addBatch({
             var c = comb.define(Dataset, {
                 instance : {
                     forEach : function(cb) {
-                        var s = this.selectSql();
+                        var s = this.selectSql;
                         var x = ["a",1,"b",2,s];
                         var i = parseInt(s.match(/LIMIT (\d+)/)[1], 10);
                         var ret = new comb.Promise();
@@ -730,7 +748,7 @@ suite.addBatch({
             var dataset = (new (comb.define(DummyDataset, { instance : {
                 forEach : function() {
                     var ret = new comb.Promise().callback();
-                    this.__columns = this.selectSql() + arr[i++];
+                    this.__columns = this.selectSql + arr[i++];
                     return ret;
                 }
             } }))).from("items");
@@ -1502,6 +1520,4 @@ suite.addBatch({
 });
 
 
-suite.run({reporter : vows.reporter.spec}, function() {
-    //helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"))
-});
+suite.run({reporter : vows.reporter.spec}, comb.hitch(ret, "callback"));
