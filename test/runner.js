@@ -30,14 +30,17 @@ var PRINT_FORMAT = comb.hitch(string, "format", "| %-40s | %9s | %4s | %5s | %6s
  */
 
 var reportCoverage = process.argv[2];
+reportCoverage = comb.isUndefined(reportCoverage) ? false : reportCoverage == 'true';
+var showFileSource = process.argv[3];
+showFileSource = comb.isUndefined(showFileSource) ? false : showFileSource == 'true';
 var fileMatcher = /.js$/;
 
-var printFile = function(file) {
+var printFile = function (file) {
     sys.error(PRINT_FORMAT(file.name, "" + file.coverage, "" + file.LOC, "" + file.SLOC, "" + file.totalMisses));
 };
 
-var printFileSource = function(file) {
-    if (file.coverage < 100 && file.name == "index.js") {
+var printFileSource = function (file) {
+    if (file.name == "dataset/sql.js" && file.coverage < 100) {
         sys.error(string.format('\n %s \n %s \n' + string.style(file.name, "bold"), file.source));
     }
 }
@@ -50,7 +53,9 @@ function reportCoverageTable(cov) {
     cov.files.forEach(printFile);
     print(TABLE_SEP(PRINT_FORMAT("Total", "" + cov.coverage, "" + cov.LOC, "" + cov.SLOC, "" + cov.totalMisses)));
     // Source
-    cov.files.forEach(printFileSource);
+    if (showFileSource) {
+        cov.files.forEach(printFileSource);
+    }
 }
 
 function coverage(data, val) {
@@ -81,17 +86,17 @@ function populateCoverage(cov) {
             if (file.coverage < 100) {
                 var width = file.source.length.toString().length;
                 file.source = file.source.map(
-                        function(line, i) {
-                            ++i;
-                            var hits = file[i] === 0 ? 0 : (file[i] || ' ');
-                            if (hits === 0) {
-                                hits = string.style(string.pad(hits, 5, null, true), ["bold", "red"]);
-                                line = string.style(line, "redBackground");
-                            } else {
-                                hits = string.style(string.pad(hits, 5, null, true), "bold");
-                            }
-                            return string.format('\n %-' + width + 's | %s | %s', "" + i, "" + hits, "" + line);
-                        }).join('');
+                    function (line, i) {
+                        ++i;
+                        var hits = file[i] === 0 ? 0 : (file[i] || ' ');
+                        if (hits === 0) {
+                            hits = string.style(string.pad(hits, 5, null, true), ["bold", "red"]);
+                            line = string.style(line, "redBackground");
+                        } else {
+                            hits = string.style(string.pad(hits, 5, null, true), "bold");
+                        }
+                        return string.format('\n %-' + width + 's | %s | %s', "" + i, "" + hits, "" + line);
+                    }).join('');
             }
         }
     }
@@ -99,7 +104,7 @@ function populateCoverage(cov) {
     cov.files = files;
 }
 
-var showCoverage = function() {
+var showCoverage = function () {
     if (typeof _$jscoverage === 'object') {
         populateCoverage(_$jscoverage);
         if (_$jscoverage.coverage) {
@@ -109,7 +114,7 @@ var showCoverage = function() {
 }
 
 
-var runTests = function(files) {
+var runTests = function (files) {
     var ret = new comb.Promise();
     (function run(files) {
         var f = files.shift();
@@ -123,24 +128,21 @@ var runTests = function(files) {
     return ret;
 }
 
-var startTests = function() {
+var startTests = function () {
     var ret = new comb.Promise();
-    exec("find " + __dirname + " -name *.test.js", function(err, stdout) {
-        if (err) ret.errback();
+    exec("find \"" + __dirname + "\" -name *.test.js", function (err, stdout) {
+        if (err) ret.errback(err);
         var files = stdout.split("\n");
         if (files.length) {
-
-            if (reportCoverage && reportCoverage == "coverage") {
-                exec('rm -fr ' + __dirname + "/../lib-cov && node-jscoverage " + __dirname + "/../lib " + __dirname + "/../lib-cov", function(err) {
+            if (reportCoverage) {
+                exec('rm -fr \"' + __dirname + "/../lib-cov\" && node-jscoverage \"" + __dirname + "/../lib\" \"" + __dirname + "/../lib-cov\"", function (err) {
                     if (err) {
                         ret.errback(err);
                     } else {
-                        require.paths.unshift(__dirname + "/../lib-cov");
                         runTests(files).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
                     }
                 });
             } else {
-                require.paths.unshift(__dirname + "/../lib");
                 runTests(files).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
             }
         } else {
@@ -150,12 +152,12 @@ var startTests = function() {
     return ret;
 };
 
-startTests().addErrback(function(error) {
+startTests().addErrback(function (error) {
     console.log(error.stack);
 });
 
 var orig = process.emit;
-process.emit = function(event) {
+process.emit = function (event) {
     orig.apply(this, arguments);
     if (event === 'exit' && reportCoverage) {
         showCoverage();
