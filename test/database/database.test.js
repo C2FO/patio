@@ -1,13 +1,12 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("../../lib"),
+    moose = require("index"),
     Database = moose.Database,
-    SQL = require("../../lib/sql"),
-    ConnectionPool = require("../../lib/ConnectionPool"),
-    sql = SQL.sql,
+    ConnectionPool = require("ConnectionPool"),
+    sql = moose.SQL,
     Identifier = sql.Identifier,
     SQLFunction = sql.SQLFunction,
-    LiteralString = SQL.LiteralString,
+    LiteralString = sql.LiteralString,
     helper = require("../helpers/helper"),
     MockDatabase = helper.MockDatabase,
     SchemaDatabase = helper.SchemaDatabase,
@@ -1084,12 +1083,12 @@ suite.addBatch({
 
         "should return a dataset that always uses the given sql for SELECTs" : function(db) {
             var ds = db.fetch('select * from xyz')
-            assert.equal(ds.selectSql(), 'select * from xyz');
+            assert.equal(ds.selectSql, 'select * from xyz');
             assert.equal(ds.sql, 'select * from xyz');
             ds.filter(function() {
                 return this.price.sqlNumber.lt(100);
             });
-            assert.equal(ds.selectSql(), 'select * from xyz');
+            assert.equal(ds.selectSql, 'select * from xyz');
             assert.equal(ds.sql, 'select * from xyz');
         }
     },
@@ -1334,6 +1333,4 @@ suite.addBatch({
 });
 
 
-suite.run({reporter : require("vows").reporter.spec}, function() {
-    //helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"))
-});
+suite.run({reporter : vows.reporter.spec}, comb.hitch(ret, "callback"));
