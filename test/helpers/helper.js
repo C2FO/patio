@@ -1,5 +1,5 @@
 var comb = require("comb"),
-    moose = require("../../lib"),
+    moose = require("index"),
     Dataset = moose.Dataset,
     Database = moose.Database;
 
@@ -22,7 +22,7 @@ var MockDataset = comb.define(Dataset, {
             return ret;
         },
 
-        quotedIdentifier : function(c) {
+        _quotedIdentifier : function(c) {
             return '"' + c + '"';
         }
 
