@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>moose.sql.ComplexExpression</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/moose-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.html" class="" >moose</a></span><ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/moose.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/moose.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/moose.sql.ComplexExpression.html#constructor" class="" >moose.sql.ComplexExpression</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.BITWISE_OPERATORS" class="" >BITWISE_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.BOOLEAN_OPERATORS" class="" >BOOLEAN_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.IN_OPERATORS" class="" >IN_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.INEQUALITY_OPERATORS" class="" >INEQUALITY_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.IS_OPERATORS" class="" >IS_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.MATHEMATICAL_OPERATORS" class="" >MATHEMATICAL_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.N_ARITY_OPERATORS" class="" >N_ARITY_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.ONE_ARITY_OPERATORS" class="" >ONE_ARITY_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.OPERATOR_INVERSIONS" class="" >OPERATOR_INVERSIONS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/moose.sql.ComplexExpression.html#.TWO_ARITY_OPERATORS" class="" >TWO_ARITY_OPERATORS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.ComplexExpression.html#toString" class="" >toString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class moose.sql.ComplexExpression
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					<a href="../symbols/moose.sql.AliasMethods.html" class="" >moose.sql.AliasMethods</a>, <a href="../symbols/moose.sql.CastMethods.html" class="" >moose.sql.CastMethods</a>, <a href="../symbols/moose.sql.Expression.html" class="" >moose.sql.Expression</a>, <a href="../symbols/moose.sql.OrderedMethods.html" class="" >moose.sql.OrderedMethods</a>, <a href="../symbols/moose.sql.SubscriptMethods.html" class="" >moose.sql.SubscriptMethods</a>.<br />
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				<dt>Methods borrowed from class <a href="../symbols/moose.sql.Expression.html" class="" >moose.sql.Expression</a>: </dt><dd><a href="../symbols/moose.sql.Expression.html#sqlLiteral" class="" >sqlLiteral</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.AliasMethods.html" class="" >moose.sql.AliasMethods</a>: </dt><dd><a href="../symbols/moose.sql.AliasMethods.html#as" class="" >as</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.CastMethods.html" class="" >moose.sql.CastMethods</a>: </dt><dd><a href="../symbols/moose.sql.CastMethods.html#cast" class="" >cast</a>, <a href="../symbols/moose.sql.CastMethods.html#castNumeric" class="" >castNumeric</a>, <a href="../symbols/moose.sql.CastMethods.html#castString" class="" >castString</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.OrderedMethods.html" class="" >moose.sql.OrderedMethods</a>: </dt><dd><a href="../symbols/moose.sql.OrderedMethods.html#asc" class="" >asc</a>, <a href="../symbols/moose.sql.OrderedMethods.html#desc" class="" >desc</a></dd>
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>moose.sql.ComplexExpression</b>(op)
+				</div>
+				
+				<div class="description">
+					Represents a complex SQL expression, with a given operator and one
+or more attributes (which may also be ComplexExpressions, forming
+a tree).
+
+This is an abstract class that is not that useful by itself.  The
+subclasses @link moose.sql.BooleanExpression},
+moose.sql.NumericExpression and <a href="../symbols/moose.sql.StringExpression.html" class="" >moose.sql.StringExpression</a> should
+be used instead of this class directly.
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{...}</span>  <b>op</b>
+								
+							</dt>
+								<dd>The operator and arguments for this object to the ones given.
+<p>
+    Convert all args that are hashes or arrays of two element arrays to <a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>s,
+         other than the second arg for an IN/NOT IN operator.</li>
+</p></dd>
+						
+						</dl>
+					
+					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">Throws:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{moose.sql.ExpressionError}</span>  <b></b>
+							</dt>
+								<dd>if the operator doesn't allow boolean input and a boolean argument is given.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{moose.sql.ExpressionError}</span>  <b></b>
+							</dt>
+								<dd>if the wrong number of arguments for a given operator is used.</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+                        <div class="sourceCode">
+                            <pre class="code">
+if (op) 
+    var args = comb.argsToArray(arguments).slice(1);
+    
+    var origArgs = args.slice(0);
+    args.forEach(function (a, i) 
+        if (Expression.isConditionSpecifier(a)) 
+            args[i] = BooleanExpression.fromValuePairs(a);
+        
+    );
+    op = op.toUpperCase();
+
+    if (N_ARITY_OPERATORS.hasOwnProperty(op)) 
+        if (args.length &lt; 1) 
+            throw new ExpressionError("The " + op + " operator requires at least 1 argument")
+        
+        var oldArgs = args.slice(0);
+        args = [];
+        oldArgs.forEach(function (a) 
+            a instanceof ComplexExpression && a.op == op ? args = args.concat(a.args) : args.push(a);
+        );
+
+     else if (TWO_ARITY_OPERATORS.hasOwnProperty(op)) 
+        if (args.length != 2) 
+            throw new ExpressionError("The " + op + " operator requires precisely 2 arguments");
+        
+        
+        
+        
+        if (IN_OPERATORS[op]) 
+            args[1] = origArgs[1]
+        
+     else if (ONE_ARITY_OPERATORS.hasOwnProperty(op)) 
+        if (args.length != 1) 
+            throw new ExpressionError("The " + op + " operator requires only one argument");
+        
+     else 
+        throw new ExpressionError("Invalid operator " + op);
+    
+    this.op = op;
+    this.args = args;
+
+        </pre>
+                        </div>
+                    
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+				<a name=".BITWISE_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>BITWISE_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default bitwise operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">BITWISE_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".BOOLEAN_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>BOOLEAN_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default boolean operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">BOOLEAN_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".IN_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>IN_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default IN operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">IN_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".INEQUALITY_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>INEQUALITY_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default inequality operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">INEQUALITY_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".IS_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>IS_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default IS operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">IS_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".MATHEMATICAL_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>MATHEMATICAL_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default mathematical operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">MATHEMATICAL_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".N_ARITY_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>N_ARITY_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default N(multi) arity operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">N_ARITY_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".ONE_ARITY_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>ONE_ARITY_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default ONE operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">ONE_ARITY_OPERATORS
+    }
+}).as(sql</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".OPERATOR_INVERSIONS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>OPERATOR_INVERSIONS</b>
+					
+					</div>
+					<div class="description">
+						Hash of operator inversions
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">OPERTATOR_INVERSIONS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".TWO_ARITY_OPERATORS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">moose.sql.ComplexExpression.</span><b>TWO_ARITY_OPERATORS</b>
+					
+					</div>
+					<div class="description">
+						Default two arity operators.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">TWO_ARITY_OPERATORS</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				</div>
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name="toString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>toString</b>(ds)
+					
+					</div>
+					<div class="description">
+						Converts the ComplexExpression to a string.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/moose.Dataset.html" class="" >moose.Dataset</a>}</span> <b>ds</b>
+									<i>Optional</i>
+								</dt>
+								<dd>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href="../symbols/moose.Dataset.html" class="" >moose.Dataset</a> implementation is used.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>String the SQL version of the <a href="../symbols/moose.sql.ComplexExpression.html" class="" >moose.sql.ComplexExpression</a>.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+ds = ds || new Dataset();
+return ds.complexExpressionSql(this.op, this.args);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jan 17 2012 01:50:14 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

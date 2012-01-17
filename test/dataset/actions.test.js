@@ -688,12 +688,6 @@ suite.addBatch({
                 }).then(function(r) {
                     assert.equal(r, "SELECT x(1) AS name FROM test LIMIT 1")
                 });
-        },
-
-        "should raise an error if both a regular argument and block argument are used" : function(d) {
-            assert.throws(hitch(d, "get", "name", function(o) {
-                return o.x__b.as("name")
-            }));
         }
     },
 

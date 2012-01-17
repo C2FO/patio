@@ -225,7 +225,6 @@ p1.both(function () {
                     },
 
                     "the result sets should cast properly":function (resultSet) {
-                        console.log(resultSet);
                         assert.deepEqual(resultSet, [
                             [
                                 {b:true, i:10}

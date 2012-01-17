@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>moose.sql.CastMethods</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/moose-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.html" class="" >moose</a></span><ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/moose.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/moose.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/moose.sql.CastMethods.html#constructor" class="" >moose.sql.CastMethods</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.CastMethods.html#cast" class="" >cast</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.CastMethods.html#castNumeric" class="" >castNumeric</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.CastMethods.html#castString" class="" >castString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class moose.sql.CastMethods
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				Defines case methods
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                
+                
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>moose.sql.CastMethods</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name="cast"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/moose.sql.Cast.html" class="" >moose.sql.Cast</a>}</span>
+					<b>cast</b>(type)
+					
+					</div>
+					<div class="description">
+						Cast the reciever to the given SQL type.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+sql.a.cast("integer") //=> CAST(a AS integer)
+sql.a.cast(String) //=> CAST(a AS varchar(255))</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>type</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/moose.sql.Cast.html" class="" >moose.sql.Cast</a>}</span> the casted expression</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return new Cast(this, type);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="castNumeric"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{moose.sql.NumericExpression}</span>
+					<b>castNumeric</b>(type)
+					
+					</div>
+					<div class="description">
+						Cast the reciever to the given SQL type (or the database's default Number type if none given.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+sql.a.castNumeric() //=> CAST(a AS integer)
+sql.a.castNumeric("double") //=> CAST(a AS double precision)</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>type</b>
+									
+								</dt>
+								<dd>the numeric type to cast to</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{moose.sql.NumericExpression}</span> a casted numberic expression</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.cast(type || "integer").sqlNumber;
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="castString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/moose.sql.StringExpression.html" class="" >moose.sql.StringExpression</a>}</span>
+					<b>castString</b>(type)
+					
+					</div>
+					<div class="description">
+						Cast the reciever to the given SQL type (or the database's default String type if none given),
+and return the result as a <a href="../symbols/moose.sql.StringExpression.html" class="" >moose.sql.StringExpression</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+ sql.a.castString() //=> CAST(a AS varchar(255))
+ sql.a.castString("text") //=> CAST(a AS text)</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>type</b>
+									
+								</dt>
+								<dd>the string type to cast to</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/moose.sql.StringExpression.html" class="" >moose.sql.StringExpression</a>}</span> the casted string expression</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.cast(type || String).sqlString;
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jan 17 2012 01:50:14 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>moose.sql.BooleanExpression</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/moose-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.html" class="" >moose</a></span><ul><li class='parent'><span class='parentContainer'><a href="../symbols/moose.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/moose.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/moose.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/moose.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/moose.sql.BooleanExpression.html#constructor" class="" >moose.sql.BooleanExpression</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.BooleanExpression.html#.fromValuePairs" class="" >fromValuePairs</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/moose.sql.BooleanExpression.html#.invert" class="" >invert</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class moose.sql.BooleanExpression
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					<a href="../symbols/moose.sql.BooleanMethods.html" class="" >moose.sql.BooleanMethods</a>, <a href="../symbols/moose.sql.ComplexExpression.html" class="" >moose.sql.ComplexExpression</a>.<br />
+				
+			
+				Subclass of <a href="../symbols/moose.sql.ComplexExpression.html" class="" >moose.sql.ComplexExpression</a> where the expression results
+in a boolean value in SQL.
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				<dt>Methods borrowed from class <a href="../symbols/moose.sql.ComplexExpression.html" class="" >moose.sql.ComplexExpression</a>: </dt><dd><a href="../symbols/moose.sql.ComplexExpression.html#toString" class="" >toString</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.Expression.html" class="" >moose.sql.Expression</a>: </dt><dd><a href="../symbols/moose.sql.Expression.html#sqlLiteral" class="" >sqlLiteral</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.AliasMethods.html" class="" >moose.sql.AliasMethods</a>: </dt><dd><a href="../symbols/moose.sql.AliasMethods.html#as" class="" >as</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.CastMethods.html" class="" >moose.sql.CastMethods</a>: </dt><dd><a href="../symbols/moose.sql.CastMethods.html#cast" class="" >cast</a>, <a href="../symbols/moose.sql.CastMethods.html#castNumeric" class="" >castNumeric</a>, <a href="../symbols/moose.sql.CastMethods.html#castString" class="" >castString</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.OrderedMethods.html" class="" >moose.sql.OrderedMethods</a>: </dt><dd><a href="../symbols/moose.sql.OrderedMethods.html#asc" class="" >asc</a>, <a href="../symbols/moose.sql.OrderedMethods.html#desc" class="" >desc</a></dd><dt>Methods borrowed from class <a href="../symbols/moose.sql.BooleanMethods.html" class="" >moose.sql.BooleanMethods</a>: </dt><dd><a href="../symbols/moose.sql.BooleanMethods.html#and" class="" >and</a>, <a href="../symbols/moose.sql.BooleanMethods.html#not" class="" >not</a>, <a href="../symbols/moose.sql.BooleanMethods.html#or" class="" >or</a></dd>
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>moose.sql.BooleanExpression</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name=".fromValuePairs"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>}</span>
+					<span class="light">moose.sql.BooleanExpression.</span><b>fromValuePairs</b>(a, op, negate)
+					
+					</div>
+					<div class="description">
+						Take pairs of values (e.g. a hash or array of two element arrays)
+and converts it to a <a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>.  The operator and args
+used depends on the case of the right (2nd) argument:
+
+<pre class='code'>
+BooleanExpression.fromValuePairs({a : [1,2,3]}) //=> a IN (1,2,3)
+BooleanExpression.fromValuePairs({a : true}); // a IS TRUE;
+BooleanExpression.fromValuePairs({a : /^A/i}); // a *~ '^A'
+</pre>
+
+If multiple arguments are given, they are joined with the op given (AND
+by default, OR possible).  If negate is set to true,
+all subexpressions are inverted before used.
+<pre class='code'>
+BooleanExpression.fromValuePairs({a : [1,2,3], b : true}) //=> a IN (1,2,3) AND b IS TRUE
+BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR") //=> a IN (1,2,3) OR b IS TRUE
+BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR", true) //=> a NOT IN (1,2,3) AND b IS NOT TRUE
+</pre>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>a</b>
+									
+								</dt>
+								<dd>object to convert to a <a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>op</b>
+									<i>Optional, Default: "AND"</i>
+								</dt>
+								<dd>Boolean operator to join each subexpression with.
+<pre class="code">
+    BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR") //=> a IN (1,2,3) OR b IS TRUE
+</pre></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>negate</b>
+									<i>Optional, Default: false</i>
+								</dt>
+								<dd>set to try to invert the <a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>.
+<pre class="code">
+BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR", true) //=> a NOT IN (1,2,3) AND b IS NOT TRUE
+</pre></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>}</span> expression composed of sub expressions built from the hash.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+!Dataset && (Dataset = require("./dataset"));
+op = op || "AND", negate = negate || false;
+var pairArr = [];
+var isArr = comb.isArray(a) && Expression.isConditionSpecifier(a);
+for (var k in a) 
+    var v = isArr ? a[k][1] : a[k], ret;
+    k = isArr ? a[k][0] : k;
+    if (comb.isArray(v) || comb.isInstanceOf(v, Dataset)) 
+        k = comb.isArray(k) ? k.map(function (i) 
+            return comb.isString(i) ? new Identifier(i) : i
+        ) : k;
+        ret = new BooleanExpression("IN", k, v);
+     else if (comb.isInstanceOf(v, NegativeBooleanConstant)) 
+        ret = new BooleanExpression("ISNOT", k, v.constant);
+     else if (comb.isInstanceOf(v, BooleanConstant)) 
+        ret = new BooleanExpression("IS", k, v.constant);
+     else if (comb.isNull(v) || comb.isBoolean(v)) 
+        ret = new BooleanExpression("IS", k, v);
+     else if (comb.isHash(v)) 
+        ret = BooleanExpression.fromValuePairs(v);
+     else if (comb.isRexExp(v)) 
+        ret = StringExpression.like(k, v);
+     else 
+        ret = new BooleanExpression("EQ", sql.stringToIdentifier(k), v);
+    
+    negate && (ret = BooleanExpression.invert(ret));
+    pairArr.push(ret);
+
+
+return pairArr.length == 1 ? pairArr[0] : BooleanExpression.fromArgs([op].concat(pairArr));
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".invert"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>}</span>
+					<span class="light">moose.sql.BooleanExpression.</span><b>invert</b>(expression)
+					
+					</div>
+					<div class="description">
+						Invert the expression, if possible.  If the expression cannot
+be inverted, it throws an moose.error.ExpressionError.  An inverted expression should match
+everything that the uninverted expression did not match, and vice-versa, except for possible issues with
+SQL NULL (i.e. 1 == NULL is NULL and 1 != NULL is also NULL).
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">  BooleanExpression.invert(sql.a) //=> NOT "a"</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>}</span> <b>expression</b>
+									
+								</dt>
+								<dd>the expression to invert.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/moose.sql.BooleanExpression.html" class="" >moose.sql.BooleanExpression</a>}</span> the inverted expression.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+if (comb.isInstanceOf(expression, BooleanExpression)) 
+    var op = expression.op, newArgs;
+    if (op == "AND" || op == "OR") 
+        newArgs = [OPERTATOR_INVERSIONS[op]].concat(expression.args.map(function (arg) 
+            return BooleanExpression.invert(arg);
+        ));
+        return BooleanExpression.fromArgs(newArgs);
+     else 
+        newArgs = [OPERTATOR_INVERSIONS[op]].concat(expression.args);
+        return BooleanExpression.fromArgs(newArgs);
+    
+ else if (comb.isInstanceOf(expression, StringExpression) || comb.isInstanceOf(expression, NumericExpression)) 
+    throw new ExpressionError(comb.string.format("Cannot invert %4j", [expression]));
+ else 
+    return new BooleanExpression("NOT", expression);
+
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jan 17 2012 01:50:14 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>
