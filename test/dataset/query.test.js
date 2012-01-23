@@ -1,12 +1,12 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("index"),
+    patio = require("index"),
     helper = require("../helpers/helper"),
     MockDatabase = helper.MockDatabase,
     SchemaDatabase = helper.SchemaDatabase,
     MockDataset = helper.MockDataset,
-    Dataset = moose.Dataset,
-    sql = moose.SQL,
+    Dataset = patio.Dataset,
+    sql = patio.SQL,
     Identifier = sql.Identifier,
     SQLFunction = sql.SQLFunction,
     LiteralString = sql.LiteralString,
@@ -16,8 +16,8 @@ var vows = require('vows'),
 
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset queries");
-moose.identifierInputMethod = null;
-moose.identifierOutputMethod = null;
+patio.identifierInputMethod = null;
+patio.identifierOutputMethod = null;
 
 suite.addBatch({
     "a simple datatset ":{
@@ -1619,7 +1619,7 @@ suite.addBatch({
 
     "Dataset.set":{
         topic:function () {
-            var c = comb.define(moose.Dataset, {
+            var c = comb.define(patio.Dataset, {
                 instance:{
 
                     update:function () {
@@ -1947,7 +1947,7 @@ suite.addBatch({
         }
     },
 
-    "moose.Dataset.qualify":{
+    "patio.Dataset.qualify":{
         topic:new MockDatabase().from("t"),
         "should qualify to the given table":function (ds) {
             assert.equal(ds.filter(
@@ -1964,7 +1964,7 @@ suite.addBatch({
         }
     },
 
-    "moose.Dataset.qualifyTo":{
+    "patio.Dataset.qualifyTo":{
         topic:new MockDatabase().from("t"),
 
         "should qualify to the given table":function (ds) {
@@ -1979,7 +1979,7 @@ suite.addBatch({
         }
     },
 
-    "moose.Dataset.qualifyToFirstSource":{
+    "patio.Dataset.qualifyToFirstSource":{
         topic:new MockDatabase().from("t"),
 
         "should qualifyTo the first source":function (ds) {
@@ -2070,7 +2070,7 @@ suite.addBatch({
         }
     },
 
-    "moose.Dataset with and withRecursive":{
+    "patio.Dataset with and withRecursive":{
         topic:function () {
             var db = new MockDatabase();
             return {

@@ -1,9 +1,9 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("index"),
-    Database = moose.Database,
+    patio = require("index"),
+    Database = patio.Database,
     ConnectionPool = require("ConnectionPool"),
-    sql = moose.SQL,
+    sql = patio.SQL,
     Identifier = sql.Identifier,
     SQLFunction = sql.SQLFunction,
     LiteralString = sql.LiteralString,
@@ -18,7 +18,7 @@ new comb.logging.BasicConfigurator().configure();
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
-var DummyDataset = comb.define(moose.Dataset, {
+var DummyDataset = comb.define(patio.Dataset, {
     instance : {
         first : function() {
             var ret = new comb.Promise();
@@ -31,7 +31,7 @@ var DummyDataset = comb.define(moose.Dataset, {
         }
     }
 });
-var DummyDatabase = comb.define(moose.Database, {
+var DummyDatabase = comb.define(patio.Database, {
     instance : {
         constructor : function() {
             this._super(arguments);
@@ -174,7 +174,7 @@ suite.addBatch({
             assert.equal(db.identifierInputMethod, "toUpperCase");
             db.identifierInputMethod = null;
             assert.isNull(db.identifierInputMethod);
-            moose.identifierInputMethod = "toLowerCase";
+            patio.identifierInputMethod = "toLowerCase";
             assert.equal(Database.identifierInputMethod, 'toLowerCase');
             assert.equal(new Database().identifierInputMethod, 'toLowerCase');
         },
@@ -188,15 +188,15 @@ suite.addBatch({
             assert.equal(db.identifierOutputMethod, "toLowerCase");
             db.identifierOutputMethod = null;
             assert.isNull(db.identifierOutputMethod);
-            moose.identifierOutputMethod = "toUpperCase";
+            patio.identifierOutputMethod = "toUpperCase";
             assert.equal(Database.identifierOutputMethod, 'toUpperCase');
             assert.equal(new Database().identifierOutputMethod, 'toUpperCase');
         },
 
         "should respect the quoteIdentifiers option" : function() {
-            moose.quoteIdentifiers = true;
+            patio.quoteIdentifiers = true;
             assert.isTrue(new Database().quoteIdentifiers);
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             assert.isFalse(new Database().quoteIdentifiers);
 
             Database.quoteIdentifiers = true;
@@ -205,8 +205,8 @@ suite.addBatch({
             assert.isFalse(new Database().quoteIdentifiers);
         },
 
-        "should respect the quoteIndentifiersDefault method if moose.quoteIdentifiers = null" : function() {
-            moose.quoteIdentifiers = null;
+        "should respect the quoteIndentifiersDefault method if patio.quoteIdentifiers = null" : function() {
+            patio.quoteIdentifiers = null;
             assert.isTrue(new Database().quoteIdentifiers);
             var x = comb.define(Database, {instance : {getters : {quoteIdentifiersDefault : function() {
                 return false;
@@ -218,8 +218,8 @@ suite.addBatch({
             assert.isTrue(new y().quoteIdentifiers);
         },
 
-        "should respect the identifierInputMethodDefault method if moose.identifierInputMethod = null" : function() {
-            moose.identifierInputMethod = undefined;
+        "should respect the identifierInputMethodDefault method if patio.identifierInputMethod = null" : function() {
+            patio.identifierInputMethod = undefined;
             assert.equal(new Database().identifierInputMethod, "toUpperCase");
             var x = comb.define(Database, {instance : {getters : {identifierInputMethodDefault : function() {
                 return "toLowerCase";
@@ -231,8 +231,8 @@ suite.addBatch({
             assert.equal(new y().identifierInputMethod, "toUpperCase");
         },
 
-        "should respect the identifierOutputMethodDefault method if moose.identifierOutputMethod = null" : function() {
-            moose.identifierOutputMethod = undefined;
+        "should respect the identifierOutputMethodDefault method if patio.identifierOutputMethod = null" : function() {
+            patio.identifierOutputMethod = undefined;
             assert.equal(new Database().identifierOutputMethod, "toLowerCase");
             var x = comb.define(Database, {instance : {getters : {identifierOutputMethodDefault : function() {
                 return "toLowerCase";
@@ -245,7 +245,7 @@ suite.addBatch({
         },
 
         "should just use a :uri option for mysql with the full connection string" : function() {
-            var db = moose.connect('mysql://host/db_name')
+            var db = patio.connect('mysql://host/db_name')
             assert.isTrue(comb.isInstanceOf(db, Database));
             assert.equal(db.opts.uri, 'mysql://host/db_name');
             assert.equal(db.type, "mysql");
@@ -376,7 +376,7 @@ suite.addBatch({
     },
 
     "Database.uri" : {
-        topic : moose.connect('mau://user:pass@localhost:9876/maumau'),
+        topic : patio.connect('mau://user:pass@localhost:9876/maumau'),
 
         "should return the connection URI for the database" : function(db) {
             assert.isTrue(comb.isInstanceOf(db, MockDatabase));
@@ -399,9 +399,9 @@ suite.addBatch({
 
     "Database.dataset" : {
         topic : function() {
-            moose.identifierInputMethod = null;
-            moose.identifierOutputMethod = null;
-            moose.quoteIdentifiers = false;
+            patio.identifierInputMethod = null;
+            patio.identifierOutputMethod = null;
+            patio.quoteIdentifiers = false;
             var db = new Database();
             return {
                 db : db,
@@ -412,7 +412,7 @@ suite.addBatch({
 
         "should provide a blank dataset through #dataset" : function(o) {
             var ds = o.ds, db = o.db;
-            assert.isTrue(comb.isInstanceOf(ds, moose.Dataset));
+            assert.isTrue(comb.isInstanceOf(ds, patio.Dataset));
             assert.isTrue(comb.isEmpty(ds.__opts));
             assert.equal(o.ds.db, o.db);
         },
@@ -420,10 +420,10 @@ suite.addBatch({
         "should provide a #from dataset"  : function(o) {
             var ds = o.ds, db = o.db;
             var d = db.from("mau");
-            assert.instanceOf(d, moose.Dataset);
+            assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, "SELECT * FROM mau");
             d = db.from("miu");
-            assert.instanceOf(d, moose.Dataset);
+            assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, "SELECT * FROM miu");
 
         },
@@ -433,14 +433,14 @@ suite.addBatch({
             var d = db.from("mau", function() {
                 return this.x.sqlNumber.gt(100)
             });
-            assert.instanceOf(d, moose.Dataset);
+            assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, 'SELECT * FROM mau WHERE (x > 100)');
         },
 
         "should provide a #select dataset"  : function(o) {
             var ds = o.ds, db = o.db;
             var d = db.select("a", "b", "c").from("mau");
-            assert.instanceOf(d, moose.Dataset);
+            assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, 'SELECT a, b, c FROM mau');
         },
 
@@ -450,7 +450,7 @@ suite.addBatch({
                 function() {
                     return "c"
                 }).from("mau");
-            assert.instanceOf(d, moose.Dataset);
+            assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, 'SELECT a, b, c FROM mau');
         }
     },
@@ -528,7 +528,7 @@ suite.addBatch({
         },
 
         "should construct the proper SQL" : function(DB) {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             var db = new DB();
             db.createTable("test", function(table) {
                 table.primaryKey("id", "integer", {null : false});
@@ -540,7 +540,7 @@ suite.addBatch({
                 'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text)',
                 'CREATE UNIQUE INDEX test_name_index ON test (name)'
             ]);
-            moose.quoteIdentifiers = true;
+            patio.quoteIdentifiers = true;
             db = new DB();
             db.createTable("test", function(table) {
                 table.primaryKey("id", "integer", {null : false});
@@ -559,7 +559,7 @@ suite.addBatch({
 
 
         "should create a temporary table" : function(DB) {
-            moose.quoteIdentifiers = true;
+            patio.quoteIdentifiers = true;
             var db = new DB();
             db.createTable("test", {temp : true}, function(table) {
                 table.primaryKey("id", "integer", {null : false});
@@ -572,7 +572,7 @@ suite.addBatch({
                 'CREATE UNIQUE INDEX "test_name_index" ON "test" ("name")'
             ]);
 
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             db = new DB();
             db.createTable("test", {temp : true}, function(table) {
                 table.primaryKey("id", "integer", {null : false});
@@ -589,7 +589,7 @@ suite.addBatch({
 
     "Database.alterTable" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return DummyDatabase
         },
 
@@ -621,7 +621,7 @@ suite.addBatch({
 
     "Database.addColumn" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -635,7 +635,7 @@ suite.addBatch({
 
     "Database.dropColumn" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -649,7 +649,7 @@ suite.addBatch({
 
     "Database.renameColumn" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -663,7 +663,7 @@ suite.addBatch({
 
     "Database.setColumnType" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -677,7 +677,7 @@ suite.addBatch({
 
     "Database.setColumnDefault" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -691,7 +691,7 @@ suite.addBatch({
 
     "Database.addIndex" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -713,7 +713,7 @@ suite.addBatch({
 
     "Database.dropIndex" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -749,7 +749,7 @@ suite.addBatch({
 
     "Database.renameTable"  : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -761,7 +761,7 @@ suite.addBatch({
 
     "Database.tableExists"  : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
         "should try to select the first record from the table's dataset"  : function(db) {
@@ -780,7 +780,7 @@ suite.addBatch({
 
     "Database.transaction" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new Dummy3Database();
         },
 
@@ -1020,7 +1020,7 @@ suite.addBatch({
 
     "Database#fetch" : {
         topic : function() {
-            var CDS = comb.define(moose.Dataset, {
+            var CDS = comb.define(patio.Dataset, {
                 instance : {
 
                     fetchRows : function(sql, cb) {
@@ -1028,7 +1028,7 @@ suite.addBatch({
                     }
                 }
             });
-            var TestDB = comb.define(moose.Database, {
+            var TestDB = comb.define(patio.Database, {
                 instance : {
                     getters : {
                         dataset : function() {
@@ -1070,7 +1070,7 @@ suite.addBatch({
         },
 
         "should return the dataset if no block is given" : function(db) {
-            assert.instanceOf(db.fetch('select * from xyz'), moose.Dataset);
+            assert.instanceOf(db.fetch('select * from xyz'), patio.Dataset);
             var ret;
             db.fetch('select a from b').map(
                 function(r) {
@@ -1095,7 +1095,7 @@ suite.addBatch({
 
     "Database.createView" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -1119,7 +1119,7 @@ suite.addBatch({
 
     "Database.createorReplaceView" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -1143,7 +1143,7 @@ suite.addBatch({
 
     "Database.dropView" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -1158,7 +1158,7 @@ suite.addBatch({
 
     "Database.__alterTableSql" : {
         topic : function() {
-            moose.quoteIdentifiers = false;
+            patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
@@ -1209,7 +1209,7 @@ suite.addBatch({
     },
 
     "Database.typecastValue" : {
-        topic : new moose.Database(),
+        topic : new patio.Database(),
 
         "should raise an InvalidValue when given an invalid value" : function(db) {
             assert.throws(hitch(db, "typecastValue", "integer", "a"));
@@ -1223,7 +1223,7 @@ suite.addBatch({
     },
 
     "Database.__columnSchemaToJsDefault" : {
-        topic : new moose.Database(),
+        topic : new patio.Database(),
 
         "should handle converting many default formats " : function(db) {
             var m = hitch(db, db.__columnSchemaToJsDefault);
@@ -1288,46 +1288,46 @@ suite.addBatch({
     },
 
 
-    "moose.SQL.Constants" : {
+    "patio.SQL.Constants" : {
         topic : new MockDatabase(),
 
         "should have CURRENT_DATE"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.CURRENT_DATE), 'CURRENT_DATE');
-            assert.equal(db.literal(moose.CURRENT_DATE), 'CURRENT_DATE');
+            assert.equal(db.literal(patio.SQL.Constants.CURRENT_DATE), 'CURRENT_DATE');
+            assert.equal(db.literal(patio.CURRENT_DATE), 'CURRENT_DATE');
         },
 
         "should have CURRENT_TIME"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.CURRENT_TIME), 'CURRENT_TIME');
-            assert.equal(db.literal(moose.CURRENT_TIME), 'CURRENT_TIME');
+            assert.equal(db.literal(patio.SQL.Constants.CURRENT_TIME), 'CURRENT_TIME');
+            assert.equal(db.literal(patio.CURRENT_TIME), 'CURRENT_TIME');
         },
 
         "should have CURRENT_TIMESTAMP"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
-            assert.equal(db.literal(moose.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
+            assert.equal(db.literal(patio.SQL.Constants.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
+            assert.equal(db.literal(patio.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
         },
 
         "should have NULL"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.NULL), 'NULL');
-            assert.equal(db.literal(moose.NULL), 'NULL');
+            assert.equal(db.literal(patio.SQL.Constants.NULL), 'NULL');
+            assert.equal(db.literal(patio.NULL), 'NULL');
         },
 
         "should have NOTNULL"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.NOTNULL), 'NOT NULL');
-            assert.equal(db.literal(moose.NOTNULL), 'NOT NULL');
+            assert.equal(db.literal(patio.SQL.Constants.NOTNULL), 'NOT NULL');
+            assert.equal(db.literal(patio.NOTNULL), 'NOT NULL');
         },
 
         "should have TRUE and SQLTRUE"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.TRUE), '1');
-            assert.equal(db.literal(moose.TRUE), '1');
-            assert.equal(db.literal(moose.SQL.Constants.SQLTRUE), '1');
-            assert.equal(db.literal(moose.SQLTRUE), '1');
+            assert.equal(db.literal(patio.SQL.Constants.TRUE), '1');
+            assert.equal(db.literal(patio.TRUE), '1');
+            assert.equal(db.literal(patio.SQL.Constants.SQLTRUE), '1');
+            assert.equal(db.literal(patio.SQLTRUE), '1');
         },
 
         "should have FALSE and SQLFALSE"  : function(db) {
-            assert.equal(db.literal(moose.SQL.Constants.FALSE), '0');
-            assert.equal(db.literal(moose.FALSE), '0');
-            assert.equal(db.literal(moose.SQL.Constants.SQLFALSE), '0');
-            assert.equal(db.literal(moose.SQLFALSE), '0');
+            assert.equal(db.literal(patio.SQL.Constants.FALSE), '0');
+            assert.equal(db.literal(patio.FALSE), '0');
+            assert.equal(db.literal(patio.SQL.Constants.SQLFALSE), '0');
+            assert.equal(db.literal(patio.SQLFALSE), '0');
         }
     }
 });

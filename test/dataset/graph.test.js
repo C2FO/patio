@@ -1,9 +1,9 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("index"),
-    Dataset = moose.Dataset,
-    Database = moose.Database,
-    sql = moose.SQL,
+    patio = require("index"),
+    Dataset = patio.Dataset,
+    Database = patio.Database,
+    sql = patio.SQL,
     Identifier = sql.Identifier,
     SQLFunction = sql.SQLFunction,
     LiteralString = sql.LiteralString,
@@ -17,9 +17,9 @@ var vows = require('vows'),
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset graphing");
 
-moose.quoteIdentifiers = false;
-moose.identifierInputMethod = null;
-moose.identifierOutputMethod = null;
+patio.quoteIdentifiers = false;
+patio.identifierInputMethod = null;
+patio.identifierOutputMethod = null;
 
 var DS1 = comb.define(Dataset, {
     instance:{

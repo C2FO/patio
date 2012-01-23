@@ -1,0 +1,1879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>patio.Time</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/patio-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.html" class="" >patio</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.AlterTableGenerator.html" class="" >AlterTableGenerator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.SchemaGenerator.html" class="" >SchemaGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href="../symbols/patio.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Decimal.html" class="" >Decimal</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Float.html" class="" >Float</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Database.html" class="" >Database</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/patio.Time.html#constructor" class="" >patio.Time</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#convertTwoDigitYears" class="" >convertTwoDigitYears</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#dateFormat" class="" >dateFormat</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DATETIME_FORMAT_TZ" class="" >DATETIME_FORMAT_TZ</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DATETIME_TWO_YEAR_FORMAT" class="" >DATETIME_TWO_YEAR_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#dateTimeFormat" class="" >dateTimeFormat</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DEFAULT_DATE_FORMAT" class="" >DEFAULT_DATE_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DEFAULT_DATETIME_FORMAT" class="" >DEFAULT_DATETIME_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DEFAULT_TIME_FORMAT" class="" >DEFAULT_TIME_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DEFAULT_TIMESTAMP_FORMAT" class="" >DEFAULT_TIMESTAMP_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#DEFAULT_YEAR_FORMAT" class="" >DEFAULT_YEAR_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#ISO_8601" class="" >ISO_8601</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#ISO_8601_TWO_YEAR" class="" >ISO_8601_TWO_YEAR</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#timeFormat" class="" >timeFormat</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#TIMESTAMP_FORMAT_TZ" class="" >TIMESTAMP_FORMAT_TZ</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#TIMESTAMP_TWO_YEAR_FORMAT" class="" >TIMESTAMP_TWO_YEAR_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#timeStampFormat" class="" >timeStampFormat</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" bold">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#TWO_YEAR_DATE_FORMAT" class="" >TWO_YEAR_DATE_FORMAT</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Time.html#yearFormat" class="" >yearFormat</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#dateTimeToString" class="" >dateTimeToString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#dateToString" class="" >dateToString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#stringToDate" class="" >stringToDate</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#stringToDateTime" class="" >stringToDateTime</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#stringToTime" class="" >stringToTime</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#stringToTimeStamp" class="" >stringToTimeStamp</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#stringToYear" class="" >stringToYear</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#timeStampToString" class="" >timeStampToString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#timeToString" class="" >timeToString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Time.html#yearToString" class="" >yearToString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class patio.Time
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_time.js.html" class="">time.js</a>.
+				
+				
+                
+                
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>patio.Time</b>()
+				</div>
+				
+				<div class="description">
+					Mixin that provides time formatting/coversion functions.
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+				<a name="convertTwoDigitYears"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>convertTwoDigitYears</b>
+					
+					</div>
+					<div class="description">
+						By default patio will try to covert all two digit years.
+To turn this off:
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">patio.convertTwoDigitYears = false;</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="dateFormat"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>dateFormat</b>
+					
+					</div>
+					<div class="description">
+						the format to use to formatting/converting dates.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								<a href="../symbols/patio.Time.html#DEFAULT_DATE_FORMAT" class="" >patio.Time#DEFAULT_DATE_FORMAT</a>
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				<a name="DATETIME_FORMAT_TZ"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DATETIME_FORMAT_TZ</b>
+					
+					</div>
+					<div class="description">
+						Datetime format used if the default fails. This format includes timezone info.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-dd HH:mm:ssZ
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-dd HH:mm:ssZ"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="DATETIME_TWO_YEAR_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DATETIME_TWO_YEAR_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Two year datetime format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yy-MM-dd HH:mm:ss
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yy-MM-dd HH:mm:ss"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="dateTimeFormat"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>dateTimeFormat</b>
+					
+					</div>
+					<div class="description">
+						the format to use to formatting/converting dates.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								<a href="../symbols/patio.Time.html#DEFAULT_DATETIME_FORMAT" class="" >patio.Time#DEFAULT_DATETIME_FORMAT</a>
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				<a name="DEFAULT_DATE_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DEFAULT_DATE_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						default date format.
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+ patio.DEFAULT_DATE_FORMAT = "yyyy MM, dd";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-dd
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-dd"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="DEFAULT_DATETIME_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DEFAULT_DATETIME_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Default datetime format
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+patio.DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd hh:mm:ss:SS a";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-dd HH:mm:ss
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-dd HH:mm:ss"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="DEFAULT_TIME_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DEFAULT_TIME_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Default time format
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+patio.DEFAULT_TIME_FORMAT = "HH:mm:ss:SS";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								HH:mm:ss
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"HH:mm:ss"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="DEFAULT_TIMESTAMP_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DEFAULT_TIMESTAMP_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Default timestamp format
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+patio.DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd hh:mm:ss:SS a";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-dd HH:mm:ss
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-dd HH:mm:ss"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="DEFAULT_YEAR_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>DEFAULT_YEAR_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Default year format
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+patio.DEFAULT_YEAR_FORMAT = "yy";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="ISO_8601"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>ISO_8601</b>
+					
+					</div>
+					<div class="description">
+						ISO-8601 format
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-ddTHH:mm:ssZ
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-ddTHH:mm:ssZ"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="ISO_8601_TWO_YEAR"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>ISO_8601_TWO_YEAR</b>
+					
+					</div>
+					<div class="description">
+						Two year ISO-8601 format
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yy-MM-ddTHH:mm:ssZ
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yy-MM-ddTHH:mm:ssZ"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="timeFormat"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>timeFormat</b>
+					
+					</div>
+					<div class="description">
+						the format to use to formatting/converting dates.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								<a href="../symbols/patio.Time.html#DEFAULT_TIME_FORMAT" class="" >patio.Time#DEFAULT_TIME_FORMAT</a>
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				<a name="TIMESTAMP_FORMAT_TZ"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>TIMESTAMP_FORMAT_TZ</b>
+					
+					</div>
+					<div class="description">
+						Timestamp format used if the default fails. This format includes timezone info.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yyyy-MM-dd HH:mm:ssZ
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yyyy-MM-dd HH:mm:ssZ"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="TIMESTAMP_TWO_YEAR_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>TIMESTAMP_TWO_YEAR_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Two year timestamp format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yy-MM-dd HH:mm:ss
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yy-MM-dd HH:mm:ss"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="timeStampFormat"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>timeStampFormat</b>
+					
+					</div>
+					<div class="description">
+						the format to use to formatting/converting dates.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								<a href="../symbols/patio.Time.html#DEFAULT_TIMESTAMP_FORMAT" class="" >patio.Time#DEFAULT_TIMESTAMP_FORMAT</a>
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				<a name="TWO_YEAR_DATE_FORMAT"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;constant&gt; 
+					
+					<span class="light">{String}</span>
+					<b>TWO_YEAR_DATE_FORMAT</b>
+					
+					</div>
+					<div class="description">
+						Two year date format
+This is used in date coversions when convertTwoDigitYears is used.
+
+If this format fails then dateFormat|DEFAULT_DATE_FORMAT is used.
+						
+						
+					</div>
+					
+					
+					
+					    <div class="exampleCode">
+                        				    <h4>Example 1 : </h4>
+                        				    <pre class="code">
+patio.TWO_YEAR_DATE_FORMAT = "yy MM, dd";</pre>
+                        				</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								yy-MM-dd
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">"yy-MM-dd"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="yearFormat"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>yearFormat</b>
+					
+					</div>
+					<div class="description">
+						the format to use to formatting/converting dates.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								<a href="../symbols/patio.Time.html#DEFAULT_YEAR_FORMAT" class="" >patio.Time#DEFAULT_YEAR_FORMAT</a>
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				</div>
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name="dateTimeToString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>dateTimeToString</b>(dt)
+					
+					</div>
+					<div class="description">
+						Converts a @link{sql.DateTime} to a string.
+The format used is time.dateTimeFormat,
+which defaults to time.DEFAULT_DATETIME_FORMAT
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date = new Date(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+offset = "-0600";
+patio.dateTimeToString(date); //=> '2004-02-01 12:12:12'
+patio.dateTimeToString(dateTime); //=> '2004-02-01 12:12:12'
+
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.dateTimeToString(date); //=> '04-02-01 12:12:12'
+patio.dateTimeToString(dateTime); //=> '04-02-01 12:12:12'
+
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.dateTimeToString(date); //=> '2004-02-01 12:12:12-0600'
+patio.dateTimeToString(dateTime); //=> '2004-02-01 12:12:12-0600'
+
+patio.dateTimeFormat = patio.ISO_8601;
+patio.dateTimeToString(date); //=> '2004-02-01T12:12:12-0600'
+patio.dateTimeToString(dateTime); //=> '2004-02-01T12:12:12-0600'
+
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateTimeToString(date); //=> '04-02-01T12:12:12-0600'
+patio.dateTimeToString(dateTime); //=> '04-02-01T12:12:12-0600'</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date\sql.DateTime}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the datetime to covert to to a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> the date string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return date.format(comb.isInstanceOf(dt, SQL.DateTime) ? dt.date : dt, this.dateTimeFormat);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="dateToString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>dateToString</b>(dt)
+					
+					</div>
+					<div class="description">
+						Converts a date to a string.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date = new Date(2004, 1, 1),
+timeStamp = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+year = new sql.Year(2004),
+time = new sql.Time(12,12,12),
+
+//convert years
+patio.dateToString(year); //=> '2004'
+patio.yearFormat = "yy";
+patio.dateToString(year); //=> '04'
+patio.yearFormat = patio.DEFAULT_YEAR_FORMAT;
+patio.dateToString(year); //=> '2004'
+
+//convert times
+patio.dateToString(time); //=> '12:12:12'
+
+//convert dates
+patio.dateToString(date); //=> '2004-02-01'
+patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+patio.dateToString(date); //=> '04-02-01'
+patio.dateFormat = patio.DEFAULT_DATE_FORMAT;
+patio.dateToString(date); //=> '2004-02-01'
+//convert dateTime
+patio.dateToString(dateTime); //=> '2004-02-01 12:12:12'
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.dateToString(dateTime); //=> '04-02-01 12:12:12'
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.dateToString(dateTime); //=> '2004-02-01 12:12:12-0600'
+patio.dateTimeFormat = patio.ISO_8601;
+patio.dateToString(dateTime); //=> '2004-02-01T12:12:12-0600'
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateToString(dateTime); //=> '04-02-01T12:12:12-0600'
+patio.dateTimeFormat = patio.DEFAULT_DATETIME_FORMAT;
+patio.dateToString(dateTime); //=> '2004-02-01 12:12:12'
+//convert timestamps
+patio.dateToString(timeStamp); //=> '2004-02-01 12:12:12'
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.dateToString(timeStamp); //=> '04-02-01 12:12:12'
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.dateToString(timeStamp); //=> '2004-02-01 12:12:12-0600'
+patio.timeStampFormat = patio.ISO_8601;
+patio.dateToString(timeStamp); //=> '2004-02-01T12:12:12-0600'
+patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateToString(timeStamp); //=> '04-02-01T12:12:12-0600'
+patio.timeStampFormat = patio.DEFAULT_TIMESTAMP_FORMAT;
+patio.dateToString(timeStamp); //=> '2004-02-01 12:12:12'</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date\sql.Time|sql.Year|sql.DateTime|sql.TimeStamp}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the date to covert to to a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> the date string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret = "";
+if (comb.isInstanceOf(dt, SQL.Time)) 
+    ret = this.timeToString(dt);
+ else if (comb.isInstanceOf(dt, SQL.Year)) 
+    ret = this.yearToString(dt);
+ else if (comb.isInstanceOf(dt, SQL.DateTime)) 
+    ret = this.dateTimeToString(dt);
+ else if (comb.isInstanceOf(dt, SQL.TimeStamp)) 
+    ret = this.timeStampToString(dt);
+ else if (comb.isDate(dt)) 
+    ret = date.format(dt, this.dateFormat);
+
+return ret;
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="stringToDate"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Date}</span>
+					<b>stringToDate</b>(dt, format)
+					
+					</div>
+					<div class="description">
+						Converts a date string to a Date
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date = new Date(2004, 1,1,0,0,0);
+patio.stringToDate('2004-02-01'); //=> date
+
+patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+patio.stringToDate('04-02-01'); //=> date</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the string to convert to a Date</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>format</b>
+									<i>Optional, Default: time.dateFormat</i>
+								</dt>
+								<dd>the format to use when converting the date.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{PatioError}</span>  <b></b>
+								</dt>
+								<dd>thrown if the conversion fails.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Date}</span> the Date</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret;
+if (this.convertTwoDigitYears) 
+    ret = date.parse(dt, this.TWO_YEAR_DATE_FORMAT);
+
+if (!ret) 
+    ret = date.parse(dt, format || this.dateFormat);
+
+if (!ret) 
+    throw new PatioError("Unable to convert date: " + dt);
+
+return ret;
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="stringToDateTime"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{sql.DateTime}</span>
+					<b>stringToDateTime</b>(dt, format)
+					
+					</div>
+					<div class="description">
+						Converts a datetime date string to a sql.DateTime
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+ var dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+offset = getTimeZoneOffset();
+patio.stringToDateTime('2004-02-01 12:12:12'); //=> dateTime
+
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.stringToDateTime('04-02-01 12:12:12-0600'); //=> dateTime
+
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.stringToDateTime('2004-02-01 12:12:12-0600'); //=> dateTime
+
+patio.dateTimeFormat = patio.ISO_8601;
+patio.stringToDateTime('2004-02-01T12:12:12-0600'); //=> dateTime
+
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.stringToDateTime('04-02-01T12:12:12-0600'); //=> dateTime</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the string to convert to a sql.DateTime</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>format</b>
+									<i>Optional, Default: time.dateTimeFormat</i>
+								</dt>
+								<dd>the format to use when converting the date.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{PatioError}</span>  <b></b>
+								</dt>
+								<dd>thrown if the conversion fails.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{sql.DateTime}</span> the sql.DateTime</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var useT = dt.indexOf("T") != -1;
+
+var format = fmt ? fmt : useT ? this.ISO_8601 : this.DEFAULT_DATETIME_FORMAT;
+var ret = date.parse(dt, format);
+
+!ret && (ret = date.parse(dt, this.DATETIME_FORMAT_TZ));
+if (!ret && this.convertTwoDigitYears) 
+    
+    var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.DATETIME_TWO_YEAR_FORMAT;
+    ret = date.parse(dt, twoYearFormat);
+    
+    !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
+
+if (!ret) 
+    throw new PatioError("Unable to convert datetime: " + dt);
+
+return new SQL.DateTime(ret);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="stringToTime"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{sql.Time}</span>
+					<b>stringToTime</b>(dt, format)
+					
+					</div>
+					<div class="description">
+						Converts a time date string to a sql.Time
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var time = new sql.Time(12,12,12);
+patio.stringToTime("12:12:12"); //=> time</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the string to convert to a sql.Time</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>format</b>
+									<i>Optional, Default: time.timeFormat</i>
+								</dt>
+								<dd>the format to use when converting the date.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{PatioError}</span>  <b></b>
+								</dt>
+								<dd>thrown if the conversion fails.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{sql.Time}</span> the sql.Time</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret = date.parse(dt, format || this.timeFormat);
+if (!ret) 
+    throw new PatioError("Unable to convert time: " + dt);
+
+return new SQL.Time(ret);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="stringToTimeStamp"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{sql.TimeStamp}</span>
+					<b>stringToTimeStamp</b>(dt, format)
+					
+					</div>
+					<div class="description">
+						Converts a timestamp date string to a sql.TimeStamp
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+ var timeStamp = new sql.TimeStamp(2004, 1, 1, 12, 12, 12);
+patio.stringToTimeStamp('2004-02-01 12:12:12'); //=> timeStamp
+
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.stringToTimeStamp('04-02-01 12:12:12-0600'); //=> timeStamp
+
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.stringToTimeStamp('2004-02-01 12:12:12-0600'); //=> timeStamp
+
+patio.timeStampFormat = patio.ISO_8601;
+patio.stringToTimeStamp('2004-02-01T12:12:12-0600'); //=> timeStamp
+
+patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+patio.stringToTimeStamp('04-02-01T12:12:12-0600'); //=> timeStamp</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the string to convert to a sql.TimeStamp</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>format</b>
+									<i>Optional, Default: time.timeStampFormat</i>
+								</dt>
+								<dd>the format to use when converting the date.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{PatioError}</span>  <b></b>
+								</dt>
+								<dd>thrown if the conversion fails.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{sql.TimeStamp}</span> the sql.TimeStamp</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var useT = dt.indexOf("T") != -1;
+
+var format = fmt ? fmt : useT ? this.ISO_8601 : this.DEFAULT_TIME_FORMAT;
+var ret = date.parse(dt, format);
+
+!ret && (ret = date.parse(dt, this.TIMESTAMP_FORMAT_TZ));
+if (!ret && this.convertTwoDigitYears) 
+    
+    var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.TIMESTAMP_TWO_YEAR_FORMAT;
+    ret = date.parse(dt, twoYearFormat);
+    
+    !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
+
+if (!ret) 
+    throw new PatioError("Unable to convert timestamp: " + dt);
+
+return new SQL.TimeStamp(ret);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="stringToYear"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{sql.Year}</span>
+					<b>stringToYear</b>(dt, format)
+					
+					</div>
+					<div class="description">
+						Converts a year date string to a sql.Year
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var year = new sql.Year(2004);
+patio.stringToYear("2004"); //=> year
+patio.yearFormat = "yy";
+patio.stringToYear("04"); //=> year</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the string to covert to a sql.Year</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>format</b>
+									<i>Optional, Default: time.yearFormat</i>
+								</dt>
+								<dd>the format to use when converting the date.</dd>
+							
+							</dl>
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Throws:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{PatioError}</span>  <b></b>
+								</dt>
+								<dd>thrown if the conversion fails.</dd>
+							
+							</dl>
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{sql.Year}</span> the sql.Year</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret = date.parse(dt, format || this.yearFormat);
+if (!ret) 
+    throw new PatioError("Unable to convert year: " + dt);
+
+return new SQL.Year(ret);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="timeStampToString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>timeStampToString</b>(dt)
+					
+					</div>
+					<div class="description">
+						Converts a sql.TimeStamp to a string.
+The format used is time.timeStampFormat,
+which defaults to time.DEFAULT_TIMESTAMP_FORMAT
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date = new Date(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
+offset = "-0600";
+patio.timeStampToString(date); //=> '2004-02-01 12:12:12'
+patio.timeStampToString(dateTime); //=> '2004-02-01 12:12:12'
+
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.timeStampToString(date); //=> '04-02-01 12:12:12'
+patio.timeStampToString(dateTime); //=> '04-02-01 12:12:12'
+
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.timeStampToString(date); //=> '2004-02-01 12:12:12-0600'
+patio.timeStampToString(dateTime); //=> '2004-02-01 12:12:12-0600'
+
+patio.timeStamp = patio.ISO_8601;
+patio.timeStampToString(date); //=> '2004-02-01T12:12:12-0600'
+patio.timeStampToString(dateTime); //=> '2004-02-01T12:12:12-0600'
+
+patio.timeStamp = patio.ISO_8601_TWO_YEAR;
+patio.timeStampToString(date); //=> '04-02-01T12:12:12-0600'
+patio.timeStampToString(dateTime); //=> '04-02-01T12:12:12-0600'</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date\sql.TimeStamp}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the timestamp to convert to to a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> the date string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return date.format(comb.isInstanceOf(dt, SQL.TimeStamp) ? dt.date : dt, this.timeStampFormat);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="timeToString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>timeToString</b>(dt)
+					
+					</div>
+					<div class="description">
+						Converts a sql.Time to a string.
+The format used is time.timeFormat,
+which defaults to time.DEFAULT_TIME_FORMAT
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date =  new Date(null, null, null, 13, 12, 12),
+    time = new sql.Time(13,12,12);
+patio.timeToString(date); //=> '13:12:12'
+patio.timeToString(time); //=> '13:12:12'
+patio.timeFormat = "hh:mm:ss";
+patio.timeToString(date); //=> '01:12:12'
+patio.timeToString(time); //=> '01:12:12'</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date\sql.Time}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the time to covert to to a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> the date string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return date.format(comb.isInstanceOf(dt, SQL.Time) ? dt.date : dt, this.timeFormat);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="yearToString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>yearToString</b>(dt)
+					
+					</div>
+					<div class="description">
+						Converts a sql.Year to a string.
+The format used is time.yearFormat,
+which defaults to time.DEFAULT_YEAR_FORMAT
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+var date = new Date(2004, 1, 1, 1, 1, 1),
+    year = new sql.Year(2004);
+patio.yearToString(date); //=> '2004'
+patio.yearToString(year); //=> '2004'
+patio.yearFormat = "yy";
+patio.yearToString(date); //=> '04'
+patio.yearToString(year); //=> '04'</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Date\sql.Year}</span> <b>dt</b>
+									
+								</dt>
+								<dd>the year to covert to to a string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> the date string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return date.format(comb.isInstanceOf(dt, SQL.Year) ? dt.date : dt, this.yearFormat);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jan 23 2012 10:42:39 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

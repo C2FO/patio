@@ -1,23 +1,24 @@
 {
-    "name": "moose-query",
-    "description": "Moose query engine",
+    "name": "patio",
+    "description": "Patio query engine and ORM",
     "version": "0.0.1",
-	"keywords" : ["mysql", "MySQL", "MySql", "SQL", "sql", "query", "database", "dataset"],
+	"keywords" : ["ORM", "object relation mapper", "relational", "mapper", "moose","mysql", "MySQL", "MySql", "SQL", "sql", "query", "database", "dataset"],
     "repository": {
         "type": "git",
-        "url": "git@github.com:doug-martin/moose-query.git"
+        "url": "git@github.com:doug-martin/patio-query.git"
     },
     "author": "Pollenware (http://pollenware.github.com)",
     "main": "index.js",
     "dependencies" :
     {
-        "mysql" : "*",
-        "comb" : ">=0.0.2"
+        "mysql" : "0.9.5",
+        "comb" : "0.0.6",
+        "hive-cache" : "0.0.2"
     },
     "directories": {
         "lib": "lib"
     },
     "engines": {
-        "node": ">= 0.4.10"
+        "node": ">= 0.6.10"
     }
 }

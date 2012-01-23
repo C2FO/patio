@@ -1,12 +1,12 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("index"),
-    sql = moose.SQL,
+    patio = require("index"),
+    sql = patio.SQL,
     comb = require("comb"),
     format = comb.string.format,
     hitch = comb.hitch;
 
-moose.quoteIdentifiers = false;
+patio.quoteIdentifiers = false;
 
 new comb.logging.BasicConfigurator().configure();
 var ret = (module.exports = exports = new comb.Promise());
@@ -15,7 +15,7 @@ var suite = vows.describe("Database");
 var MYSQL_USER = "root";
 
 var MYSQL_URL = format("mysql://%s@localhost:3306/sandbox", MYSQL_USER);
-var MYSQL_DB = moose.connect(MYSQL_URL);
+var MYSQL_DB = patio.connect(MYSQL_URL);
 
 
 var INTEGRATION_DB = MYSQL_DB;
@@ -241,7 +241,7 @@ p1.both(function () {
 
                     "should not consider tinyint(1) a boolean if convertTinyintToBool is false":{
                         topic:function () {
-                            moose.mysql.convertTinyintToBool = false;
+                            patio.mysql.convertTinyintToBool = false;
                             MYSQL_DB.schema("booltest", {reload:true}).then(hitch(this, "callback", null), hitch(this, "callback"));
                         },
 
@@ -284,7 +284,7 @@ p1.both(function () {
                                         {b:1, i:1}
                                     ]
                                 ]);
-                                moose.mysql.convertTinyintToBool = true;
+                                patio.mysql.convertTinyintToBool = true;
                             }
                         }
                     }
@@ -634,9 +634,9 @@ p1.both(function () {
     suite.addBatch({
         "A MySQL database with table options":{
             topic:function () {
-                moose.mysql.defaultEngine = 'InnoDB';
-                moose.mysql.defaultCharset = 'utf8';
-                moose.mysql.defaultCollate = 'utf8_general_ci';
+                patio.mysql.defaultEngine = 'InnoDB';
+                patio.mysql.defaultCharset = 'utf8';
+                patio.mysql.defaultCollate = 'utf8_general_ci';
                 var db = MYSQL_DB;
                 comb.executeInOrder(db,
                     function (db) {
@@ -699,9 +699,9 @@ p1.both(function () {
 
                         'sqls should equal["CREATE TABLE items (size integer, name text)"]':function (sqls) {
                             assert.deepEqual(sqls, ["CREATE TABLE items (size integer, name text)"]);
-                            moose.mysql.defaultEngine = null;
-                            moose.mysql.defaultCharset = null;
-                            moose.mysql.defaultCollate = null;
+                            patio.mysql.defaultEngine = null;
+                            patio.mysql.defaultCharset = null;
+                            patio.mysql.defaultCollate = null;
                         }
                     }
                 }
@@ -1023,11 +1023,11 @@ p1.both(function () {
                             var ret = {};
                             ret.sqls = db.sqls.slice(0);
                             db.from("posts").insert({title:'node server', body:'y'});
-                            db.from("posts").insert({title:'moose', body:'query'});
+                            db.from("posts").insert({title:'patio', body:'query'});
                             db.from("posts").insert({title:'node bode', body:'x'});
                             db.sqls = [];
                             ret.ret1 = db.from("posts").fullTextSearch("title", "server").all()[0];
-                            ret.ret2 = db.from("posts").fullTextSearch(["title", "body"], ['moose', 'query']).all()[0];
+                            ret.ret2 = db.from("posts").fullTextSearch(["title", "body"], ['patio', 'query']).all()[0];
                             ret.ret3 = db.from("posts").fullTextSearch("title", '+node -server', {boolean:true}).all()[0];
                             ret.sqls2 = db.sqls.slice(0);
                             db.dropTable("posts");
@@ -1042,11 +1042,11 @@ p1.both(function () {
                         "CREATE FULLTEXT INDEX posts_title_body_index ON posts (title, body)"
                     ]);
                     assert.deepEqual(sqls.ret1, { title:'node server', body:'y' });
-                    assert.deepEqual(sqls.ret2, { title:'moose', body:'query' });
+                    assert.deepEqual(sqls.ret2, { title:'patio', body:'query' });
                     assert.deepEqual(sqls.ret3, { title:'node bode', body:'x' });
                     assert.deepEqual(sqls.sqls2, [
                         "SELECT * FROM posts WHERE (MATCH (title) AGAINST ('server'))",
-                        "SELECT * FROM posts WHERE (MATCH (title, body) AGAINST ('moose query'))",
+                        "SELECT * FROM posts WHERE (MATCH (title, body) AGAINST ('patio query'))",
                         "SELECT * FROM posts WHERE (MATCH (title) AGAINST ('+node -server' IN BOOLEAN MODE))"
                     ]);
                 },
@@ -1696,7 +1696,7 @@ p1.both(function () {
 
             "should raise an exception when a bad date/time is used and convertInvalidDateTime is false":{
                 topic:function () {
-                    moose.mysql.convertInvalidDateTime = false;
+                    patio.mysql.convertInvalidDateTime = false;
                     var ret = new comb.Promise();
                     MYSQL_DB.fetch("SELECT CAST('0000-00-00' AS date)").singleValue().then(function (res) {
                         ret.errback("err");
@@ -1707,7 +1707,7 @@ p1.both(function () {
                             MYSQL_DB.fetch("SELECT CAST('25:00:00' AS time)").singleValue().then(function () {
                                 ret.errback("err")
                             }, function (err) {
-                                moose.mysql.convertInvalidDateTime = false;
+                                patio.mysql.convertInvalidDateTime = false;
                                 ret.callback();
                             });
                         });
@@ -1721,14 +1721,14 @@ p1.both(function () {
 
                 "should not use a null value bad date/time is used and convertInvalidDateTime is null":{
                     topic:function () {
-                        comb.executeInOrder(MYSQL_DB, moose,
-                            function (db, moose) {
-                                moose.mysql.convertInvalidDateTime = null;
+                        comb.executeInOrder(MYSQL_DB, patio,
+                            function (db, patio) {
+                                patio.mysql.convertInvalidDateTime = null;
                                 var ret = [];
                                 ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
                                 ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
                                 ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
-                                moose.mysql.convertInvalidDateTime = false;
+                                patio.mysql.convertInvalidDateTime = false;
                                 return ret;
                             }).then(hitch(this, "callback", null), hitch(this, "callback"));
                     },
@@ -1739,22 +1739,22 @@ p1.both(function () {
 
                     "should not use a null value bad date/time is used and convertInvalidDateTime is string || String":{
                         topic:function () {
-                            comb.executeInOrder(MYSQL_DB, moose,
-                                function (db, moose) {
-                                    moose.mysql.convertInvalidDateTime = String;
+                            comb.executeInOrder(MYSQL_DB, patio,
+                                function (db, patio) {
+                                    patio.mysql.convertInvalidDateTime = String;
                                     var ret = [];
                                     ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
-                                    moose.mysql.convertInvalidDateTime = "string";
+                                    patio.mysql.convertInvalidDateTime = "string";
                                     ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
-                                    moose.mysql.convertInvalidDateTime = "String";
+                                    patio.mysql.convertInvalidDateTime = "String";
                                     ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
                                     ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
-                                    moose.mysql.convertInvalidDateTime = false;
+                                    patio.mysql.convertInvalidDateTime = false;
                                     return ret;
                                 }).then(hitch(this, "callback", null), hitch(this, "callback"));
                         },
@@ -1774,7 +1774,7 @@ p1.both(function () {
 
     suite.run({reporter:require("vows").reporter.spec}, function () {
         console.log = orig;
-        moose.disconnect().both(hitch(ret, "callback"));
+        patio.disconnect().both(hitch(ret, "callback"));
     });
 });
 

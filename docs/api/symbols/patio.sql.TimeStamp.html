@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>patio.sql.TimeStamp</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/patio-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.html" class="" >patio</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.AlterTableGenerator.html" class="" >AlterTableGenerator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.SchemaGenerator.html" class="" >SchemaGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href="../symbols/patio.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Decimal.html" class="" >Decimal</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Float.html" class="" >Float</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Database.html" class="" >Database</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/patio.sql.TimeStamp.html#constructor" class="" >patio.sql.TimeStamp</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class patio.sql.TimeStamp
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                
+                
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>patio.sql.TimeStamp</b>(y, m, d, h, min, s, ms)
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				<div class="exampleCode">
+				    <h4>Example 1 : </h4>
+				    <pre class="code">
+var timeStamp = patio.TimeStamp(2009, 10, 10, 10, 10, 10); //=> '2009-11-10 10:10:10'
+JSON.stringify(timeStamp); //=> '2009-11-10 10:10:10'</pre>
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>y</b>
+								<i>Optional, Default: 1970</i>
+							</dt>
+								<dd>the year</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>m</b>
+								<i>Optional, Default: 0</i>
+							</dt>
+								<dd>the month</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>d</b>
+								<i>Optional, Default: 1</i>
+							</dt>
+								<dd>the day</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>h</b>
+								<i>Optional, Default: 0</i>
+							</dt>
+								<dd>the hour</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>min</b>
+								<i>Optional, Default: 0</i>
+							</dt>
+								<dd>the minute/s</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>s</b>
+								<i>Optional, Default: 0</i>
+							</dt>
+								<dd>the second/s</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Number}</span>  <b>ms</b>
+								<i>Optional, Default: 0</i>
+							</dt>
+								<dd>the millisecond/s, this paramater is not be used, but may depending on the adapter.</dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+					
+                        <div class="sourceCode">
+                            <pre class="code">
+if (comb.isDate(y)) 
+    this.date = y;
+ else 
+    var date = new Date(1970, 0, 1, 0, 0, 0);
+    comb.isNumber(y) && date.setYear(y);
+    comb.isNumber(m) && date.setMonth(m);
+    comb.isNumber(d) && date.setDate(d);
+    comb.isNumber(h) && date.setHours(h);
+    comb.isNumber(min) && date.setMinutes(min);
+    comb.isNumber(s) && date.setSeconds(s);
+    comb.isNumber(ms) && date.setMilliseconds(ms);
+    this.date = date;
+
+</pre>
+                        </div>
+                    
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jan 23 2012 10:42:39 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

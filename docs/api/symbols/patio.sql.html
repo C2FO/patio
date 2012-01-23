@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>patio.sql</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/patio-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.html" class="" >patio</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.AlterTableGenerator.html" class="" >AlterTableGenerator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.SchemaGenerator.html" class="" >SchemaGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href="../symbols/patio.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Decimal.html" class="" >Decimal</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Float.html" class="" >Float</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Database.html" class="" >Database</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Dataset.html" class="" >Dataset</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Time.html" class="" >Time</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/patio.sql.html#constructor" class="" >patio.sql</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.sql.html#.NegativeBooleanConstant" class="" >NegativeBooleanConstant</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.html#.identifier" class="" >identifier</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.html#.literal" class="" >literal</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.html#.sqlStringJoin" class="" >sqlStringJoin</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.html#.stringToIdentifier" class="" >stringToIdentifier</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Namespace patio.sql
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				
+			
+				Collection of SQL related types, and expressions.
+
+<p>
+ The <a href="../symbols/patio.sql.html" class="" >patio.sql</a> object
+ can be used directly to create <a href="../symbols/patio.sql.Expression.html" class="" >patio.sql.Expression</a>s, <a href="../symbols/patio.sql.Identifier.html" class="" >patio.sql.Identifier</a>s, <a href="../symbols/patio.sql.SQLFunction.html" class="" >patio.sql.SQLFunction</a>s,
+ and <a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >patio.sql.QualifiedIdentifier</a>s.
+<pre class='code'>
+ var sql = patio.sql;
+ //creating an identifier
+ sql.a; //=> a;
+
+ //creating a qualified identifier
+ sql.table__column; //table.column;
+
+ //BooleanExpression
+ sql.a.lt(sql.b); //=> a < 'b';
+
+ //SQL Functions
+ sql.sum(sql.a); //=> sum(a)
+ sql.avg(sql.b); //=> avg(b)
+ sql.a("b", 1); //=> a(b, 1)
+ sql.myDatabasesObjectFunction(sql.a, sql.b, sql.c); //=> myDatabasesObjectFunction(a, b, c);
+
+ //combined
+ sql.a.cast("boolean"); //=> 'CAST(a AS boolean)'
+ sql.a.plus(sql.b).lt(sql.c.minus(3) //=> ((a + b) < (c - 3))
+
+</pre>
+
+This is useful when combined with dataset filtering
+
+<pre class="code">
+ var ds = DB.from("t");
+
+ ds.filter({a:[sql.b, sql.c]}).sql;
+     //=> SELECT * FROM t WHERE (a IN (b, c))
+
+ ds.select(sql["case"]({b:{c:1}}, false)).sql;
+     //=> SELECT (CASE WHEN b THEN (c = 1) ELSE 'f' END) FROM t
+
+ ds.select(sql.a).qualifyToFirstSource().sql;
+     //=>  SELECT a FROM t
+
+ ds.order(sql.a.desc(), sql.b.asc()).sql;
+     //=>  SELECT * FROM t ORDER BY a DESC, b ASC
+
+ ds.select(sql.a.as("b")).sql;
+     //=> SELECT a AS b FROM t
+
+ ds.filter(sql["case"]({a:sql.b}, sql.c, sql.d)).sql
+     //=> SELECT * FROM t WHERE (CASE d WHEN a THEN b ELSE c END)
+
+ ds.filter(sql.a.cast("boolean")).sql;
+     //=> SELECT * FROM t WHERE CAST(a AS boolean)
+
+ ds.filter(sql.a("b", 1)).sql
+     //=> SELECT * FROM t WHERE a(b, 1)
+ ds.filter(sql.a.plus(sql.b).lt(sql.c.minus(3)).sql;
+     //=> SELECT * FROM t WHERE ((a + b) < (c - 3))
+
+ ds.filter(sql.a.sqlSubscript(sql.b, 3)).sql;
+     //=> SELECT * FROM t WHERE a[b, 3]
+
+ ds.filter('? > ?', sql.a, 1).sql;
+    //=> SELECT * FROM t WHERE (a > 1);
+
+ ds.filter('{a} > {b}', {a:sql.c, b:1}).sql;
+     //=>SELECT * FROM t WHERE (c > 1)
+
+ ds.select(sql.literal("'a'"))
+    .filter(sql.a(3))
+    .filter('blah')
+    .order(sql.literal(true))
+    .group(sql.literal('a > ?', [1]))
+    .having(false).sql;
+     //=>"SELECT 'a' FROM t WHERE (a(3) AND (blah)) GROUP BY a > 1 HAVING 'f' ORDER BY true");
+ </pre>
+
+</p>
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                
+                
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Namespace Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>patio.sql</b>
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+				<a name=".NegativeBooleanConstant"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.sql.</span><b>NegativeBooleanConstant</b>
+					
+					</div>
+					<div class="description">
+						Represents inverse boolean constants (currently only NOTNULL). A
+special class to allow for special behavior.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				</div>
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name=".identifier"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/patio.sql.Identifier.html" class="" >patio.sql.Identifier</a>|<a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >patio.sql.QualifiedIdentifier</a>|<a href="../symbols/patio.sql.AliasedExpression.html" class="" >patio.sql.AliasedExpression</a>}</span>
+					<span class="light">patio.sql.</span><b>identifier</b>(name)
+					
+					</div>
+					<div class="description">
+						Returns a <a href="../symbols/patio.sql.Identifier.html" class="" >patio.sql.Identifier</a>, <a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >patio.sql.QualifiedIdentifier</a>,
+or patio.sql.ALiasedExpression depending on the format of the string
+passed in.
+
+<ul>
+     <li>For columns : table__column___alias.</li>
+     <li>For tables : schema__table___alias.</li>
+</ul>
+each portion of the identifier is optional. See example below
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+patio.sql.identifier("a") //= > new patio.sql.Identifier("a");
+patio.sql.identifier("table__column"); //=> new patio.sql.QualifiedIdentifier(table, column);
+patio.sql.identifier("table__column___alias");
+     //=> new patio.sql.AliasedExpression(new patio.sql.QualifiedIdentifier(table, column), alias);</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd>the name to covert to an an <a href="../symbols/patio.sql.Identifier.html" class="" >patio.sql.Identifier</a>, <a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >patio.sql.QualifiedIdentifier</a>,
+or <a href="../symbols/patio.sql.AliasedExpression.html" class="" >patio.sql.AliasedExpression</a>.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/patio.sql.Identifier.html" class="" >patio.sql.Identifier</a>|<a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >patio.sql.QualifiedIdentifier</a>|<a href="../symbols/patio.sql.AliasedExpression.html" class="" >patio.sql.AliasedExpression</a>}</span> an identifier generated based on the name string.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return sql.stringToIdentifier(s);
+    </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".literal"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/patio.sql.LiteralString.html" class="" >patio.sql.LiteralString</a>|<a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >patio.sql.PlaceHolderLiteralString</a>}</span>
+					<span class="light">patio.sql.</span><b>literal</b>(s)
+					
+					</div>
+					<div class="description">
+						Creates a <a href="../symbols/patio.sql.LiteralString.html" class="" >patio.sql.LiteralString</a> or <a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >patio.sql.PlaceHolderLiteralString</a>
+depending on the arguments passed in. If a single string is passed in then
+it is assumed to be a <a href="../symbols/patio.sql.LiteralString.html" class="" >patio.sql.LiteralString</a>. If more than one argument is
+passed in then it is assumed to be a <a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >patio.sql.PlaceHolderLiteralString</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+//a literal string that will be placed in an SQL query with out quoting.
+patio.sql.literal("a"); //=> new patio.sql.LiteralString('a');
+
+//a placeholder string that will have ? replaced with the {@link patio.Dataset#literal} version of
+//the arugment and replaced in the string.
+patio.sql.literal("a = ?", 1)  //=> a = 1
+patio.sql.literal("a = ?", "b"); //=> a = 'b'
+patio.sql.literal("a = {a} AND b = {b}", {a : 1, b : 2}); //=> a = 1 AND b = 2</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String ...}</span> <b>s</b>
+									
+								</dt>
+								<dd>variable number of arguments where the first argument
+is a string. If multiple arguments are passed it is a assumed to be a <a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >patio.sql.PlaceHolderLiteralString</a></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/patio.sql.LiteralString.html" class="" >patio.sql.LiteralString</a>|<a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >patio.sql.PlaceHolderLiteralString</a>}</span> an expression that can be used as an argument
+for <a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a> query methods.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var args = comb.argsToArray(arguments);
+return args.length > 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);
+    </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".sqlStringJoin"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.sql.</span><b>sqlStringJoin</b>(arr, joiner)
+					
+					</div>
+					<div class="description">
+						Creates a <a href="../symbols/patio.sql.StringExpression.html" class="" >patio.sql.StringExpression</a>
+
+Return a <a href="../symbols/patio.sql.StringExpression.html" class="" >patio.sql.StringExpression</a> representing an SQL string made up of the
+concatenation of this array's elements.  If an joiner is passed
+it is used in between each element of the array in the SQL
+concatenation.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">  patio.sql.sqlStringJoin(["a"]); //=> a
+  //you can use sql.* as a shortcut to get an identifier
+  patio.sql.sqlStringJoin([sql.identifier("a"), sql.b]);//=> a || b
+  patio.sql.sqlStringJoin([sql.a, 'b']) # SQL: a || 'b'
+  patio.sql.sqlStringJoin(['a', sql.b], ' '); //=> 'a' || ' ' || b</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>arr</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>joiner</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+joiner = joiner || null;
+var args;
+arr = arr.map(function (a) 
+    return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : sql.stringToIdentifier(a)
+);
+if (joiner) 
+    var newJoiner = [];
+    for (var i = 0; i &lt; arr.length; i++) 
+        newJoiner.push(joiner);
+    
+    args = array.flatten(array.zip(arr, newJoiner));
+    args.pop();
+ else 
+    args = arr;
+
+args = args.map(function (a) 
+    return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : "" + a;
+);
+return StringExpression.fromArgs(["||"].concat(args));
+    </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".stringToIdentifier"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.sql.</span><b>stringToIdentifier</b>(name)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+								<dd><a href="../symbols/patio.sql.html#.identifier" class="" >patio.sql.identifier</a></dd>
+							
+							</dl>
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+!Dataset && (Dataset = require("./dataset"));
+return new Dataset().stringToIdentifier(name);
+    </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Jan 23 2012 10:42:39 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

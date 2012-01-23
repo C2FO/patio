@@ -3,7 +3,7 @@ PWD = `pwd`
 JSCOV = support/jscoverage/node-jscoverage
 JS_FILES = $(shell find ./lib | grep index.js && find lib | awk '!/index.js/ && /.js/' )
 BENCHMARKS = `find benchmark -name *.benchmark.js `
-DOC_COMMAND=java -jar ./support/jsdoc/jsrun.jar ./support/jsdoc/app/run.js -t=./support/jsdoc/templates/CoolTemplate -d=./docs  -D="github:doug-martin/moose-query"
+DOC_COMMAND=java -jar ./support/jsdoc/jsrun.jar ./support/jsdoc/app/run.js -t=./support/jsdoc/templates/CoolTemplate -d=./docs/api  -D="github:doug-martin/patio-query"
 
 test:
 	export NODE_PATH=$NODE_PATH:lib && node test/runner.js
@@ -15,7 +15,7 @@ docs: docclean
 	$(DOC_COMMAND) $(JS_FILES)
 
 docclean :
-	rm -rf docs
+	rm -rf docs/api
 
 benchmarks:
 	for file in $(BENCHMARKS) ; do \

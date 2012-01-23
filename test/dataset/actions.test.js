@@ -1,9 +1,9 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = require("index"),
-    Dataset = moose.Dataset,
-    Database = moose.Database,
-    sql = moose.SQL,
+    patio = require("index"),
+    Dataset = patio.Dataset,
+    Database = patio.Database,
+    sql = patio.SQL,
     Identifier = sql.Identifier,
     QualifiedIdentifier = sql.QualifiedIdentifier,
     SQLFunction = sql.SQLFunction,
@@ -19,8 +19,8 @@ var vows = require('vows'),
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Dataset actions");
 
-moose.identifierInputMethod = null;
-moose.identifierOutputMethod = null;
+patio.identifierInputMethod = null;
+patio.identifierOutputMethod = null;
 var c = comb.define(Dataset, {
     instance : {
 
@@ -1277,7 +1277,7 @@ suite.addBatch({
     },
 
 
-    "moose.Dataset.selectMap" : {
+    "patio.Dataset.selectMap" : {
         topic : function() {
             var DS = comb.define(MockDataset, {
                 instance : {
@@ -1348,7 +1348,7 @@ suite.addBatch({
         }
     },
 
-    "moose.Dataset.selectOrderMap" : {
+    "patio.Dataset.selectOrderMap" : {
         topic : function() {
             var DS = comb.define(MockDataset, {
                 instance : {
@@ -1426,7 +1426,7 @@ suite.addBatch({
         }
     },
 
-    "moose.DatasetselectHash" : {
+    "patio.DatasetselectHash" : {
         topic : function() {
 
             var DS = comb.define(MockDataset, {

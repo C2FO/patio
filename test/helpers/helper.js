@@ -1,9 +1,9 @@
 var comb = require("comb"),
-    moose = require("index"),
-    Dataset = moose.Dataset,
-    Database = moose.Database;
+    patio = require("index"),
+    Dataset = patio.Dataset,
+    Database = patio.Database;
 
-moose.quoteIdentifiers = false
+patio.quoteIdentifiers = false
 
 var MockDataset = comb.define(Dataset, {
     instance : {

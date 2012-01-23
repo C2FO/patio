@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert'),
-    moose = new require("index"),
+    patio = new require("index"),
     Database = require("database"),
     Dataset = require("dataset"),
     sql = require("sql").sql,
@@ -12,8 +12,8 @@ var vows = require('vows'),
     LiteralString = sql.LiteralString,
     comb = require("comb"),
     hitch = comb.hitch;
-moose.DATABASES.length = 0;
-moose.quoteIdentifiers = false;
+patio.DATABASES.length = 0;
+patio.quoteIdentifiers = false;
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
@@ -27,7 +27,7 @@ var getTimeZoneOffset = function () {
     return tz.join("");
 }
 
-var DummyDataset = comb.define(moose.Dataset, {
+var DummyDataset = comb.define(patio.Dataset, {
     instance:{
         first:function () {
             var ret = new comb.Promise();
@@ -40,7 +40,7 @@ var DummyDataset = comb.define(moose.Dataset, {
         }
     }
 });
-var DummyDatabase = comb.define(moose.Database, {
+var DummyDatabase = comb.define(patio.Database, {
     instance:{
         constructor:function () {
             this._super(arguments);
@@ -103,33 +103,33 @@ var DummyDatabase = comb.define(moose.Database, {
 });
 
 suite.addBatch({
-    "Moose":{
+    "Patio":{
 
-        topic:moose,
+        topic:patio,
 
-        "should have constants":function (moose) {
-            assert.deepEqual(moose.CURRENT_DATE, new Constant("CURRENT_DATE"));
-            assert.deepEqual(moose.CURRENT_TIME, new Constant("CURRENT_TIME"));
-            assert.deepEqual(moose.CURRENT_TIMESTAMP, new Constant("CURRENT_TIMESTAMP"));
-            assert.deepEqual(moose.SQLTRUE, new BooleanConstant(1));
-            assert.deepEqual(moose.TRUE, new BooleanConstant(1));
-            assert.deepEqual(moose.SQLFALSE, new BooleanConstant(0));
-            assert.deepEqual(moose.FALSE, new BooleanConstant(0));
-            assert.deepEqual(moose.NULL, new BooleanConstant(null));
-            assert.deepEqual(moose.NOTNULL, new NegativeBooleanConstant(null));
-            assert.equal(moose.identifierInputMethod, null);
-            assert.equal(moose.identifierOutputMethod, null);
-            assert.equal(moose.quoteIdentifiers, false);
+        "should have constants":function (patio) {
+            assert.deepEqual(patio.CURRENT_DATE, new Constant("CURRENT_DATE"));
+            assert.deepEqual(patio.CURRENT_TIME, new Constant("CURRENT_TIME"));
+            assert.deepEqual(patio.CURRENT_TIMESTAMP, new Constant("CURRENT_TIMESTAMP"));
+            assert.deepEqual(patio.SQLTRUE, new BooleanConstant(1));
+            assert.deepEqual(patio.TRUE, new BooleanConstant(1));
+            assert.deepEqual(patio.SQLFALSE, new BooleanConstant(0));
+            assert.deepEqual(patio.FALSE, new BooleanConstant(0));
+            assert.deepEqual(patio.NULL, new BooleanConstant(null));
+            assert.deepEqual(patio.NOTNULL, new NegativeBooleanConstant(null));
+            assert.equal(patio.identifierInputMethod, null);
+            assert.equal(patio.identifierOutputMethod, null);
+            assert.equal(patio.quoteIdentifiers, false);
         },
 
-        "should connect to a database ":function (moose) {
-            var DB1 = moose.connect("dummyDB://test:testpass@localhost/dummySchema");
+        "should connect to a database ":function (patio) {
+            var DB1 = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
             assert.instanceOf(DB1, DummyDatabase);
-            assert.strictEqual(DB1, moose.defaultDatabase);
-            var DB2 = moose.createConnection("dummyDB://test:testpass@localhost/dummySchema");
+            assert.strictEqual(DB1, patio.defaultDatabase);
+            var DB2 = patio.createConnection("dummyDB://test:testpass@localhost/dummySchema");
             assert.instanceOf(DB2, DummyDatabase);
             var DB3;
-            moose.connectAndExecute("dummyDB://test:testpass@localhost/dummySchema",
+            patio.connectAndExecute("dummyDB://test:testpass@localhost/dummySchema",
                 function (db) {
                     db.dropTable("test");
                     db.createTable("test", function () {
@@ -143,106 +143,106 @@ suite.addBatch({
                     assert.isTrue(db.connected);
                     assert.deepEqual(db.sqls, [ 'DROP TABLE test', 'CREATE TABLE test (id integer PRIMARY KEY AUTOINCREMENT, name varchar(255), age numeric)' ]);
                 });
-            assert.deepEqual(moose.DATABASES, [DB1, DB2, DB3]);
+            assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
         },
 
-        "should disconnect from a db":function (moose) {
-            var DB = moose.connect("dummyDB://test:testpass@localhost/dummySchema");
+        "should disconnect from a db":function (patio) {
+            var DB = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
             DB.createTable("test", function () {
                 this.primaryKey("id");
                 this.name(String);
                 this.age(Number);
             });
             assert.isTrue(DB.connected);
-            moose.disconnect();
+            patio.disconnect();
             assert.isFalse(DB.connected);
         },
 
         "should expose core classes":function () {
-            assert.strictEqual(moose.Dataset, Dataset);
-            assert.strictEqual(moose.Database, Database);
-            assert.strictEqual(moose.SQL, sql);
-            assert.strictEqual(moose.sql, sql);
+            assert.strictEqual(patio.Dataset, Dataset);
+            assert.strictEqual(patio.Database, Database);
+            assert.strictEqual(patio.SQL, sql);
+            assert.strictEqual(patio.sql, sql);
         },
 
-        "should format years ":function (moose) {
+        "should format years ":function (patio) {
             var date = new Date(2004, 1, 1, 1, 1, 1), year = new sql.Year(2004);
-            assert.equal(moose.yearToString(date), '2004');
-            assert.equal(moose.yearToString(year), '2004');
-            moose.yearFormat = "yy";
-            assert.equal(moose.yearToString(date), '04');
-            assert.equal(moose.yearToString(year), '04');
-            moose.yearFormat = moose.DEFAULT_YEAR_FORMAT;
+            assert.equal(patio.yearToString(date), '2004');
+            assert.equal(patio.yearToString(year), '2004');
+            patio.yearFormat = "yy";
+            assert.equal(patio.yearToString(date), '04');
+            assert.equal(patio.yearToString(year), '04');
+            patio.yearFormat = patio.DEFAULT_YEAR_FORMAT;
         },
 
-        "should format times ":function (moose) {
+        "should format times ":function (patio) {
             var date =  new Date(null, null, null, 13, 12, 12), time = new sql.Time(13,12,12);
-            assert.equal(moose.timeToString(date), '13:12:12');
-            assert.equal(moose.timeToString(time), '13:12:12');
-            moose.timeFormat = "hh:mm:ss";
-            assert.equal(moose.timeToString(date), '01:12:12');
-            assert.equal(moose.timeToString(time), '01:12:12');
-            moose.timeFormat = moose.DEFAULT_TIME_FORMAT;
+            assert.equal(patio.timeToString(date), '13:12:12');
+            assert.equal(patio.timeToString(time), '13:12:12');
+            patio.timeFormat = "hh:mm:ss";
+            assert.equal(patio.timeToString(date), '01:12:12');
+            assert.equal(patio.timeToString(time), '01:12:12');
+            patio.timeFormat = patio.DEFAULT_TIME_FORMAT;
         },
 
-        "should format dates ":function (moose) {
+        "should format dates ":function (patio) {
             var date = new Date(2004, 1,1);
-            assert.equal(moose.dateToString(date), '2004-02-01');
-            moose.dateFormat = moose.TWO_YEAR_DATE_FORMAT;
-            assert.equal(moose.dateToString(date), '04-02-01');
-            moose.dateFormat = moose.DEFAULT_DATE_FORMAT;
+            assert.equal(patio.dateToString(date), '2004-02-01');
+            patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+            assert.equal(patio.dateToString(date), '04-02-01');
+            patio.dateFormat = patio.DEFAULT_DATE_FORMAT;
         },
 
-        "should format datetimes ":function (moose) {
+        "should format datetimes ":function (patio) {
             var date = new Date(2004, 1, 1, 12, 12, 12),
                 dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
                 offset = getTimeZoneOffset();
-            assert.equal(moose.dateTimeToString(date), '2004-02-01 12:12:12');
-            assert.equal(moose.dateTimeToString(dateTime), '2004-02-01 12:12:12');
-            moose.dateTimeFormat = moose.DATETIME_TWO_YEAR_FORMAT;
-            assert.equal(moose.dateTimeToString(date), '04-02-01 12:12:12');
-            assert.equal(moose.dateTimeToString(dateTime), '04-02-01 12:12:12');
-            moose.dateTimeFormat = moose.DATETIME_FORMAT_TZ;
-            assert.equal(moose.dateTimeToString(date), '2004-02-01 12:12:12' + offset);
-            assert.equal(moose.dateTimeToString(dateTime), '2004-02-01 12:12:12' + offset);
-            moose.dateTimeFormat = moose.ISO_8601;
-            assert.equal(moose.dateTimeToString(date), '2004-02-01T12:12:12' + offset);
-            assert.equal(moose.dateTimeToString(dateTime), '2004-02-01T12:12:12' + offset);
-            moose.dateTimeFormat = moose.ISO_8601_TWO_YEAR;
-            assert.equal(moose.dateTimeToString(date), '04-02-01T12:12:12' + offset);
-            assert.equal(moose.dateTimeToString(dateTime), '04-02-01T12:12:12' + offset);
-            moose.dateTimeFormat = moose.DEFAULT_DATETIME_FORMAT;
-            assert.equal(moose.dateTimeToString(date), '2004-02-01 12:12:12');
-            assert.equal(moose.dateTimeToString(dateTime), '2004-02-01 12:12:12');
+            assert.equal(patio.dateTimeToString(date), '2004-02-01 12:12:12');
+            assert.equal(patio.dateTimeToString(dateTime), '2004-02-01 12:12:12');
+            patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+            assert.equal(patio.dateTimeToString(date), '04-02-01 12:12:12');
+            assert.equal(patio.dateTimeToString(dateTime), '04-02-01 12:12:12');
+            patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+            assert.equal(patio.dateTimeToString(date), '2004-02-01 12:12:12' + offset);
+            assert.equal(patio.dateTimeToString(dateTime), '2004-02-01 12:12:12' + offset);
+            patio.dateTimeFormat = patio.ISO_8601;
+            assert.equal(patio.dateTimeToString(date), '2004-02-01T12:12:12' + offset);
+            assert.equal(patio.dateTimeToString(dateTime), '2004-02-01T12:12:12' + offset);
+            patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+            assert.equal(patio.dateTimeToString(date), '04-02-01T12:12:12' + offset);
+            assert.equal(patio.dateTimeToString(dateTime), '04-02-01T12:12:12' + offset);
+            patio.dateTimeFormat = patio.DEFAULT_DATETIME_FORMAT;
+            assert.equal(patio.dateTimeToString(date), '2004-02-01 12:12:12');
+            assert.equal(patio.dateTimeToString(dateTime), '2004-02-01 12:12:12');
 
 
         },
 
-        "should format timestamps ":function (moose) {
+        "should format timestamps ":function (patio) {
             var date = new Date(2004, 1, 1, 12, 12, 12),
                 dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
                 offset = getTimeZoneOffset();
-            assert.equal(moose.timeStampToString(date), '2004-02-01 12:12:12');
-            assert.equal(moose.timeStampToString(dateTime), '2004-02-01 12:12:12');
-            moose.timeStampFormat = moose.TIMESTAMP_TWO_YEAR_FORMAT;
-            assert.equal(moose.timeStampToString(date), '04-02-01 12:12:12');
-            assert.equal(moose.timeStampToString(dateTime), '04-02-01 12:12:12');
-            moose.timeStampFormat = moose.TIMESTAMP_FORMAT_TZ;
-            assert.equal(moose.timeStampToString(date), '2004-02-01 12:12:12' + offset);
-            assert.equal(moose.timeStampToString(dateTime), '2004-02-01 12:12:12' + offset);
-            moose.timeStampFormat = moose.ISO_8601;
-            assert.equal(moose.timeStampToString(date), '2004-02-01T12:12:12' + offset);
-            assert.equal(moose.timeStampToString(dateTime), '2004-02-01T12:12:12' + offset);
-            moose.timeStampFormat = moose.ISO_8601_TWO_YEAR;
-            assert.equal(moose.timeStampToString(date), '04-02-01T12:12:12' + offset);
-            assert.equal(moose.timeStampToString(dateTime), '04-02-01T12:12:12' + offset);
-            moose.timeStampFormat = moose.DEFAULT_TIMESTAMP_FORMAT;
-            assert.equal(moose.timeStampToString(date), '2004-02-01 12:12:12');
-            assert.equal(moose.timeStampToString(dateTime), '2004-02-01 12:12:12');
+            assert.equal(patio.timeStampToString(date), '2004-02-01 12:12:12');
+            assert.equal(patio.timeStampToString(dateTime), '2004-02-01 12:12:12');
+            patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+            assert.equal(patio.timeStampToString(date), '04-02-01 12:12:12');
+            assert.equal(patio.timeStampToString(dateTime), '04-02-01 12:12:12');
+            patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+            assert.equal(patio.timeStampToString(date), '2004-02-01 12:12:12' + offset);
+            assert.equal(patio.timeStampToString(dateTime), '2004-02-01 12:12:12' + offset);
+            patio.timeStampFormat = patio.ISO_8601;
+            assert.equal(patio.timeStampToString(date), '2004-02-01T12:12:12' + offset);
+            assert.equal(patio.timeStampToString(dateTime), '2004-02-01T12:12:12' + offset);
+            patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+            assert.equal(patio.timeStampToString(date), '04-02-01T12:12:12' + offset);
+            assert.equal(patio.timeStampToString(dateTime), '04-02-01T12:12:12' + offset);
+            patio.timeStampFormat = patio.DEFAULT_TIMESTAMP_FORMAT;
+            assert.equal(patio.timeStampToString(date), '2004-02-01 12:12:12');
+            assert.equal(patio.timeStampToString(dateTime), '2004-02-01 12:12:12');
 
         },
 
-        "should format arbitrary dates ":function (moose) {
+        "should format arbitrary dates ":function (patio) {
             var date = new Date(2004, 1, 1),
                 timeStamp = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
                 dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
@@ -251,114 +251,114 @@ suite.addBatch({
                 offset = getTimeZoneOffset();
 
             //convert years
-            assert.equal(moose.dateToString(year), '2004');
-            moose.yearFormat = "yy";
-            assert.equal(moose.dateToString(year), '04');
-            moose.yearFormat = moose.DEFAULT_YEAR_FORMAT;
-            assert.equal(moose.dateToString(year), '2004');
+            assert.equal(patio.dateToString(year), '2004');
+            patio.yearFormat = "yy";
+            assert.equal(patio.dateToString(year), '04');
+            patio.yearFormat = patio.DEFAULT_YEAR_FORMAT;
+            assert.equal(patio.dateToString(year), '2004');
 
 
             //convert times
-            assert.equal(moose.dateToString(time), '12:12:12');
+            assert.equal(patio.dateToString(time), '12:12:12');
 
             //convert dates
-            assert.equal(moose.dateToString(date), '2004-02-01');
-            moose.dateFormat = moose.TWO_YEAR_DATE_FORMAT;
-            assert.equal(moose.dateToString(date), '04-02-01');
-            moose.dateFormat = moose.DEFAULT_DATE_FORMAT;
-            assert.equal(moose.dateToString(date), '2004-02-01');
+            assert.equal(patio.dateToString(date), '2004-02-01');
+            patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+            assert.equal(patio.dateToString(date), '04-02-01');
+            patio.dateFormat = patio.DEFAULT_DATE_FORMAT;
+            assert.equal(patio.dateToString(date), '2004-02-01');
 
             //convert dateTime
-            assert.equal(moose.dateToString(dateTime), '2004-02-01 12:12:12');
-            moose.dateTimeFormat = moose.DATETIME_TWO_YEAR_FORMAT;
-            assert.equal(moose.dateToString(dateTime), '04-02-01 12:12:12');
-            moose.dateTimeFormat = moose.DATETIME_FORMAT_TZ;
-            assert.equal(moose.dateToString(dateTime), '2004-02-01 12:12:12' + offset);
-            moose.dateTimeFormat = moose.ISO_8601;
-            assert.equal(moose.dateToString(dateTime), '2004-02-01T12:12:12' + offset);
-            moose.dateTimeFormat = moose.ISO_8601_TWO_YEAR;
-            assert.equal(moose.dateToString(dateTime), '04-02-01T12:12:12' + offset);
-            moose.dateTimeFormat = moose.DEFAULT_DATETIME_FORMAT;
-            assert.equal(moose.dateToString(dateTime), '2004-02-01 12:12:12');
+            assert.equal(patio.dateToString(dateTime), '2004-02-01 12:12:12');
+            patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+            assert.equal(patio.dateToString(dateTime), '04-02-01 12:12:12');
+            patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+            assert.equal(patio.dateToString(dateTime), '2004-02-01 12:12:12' + offset);
+            patio.dateTimeFormat = patio.ISO_8601;
+            assert.equal(patio.dateToString(dateTime), '2004-02-01T12:12:12' + offset);
+            patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+            assert.equal(patio.dateToString(dateTime), '04-02-01T12:12:12' + offset);
+            patio.dateTimeFormat = patio.DEFAULT_DATETIME_FORMAT;
+            assert.equal(patio.dateToString(dateTime), '2004-02-01 12:12:12');
 
             //convert timestamps
-            assert.equal(moose.dateToString(timeStamp), '2004-02-01 12:12:12');
-            moose.timeStampFormat = moose.TIMESTAMP_TWO_YEAR_FORMAT;
-            assert.equal(moose.dateToString(timeStamp), '04-02-01 12:12:12');
-            moose.timeStampFormat = moose.TIMESTAMP_FORMAT_TZ;
-            assert.equal(moose.dateToString(timeStamp), '2004-02-01 12:12:12' + offset);
-            moose.timeStampFormat = moose.ISO_8601;
-            assert.equal(moose.dateToString(timeStamp), '2004-02-01T12:12:12' + offset);
-            moose.timeStampFormat = moose.ISO_8601_TWO_YEAR;
-            assert.equal(moose.dateToString(timeStamp), '04-02-01T12:12:12' + offset);
-            moose.timeStampFormat = moose.DEFAULT_TIMESTAMP_FORMAT;
-            assert.equal(moose.dateToString(timeStamp), '2004-02-01 12:12:12');
+            assert.equal(patio.dateToString(timeStamp), '2004-02-01 12:12:12');
+            patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+            assert.equal(patio.dateToString(timeStamp), '04-02-01 12:12:12');
+            patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+            assert.equal(patio.dateToString(timeStamp), '2004-02-01 12:12:12' + offset);
+            patio.timeStampFormat = patio.ISO_8601;
+            assert.equal(patio.dateToString(timeStamp), '2004-02-01T12:12:12' + offset);
+            patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+            assert.equal(patio.dateToString(timeStamp), '04-02-01T12:12:12' + offset);
+            patio.timeStampFormat = patio.DEFAULT_TIMESTAMP_FORMAT;
+            assert.equal(patio.dateToString(timeStamp), '2004-02-01 12:12:12');
         },
 
-        "should convert years" : function(moose){
+        "should convert years" : function(patio){
             var year = new sql.Year(2004);
-            assert.deepEqual(moose.stringToYear("2004"), year);
-            moose.yearFormat = "yy";
-            assert.deepEqual(moose.stringToYear("04"), year);
-            moose.yearFormat = moose.DEFAULT_YEAR_FORMAT;
-            assert.throws(comb.hitch(moose, "stringToYear", "aaaa"));
+            assert.deepEqual(patio.stringToYear("2004"), year);
+            patio.yearFormat = "yy";
+            assert.deepEqual(patio.stringToYear("04"), year);
+            patio.yearFormat = patio.DEFAULT_YEAR_FORMAT;
+            assert.throws(comb.hitch(patio, "stringToYear", "aaaa"));
         },
 
-        "should convert times" : function(moose){
+        "should convert times" : function(patio){
             var time = new sql.Time(12,12,12);
-            assert.deepEqual(moose.stringToTime("12:12:12"), time);
-            assert.throws(comb.hitch(moose, "stringToTime", "9999:9999:9999"));
+            assert.deepEqual(patio.stringToTime("12:12:12"), time);
+            assert.throws(comb.hitch(patio, "stringToTime", "9999:9999:9999"));
         },
 
-        "should convert dates" : function(moose){
+        "should convert dates" : function(patio){
             var date = new Date(2004, 1,1,0,0,0);
-            assert.deepEqual(moose.stringToDate('2004-02-01'), date);
-            moose.dateFormat = moose.TWO_YEAR_DATE_FORMAT;
-            assert.deepEqual(moose.stringToDate('04-02-01'), date);
-            moose.dateFormat = moose.DEFAULT_DATE_FORMAT;
-            assert.throws(comb.hitch(moose, "stringToDate", "2004-12--2"));
-            assert.throws(comb.hitch(moose, "stringToDate", "a"));
-            assert.throws(comb.hitch(moose, "stringToDate", "2004-25-2"));
+            assert.deepEqual(patio.stringToDate('2004-02-01'), date);
+            patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+            assert.deepEqual(patio.stringToDate('04-02-01'), date);
+            patio.dateFormat = patio.DEFAULT_DATE_FORMAT;
+            assert.throws(comb.hitch(patio, "stringToDate", "2004-12--2"));
+            assert.throws(comb.hitch(patio, "stringToDate", "a"));
+            assert.throws(comb.hitch(patio, "stringToDate", "2004-25-2"));
         },
 
-        "should convert dateTimes" : function(moose){
+        "should convert dateTimes" : function(patio){
                 var dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
                 offset = getTimeZoneOffset();
-            assert.deepEqual(moose.stringToDateTime('2004-02-01 12:12:12'), dateTime);
-            moose.dateTimeFormat = moose.DATETIME_TWO_YEAR_FORMAT;
-            assert.deepEqual(moose.stringToDateTime('04-02-01 12:12:12'  + offset), dateTime);
-            moose.dateTimeFormat = moose.DATETIME_FORMAT_TZ;
-            assert.deepEqual(moose.stringToDateTime('2004-02-01 12:12:12' + offset), dateTime);
-            moose.dateTimeFormat = moose.ISO_8601;
-            assert.deepEqual(moose.stringToDateTime('2004-02-01T12:12:12' + offset), dateTime);
-            moose.dateTimeFormat = moose.ISO_8601_TWO_YEAR;
-            assert.deepEqual(moose.stringToDateTime('04-02-01T12:12:12' + offset), dateTime);
-            moose.dateTimeFormat = moose.DEFAULT_DATETIME_FORMAT;
-            assert.deepEqual(moose.stringToDateTime('2004-02-01 12:12:12'), dateTime);
-            assert.throws(comb.hitch(moose, "stringToDateTime", "2004-12--2"));
-            assert.throws(comb.hitch(moose, "stringToDateTime", "a"));
-            assert.throws(comb.hitch(moose, "stringToDateTime", "2004-25-2"));
-            assert.throws(comb.hitch(moose, "stringToDateTime", "2004-25-2THHMM"));
+            assert.deepEqual(patio.stringToDateTime('2004-02-01 12:12:12'), dateTime);
+            patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+            assert.deepEqual(patio.stringToDateTime('04-02-01 12:12:12'  + offset), dateTime);
+            patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+            assert.deepEqual(patio.stringToDateTime('2004-02-01 12:12:12' + offset), dateTime);
+            patio.dateTimeFormat = patio.ISO_8601;
+            assert.deepEqual(patio.stringToDateTime('2004-02-01T12:12:12' + offset), dateTime);
+            patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+            assert.deepEqual(patio.stringToDateTime('04-02-01T12:12:12' + offset), dateTime);
+            patio.dateTimeFormat = patio.DEFAULT_DATETIME_FORMAT;
+            assert.deepEqual(patio.stringToDateTime('2004-02-01 12:12:12'), dateTime);
+            assert.throws(comb.hitch(patio, "stringToDateTime", "2004-12--2"));
+            assert.throws(comb.hitch(patio, "stringToDateTime", "a"));
+            assert.throws(comb.hitch(patio, "stringToDateTime", "2004-25-2"));
+            assert.throws(comb.hitch(patio, "stringToDateTime", "2004-25-2THHMM"));
         },
 
-        "should convert timestamps" : function(moose){
+        "should convert timestamps" : function(patio){
             var dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
                 offset = getTimeZoneOffset();
-            assert.deepEqual(moose.stringToTimeStamp('2004-02-01 12:12:12'), dateTime);
-            moose.timeStampFormat = moose.TIMESTAMP_TWO_YEAR_FORMAT;
-            assert.deepEqual(moose.stringToTimeStamp('04-02-01 12:12:12'  + offset), dateTime);
-            moose.timeStampFormat = moose.TIMESTAMP_FORMAT_TZ;
-            assert.deepEqual(moose.stringToTimeStamp('2004-02-01 12:12:12' + offset), dateTime);
-            moose.timeStampFormat = moose.ISO_8601;
-            assert.deepEqual(moose.stringToTimeStamp('2004-02-01T12:12:12' + offset), dateTime);
-            moose.timeStampFormat = moose.ISO_8601_TWO_YEAR;
-            assert.deepEqual(moose.stringToTimeStamp('04-02-01T12:12:12' + offset), dateTime);
-            moose.timeStampFormat = moose.DEFAULT_TIMESTAMP_FORMAT;
-            assert.deepEqual(moose.stringToTimeStamp('2004-02-01 12:12:12'), dateTime);
-            assert.throws(comb.hitch(moose, "stringToTimeStamp", "2004-12--2"));
-            assert.throws(comb.hitch(moose, "stringToTimeStamp", "a"));
-            assert.throws(comb.hitch(moose, "stringToTimeStamp", "2004-25-2"));
-            assert.throws(comb.hitch(moose, "stringToTimeStamp", "2004-25-2THHMM"));
+            assert.deepEqual(patio.stringToTimeStamp('2004-02-01 12:12:12'), dateTime);
+            patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+            assert.deepEqual(patio.stringToTimeStamp('04-02-01 12:12:12'  + offset), dateTime);
+            patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+            assert.deepEqual(patio.stringToTimeStamp('2004-02-01 12:12:12' + offset), dateTime);
+            patio.timeStampFormat = patio.ISO_8601;
+            assert.deepEqual(patio.stringToTimeStamp('2004-02-01T12:12:12' + offset), dateTime);
+            patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+            assert.deepEqual(patio.stringToTimeStamp('04-02-01T12:12:12' + offset), dateTime);
+            patio.timeStampFormat = patio.DEFAULT_TIMESTAMP_FORMAT;
+            assert.deepEqual(patio.stringToTimeStamp('2004-02-01 12:12:12'), dateTime);
+            assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-12--2"));
+            assert.throws(comb.hitch(patio, "stringToTimeStamp", "a"));
+            assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2"));
+            assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2THHMM"));
         }
     }
 });
