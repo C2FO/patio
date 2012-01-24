@@ -1,3 +1,4 @@
+"use strict";
 var patio = require("./index"),
     sql = patio.sql,
     comb = require("comb");
@@ -49,30 +50,80 @@ var createSchema = patio.connectAndExecute("mysql://test:testpass@localhost:3306
         this.foreignKey("flight_legId", "flightLeg", {key:"id"});
     });
 });
-createSchema.then(function (DB) {
-    var ds = DB.from('airport');
-    comb.executeInOrder(DB, ds, patio,
-        function (DB, ds, patio) {
-            DB.createTable("test", function () {
-                this.timestamp(sql.TimeStamp);
-                this.datetime(sql.DateTime);
-                this.time(sql.Time);
-                this.year(sql.Year);
-                this.decimal(sql.Decimal);
-                this.float(sql.Float);
-            });
-            DB.dropTable("test");
-            ds.multiInsert([
-                {airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},
-                {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},
-                {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}
-            ]);
-            ds.forEach(function (airport) {
-                console.log(airport.airportCode);
-            });
-            patio.disconnect();
-        }).addErrback(function (err) {
-            console.log(err);
-        });
+createSchema.then(
+    function (DB) {
+        var ds = DB.from('airport');
+        comb.executeInOrder(DB, ds, patio,
+            function (DB, ds, patio) {
+                DB.createTable("test", function () {
+                    this.timestamp(sql.TimeStamp);
+                    this.datetime(sql.DateTime);
+                    this.time(sql.Time);
+                    this.year(sql.Year);
+                    this.decimal(sql.Decimal);
+                    this.float(sql.Float);
+                });
+                DB.createTable("biologicalFather", function () {
+                    this.primaryKey("id");
+                    this.name(String);
+                });
+                DB.createTable("child", function () {
+                    this.primaryKey("id");
+                    this.name(String);
+                    this.foreignKey("biologicalFatherId", "biologicalFather", {key:"id"});
+                });
+                //define the BiologicalFather model
+                patio.addModel("biologicalFather", {
+                    static:{
+                        init:function () {
+                            this.oneToMany("children");
+                        }
+                    }
+                });
 
-});
+                //define Person  model
+                patio.addModel("child", {
+                    static:{
+                        init:function () {
+                            this.manyToOne("biologicalFather");
+                        }
+                    }
+                });
+
+                var BiologicalFather = patio.getModel("biologicalFather");
+                BiologicalFather.save([
+                    {name:"Fred", children:[
+                        {name:"Bobby"},
+                        {name:"Alice"},
+                        {name:"Susan"}
+                    ]},
+                    {name:"Ben"},
+                    {name:"Bob"},
+                    {name:"Scott", children:[
+                        {name:"Brad"}
+                    ]}
+                ]);
+                BiologicalFather.forEach(function (father) {
+                    father.children.then(function (children) {
+                        children.forEach(function(child){
+                            console.log(father.name + ":" + child.name);
+                        })
+                    })
+                });
+                ds.multiInsert([
+                    {airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},
+                    {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},
+                    {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}
+                ]);
+                ds.forEach(function (airport) {
+                    console.log(airport.airportCode);
+                });
+            }).then(function () {
+
+                DB.dropTable("test", "child", "biological_father").both(comb.hitch(patio, "disconnect"));
+
+            }, function (err) {
+                console.trace(err);
+            });
+
+    });
