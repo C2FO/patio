@@ -4,6 +4,11 @@ var patio = require("index"),
 var DB;
 exports.createTables = function (underscore) {
     underscore = underscore === true;
+    if (underscore) {
+        patio.camelize = underscore;
+    }else{
+        patio.resetIdentifierMethods();
+    }
     return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test",
         function (db) {
             db.forceDropTable(["works", "employee"]);
@@ -32,6 +37,7 @@ exports.createTables = function (underscore) {
 exports.dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
         db.dropTable(["works", "employee"]);
-        patio.disconnect()
+        patio.disconnect();
+        patio.resetIdentifierMethods();
     });
 };

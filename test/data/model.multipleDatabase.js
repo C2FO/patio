@@ -3,6 +3,7 @@ var patio = require("index"),
 var DB1, DB2;
 
 exports.loadModels = function() {
+    patio.resetIdentifierMethods();
     DB1 = patio.connect("mysql://test:testpass@localhost:3306/test");
     DB2 = patio.connect("mysql://test:testpass@localhost:3306/test2");
     return comb.executeInOrder(DB1, DB2, patio, function(db1, db2, patio) {

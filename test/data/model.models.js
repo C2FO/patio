@@ -4,6 +4,7 @@ var patio = require("index"),
 var DB;
 exports.loadModels = function() {
     var ret = new comb.Promise();
+    patio.resetIdentifierMethods();
     DB = patio.connect("mysql://test:testpass@localhost:3306/test");
     return comb.executeInOrder(DB, patio, function(db, patio) {
         db.forceCreateTable("employee", function() {

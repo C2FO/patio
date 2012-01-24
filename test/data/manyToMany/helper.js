@@ -4,8 +4,14 @@ var patio = require("index"),
 var DB;
 exports.createTables = function (underscore) {
     underscore = underscore === true;
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test", function (db) {
-            db.forceDropTable(["companiesEmployees", "companies_employees", "employee", "company"]);
+    if (underscore) {
+        patio.camelize = underscore;
+    }else{
+        patio.resetIdentifierMethods();
+    }
+    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test",
+        function (db) {
+            db.forceDropTable(["companiesEmployees", "employee", "company"]);
             db.createTable("company", function (table) {
                 this.primaryKey("id");
                 this[underscore ? "company_name" : "companyName"]("string", {size:20, allowNull:false});
@@ -32,7 +38,8 @@ exports.createTables = function (underscore) {
 
 exports.dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable(["companiesEmployees", "companies_employees", "employee", "company"]);
-        patio.disconnect()
+        db.forceDropTable(["companiesEmployees", "employee", "company"]);
+        patio.disconnect();
+        patio.resetIdentifierMethods();
     });
 };

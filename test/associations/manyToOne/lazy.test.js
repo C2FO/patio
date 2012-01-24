@@ -239,10 +239,6 @@ helper.loadModels().then(function() {
             "the company should have two employees " : function(ret) {
                 var emps = ret.employees;
                 assert.lengthOf(emps, 2);
-                var ids = [5,6];
-                emps.forEach(function(emp, i) {
-                    assert.equal(emp.id, ids[i]);
-                });
                 assert.equal(ret.empCount, 3);
             }
         }

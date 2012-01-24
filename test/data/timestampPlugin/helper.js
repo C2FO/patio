@@ -4,6 +4,7 @@ var patio = require("index"),
 var DB;
 exports.createTables = function (useAt) {
     useAt = comb.isBoolean(useAt) ? useAt : false;
+    patio.resetIdentifierMethods();
     return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test",
         function (db) {
             db.forceDropTable(["employee"]);
@@ -28,6 +29,8 @@ exports.createTables = function (useAt) {
 exports.dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
         db.forceDropTable("employee");
-        patio.disconnect()
+        patio.disconnect();
+        patio.identifierInputMethod = null;
+        patio.identifierOutputMethod = null;
     });
 };
