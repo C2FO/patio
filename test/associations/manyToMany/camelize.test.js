@@ -1,7 +1,7 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("../../data/manyToMany/camelize.models"),
-    patio = require("../../../lib"),
+    patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
@@ -296,5 +296,7 @@ helper.loadModels().then(function () {
         helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
     });
 
+}, function(err){
+    console.log(err);
 });
 

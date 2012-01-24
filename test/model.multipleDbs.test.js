@@ -1,11 +1,13 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("./data/model.multipleDatabase"),
-    patio = require("../lib"),
+    patio = require("index"),
     events = require("events"),
     sql = patio.SQL,
     comb = require("comb"),
     hitch = comb.hitch;
+
+var ret = module.exports = exports = new comb.Promise();
 
 var suite = vows.describe("Model object with multple databases");
 

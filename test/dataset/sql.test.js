@@ -55,4 +55,7 @@ suite.addBatch({
     }
 });
 
-suite.run({reporter:vows.reporter.spec}, comb.hitch(ret, "callback"));
+suite.run({reporter : vows.reporter.spec}, function(){
+    patio.disconnect();
+    ret.callback();
+});

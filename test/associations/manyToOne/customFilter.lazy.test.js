@@ -1,7 +1,7 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("../../data/manyToOne/customFilter.lazy.models"),
-    patio = require("../../../lib"),
+    patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 

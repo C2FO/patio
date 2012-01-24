@@ -15,7 +15,7 @@ var vows = require('vows'),
 patio.DATABASES.length = 0;
 patio.quoteIdentifiers = false;
 var ret = (module.exports = exports = new comb.Promise());
-var suite = vows.describe("Database");
+var suite = vows.describe("patio");
 
 var getTimeZoneOffset = function () {
     var offset = new Date().getTimezoneOffset();

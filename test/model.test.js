@@ -1,11 +1,12 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("./data/model.models"),
-    patio = require("../lib"),
+    patio = require("index"),
     sql = patio.SQL,
     comb = require("comb"),
     hitch = comb.hitch;
 
+var ret = module.exports = exports = new comb.Promise();
 var suite = vows.describe("model object");
 
 var gender = ["M", "F"];

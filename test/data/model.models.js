@@ -16,7 +16,7 @@ exports.loadModels = function() {
             this.street("string", {size : 50, allowNull : false});
             this.city("string", {size : 20, allowNull : false});
         });
-        return patio.addModel("employee", {
+        return patio.addModel(DB.from("employee"), {
             static : {
                 //class methods
                 findByGender : function(gender, callback, errback) {

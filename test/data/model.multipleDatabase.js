@@ -47,5 +47,7 @@ exports.loadModels = function() {
 };
 
 exports.dropModels = function() {
-    return patio.disconnect();
+    return patio.disconnect().addErrback(function(err){
+        console.log(err);
+    });
 };

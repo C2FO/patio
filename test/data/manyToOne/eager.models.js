@@ -5,15 +5,15 @@ var patio = require("index"),
 exports.loadModels = function() {
     var ret = new comb.Promise();
     return comb.executeInOrder(helper, patio, function(helper, patio) {
-        helper.createTables();
-        var Company = patio.addModel("company", {
+        var DB = helper.createTables();
+        var Company = patio.addModel(DB.from("company"), {
             static:{
                 init:function () {
                     this.oneToMany("employees", {fetchType : this.fetchType.EAGER});
                 }
             }
         });
-        var Employee = patio.addModel("employee", {
+        var Employee = patio.addModel(DB.from("employee"), {
             static:{
                 init:function () {
                     this.manyToOne("company", {fetchType : this.fetchType.EAGER});

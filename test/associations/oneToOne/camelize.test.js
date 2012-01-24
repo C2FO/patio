@@ -1,7 +1,7 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("../../data/oneToOne/camelize.models"),
-    patio = require("../../../lib"),
+    patio = require("index"),
     comb = require("comb"),
     Promise = comb.Promise,
     hitch = comb.hitch;

@@ -5,8 +5,8 @@ var patio = require("index"),
 exports.loadModels = function () {
     var ret = new comb.Promise();
     return comb.executeInOrder(helper, patio, function (helper, patio) {
-        helper.createTables(true);
-        var Works = patio.addModel("works", {
+        var DB = helper.createTables(true);
+        var Works = patio.addModel(DB.from("works"), {
             static:{
 
                 camelize:true,
@@ -16,7 +16,7 @@ exports.loadModels = function () {
                 }
             }
         });
-        var Employee = patio.addModel("employee", {
+        var Employee = patio.addModel(DB.from("employee"), {
             static:{
 
                 camelize:true,

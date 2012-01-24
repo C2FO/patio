@@ -1,10 +1,10 @@
 var vows = require('vows'),
     assert = require('assert'),
     helper = require("../../data/manyToOne/hashKey"),
-    patio = require("../../../lib"),
+    patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
-
+var ret = module.exports = exports = new comb.Promise();
 var gender = ["M", "F"];
 helper.loadModels().then(function() {
     var Company = patio.getModel("company"), Employee = patio.getModel("employee");

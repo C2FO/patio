@@ -3,7 +3,7 @@ var vows = require('vows'),
     patio = require("index"),
     Database = patio.Database,
     ConnectionPool = require("ConnectionPool"),
-    sql = patio.SQL,
+    sql = patio.sql,
     Identifier = sql.Identifier,
     SQLFunction = sql.SQLFunction,
     LiteralString = sql.LiteralString,
@@ -244,7 +244,7 @@ suite.addBatch({
             assert.equal(new y().identifierOutputMethod, "toUpperCase");
         },
 
-        "should just use a :uri option for mysql with the full connection string" : function() {
+        "should just use a uri option for mysql with the full connection string" : function() {
             var db = patio.connect('mysql://host/db_name')
             assert.isTrue(comb.isInstanceOf(db, Database));
             assert.equal(db.opts.uri, 'mysql://host/db_name');
@@ -1333,4 +1333,6 @@ suite.addBatch({
 });
 
 
-suite.run({reporter : vows.reporter.spec}, comb.hitch(ret, "callback"));
+suite.run({reporter : vows.reporter.spec}, function(){;    patio.disconnect();
+    ret.callback();
+});
