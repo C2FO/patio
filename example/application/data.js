@@ -1,4 +1,4 @@
-var patio = require("../lib"),
+var patio = require("../../lib"),
     DateTime = patio.SQL.DateTime;
 
 /***************************START MOCK DATA*********************/

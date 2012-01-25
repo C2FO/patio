@@ -50,7 +50,7 @@
             </li>
             <li>
                 <span class='nodeContainer'>
-                    <a href="./DDL.html.html" class="">
+                    <a href="./DDL.html" class="">
                         <span>Schema CRUD</span>
                     </a>
                 </span>
@@ -59,34 +59,36 @@
     </div>
 </div>
 <div class="contentContainer">
-    <div id="content">
-        <div class="section">
-            <h1 class="classTitle">DDL</h1>
+<div id="content">
+    <div class="section">
+        <h1 class="classTitle">DDL</h1>
 
-            <div class="methodDetail">
-                <h3><a href="./api/symbols/patio.plugins.AssociationPlugin.html#.oneToMany">patio.Model.oneToMany</a></h3>
+        <div class="methodDetail">
+            <h3><a href="./api/symbols/patio.plugins.AssociationPlugin.html#.oneToMany">patio.Model.oneToMany</a>
+            </h3>
 
-                <p>
-One of the most common forms of associations. One to Many is the inverse of Many to one.
-One to Many often describes a parent child relationship, where the One To Many {@link patio.Model}
-is the parent, and the many to one model is the child.
+            <p>
+                One of the most common forms of associations. One to Many is the inverse of Many to one.
+                One to Many often describes a parent child relationship, where the One To Many
+                <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>
+                is the parent, and the many to one model is the child.
 
-<p>For example consider a BiologicalFather and his children. The father can have many children,
-    but a child can have only one Biological Father.</p>
+            <p>For example consider a BiologicalFather and his children. The father can have many children,
+                but a child can have only one Biological Father.</p>
 
-<p>
-    Assuming you have the following table structure:
-</p>
+            <p>
+                Assuming you have the following table structure:
+            </p>
 <pre class='code'>
 biological_father       child
---------------          ---------------------------
-|id  | name  |          |id | bio_father_id  | name |
---------------          ---------------------------
-| 1  | Fred  |          | 1 |     1        | Bobby |
-| 2  | Ben   |  ------> | 2 |     1        | Alice |
-| 3  | Bob   |          | 3 |     1        | Susan |
-| 4  | Scott |          | 4 |     4        | Brad  |
---------------          ---------------------------
+--------------          ------------------------------------
+|id  | name  |          |id | biological_father_id  | name |
+--------------          ------------------------------------
+| 1  | Fred  |          | 1 | 1                     | Bobby|
+| 2  | Ben   |  ------> | 2 | 1                     | Alice|
+| 3  | Bob   |          | 3 | 1                     | Susan|
+| 4  | Scott |          | 4 | 4                     | Brad |
+--------------          ------------------------------------
 
 //set up camelization so that properties can be camelcase but will be inserted
 //snake case (i.e. 'biologicalFather' becomes 'biological_father').
@@ -98,16 +100,18 @@ DB.createTable("biologicalFather", function(){
 DB.createTable("child", function(){
     this.primaryKey("id");
     this.name(String);
-    this.foreignKey("bioFatherId", "biologicalFather", {key : "id"});
+    this.foreignKey("biologicalFatherId", "biologicalFather", {key : "id"});
 });
 </pre>
-<p>
-    The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a foreign
-    key to biologcal father. Fred hash 3 children(Bobby, Alice, and Susan) while Scott has 1 child Brad.
-</p>
-<p>
-    You could represent the OneToMany association as follows:
-</p>
+            <p>
+                The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a
+                foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child
+                Brad.
+            </p>
+
+            <p>
+                You could represent the OneToMany association as follows:
+            </p>
 <pre class="code">
 comb.executeInOrder(patio, function(patio){
      //define the BiologicalFather model
@@ -143,16 +147,17 @@ comb.executeInOrder(patio, function(patio){
      ]);
 });
 </pre>
-<p>
-    Above we created a BiologicalFather and Child model. The BiologicalFather has a static initializer(init)
-    that sets up the oneToMany association with the Child. The Child also has a static initializer that sets
-    up the ManyToOne association with the BiologicalFather. When saving {@link patio.Model}s that have
-    associations in {@link patio} you can nest the associations directly. The models set up above are
-    <b>"LAZY"</b> loaded meaning the associations are not loaded until the association is accessed.
-</p>
-<p>
-    You can query each model by:
-</p>
+            <p>
+                Above we created a BiologicalFather and Child model. The BiologicalFather has a static
+                initializer(init) that sets up the oneToMany association with the Child. The Child also has a static
+                initializer that sets up the ManyToOne association with the BiologicalFather. When saving 
+                <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>s that have associations in 
+                you can nest the associations directly. 
+            </p>
+
+            <p>
+                You can query each model by:
+            </p>
 <pre class="code">
 var BiologicalFather = patio.getModel("biologicalFather");
 Child.findById(1).then(function(child){
@@ -167,9 +172,15 @@ BioFather.findById(1).then(function(father){
     });
 });
 </pre>
-<p>
-    An "EAGER" model and query would look like this:
-</p>
+            <p>
+                Notice the  models set up above are <b>"LAZY"</b> loaded meaning the
+                associations are not loaded until the association is accessed. When working with lazy loaded 
+                associations a Promise will <b>always</b> be returned,even if the value has already been cached. The
+                promise will be resolved with the association value/s.
+            </p>
+            <p>
+                An "EAGER" model and query would look like this:
+            </p>
 <pre class="code">
 comb.executeInOrder(patio, function(patio){
      //define the biological father model
@@ -197,18 +208,38 @@ comb.executeInOrder(patio, function(patio){
          //father.children.length === 3
     });
 });
-
+<p>
+    When working with eager associations the eagerly loaded association will be fetched on the load of a model.
+</p>
 </pre>
-@param {String} name the alias of the association. The key you provide here is how the association
-will be looked up on instances of this model.
-@param {Object} [options] additional options to specify the behavior of the association.
-@param {String} [options.model] the table name of the model that this Model is associated with. This property
-can usually be determined by the name of the association.
-@param {patio.plugins.AssociationPlugin.fetchType.EAGER|patio.plugins.AssociationPlugin.fetchType.EAGER}
-[options.fetchType=AssociationPlugin.fetchType.LAZY] how fetch the association, if specified to lazy
-then the association is lazy loaded. Otherwise the association is loaded when the model is loaded.
-@param {Object|String} [options.key] The key option must be used if the default column that {@link patio}
-would use is not the correct column. For example:
+            <p>Options
+            <ul>
+                <li><b>model</b> the table name of the model that this Model is associated with. This property
+                    can usually be determined by the name of the association.
+                    <pre class="code">
+ //Looks for a model with the table child
+ BiologicalFather.oneToMany("children");
+                    </pre>
+                    This would not work:
+                    <pre class="code">
+ //model with the name myChild
+ BiologicalFather.oneToMany("myChildren");
+                    </pre>
+                    This will work:
+                    <pre class="code">
+ //model with the name myChild
+ BiologicalFather.oneToMany("myChildren", {model : "child"});
+                    </pre>
+                </li>
+
+                <li><b>fetchType</b> By default all associations are set to be <b>LAZY</b> loaded and a Promise will
+                    always be returned when accessing the association. If you set the fetchType to <b>EAGER</b> then
+                    the associations will be loaded when a model is loaded.
+                </li>
+                <li><b>key</b> This is the name of the foreign key column that references this models table on the
+                    inverse association(i.e. biological_father_id) The key option must be used if the default column
+                    that <a href="api/symbols/patio.html" target="_blank">patio</a> would use is not the correct
+                    column. For example:
 <pre class="code">
  patio.addModel("biologicalFather", {
       static : {
@@ -228,16 +259,117 @@ patio.addModel("child", {
     }
 });
  </pre>
-If you schema looked like this
-@param {String|Object} [options.orderBy] column or columns to order the associated model by.
-@param {Function} filter Custom filter to define a custom association.
-The filter is called in the scope of model that the association is added to.
-Say we have a model called BioFather that is a one to many to a model called Child.
-<pre class="code">
-BioFather.oneToMany("children", {
-                  model : Child.tableName,
-                  fetchType : BioFather.fetchType.EAGER,
-                  filter : function(){
-                      return  Child.filter({bioFatherId : this.id});
-                  }
-               });
+                    If you schema looked like this
+                    <pre class="code">
+|biological_father   |child
+|---id               |---id
+|---name             |---bio_father_id
+                     |---name
+
+                    </pre>
+                    Then you would have to specify a key of "bio_father_id"
+                    <pre class="code">
+ patio.addModel("biologicalFather", {
+      static : {
+          init : function(){
+              //assumes the key is biologicalFatherId,
+              this.oneToMany("children", {key : "bioFatherId"});
+          }
+      }
+});
+
+patio.addModel("child", {
+    static : {
+        init : function(){
+           //assumes the key is biologicalFatherId
+           this.manyToOne("biologicalFather",{key : "bioFatherId"});
+        }
+    }
+});
+                    </pre>
+                </li>
+                <li><b>orderBy|order</b> column or columns to order the associated model by.</li>
+            </ul>
+            </p>
+            <p>
+                You can also specify a custom filter by passing in a function as the last argument.
+            <pre class="code">
+BioFather.oneToMany("childrenWithBNames", {model : "children", fetchType : BioFather.fetchType.EAGER}, function(ds){
+        return  ds.filter({name :/B/i});
+}});
+BioFather.forEach(function(father){
+   console.log("B named children for " + father.name + " are " + father.childrenWithBNames.map(function (c) {
+        return c.name
+   }).join(","));
+   //B named children for Ben are
+   //B named children for Bob are
+   //B named children for Scott are Brad
+   //B named children for Fred are Bobby
+});
+                   </pre>
+            </p>
+        </div>
+        <div class="methodDetail">
+            <h3><a href="./api/symbols/patio.plugins.AssociationPlugin.html#.oneToOne">patio.Model.oneToOne</a>
+            <p>Simplest form of association. This describes where there is a one to one relationship between
+                models.</p>
+
+            When createing a reciprocal one to one relationship between models one of the models should be a many to one association.
+            The table that contains the foreign key should contain have the manyToOne relationship.
+
+            <p>For example consider the following schema for states and their capitals states and their capitals.
+
+                @example
+                Person                  SSN NUMBER
+                -------------------------         ---------------
+                |id         | ssn       |         |id          |
+                -------------------------         ---------------
+                |00000001   | 111111111 |         | 111111111  |
+                | ......... | ......... | ------> | .........  |
+                | ......... | ......... |         | .........  |
+                | nnnnnnnnn | nnnnnnnn  |         | nnnnnnnnn  |
+                -------------------------         ---------------
+
+                @example
+
+                //define Social security model
+                var SocialSecurityNumber = patio.addModel("ssn");
+
+                //define Person  model
+                var Person = patio.addModel("person");
+
+                //Create oneToOne relation ship from ssn to person with a fetchtype of eager.
+                SocialSecurityNumber.oneToOne("person", {
+                model : Person.tableName,
+                fetchType : SocialSecurityNumber.fetchType.EAGER,
+                key : {id : "ssn"}
+                });
+
+                //Create oneToMany relation ship from person to ssn,
+                //It is many to one because is contains the ssn foreign key.
+
+                Person.manyToOne("ssn", {
+                model : SocialSecurityNumber.tableName,
+                key : {ssn : "id"}
+                });
+
+
+
+
+                Person.findById(1).then(function(person){
+                person.ssn.then(function(ssn){
+                ssn.id => 111111111
+                });
+                });
+
+                SocialSecurityNumber.findById(111111111).then(function(ssn){
+                ssn.person.id => 1
+                });
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+
