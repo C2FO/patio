@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>patio.sql.BooleanConstant</title>
+		<title>patio.associations.Association</title>
 
 <!--[if gte IE 9]>
             <style type="text/css">
@@ -46,30 +46,31 @@
 
                         			   <li>
                         			        <span class="nodeContainer">
-                        			                <a href="../symbols/patio.sql.BooleanConstant.html#constructor" class="" >patio.sql.BooleanConstant</a>
+                        			                <a href="../symbols/patio.associations.Association.html#constructor" class="" >patio.associations.Association</a>
                         			        </span>
                         			   </li>
                                      
                         <!-- ============================== properties toc ===================== -->
                         			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.associations.Association.html#model" class="" >model</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
 
                         <!-- ============================== methods toc ======================== -->
                                     
-                                        
-                                        	
-                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
-                                                <ul>
-                                                    	
-                                                    	       <li class="">
-                                                                   		<span class="nodeContainer">
-                                                                   		    <a href="../symbols/patio.sql.BooleanConstant.html#toString" class="" >toString</a>
-                                                                   		</span>
-                                                               </li>
-                                                         
-                                                </ul>
-                                             </li>
-                                        	
-                                     
 
                         <!-- ============================== events toc ======================== -->
                         			
@@ -86,7 +87,7 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class patio.sql.BooleanConstant
+				Class patio.associations.Association
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -94,10 +95,14 @@
 				
 				
 			
-				Represents boolean constants such as NULL, NOTNULL, TRUE, and FALSE.
+				Base class for all associations.
+
+</br>
+<b>NOT to be instantiated directly</b>
+Its just documented for reference.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_associations__Association.js.html" class="">_Association.js</a>.
 				
 				
                 
@@ -115,7 +120,7 @@
 			<div class="methodDetail"><a name="constructor"> </a>
 				
 				<div class="fixedFont">
-						<b>patio.sql.BooleanConstant</b>()
+						<b>patio.associations.Association</b>(options)
 				</div>
 				
 				<div class="description">
@@ -126,6 +131,50 @@
 				
 				
 				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>options</b>
+								
+							</dt>
+								<dd></dd>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>options.model</b>
+								
+							</dt>
+								<dd>a string to look up the model that we are associated with</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Function}</span>  <b>options.filter</b>
+								
+							</dt>
+								<dd>a callback to find association if a filter is defined then
+                                   the association is read only</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>options.key</b>
+								
+							</dt>
+								<dd>object with left key and right key</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String|Object}</span>  <b>options.orderBy<String|Object></b>
+								
+							</dt>
+								<dd>- how to order our association @see Dataset.order</dd>
+						
+							<dt>
+								<span class="light fixedFont">{fetch.EAGER|fetch.LAZY}</span>  <b>options.fetchType</b>
+								
+							</dt>
+								<dd>the fetch type of the model if fetch.Eager is supplied then
+                                   the associations are automatically filled, if fetch.Lazy is supplied
+                                   then a promise is returned and is called back with the loaded models</dd>
+						
+						</dl>
 					
 					
 					
@@ -141,67 +190,39 @@
 
 <!-- ============================== field details ========================== -->		
 			
-
-<!-- ============================== method details ========================= -->		
-			
 			<div class="section">
 				<div class="sectionTitle">
-					Method Detail
+					Field Detail
 				</div>
 				
-				<a name="toString"> </a>
+				<a name="model"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">
 					
-					
-					<b>toString</b>(ds)
+					<span class="light">{Model}</span>
+					<b>model</b>
 					
 					</div>
 					<div class="description">
-						Converts the <a href="../symbols/patio.sql.BooleanConstant.html" class="" >patio.sql.BooleanConstant</a> to a string.
+						the model associatied with this association.
 						
 						
 					</div>
 					
 					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a>}</span> <b>ds</b>
-									<i>Optional</i>
-								</dt>
-								<dd>dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a> implementation is used.</dd>
-							
-							</dl>
+
 						
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>String the SQL version of the <a href="../symbols/patio.sql.BooleanConstant.html" class="" >patio.sql.BooleanConstant</a>.</dd>
-							
-							</dl>
-						
-						
-						
-						
-                        	<div class="sourceCode">
-                                <pre class="code">
-ds = ds || new Dataset();
-return ds.booleanConstantSql(this.__constant);
-        </pre>
-                            </div>
-                        
-                    </div>
+
+                       
+					</div>
 				
 				</div>
+			
+
+<!-- ============================== method details ========================= -->		
 			
 			
 <!-- ============================== event details ========================= -->		
@@ -210,7 +231,7 @@ return ds.booleanConstantSql(this.__constant);
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:21 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:19 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

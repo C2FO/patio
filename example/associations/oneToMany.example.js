@@ -6,7 +6,7 @@ var patio = require("../../index"),
 
 patio.camelize = true;
 
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+//comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
 patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
     function(db, patio){
         db.forceDropTable("child", "biologicalFather");
