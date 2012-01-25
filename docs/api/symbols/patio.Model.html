@@ -1,0 +1,1520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>patio.Model</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/patio-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.html" class="" >patio</a></span><ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Decimal.html" class="" >Decimal</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Float.html" class="" >Float</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.AlterTableGenerator.html" class="" >AlterTableGenerator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Database.html" class="" >Database</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.SchemaGenerator.html" class="" >SchemaGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href='#'>plugins</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.plugins.CachePlugin.html" class="" >CachePlugin</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.plugins.QueryPlugin.html" class="" >QueryPlugin</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.plugins.TimeStampPlugin.html" class="" >TimeStampPlugin</a></span></li></ul></li><li class='parent'><span class='parentContainer'><a href='#'>associations</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.associations.OneToMany.html" class="" >OneToMany</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations.ManyToMany.html" class="" >ManyToMany</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations._Association.html" class="" >_Association</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations.ManyToOne.html" class="" >ManyToOne</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Model.html" class="" >Model</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Dataset.html" class="" >Dataset</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/patio.Model.html#constructor" class="" >patio.Model</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#associations" class="" >associations</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#camelize" class="" >camelize</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#columns" class="" >columns</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.columns" class="" >columns</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#dataset" class="" >dataset</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.dataset" class="" >dataset</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.db" class="" >db</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#hasAssociations" class="" >hasAssociations</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#isChanged" class="" >isChanged</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#isNew" class="" >isNew</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.patio" class="" >patio</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#patio" class="" >patio</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.primaryKey" class="" >primaryKey</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#primaryKeyValue" class="" >primaryKeyValue</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#schema" class="" >schema</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.schema" class="" >schema</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.tableName" class="" >tableName</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#tableName" class="" >tableName</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#type" class="" >type</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#underscore" class="" >underscore</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.associate" class="" >associate</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.manyToMany" class="" >manyToMany</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.manyToOne" class="" >manyToOne</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.oneToMany" class="" >oneToMany</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.oneToOne" class="" >oneToOne</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#toJson" class="" >toJson</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#toObject" class="" >toObject</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class patio.Model
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					comb.plugins.Middleware, patio.plugins.AssociationPlugin, <a href="../symbols/patio.plugins.QueryPlugin.html" class="" >patio.plugins.QueryPlugin</a>.<br />
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_model.js.html" class="">model.js</a>.
+				
+				
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				<dt>Methods borrowed from class <a href="../symbols/patio.plugins.QueryPlugin.html" class="" >patio.plugins.QueryPlugin</a>: </dt><dd><a href="../symbols/patio.plugins.QueryPlugin.html#reload" class="" >reload</a>, <a href="../symbols/patio.plugins.QueryPlugin.html#remove" class="" >remove</a>, <a href="../symbols/patio.plugins.QueryPlugin.html#save" class="" >save</a>, <a href="../symbols/patio.plugins.QueryPlugin.html#update" class="" >update</a></dd>
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>patio.Model</b>(columnValues, fromDb)
+				</div>
+				
+				<div class="description">
+					Base class for all models.
+<p>This is used through patio.addModel, <b>NOT directly.</b></p>
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Object}</span>  <b>columnValues</b>
+								
+							</dt>
+								<dd>values of each column to be used by this Model.</dd>
+						
+							<dt>
+								 <b>fromDb</b>
+								
+							</dt>
+								<dd></dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+					
+                        <div class="sourceCode">
+                            <pre class="code">
+this._super(arguments);
+fromDb = comb.isBoolean(fromDb) ? fromDb : false;
+this.__changed = ;
+this.__values = ;
+if (fromDb) 
+    this._hook("pre", "load");
+    this.__isNew = false;
+    this.__set(options, true);
+ else 
+    this.__isNew = true;
+    this.__set(options);
+
+        </pre>
+                        </div>
+                    
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+				<a name="associations"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>associations</b>
+					
+					</div>
+					<div class="description">
+						List of associations on the <a href="../symbols/patio.Model.html" class="" >patio.Model</a>
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this._static.associations;
+            </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="camelize"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>camelize</b>
+					
+					</div>
+					<div class="description">
+						Set to true if this models column names should be use the "underscore" method when sending
+keys to the database and to "camelize" method on columns returned from the database. If set to false see
+<a href="../symbols/patio.Model.html#underscore" class="" >patio.Model#underscore</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return  this.__camelize;
+
+            </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="columns"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String[]}</span>
+					<b>columns</b>
+					
+					</div>
+					<div class="description">
+						a list of columns this models table contains.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name=".columns"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String[]}</span>
+					<span class="light">patio.Model.</span><b>columns</b>
+					
+					</div>
+					<div class="description">
+						A list of columns this models table contains.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this.__columns;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="dataset"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a>}</span>
+					<b>dataset</b>
+					
+					</div>
+					<div class="description">
+						a dataset to use to retrieve models from the database. The dataset
+                         has the <a href="../symbols/patio.Dataset.html#rowCb" class="" >patio.Dataset#rowCb</a> set to create instances of this model.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name=".dataset"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a>}</span>
+					<span class="light">patio.Model.</span><b>dataset</b>
+					
+					</div>
+					<div class="description">
+						A dataset to use to retrieve instances of this {@link patio.Model{ from the database. The dataset
+has the <a href="../symbols/patio.Dataset.html#rowCb" class="" >patio.Dataset#rowCb</a> set to create instances of this model.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+var ds = db.from(tableName);
+ds.rowCb = hitch(this, function (vals) 
+    var ret = new Promise();
+    var m = new this(vals, true);
+    
+    m._hook("post", "load").then(hitch(ret, "callback", m), hitch(ret, "errback"));
+    return ret;
+);
+this.identifierInputMethod && (ds.identifierInputMethod = this.identifierInputMethod);
+this.identifierOutputMethod && (ds.identifierOutputMethod = this.identifierOutputMethod);
+return ds;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".db"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{<a href="../symbols/patio.Database.html" class="" >patio.Database</a>}</span>
+					<span class="light">patio.Model.</span><b>db</b>
+					
+					</div>
+					<div class="description">
+						The database all instances of this <a href="../symbols/patio.Model.html" class="" >patio.Model</a> use.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return db;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="hasAssociations"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>hasAssociations</b>
+					
+					</div>
+					<div class="description">
+						Returns true if this <a href="../symbols/patio.Model.html" class="" >patio.Model</a> has associations.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this._static.hasAssociations;
+            </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="isChanged"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isChanged</b>
+					
+					</div>
+					<div class="description">
+						true if the model has been changed and not saved.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name="isNew"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isNew</b>
+					
+					</div>
+					<div class="description">
+						true if this model is new and does not exist in the database.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name=".patio"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>patio</b>
+					
+					</div>
+					<div class="description">
+						A reference to the global <a href="../symbols/patio.html" class="" >patio</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return patio;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="patio"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/patio.html" class="" >patio</a>}</span>
+					<b>patio</b>
+					
+					</div>
+					<div class="description">
+						patio  - read only
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">null</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".primaryKey"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>primaryKey</b>
+					
+					</div>
+					<div class="description">
+						The primaryKey column/s of this <a href="../symbols/patio.Model.html" class="" >patio.Model</a>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this.__primaryKey.slice(0);
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="primaryKeyValue"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{*}</span>
+					<b>primaryKeyValue</b>
+					
+					</div>
+					<div class="description">
+						the value of this models primaryKey
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name="schema"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>schema</b>
+					
+					</div>
+					<div class="description">
+						the schema of this models table.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name=".schema"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">patio.Model.</span><b>schema</b>
+					
+					</div>
+					<div class="description">
+						The schema of this <a href="../symbols/patio.Model.html" class="" >patio.Model</a>'s table. See <a href="../symbols/patio.Database.html#schema" class="" >patio.Database#schema</a> for details
+on the schema object.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this.__schema;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".tableName"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{String}</span>
+					<span class="light">patio.Model.</span><b>tableName</b>
+					
+					</div>
+					<div class="description">
+						The name of the table all instances of the this <a href="../symbols/patio.Model.html" class="" >patio.Model</a> use.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return tableName;
+                </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="tableName"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>tableName</b>
+					
+					</div>
+					<div class="description">
+						the table name of this models table.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name="type"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>type</b>
+					
+					</div>
+					<div class="description">
+						The database type such as mysql
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">null</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="underscore"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>underscore</b>
+					
+					</div>
+					<div class="description">
+						Set to true if this models column names should be use the "camelize" method when sending
+keys to the database and to "underscore" method on columns returned from the database. If set to false see
+<a href="../symbols/patio.Model.html#underscore" class="" >patio.Model#underscore</a>.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">
+return this.__underscore;
+
+            </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				</div>
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name=".associate"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>associate</b>(type, name, options, filter)
+					
+					</div>
+					<div class="description">
+						Associates a related model with the current model. The following types are
+supported:
+
+<ul>
+    <li><b>oneToMany</b> - Foreign key in associated model's table points to this
+        model's primary key.   Each current model object can be associated with
+        more than one associated model objects.  Each associated model object
+        can be associated with only one current model object.</li>
+    <li><b>manyToOne</b> - Foreign key in current model's table points to
+        associated model's primary key.  Each associated model object can
+        be associated with more than one current model objects.  Each current
+        model object can be associated with only one associated model object.</li>
+    <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
+        only one object is associated to the current object through the
+        association.  The methods created are similar to many_to_one, except
+        that the one_to_one setter method saves the passed object./li>
+    <li><b>manyToMany</b> - A join table is used that has a foreign key that points
+        to this model's primary key and a foreign key that points to the
+        associated model's primary key.  Each current model object can be
+        associated with many associated model objects, and each associated
+        model object can be associated with many current model objects./li>
+</ul>
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{patio.Model.ONE_TO_ONE|patio.Model.ONE_TO_MANY|patio.Model.MANY_TO_ONE|patio.Model.MANY_TO_MANY}</span> <b>type</b>
+									
+								</dt>
+								<dd>the
+         type of association that is to be created.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>name</b>
+									
+								</dt>
+								<dd>the name of the association, the name specified will be exposed as a property on instances
+of the model.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>options</b>
+									<i>Optional</i>
+								</dt>
+								<dd>additional options.
+The following options can be supplied:
+<ul>
+  <li><b>model</b> - The associated class or its name. If not  given, uses the association's name,
+   which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE</li>
+  <li><b>query</b> - The conditions to use to filter the association, can be any argument passed
+  to <a href="../symbols/patio.Dataset.html#filter" class="" >patio.Dataset#filter</a>.</li>
+  <li><b>dataset</b> - A function that is called in the scope of the model and called with the model as the
+    first argument. The function must return a dataset that can be used as the base for all dataset
+    operations.<b>NOTE:</b>The dataset returned will have all options applied to it.</li>
+  <li><b>distinct</b> Use the DISTINCT clause when selecting associated objects.
+  See <a href="../symbols/patio.Dataset.html#distinct" class="" >patio.Dataset#distinct</a>.</li>
+  <li><b>limit</b> : Limit the number of records to the provided value.  Use
+    an array with two elements for the value to specify a limit (first element) and an
+    offset (second element). See <a href="../symbols/patio.Dataset.html#limit" class="" >patio.Dataset#limit</a>.</li>
+  <li><b>order</b> : the column/s order the association dataset by.  Can be a
+    one or more columns.
+    See <a href="../symbols/patio.Dataset.html#order" class="" >patio.Dataset#order</a>.</li>
+  <li><b>readOnly</b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
+    or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).</li>
+  <li><b>select</b> : the columns to select.  Defaults to the associated class's
+    tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
+    join table.  If you want to include the join table attributes, you can
+    use this option, but beware that the join table attributes can clash with
+    attributes from the model table, so you should alias any attributes that have
+    the same name in both the join table and the associated table.</li>
+  </ul>
+  ManyToOne additional options:
+  <ul>
+     <li><b>key</b> : foreignKey in current model's table that references
+         associated model's primary key.  Defaults to : "{tableName}Id".  Can use an
+         array of strings for a composite key association.</li>
+      <li><b>primaryKey</b> : column in the associated table that the <b>key</b> option references.
+             Defaults to the primary key of the associated table. Can use an
+             array of strings for a composite key association.</li>
+  </ul>
+OneToMany and OneToOne additional options:
+<ul>
+     <li><b>key</b> : foreign key in associated model's table that references
+            current model's primary key, as a symbol.  Defaults to
+            "{thisTableName}Id".  Can use an array of columns for a composite key association.</li>
+     <li><b>primaryKey</b> : column in the current table that <b>key</b> option references.
+            Defaults to primary key of the current table. Can use an array of strings for a
+            composite key association.</li>
+</ul>
+
+ManyToMany additional options:
+  <ul>
+     <li><b>joinTable</b> : name of table that includes the foreign keys to both
+         the current model and the associated model.  Defaults to the name
+         of current model and name of associated model, pluralized,
+         sorted, and joined with '' and camelized.
+     <li><b>leftKey</b> : foreign key in join table that points to current model's
+         primary key. Defaults to :"{tableName}Id".
+         Can use an array of symbols for a composite key association.
+     <li><b>leftPrimaryKey</b> - column in current table that <b>leftKey</b> points to.
+         Defaults to primary key of current table.  Can use an array of strings for a
+         composite key association.
+     <li><b>rightKey</b> : foreign key in join table that points to associated
+         model's primary key.  Defaults to Defaults to :"{associatedTableName}Id".
+         Can use an array of strings for a composite key association.
+     <li><b>rightPrimaryKey</b> : column in associated table that <b>rightKey</b> points to.
+         Defaults to primary key of the associated table.  Can use an
+         array of strings for a composite key association.
+ </ul></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>filter</b>
+									<i>Optional</i>
+								</dt>
+								<dd>optional function to filter the dataset after all other options have been applied.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+if (comb.isFunction(options)) 
+    filter = options;
+    options = ;
+
+this.__associations = this.__associations || manyToMany:, oneToMany:, manyToOne:, oneToOne:;
+var assoc = new associations[type](comb.merge(model:name, options), this.patio, filter);
+assoc.inject(this, name);
+this.__associations[type][name] = assoc;
+return this;
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".manyToMany"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>manyToMany</b>(name, options, filter)
+					
+					</div>
+					<div class="description">
+						Creates a MANY_TO_MANY relationship between models.
+See patio.plugins.AssociationPlugin.associate for options.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+ patio.addModel("class", {
+     static:{
+         init:function(){
+             this.manyToMany("students", {fetchType:this.fetchType.EAGER, order : [sql.firstName.desc(), sql.lastName.desc()]});
+         }
+     }
+});
+patio.addModel("student", {
+     instance:{
+         enroll:function(clas){
+             if (comb.isArray(clas)) {
+                 return this.addClasses(clas);
+             } else {
+                 return this.addClass(clas);
+             }
+         }
+     },
+     static:{
+         init:function(){
+             this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order : sql.name.desc()});
+         }
+     }
+         });</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>filter</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.associate(this.MANY_TO_MANY, name, options, filter);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".manyToOne"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>manyToOne</b>(name, options, filter)
+					
+					</div>
+					<div class="description">
+						Creates a MANY_TO_ONE association.
+See patio.plugins.AssociationPlugin.oneToMany.
+See patio.plugins.AssociationPlugin.associate
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>filter</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.associate(this.MANY_TO_ONE, name, options, filter);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".oneToMany"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>oneToMany</b>(name, options, filter)
+					
+					</div>
+					<div class="description">
+						Creates a ONE_TO_MANY association.
+See patio.plugins.AssociationPlugin.associate for options.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+
+ //define the BiologicalFather model
+ patio.addModel("biologicalFather", {
+     static:{
+         init:function () {
+             this.oneToMany("children");
+         }
+     }
+});
+
+
+//define Child  model
+patio.addModel("child", {
+     static:{
+         init:function () {
+             this.manyToOne("biologicalFather");
+         }
+    }
+});</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>filter</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.associate(this.ONE_TO_MANY, name, options, filter);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".oneToOne"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>oneToOne</b>(name, options, filter)
+					
+					</div>
+					<div class="description">
+						Creates a ONE_TO_ONE relationship between models.
+See patio.plugins.AssociationPlugin.associate for options.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_association.js.html" class="">association.js</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+patio.addModel("state", {
+     static:{
+         init:function () {
+             this.oneToOne("capital");
+         }
+    }
+});
+
+patio.addModel("capital", {
+     static:{
+       init:function () {
+         this.manyToOne("state");
+       }
+     }
+});</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>name</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>filter</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this.associate(this.ONE_TO_ONE, name, options, filter);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="toJson"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{JSON}</span>
+					<b>toJson</b>()
+					
+					</div>
+					<div class="description">
+						Convert this model to JSON, containing column, value pairs.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{JSON}</span> the JSON version of this model.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return JSON.stringify(this.toObject(), null, 4);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="toObject"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>toObject</b>()
+					
+					</div>
+					<div class="description">
+						Convert this model to an object, containing column, value pairs.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> the object version of this model.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return this._toObject(false);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 02:17:02 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>
