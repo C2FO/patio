@@ -70,15 +70,15 @@
                                                                 		 </span>
                                                                </li>
                                                       
-        	                             	        	       <li class="">
-                                                                		<span class="nodeContainer">
-                                                                		    <a href="../symbols/patio.Model.html#columns" class="" >columns</a>
-                                                                		 </span>
-                                                               </li>
-                                                      
         	                             	        	       <li class=" italic">
                                                                 		<span class="nodeContainer">
                                                                 		    <a href="../symbols/patio.Model.html#.columns" class="" >columns</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#columns" class="" >columns</a>
                                                                 		 </span>
                                                                </li>
                                                       
@@ -103,6 +103,18 @@
         	                             	        	       <li class="">
                                                                 		<span class="nodeContainer">
                                                                 		    <a href="../symbols/patio.Model.html#hasAssociations" class="" >hasAssociations</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.identifierInputMethod" class="" >identifierInputMethod</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.identifierOutputMethod" class="" >identifierOutputMethod</a>
                                                                 		 </span>
                                                                </li>
                                                       
@@ -142,6 +154,12 @@
                                                                 		 </span>
                                                                </li>
                                                       
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.raiseOnTypecastError" class="" >raiseOnTypecastError</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
         	                             	        	       <li class="">
                                                                 		<span class="nodeContainer">
                                                                 		    <a href="../symbols/patio.Model.html#schema" class="" >schema</a>
@@ -172,9 +190,33 @@
                                                                 		 </span>
                                                                </li>
                                                       
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.typecastEmptyStringToNull" class="" >typecastEmptyStringToNull</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.typecastOnAssignment" class="" >typecastOnAssignment</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.typecastOnLoad" class="" >typecastOnLoad</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
         	                             	        	       <li class="">
                                                                 		<span class="nodeContainer">
                                                                 		    <a href="../symbols/patio.Model.html#underscore" class="" >underscore</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.useTransactions" class="" >useTransactions</a>
                                                                 		 </span>
                                                                </li>
                                                       
@@ -389,7 +431,7 @@ if (fromDb)
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this._static.associations;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -427,30 +469,6 @@ return  this.__camelize;
                                                
 					</div>
 				
-				<a name="columns"> </a>
-				<div class="methodDetail">
-					<div class="fixedFont">
-					
-					<span class="light">{String[]}</span>
-					<b>columns</b>
-					
-					</div>
-					<div class="description">
-						a list of columns this models table contains.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-                       
-					</div>
-				
 				<a name=".columns"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">&lt;static&gt; 
@@ -479,6 +497,30 @@ return this.__columns;
                 </pre>
                                                    </div>
                                                
+					</div>
+				
+				<a name="columns"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String[]}</span>
+					<b>columns</b>
+					
+					</div>
+					<div class="description">
+						a list of columns this models table contains.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
 					</div>
 				
 				<a name="dataset"> </a>
@@ -532,7 +574,7 @@ has the <a href="../symbols/patio.Dataset.html#rowCb" class="" >patio.Dataset#ro
                                                	<div class="sourceCode">
                                                        <pre class="code">
 var ds = db.from(tableName);
-ds.rowCb = hitch(this, function (vals) 
+ds.rowCb = hitch(this, function(vals)
     var ret = new Promise();
     var m = new this(vals, true);
     
@@ -605,7 +647,63 @@ return db;
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this._static.hasAssociations;
-            </pre>
+      </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".identifierInputMethod"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>identifierInputMethod</b>
+					
+					</div>
+					<div class="description">
+						See <a href="../symbols/patio.Dataset.html#identifierInputMethod" class="" >patio.Dataset#identifierInputMethod</a>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">null</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".identifierOutputMethod"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>identifierOutputMethod</b>
+					
+					</div>
+					<div class="description">
+						See <a href="../symbols/patio.Dataset.html#identifierOutputMethod" class="" >patio.Dataset#identifierOutputMethod</a>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">null</pre>
                                                    </div>
                                                
 					</div>
@@ -770,6 +868,41 @@ return this.__primaryKey.slice(0);
                        
 					</div>
 				
+				<a name=".raiseOnTypecastError"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>raiseOnTypecastError</b>
+					
+					</div>
+					<div class="description">
+						Set to false to prevent errors thrown while type casting a value from being propogated.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
+                                                   </div>
+                                               
+					</div>
+				
 				<a name="schema"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">
@@ -907,6 +1040,113 @@ return tableName;
                                                
 					</div>
 				
+				<a name=".typecastEmptyStringToNull"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>typecastEmptyStringToNull</b>
+					
+					</div>
+					<div class="description">
+						Set to false to prevent empty strings from being type casted to null
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".typecastOnAssignment"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>typecastOnAssignment</b>
+					
+					</div>
+					<div class="description">
+						Set to false to prevent properties from being type casted when manually set.
+See <a href="../symbols/patio.Database.html#typecastValue" class="" >patio.Database#typecastValue</a>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".typecastOnLoad"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>typecastOnLoad</b>
+					
+					</div>
+					<div class="description">
+						Set to false to prevent properties from being type casted when loaded from the database.
+See <a href="../symbols/patio.Database.html#typecastValue" class="" >patio.Database#typecastValue</a>
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
+                                                   </div>
+                                               
+					</div>
+				
 				<a name="underscore"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">
@@ -936,6 +1176,35 @@ keys to the database and to "underscore" method on columns returned from the dat
 return this.__underscore;
 
             </pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name=".useTransactions"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>useTransactions</b>
+					
+					</div>
+					<div class="description">
+						Set to false to precent models from using transactions when saving, deleting, or updating.
+This applies to the model associations also.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">true</pre>
                                                    </div>
                                                
 					</div>
@@ -979,7 +1248,7 @@ supported:
         to this model's primary key and a foreign key that points to the
         associated model's primary key.  Each current model object can be
         associated with many associated model objects, and each associated
-        model object can be associated with many current model objects./li>
+        model object can be associated with many current model objects.</li>
 </ul>
 						
 							<br />
@@ -1096,15 +1365,15 @@ ManyToMany additional options:
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isFunction(options)) 
-    filter = options;
-    options = ;
+  filter = options;
+  options = ;
 
 this.__associations = this.__associations || manyToMany:, oneToMany:, manyToOne:, oneToOne:;
 var assoc = new associations[type](comb.merge(model:name, options), this.patio, filter);
 assoc.inject(this, name);
 this.__associations[type][name] = assoc;
 return this;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1154,7 +1423,7 @@ patio.addModel("student", {
              this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order : sql.name.desc()});
          }
      }
-         });</pre>
+     });</pre>
                        				</div>
 					
 					
@@ -1193,7 +1462,7 @@ patio.addModel("student", {
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.associate(this.MANY_TO_MANY, name, options, filter);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1253,7 +1522,7 @@ See patio.plugins.AssociationPlugin.associate
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.associate(this.MANY_TO_ONE, name, options, filter);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1338,7 +1607,7 @@ patio.addModel("child", {
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.associate(this.ONE_TO_MANY, name, options, filter);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1419,7 +1688,7 @@ patio.addModel("capital", {
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.associate(this.ONE_TO_ONE, name, options, filter);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1511,7 +1780,7 @@ return this._toObject(false);
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:21 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:34 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

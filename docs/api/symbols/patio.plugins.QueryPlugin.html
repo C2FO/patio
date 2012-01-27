@@ -142,8 +142,7 @@
 				
 				
 			
-				Adds query support to a model. The QueryPlugin exposes methods to save, update, create, and delete.
-The plugin also exposes static functions to query Models. The functions exposed on class are.
+				This plugin adds the query support.
 <ul>
     <li>filter</li>
     <li>findById</li>
@@ -387,7 +386,7 @@ called with the results.
                                 <pre class="code">
 var ds = this.dataset;
 return ds.filter.apply(ds, arguments);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -440,14 +439,14 @@ var pk = this.primaryKey;
 pk = pk.length == 1 ? pk[0] : pk;
 var q = ;
 if (comb.isArray(pk)) 
-    pk.forEach(function (k, i) 
-        q[k] = id[i]
-    );
+  pk.forEach(function(k, i) 
+    q[k] = id[i]
+  );
  else 
-    q[pk] = id;
+  q[pk] = id;
 
 return this.filter(q).one();
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -497,12 +496,12 @@ myModel.reload().then(function(myModel){
                                 <pre class="code">
 var ret = new Promise();
 if (!this.__isNew) 
-    ret = this.dataset.filter(this._getPrimaryKeyQuery()).one();
+  ret = this.dataset.filter(this._getPrimaryKeyQuery()).one();
  else 
-    ret.callback(this);
+  ret.callback(this);
 
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -552,18 +551,18 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 if (!this.__isNew) 
-    return this._checkTransaction(options, comb.hitch(this, function () 
-        return comb.executeInOrder(this, this.dataset, function (m, ds) 
-            m._hook("pre", "remove");
-            var ret = ds.filter(m._getPrimaryKeyQuery()).remove();
-            m._hook("post", "remove");
-            return ret;
-        );
-    ));
+  return this._checkTransaction(options, comb.hitch(this, function() 
+    return comb.executeInOrder(this, this.dataset, function(m, ds) 
+      m._hook("pre", "remove");
+      var ret = ds.filter(m._getPrimaryKeyQuery()).remove();
+      m._hook("post", "remove");
+      return ret;
+    );
+  ));
  else 
-    return new comb.Promise().callback(0);
+  return new comb.Promise().callback(0);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -620,19 +619,19 @@ if (!this.__isNew)
                                 <pre class="code">
 
 
-return this._checkTransaction(options, comb.hitch(this, function () 
-    var p = new Promise();
-    var ds = this.dataset;
-    this.dataset.filter(ds, arguments).all(function (items) 
-        
-        var pl = items.map(function (r) 
-            return r.remove();
-        );
-        new PromiseList(pl).then(hitch(p, "callback"), hitch(p, "errback"));
-    , hitch(p, "errback"));
-    return p;
+return this._checkTransaction(options, comb.hitch(this, function() 
+  var p = new Promise();
+  var ds = this.dataset;
+  this.dataset.filter(ds, arguments).all(function(items) 
+    
+    var pl = items.map(function(r) 
+      return r.remove();
+    );
+    new PromiseList(pl).then(hitch(p, "callback"), hitch(p, "errback"));
+  , hitch(p, "errback"));
+  return p;
 ));
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -699,26 +698,25 @@ MyModel.save(m1);</pre>
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return this._checkTransaction(options, hitch(this, function () 
-    var ps;
-    if (comb.isArray(items)) 
-        ps = items.map(function (o) 
-            return this.save(o);
-        , this);
-        var ret = new comb.Promise();
-        new PromiseList(ps, true).then(hitch(ret, "callback"), hitch(ret, "errback"));
-        return ret;
-     else 
-        var ret = new comb.Promise();
-        try
-            ret = new this(items).save();
-        catch(e)
-            ret.errback(e);
-        
-        return ret;
+return this._checkTransaction(options, hitch(this, function() 
+  var ps;
+  if (comb.isArray(items)) 
+    ps = items.map(function(o) 
+      return this.save(o);
+    , this);
+    var ret = new comb.Promise();
+    return new PromiseList(ps, true).then(hitch(ret, "callback"), hitch(ret, "errback"));
+   else 
+    var ret = new comb.Promise();
+    try 
+      ret = new this(items).save();
+     catch (e) 
+      ret.errback(e);
     
+    return ret;
+  
 ));
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -794,25 +792,25 @@ someModel.save().then(..so something);</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 if (this.__isNew) 
-    return this._checkTransaction(options, comb.hitch(this, function () 
-        comb.isHash(vals) && this.__set(vals);
-        var pk = this._static.primaryKey[0];
-        return comb.executeInOrder(this, this.dataset, function (m, ds) 
-            m._hook("pre", "save");
-            var id = ds.insert(m._toObject());
-            m.__ignore = true;
-            m[pk] = id;
-            m.__ignore = false;
-            m.__isNew = false;
-            m.__isChanged = false;
-            m._hook("post", "save");
-            return m;
-        );
-    ));
+  return this._checkTransaction(options, comb.hitch(this, function() 
+    comb.isHash(vals) && this.__set(vals);
+    var pk = this._static.primaryKey[0];
+    return comb.executeInOrder(this, this.dataset, function(m, ds) 
+      m._hook("pre", "save");
+      var id = ds.insert(m._toObject());
+      m.__ignore = true;
+      m[pk] = id;
+      m.__ignore = false;
+      m.__isNew = false;
+      m.__isChanged = false;
+      m._hook("post", "save");
+      return m;
+    );
+  ));
  else 
-    return this.update(vals, options);
+  return this.update(vals, options);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -882,15 +880,15 @@ if (this.__isNew)
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return this._checkTransaction(options, comb.hitch(this, function () 
-    var args = comb.argsToArray(arguments);
-    var dataset = this.dataset;
-    if (args.length > 1) 
-        dataset = dataset.filter(options);
-    
-    return dataset.update(vals);
+return this._checkTransaction(options, comb.hitch(this, function() 
+  var args = comb.argsToArray(arguments);
+  var dataset = this.dataset;
+  if (args.length > 1) 
+    dataset = dataset.filter(options);
+  
+  return dataset.update(vals);
 ));
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -966,20 +964,20 @@ someModel.update().then(..so something);</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 if (!this.__isNew && this.__isChanged) 
-    return this._checkTransaction(options, comb.hitch(this, function () 
-        comb.isHash(vals) && this.__set(vals);
-        var saveChanged = !comb.isEmpty(this.__changed);
-        return comb.executeInOrder(this, this.dataset.filter(this._getPrimaryKeyQuery()), function (m, ds) 
-            m._hook("pre", "update");
-            saveChanged && ds.update(m.__changed);
-            m._hook("post", "update");
-            return m;
-        );
-    ));
+  return this._checkTransaction(options, comb.hitch(this, function() 
+    comb.isHash(vals) && this.__set(vals);
+    var saveChanged = !comb.isEmpty(this.__changed);
+    return comb.executeInOrder(this, this.dataset.filter(this._getPrimaryKeyQuery()), function(m, ds) 
+      m._hook("pre", "update");
+      saveChanged && ds.update(m.__changed);
+      m._hook("post", "update");
+      return m;
+    );
+  ));
  else if (this.__isNew && this.__isChanged) 
-    return this.save(vals, options);
+  return this.save(vals, options);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -993,7 +991,7 @@ if (!this.__isNew && this.__isChanged)
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:21 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:34 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

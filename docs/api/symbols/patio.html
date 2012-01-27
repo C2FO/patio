@@ -355,9 +355,9 @@ patio.createModel("my_table");
 this._super(arguments);
 var constants = SQL.Constants;
 for (var i in constants) 
-    this[i] = constants[i];
+  this[i] = constants[i];
 
-        </pre>
+    </pre>
                         </div>
                     
 
@@ -636,11 +636,11 @@ be resolved once the model has been loaded.
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-model.create(table, proto).then(hitch(this, function (model) 
-    ret.callback(model);
+model.create(table, proto).then(hitch(this, function(model) 
+  ret.callback(model);
 ), hitch(ret, "errback"));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -679,7 +679,7 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.createConnection.apply(this, arguments);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -759,14 +759,14 @@ connectPromise.then(function (db) {
                         	<div class="sourceCode">
                                 <pre class="code">
 if (!comb.isFunction(cb)) 
-    throw new PatioError("callback must be a function");
+  throw new PatioError("callback must be a function");
 
 var db = this.createConnection.apply(this, arguments);
-return comb.executeInOrder(db, patio, function (db, patio) 
-    cb(db, patio);
-    return db;
+return comb.executeInOrder(db, patio, function(db, patio) 
+  cb(db, patio);
+  return db;
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -854,7 +854,7 @@ DB.createTable("myTable", function(){
                         	<div class="sourceCode">
                                 <pre class="code">
 return Database.connect(options);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -985,7 +985,7 @@ return new Error("DatasetError : " + message);
                         	<div class="sourceCode">
                                 <pre class="code">
 return Database.disconnect();
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1102,7 +1102,7 @@ comb.executeInOrder(patio, function(patio){
                         	<div class="sourceCode">
                                 <pre class="code">
 return model.getModel(name, db);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1183,7 +1183,7 @@ have been loaded.</dd>
                                 <pre class="code">
 files = comb.argsToArray(arguments);
 return new PromiseList(files.map(hitch(this, "__addModelProxy")), true);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1215,9 +1215,9 @@ return new PromiseList(files.map(hitch(this, "__addModelProxy")), true);
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isDebug) 
-    LOGGER.debug.apply(LOGGER, arguments);
+  LOGGER.debug.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1249,9 +1249,9 @@ if (LOGGER.isDebug)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isError) 
-    LOGGER.error.apply(LOGGER, arguments);
+  LOGGER.error.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1283,9 +1283,9 @@ if (LOGGER.isError)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isFatal) 
-    LOGGER.fatal.apply(LOGGER, arguments);
+  LOGGER.fatal.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1317,9 +1317,9 @@ if (LOGGER.isFatal)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isInfo) 
-    LOGGER.info.apply(LOGGER, arguments);
+  LOGGER.info.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1351,9 +1351,9 @@ if (LOGGER.isInfo)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isTrace) 
-    LOGGER.trace.apply(LOGGER, arguments);
+  LOGGER.trace.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1385,9 +1385,9 @@ if (LOGGER.isTrace)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isWarn) 
-    LOGGER.warn.apply(LOGGER, arguments);
+  LOGGER.warn.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1432,7 +1432,7 @@ if (LOGGER.isWarn)
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return new Error("Not Implemented :  " + message);
+return new Error("Not Implemented :" + message);
 </pre>
                             </div>
                         
@@ -1539,7 +1539,7 @@ return new Error("QueryError : " + message);
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:19 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:32 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

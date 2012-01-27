@@ -1074,7 +1074,7 @@ patio.dateTimeToString(dateTime); //=> '04-02-01T12:12:12-0600'</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 return date.format(comb.isInstanceOf(dt, SQL.DateTime) ? dt.date : dt, this.dateTimeFormat);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1178,18 +1178,18 @@ patio.dateToString(timeStamp); //=> '2004-02-01 12:12:12'</pre>
                                 <pre class="code">
 var ret = "";
 if (comb.isInstanceOf(dt, SQL.Time)) 
-    ret = this.timeToString(dt);
+  ret = this.timeToString(dt);
  else if (comb.isInstanceOf(dt, SQL.Year)) 
-    ret = this.yearToString(dt);
+  ret = this.yearToString(dt);
  else if (comb.isInstanceOf(dt, SQL.DateTime)) 
-    ret = this.dateTimeToString(dt);
+  ret = this.dateTimeToString(dt);
  else if (comb.isInstanceOf(dt, SQL.TimeStamp)) 
-    ret = this.timeStampToString(dt);
+  ret = this.timeStampToString(dt);
  else if (comb.isDate(dt)) 
-    ret = date.format(dt, this.dateFormat);
+  ret = date.format(dt, this.dateFormat);
 
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1268,16 +1268,16 @@ patio.stringToDate('04-02-01'); //=> date</pre>
                                 <pre class="code">
 var ret;
 if (this.convertTwoDigitYears) 
-    ret = date.parse(dt, this.TWO_YEAR_DATE_FORMAT);
+  ret = date.parse(dt, this.TWO_YEAR_DATE_FORMAT);
 
 if (!ret) 
-    ret = date.parse(dt, format || this.dateFormat);
+  ret = date.parse(dt, format || this.dateFormat);
 
 if (!ret) 
-    throw new PatioError("Unable to convert date: " + dt);
+  throw new PatioError("Unable to convert date: " + dt);
 
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1371,17 +1371,17 @@ var ret = date.parse(dt, format);
 
 !ret && (ret = date.parse(dt, this.DATETIME_FORMAT_TZ));
 if (!ret && this.convertTwoDigitYears) 
-    
-    var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.DATETIME_TWO_YEAR_FORMAT;
-    ret = date.parse(dt, twoYearFormat);
-    
-    !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
+  
+  var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.DATETIME_TWO_YEAR_FORMAT;
+  ret = date.parse(dt, twoYearFormat);
+  
+  !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
 
 if (!ret) 
-    throw new PatioError("Unable to convert datetime: " + dt);
+  throw new PatioError("Unable to convert datetime: " + dt);
 
 return new SQL.DateTime(ret);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1457,10 +1457,10 @@ patio.stringToTime("12:12:12"); //=> time</pre>
                                 <pre class="code">
 var ret = date.parse(dt, format || this.timeFormat);
 if (!ret) 
-    throw new PatioError("Unable to convert time: " + dt);
+  throw new PatioError("Unable to convert time: " + dt);
 
 return new SQL.Time(ret);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1553,17 +1553,17 @@ var ret = date.parse(dt, format);
 
 !ret && (ret = date.parse(dt, this.TIMESTAMP_FORMAT_TZ));
 if (!ret && this.convertTwoDigitYears) 
-    
-    var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.TIMESTAMP_TWO_YEAR_FORMAT;
-    ret = date.parse(dt, twoYearFormat);
-    
-    !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
+  
+  var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.TIMESTAMP_TWO_YEAR_FORMAT;
+  ret = date.parse(dt, twoYearFormat);
+  
+  !ret && (ret = date.parse(dt, twoYearFormat + "Z"));
 
 if (!ret) 
-    throw new PatioError("Unable to convert timestamp: " + dt);
+  throw new PatioError("Unable to convert timestamp: " + dt);
 
 return new SQL.TimeStamp(ret);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1641,10 +1641,10 @@ patio.stringToYear("04"); //=> year</pre>
                                 <pre class="code">
 var ret = date.parse(dt, format || this.yearFormat);
 if (!ret) 
-    throw new PatioError("Unable to convert year: " + dt);
+  throw new PatioError("Unable to convert year: " + dt);
 
 return new SQL.Year(ret);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1724,7 +1724,7 @@ patio.timeStampToString(dateTime); //=> '04-02-01T12:12:12-0600'</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 return date.format(comb.isInstanceOf(dt, SQL.TimeStamp) ? dt.date : dt, this.timeStampFormat);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1790,7 +1790,7 @@ patio.timeToString(time); //=> '01:12:12'</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 return date.format(comb.isInstanceOf(dt, SQL.Time) ? dt.date : dt, this.timeFormat);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1856,7 +1856,7 @@ patio.yearToString(year); //=> '04'</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 return date.format(comb.isInstanceOf(dt, SQL.Year) ? dt.date : dt, this.yearFormat);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -1870,7 +1870,7 @@ return date.format(comb.isInstanceOf(dt, SQL.Year) ? dt.date : dt, this.yearForm
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:22 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:35 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

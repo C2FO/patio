@@ -764,7 +764,7 @@ this.defaultSchema = opts.defaultSchema || this.defaultSchemaDefault;
 this.preparedStatements = ;
 this.opts = opts;
 this.pool = ConnectionPool.getPool(opts, hitch(this, "createConnection"), hitch(this, "closeConnection"), hitch(this, "validate"));
-        </pre>
+    </pre>
                         </div>
                     
 
@@ -1001,7 +1001,7 @@ a query is different for the adapter specific connection class.
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return ;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1030,7 +1030,7 @@ return ;
                        
                                                	<div class="sourceCode">
                                                        <pre class="code">DATABASES
-    </pre>
+  </pre>
                                                    </div>
                                                
 					</div>
@@ -1088,7 +1088,7 @@ be used to query the <a href="../symbols/patio.Database.html" class="" >patio.Da
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return null;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1123,7 +1123,7 @@ sending identifiers to the database. If this property is undefined then
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__identifierInputMethod;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1157,7 +1157,7 @@ they are sent to database. See <a href="../symbols/patio.html#identifierInputMet
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__identifierInputMethod;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1198,7 +1198,7 @@ sending identifiers to the database.
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return "toUpperCase";
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1233,7 +1233,7 @@ they are retrieved from database. If this property is undefined then
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__identifierOutputMethod;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1267,7 +1267,7 @@ they are retrieved from database. See <a href="../symbols/patio.html#identifierO
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__identifierOutputMethod;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1308,7 +1308,7 @@ they are retrieved from the database.
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return "toLowerCase";
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1376,7 +1376,7 @@ return comb.hitch(this.dataset, this.dataset.inputIdentifier);
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return LOGGER;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1409,7 +1409,7 @@ return LOGGER;
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return LOGGER;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1652,7 +1652,7 @@ then <a href="../symbols/patio.Database.html#quoteIdentifiersDefault" class="" >
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__quoteIdentifiers;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1686,7 +1686,7 @@ then to the database. See <a href="../symbols/patio.html#quoteIdentifiers" class
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__quoteIdentifiers;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1727,7 +1727,7 @@ then to the database.
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return true;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -1825,8 +1825,8 @@ code.
                        
                                                	<div class="sourceCode">
                                                        <pre class="code">
-return primaryKey : true, type : "integer", autoIncrement : true;
-            </pre>
+return primaryKey:true, type:"integer", autoIncrement:true;
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -2132,7 +2132,7 @@ database transaction.
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__supportsPreparedTransactions;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -2172,7 +2172,7 @@ return this.__supportsPreparedTransactions;
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__supportsSavePoints;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -2212,7 +2212,7 @@ return this.__supportsSavePoints;
                                                	<div class="sourceCode">
                                                        <pre class="code">
 return this.__supportsTransactionIsolationLevels;
-            </pre>
+      </pre>
                                                    </div>
                                                
 					</div>
@@ -2376,7 +2376,7 @@ serializable:'SERIALIZABLE'
                                                	<div class="sourceCode">
                                                        <pre class="code">' UNSIGNED'
 
-    </pre>
+  </pre>
                                                    </div>
                                                
 					</div>
@@ -2515,10 +2515,10 @@ DB.addColumn("test", "name", "text", {unique : true});</pre>
                         	<div class="sourceCode">
                                 <pre class="code">
 var args = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.addColumn.apply(this, args)
+return this.alterTable(table, function() 
+  this.addColumn.apply(this, args)
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -2613,17 +2613,17 @@ options = options || ;
 var ignoreErrors = options.ignoreErrors === true;
 var ret = new Promise();
 this.alterTable(table,
-    function () 
-        this.addIndex(columns, options)
-    ).then(hitch(ret, "callback"), function (err) 
-        if (!ignoreErrors) 
-            ret.errback(err);
-         else 
-            ret.callback();
-        
-    );
+  function() 
+    this.addIndex(columns, options)
+  ).then(hitch(ret, "callback"), function(err) 
+    if (!ignoreErrors) 
+      ret.errback(err);
+     else 
+      ret.callback();
+    
+  );
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -2633,7 +2633,7 @@ return ret;
 					<div class="fixedFont">
 					
 					<span class="light">{Boolean}</span>
-					<b>alreadyInTransaction</b>(opts)
+					<b>alreadyInTransaction</b>(opts, opts)
 					
 					</div>
 					<div class="description">
@@ -2650,6 +2650,12 @@ return ret;
 						
 							<dl class="detailList">
 							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>opts</b>
+									
+								</dt>
+								<dd></dd>
 							
 								<dt>
 									<b>opts</b>
@@ -2676,7 +2682,7 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-return this.__alreadyInTransaction && (!this.supportsSavepoints || !opts.savepoint);
+return this.__transactions.indexOf(conn) != -1 && (!this.supportsSavepoints || !opts.savepoint);
         </pre>
                             </div>
                         
@@ -2797,26 +2803,28 @@ return this.__alreadyInTransaction && (!this.supportsSavepoints || !opts.savepoi
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isFunction(generator)) 
-    block = generator;
-    generator = new AlterTableGenerator(this, block);
+  block = generator;
+  generator = new AlterTableGenerator(this, block);
 
 var ret = new Promise();
-this.__alterTableSqlList(name, generator.operations).then(hitch(this, function (res) 
-    var sqls = array.flatten(res.map(function (r) return r[1]));
-    var l = sqls.length;
-    var drop = hitch(this, function (i) 
-        if (i &lt; l) 
-            var sql = sqls[i++];
-            this.executeDdl(sql).then(hitch(this, drop, i), hitch(ret, "errback"));
-         else 
-            this.removeCachedSchema(name);
-            ret.callback();
-        
-    );
-    drop(0);
+this.__alterTableSqlList(name, generator.operations).then(hitch(this, function(res) 
+  var sqls = array.flatten(res.map(function(r) 
+    return r[1]
+  ));
+  var l = sqls.length;
+  var drop = hitch(this, function(i) 
+    if (i &lt; l) 
+      var sql = sqls[i++];
+      this.executeDdl(sql).then(hitch(this, drop, i), hitch(ret, "errback"));
+     else 
+      this.removeCachedSchema(name);
+      ret.callback();
+    
+  );
+  drop(0);
 ));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -2876,7 +2884,7 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.typeLiteral(type:type);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -2923,7 +2931,7 @@ a connection to the database.
                         	<div class="sourceCode">
                                 <pre class="code">
 throw new NotImplemented("Close connection must be implemented by the adapter");
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -2976,39 +2984,40 @@ throw new NotImplemented("Close connection must be implemented by the adapter");
                                 <pre class="code">
 opts = opts || ;
 if (comb.isString(connectionString)) 
-    var url = URL.parse(connectionString, true);
-    if (url.auth) 
-        var parts = url.auth.split(":");
-        !opts.user && (opts.user = parts[0]);
-        !opts.password && (opts.password = parts[1]);
+  var url = URL.parse(connectionString, true);
+  if (url.auth) 
+    var parts = url.auth.split(":");
+    !opts.user && (opts.user = parts[0]);
+    !opts.password && (opts.password = parts[1]);
+  
+  opts.type = url.protocol.replace(":", "");
+  opts.host = url.hostname;
+  if (url.pathname) 
+    var path = url.pathname;
+    var pathParts = path.split("/").slice(1);
+    if (pathParts.length >= 1) 
+      opts.database = pathParts[0];
     
-    opts.type = url.protocol.replace(":", "");
-    opts.host = url.hostname;
-    if (url.pathname) 
-        var path = url.pathname;
-        var pathParts = path.split("/").slice(1);
-        if (pathParts.length >= 1) 
-            opts.database = pathParts[0];
-        
-    
-    opts = comb.merge(opts, url.query, uri : connectionString);
+  
+  opts = comb.merge(opts, url.query, uri:connectionString);
  else 
-    opts = comb.merge(, connectionString, opts);
+  opts = comb.merge(, connectionString, opts);
 
 if (opts && comb.isHash(opts) && (opts.adapter || opts.type)) 
-    var type = (opts.type = opts.adapter || opts.type);
-    var Adapter = ADAPTERS[type];
-    if (Adapter) 
-        var adapter = new Adapter(opts);
-        this.DATABASES.push(adapter);
-        return adapter;
-     else 
-        throw DatabaseError(type + " adapter was not found")
-    
- else 
-    throw new DatabaseError("Options required when connecting.");
 
-        </pre>
+  var type = (opts.type = opts.adapter || opts.type);
+  var Adapter = ADAPTERS[type];
+  if (Adapter) 
+    var adapter = new Adapter(opts);
+    this.DATABASES.push(adapter);
+    return adapter;
+   else 
+    throw DatabaseError(type + " adapter was not found")
+  
+ else 
+  throw new DatabaseError("Options required when connecting.");
+
+    </pre>
                             </div>
                         
                     </div>
@@ -3054,8 +3063,8 @@ a connection to the database.
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-throw new NotImplemented("Create connect must be implemented by the adapter");
-        </pre>
+throw new NotImplemented("Create connection must be implemented by the adapter");
+    </pre>
                             </div>
                         
                     </div>
@@ -3125,15 +3134,15 @@ view.</dd>
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isInstanceOf(source, Dataset)) 
-    source = source.sql;
+  source = source.sql;
 
 var ret = new Promise();
-this.executeDdl(format("CREATE OR REPLACE VIEW %s AS %s", this.__quoteSchemaTable(name), source)).then(hitch(this, function () 
-    this.removeCachedSchema(name);
-    ret.callback();
+this.executeDdl(format("CREATE OR REPLACE VIEW %s AS %s", this.__quoteSchemaTable(name), source)).then(hitch(this, function() 
+  this.removeCachedSchema(name);
+  ret.callback();
 ), hitch(ret, "callback"));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3244,18 +3253,18 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isFunction(options)) 
-    block = options;
-    options = ;
+  block = options;
+  options = ;
 
 this.removeCachedSchema(name);
 if (comb.isInstanceOf(options, SchemaGenerator)) 
-    options = generator:options;
+  options = generator:options;
 
 var generator = options.generator || new SchemaGenerator(this, block);
 var ret = new Promise();
 this.__createTableFromGenerator(name, generator, options).chain(hitch(this, "__createTableIndexesFromGenerator", name, generator, options), hitch(ret, "callback")).then(hitch(ret, "callback"), hitch(ret, "callback"));
 return  ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3316,15 +3325,15 @@ return  ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.tableExists(name).then(hitch(this, function (exists) 
-    if (!exists) 
-        this.createTable(name, options, block).then(hitch(ret, "callback"), hitch(ret, "callback"));
-     else 
-        ret.callback();
-    
+this.tableExists(name).then(hitch(this, function(exists) 
+  if (!exists) 
+    this.createTable(name, options, block).then(hitch(ret, "callback"), hitch(ret, "callback"));
+   else 
+    ret.callback();
+  
 ));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3387,10 +3396,10 @@ view.</dd>
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isInstanceOf(source, Dataset)) 
-    source = source.sql;
+  source = source.sql;
 
 return this.executeDdl(format("CREATE VIEW %s AS %s", this.__quoteSchemaTable(name), source));
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3461,10 +3470,10 @@ return this.executeDdl(format("CREATE VIEW %s AS %s", this.__quoteSchemaTable(na
                         	<div class="sourceCode">
                                 <pre class="code">
 column = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.dropColumn.apply(this, column)
+return this.alterTable(table, function() 
+  this.dropColumn.apply(this, column)
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3544,10 +3553,10 @@ return this.alterTable(table, function ()
                         	<div class="sourceCode">
                                 <pre class="code">
 var args = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.dropIndex.apply(this, args)
+return this.alterTable(table, function() 
+  this.dropIndex.apply(this, args)
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3614,26 +3623,26 @@ to drop.</dd>
                                 <pre class="code">
 var ret = new Promise(), l = names.length;
 if (comb.isArray(names)) 
-    var drop = hitch(this, function (i) 
-        if (i &lt; l) 
-            var name = names[i++];
-            this.executeDdl(this.__dropTableSql(name)).then(hitch(this, function () 
-                this.removeCachedSchema(name);
-                drop(i);
-            ), hitch(ret, "errback"));
-         else 
-            ret.callback();
-        
-    );
-    drop(0);
-    return ret;
+  var drop = hitch(this, function(i) 
+    if (i &lt; l) 
+      var name = names[i++];
+      this.executeDdl(this.__dropTableSql(name)).then(hitch(this, function() 
+        this.removeCachedSchema(name);
+        drop(i);
+      ), hitch(ret, "errback"));
+     else 
+      ret.callback();
+    
+  );
+  drop(0);
+  return ret;
  else 
-    return this.dropTable(argsToArray(arguments).filter(function (t) 
-        return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
-    ));
+  return this.dropTable(argsToArray(arguments).filter(function(t) 
+    return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+  ));
 
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3700,26 +3709,26 @@ to drop.</dd>
                                 <pre class="code">
 var ret = new Promise(), l = names.length;
 if (comb.isArray(names)) 
-    var drop = hitch(this, function (i) 
-        if (i &lt; l) 
-            var name = names[i++];
-            this.executeDdl(format("DROP VIEW %s", this.__quoteSchemaTable(name))).then(hitch(this, function () 
-                this.removeCachedSchema(name);
-                drop(i);
-            ), hitch(ret, "errback"));
-         else 
-            ret.callback();
-        
-    );
-    drop(0);
-    return ret;
+  var drop = hitch(this, function(i) 
+    if (i &lt; l) 
+      var name = names[i++];
+      this.executeDdl(format("DROP VIEW %s", this.__quoteSchemaTable(name))).then(hitch(this, function() 
+        this.removeCachedSchema(name);
+        drop(i);
+      ), hitch(ret, "errback"));
+     else 
+      ret.callback();
+    
+  );
+  drop(0);
+  return ret;
  else 
-    return this.dropView(argsToArray(arguments).filter(function (t) 
-        return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
-    ));
+  return this.dropView(argsToArray(arguments).filter(function(t) 
+    return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+  ));
 
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -3729,7 +3738,7 @@ if (comb.isArray(names))
 					<div class="fixedFont">
 					
 					
-					<b>execute</b>(sql, options)
+					<b>execute</b>(sql, options, cb, conn)
 					
 					</div>
 					<div class="description">
@@ -3756,6 +3765,18 @@ if (comb.isArray(names))
 							
 								<dt>
 									<b>options</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>cb</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>conn</b>
 									
 								</dt>
 								<dd></dd>
@@ -4042,14 +4063,14 @@ args = comb.argsToArray(arguments);
 block = comb.isFunction(args[args.length - 1]) ? args.pop() : null;
 var ds = this.dataset.withSql.apply(this.dataset, args);
 if (block) 
-    ds.forEach(block).then(function() 
-        ret.callback(ds);
-    , comb.hitch(ret, "errback"));
-    return ret;
+  ds.forEach(block).then(function() 
+    ret.callback(ds);
+  , comb.hitch(ret, "errback"));
+  return ret;
  else 
-    return ds;
+  return ds;
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4123,7 +4144,7 @@ if (block)
 var ret = new Promise();
 this.dropTable(name).chainBoth(hitch(this, this.createTable, name, options, block)).then(hitch(ret, "callback"), hitch(ret, "callback"));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4190,25 +4211,25 @@ to drop.</dd>
                                 <pre class="code">
 var ret = new Promise(), l = names.length;
 if (comb.isArray(names)) 
-    var drop = hitch(this, function (i) 
-        if (i &lt; l) 
-            var name = names[i++];
-            this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function () 
-                this.removeCachedSchema(name);
-                drop(i);
-            ));
-         else 
-            ret.callback();
-        
-    );
-    drop(0);
+  var drop = hitch(this, function(i) 
+    if (i &lt; l) 
+      var name = names[i++];
+      this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function() 
+        this.removeCachedSchema(name);
+        drop(i);
+      ));
+     else 
+      ret.callback();
+    
+  );
+  drop(0);
  else 
-    this.dropTable(argsToArray(arguments).filter(function (t) 
-        return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
-    )).both(hitch(ret, "callback"));
+  this.forceDropTable(argsToArray(arguments).filter(function(t) 
+    return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+  )).both(hitch(ret, "callback"));
 
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4281,7 +4302,7 @@ args = comb.argsToArray(arguments);
 block = comb.isFunction(args[args.length - 1]) ? args.pop() : null;
 var ds = this.dataset.from.apply(this.dataset, args);
 return block ? ds.filter(block) : ds;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4429,7 +4450,7 @@ See <a href="../symbols/patio.Dataset.html#literal" class="" >patio.Dataset#lite
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.dataset.literal(v)
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4464,9 +4485,9 @@ return this.dataset.literal(v)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isDebug) 
-    LOGGER.debug.apply(LOGGER, arguments);
+  LOGGER.debug.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4501,9 +4522,9 @@ if (LOGGER.isDebug)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isDebug) 
-    LOGGER.debug.apply(LOGGER, arguments);
+  LOGGER.debug.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4538,9 +4559,9 @@ if (LOGGER.isDebug)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isError) 
-    LOGGER.error.apply(LOGGER, arguments);
+  LOGGER.error.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4575,9 +4596,9 @@ if (LOGGER.isError)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isError) 
-    LOGGER.error.apply(LOGGER, arguments);
+  LOGGER.error.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4612,9 +4633,9 @@ if (LOGGER.isError)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isFatal) 
-    LOGGER.fatal.apply(LOGGER, arguments);
+  LOGGER.fatal.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4649,9 +4670,9 @@ if (LOGGER.isFatal)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isFatal) 
-    LOGGER.fatal.apply(LOGGER, arguments);
+  LOGGER.fatal.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4686,9 +4707,9 @@ if (LOGGER.isFatal)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isInfo) 
-    LOGGER.info.apply(LOGGER, arguments);
+  LOGGER.info.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4723,9 +4744,9 @@ if (LOGGER.isInfo)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isInfo) 
-    LOGGER.info.apply(LOGGER, arguments);
+  LOGGER.info.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4760,9 +4781,9 @@ if (LOGGER.isInfo)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isTrace) 
-    LOGGER.trace.apply(LOGGER, arguments);
+  LOGGER.trace.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4797,9 +4818,9 @@ if (LOGGER.isTrace)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isTrace) 
-    LOGGER.trace.apply(LOGGER, arguments);
+  LOGGER.trace.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4834,9 +4855,9 @@ if (LOGGER.isTrace)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isWarn) 
-    LOGGER.warn.apply(LOGGER, arguments);
+  LOGGER.warn.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -4871,9 +4892,9 @@ if (LOGGER.isWarn)
                         	<div class="sourceCode">
                                 <pre class="code">
 if (LOGGER.isWarn) 
-    LOGGER.warn.apply(LOGGER, arguments);
+  LOGGER.warn.apply(LOGGER, arguments);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5009,10 +5030,10 @@ if (this.schemas && !comb.isEmpty(this.schemas))
                         	<div class="sourceCode">
                                 <pre class="code">
 var args = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.renameColumn.apply(this, args)
+return this.alterTable(table, function() 
+  this.renameColumn.apply(this, args)
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5083,12 +5104,12 @@ return this.alterTable(table, function ()
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.executeDdl(this.__renameTableSql(name, newName)).then(hitch(this, function () 
-    this.removeCachedSchema(name);
-    ret.callback();
+this.executeDdl(this.__renameTableSql(name, newName)).then(hitch(this, function() 
+  this.removeCachedSchema(name);
+  ret.callback();
 ), hitch(ret, "errback"));
 return ret;
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5281,7 +5302,7 @@ if (this.schemas[quotedName])
     ret.callback(this.schemas[quotedName]);
     return ret;
  else 
-    this.schemaParseTable(tableName, opts).then(hitch(this, function (cols) 
+    this.schemaParseTable(tableName, opts).then(hitch(this, function(cols)
         var schema = ;
         if (!cols || cols.length == 0) 
             ret.errback("Error parsing schema, no columns returns, table probably doesnt exist");
@@ -5351,7 +5372,7 @@ return ret;
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.dataset.select.apply(this.dataset, arguments);
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5429,10 +5450,10 @@ return this.dataset.select.apply(this.dataset, arguments);
                         	<div class="sourceCode">
                                 <pre class="code">
 var args = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.setColumnDefault.apply(this, args);
+return this.alterTable(table, function() 
+  this.setColumnDefault.apply(this, args);
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5509,10 +5530,10 @@ return this.alterTable(table, function ()
                         	<div class="sourceCode">
                                 <pre class="code">
 var args = argsToArray(arguments).slice(1);
-return this.alterTable(table, function () 
-    this.setColumnType.apply(this, args)
+return this.alterTable(table, function() 
+  this.setColumnType.apply(this, args)
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5734,7 +5755,7 @@ DB.transaction(function(d) {
 									<span class="light fixedFont">{Object}</span> <b>opts</b>
 									<i>Optional, Default: {}</i>
 								</dt>
-								<dd>options to use when performin the transaction.</dd>
+								<dd>options to use when performing the transaction.</dd>
 							
 								<dt>
 									<span class="light fixedFont">{String}</span> <b>opts.isolation</b>
@@ -5767,8 +5788,26 @@ DB.transaction(function(d) {
 									
 								</dt>
 								<dd>a function used to perform the transaction. This function is
-called in the scope of the database by default so one can use this. The dabase is also
-called with the database as the first argument.</dd>
+called in the scope of the database by default so one can use this. The funciton is also
+called with the database as the first argument. If you have complex operations within your
+transactions you will want to return a promise to ensure proper transaction scope.
+<pre class="code">
+var ds = db.from("user");
+db.transaction(function(){
+     var ret = new comb.Promise();
+     ds.insert({
+         firstName:"Jane",
+         lastName:"Gorgenson",
+         password:"password",
+         dateOfBirth:new Date(1956, 1, 3)
+     }).then(function(){
+         ds.forEach(function(user){
+                 return ds.where({id:user.id}).update({firstName:user.firstName + 1});
+         }).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+     }, comb.hitch(ret, "errback"));
+    return ret;
+});
+</pre></dd>
 							
 							</dl>
 						
@@ -5794,16 +5833,7 @@ if (comb.isFunction(opts))
  else 
     opts = opts || ;
 
-var ret;
-if (!this.alreadyInTransaction(opts)) 
-    ret = new comb.Promise();
-    this.__transactionPromise = ret;
-    this.__transaction(ret, opts, cb);
- else 
-    ret = this.__transactionPromise;
-    cb.apply(this, [this]);
-
-return ret;
+return this.__transaction(null, opts, cb);
         </pre>
                             </div>
                         
@@ -5882,19 +5912,19 @@ DB.typeCastValue("timestamp",  '2004-02-01 12:12:12')
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isNull(value) || comb.isUndefined(value)) 
-    return null;
+  return null;
 
 var meth = "__typecastValue" + columnType.charAt(0).toUpperCase() + columnType.substr(1).toLowerCase();
 try 
-    if (comb.isFunction(this[meth])) 
-        return this[meth](value);
-     else 
-        return value;
-    
+  if (comb.isFunction(this[meth])) 
+    return this[meth](value);
+   else 
+    return value;
+  
  catch (e) 
-    throw e;
+  throw e;
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5941,7 +5971,7 @@ method should be implemented by the adapter.
                         	<div class="sourceCode">
                                 <pre class="code">
 throw new NotImplemented("Validate must be implemented by the adapter");
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -5955,7 +5985,7 @@ throw new NotImplemented("Validate must be implemented by the adapter");
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:20 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:32 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

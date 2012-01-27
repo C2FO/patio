@@ -22,10 +22,11 @@ var connectAndCreateSchema = function(){
             //drop and recreate the user
             db.forceCreateTable("user", function(){
                 this.primaryKey("id");
-                this.firstName(String)
+                this.firstName(String);
                 this.lastName(String);
                 this.password(String);
                 this.dateOfBirth(Date);
+                this.isVerified(Boolean, {"default" : false})
                 this.created(sql.TimeStamp);
                 this.updated(sql.DateTime);
             });
@@ -48,8 +49,9 @@ connectAndCreateSchema()
              dateOfBirth : new Date(1980, 8, 29)
          });
         //save the user
-        myUser.save().then(function(user){
-            console.log(format("%s %s's id is %d", user.firstName, user.lastName, user.id));
+        myUser.save().then(function(){
+            console.log(format("%s %s was created at %s", myUser.firstName, myUser.lastName, myUser.created.toString()));
+            console.log(format("%s %s's id is %d", myUser.firstName, myUser.lastName, myUser.id));
             disconnect();
         }, disconnectError);
     }, disconnectError);

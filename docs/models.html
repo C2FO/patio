@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-    <title>Patio - Associations</title>
+    <title>Patio - Models</title>
     <meta name="generator" content="JsDoc Toolkit"/>
     <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
@@ -66,20 +66,22 @@
     </div>
 </div>
 <div class="contentContainer">
-    <div id="content">
-        <div class="section">
-            <h1 class="classTitle"><a href="./api/symbols/patio.Model.html" target="_blank">Models</a></h1>
+<div id="content">
+<div class="section">
+<h1 class="classTitle"><a href="./api/symbols/patio.Model.html" target="_blank">Models</a></h1>
 
-            <div class="methodDetail">
-                Models are an optional feature in patio that can be extended to encapsulate, query, and associate 
-                tables.
-                <p>
-                    When defining a model it is assumed that the database table already exists. So before defining a 
-                    model you must create the table/s that the model requires to function including associations. To 
-                    create a model you must <a href="./connecting.html">connect</a> to a database.                    
-                </p>
-                <p>
-                    An example model definition flow.
+<div class="methodDetail">
+    <h2 class="classTitle">Basics</h2>
+    Models are an optional feature in patio that can be extended to encapsulate, query, and associate
+    tables.
+    <p>
+        When defining a model it is assumed that the database table already exists. So before defining a
+        model you must create the table/s that the model requires to function including associations. To
+        create a model you must <a href="./connecting.html">connect</a> to a database.
+    </p>
+
+    <p>
+        An example model definition flow.
                     <pre class="code">
 patio.camelize = true;
 
@@ -131,23 +133,276 @@ connectAndCreateSchema()
         }, disconnectError);
     }, disconnectError);
                     </pre>
-                The above example:
-                <ul>
-                    <li>Connects to a database and creates the "user" table.</li>
-                    <li>Defines a User model, remember addModel returns a promise.</li>
-                    <li>Create a new User
-                        <ul>
-                            <li>Save the user</li>
-                            <li>Print out some user details, at this point the user is saved in the database</li>
-                            <li>disconnect from the database</li>
-                        </ul>
-                    </li>
-                </ul>
-                The final output should be "BobYukon's id is 1".
-                </p>
-            </div>
-        </div>
-    </div>
+    The above example:
+    <ul>
+        <li>Connects to a database and creates the "user" table.</li>
+        <li>Defines a User model, remember addModel returns a promise.</li>
+        <li>Create a new User
+            <ul>
+                <li>Save the user</li>
+                <li>Print out some user details, at this point the user is saved in the database</li>
+                <li>disconnect from the database</li>
+            </ul>
+        </li>
+    </ul>
+    The final output should be "BobYukon's id is 1".
+    </p>
+</div>
+<div class="methodDetail">
+    <h2 class="classTitle">Options</h2>
+    Models some options that allow for the customization of the way a model be haves when interacting
+    with the database.
+    <p>
+        Options.
+    <ul>
+        <li>
+            <b>typecastOnLoad</b> Defaults to true. Set to false to prevent properties from being type
+            casted when loaded from the database. See
+            <a href="api/symbols/patio.Database.html#typecastValue" target="_blank">patio.Database
+                typecastValue
+            </a>
+                          <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        typecastOnLoad : false
+    }
+});
+                          </pre>
+        </li>
+        <li>
+            <b>typecastOnAssignment</b> Defaults to true. Set to false to prevent properties from being
+            type casted when set by something other than the return values from the database. See
+            <a href="api/symbols/patio.Database.html#typecastValue" target="_blank">
+                patio.Database typecastValue
+            </a>
+
+                          <pre class="code">                              
+patio.addModel("user", {
+    static : {
+        //override default
+        typecastOnAssignment : false
+    }
+});
+                          </pre>
+            So the following would not be typecasted.
+                        <pre class='code'>
+var User = patio.getModel("user");
+var myUser = new User();
+myUser.updated = new Date(2004, 1, 1, 12, 12, 12); //would not be auto converted to a patio.sql.DateTime
+myUser.updated = "2004-02-01 12:12:12" //would not be auto converted to a patio.sql.DateTime
+                        </pre>
+        </li>
+        <li>
+            <b>typecastEmptyStringToNull</b> Defaults to true. Set to false to prevent empty strings from
+            being typecasted to null.
+                        <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        typecastEmptyStringToNull : false
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>raiseOnTypecastError</b> Defaults to true. Set to false to prevent errors thrown while
+            type casting a value from being propogated. <b>USE WITH CARE</b>
+                                                <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        raiseOnTypecastError : false
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>useTransactions</b> Defaults to true. Set to false to prevent models from using transactions
+            when saving, deleting, or updating. This applies to the model associations also.
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        useTransactions : false
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>identifierOutputMethod</b> Defaults to null. Set this to override the Dataset default method
+            of converting identifiers returned from the database.
+            <a href="api/symbols/patio.Dataset.html#identifierOutputMethod" target="_blank">patio.Database
+                identifierOutputMethod
+            </a>
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        identifierOutputMethod : "camelize"
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>identifierInputMethod</b> Defaults to null. Set this to override the Dataset default method
+            of converting identifiers when sending them to the database
+            <a href="api/symbols/patio.Dataset.html#identifierInputMethod" target="_blank">patio.Database
+                identifierInputMethod
+            </a>
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        identifierInputMethod : "underscore"
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>camelize</b> Defaults to null. Set this to force this particular models identifiers to be underscored
+            when sent to the database and camelized when returned. This <b>WILL</b> override patio.camelize. <b>Use
+            with care</b>
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        camelize : true
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>underscore</b> Defaults to null. Set this to force this particular models identifiers to be camelized
+            when sent to the database and underscored when returned. This <b>WILL</b> override patio.underscore. <b>Use
+            with care</b>
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        underscore : true
+    }
+});
+                        </pre>
+        </li>
+        <li>
+            <b>reloadOnSave</b> Defaults to true. Set this to false to prevent the models properties from
+            being reloaded from the database after a save operation. <b>Note:</b> If you set this to false and
+            you have columns that have default values in the database and they are not explictly set they will
+            <b>NOT</b> be loaded
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        reloadOnSave : false
+    }
+});
+                    </pre>
+        </li>
+        <li>
+            <b>reloadOnUpdate</b> Defaults to true. Set this to false to prevent the models properties from
+            being reloaded from the database when a model is updated. <b>Note:</b> If you set this to false and
+            you have columns that have default values in the database and they are not explictly set they will
+            <b>NOT</b> be refreshed.
+                    <pre class="code">
+patio.addModel("user", {
+    static : {
+        //override default
+        reloadOnUpdate : false
+    }
+});
+                    </pre>
+        </li>
+    </ul>
+    </p>
+</div>
+<div class="methodDetail">
+    <h2 class="classTitle">Creating a model</h2>
+    To create a Model class to use within your code you use the <a href="api/symbols/patio.html#addModel">patio
+    .addModel</a> method. When adding a model you will receive a promise this will resolve once the Model is available
+    to use. <b>Note:</b> if the table does not exist the promise will errback.
+    <pre class="code">
+patio.addModel("user").then(function(User){
+    var myUser = new User({
+        firstName : "Bob",
+        lastName : "Yukon",
+        password : "password",
+        dateOfBirth : new Date(1980, 8, 29)
+    });
+    myUser.save().then(function(){
+        console.log(format("%s %s was created at %s", myUser.firstName, myUser.lastName, myUser.created.toString()));
+        console.log(format("%s %s's id is %d", myUser.firstName, myUser.lastName, myUser.id));
+    }, disconnectError);
+});
+    </pre>
+    You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to
+    use a custom query for a particular model.
+    <pre class="code">
+var DB1 = patio.createConnection("my://connection/string");
+var DB2 = patio.createConnection("my://connection/string2");
+//user table in db1
+var user1Promise = patio.addModel(DB1.from("user"));
+//user table in db2
+var user2Promise = patio.addModel(DB2.from("user"));
+comb.when(user1Promise, user2Promise, function(User1,User2){
+    var myUser1 = new User1({
+        firstName : "Bob1",
+        lastName : "Yukon1",
+        password : "password",
+        dateOfBirth : new Date(1980, 8, 29)
+    });
+    var myUser2 = new User2({
+        firstName : "Bob2",
+        lastName : "Yukon2",
+        password : "password",
+        dateOfBirth : new Date(1980, 8, 29)
+    });
+    comb.when(myUser1.save(), myUser2.save(), function(saved){
+         console.log(format("%s %s was created at %s", myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
+         console.log(format("%s %s's id is %d", myUser1.firstName, myUser1.lastName, myUser1.id));
+
+         console.log(format("%s %s was created at %s", myUser2.firstName, myUser2.lastName,myUser2.created.toString()));
+         console.log(format("%s %s's id is %d", myUser2.firstName, myUser2.lastName, myUser2.id));
+    });
+});
+    </pre>
+    <p>
+
+    <h2 class="classTitle">Retrieving a model</h2>
+    If you define a model you can either use the result from the
+    <a href="api/symbols/patio.html#addModel" target="_blank">patio
+        .addModel</a> promise method, or you can use the <a href="api/symbols/patio.html#getModel" target="_blank">patio
+    .getModel</a> method. If the model does not exist it will return <b>null</b>.
+    <pre class="code">
+patio.addModel("user").then(function(User){
+        //...use the User value
+});
+        
+//OR 
+
+patio.addModel("user").then(function(){
+    var User = patio.getModel("user");
+});
+     
+    </pre>
+    If you are working with multiple databases and your model's table is not in the <a href="api/symbols/patio.html#defaultDatabase">patio.defaultDatabase</a>
+    (the first database you connected to) then you will need to pass in the database the model's table is in.
+    <pre class="code">
+var DB1 = patio.createConnection("my://connection/string");
+var DB2 = patio.createConnection("my://connection/string2");
+//user table in db1
+var user1Promise = patio.addModel(DB1.from("user"));
+//user table in db2
+var user2Promise = patio.addModel(DB2.from("user"));
+comb.when(user1Promise, user2Promise, function(){
+    var User1 = patio.getModel("user" DB1), User2 = patio.getModel("user", DB2);
+});
+    </pre>
+    </p>
+</div>
+</div>
+
+</div>
 </div>
 </body>
 </html>

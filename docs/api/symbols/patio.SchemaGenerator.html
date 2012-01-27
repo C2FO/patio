@@ -250,7 +250,7 @@ this.columns = [];
 this.indexes = [];
 this.constraints = [];
 this.__primaryKey = null;
-        </pre>
+    </pre>
                         </div>
                     
 
@@ -301,7 +301,7 @@ or args:
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.constraint.apply(this, [null].concat(comb.argsToArray(arguments)));
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -463,11 +463,11 @@ DB.createTable("test", function(){
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.columns.push(comb.merge(name : name, type : type, opts));
+this.columns.push(comb.merge(name:name, type:type, opts));
 if (opts.index) 
-    this.index(name);
+  this.index(name);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -532,8 +532,8 @@ with the given block or args.
                                 <pre class="code">
 args = comb.argsToArray(arguments).slice(1);
 var block = comb.isFunction(args[args.length - 1]) ? args.pop : null;
-this.constraints.push(name : name, type : "check", check : block || args);
-        </pre>
+this.constraints.push(name:name, type:"check", check:block || args);
+    </pre>
                             </div>
                         
                     </div>
@@ -603,13 +603,13 @@ for options.
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-opts = comb.isHash(table) ? comb.merge(, table, opts) : comb.isString(table) ? comb.merge(table : table, opts) : opts;
+opts = comb.isHash(table) ? comb.merge(, table, opts) : comb.isString(table) ? comb.merge(table:table, opts) : opts;
 if (comb.isArray(name)) 
-    return this.__compositeForeignKey(name, opts);
+  return this.__compositeForeignKey(name, opts);
  else 
-    return this.column(name, "integer", opts);
+  return this.column(name, "integer", opts);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -670,8 +670,8 @@ if (comb.isArray(name))
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-return this.index(columns, comb.merge(type : "fullText", opts));
-        </pre>
+return this.index(columns, comb.merge(type:"fullText", opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -721,9 +721,9 @@ return this.index(columns, comb.merge(type : "fullText", opts));
                         	<div class="sourceCode">
                                 <pre class="code">
 return this.columns.some(function(c) 
-    return c.name == name
+  return c.name == name
 );
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -801,8 +801,8 @@ The available options are:
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-this.indexes.push(comb.merge(columns : comb.array.toArray(columns), opts || ));
-        </pre>
+this.indexes.push(comb.merge(columns:comb.array.toArray(columns), opts || ));
+    </pre>
                             </div>
                         
                     </div>
@@ -866,19 +866,19 @@ method with a {primaryKey : true} option.
                         	<div class="sourceCode">
                                 <pre class="code">
 if (comb.isArray(name)) 
-    return this.__compositePrimaryKey.apply(this, arguments);
+  return this.__compositePrimaryKey.apply(this, arguments);
  else 
-    var args = comb.argsToArray(arguments).slice(1);
-    var opts = args.pop();
-    this.__primaryKey = comb.merge(opts, this.db.serialPrimaryKeyOptions, name : name);
-    opts = comb.isHash(opts) ? type : opts : opts;
-    if ((type = args.pop()) != null) 
-        comb.merge(opts, type : type);
-    
-    comb.merge(this.__primaryKey, opts);
-    return this.__primaryKey;
+  var args = comb.argsToArray(arguments).slice(1);
+  var opts = args.pop();
+  this.__primaryKey = comb.merge(opts, this.db.serialPrimaryKeyOptions, name:name);
+  opts = comb.isHash(opts) ? type:opts : opts;
+  if ((type = args.pop()) != null) 
+    comb.merge(opts, type:type);
+  
+  comb.merge(this.__primaryKey, opts);
+  return this.__primaryKey;
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -927,8 +927,8 @@ if (comb.isArray(name))
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-return this.index(columns, comb.merge(type : "spatial", opts));
-        </pre>
+return this.index(columns, comb.merge(type:"spatial", opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -988,8 +988,8 @@ for argument types.
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.constraints.push(comb.merge(type : "unique", columns : comb.array.toArray(columns), opts));
-        </pre>
+this.constraints.push(comb.merge(type:"unique", columns:comb.array.toArray(columns), opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -1003,7 +1003,7 @@ this.constraints.push(comb.merge(type : "unique", columns : comb.array.toArray(c
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:21 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:34 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>

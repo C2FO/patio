@@ -274,7 +274,7 @@ this.db = db;
 this.operations = [];
 block.apply(this, [this]);
 
-        </pre>
+    </pre>
                         </div>
                     
 
@@ -353,8 +353,8 @@ See <a href="../symbols/patio.SchemaGenerator.html#column" class="" >patio.Schem
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.operations.push(comb.merge(op : "addColumn", name : name, type : type, opts));
-        </pre>
+this.operations.push(comb.merge(op:"addColumn", name:name, type:type, opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -410,8 +410,8 @@ DB.alterTable("test", function(){
                                 <pre class="code">
 var args = comb.argsToArray(arguments);
 var block = comb.isFunction(args[args.length - 1]) ? args.pop() : null;
-this.operations.push(op : "addConstraint", name : name, type : "check", check : block || args);
-        </pre>
+this.operations.push(op:"addConstraint", name:name, type:"check", check:block || args);
+    </pre>
                             </div>
                         
                     </div>
@@ -488,11 +488,11 @@ use the composite key syntax even if it is only one column.
                                 <pre class="code">
 opts = opts;
 if (comb.isArray(name)) 
-    return this.__addCompositeForeignKey(name, table, opts);
+  return this.__addCompositeForeignKey(name, table, opts);
  else 
-    return this.addColumn(name, "integer", comb.merge(table : table, opts));
+  return this.addColumn(name, "integer", comb.merge(table:table, opts));
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -542,8 +542,8 @@ See @{link patio.SchemaGenerator#index} for available options.
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-return this.addIndex(columns, comb.merge(type : "fullText", opts));
-        </pre>
+return this.addIndex(columns, comb.merge(type:"fullText", opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -603,8 +603,8 @@ return this.addIndex(columns, comb.merge(type : "fullText", opts));
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.operations.push(comb.merge(op : "addIndex", columns : comb.array.toArray(columns), opts));
-        </pre>
+this.operations.push(comb.merge(op:"addIndex", columns:comb.array.toArray(columns), opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -668,13 +668,13 @@ the column name as an array, it just creates a constraint:
                                 <pre class="code">
 opts = opts || ;
 if (comb.isArray(name)) 
-    return this.__addCompositePrimaryKey(name, opts);
+  return this.__addCompositePrimaryKey(name, opts);
  else 
-    opts = comb.merge(, this.db.serialPrimaryKeyOptions, opts);
-    delete opts.type;
-    return this.addColumn(name, opts, opts);
+  opts = comb.merge(, this.db.serialPrimaryKeyOptions, opts);
+  delete opts.type;
+  return this.addColumn(name, opts, opts);
 
-        </pre>
+    </pre>
                             </div>
                         
                     </div>
@@ -724,8 +724,8 @@ See <a href="../symbols/patio.SchemaGenerator.html#index" class="" >patio.Schema
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-addIndex(columns, comb.merge(, type : "spatial", opts))
-        </pre>
+addIndex(columns, comb.merge(, type:"spatial", opts))
+    </pre>
                             </div>
                         
                     </div>
@@ -787,8 +787,8 @@ See <a href="../symbols/patio.SchemaGenerator.html#constraint" class="" >patio.S
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.operations.push(comb.merge(op : "addConstraint", type : "unique", columns : comb.array.toArray(columns), opts));
-        </pre>
+this.operations.push(comb.merge(op:"addConstraint", type:"unique", columns:comb.array.toArray(columns), opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -840,8 +840,8 @@ this.operations.push(comb.merge(op : "addConstraint", type : "unique", columns :
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-this.operations.push(op : "dropColumn", name : name);
-        </pre>
+this.operations.push(op:"dropColumn", name:name);
+    </pre>
                             </div>
                         
                     </div>
@@ -893,8 +893,8 @@ this.operations.push(op : "dropColumn", name : name);
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-this.operations.push(op : "dropConstraint", name : name);
-        </pre>
+this.operations.push(op:"dropConstraint", name:name);
+    </pre>
                             </div>
                         
                     </div>
@@ -957,8 +957,8 @@ this.operations.push(op : "dropConstraint", name : name);
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.operations.push(comb.merge(op : "dropIndex", columns : comb.array.toArray(columns), opts));
-        </pre>
+this.operations.push(comb.merge(op:"dropIndex", columns:comb.array.toArray(columns), opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -1023,8 +1023,8 @@ this.operations.push(comb.merge(op : "dropIndex", columns : comb.array.toArray(c
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || ;
-this.operations.push(comb.merge(op : "renameColumn", name : name, newName : newName, opts));
-        </pre>
+this.operations.push(comb.merge(op:"renameColumn", name:name, newName:newName, opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -1082,8 +1082,8 @@ this.operations.push(comb.merge(op : "renameColumn", name : name, newName : newN
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-this.operations.push(op : "setColumnNull", name : name, "null" : allowNull);
-        </pre>
+this.operations.push(op:"setColumnNull", name:name, "null":allowNull);
+    </pre>
                             </div>
                         
                     </div>
@@ -1141,8 +1141,8 @@ this.operations.push(op : "setColumnNull", name : name, "null" : allowNull);
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-this.operations.push(op : "setColumnDefault", name : name, "default" : def);
-        </pre>
+this.operations.push(op:"setColumnDefault", name:name, "default":def);
+    </pre>
                             </div>
                         
                     </div>
@@ -1207,8 +1207,8 @@ this.operations.push(op : "setColumnDefault", name : name, "default" : def);
                         	<div class="sourceCode">
                                 <pre class="code">
 opts = opts || 
-this.operations.push(comb.merge(op : "setColumnType", name : name, type : type, opts));
-        </pre>
+this.operations.push(comb.merge(op:"setColumnType", name:name, type:type, opts));
+    </pre>
                             </div>
                         
                     </div>
@@ -1222,7 +1222,7 @@ this.operations.push(comb.merge(op : "setColumnType", name : name, type : type, 
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 10:05:19 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Jan 27 2012 11:14:32 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>
