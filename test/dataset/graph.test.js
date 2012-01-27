@@ -75,7 +75,7 @@ suite.addBatch({
         "not modify the current dataset's opts":function (topic) {
             var o1 = ds1.__opts;
             var o2 = comb.merge({}, o1);
-            ds1.graph(ds2, {x:"id"}).then(function (dsOne) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (dsOne) {
                 assert.deepEqual(ds1.__opts, o1);
                 assert.deepEqual(ds1.__opts, o2);
                 assert.notDeepEqual(dsOne.__opts, o1);
@@ -83,84 +83,84 @@ suite.addBatch({
         },
 
         "accept a simple dataset and pass the table to join":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             })
         },
 
         "accept a complex dataset and pass it directly to join":function () {
-            ds1.graph(ds2.filter({x:1}), {x:"id"}).then(function (ds) {
+            ds1.graph(ds2.filter({x:1}), {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, t1.id AS t1_id, t1.x AS t1_x, t1.y AS t1_y, t1.graphId FROM points LEFT OUTER JOIN (SELECT * FROM lines WHERE (x = 1)) AS t1 ON (t1.x = points.id)');
             });
         },
 
         "work on fromSelf datasets":function () {
-            ds1.fromSelf().graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.fromSelf().graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT t1.id, t1.x, t1.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM (SELECT * FROM points) AS t1 LEFT OUTER JOIN lines ON (lines.x = t1.id)');
             });
-            ds1.graph(ds2.fromSelf(), {x:"id"}).then(function (ds) {
+            ds1.graph(ds2.fromSelf(), {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, t1.id AS t1_id, t1.x AS t1_x, t1.y AS t1_y, t1.graphId FROM points LEFT OUTER JOIN (SELECT * FROM (SELECT * FROM lines) AS t1) AS t1 ON (t1.x = points.id)');
             });
-            ds1.fromSelf().fromSelf().graph(ds2.fromSelf().fromSelf(), {x:"id"}).then(function (ds) {
+            ds1.fromSelf().fromSelf().graph(ds2.fromSelf().fromSelf(), {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT t1.id, t1.x, t1.y, t2.id AS t2_id, t2.x AS t2_x, t2.y AS t2_y, t2.graphId FROM (SELECT * FROM (SELECT * FROM points) AS t1) AS t1 LEFT OUTER JOIN (SELECT * FROM (SELECT * FROM (SELECT * FROM lines) AS t1) AS t1) AS t2 ON (t2.x = t1.id)');
             });
-            ds1.from(ds1, ds3).graph(ds2.fromSelf(), {x:"id"}).then(function (ds) {
+            ds1.from(ds1, ds3).graph(ds2.fromSelf(), {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT t1.id, t1.x, t1.y, t3.id AS t3_id, t3.x AS t3_x, t3.y AS t3_y, t3.graphId FROM (SELECT * FROM (SELECT * FROM points) AS t1, (SELECT * FROM graphs) AS t2) AS t1 LEFT OUTER JOIN (SELECT * FROM (SELECT * FROM lines) AS t1) AS t3 ON (t3.x = t1.id)');
             });
         },
 
         "accept a string table name as the dataset":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
         },
 
         "accept an object that responds to dataset as the dataset":function () {
             var oc = {dataset:ds2};
-            ds1.graph(oc, {x:"id"}).then(function (ds) {
+            ds1.graph(oc, {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
             oc.dataset = "lines";
-            ds1.graph(oc, {x:"id"}).then(function (ds) {
+            ds1.graph(oc, {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
         },
 
         "throw an error if an object with dataset is not used":function () {
             assert.throws(function () {
-                ds1.graph({}, {x:"id"})
+                ds1.graph({}, {x:sql.identifier("id")})
             });
         },
 
         "accept a tableAlias option":function () {
-            ds = ds1.graph("lines", {x:"id"}, {tableAlias:"planes"}).then(function (ds) {
+            ds = ds1.graph("lines", {x:sql.identifier("id")}, {tableAlias:"planes"}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, planes.id AS planes_id, planes.x AS planes_x, planes.y AS planes_y, planes.graphId FROM points LEFT OUTER JOIN lines AS planes ON (planes.x = points.id)');
             });
         },
 
         "accept a implicitQualifier option":function () {
-            ds = ds1.graph("lines", {x:"id"}, {implicitQualifier:"planes"}).then(function (ds) {
+            ds = ds1.graph("lines", {x:sql.identifier("id")}, {implicitQualifier:"planes"}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = planes.id)');
             });
         },
 
         "accept a :join_type option":function () {
-            ds = ds1.graph("lines", {x:"id"}, {joinType:"inner"}).then(function (ds) {
+            ds = ds1.graph("lines", {x:sql.identifier("id")}, {joinType:"inner"}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points INNER JOIN lines ON (lines.x = points.id)');
             });
         },
 
         "not select any columns from the graphed table if :select option is false":function () {
-            ds = ds1.graph("lines", {x:"id"}, {select:false}).then(function (d) {
-                d.graph("graphs", {id:"graphId"}).then(function (ds) {
+            ds = ds1.graph("lines", {x:sql.identifier("id")}, {select:false}).then(function (d) {
+                d.graph("graphs", {id:sql.identifier("graphId")}).then(function (ds) {
                     assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, graphs.id AS graphs_id, graphs.name, graphs.x AS graphs_x, graphs.y AS graphs_y, graphs.linesX FROM points LEFT OUTER JOIN lines ON (lines.x = points.id) LEFT OUTER JOIN graphs ON (graphs.id = lines.graphId)');
                 });
             })
         },
 
         "use the given columns if :select option is used":function () {
-            ds = ds1.graph("lines", {x:"id"}, {select:["x", "graphId"]}).then(function (d) {
-                d.graph("graphs", {id:"graphId"}).then(function (ds) {
+            ds = ds1.graph("lines", {x:sql.identifier("id")}, {select:["x", "graphId"]}).then(function (d) {
+                d.graph("graphs", {id:sql.identifier("graphId")}).then(function (ds) {
                     assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.x AS lines_x, lines.graphId, graphs.id AS graphs_id, graphs.name, graphs.x AS graphs_x, graphs.y AS graphs_y, graphs.linesX FROM points LEFT OUTER JOIN lines ON (lines.x = points.id) LEFT OUTER JOIN graphs ON (graphs.id = lines.graphId)');
                 })
             });
@@ -168,8 +168,8 @@ suite.addBatch({
 
         "pass all join_conditions to join_table":function () {
             ds = ds1.graph(ds2, [
-                ["x", "id"],
-                ["y", "id"]
+                ["x", sql.identifier("id")],
+                ["y", sql.identifier("id")]
             ]).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON ((lines.x = points.id) AND (lines.y = points.id))');
             });
@@ -193,14 +193,14 @@ suite.addBatch({
                 ["y", ["lines", "y"]]
             ]);
             assert.equal(ds.sql, 'SELECT points.x, lines.y FROM points')
-            ds = ds.graph("lines", {x:"id"}).then(function (ds) {
+            ds = ds.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.x, lines.y FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
         },
 
         "allow graphing of multiple datasets":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (d) {
-                d.graph(ds3, {id:"graphId"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                d.graph(ds3, {id:sql.identifier("graphId")}).then(function (ds) {
                     assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId, graphs.id AS graphs_id, graphs.name, graphs.x AS graphs_x, graphs.y AS graphs_y, graphs.linesX FROM points LEFT OUTER JOIN lines ON (lines.x = points.id) LEFT OUTER JOIN graphs ON (graphs.id = lines.graphId)');
                 });
             });
@@ -208,24 +208,24 @@ suite.addBatch({
 
 
         "allow graphing of the same dataset multiple times":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (d) {
-                d.graph(ds2, {y:"points__id"}, {tableAlias:"graph"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                d.graph(ds2, {y:sql.identifier("points__id")}, {tableAlias:"graph"}).then(function (ds) {
                     assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId, graph.id AS graph_id, graph.x AS graph_x, graph.y AS graph_y, graph.graphId AS graph_graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id) LEFT OUTER JOIN lines AS graph ON (graph.y = points.id)');
                 });
             });
         },
 
         "throw an error if the table/table alias has already been used":function () {
-            assert.throws(comb.hitch(ds1, "graph", ds1, {x:"id"}));
-            assert.doesNotThrow(comb.hitch(ds1, "graph", ds2, {x:"id"}));
+            assert.throws(comb.hitch(ds1, "graph", ds1, {x:sql.identifier("id")}));
+            assert.doesNotThrow(comb.hitch(ds1, "graph", ds2, {x:sql.identifier("id")}));
             assert.throws(function () {
-                ds1.graph(ds2, {x:"id"}).then(function (d) {
-                    d.graph(ds2, {x:"id"});
+                ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                    d.graph(ds2, {x:sql.identifier("id")});
                 })
             });
             assert.doesNotThrow(function () {
-                ds1.graph(ds2, {x:"id"}).then(function (d) {
-                    d.graph(ds2, {x:"id"}, {tableAlias:"blah"});
+                ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                    d.graph(ds2, {x:sql.identifier("id")}, {tableAlias:"blah"});
                 })
             })
         },
@@ -247,7 +247,7 @@ suite.addBatch({
         },
 
         "setGraphAliases should specify the graph mapping":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 assert.equal(ds.sql, 'SELECT points.id, points.x, points.y, lines.id AS lines_id, lines.x AS lines_x, lines.y AS lines_y, lines.graphId FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
                 ds = ds.setGraphAliases({x:["points", "x"], y:["lines", "y"]});
                 assert.equal(ds.sql, 'SELECT points.x, lines.y FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
@@ -255,14 +255,14 @@ suite.addBatch({
         },
 
         "addGraphAliases should add columns to the graph mapping":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 var d = ds.setGraphAliases({x:["points", "q"]}).addGraphAliases({y:["lines", "r"]});
                 assert.equal(d.sql, 'SELECT points.q AS x, lines.r AS y FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
         },
 
         "setGraphAliases should allow a third entry to specify an expression to use other than the default":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 d = ds.setGraphAliases({x:["points", "x", 1], y:["lines", "y", sql.random.sqlFunction]});
                 assert.equal(d.sql, 'SELECT 1 AS x, random() AS y FROM points LEFT OUTER JOIN lines ON (lines.x = points.id)');
             });
@@ -277,7 +277,7 @@ suite.addBatch({
         },
 
         "graphEach should split the result set into component tables":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7}));
                 };
@@ -286,7 +286,7 @@ suite.addBatch({
                     assert.deepEqual(results[0], {points:{id:1, x:2, y:3}, lines:{id:4, x:5, y:6, graphId:7}});
                 });
             });
-            ds1.graph(ds2, {x:"id"}).then(function (d) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
                 d.graph(ds3, {id:"graphId"}).then(function (ds) {
                     ds.fetchRows = function (sql, block) {
                         return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7, graphs_id:8, name:9, graphs_x:10, graphs_y:11, linesX:12}));
@@ -298,8 +298,8 @@ suite.addBatch({
                 });
             });
 
-            ds1.graph(ds2, {x:"id"}).then(function (d) {
-                d.graph(ds2, {y:"points__id"}, {tableAlias:"graph"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                d.graph(ds2, {y:sql.identifier("points__id")}, {tableAlias:"graph"}).then(function (ds) {
                     ds.fetchRows = function (sql, block) {
                         return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7, graph_id:8, graph_x:9, graph_y:10, graph_graphId:11}));
                     };
@@ -312,7 +312,7 @@ suite.addBatch({
         },
 
         "ungraphed should remove the splitting of result sets into component tables":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 ds = ds.ungraphed();
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7}));
@@ -326,7 +326,7 @@ suite.addBatch({
         },
 
         "graphEach should give a null value instead of a hash when all values for a table are null":function () {
-            ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:null, lines_x:null, lines_y:null, graphId:null}));
                 }
@@ -335,8 +335,8 @@ suite.addBatch({
                     assert.deepEqual(r[0], {points:{id:1, x:2, y:3}, lines:null});
                 })
             });
-            ds1.graph(ds2, {x:"id"}).then(function (d) {
-                d.graph(ds3, {id:"graphId"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (d) {
+                d.graph(ds3, {id:sql.identifier("graphId")}).then(function (ds) {
                     ds.fetchRows = function (sql, block) {
                         var ret = new comb.Promise();
                         block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7, graphs_id:null, name:null, graphs_x:null, graphs_y:null, linesX:null});
@@ -357,7 +357,7 @@ suite.addBatch({
         },
 
         "graphEach should not give a null value instead of a hash when any value for a table is false":function () {
-            ds = ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds = ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:null, lines_x:false, lines_y:null, graphId:null}));
                 };
@@ -370,8 +370,8 @@ suite.addBatch({
         },
 
         "graphEach should not included tables graphed with the {select : false} option in the result set":function () {
-            ds1.graph("lines", {x:"id"}, {select:false}).then(function (d) {
-                d.graph("graphs", {id:"graphId"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}, {select:false}).then(function (d) {
+                d.graph("graphs", {id:sql.identifier("graphId")}).then(function (ds) {
                     ds.fetchRows = function (sql, block) {
                         return new comb.Promise().callback(block({id:1, x:2, y:3, graphs_id:8, name:9, graphs_x:10, graphs_y:11, linesX:12}));
                     }
@@ -384,7 +384,7 @@ suite.addBatch({
         },
 
         "graphEach should only include the columns selected with setGraphAliases and addGraphAliases, if called":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 ds = ds.setGraphAliases({x:["points", "x"], y:["lines", "y"]});
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({x:2, y:3}));
@@ -395,7 +395,7 @@ suite.addBatch({
                 });
             });
 
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 ds = ds.setGraphAliases({x:["points", "x"]});
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({x:2}));
@@ -417,7 +417,7 @@ suite.addBatch({
         },
 
         "graphEach should correctly map values when setGraphAliases is used with a third argument for each entry":function () {
-            ds1.graph("lines", {x:"id"}).then(function (ds) {
+            ds1.graph("lines", {x:sql.identifier("id")}).then(function (ds) {
                 ds = ds.setGraphAliases({x:["points", "z1", 2], y:["lines", "z2", sql.random.sqlFunction]});
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({x:2, y:3}));
@@ -444,7 +444,7 @@ suite.addBatch({
                 });
                 return h;
             };
-            ds1.graph(ds2, {x:"id"}).then(function (ds) {
+            ds1.graph(ds2, {x:sql.identifier("id")}).then(function (ds) {
                 ds.fetchRows = function (sql, block) {
                     return new comb.Promise().callback(block({id:1, x:2, y:3, lines_id:4, lines_x:5, lines_y:6, graphId:7}));
                 };

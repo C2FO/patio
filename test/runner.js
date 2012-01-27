@@ -120,7 +120,10 @@ var runTests = function (files) {
         var f = files.shift();
         if (f) {
             console.log("RUNNING %s", f);
-            require(f).then(comb.partial(run, files));
+            require(f).then(comb.partial(run, files), function(err){
+                console.log(err);
+                run(files);
+            });
         } else {
             ret.callback();
         }

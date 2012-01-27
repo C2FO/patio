@@ -7,11 +7,11 @@ var disconnect = comb.hitch(patio, "disconnect");
 var disconnectError = function(err) {
   patio.logError(err);
   patio.disconnect();
-}
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+};
+//comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
 var createTables = function() {
   return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox", function(db, patio) {
-    db.forceDropTable("classesStudents", "class", "student");
+    db.forceDropTable("classesStudents", "studentsClasses", "class", "student");
     db.createTable("class", function() {
       this.primaryKey("id");
       this.semester("char", {size:10});

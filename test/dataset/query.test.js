@@ -1235,7 +1235,7 @@ suite.addBatch({
         },
 
         "should use the user-specified alias for joins":function (ds) {
-            assert.equal(ds.fromSelf({alias:"someName"}).innerJoin("posts", {alias:"name"}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName INNER JOIN posts ON (posts.alias = someName.name)');
+            assert.equal(ds.fromSelf({alias:"someName"}).innerJoin("posts", {alias:sql.identifier("name")}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName INNER JOIN posts ON (posts.alias = someName.name)');
         }
     },
 
@@ -1247,46 +1247,46 @@ suite.addBatch({
         },
 
         "should format the JOIN clause properly":function (d) {
-            assert.equal(d.joinTable("leftOuter", "categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable("leftOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         },
 
 
         "should handle multiple conditions on the same join table column":function (d) {
             assert.equal(d.joinTable("leftOuter", "categories", [
-                ["categoryId", "id"],
+                ["categoryId", sql.identifier("id")],
                 ["categoryId", [1, 2, 3]]
             ]).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON (("categories"."categoryId" = "items"."id") AND ("categories"."categoryId" IN (1, 2, 3)))');
         },
 
 
         "should include WHERE clause if applicable":function (d) {
-            assert.equal(d.filter(sql.price.sqlNumber.lt(100)).joinTable("rightOuter", "categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") WHERE ("price" < 100)');
+            assert.equal(d.filter(sql.price.sqlNumber.lt(100)).joinTable("rightOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") WHERE ("price" < 100)');
         },
 
 
         "should include ORDER BY clause if applicable":function (d) {
-            assert.equal(d.order("stamp").joinTable("fullOuter", "categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") ORDER BY "stamp"');
+            assert.equal(d.order("stamp").joinTable("fullOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") ORDER BY "stamp"');
         },
 
 
         "should support multiple joins":function (d) {
-            assert.equal(d.joinTable("inner", "b", {itemsId:"id"}).joinTable("leftOuter", "c", {b_id:"b__id"}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
+            assert.equal(d.joinTable("inner", "b", {itemsId:sql.identifier("id")}).joinTable("leftOuter", "c", {b_id:sql.identifier("b__id")}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
         },
 
 
         "should support arbitrary join types":function (d) {
-            assert.equal(d.joinTable("magic", "categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" MAGIC JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable("magic", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" MAGIC JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         },
 
 
         "should support many join methods":function (d) {
-            assert.equal(d.leftOuterJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.rightOuterJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.fullOuterJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.innerJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.leftJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" LEFT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.rightJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" RIGHT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.fullJoin("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" FULL JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.leftOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.rightOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.fullOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.innerJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.leftJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.rightJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.fullJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
             assert.equal(d.naturalJoin("categories").sql, 'SELECT * FROM "items" NATURAL JOIN "categories"');
             assert.equal(d.naturalLeftJoin("categories").sql, 'SELECT * FROM "items" NATURAL LEFT JOIN "categories"');
             assert.equal(d.naturalRightJoin("categories").sql, 'SELECT * FROM "items" NATURAL RIGHT JOIN "categories"');
@@ -1296,11 +1296,11 @@ suite.addBatch({
 
 
         "should raise an error if additional arguments are provided to join methods that don't take conditions":function (d) {
-            assert.throws(d, "naturalJoin", "categories", {id:"id"});
-            assert.throws(d, "naturalLeftJoin", "categories", {id:"id"});
-            assert.throws(d, "naturalRightJoin", "categories", {id:"id"});
-            assert.throws(d, "naturalFullJoin", "categories", {id:"id"});
-            assert.throws(d, "crossJoin", "categories", {id:"id"});
+            assert.throws(d, "naturalJoin", "categories", {id:sql.identifier("id")});
+            assert.throws(d, "naturalLeftJoin", "categories", {id:sql.identifier("id")});
+            assert.throws(d, "naturalRightJoin", "categories", {id:sql.identifier("id")});
+            assert.throws(d, "naturalFullJoin", "categories", {id:sql.identifier("id")});
+            assert.throws(d, "crossJoin", "categories", {id:sql.identifier("id")});
         },
 
 
@@ -1319,50 +1319,50 @@ suite.addBatch({
 
 
         "should default to a plain join if nil is used for the type":function (d) {
-            assert.equal(d.joinTable(null, "categories", {categoryId:"id"}).sql, 'SELECT * FROM "items"  JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable(null, "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items"  JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         },
 
 
         "should use an inner join for Dataset.join":function (d) {
-            assert.equal(d.join("categories", {categoryId:"id"}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.join("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         },
 
 
         "should support aliased tables using a string":function (d) {
-            assert.equal(d.from('stats').join('players', {id:"playerId"}, 'p').sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
+            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, 'p').sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
         },
 
 
         "should support aliased tables using the :table_alias option":function (d) {
-            assert.equal(d.from('stats').join('players', {id:"playerId"}, {tableAlias:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
+            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, {tableAlias:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
         },
 
 
         "should support using an alias for the FROM when doing the first join with unqualified condition columns":function (d) {
             var ds = new MockDataset().from({foo:"f"});
             ds.quoteIdentifiers = true;
-            assert.equal(ds.joinTable("inner", "bar", {id:"barId"}).sql, 'SELECT * FROM "foo" AS "f" INNER JOIN "bar" ON ("bar"."id" = "f"."barId")');
+            assert.equal(ds.joinTable("inner", "bar", {id:sql.identifier("barId")}).sql, 'SELECT * FROM "foo" AS "f" INNER JOIN "bar" ON ("bar"."id" = "f"."barId")');
         },
 
 
         "should support implicit schemas in from table symbols":function (d) {
-            assert.equal(d.from("s__t").join("u__v", {id:"playerId"}).sql, 'SELECT * FROM "s"."t" INNER JOIN "u"."v" ON ("u"."v"."id" = "s"."t"."playerId")');
+            assert.equal(d.from("s__t").join("u__v", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" INNER JOIN "u"."v" ON ("u"."v"."id" = "s"."t"."playerId")');
         },
 
 
         "should support implicit aliases in from table symbols":function (d) {
-            assert.equal(d.from("t___z").join("v___y", {id:"playerId"}).sql, 'SELECT * FROM "t" AS "z" INNER JOIN "v" AS "y" ON ("y"."id" = "z"."playerId")');
-            assert.equal(d.from("s__t___z").join("u__v___y", {id:"playerId"}).sql, 'SELECT * FROM "s"."t" AS "z" INNER JOIN "u"."v" AS "y" ON ("y"."id" = "z"."playerId")');
+            assert.equal(d.from("t___z").join("v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "t" AS "z" INNER JOIN "v" AS "y" ON ("y"."id" = "z"."playerId")');
+            assert.equal(d.from("s__t___z").join("u__v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" AS "z" INNER JOIN "u"."v" AS "y" ON ("y"."id" = "z"."playerId")');
         },
 
 
         "should support AliasedExpressions":function (d) {
-            assert.equal(d.from(sql.s.as("t")).join(sql.u.as("v"), {id:"playerId"}).sql, 'SELECT * FROM "s" AS "t" INNER JOIN "u" AS "v" ON ("v"."id" = "t"."playerId")');
+            assert.equal(d.from(sql.s.as("t")).join(sql.u.as("v"), {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s" AS "t" INNER JOIN "u" AS "v" ON ("v"."id" = "t"."playerId")');
         },
 
 
         "should support the 'implicitQualifierOption":function (d) {
-            assert.equal(d.from('stats').join('players', {id:"playerId"}, {implicitQualifier:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" ON ("players"."id" = "p"."playerId")');
+            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, {implicitQualifier:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" ON ("players"."id" = "p"."playerId")');
         },
 
 
@@ -1375,22 +1375,22 @@ suite.addBatch({
 
 
         "should raise error for a table without a source":function (d) {
-            assert.throws(hitch(new Dataset(), "join", "players", {id:"playerId"}));
+            assert.throws(hitch(new Dataset(), "join", "players", {id:sql.identifier("playerId")}));
         },
 
 
         "should support joining datasets":function (d) {
             var ds = new Dataset().from("categories");
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:"id"}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id")');
+            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id")');
             ds = ds.filter({active:true});
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:"id"}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t1" ON ("t1"."itemId" = "items"."id")');
-            assert.equal(d.fromSelf().joinTable("leftOuter", ds, {itemId:"id"}).sql, 'SELECT * FROM (SELECT * FROM "items") AS "t1" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t2" ON ("t2"."itemId" = "t1"."id")');
+            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t1" ON ("t1"."itemId" = "items"."id")');
+            assert.equal(d.fromSelf().joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM (SELECT * FROM "items") AS "t1" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t2" ON ("t2"."itemId" = "t1"."id")');
         },
 
 
         "should support joining datasets and aliasing the join":function (d) {
             var ds = new Dataset().from("categories");
-            assert.equal(d.joinTable("leftOuter", ds, {"ds__itemId":"id"}, "ds").sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "ds" ON ("ds"."itemId" = "items"."id")');
+            assert.equal(d.joinTable("leftOuter", ds, {"ds__itemId":sql.identifier("id")}, "ds").sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "ds" ON ("ds"."itemId" = "items"."id")');
         },
 
 
@@ -1399,7 +1399,7 @@ suite.addBatch({
             var ds2 = new Dataset().from("nodes").select("name");
             var ds3 = new Dataset().from("attributes").filter("name = 'blah'");
 
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:"id"}).joinTable("inner", ds2, {nodeId:"id"}).joinTable("rightOuter", ds3, {attributeId:"id"}).sql,
+            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).joinTable("inner", ds2, {nodeId:sql.identifier("id")}).joinTable("rightOuter", ds3, {attributeId:sql.identifier("id")}).sql,
                 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id") '
                     + 'INNER JOIN (SELECT name FROM nodes) AS "t2" ON ("t2"."nodeId" = "t1"."id") '
                     + 'RIGHT OUTER JOIN (SELECT * FROM attributes WHERE (name = \'blah\')) AS "t3" ON ("t3"."attributeId" = "t2"."id")'
@@ -1409,7 +1409,7 @@ suite.addBatch({
 
         "should support joining objects that have a tableName property":function (d) {
             var ds = {tableName:"categories"};
-            assert.equal(d.join(ds, {itemId:"id"}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."itemId" = "items"."id")');
+            assert.equal(d.join(ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."itemId" = "items"."id")');
         },
 
 
@@ -1443,14 +1443,14 @@ suite.addBatch({
 
         "should emulate JOIN USING (poorly) if the dataset doesn't support it":function (d) {
             d.supportsJoinUsing = false;
-            assert.equal(d.join("categories", ["id"]).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."id" = "items"."id")');
+            assert.equal(d.join("categories", [sql.identifier("id")]).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."id" = "items"."id")');
             d.supportsJoinUsing = true;
         },
 
 
-        "should raise an error if using an array of symbols with a block":function (d) {
+        "should raise an error if using an array of identifiers with a block":function (d) {
             assert.throws(function () {
-                d.join("categories", ["id"], function (j, lj, js) {
+                d.join("categories", [sql.identifier("id")], function (j, lj, js) {
                     return false;
                 });
             });
@@ -1521,11 +1521,11 @@ suite.addBatch({
 
 
         "should combine the block conditions and argument conditions if both given":function (d) {
-            assert.equal(d.join("categories", {a:"d"},
+            assert.equal(d.join("categories", {a:sql.identifier("d")},
                 function (j, lj, js) {
                     return this.b.qualify(j).eq(this.c.qualify(lj))
                 }).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON (("categories"."a" = "items"."d") AND ("categories"."b" = "items"."c"))');
-            assert.equal(d.join("categories", {a:"d"},
+            assert.equal(d.join("categories", {a:sql.identifier("d")},
                 function (j, lj, js) {
                     return this.b.qualify(j).gt(this.c.qualify(lj));
                 }).sql,
@@ -1534,8 +1534,8 @@ suite.addBatch({
 
 
         "should prefer explicit aliases over implicit":function (d) {
-            assert.equal(d.from("items___i").join("categories___c", {categoryId:"id"}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
-            assert.equal(d.from(sql.items.as("i")).join(sql.categories.as("c"), {categoryId:"id"}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
+            assert.equal(d.from("items___i").join("categories___c", {categoryId:sql.identifier("id")}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
+            assert.equal(d.from(sql.items.as("i")).join(sql.categories.as("c"), {categoryId:sql.identifier("id")}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
         },
 
 

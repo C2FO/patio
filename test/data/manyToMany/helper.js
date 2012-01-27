@@ -9,7 +9,7 @@ exports.createTables = function (underscore) {
     }else{
         patio.resetIdentifierMethods();
     }
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test",
+    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         function (db) {
             db.forceDropTable(["companiesEmployees", "employee", "company"]);
             db.createTable("company", function (table) {

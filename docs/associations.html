@@ -37,13 +37,23 @@
 <div class="menuContainer">
     <div class="menuContainerContent">
         <ul>
-            <li><span
-                    class='nodeContainer'><a href="./index.html" class=""><span>Patio</span></a></span></li>
-            <li><span class='nodeContainer'><a href="./api/index.html" target="_blank"
-                                               class=""><span>API</span></a></span></li>
             <li>
                 <span class='nodeContainer'>
-                    <a href="./connecting.html" class="">
+                    <a href="./index.html" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./api/index.html" target="_blank" class="">
+                        <span>API</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.htmll" class="">
                         <span>Connecting to a database</span>
                     </a>
                 </span>
@@ -52,6 +62,13 @@
                 <span class='nodeContainer'>
                     <a href="./DDL.html" class="">
                         <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
                     </a>
                 </span>
             </li>
@@ -64,194 +81,407 @@
 <h1 class="classTitle">Associations</h1>
 
 <div class="methodDetail">
-    <b>The following types are supported:</b>
+<b>The following types are supported:</b>
 
-    <ul>
-        <li><b>oneToMany</b> - Foreign key in associated model's table points to this
-            model's primary key. Each current model object can be associated with
-            more than one associated model objects. Each associated model object
-            can be associated with only one current model object.
-        </li>
-        <li><b>manyToOne</b> - Foreign key in current model's table points to
-            associated model's primary key. Each associated model object can
-            be associated with more than one current model objects. Each current
-            model object can be associated with only one associated model object.
-        </li>
-        <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
-            only one object is associated to the current object through the
-            association. The methods created are similar to many_to_one, except
-            that the one_to_one setter method saves the passed object./li>
-        <li><b>manyToMany</b> - A join table is used that has a foreign key that points
-            to this model's primary key and a foreign key that points to the
-            associated model's primary key. Each current model object can be
-            associated with many associated model objects, and each associated
-            model object can be associated with many current model objects./li>
-    </ul>
+<ul>
+    <li><b>oneToMany</b> - Foreign key in associated model's table points to this
+        model's primary key. Each current model object can be associated with
+        more than one associated model objects. Each associated model object
+        can be associated with only one current model object.
+    </li>
+    <li><b>manyToOne</b> - Foreign key in current model's table points to
+        associated model's primary key. Each associated model object can
+        be associated with more than one current model objects. Each current
+        model object can be associated with only one associated model object.
+    </li>
+    <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
+        only one object is associated to the current object through the
+        association. The methods created are similar to many_to_one, except
+        that the one_to_one setter method saves the passed object./li>
+    <li><b>manyToMany</b> - A join table is used that has a foreign key that points
+        to this model's primary key and a foreign key that points to the
+        associated model's primary key. Each current model object can be
+        associated with many associated model objects, and each associated
+        model object can be associated with many current model objects./li>
+</ul>
 
-    <b>The following options can be supplied:</b>
+<b>The following options can be supplied:</b>
 
 
-        <ul>
-            <li><b>model</b> - The associated class or its name. If not given, uses the association's name,
-                which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE
-                <br/>
-                For example, suppose we have the tables father and child, father being oneToMany with children. You
-                would not need to specify the model for the following.
+<ul>
+    <li><b>model</b> - The associated class or its name. If not given, uses the association's name,
+        which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE
+        <br/>
+        For example, suppose we have the tables father and child, father being oneToMany with children. You
+        would not need to specify the model for the following.
                 <pre class="code">
 //you would not need to specify model for this
 this.oneToMany("children");
 this.manyToOne("father");
                 </pre>
-                You would for the following;
+        You would for the following;
                                 <pre class="code">
 //it would default to the model myChild
 this.oneToMany("myChildren", {model : "child"});
 //it would default to the model myBiologicalFather
 this.manyToOne("myBiologicalFather", {model : "father"});
                 </pre>
-            </li>
-            <li><b>query</b> - The conditions to use to filter the association, can be any argument passed
-                to <a href="api/symbols/patio.Dataset.html#filter" class="">patio.Dataset#filter</a>.
+    </li>
+    <li><b>query</b> - The conditions to use to filter the association, can be any argument passed
+        to <a href="api/symbols/patio.Dataset.html#filter" class="">patio.Dataset#filter</a>.
                 <pre class="code">
 //WHERE age > 10
 this.oneToMany("children", {query : {age : {gt : 10}}});
 this.oneToMany("femaleChildren", {query : {gender : "female"}});
 this.oneToMany("maleChildren", {query : {gender : "male"}});
                 </pre>
-            </li>
-            <li><b>dataset</b> - A function that is called in the scope of the model and called with the model as the
-                first argument. The function must return a dataset that can be used as the base for all dataset
-                operations.<b>NOTE:</b>The dataset returned will have all options applied to it.
+    </li>
+    <li><b>dataset</b> - A function that is called in the scope of the model and called with the model as the
+        first argument. The function must return a dataset that can be used as the base for all dataset
+        operations.<b>NOTE:</b>The dataset returned will have all options applied to it.
                 <pre class="code">
 this.oneToMany("letterBChildren", {model : "child", dataset : function(){
             //called in the scope of the model instance
             return this.db.from("child").filter(sql.name.like('B%'));
 }});
                 </pre>
-            </li>
-            <li><b>distinct</b> Use the DISTINCT clause when selecting associated objects.
-                See <a href="api/symbols/patio.Dataset.html#distinct" class="">patio.Dataset#distinct</a>.
+    </li>
+    <li><b>distinct</b> Use the DISTINCT clause when selecting associated objects.
+        See <a href="api/symbols/patio.Dataset.html#distinct" class="">patio.Dataset#distinct</a>.
                 <pre class="code">
 this.manyToMany("students", {distinct : "gpa"});
                 </pre>
-            </li>
-            <li><b>limit</b> : Limit the number of records to the provided value. Use
-                an array with two elements for the value to specify a limit (first element) and an
-                offset (second element). See <a href="api/symbols/patio.Dataset.html#limit"
-                                                class="">patio.Dataset#limit</a>.
+    </li>
+    <li><b>limit</b> : Limit the number of records to the provided value. Use
+        an array with two elements for the value to specify a limit (first element) and an
+        offset (second element). See <a href="api/symbols/patio.Dataset.html#limit"
+                                        class="">patio.Dataset#limit</a>.
                 <pre class="code">
 this.manyToMany("students", {limit : 10});
 
 this.manyToMany("classes", {limit : [10, 20]});
                 </pre>
 
-            </li>
-            <li><b>order</b> : the column/s order the association dataset by. Can be a
-                one or more columns. See <a href="api/symbols/patio.Dataset.html#order" class="">patio
-                    .Dataset#order</a>.
+    </li>
+    <li><b>order</b> : the column/s order the association dataset by. Can be a
+        one or more columns. See <a href="api/symbols/patio.Dataset.html#order" class="">patio
+            .Dataset#order</a>.
                                 <pre class="code">
 this.manyToMany("students", {order : "gpa"});
 
 this.manyToMany("classes", {order : ["firstName", sql.lastName.desc()]});
                 </pre>
-            </li>
-            <li><b>readOnly</b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
-                or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).
+    </li>
+    <li><b>readOnly</b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
+        or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).
             <pre class="code">
 //Make students read only.
 this.manyToMany("students", {readOnly : true});
                 </pre>
-            </li>
-            <li><b>select</b> : the columns to select. Defaults to the associated class's
-                tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
-                join table. If you want to include the join table attributes, you can
-                use this option, but beware that the join table attributes can clash with
-                attributes from the model table, so you should alias any attributes that have
-                the same name in both the join table and the associated table.
+    </li>
+    <li><b>select</b> : the columns to select. Defaults to the associated class's
+        tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
+        join table. If you want to include the join table attributes, you can
+        use this option, but beware that the join table attributes can clash with
+        attributes from the model table, so you should alias any attributes that have
+        the same name in both the join table and the associated table.
             <pre class="code">
 this.manyToMany("students", {select : ["firstName", "lastName"]});
                 </pre>
-            </li>
-        </ul>
-        ManyToOne additional options:
-        <ul>
-            <li><b>key</b> : foreignKey in current model's table that references
-                associated model's primary key. Defaults to : "{tableName}Id". Can use an
-                array of strings for a composite key association.
-            </li>
-            <li><b>primaryKey</b> : column in the associated table that the <b>key</b> option references.
-                Defaults to the primary key of the associated table. Can use an
-                array of strings for a composite key association.
-            </li>
-        </ul>
-        OneToMany and OneToOne additional options:
-        <ul>
-            <li><b>key</b> : foreign key in associated model's table that references
-                current model's primary key, as a symbol. Defaults to
-                "{thisTableName}Id". Can use an array of columns for a composite key association.
-            </li>
-            <li><b>primaryKey</b> : column in the current table that <b>key</b> option references.
-                Defaults to primary key of the current table. Can use an array of strings for a
-                composite key association.
-            </li>
-        </ul>
+    </li>
+</ul>
+ManyToOne additional options:
+<ul>
+    <li><b>key</b> : foreignKey in current model's table that references
+        associated model's primary key. Defaults to : "{tableName}Id". Can use an
+        array of strings for a composite key association.
+                <pre class='code'>
+patio.addModel("biologicalFather", {
+    static:{
+        init:function(){
+            //assumes biologicalFatherId
+            this.oneToMany("children");
+        }
+    }
+});
 
-        ManyToMany additional options:
+patio.addModel("child", {
+    static:{
+        init:function(){
+            //assumes biologicalFatherId
+            this.manyToOne("biologicalFather");
+        }
+    }
+});
+                </pre>
+        However this table structure would not work.
+                <pre class="code">
+biological_father       child
+|--id <--------|        |--id
+|--name        |        |--name
+               |------> |--biological_father_key
+
+                </pre>
+        So you would need to define your models like this.
+                                <pre class='code'>
+patio.addModel("biologicalFather", {
+    static:{
+        init:function(){
+            //override default biologicalFatherId with biologicalFatherKey
+            this.oneToMany("children", {key : "biologicalFatherKey"});
+        }
+    }
+});
+
+patio.addModel("child", {
+    static:{
+        init:function(){
+            //override default biologicalFatherId with biologicalFatherKey
+            this.manyToOne("biologicalFather", {key : "biologicalFatherKey"});
+        }
+    }
+});
+                </pre>
+    </li>
+    <li><b>primaryKey</b> : column in the associated table that the <b>key</b> option references.
+        Defaults to the primary key of the associated table. Can use an
+        array of strings for a composite key association.
+        <p>
+            So, for the following table structure
+                <pre class="code">
+biological_father       child
+|--id                   |--id
+|--name <------|        |--name
+               |------> |--step_father_key
+                </pre>
+        You would set up the models as the following
+                <pre class="code">
+
+patio.addModel("stepFather", {
+    static:{
+        init:function(){
+            this.oneToMany("children", {key : "stepFatherKey", primaryKey : "name"});
+        }
+    }
+});
+
+patio.addModel("child", {
+    static:{
+        init:function(){
+            this.manyToOne("stepFather", {key : "stepFatherKey", primaryKey : "name"});
+        }
+    }
+});
+                </pre>
+        </p>
+    </li>
+</ul>
+OneToMany and OneToOne additional options:
+<ul>
+    <li><b>key</b> : foreign key in associated model's table that references
+        current model's primary key, as a symbol. Defaults to
+        "{thisTableName}Id". Can use an array of columns for a composite key association.
+        <p>
+            For examples see the ManyToOne examples above.
+        </p>
+    </li>
+    <li><b>primaryKey</b> : column in the current table that <b>key</b> option references.
+        Defaults to primary key of the current table. Can use an array of strings for a
+        composite key association.
+        <p>
+            For examples see the ManyToOne examples above.
+        </p>
+    </li>
+</ul>
+
+ManyToMany additional options:
+<ul>
+    <li><b>joinTable</b> : name of table that includes the foreign keys to both
+        the current model and the associated model. Defaults to the name
+        of current model and name of associated model, pluralized,
+        sorted, and camelized.
+        <p>
+            For example if you had a joinTable names students_classes you would have to define your models like this:
+        <pre class="code">
+patio.camelize = true;
+patio.addModel("class", {
+    static:{
+        init:function(){
+            this.manyToMany("students", {joinTable:"studentsClasses"});
+        }
+    }
+});
+patio.addModel("student", {
+    static:{
+        init:function(){
+            this.manyToMany("classes", {joinTable:"studentsClasses"});
+        }
+    }
+});
+        </pre>
+        </p>
+    </li>
+    <li><b>leftKey/rightKey</b>
         <ul>
-            <li><b>joinTable</b> : name of table that includes the foreign keys to both
-                the current model and the associated model. Defaults to the name
-                of current model and name of associated model, pluralized,
-                sorted, and joined with '' and camelized.
             <li><b>leftKey</b> : foreign key in join table that points to current model's
                 primary key. Defaults to :"{tableName}Id".
                 Can use an array of symbols for a composite key association.
-            <li><b>leftPrimaryKey</b> - column in current table that <b>leftKey</b> points to.
-                Defaults to primary key of current table. Can use an array of strings for a
-                composite key association.
+            </li>
             <li><b>rightKey</b> : foreign key in join table that points to associated
                 model's primary key. Defaults to Defaults to :"{associatedTableName}Id".
                 Can use an array of strings for a composite key association.
+        </ul>
+        <p>
+            Suppose you had a table structure like the following:
+        <pre class="code">
+class              classes_students       students
+|--id <----------> |--class_key       |-> |--id
+|--semester        |--student_key <---|   |--first_name
+|--name                                   |--last_name
+|--subject                                |--gpa
+|--description                            |--is_honors
+|--graded                                 |--classYear
+        </pre>
+        You would set up you models like the following:
+            <pre class="code">
+patio.camelize = true;
+patio.addModel("class", {
+    static:{
+        init:function(){
+            this.manyToMany("students", {leftKey:"classKey", rightKey:"studentKey"});
+        }
+    }
+});
+patio.addModel("student", {
+    static:{
+        init:function(){
+            this.manyToMany("classes", {leftKey:"studentKey", rightKey:"classKey"});
+        }
+    }
+});
+        </pre>
+        </p>
+    </li>
+    <li>
+        <b>leftPrimaryKey/rightPrimaryKey</b>
+        <ul>
+            <li><b>leftPrimaryKey</b> - column in current table that <b>leftKey</b> points to.
+                Defaults to primary key of current table. Can use an array of strings for a
+                composite key association.
+            </li>
             <li><b>rightPrimaryKey</b> : column in associated table that <b>rightKey</b> points to.
                 Defaults to primary key of the associated table. Can use an
                 array of strings for a composite key association.
         </ul>
-    </dd>
+        <p>
+            Suppose you had a table structure like the following:
+        <pre class="code">
+class              classes_students       students
+|--id              |--first_name_key <--> |--first_name
+|--semester        |--last_name_key <---> |--last_name
+|--name <--------> |--name_key            |--id
+|--subject <-----> |--subject_key         |--gpa
+|--description                            |--is_honors
+|--graded                                 |--classYear
+        </pre>
+        You would set up you models like the following:
+            <pre class="code">
+patio.camelize = true;
+patio.addModel("class", {
+    static:{
+        init:function(){
+            this.manyToMany("students", {
+                //use the composite key of name and subject
+                leftPrimaryKey:["name", "subject"],
+                leftKey:["nameKey", "subjectKey"],
+                rightPrimaryKey:["firstName", "lastName"],
+                rightKey:["firstNameKey", "lastNameKey"]
+            });
+        }
+    }
+});
+patio.addModel("student", {
+    static:{
+        init:function(){
+            this.manyToMany("classes", {
+                 leftPrimaryKey:["firstName", "lastName"],
+                 leftKey:["firstNameKey", "lastNameKey"],
+                 rightPrimaryKey:["name", "subject"],
+                 rightKey:["nameKey", "subjectKey"],
+            });
+        }
+    }
+});
+        </pre>
+        </p>
+    </li>
 
-    <dt>
-        <span class="light fixedFont">{Function}</span> <b>filter</b>
-        <i>Optional</i>
-    </dt>
-    <dd>optional function to filter the dataset after all other options have been applied.</dd>
+</ul>
+</dd>
 
-    </dl>
+<p>
+    <b>Filter Block</b>, you may also pass a function to the association to perform additional filtering on the
+    dataset.
+
+<p>
+    Assume the student/class relation ship defined above with the conventional keys and jointable
+    <pre class="code">
+patio.addModel("class", {
+    static:{
+        init:function(){
+            this.manyToMany("students");
+            this.manyToMany("aboveAverageStudents", {model:"student"}, function(ds) {
+                return ds.filter({gpa:{gte:3.5}});
+            });
+            this.manyToMany("averageStudents", {model:"student"}, function(ds) {
+                return ds.filter({gpa:{between:[2.5, 3.5]}});
+            });
+            this.manyToMany("belowAverageStudents", {model:"student"}, function(ds) {
+                return ds.filter({gpa:{lt:2.5}});
+            });
+        }
+    }
+});
+
+patio.addModel("student", {
+    static:{
+        init:function(){
+            this.manyToMany("classes");
+            this.manyToMany("fallClasses", {model : "class"}, function(ds){
+                return ds.filter({semester : "FALL"});
+            });
+            this.manyToMany("sprintClasses", {model : "class"}, function(ds){
+                return ds.filter({semester : "SPRING"});
+            });
+        }
+    }
+});
+    </pre>
+</p>
+</p>
 </div>
 
 <div class="methodDetail">
-<h3><a href="./api/symbols/patio.Model.html#.oneToMany">patio.Model.oneToMany</a>
-</h3>
+    <h3><a href="./api/symbols/patio.Model.html#.oneToMany">patio.Model.oneToMany</a>
+    </h3>
 
-<p>
-    One of the most common forms of associations. One to Many is the inverse of Many to one.
-    One to Many often describes a parent child relationship, where the One To Many
-    <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>
-    is the parent, and the many to one model is the child.
+    <p>
+        One of the most common forms of associations. One to Many is the inverse of Many to one.
+        One to Many often describes a parent child relationship, where the One To Many
+        <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>
+        is the parent, and the many to one model is the child.
 
-<p>For example consider a BiologicalFather and his children. The father can have many children,
-    but a child can have only one Biological Father.</p>
+    <p>For example consider a BiologicalFather and his children. The father can have many children,
+        but a child can have only one Biological Father.</p>
 
-<p>
-    Assuming you have the following table structure:
-</p>
+    <p>
+        Assuming you have the following table structure:
+    </p>
 <pre class='code'>
 biological_father       child
---------------          ------------------------------------
-|id  | name  |          |id | biological_father_id  | name |
---------------          ------------------------------------
-| 1  | Fred  |          | 1 | 1                     | Bobby|
-| 2  | Ben   |  ------> | 2 | 1                     | Alice|
-| 3  | Bob   |          | 3 | 1                     | Susan|
-| 4  | Scott |          | 4 | 4                     | Brad |
---------------          ------------------------------------
+|--id <--------|        |--id
+|--name        |        |--name
+               |------> |--biological_father_id
 
 //set up camelization so that properties can be camelcase but will be inserted
 //snake case (i.e. 'biologicalFather' becomes 'biological_father').
@@ -266,15 +496,15 @@ DB.createTable("child", function(){
     this.foreignKey("biologicalFatherId", "biologicalFather", {key : "id"});
 });
 </pre>
-<p>
-    The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a
-    foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child
-    Brad.
-</p>
+    <p>
+        The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a
+        foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child
+        Brad.
+    </p>
 
-<p>
-    You could represent the OneToMany association as follows:
-</p>
+    <p>
+        You could represent the OneToMany association as follows:
+    </p>
 <pre class="code">
 comb.executeInOrder(patio, function(patio){
      //define the BiologicalFather model
@@ -310,17 +540,17 @@ comb.executeInOrder(patio, function(patio){
      ]);
 });
 </pre>
-<p>
-    Above we created a BiologicalFather and Child model. The BiologicalFather has a static
-    initializer(init) that sets up the oneToMany association with the Child. The Child also has a static
-    initializer that sets up the ManyToOne association with the BiologicalFather. When saving
-    <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>s that have associations in
-    you can nest the associations directly.
-</p>
+    <p>
+        Above we created a BiologicalFather and Child model. The BiologicalFather has a static
+        initializer(init) that sets up the oneToMany association with the Child. The Child also has a static
+        initializer that sets up the ManyToOne association with the BiologicalFather. When saving
+        <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>s that have associations in
+        you can nest the associations directly.
+    </p>
 
-<p>
-    You can query each model by:
-</p>
+    <p>
+        You can query each model by:
+    </p>
 <pre class="code">
 var BiologicalFather = patio.getModel("biologicalFather");
 Child.findById(1).then(function(child){
@@ -335,16 +565,16 @@ BioFather.findById(1).then(function(father){
     });
 });
 </pre>
-<p>
-    Notice the models set up above are <b>"LAZY"</b> loaded meaning the
-    associations are not loaded until the association is accessed. When working with lazy loaded
-    associations a Promise will <b>always</b> be returned,even if the value has already been cached. The
-    promise will be resolved with the association value/s.
-</p>
+    <p>
+        Notice the models set up above are <b>"LAZY"</b> loaded meaning the
+        associations are not loaded until the association is accessed. When working with lazy loaded
+        associations a Promise will <b>always</b> be returned,even if the value has already been cached. The
+        promise will be resolved with the association value/s.
+    </p>
 
-<p>
-    An "EAGER" model and query would look like this:
-</p>
+    <p>
+        An "EAGER" model and query would look like this:
+    </p>
 <pre class="code">
 comb.executeInOrder(patio, function(patio){
      //define the biological father model
@@ -376,102 +606,6 @@ comb.executeInOrder(patio, function(patio){
     When working with eager associations the eagerly loaded association will be fetched on the load of a model.
 </p>
 </pre>
-<p>Options
-<ul>
-    <li><b>model</b> the table name of the model that this Model is associated with. This property
-        can usually be determined by the name of the association.
-                    <pre class="code">
- //Looks for a model with the table child
- BiologicalFather.oneToMany("children");
-                    </pre>
-        This would not work:
-                    <pre class="code">
- //model with the name myChild
- BiologicalFather.oneToMany("myChildren");
-                    </pre>
-        This will work:
-                    <pre class="code">
- //model with the name myChild
- BiologicalFather.oneToMany("myChildren", {model : "child"});
-                    </pre>
-    </li>
-
-    <li><b>fetchType</b> By default all associations are set to be <b>LAZY</b> loaded and a Promise will
-        always be returned when accessing the association. If you set the fetchType to <b>EAGER</b> then
-        the associations will be loaded when a model is loaded.
-    </li>
-    <li><b>key</b> This is the name of the foreign key column that references this models table on the
-        inverse association(i.e. biological_father_id) The key option must be used if the default column
-        that <a href="api/symbols/patio.html" target="_blank">patio</a> would use is not the correct
-        column. For example:
-<pre class="code">
- patio.addModel("biologicalFather", {
-      static : {
-          init : function(){
-              //assumes the key is biologicalFatherId,
-              this.oneToMany("children");
-          }
-      }
-});
-
-patio.addModel("child", {
-    static : {
-        init : function(){
-           //assumes the key is biologicalFatherId
-           this.manyToOne("biologicalFather");
-        }
-    }
-});
- </pre>
-        If you schema looked like this
-                    <pre class="code">
-|biological_father   |child
-|---id               |---id
-|---name             |---bio_father_id
-                     |---name
-
-                    </pre>
-        Then you would have to specify a key of "bio_father_id"
-                    <pre class="code">
- patio.addModel("biologicalFather", {
-      static : {
-          init : function(){
-              //assumes the key is biologicalFatherId,
-              this.oneToMany("children", {key : "bioFatherId"});
-          }
-      }
-});
-
-patio.addModel("child", {
-    static : {
-        init : function(){
-           //assumes the key is biologicalFatherId
-           this.manyToOne("biologicalFather",{key : "bioFatherId"});
-        }
-    }
-});
-                    </pre>
-    </li>
-    <li><b>orderBy|order</b> column or columns to order the associated model by.</li>
-</ul>
-</p>
-<p>
-    You can also specify a custom filter by passing in a function as the last argument.
-            <pre class="code">
-BioFather.oneToMany("childrenWithBNames", {model : "children", fetchType : BioFather.fetchType.EAGER}, function(ds){
-        return  ds.filter({name :/B/i});
-}});
-BioFather.forEach(function(father){
-   console.log("B named children for " + father.name + " are " + father.childrenWithBNames.map(function (c) {
-        return c.name
-   }).join(","));
-   //B named children for Ben are
-   //B named children for Bob are
-   //B named children for Scott are Brad
-   //B named children for Fred are Bobby
-});
-                   </pre>
-</p>
 </div>
 <div class="methodDetail">
     <h3><a href="./api/symbols/patio.Model.html#.oneToOne">patio.Model.oneToOne</a></h3>

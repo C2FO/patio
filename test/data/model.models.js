@@ -5,7 +5,7 @@ var DB;
 exports.loadModels = function() {
     var ret = new comb.Promise();
     patio.resetIdentifierMethods();
-    DB = patio.connect("mysql://test:testpass@localhost:3306/test");
+    DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
     return comb.executeInOrder(DB, patio, function(db, patio) {
         db.forceCreateTable("employee", function() {
             this.primaryKey("id");
@@ -29,6 +29,11 @@ exports.loadModels = function() {
 };
 
 
-exports.dropModels = function() {
-    return patio.disconnect();
+exports.dropModels = function () {
+    return comb.executeInOrder(patio, DB, function (patio, db) {
+        db.forceDropTable("employee");
+        patio.disconnect();
+        patio.identifierInputMethod = null;
+        patio.identifierOutputMethod = null;
+    });
 };

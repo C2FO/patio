@@ -108,10 +108,6 @@ helper.loadModels().then(function () {
 
                 " but after fetching them there should be two":function (emps) {
                     assert.lengthOf(emps, 2);
-                    var ids = [1, 2];
-                    emps.forEach(function (emp, i) {
-                        assert.equal(ids[i], emp.id);
-                    });
                 },
 
                 " and adding an employee":{
@@ -133,10 +129,6 @@ helper.loadModels().then(function () {
 
                     "the company should have three employees ":function (emps) {
                         assert.lengthOf(emps, 3);
-                        var ids = [1, 2, 3];
-                        emps.forEach(function (emp, i) {
-                            assert.equal(emp.id, ids[i]);
-                        });
                     }
                 }
             }

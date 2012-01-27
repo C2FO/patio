@@ -65,15 +65,10 @@ helper.loadModels().then(function () {
                 " when querying the employees ":{
                     topic:function (emps, company) {
                         assert.lengthOf(emps, 2);
-                        emps.forEach(function (emp, i) {
-                            assert.equal(i + 1, emp.id);
-                        }, this);
                         comb.executeInOrder(assert, Employee,
                             function (assert, Employee) {
                                 var emps = Employee.all()
                                 assert.lengthOf(emps, 2);
-                                assert.equal(1, emps[0].id);
-                                assert.equal(2, emps[1].id);
                                 return {companies1:emps[0].companies, companies2:emps[1].companies};
                             }).then(hitch(this, "callback", null), hitch(this, "callback"));
 
@@ -132,10 +127,6 @@ helper.loadModels().then(function () {
 
                     "the company should have three employees ":function (emps) {
                         assert.lengthOf(emps, 3);
-                        var ids = [1, 2, 3];
-                        emps.forEach(function (emp, i) {
-                            assert.equal(emp.id, ids[i]);
-                        });
                     }
                 }
             }
@@ -161,10 +152,6 @@ helper.loadModels().then(function () {
             "the company should have two employees ":function (ret) {
                 var emps = ret.employees;
                 assert.lengthOf(emps, 2);
-                var ids = [2, 3];
-                emps.forEach(function (emp, i) {
-                    assert.equal(ids[i], emp.id);
-                });
                 assert.equal(ret.empCount, 2);
             }
         }

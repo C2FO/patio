@@ -4,8 +4,8 @@ var DB1, DB2;
 
 exports.loadModels = function() {
     patio.resetIdentifierMethods();
-    DB1 = patio.connect("mysql://test:testpass@localhost:3306/test");
-    DB2 = patio.connect("mysql://test:testpass@localhost:3306/test2");
+    DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+    DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
     return comb.executeInOrder(DB1, DB2, patio, function(db1, db2, patio) {
         db1.forceCreateTable("employee", function() {
             this.primaryKey("id");
@@ -47,8 +47,12 @@ exports.loadModels = function() {
     });
 };
 
-exports.dropModels = function() {
-    return patio.disconnect().addErrback(function(err){
-        console.log(err);
+exports.dropModels = function () {
+    return comb.executeInOrder(patio, DB1, DB2, function (patio, db1, db2) {
+        db1.forceDropTable("employee");
+        db2.forceDropTable("employee");
+        patio.disconnect();
+        patio.identifierInputMethod = null;
+        patio.identifierOutputMethod = null;
     });
 };

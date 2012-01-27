@@ -19,8 +19,8 @@ var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
 var DummyDataset = comb.define(patio.Dataset, {
-    instance : {
-        first : function() {
+    instance:{
+        first:function(){
             var ret = new comb.Promise();
             if (this.__opts.from[0] == "a") {
                 ret.errback();
@@ -32,40 +32,40 @@ var DummyDataset = comb.define(patio.Dataset, {
     }
 });
 var DummyDatabase = comb.define(patio.Database, {
-    instance : {
-        constructor : function() {
+    instance:{
+        constructor:function(){
             this._super(arguments);
             this.sqls = [];
             this.identifierInputMethod = null;
             this.identifierOutputMethod = null;
         },
 
-        execute : function(sql, opts) {
+        execute:function(sql, opts){
             var ret = new comb.Promise();
             this.sqls.push(sql);
             ret.callback();
             return ret;
         },
 
-        executeError : function() {
+        executeError:function(){
             var ret = new comb.Promise();
             this.execute.apply(this, arguments).then(comb.hitch(ret, 'errback'), comb.hitch(ret, 'errback'));
             return ret;
         },
 
-        reset : function() {
+        reset:function(){
             this.sqls = [];
         },
 
-        transaction : function(opts, cb) {
+        transaction:function(opts, cb){
             var ret = new comb.Promise();
             cb();
             ret.callback();
             return ret;
         },
 
-        getters : {
-            dataset : function() {
+        getters:{
+            dataset:function(){
                 return new DummyDataset(this);
             }
         }
@@ -73,27 +73,27 @@ var DummyDatabase = comb.define(patio.Database, {
 });
 
 var DummyConnection = comb.define(null, {
-    instance : {
-        constructor : function(db) {
+    instance:{
+        constructor:function(db){
             this.db = db;
         },
 
-        execute : function() {
+        execute:function(){
             return this.db.execute.apply(this.db, arguments);
         }
     }
 });
 
 var Dummy3Database = comb.define(Database, {
-    instance : {
-        constructor : function() {
+    instance:{
+        constructor:function(){
             this._super(arguments);
             this.sqls = [];
             this.identifierInputMethod = null;
             this.identifierOutputMethod = null;
         },
 
-        execute : function(sql, opts) {
+        execute:function(sql, opts){
             opts = opts || {};
             var ret = new comb.Promise();
             this.sqls.push(sql);
@@ -101,21 +101,21 @@ var Dummy3Database = comb.define(Database, {
             return ret;
         },
 
-        createConnection : function(options) {
+        createConnection:function(options){
             return new DummyConnection(this);
         },
 
-        retCommit : function() {
-            this.transaction(function() {
+        retCommit:function(){
+            this.transaction(function(){
                 this.execute('DROP TABLE test;');
                 return;
                 this.execute('DROP TABLE test2;');
             });
         },
 
-        retCommitSavePoint : function() {
-            this.transaction(function() {
-                this.transaction({savepoint : true}, function() {
+        retCommitSavePoint:function(){
+            this.transaction(function(){
+                this.transaction({savepoint:true}, function(){
                     this.execute('DROP TABLE test;');
                     return;
                     this.execute('DROP TABLE test2;');
@@ -123,15 +123,15 @@ var Dummy3Database = comb.define(Database, {
             });
         },
 
-        closeConnection : function(conn) {
+        closeConnection:function(conn){
             return new comb.Promise().callback();
         },
 
-        validate : function(conn) {
+        validate:function(conn){
             return new comb.Promise().callback(true);
         },
 
-        reset : function() {
+        reset:function(){
             this.sqls = [];
         }
     }
@@ -139,38 +139,38 @@ var Dummy3Database = comb.define(Database, {
 
 suite.addBatch({
 
-    "A new Database" : {
-        topic : new Database({1 : 2}),
+    "A new Database":{
+        topic:new Database({1:2}),
 
-        "should receive options" : function(db) {
+        "should receive options":function(db){
             assert.equal(db.opts[1], 2);
         },
 
-        "should create a connection pool" : function(db) {
+        "should create a connection pool":function(db){
             assert.isTrue(comb.isInstanceOf(db.pool, ConnectionPool));
             assert.equal(db.pool.maxObjects, 10);
-            assert.equal(new Database({maxConnections : 4}).pool.maxObjects, 4);
+            assert.equal(new Database({maxConnections:4}).pool.maxObjects, 4);
         },
 
-        "should respect the quoteIdentifiers option" : function(db) {
-            var db1 = new Database({quoteIdentifiers : false});
-            var db2 = new Database({quoteIdentifiers : true});
+        "should respect the quoteIdentifiers option":function(db){
+            var db1 = new Database({quoteIdentifiers:false});
+            var db2 = new Database({quoteIdentifiers:true});
             assert.isFalse(db1.quoteIdentifiers);
             assert.isTrue(db2.quoteIdentifiers);
         },
 
-        "should toUpperCase on input and toLowerCase on output by default" : function() {
+        "should toUpperCase on input and toLowerCase on output by default":function(){
             var db = new Database();
             assert.equal(db.identifierInputMethodDefault, "toUpperCase");
             assert.equal(db.identifierOutputMethodDefault, "toLowerCase");
         },
 
-        "should respect the identifierInputMethod option" : function() {
-            var db = new Database({identifierInputMethod : null});
+        "should respect the identifierInputMethod option":function(){
+            var db = new Database({identifierInputMethod:null});
             assert.isNull(db.identifierInputMethod);
             db.identifierInputMethod = "toUpperCase";
             assert.equal(db.identifierInputMethod, 'toUpperCase');
-            db = new Database({identifierInputMethod : 'toUpperCase'});
+            db = new Database({identifierInputMethod:'toUpperCase'});
             assert.equal(db.identifierInputMethod, "toUpperCase");
             db.identifierInputMethod = null;
             assert.isNull(db.identifierInputMethod);
@@ -179,12 +179,12 @@ suite.addBatch({
             assert.equal(new Database().identifierInputMethod, 'toLowerCase');
         },
 
-        "should respect the identifierOutputMethod option" : function() {
-            var db = new Database({identifierOutputMethod : null});
+        "should respect the identifierOutputMethod option":function(){
+            var db = new Database({identifierOutputMethod:null});
             assert.isNull(db.identifierOutputMethod);
             db.identifierOutputMethod = "toLowerCase";
             assert.equal(db.identifierOutputMethod, 'toLowerCase');
-            db = new Database({identifierOutputMethod : 'toLowerCase'});
+            db = new Database({identifierOutputMethod:'toLowerCase'});
             assert.equal(db.identifierOutputMethod, "toLowerCase");
             db.identifierOutputMethod = null;
             assert.isNull(db.identifierOutputMethod);
@@ -193,7 +193,7 @@ suite.addBatch({
             assert.equal(new Database().identifierOutputMethod, 'toUpperCase');
         },
 
-        "should respect the quoteIdentifiers option" : function() {
+        "should respect the quoteIdentifiers option":function(){
             patio.quoteIdentifiers = true;
             assert.isTrue(new Database().quoteIdentifiers);
             patio.quoteIdentifiers = false;
@@ -205,46 +205,46 @@ suite.addBatch({
             assert.isFalse(new Database().quoteIdentifiers);
         },
 
-        "should respect the quoteIndentifiersDefault method if patio.quoteIdentifiers = null" : function() {
+        "should respect the quoteIndentifiersDefault method if patio.quoteIdentifiers = null":function(){
             patio.quoteIdentifiers = null;
             assert.isTrue(new Database().quoteIdentifiers);
-            var x = comb.define(Database, {instance : {getters : {quoteIdentifiersDefault : function() {
+            var x = comb.define(Database, {instance:{getters:{quoteIdentifiersDefault:function(){
                 return false;
             }}}});
-            var y = comb.define(Database, {instance : {getters : {quoteIdentifiersDefault : function() {
+            var y = comb.define(Database, {instance:{getters:{quoteIdentifiersDefault:function(){
                 return true;
             }}}});
             assert.isFalse(new x().quoteIdentifiers);
             assert.isTrue(new y().quoteIdentifiers);
         },
 
-        "should respect the identifierInputMethodDefault method if patio.identifierInputMethod = null" : function() {
+        "should respect the identifierInputMethodDefault method if patio.identifierInputMethod = null":function(){
             patio.identifierInputMethod = undefined;
             assert.equal(new Database().identifierInputMethod, "toUpperCase");
-            var x = comb.define(Database, {instance : {getters : {identifierInputMethodDefault : function() {
+            var x = comb.define(Database, {instance:{getters:{identifierInputMethodDefault:function(){
                 return "toLowerCase";
             }}}});
-            var y = comb.define(Database, {instance : {getters : {identifierInputMethodDefault : function() {
+            var y = comb.define(Database, {instance:{getters:{identifierInputMethodDefault:function(){
                 return "toUpperCase";
             }}}});
             assert.equal(new x().identifierInputMethod, "toLowerCase");
             assert.equal(new y().identifierInputMethod, "toUpperCase");
         },
 
-        "should respect the identifierOutputMethodDefault method if patio.identifierOutputMethod = null" : function() {
+        "should respect the identifierOutputMethodDefault method if patio.identifierOutputMethod = null":function(){
             patio.identifierOutputMethod = undefined;
             assert.equal(new Database().identifierOutputMethod, "toLowerCase");
-            var x = comb.define(Database, {instance : {getters : {identifierOutputMethodDefault : function() {
+            var x = comb.define(Database, {instance:{getters:{identifierOutputMethodDefault:function(){
                 return "toLowerCase";
             }}}});
-            var y = comb.define(Database, {instance : {getters : {identifierOutputMethodDefault : function() {
+            var y = comb.define(Database, {instance:{getters:{identifierOutputMethodDefault:function(){
                 return "toUpperCase";
             }}}});
             assert.equal(new x().identifierOutputMethod, "toLowerCase");
             assert.equal(new y().identifierOutputMethod, "toUpperCase");
         },
 
-        "should just use a uri option for mysql with the full connection string" : function() {
+        "should just use a uri option for mysql with the full connection string":function(){
             var db = patio.connect('mysql://host/db_name')
             assert.isTrue(comb.isInstanceOf(db, Database));
             assert.equal(db.opts.uri, 'mysql://host/db_name');
@@ -254,10 +254,10 @@ suite.addBatch({
 });
 
 suite.addBatch({
-    "Database.disconnect" : {
-        topic : new MockDatabase(),
+    "Database.disconnect":{
+        topic:new MockDatabase(),
 
-        "should call pool.disconnect" : function(db) {
+        "should call pool.disconnect":function(db){
             db.pool.getConnection();
             db.disconnect();
             assert.equal(db.createdCount, 1);
@@ -265,25 +265,25 @@ suite.addBatch({
         }
     },
 
-    "Database.connect" : {
-        topic : function() {
+    "Database.connect":{
+        topic:function(){
             return Database
         },
 
-        "should throw an error" : function(DB) {
-            assert.throws(function() {
+        "should throw an error":function(DB){
+            assert.throws(function(){
                 new DB.connect();
             })
         }
     },
 
-    "Database.logInfo" : {
-        topic : new Database(),
+    "Database.logInfo":{
+        topic:new Database(),
 
-        "should log message at info " : function(db) {
+        "should log message at info ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah$/) != null);
             };
             db.logInfo("blah");
@@ -292,13 +292,13 @@ suite.addBatch({
         }
     },
 
-    "Database.logDebug" : {
-        topic : new Database(),
+    "Database.logDebug":{
+        topic:new Database(),
 
-        "should log message at debug " : function(db) {
+        "should log message at debug ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah$/) != null);
             };
             db.logDebug("blah");
@@ -307,13 +307,13 @@ suite.addBatch({
         }
     },
 
-    "Database.logWarn" : {
-        topic : new Database(),
+    "Database.logWarn":{
+        topic:new Database(),
 
-        "should log message at warn " : function(db) {
+        "should log message at warn ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah/) != null);
             };
             db.logWarn("blah");
@@ -321,13 +321,13 @@ suite.addBatch({
         }
     },
 
-    "Database.logError" : {
-        topic : new Database(),
+    "Database.logError":{
+        topic:new Database(),
 
-        "should log message at error " : function(db) {
+        "should log message at error ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah/) != null);
             };
             db.logError("blah");
@@ -335,13 +335,13 @@ suite.addBatch({
         }
     },
 
-    "Database.logFatal" : {
-        topic : new Database(),
+    "Database.logFatal":{
+        topic:new Database(),
 
-        "should log message at fatal " : function(db) {
+        "should log message at fatal ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah/) != null);
             };
             db.logFatal("blah");
@@ -349,17 +349,17 @@ suite.addBatch({
         }
     },
 
-    "Database.__logAndExecute" : {
-        topic : new Database(),
+    "Database.__logAndExecute":{
+        topic:new Database(),
 
-        "should log message and call cb " : function(db) {
+        "should log message and call cb ":function(db){
             var orig = console.log;
             var messages = [];
-            console.log = function(str) {
+            console.log = function(str){
                 assert.isTrue(str.match(/blah/) != null);
             };
             var a = null;
-            db.__logAndExecute("blah", function() {
+            db.__logAndExecute("blah", function(){
                 var ret = new comb.Promise().callback();
                 a = 1;
                 return ret;
@@ -368,56 +368,56 @@ suite.addBatch({
             console.log = orig;
         },
 
-        "should raise an error if a block is not passed" : function(db) {
-            assert.throws(function() {
+        "should raise an error if a block is not passed":function(db){
+            assert.throws(function(){
                 db.__logAndExecute("blah");
             });
         }
     },
 
-    "Database.uri" : {
-        topic : patio.connect('mau://user:pass@localhost:9876/maumau'),
+    "Database.uri":{
+        topic:patio.connect('mau://user:pass@localhost:9876/maumau'),
 
-        "should return the connection URI for the database" : function(db) {
+        "should return the connection URI for the database":function(db){
             assert.isTrue(comb.isInstanceOf(db, MockDatabase));
             assert.equal(db.uri, 'mau://user:pass@localhost:9876/maumau');
             assert.equal(db.url, 'mau://user:pass@localhost:9876/maumau');
         }
     },
 
-    "Database.type and setAdapterType" : {
-        topic : function() {
+    "Database.type and setAdapterType":{
+        topic:function(){
             return Database
         },
 
-        "should return the database type" : function(DB) {
+        "should return the database type":function(DB){
             assert.equal(DB.type, "default");
             assert.equal(MockDatabase.type, "mau");
             assert.equal(new MockDatabase().type, "mau");
         }
     },
 
-    "Database.dataset" : {
-        topic : function() {
+    "Database.dataset":{
+        topic:function(){
             patio.identifierInputMethod = null;
             patio.identifierOutputMethod = null;
             patio.quoteIdentifiers = false;
             var db = new Database();
             return {
-                db : db,
-                ds : db.dataset
+                db:db,
+                ds:db.dataset
             }
         },
 
 
-        "should provide a blank dataset through #dataset" : function(o) {
+        "should provide a blank dataset through #dataset":function(o){
             var ds = o.ds, db = o.db;
             assert.isTrue(comb.isInstanceOf(ds, patio.Dataset));
             assert.isTrue(comb.isEmpty(ds.__opts));
             assert.equal(o.ds.db, o.db);
         },
 
-        "should provide a #from dataset"  : function(o) {
+        "should provide a #from dataset":function(o){
             var ds = o.ds, db = o.db;
             var d = db.from("mau");
             assert.instanceOf(d, patio.Dataset);
@@ -428,26 +428,26 @@ suite.addBatch({
 
         },
 
-        "should provide a filtered #from dataset if a block is given"  : function(o) {
+        "should provide a filtered #from dataset if a block is given":function(o){
             var ds = o.ds, db = o.db;
-            var d = db.from("mau", function() {
+            var d = db.from("mau", function(){
                 return this.x.sqlNumber.gt(100)
             });
             assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, 'SELECT * FROM mau WHERE (x > 100)');
         },
 
-        "should provide a #select dataset"  : function(o) {
+        "should provide a #select dataset":function(o){
             var ds = o.ds, db = o.db;
             var d = db.select("a", "b", "c").from("mau");
             assert.instanceOf(d, patio.Dataset);
             assert.equal(d.sql, 'SELECT a, b, c FROM mau');
         },
 
-        "should allow #select to take a block"  : function(o) {
+        "should allow #select to take a block":function(o){
             var ds = o.ds, db = o.db;
             var d = db.select("a", "b",
-                function() {
+                function(){
                     return "c"
                 }).from("mau");
             assert.instanceOf(d, patio.Dataset);
@@ -455,56 +455,56 @@ suite.addBatch({
         }
     },
 
-    "Database.execute" : {
+    "Database.execute":{
 
-        topic : function() {
+        topic:function(){
             return Database
         },
 
-        "should raise NotImplemented" : function(DB) {
-            assert.throws(function() {
+        "should raise NotImplemented":function(DB){
+            assert.throws(function(){
                 new DB().execute("hello");
             });
         }
     },
 
-    "Database.tables" : {
+    "Database.tables":{
 
-        topic : function() {
+        topic:function(){
             return Database
         },
 
-        "should raise NotImplemented" : function(DB) {
-            assert.throws(function() {
+        "should raise NotImplemented":function(DB){
+            assert.throws(function(){
                 new DB().tables();
             });
         }
     },
 
-    "Database.indexes" : {
+    "Database.indexes":{
 
-        topic : function() {
+        topic:function(){
             return Database
         },
 
-        "should raise NotImplemented" : function(DB) {
-            assert.throws(function() {
+        "should raise NotImplemented":function(DB){
+            assert.throws(function(){
                 new DB().indexes();
             });
         }
     },
 
-    "Database.run" : {
-        topic : function() {
+    "Database.run":{
+        topic:function(){
             return new (comb.define(Database, {
-                instance : {
+                instance:{
 
-                    constructor : function() {
+                    constructor:function(){
                         this._super(arguments);
                         this.sqls = [];
                     },
 
-                    executeDdl : function() {
+                    executeDdl:function(){
                         var ret = new comb.Promise().callback();
                         this.sqls.length = 0;
                         this.sqls = this.sqls.concat(comb.argsToArray(arguments));
@@ -514,26 +514,26 @@ suite.addBatch({
             }));
         },
 
-        "should pass the supplied arguments to executeDdl" : function(db) {
+        "should pass the supplied arguments to executeDdl":function(db){
             db.run("DELETE FROM items");
             assert.deepEqual(db.sqls, ["DELETE FROM items", {}]);
-            db.run("DELETE FROM items2", {hello : "world"});
-            assert.deepEqual(db.sqls, ["DELETE FROM items2", {hello : "world"}]);
+            db.run("DELETE FROM items2", {hello:"world"});
+            assert.deepEqual(db.sqls, ["DELETE FROM items2", {hello:"world"}]);
         }
     },
 
-    "Database.createTable" : {
-        topic : function() {
+    "Database.createTable":{
+        topic:function(){
             return DummyDatabase
         },
 
-        "should construct the proper SQL" : function(DB) {
+        "should construct the proper SQL":function(DB){
             patio.quoteIdentifiers = false;
             var db = new DB();
-            db.createTable("test", function(table) {
-                table.primaryKey("id", "integer", {null : false});
+            db.createTable("test", function(table){
+                table.primaryKey("id", "integer", {null:false});
                 table.column("name", "text");
-                table.index("name", {unique : true});
+                table.index("name", {unique:true});
             });
 
             assert.deepEqual(db.sqls, [
@@ -542,10 +542,10 @@ suite.addBatch({
             ]);
             patio.quoteIdentifiers = true;
             db = new DB();
-            db.createTable("test", function(table) {
-                table.primaryKey("id", "integer", {null : false});
+            db.createTable("test", function(table){
+                table.primaryKey("id", "integer", {null:false});
                 table.column("name", "text");
-                table.index("name", {unique : true});
+                table.index("name", {unique:true});
             });
 
             assert.deepEqual(db.sqls, [
@@ -555,16 +555,13 @@ suite.addBatch({
         },
 
 
-
-
-
-        "should create a temporary table" : function(DB) {
+        "should create a temporary table":function(DB){
             patio.quoteIdentifiers = true;
             var db = new DB();
-            db.createTable("test", {temp : true}, function(table) {
-                table.primaryKey("id", "integer", {null : false});
+            db.createTable("test", {temp:true}, function(table){
+                table.primaryKey("id", "integer", {null:false});
                 table.column("name", "text");
-                table.index("name", {unique : true});
+                table.index("name", {unique:true});
             });
 
             assert.deepEqual(db.sqls, [
@@ -574,10 +571,10 @@ suite.addBatch({
 
             patio.quoteIdentifiers = false;
             db = new DB();
-            db.createTable("test", {temp : true}, function(table) {
-                table.primaryKey("id", "integer", {null : false});
+            db.createTable("test", {temp:true}, function(table){
+                table.primaryKey("id", "integer", {null:false});
                 table.column("name", "text");
-                table.index("name", {unique : true});
+                table.index("name", {unique:true});
             });
 
             assert.deepEqual(db.sqls, [
@@ -587,22 +584,22 @@ suite.addBatch({
         }
     },
 
-    "Database.alterTable" : {
-        topic : function() {
+    "Database.alterTable":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return DummyDatabase
         },
 
-        "should construct proper SQL" : function(DB) {
+        "should construct proper SQL":function(DB){
             var db = new DB();
 
-            db.alterTable("xyz", function(table) {
-                table.addColumn("aaa", "text", {null : false, unique : true});
+            db.alterTable("xyz", function(table){
+                table.addColumn("aaa", "text", {null:false, unique:true});
                 table.dropColumn("bbb");
                 table.renameColumn("ccc", "ddd");
                 table.setColumnType("eee", "integer");
                 table.setColumnDefault("hhh", 'abcd');
-                table.addIndex("fff", {unique : true});
+                table.addIndex("fff", {unique:true});
                 table.dropIndex("ggg");
             });
 
@@ -619,27 +616,27 @@ suite.addBatch({
         }
     },
 
-    "Database.addColumn" : {
-        topic : function() {
+    "Database.addColumn":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL" : function(db) {
-            db.addColumn("test", "name", "text", {unique : true});
+        "should construct proper SQL":function(db){
+            db.addColumn("test", "name", "text", {unique:true});
             assert.deepEqual(db.sqls, [
                 'ALTER TABLE test ADD COLUMN name text UNIQUE'
             ]);
         }
     },
 
-    "Database.dropColumn" : {
-        topic : function() {
+    "Database.dropColumn":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.dropColumn("test", "name");
             assert.deepEqual(db.sqls, [
                 'ALTER TABLE test DROP COLUMN name'
@@ -647,13 +644,13 @@ suite.addBatch({
         }
     },
 
-    "Database.renameColumn" : {
-        topic : function() {
+    "Database.renameColumn":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.renameColumn("test", "abc", "def");
             assert.deepEqual(db.sqls, [
                 'ALTER TABLE test RENAME COLUMN abc TO def'
@@ -661,13 +658,13 @@ suite.addBatch({
         }
     },
 
-    "Database.setColumnType" : {
-        topic : function() {
+    "Database.setColumnType":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.setColumnType("test", "name", "integer");
             assert.deepEqual(db.sqls, [
                 'ALTER TABLE test ALTER COLUMN name TYPE integer'
@@ -675,13 +672,13 @@ suite.addBatch({
         }
     },
 
-    "Database.setColumnDefault" : {
-        topic : function() {
+    "Database.setColumnDefault":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.setColumnDefault("test", "name", 'zyx');
             assert.deepEqual(db.sqls, [
                 "ALTER TABLE test ALTER COLUMN name SET DEFAULT 'zyx'"
@@ -689,20 +686,20 @@ suite.addBatch({
         }
     },
 
-    "Database.addIndex" : {
-        topic : function() {
+    "Database.addIndex":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
-            db.addIndex("test", "name", {unique : true});
+        "should construct proper SQL":function(db){
+            db.addIndex("test", "name", {unique:true});
             assert.deepEqual(db.sqls, [
                 'CREATE UNIQUE INDEX test_name_index ON test (name)'
             ]);
         },
 
-        "should accept multiple columns"  : function(db) {
+        "should accept multiple columns":function(db){
             db.reset();
             db.addIndex("test", ["one", "two"]);
             assert.deepEqual(db.sqls, [
@@ -711,13 +708,13 @@ suite.addBatch({
         }
     },
 
-    "Database.dropIndex" : {
-        topic : function() {
+    "Database.dropIndex":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.dropIndex("test", "name");
             assert.deepEqual(db.sqls, [
                 'DROP INDEX test_name_index'
@@ -726,17 +723,17 @@ suite.addBatch({
 
     },
 
-    "Database.dropTable"  : {
-        topic : function() {
+    "Database.dropTable":{
+        topic:function(){
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.dropTable("test");
             assert.deepEqual(db.sqls, ['DROP TABLE test']);
         },
 
-        "should accept multiple table names"  : function(db) {
+        "should accept multiple table names":function(db){
             db.reset();
             db.dropTable("a", "bb", "ccc");
             assert.deepEqual(db.sqls, [
@@ -747,29 +744,29 @@ suite.addBatch({
         }
     },
 
-    "Database.renameTable"  : {
-        topic : function() {
+    "Database.renameTable":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL"  : function(db) {
+        "should construct proper SQL":function(db){
             db.renameTable("abc", "xyz");
             assert.deepEqual(db.sqls, ['ALTER TABLE abc RENAME TO xyz']);
         }
     },
 
-    "Database.tableExists"  : {
-        topic : function() {
+    "Database.tableExists":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
-        "should try to select the first record from the table's dataset"  : function(db) {
+        "should try to select the first record from the table's dataset":function(db){
             var a, b;
-            db.tableExists("a").then(function(ret) {
+            db.tableExists("a").then(function(ret){
                 a = ret;
             });
-            db.tableExists("b").then(function(ret) {
+            db.tableExists("b").then(function(ret){
                 b = ret;
             });
             assert.isFalse(a);
@@ -778,25 +775,25 @@ suite.addBatch({
     },
 
 
-    "Database.transaction" : {
-        topic : function() {
+    "Database.transaction":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new Dummy3Database();
         },
 
-        "should wrap the supplied block with BEGIN + COMMIT statements" : function(db) {
+        "should wrap the supplied block with BEGIN + COMMIT statements":function(db){
             db.reset();
-            db.transaction(function(d) {
+            db.transaction(function(d){
                 d.execute('DROP TABLE test;');
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
         },
 
-        "should support transaction isolation levels" : function(db) {
+        "should support transaction isolation levels":function(db){
             db.reset();
             db.supportsTransactionIsolationLevels = true;
-            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function(level) {
-                db.transaction({isolation:level}, function(d) {
+            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function(level){
+                db.transaction({isolation:level}, function(d){
                     d.run("DROP TABLE " + level);
                 });
             });
@@ -807,12 +804,12 @@ suite.addBatch({
 
         },
 
-        "should allow specifying a default transaction isolation level" : function(db) {
+        "should allow specifying a default transaction isolation level":function(db){
             db.reset();
             db.supportsTransactionIsolationLevels = true;
-            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function(level) {
+            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function(level){
                 db.transactionIsolationLevel = level;
-                db.transaction(function(d) {
+                db.transaction(function(d){
                     d.run("DROP TABLE " + level);
                 });
             });
@@ -823,42 +820,43 @@ suite.addBatch({
 
         },
 
-        "should issue ROLLBACK if an exception is raised, and re-raise" : function(db) {
+        "should issue ROLLBACK if an exception is raised, and re-raise":function(db){
             var db = new Dummy3Database();
-            db.transaction(function(d) {
+            db.transaction(function(d){
                 d.execute('DROP TABLE test');
                 throw "Error";
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
             db.reset();
-            db.transaction(function(d) {
-                d.execute('DROP TABLE test', {error : true});
+            db.transaction(function(d){
+                d.execute('DROP TABLE test', {error:true});
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
             var errored;
-            db.transaction(
-                function(d) {
+            var p = db.transaction(
+                function(d){
                     throw "Error";
-                }).then(function() {
-                    errored = false
-                }, function() {
-                    errored = true
                 });
+            p.then(function(){
+                errored = false
+            }, function(){
+                errored = true
+            });
             assert.isTrue(errored);
         },
 
-        "should raise database call errback if there is an error commiting" : function() {
+        "should raise database call errback if there is an error commiting":function(){
             var db = new Dummy3Database();
-            db.__commitTransaction = function() {
+            db.__commitTransaction = function(){
                 return new comb.Promise().errback();
             };
             var errored;
             db.transaction(
-                function(d) {
+                function(d){
                     d.run("DROP TABLE test");
-                }).then(function() {
+                }).then(function(){
                     errored = false
-                }, function() {
+                }, function(){
                     errored = true
                 });
             assert.isTrue(errored);
@@ -866,118 +864,118 @@ suite.addBatch({
 
     },
 
-    "Database#transaction with savepoints" : {
-        topic : function() {
+    "Database#transaction with savepoints":{
+        topic:function(){
             var db = new Dummy3Database();
             db.supportsSavepoints = true;
             return db;
         },
 
-        "should wrap the supplied block with BEGIN + COMMIT statements" : function(db) {
-            db.transaction(function() {
+        "should wrap the supplied block with BEGIN + COMMIT statements":function(db){
+            db.transaction(function(){
                 db.execute("DROP TABLE test;");
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
         },
 
-        "should use savepoints if given the :savepoint option" : function(db) {
+        "should use savepoints if given the :savepoint option":function(db){
             db.reset();
-            db.transaction(function() {
-                db.transaction({savepoint : true}, function() {
+            db.transaction(function(){
+                db.transaction({savepoint:true}, function(){
                     db.execute('DROP TABLE test;')
                 })
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
         },
 
-        "should not use a savepoints if no transaction is in progress" : function(db) {
+        "should not use a savepoints if no transaction is in progress":function(db){
             db.reset();
-            db.transaction({savepoint : true}, function(d) {
+            db.transaction({savepoint:true}, function(d){
                 d.execute('DROP TABLE test;')
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
         },
 
-        "should reuse the current transaction if no savepoint option is given" : function(db) {
+        "should reuse the current transaction if no savepoint option is given":function(db){
             db.reset();
-            db.transaction(function(d) {
-                d.transaction(function(d2) {
+            db.transaction(function(d){
+                d.transaction(function(d2){
                     d2.execute('DROP TABLE test;')
                 })
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
         },
 
-        "should handle returning inside of the block by committing" : function(db) {
+        "should handle returning inside of the block by committing":function(db){
             db.reset();
             db.retCommit();
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
         },
 
-        "should handle returning inside of a savepoint by committing" : function(db) {
+        "should handle returning inside of a savepoint by committing":function(db){
             db.reset();
             db.retCommitSavePoint();
             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
         },
 
-        "should issue ROLLBACK if an exception is raised, and re-raise" : function(db) {
+        "should issue ROLLBACK if an exception is raised, and re-raise":function(db){
             var db = new Dummy3Database();
-            db.transaction(function(d) {
+            db.transaction(function(d){
                 d.execute('DROP TABLE test');
                 throw "Error";
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
             db.reset();
-            db.transaction(function(d) {
-                d.execute('DROP TABLE test', {error : true});
+            db.transaction(function(d){
+                d.execute('DROP TABLE test', {error:true});
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
             var errored;
             db.transaction(
-                function(d) {
+                function(d){
                     throw "Error";
-                }).then(function() {
+                }).then(function(){
                     errored = false
-                }, function() {
+                }, function(){
                     errored = true
                 });
             assert.isTrue(errored);
         },
 
-        "should issue ROLLBACK if an exception is raised inside a savepoint, and re-raise" : function(db) {
+        "should issue ROLLBACK if an exception is raised inside a savepoint, and re-raise":function(db){
             db.reset();
-            db.transaction(function() {
-                db.transaction({savepoint : true}, function() {
+            db.transaction(function(){
+                return db.transaction({savepoint:true}, function(){
                     db.execute('DROP TABLE test');
                     throw "Error";
                 });
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
             db.reset();
-            db.transaction(function(d) {
-                db.transaction({savepoint : true}, function() {
-                    d.execute('DROP TABLE test', {error : true});
+            db.transaction(function(d){
+               db.transaction({savepoint:true}, function(){
+                    d.execute('DROP TABLE test', {error:true});
                 });
             });
             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
             var errored;
             db.transaction(
-                function(d) {
-                    db.transaction({savepoint : true}, function() {
+                function(d){
+                    db.transaction({savepoint:true}, function(){
                         throw "ERROR";
                     });
-                }).then(function() {
+                }).then(function(){
                     errored = false
-                }, function() {
+                }, function(){
                     errored = true
                 });
             assert.isTrue(errored);
         },
 
-        "should issue ROLLBACK SAVEPOINT if 'ROLLBACK' is called is thrown in savepoint" : function(db) {
+        "should issue ROLLBACK SAVEPOINT if 'ROLLBACK' is called is thrown in savepoint":function(db){
             db.reset();
-            db.transaction(function() {
-                db.transaction({savepoint:true}, function() {
+            db.transaction(function(){
+                db.transaction({savepoint:true}, function(){
                     db.dropTable("a");
                     throw "ROLLBACK";
                 });
@@ -988,28 +986,28 @@ suite.addBatch({
         },
 
 
-        "should raise database errors when commiting a transaction and error is thrown" : function(db) {
+        "should raise database errors when commiting a transaction and error is thrown":function(db){
             var orig = db.__commitTransaction;
-            db.__commitTransaction = function() {
+            db.__commitTransaction = function(){
                 return new comb.Promise().errback("ERROR");
             };
             var thrown = false;
             db.transaction(
-                function() {
-                }).then(function() {
+                function(){
+                }).then(function(){
                     thrown = false;
-                }, function() {
+                }, function(){
                     thrown = true;
                 });
             assert.isTrue(thrown);
             var thrown = false;
             db.transaction(
-                function() {
-                    db.transaction({savepoint:true}, function() {
+                function(){
+                    db.transaction({savepoint:true}, function(){
                     });
-                }).then(function() {
+                }).then(function(){
                     thrown = false;
-                }, function() {
+                }, function(){
                     thrown = true;
                 });
             assert.isTrue(thrown);
@@ -1018,20 +1016,20 @@ suite.addBatch({
 
     },
 
-    "Database#fetch" : {
-        topic : function() {
+    "Database#fetch":{
+        topic:function(){
             var CDS = comb.define(patio.Dataset, {
-                instance : {
+                instance:{
 
-                    fetchRows : function(sql, cb) {
-                        return new comb.Promise().callback({sql : sql}).addCallback(cb);
+                    fetchRows:function(sql, cb){
+                        return new comb.Promise().callback({sql:sql}).addCallback(cb);
                     }
                 }
             });
             var TestDB = comb.define(patio.Database, {
-                instance : {
-                    getters : {
-                        dataset : function() {
+                instance:{
+                    getters:{
+                        dataset:function(){
                             return new CDS(this);
                         }
                     }
@@ -1040,52 +1038,52 @@ suite.addBatch({
             return new TestDB();
         },
 
-        "should create a dataset and invoke its fetch_rows method with the given sql" : function(db) {
+        "should create a dataset and invoke its fetch_rows method with the given sql":function(db){
             var sql = null;
-            db.fetch('select * from xyz').forEach(function(r) {
+            db.fetch('select * from xyz').forEach(function(r){
                 sql = r.sql;
             });
             assert.equal(sql, 'select * from xyz');
         },
 
-        "should format the given sql with any additional arguments" : function(db) {
+        "should format the given sql with any additional arguments":function(db){
             var sql = null;
-            db.fetch('select * from xyz where x = ? and y = ?', 15, 'abc', function(r) {
+            db.fetch('select * from xyz where x = ? and y = ?', 15, 'abc', function(r){
                 sql = r.sql;
             });
             assert.equal(sql, "select * from xyz where x = 15 and y = 'abc'");
 
-            db.fetch('select name from table where name = ? or id in ?', 'aman', [3,4,7], function(r) {
+            db.fetch('select name from table where name = ? or id in ?', 'aman', [3, 4, 7], function(r){
                 sql = r.sql;
             });
             assert.equal(sql, "select name from table where name = 'aman' or id in (3, 4, 7)");
         },
 
-        "should format the given sql with named arguments" : function(db) {
+        "should format the given sql with named arguments":function(db){
             var sql = null;
-            db.fetch('select * from xyz where x = {x} and y = {y}', {x:15, y: 'abc'}, function(r) {
+            db.fetch('select * from xyz where x = {x} and y = {y}', {x:15, y:'abc'}, function(r){
                 sql = r.sql;
             });
             assert.equal(sql, "select * from xyz where x = 15 and y = 'abc'");
         },
 
-        "should return the dataset if no block is given" : function(db) {
+        "should return the dataset if no block is given":function(db){
             assert.instanceOf(db.fetch('select * from xyz'), patio.Dataset);
             var ret;
             db.fetch('select a from b').map(
-                function(r) {
+                function(r){
                     return r.sql
-                }).then(function(r) {
+                }).then(function(r){
                     ret = r;
                 });
             assert.deepEqual(ret, ['select a from b']);
         },
 
-        "should return a dataset that always uses the given sql for SELECTs" : function(db) {
+        "should return a dataset that always uses the given sql for SELECTs":function(db){
             var ds = db.fetch('select * from xyz')
             assert.equal(ds.selectSql, 'select * from xyz');
             assert.equal(ds.sql, 'select * from xyz');
-            ds.filter(function() {
+            ds.filter(function(){
                 return this.price.sqlNumber.lt(100);
             });
             assert.equal(ds.selectSql, 'select * from xyz');
@@ -1093,13 +1091,13 @@ suite.addBatch({
         }
     },
 
-    "Database.createView" : {
-        topic : function() {
+    "Database.createView":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL with raw SQL" : function(db) {
+        "should construct proper SQL with raw SQL":function(db){
             db.createView("test", "SELECT * FROM xyz");
             assert.deepEqual(db.sqls, ['CREATE VIEW test AS SELECT * FROM xyz']);
             db.reset();
@@ -1107,7 +1105,7 @@ suite.addBatch({
             assert.deepEqual(db.sqls, ['CREATE VIEW test AS SELECT * FROM xyz']);
         },
 
-        "should construct proper SQL with dataset" : function(db) {
+        "should construct proper SQL with dataset":function(db){
             db.reset();
             db.createView("test", db.from("items").select("a", "b").order("c"));
             assert.deepEqual(db.sqls, ['CREATE VIEW test AS SELECT a, b FROM items ORDER BY c']);
@@ -1117,13 +1115,13 @@ suite.addBatch({
         }
     },
 
-    "Database.createorReplaceView" : {
-        topic : function() {
+    "Database.createorReplaceView":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL with raw SQL" : function(db) {
+        "should construct proper SQL with raw SQL":function(db){
             db.createOrReplaceView("test", "SELECT * FROM xyz");
             assert.deepEqual(db.sqls, ['CREATE OR REPLACE VIEW test AS SELECT * FROM xyz']);
             db.reset();
@@ -1131,7 +1129,7 @@ suite.addBatch({
             assert.deepEqual(db.sqls, ['CREATE OR REPLACE VIEW test AS SELECT * FROM xyz']);
         },
 
-        "should construct proper SQL with dataset" : function(db) {
+        "should construct proper SQL with dataset":function(db){
             db.reset();
             db.createOrReplaceView("test", db.from("items").select("a", "b").order("c"));
             assert.deepEqual(db.sqls, ['CREATE OR REPLACE VIEW test AS SELECT a, b FROM items ORDER BY c']);
@@ -1141,13 +1139,13 @@ suite.addBatch({
         }
     },
 
-    "Database.dropView" : {
-        topic : function() {
+    "Database.dropView":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should construct proper SQL" : function(db) {
+        "should construct proper SQL":function(db){
             db.dropView("test");
             db.dropView(sql.test);
             db.dropView('sch__test');
@@ -1156,26 +1154,26 @@ suite.addBatch({
         }
     },
 
-    "Database.__alterTableSql" : {
-        topic : function() {
+    "Database.__alterTableSql":{
+        topic:function(){
             patio.quoteIdentifiers = false;
             return new DummyDatabase();
         },
 
-        "should raise error for an invalid op" : function(db) {
-            assert.throws(hitch(db, "__alterTableSql", "mau", {op : "blah"}));
+        "should raise error for an invalid op":function(db){
+            assert.throws(hitch(db, "__alterTableSql", "mau", {op:"blah"}));
         }
     },
 
-    "Database.get" : {
+    "Database.get":{
 
-        topic : function() {
+        topic:function(){
             var C = comb.define(DummyDatabase, {
-                instance : {
-                    getters : {
-                        dataset : function() {
+                instance:{
+                    getters:{
+                        dataset:function(){
                             var ds = new DummyDataset(this);
-                            ds.get = function() {
+                            ds.get = function(){
                                 return this.db.execute(this.select.apply(this, arguments).sql);
                             };
                             return ds;
@@ -1186,7 +1184,7 @@ suite.addBatch({
             return new C();
         },
 
-        "should use Dataset#get to get a single value" : function(db) {
+        "should use Dataset#get to get a single value":function(db){
             var ret;
             db.get(1);
             assert.equal(db.sqls.pop(), 'SELECT 1');
@@ -1195,23 +1193,23 @@ suite.addBatch({
             assert.equal(db.sqls.pop(), 'SELECT version()');
         },
 
-        "should accept a block" : function(db) {
-            db.get(function() {
+        "should accept a block":function(db){
+            db.get(function(){
                 return 1
             });
             assert.equal(db.sqls.pop(), 'SELECT 1');
 
-            db.get(function() {
+            db.get(function(){
                 return this.version(1)
             });
             assert.equal(db.sqls.pop(), 'SELECT version(1)');
         }
     },
 
-    "Database.typecastValue" : {
-        topic : new patio.Database(),
+    "Database.typecastValue":{
+        topic:new patio.Database(),
 
-        "should raise an InvalidValue when given an invalid value" : function(db) {
+        "should raise an InvalidValue when given an invalid value":function(db){
             assert.throws(hitch(db, "typecastValue", "integer", "a"));
             assert.throws(hitch(db, "typecastValue", "float", "a.a2"));
             assert.throws(hitch(db, "typecastValue", "decimal", "invalidValue"));
@@ -1222,10 +1220,10 @@ suite.addBatch({
         }
     },
 
-    "Database.__columnSchemaToJsDefault" : {
-        topic : new patio.Database(),
+    "Database.__columnSchemaToJsDefault":{
+        topic:new patio.Database(),
 
-        "should handle converting many default formats " : function(db) {
+        "should handle converting many default formats ":function(db){
             var m = hitch(db, db.__columnSchemaToJsDefault);
             assert.equal(m(null, "integer"), null);
             assert.equal(m("1", "integer"), 1);
@@ -1288,42 +1286,42 @@ suite.addBatch({
     },
 
 
-    "patio.SQL.Constants" : {
-        topic : new MockDatabase(),
+    "patio.SQL.Constants":{
+        topic:new MockDatabase(),
 
-        "should have CURRENT_DATE"  : function(db) {
+        "should have CURRENT_DATE":function(db){
             assert.equal(db.literal(patio.SQL.Constants.CURRENT_DATE), 'CURRENT_DATE');
             assert.equal(db.literal(patio.CURRENT_DATE), 'CURRENT_DATE');
         },
 
-        "should have CURRENT_TIME"  : function(db) {
+        "should have CURRENT_TIME":function(db){
             assert.equal(db.literal(patio.SQL.Constants.CURRENT_TIME), 'CURRENT_TIME');
             assert.equal(db.literal(patio.CURRENT_TIME), 'CURRENT_TIME');
         },
 
-        "should have CURRENT_TIMESTAMP"  : function(db) {
+        "should have CURRENT_TIMESTAMP":function(db){
             assert.equal(db.literal(patio.SQL.Constants.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
             assert.equal(db.literal(patio.CURRENT_TIMESTAMP), 'CURRENT_TIMESTAMP');
         },
 
-        "should have NULL"  : function(db) {
+        "should have NULL":function(db){
             assert.equal(db.literal(patio.SQL.Constants.NULL), 'NULL');
             assert.equal(db.literal(patio.NULL), 'NULL');
         },
 
-        "should have NOTNULL"  : function(db) {
+        "should have NOTNULL":function(db){
             assert.equal(db.literal(patio.SQL.Constants.NOTNULL), 'NOT NULL');
             assert.equal(db.literal(patio.NOTNULL), 'NOT NULL');
         },
 
-        "should have TRUE and SQLTRUE"  : function(db) {
+        "should have TRUE and SQLTRUE":function(db){
             assert.equal(db.literal(patio.SQL.Constants.TRUE), '1');
             assert.equal(db.literal(patio.TRUE), '1');
             assert.equal(db.literal(patio.SQL.Constants.SQLTRUE), '1');
             assert.equal(db.literal(patio.SQLTRUE), '1');
         },
 
-        "should have FALSE and SQLFALSE"  : function(db) {
+        "should have FALSE and SQLFALSE":function(db){
             assert.equal(db.literal(patio.SQL.Constants.FALSE), '0');
             assert.equal(db.literal(patio.FALSE), '0');
             assert.equal(db.literal(patio.SQL.Constants.SQLFALSE), '0');
@@ -1333,6 +1331,7 @@ suite.addBatch({
 });
 
 
-suite.run({reporter : vows.reporter.spec}, function(){;    patio.disconnect();
+suite.run({reporter:vows.reporter.spec}, function(){
+    patio.disconnect();
     ret.callback();
 });

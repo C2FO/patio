@@ -464,7 +464,7 @@ p1.both(function () {
                 assert.equal(ds.joinTable("cross", "nodes").sql, 'SELECT * FROM nodes CROSS JOIN nodes');
             },
             "should support cross joins as inner joins if conditions are used":function (ds) {
-                assert.equal(ds.joinTable("cross", "nodes", {id:"id"}).sql,
+                assert.equal(ds.joinTable("cross", "nodes", {id: sql.identifier("id")}).sql,
                     'SELECT * FROM nodes INNER JOIN nodes ON (nodes.id = nodes.id)');
             },
             "should support straight joins (force left table to be read before right)":function (ds) {
@@ -482,7 +482,7 @@ p1.both(function () {
 
             "should quote fields correctly":function (ds) {
                 ds.quoteIdentifiers = true;
-                assert.equal(ds.join("attributes", {nodeId:"id"}).sql, "SELECT * FROM `nodes` INNER JOIN `attributes` ON (`attributes`.`nodeId` = `nodes`.`id`)");
+                assert.equal(ds.join("attributes", {nodeId:sql.id}).sql, "SELECT * FROM `nodes` INNER JOIN `attributes` ON (`attributes`.`nodeId` = `nodes`.`id`)");
             },
 
             "should allow a having clause on ungrouped datasets":function (ds) {

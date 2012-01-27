@@ -5,7 +5,7 @@ var DB;
 exports.createTables = function (useAt) {
     useAt = comb.isBoolean(useAt) ? useAt : false;
     patio.resetIdentifierMethods();
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/test",
+    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         function (db) {
             db.forceDropTable(["employee"]);
             db.createTable("employee", function () {
