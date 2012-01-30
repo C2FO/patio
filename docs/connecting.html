@@ -27,7 +27,7 @@
 </style>
 <body>
 
-<a href="http://github.com/doug-martin/patio-query" target="_blank">
+<a href="http://github.com/doug-martin/patio-query" target="patioapi">
     <img style="position: absolute; top: 0; right: 0; border: 0;"
          src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
          alt="Fork me on GitHub">
@@ -45,9 +45,12 @@
                 </span>
             </li>
             <li>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
+            </li>
+            <li>
                 <span class='nodeContainer'>
-                    <a href="./api/index.html" target="_blank" class="">
-                        <span>API</span>
+                    <a href="#" class="">
+                        <span>Connecting to a database</span>
                     </a>
                 </span>
             </li>
@@ -60,7 +63,14 @@
             </li>
             <li>
                 <span class='nodeContainer'>
-                    <a href="./associations.html" class="">
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
                         <span>Models</span>
                     </a>
                 </span>
@@ -72,7 +82,6 @@
                     </a>
                 </span>
             </li>
-
         </ul>
     </div>
 </div>
@@ -120,7 +129,7 @@ var DB = patio.createConnection({
 
                 <p>
                     This method accepts the same parameters as <a href="./api/symbols/patio.html#createConnection"
-                                                                  target="_blank">patio.createConnection</a>
+                                                                  target="patioapi">patio.createConnection</a>
                     execept that it also accepts a block parameter to execute immediately after the connection has
                     been established. While in the block you do not have to worry about promises every thing will be
                     executed in order.
@@ -128,7 +137,7 @@ var DB = patio.createConnection({
 
                 <p>
                     Once the block has finished executing the promise that is returned from
-                    <a href="./api/symbols/patio.html#connectAndExecute" target="_blank">patio.connectAndExecute</a>
+                    <a href="./api/symbols/patio.html#connectAndExecute" target="patioapi">patio.connectAndExecute</a>
                     will be called back (or errbacked) with the database that you can use to do other actions with.
                 </p>
                      <pre class="code">

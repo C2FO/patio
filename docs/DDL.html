@@ -27,7 +27,7 @@
 </style>
 <body>
 
-<a href="http://github.com/doug-martin/patio-query" target="_blank">
+<a href="http://github.com/doug-martin/patio-query" target="patioapi">
     <img style="position: absolute; top: 0; right: 0; border: 0;"
          src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
          alt="Fork me on GitHub">
@@ -37,10 +37,16 @@
 <div class="menuContainer">
     <div class="menuContainerContent">
         <ul>
-            <li><span
-                    class='nodeContainer'><a href="./index.html" class=""><span>Patio</span></a></span></li>
-            <li><span class='nodeContainer'><a href="./api/index.html" target="_blank"
-                                               class=""><span>API</span></a></span></li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./index.html" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
+            </li>
             <li>
                 <span class='nodeContainer'>
                     <a href="./connecting.html" class="">
@@ -50,7 +56,21 @@
             </li>
             <li>
                 <span class='nodeContainer'>
-                    <a href="./associations.html" class="">
+                    <a href="#" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
                         <span>Models</span>
                     </a>
                 </span>
@@ -75,7 +95,7 @@
 
 <p>
     Patio supports the creation to tables through an instance of
-    <a href="./api/symbols/patio.Database.html#createTable" target="_blank">patio.Database</a>.
+    <a href="./api/symbols/patio.Database.html#createTable" target="patioapi">patio.Database</a>.
     The <a href="./api/symbols/patio.Database.html#createTable">patio.Database#createTable</a> method is
     used
     by passing it a name of the table to create and a function which performs the actions to create
@@ -108,18 +128,18 @@ DB.createTable("test", function(){
                     </pre>
 Patio also has a few other built in types that can be used.
 <ul>
-    <li><a href="./api/symbols/patio.sql.Time.html" target="_blank">patio.sql.Time</a> - time</li>
-    <li><a href="./api/symbols/patio.sql.TimeStamp.html" target="_blank">patio.sql.TimeStamp</a> -
+    <li><a href="./api/symbols/patio.sql.Time.html" target="patioapi">patio.sql.Time</a> - time</li>
+    <li><a href="./api/symbols/patio.sql.TimeStamp.html" target="patioapi">patio.sql.TimeStamp</a> -
         timestamp
     </li>
-    <li><a href="./api/symbols/patio.sql.DateTime.html" target="_blank">patio.sql.DateTime</a> -
+    <li><a href="./api/symbols/patio.sql.DateTime.html" target="patioapi">patio.sql.DateTime</a> -
         datetime
     </li>
-    <li><a href="./api/symbols/patio.sql.Year.html" target="_blank">patio.sql.Year</a> - year</li>
-    <li><a href="./api/symbols/patio.sql.Float.html" target="_blank">patio.sql.Float</a> - double
+    <li><a href="./api/symbols/patio.sql.Year.html" target="patioapi">patio.sql.Year</a> - year</li>
+    <li><a href="./api/symbols/patio.sql.Float.html" target="patioapi">patio.sql.Float</a> - double
         precision
     </li>
-    <li><a href="./api/symbols/patio.sql.Decimal.html" target="_blank">patio.sql.Decimal</a> - double
+    <li><a href="./api/symbols/patio.sql.Decimal.html" target="patioapi">patio.sql.Decimal</a> - double
         precision
     </li>
 </ul>
@@ -137,7 +157,7 @@ DB.createTable("test", function () {
 </p>
 <p>
     When creating a table there are a number of methods that can be invoked to create the table.
-    For a full reference see <a href="./api/symbols/patio.SchemaGenerator.html" target="_blank">patio
+    For a full reference see <a href="./api/symbols/patio.SchemaGenerator.html" target="patioapi">patio
     .SchemaGenerator</a>. The most commonly used methods are:
 <ul>
 <li><b>column</b> : add a column to the DDL
@@ -356,7 +376,7 @@ DB.createTable("test", function(){
 });
     </pre>
     Instead of using a block, you can use arguments that will be handled similarly to <a
-        href="./api/symbols/patio.Dataset.html#filter" target="_blank">patio.Dataset#filter</a>:
+        href="./api/symbols/patio.Dataset.html#filter" target="patioapi">patio.Dataset#filter</a>:
     <pre class="code">
 var sql = patio.sql;
 DB.createTable("test", function(){
@@ -388,7 +408,7 @@ DB.createTable("test", function(){
     <p>
         <b>alterTable</b> is used to alter a tables definition. It is used just like <b>createTable</b> where you use
         a function to alter the table's definition. For a full reference see <a
-            href="./api/symbols/patio.AlterTableGenerator.html" target="_blank">patio
+            href="./api/symbols/patio.AlterTableGenerator.html" target="patioapi">patio
         .AlterTableGenerator</a>.
         <pre class="code">
  DB.alterTable("xyz", function() {
@@ -582,17 +602,17 @@ DB.alterTable("test", function(){
     </p>
 </div>
 <div class="methodDetail">
-    <h3><a href="./api/symbols/patio.Database.html" target="_blank">patio.Database</a> modification methods</h3>
+    <h3><a href="./api/symbols/patio.Database.html" target="patioapi">patio.Database</a> modification methods</h3>
     <a href="./api/symbols/patio.Database.html">patio.Database</a> has methods that act as shortcuts to an alter
     table call these methods include
     <ul>
-        <li><a href="./api/symbols/patio.Database.html#addColumn" target="_blank">addColumn</a></li>
-        <li><a href="./api/symbols/patio.Database.html#dropColumn" target="_blank">dropColumn</a></li>
-        <li><a href="./api/symbols/patio.Database.html#renameColumn" target="_blank">renameColumn</a></li>
-        <li><a href="./api/symbols/patio.Database.html#addIndex" target="_blank">addIndex</a></li>
-        <li><a href="./api/symbols/patio.Database.html#dropIndex" target="_blank">dropIndex</a></li>
-        <li><a href="./api/symbols/patio.Database.html#setColumnDefault" target="_blank">setColumnDefault</a></li>
-        <li><a href="./api/symbols/patio.Database.html#setColumnType" target="_blank">setColumnType</a></li>
+        <li><a href="./api/symbols/patio.Database.html#addColumn" target="patioapi">addColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#dropColumn" target="patioapi">dropColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#renameColumn" target="patioapi">renameColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#addIndex" target="patioapi">addIndex</a></li>
+        <li><a href="./api/symbols/patio.Database.html#dropIndex" target="patioapi">dropIndex</a></li>
+        <li><a href="./api/symbols/patio.Database.html#setColumnDefault" target="patioapi">setColumnDefault</a></li>
+        <li><a href="./api/symbols/patio.Database.html#setColumnType" target="patioapi">setColumnType</a></li>
     </ul>
     These methods are useful when your only performing a couple of modifications at a time.
     <pre class="code">

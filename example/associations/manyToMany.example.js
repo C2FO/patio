@@ -8,7 +8,7 @@ var disconnectError = function(err) {
   patio.logError(err);
   patio.disconnect();
 };
-//comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
 var createTables = function() {
   return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox", function(db, patio) {
     db.forceDropTable("classesStudents", "studentsClasses", "class", "student");
@@ -194,7 +194,7 @@ var printResults = function(studentDs, classDs) {
 };
 
 
-createTables().chain(createModels, disconnectError).chain(createData, disconnectError).then(function() {
+createTables().chain(createModels, disconnectError).chain(createData, disconnectError).then(function(res) {
   //Get our models
   var Class = patio.getModel("class"), Student = patio.getModel("student");
 

@@ -27,7 +27,7 @@
 </style>
 <body>
 
-<a href="http://github.com/doug-martin/patio-query" target="_blank">
+<a href="http://github.com/doug-martin/patio-query" target="patioapi">
     <img style="position: absolute; top: 0; right: 0; border: 0;"
          src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
          alt="Fork me on GitHub">
@@ -45,15 +45,11 @@
                 </span>
             </li>
             <li>
-                <span class='nodeContainer'>
-                    <a href="./api/index.html" target="_blank" class="">
-                        <span>API</span>
-                    </a>
-                </span>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
             </li>
             <li>
                 <span class='nodeContainer'>
-                    <a href="./connecting.htmll" class="">
+                    <a href="./connecting.html" class="">
                         <span>Connecting to a database</span>
                     </a>
                 </span>
@@ -67,8 +63,22 @@
             </li>
             <li>
                 <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
                     <a href="./models.html" class="">
                         <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Model Associations</span>
                     </a>
                 </span>
             </li>
@@ -468,7 +478,7 @@ patio.addModel("student", {
     <p>
         One of the most common forms of associations. One to Many is the inverse of Many to one.
         One to Many often describes a parent child relationship, where the One To Many
-        <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>
+        <a href="api/symbols/patio.Model.html" target="patioapi">patio.Model</a>
         is the parent, and the many to one model is the child.
 
     <p>For example consider a BiologicalFather and his children. The father can have many children,
@@ -544,7 +554,7 @@ comb.executeInOrder(patio, function(patio){
         Above we created a BiologicalFather and Child model. The BiologicalFather has a static
         initializer(init) that sets up the oneToMany association with the Child. The Child also has a static
         initializer that sets up the ManyToOne association with the BiologicalFather. When saving
-        <a href="api/symbols/patio.Model.html" target="_blank">patio.Model</a>s that have associations in
+        <a href="api/symbols/patio.Model.html" target="patioapi">patio.Model</a>s that have associations in
         you can nest the associations directly.
     </p>
 

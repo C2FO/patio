@@ -38,7 +38,14 @@
     <div class="menuContainerContent">
         <ul>
 
-            <li><span class='nodeContainer'><a href="./api/index.html" class="" target="_blank"><span>API</span></a></span></li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li><span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span></li>
             <li>
                 <span class='nodeContainer'>
                     <a href="./connecting.html" class="">
@@ -50,6 +57,13 @@
                 <span class='nodeContainer'>
                     <a href="./DDL.html" class="">
                         <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
                     </a>
                 </span>
             </li>
@@ -76,7 +90,7 @@
             <h1 class="classTitle">Patio</h1>
 
             <p>
-                Patio-query is a <a href="http://sequel.rubyforge.org/" target="_blank">Sequel</a> inspired query engine.
+                Patio-query is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
             </p>
             <pre class="code">
 var patio = require("./index");
@@ -156,8 +170,8 @@ createSchema.then(function(DB){
                     </ul>
                 </li>
                 <li>Simple adapter extensions</li>
-                <li>Powerful <a href="./api/symbols/patio.Dataset.html#filter" target="_blank">query</a> API</li>
-                <li><a href="./api/symbols/patio.Database.html#transaction" target="_blank">Transactions</a> with
+                <li>Powerful <a href="./api/symbols/patio.Dataset.html#filter" target="patioapi">query</a> API</li>
+                <li><a href="./api/symbols/patio.Database.html#transaction" target="patioapi">Transactions</a> with
                     <ul>
                         <li>Savepoints</li>
                         <li>Isolation Levels</li>
@@ -168,14 +182,14 @@ createSchema.then(function(DB){
                 <li>SQL Datatype casting</li>
                 <li>Full database CRUD operations
                     <ul>
-                        <li><a href="./api/symbols/patio.Database.html#createTable" target="_blank">createTable</a></li>
-                        <li><a href="./api/symbols/patio.Database.html#alterTable" target="_blank">alterTable</a></li>
-                        <li><a href="./api/symbols/patio.Database.html#dropTable" target="_blank">dropTable</a></li>
-                        <li><a href="./api/symbols/patio.Dataset.html#insert" target="_blank">insert</a></li>
-                        <li><a href="./api/symbols/patio.Dataset.html#multiInsert" target="_blank">multiInsert</a></li>
-                        <li><a href="./api/symbols/patio.Dataset.html#update" target="_blank">update</a></li>
-                        <li><a href="./api/symbols/patio.Dataset.html#remove" target="_blank">remove</a></li>
-                        <li><a href="./api/symbols/patio.Dataset.html#filter" target="_blank">query</a></li>
+                        <li><a href="./api/symbols/patio.Database.html#createTable" target="patioapi">createTable</a></li>
+                        <li><a href="./api/symbols/patio.Database.html#alterTable" target="patioapi">alterTable</a></li>
+                        <li><a href="./api/symbols/patio.Database.html#dropTable" target="patioapi">dropTable</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#insert" target="patioapi">insert</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#multiInsert" target="patioapi">multiInsert</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#update" target="patioapi">update</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#remove" target="patioapi">remove</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#filter" target="patioapi">query</a></li>
                     </ul>
                 </li>
             </ul>

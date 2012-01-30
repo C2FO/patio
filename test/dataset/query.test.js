@@ -155,7 +155,7 @@ suite.addBatch({
                 dataset:dataset,
                 d1:dataset.where({region:"Asia"}),
                 d2:dataset.where("region = ?", "Asia"),
-                d3:dataset.where("a = 1")
+                d3:dataset.where(sql.literal("a = 1"))
             }
         },
 
@@ -186,7 +186,7 @@ suite.addBatch({
         },
 
         "should work with strings (custom sql expressions)":function (ds) {
-            assert.equal(ds.dataset.where('(a = 1 AND b = 2)').selectSql, "SELECT * FROM test WHERE ((a = 1 AND b = 2))");
+            assert.equal(ds.dataset.where(sql.literal('(a = 1 AND b = 2)')).selectSql, "SELECT * FROM test WHERE ((a = 1 AND b = 2))");
         },
 
         "should work with a string with named placeholders and a hash of placeholder value arguments":function (ds) {
@@ -224,32 +224,23 @@ suite.addBatch({
         },
 
         "should be composable using AND operator (for scoping)":function (ds) {
-            // hashes are merged, no problem
             assert.equal(ds.d1.where({size:'big'}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (size = 'big'))");
 
-            // hash and string
-            assert.equal(ds.d1.where('population > 1000').selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (population > 1000))");
-            assert.equal(ds.d1.where('(a > 1) OR (b < 2)').selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND ((a > 1) OR (b < 2)))");
+            assert.equal(ds.d1.where(sql.literal('population > 1000')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (population > 1000))");
+            assert.equal(ds.d1.where(sql.literal('(a > 1) OR (b < 2)')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND ((a > 1) OR (b < 2)))");
 
-            // hash and array
             assert.equal(ds.d1.where('GDP > ?', 1000).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > 1000))");
 
-            // array and array
             assert.equal(ds.d2.where('GDP > ?', 1000).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > 1000))");
 
-            // array and hash
             assert.equal(ds.d2.where({name:['Japan', 'China']}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (name IN ('Japan', 'China')))");
 
-            // array and string
-            assert.equal(ds.d2.where('GDP > ?').selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > ?))");
+            assert.equal(ds.d2.where(sql.literal('GDP > ?')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > ?))");
 
-            // string and string
-            assert.equal(ds.d3.where('b = 2').selectSql, "SELECT * FROM test WHERE ((a = 1) AND (b = 2))");
+            assert.equal(ds.d3.where(sql.literal('b = 2')).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (b = 2))");
 
-            // string and hash
             assert.equal(ds.d3.where({c:3}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (c = 3))");
 
-            // string and array
             assert.equal(ds.d3.where('d = ?', 4).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (d = 4))");
 
             assert.equal(ds.d3.where({e:{lt:5}}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (e < 5))");
@@ -454,7 +445,7 @@ suite.addBatch({
         },
 
         "should parenthesize a single string condition correctly":function (ds) {
-            assert.equal(ds.exclude("region = 'Asia' AND name = 'Japan'").selectSql, "SELECT * FROM test WHERE NOT (region = 'Asia' AND name = 'Japan')")
+            assert.equal(ds.exclude(sql.literal("region = 'Asia' AND name = 'Japan'")).selectSql, "SELECT * FROM test WHERE NOT (region = 'Asia' AND name = 'Japan')")
         },
 
         "should parenthesize an array condition correctly":function (ds) {
@@ -1397,7 +1388,7 @@ suite.addBatch({
         "should support joining multiple datasets":function (d) {
             var ds = new Dataset().from("categories");
             var ds2 = new Dataset().from("nodes").select("name");
-            var ds3 = new Dataset().from("attributes").filter("name = 'blah'");
+            var ds3 = new Dataset().from("attributes").filter(sql.literal("name = 'blah'"));
 
             assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).joinTable("inner", ds2, {nodeId:sql.identifier("id")}).joinTable("rightOuter", ds3, {attributeId:sql.identifier("id")}).sql,
                 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id") '
@@ -1414,7 +1405,7 @@ suite.addBatch({
 
 
         "should support using a SQL String as the join condition":function (d) {
-            assert.equal(d.join("categories", "c.item_id = items.id", "c").sql, 'SELECT * FROM "items" INNER JOIN "categories" AS "c" ON (c.item_id = items.id)');
+            assert.equal(d.join("categories", sql.literal("c.item_id = items.id"), "c").sql, 'SELECT * FROM "items" INNER JOIN "categories" AS "c" ON (c.item_id = items.id)');
         },
 
 
@@ -2057,7 +2048,7 @@ suite.addBatch({
 
 
         "should handle all other objects by returning them unchanged":function (ds) {
-            assert.equal(ds.select(sql.literal("'a'")).filter(sql.a(3)).filter('blah').order(sql.literal(true)).group(sql.literal('a > ?', [1])).having(false).qualifyToFirstSource().sql, "SELECT 'a' FROM t WHERE (a(3) AND (blah)) GROUP BY a > 1 HAVING 'f' ORDER BY true");
+            assert.equal(ds.select(sql.literal("'a'")).filter(sql.a(3)).filter(sql.literal('blah')).order(sql.literal(true)).group(sql.literal('a > ?', [1])).having(false).qualifyToFirstSource().sql, "SELECT 'a' FROM t WHERE (a(3) AND (blah)) GROUP BY a > 1 HAVING 'f' ORDER BY true");
         },
 
         "should not handle numeric or string expressions ":function (ds) {
@@ -2281,6 +2272,8 @@ suite.addBatch({
 });
 
 suite.run({reporter : vows.reporter.spec}, function(){
+
+
     patio.disconnect();
     ret.callback();
 });

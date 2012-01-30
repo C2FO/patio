@@ -488,7 +488,7 @@ p1.both(function () {
             "should allow a having clause on ungrouped datasets":function (ds) {
                 ds.quoteIdentifiers = false;
                 assert.doesNotThrow(hitch(ds, "having", "blah"));
-                assert.equal(ds.having('blah').sql, "SELECT * FROM nodes HAVING (blah)");
+                assert.equal(ds.having(sql.literal('blah')).sql, "SELECT * FROM nodes HAVING (blah)");
             },
 
             "should put a having clause before an order by clause":function (ds) {
