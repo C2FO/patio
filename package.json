@@ -2,11 +2,13 @@
     "name": "patio",
     "description": "Patio query engine and ORM",
     "version": "0.0.1",
-	"keywords" : ["ORM", "object relation mapper", "relational", "mapper", "moose","mysql", "MySQL", "MySql", "SQL", "sql", "query", "database", "dataset"],
+	"keywords" : ["ORM", "object relation mapper", "relational", "mapper", "moose","mysql", "MySQL", "MySql",
+        "SQL", "sql", "query", "database", "dataset", "transactions", "DDl", "Sequel", "migrations"],
     "repository": {
         "type": "git",
-        "url": "git@github.com:doug-martin/patio-query.git"
+        "url": "git@github.com:pollenware/patio.git"
     },
+    "homepage": "http://pollenware.github.com/patio/index.html",
     "author": "Pollenware (http://pollenware.github.com)",
     "main": "index.js",
     "dependencies" :

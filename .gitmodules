@@ -1,3 +1,6 @@
 [submodule "support/jscoverage"]
 	path = support/jscoverage
 	url = git://github.com/visionmedia/node-jscoverage.git
+[submodule "support/jsdoc"]
+	path = support/jsdoc
+	url = git@github.com:doug-martin/jsDoc-code-view.git
