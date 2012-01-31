@@ -1,6 +1,6 @@
-var patio = require("../../lib"),
-    data = require("data.js"),
-    helper = require("schemas.js"),
+var patio = require("../../index"),
+    data = require("./data"),
+    helper = require("./schemas"),
     comb = require("comb");
 
 

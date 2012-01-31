@@ -1,4 +1,4 @@
-var patio = require("../../lib"),
+var patio = require("../../../index"),
     expressPlugin = require("../plugins/ExpressPlugin");
 
 

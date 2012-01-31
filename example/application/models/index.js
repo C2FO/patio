@@ -1,6 +1,6 @@
-require("airplane.js");
-require("airplaneType.js");
-require("airport.js");
-require("flight.js");
-require("flightleg.js");
-require("legInstance.js");
+require("./airplane");
+require("./airplaneType");
+require("./airport");
+require("./flight");
+require("./flightleg");
+require("./legInstance");

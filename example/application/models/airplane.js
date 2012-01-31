@@ -1,4 +1,4 @@
-var patio = require("../../lib");
+var patio = require("../../../index");
 
 patio.addModel("airplane", {
     static:{

@@ -471,7 +471,7 @@
 <span class='line'>464</span>          *  });
 <span class='line'>465</span>          * &lt;/pre>
 <span class='line'>466</span>          *
-<span class='line'>467</span>          * &lt;p>Example migration file&lt;/b>
+<span class='line'>467</span>          * &lt;b>Example migration file&lt;/b>
 <span class='line'>468</span>          * &lt;pre class="code">
 <span class='line'>469</span>          *
 <span class='line'>470</span>          * //Up function used to migrate up a version
@@ -620,214 +620,225 @@
 <span class='line'>613</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>614</span> 
 <span class='line'>615</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>616</span>              * @ignore
-<span class='line'>617</span>              * @field
-<span class='line'>618</span>              * @type String
-<span class='line'>619</span>              * Returns the default method used to transform identifiers sent to the database.
-<span class='line'>620</span>              */</span><span class="WHIT">
-<span class='line'>621</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>622</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierInputMethod</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>623</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>624</span> 
-<span class='line'>625</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>626</span>              * @ignore
-<span class='line'>627</span>              * @field
-<span class='line'>628</span>              * @type String
-<span class='line'>629</span>              * Returns the default method used to transform identifiers returned from the database.
-<span class='line'>630</span>              */</span><span class="WHIT">
-<span class='line'>631</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>632</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierOutputMethod</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>633</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>634</span> 
-<span class='line'>635</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>636</span>              * @ignore
-<span class='line'>637</span>              * @type Boolean
-<span class='line'>638</span>              * Returns whether or not identifiers are quoted before being sent to the database.
-<span class='line'>639</span>              */</span><span class="WHIT">
-<span class='line'>640</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>641</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.quoteIdentifiers</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>642</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>643</span> 
-<span class='line'>644</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>645</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>646</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>647</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>648</span> 
-<span class='line'>649</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>650</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>651</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>652</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>653</span> 
-<span class='line'>654</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>655</span> 
-<span class='line'>656</span> 
-<span class='line'>657</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>658</span> </span><span class="WHIT">        </span><span class="NAME">setters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>659</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
-<span class='line'>660</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>661</span>              * @field
-<span class='line'>662</span>              * @type String
-<span class='line'>663</span>              *  Set the method to call on identifiers going into the database.  This affects
-<span class='line'>664</span>              * how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
-<span class='line'>665</span>              * use camelize. The method can include
-<span class='line'>666</span>              * &lt;ul>
-<span class='line'>667</span>              *     &lt;li>toUpperCase&lt;/li>
-<span class='line'>668</span>              *     &lt;li>toLowerCase&lt;/li>
-<span class='line'>669</span>              *     &lt;li>camelize&lt;/li>
-<span class='line'>670</span>              *     &lt;li>underscore&lt;/li>
-<span class='line'>671</span>              *     &lt;li>Other String instance method names.&lt;/li>
-<span class='line'>672</span>              * &lt;/ul>
-<span class='line'>673</span>              *
-<span class='line'>674</span>              * patio uses toUpperCase identifiers in all SQL strings for most databases.
-<span class='line'>675</span>              *
-<span class='line'>676</span>              * @example
-<span class='line'>677</span>              *  //use whatever is passed in
-<span class='line'>678</span>              *   patio.identifierInputMethod = null;
-<span class='line'>679</span>              *  //convert to uppercase
-<span class='line'>680</span>              *  patio.identifierInputMethod = "toUpperCase";
-<span class='line'>681</span>              *  //convert to camelCase
-<span class='line'>682</span>              *  patio.identifierInputMethod = "camelize";
-<span class='line'>683</span>              *  //convert to underscore
-<span class='line'>684</span>              *  patio.identifierInputMethod = "underscore";
-<span class='line'>685</span>              *
-<span class='line'>686</span>              * */</span><span class="WHIT">
-<span class='line'>687</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>688</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT">
-<span class='line'>689</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>690</span> 
-<span class='line'>691</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>692</span>              * @field
-<span class='line'>693</span>              * @type String
-<span class='line'>694</span>              * Set the method to call on identifiers coming out of the database.  This affects
-<span class='line'>695</span>              * the how identifiers are represented by calling the method on them.
-<span class='line'>696</span>              * The method can include
-<span class='line'>697</span>              * &lt;ul>
-<span class='line'>698</span>              *     &lt;li>toUpperCase&lt;/li>
-<span class='line'>699</span>              *     &lt;li>toLowerCase&lt;/li>
-<span class='line'>700</span>              *     &lt;li>camelize&lt;/li>
-<span class='line'>701</span>              *     &lt;li>underscore&lt;/li>
-<span class='line'>702</span>              *     &lt;li>Other String instance method names.&lt;/li>
-<span class='line'>703</span>              * &lt;/ul>
-<span class='line'>704</span>              * most database implementations in patio use toLowerCase
-<span class='line'>705</span>              * @example
-<span class='line'>706</span>              *  //use whatever the db returns
-<span class='line'>707</span>              *   patio.identifierOutputMethod = null;
-<span class='line'>708</span>              *  //convert to uppercase
-<span class='line'>709</span>              *  patio.identifierOutputMethod = "toUpperCase";
-<span class='line'>710</span>              *  //convert to camelCase
-<span class='line'>711</span>              *  patio.identifierOutputMethod = "camelize";
-<span class='line'>712</span>              *  //convert to underscore
-<span class='line'>713</span>              *  patio.identifierOutputMethod = "underscore";
-<span class='line'>714</span>              *
-<span class='line'>715</span>              * */</span><span class="WHIT">
-<span class='line'>716</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>717</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>718</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>719</span> 
-<span class='line'>720</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>721</span>              * @field
-<span class='line'>722</span>              * @type Boolean
-<span class='line'>723</span>              * Set whether to quote identifiers for all databases by default. By default,
-<span class='line'>724</span>              * patio quotes identifiers in all SQL strings.
+<span class='line'>616</span>              * Returns the root comb logger using this logger you
+<span class='line'>617</span>              * can set the levels add appenders etc.
+<span class='line'>618</span>              *
+<span class='line'>619</span>              * @type Logger
+<span class='line'>620</span>              * @field
+<span class='line'>621</span>              */</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">            </span><span class="NAME">LOGGER</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>623</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">LOGGER</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>625</span> 
+<span class='line'>626</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>627</span>              * @ignore
+<span class='line'>628</span>              * @field
+<span class='line'>629</span>              * @type String
+<span class='line'>630</span>              * Returns the default method used to transform identifiers sent to the database.
+<span class='line'>631</span>              */</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>633</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierInputMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>635</span> 
+<span class='line'>636</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>637</span>              * @ignore
+<span class='line'>638</span>              * @field
+<span class='line'>639</span>              * @type String
+<span class='line'>640</span>              * Returns the default method used to transform identifiers returned from the database.
+<span class='line'>641</span>              */</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>643</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierOutputMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>644</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>645</span> 
+<span class='line'>646</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>647</span>              * @ignore
+<span class='line'>648</span>              * @type Boolean
+<span class='line'>649</span>              * Returns whether or not identifiers are quoted before being sent to the database.
+<span class='line'>650</span>              */</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.quoteIdentifiers</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>653</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>654</span> 
+<span class='line'>655</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>657</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>658</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>659</span> 
+<span class='line'>660</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>661</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>664</span> 
+<span class='line'>665</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>666</span> 
+<span class='line'>667</span> 
+<span class='line'>668</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">        </span><span class="NAME">setters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>670</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
+<span class='line'>671</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>672</span>              * @field
+<span class='line'>673</span>              * @type String
+<span class='line'>674</span>              *  Set the method to call on identifiers going into the database.  This affects
+<span class='line'>675</span>              * how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
+<span class='line'>676</span>              * use camelize. The method can include
+<span class='line'>677</span>              * &lt;ul>
+<span class='line'>678</span>              *     &lt;li>toUpperCase&lt;/li>
+<span class='line'>679</span>              *     &lt;li>toLowerCase&lt;/li>
+<span class='line'>680</span>              *     &lt;li>camelize&lt;/li>
+<span class='line'>681</span>              *     &lt;li>underscore&lt;/li>
+<span class='line'>682</span>              *     &lt;li>Other String instance method names.&lt;/li>
+<span class='line'>683</span>              * &lt;/ul>
+<span class='line'>684</span>              *
+<span class='line'>685</span>              * patio uses toUpperCase identifiers in all SQL strings for most databases.
+<span class='line'>686</span>              *
+<span class='line'>687</span>              * @example
+<span class='line'>688</span>              *  //use whatever is passed in
+<span class='line'>689</span>              *   patio.identifierInputMethod = null;
+<span class='line'>690</span>              *  //convert to uppercase
+<span class='line'>691</span>              *  patio.identifierInputMethod = "toUpperCase";
+<span class='line'>692</span>              *  //convert to camelCase
+<span class='line'>693</span>              *  patio.identifierInputMethod = "camelize";
+<span class='line'>694</span>              *  //convert to underscore
+<span class='line'>695</span>              *  patio.identifierInputMethod = "underscore";
+<span class='line'>696</span>              *
+<span class='line'>697</span>              * */</span><span class="WHIT">
+<span class='line'>698</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>699</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT">
+<span class='line'>700</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>701</span> 
+<span class='line'>702</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>703</span>              * @field
+<span class='line'>704</span>              * @type String
+<span class='line'>705</span>              * Set the method to call on identifiers coming out of the database.  This affects
+<span class='line'>706</span>              * the how identifiers are represented by calling the method on them.
+<span class='line'>707</span>              * The method can include
+<span class='line'>708</span>              * &lt;ul>
+<span class='line'>709</span>              *     &lt;li>toUpperCase&lt;/li>
+<span class='line'>710</span>              *     &lt;li>toLowerCase&lt;/li>
+<span class='line'>711</span>              *     &lt;li>camelize&lt;/li>
+<span class='line'>712</span>              *     &lt;li>underscore&lt;/li>
+<span class='line'>713</span>              *     &lt;li>Other String instance method names.&lt;/li>
+<span class='line'>714</span>              * &lt;/ul>
+<span class='line'>715</span>              * most database implementations in patio use toLowerCase
+<span class='line'>716</span>              * @example
+<span class='line'>717</span>              *  //use whatever the db returns
+<span class='line'>718</span>              *   patio.identifierOutputMethod = null;
+<span class='line'>719</span>              *  //convert to uppercase
+<span class='line'>720</span>              *  patio.identifierOutputMethod = "toUpperCase";
+<span class='line'>721</span>              *  //convert to camelCase
+<span class='line'>722</span>              *  patio.identifierOutputMethod = "camelize";
+<span class='line'>723</span>              *  //convert to underscore
+<span class='line'>724</span>              *  patio.identifierOutputMethod = "underscore";
 <span class='line'>725</span>              *
-<span class='line'>726</span>              * @example
-<span class='line'>727</span>              *   //Turn quoting off
-<span class='line'>728</span>              *   patio.quoteIdentifiers = false
-<span class='line'>729</span>              * */</span><span class="WHIT">
-<span class='line'>730</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>731</span> </span><span class="WHIT">                </span><span class="NAME">Database.quoteIdentifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>732</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>733</span> 
-<span class='line'>734</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>735</span>              * @field
-<span class='line'>736</span>              * Sets the whether or not to camelize identifiers coming from the database and to underscore
-<span class='line'>737</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
-<span class='line'>738</span>              * as:
-<span class='line'>739</span>              * &lt;pre class="code">
-<span class='line'>740</span>              *     patio.identifierOutputMethod = "camelize";
-<span class='line'>741</span>              *     patio.identifierInputMethod = "underscore";
-<span class='line'>742</span>              * &lt;/pre>
-<span class='line'>743</span>              *
-<span class='line'>744</span>              * @example
-<span class='line'>745</span>              * patio.camelize = true;
-<span class='line'>746</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
-<span class='line'>747</span>              *      db.createTable("airport", function () {
-<span class='line'>748</span>              *          this.primaryKey("id");
-<span class='line'>749</span>              *          this.airportCode(String, {size:4, allowNull:false, unique:true});
-<span class='line'>750</span>              *          this.name(String, {allowNull:false});
-<span class='line'>751</span>              *          this.city(String, {allowNull:false});
-<span class='line'>752</span>              *          this.state(String, {size:2, allowNull:false});
-<span class='line'>753</span>              *      });
-<span class='line'>754</span>              *      //=> CREATE TABLE `airport`(
-<span class='line'>755</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
-<span class='line'>756</span>              *      //    airport_code varchar(4) UNIQUE NOT NULL,
-<span class='line'>757</span>              *      //    name varchar(255) NOT NULL,
-<span class='line'>758</span>              *      //    city varchar(255) NOT NULL,
-<span class='line'>759</span>              *      //    state varchar(2) NOT NULL
-<span class='line'>760</span>              *      //);
-<span class='line'>761</span>              *  }):
-<span class='line'>762</span>              *
-<span class='line'>763</span>              * @param {Boolean} camelize set to true to camelize all identifiers coming from the database and to
-<span class='line'>764</span>              *                  underscore all identifiers sent to the database.
-<span class='line'>765</span>              */</span><span class="WHIT">
-<span class='line'>766</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">camelize</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>767</span> </span><span class="WHIT">                </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>768</span> </span><span class="WHIT">                </span><span class="NAME">Model.camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>769</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>770</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>771</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>772</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>773</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>774</span> 
-<span class='line'>775</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>776</span>              * @field
-<span class='line'>777</span>              * Sets the whether or not to underscore identifiers coming from the database and to camelize
-<span class='line'>778</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
-<span class='line'>779</span>              * as:
-<span class='line'>780</span>              * &lt;pre class="code">
-<span class='line'>781</span>              *     patio.identifierOutputMethod = "underscore";
-<span class='line'>782</span>              *     patio.identifierInputMethod = "camelize";
-<span class='line'>783</span>              * &lt;/pre>
-<span class='line'>784</span>              *
-<span class='line'>785</span>              * @example
-<span class='line'>786</span>              * patio.camelize = true;
-<span class='line'>787</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
-<span class='line'>788</span>              *      db.createTable("airport", function () {
-<span class='line'>789</span>              *          this.primaryKey("id");
-<span class='line'>790</span>              *          this.airport_code(String, {size:4, allowNull:false, unique:true});
-<span class='line'>791</span>              *          this.name(String, {allowNull:false});
-<span class='line'>792</span>              *          this.city(String, {allowNull:false});
-<span class='line'>793</span>              *          this.state(String, {size:2, allowNull:false});
-<span class='line'>794</span>              *      });
-<span class='line'>795</span>              *      //=> CREATE TABLE `airport`(
-<span class='line'>796</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
-<span class='line'>797</span>              *      //    airportCode varchar(4) UNIQUE NOT NULL,
-<span class='line'>798</span>              *      //    name varchar(255) NOT NULL,
-<span class='line'>799</span>              *      //    city varchar(255) NOT NULL,
-<span class='line'>800</span>              *      //    state varchar(2) NOT NULL
-<span class='line'>801</span>              *      //);
-<span class='line'>802</span>              *  }):
-<span class='line'>803</span>              *
-<span class='line'>804</span>              * @param {Boolean} camelize set to true to underscore all identifiers coming from the database and to
-<span class='line'>805</span>              *                  camelize all identifiers sent to the database.
-<span class='line'>806</span>              */</span><span class="WHIT">
-<span class='line'>807</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">underscore</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>808</span> </span><span class="WHIT">                </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>809</span> </span><span class="WHIT">                </span><span class="NAME">Model.underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>810</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>811</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>812</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>813</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>814</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>815</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>816</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>817</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>818</span> 
-<span class='line'>819</span> 
-<span class='line'>820</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>821</span> </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>822</span> </span><span class="NAME">patio.__Patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>823</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Database.ADAPTERS</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>824</span> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>825</span> </span><span class="WHIT">    </span><span class="NAME">patio</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>826</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'>726</span>              * */</span><span class="WHIT">
+<span class='line'>727</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>728</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>729</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>730</span> 
+<span class='line'>731</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>732</span>              * @field
+<span class='line'>733</span>              * @type Boolean
+<span class='line'>734</span>              * Set whether to quote identifiers for all databases by default. By default,
+<span class='line'>735</span>              * patio quotes identifiers in all SQL strings.
+<span class='line'>736</span>              *
+<span class='line'>737</span>              * @example
+<span class='line'>738</span>              *   //Turn quoting off
+<span class='line'>739</span>              *   patio.quoteIdentifiers = false
+<span class='line'>740</span>              * */</span><span class="WHIT">
+<span class='line'>741</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">                </span><span class="NAME">Database.quoteIdentifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>744</span> 
+<span class='line'>745</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>746</span>              * @field
+<span class='line'>747</span>              * Sets the whether or not to camelize identifiers coming from the database and to underscore
+<span class='line'>748</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
+<span class='line'>749</span>              * as:
+<span class='line'>750</span>              * &lt;pre class="code">
+<span class='line'>751</span>              *     patio.identifierOutputMethod = "camelize";
+<span class='line'>752</span>              *     patio.identifierInputMethod = "underscore";
+<span class='line'>753</span>              * &lt;/pre>
+<span class='line'>754</span>              *
+<span class='line'>755</span>              * @example
+<span class='line'>756</span>              * patio.camelize = true;
+<span class='line'>757</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
+<span class='line'>758</span>              *      db.createTable("airport", function () {
+<span class='line'>759</span>              *          this.primaryKey("id");
+<span class='line'>760</span>              *          this.airportCode(String, {size:4, allowNull:false, unique:true});
+<span class='line'>761</span>              *          this.name(String, {allowNull:false});
+<span class='line'>762</span>              *          this.city(String, {allowNull:false});
+<span class='line'>763</span>              *          this.state(String, {size:2, allowNull:false});
+<span class='line'>764</span>              *      });
+<span class='line'>765</span>              *      //=> CREATE TABLE `airport`(
+<span class='line'>766</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
+<span class='line'>767</span>              *      //    airport_code varchar(4) UNIQUE NOT NULL,
+<span class='line'>768</span>              *      //    name varchar(255) NOT NULL,
+<span class='line'>769</span>              *      //    city varchar(255) NOT NULL,
+<span class='line'>770</span>              *      //    state varchar(2) NOT NULL
+<span class='line'>771</span>              *      //);
+<span class='line'>772</span>              *  }):
+<span class='line'>773</span>              *
+<span class='line'>774</span>              * @param {Boolean} camelize set to true to camelize all identifiers coming from the database and to
+<span class='line'>775</span>              *                  underscore all identifiers sent to the database.
+<span class='line'>776</span>              */</span><span class="WHIT">
+<span class='line'>777</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">camelize</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>778</span> </span><span class="WHIT">                </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>779</span> </span><span class="WHIT">                </span><span class="NAME">Model.camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>780</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>781</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>782</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>783</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>784</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>785</span> 
+<span class='line'>786</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>787</span>              * @field
+<span class='line'>788</span>              * Sets the whether or not to underscore identifiers coming from the database and to camelize
+<span class='line'>789</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
+<span class='line'>790</span>              * as:
+<span class='line'>791</span>              * &lt;pre class="code">
+<span class='line'>792</span>              *     patio.identifierOutputMethod = "underscore";
+<span class='line'>793</span>              *     patio.identifierInputMethod = "camelize";
+<span class='line'>794</span>              * &lt;/pre>
+<span class='line'>795</span>              *
+<span class='line'>796</span>              * @example
+<span class='line'>797</span>              * patio.camelize = true;
+<span class='line'>798</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
+<span class='line'>799</span>              *      db.createTable("airport", function () {
+<span class='line'>800</span>              *          this.primaryKey("id");
+<span class='line'>801</span>              *          this.airport_code(String, {size:4, allowNull:false, unique:true});
+<span class='line'>802</span>              *          this.name(String, {allowNull:false});
+<span class='line'>803</span>              *          this.city(String, {allowNull:false});
+<span class='line'>804</span>              *          this.state(String, {size:2, allowNull:false});
+<span class='line'>805</span>              *      });
+<span class='line'>806</span>              *      //=> CREATE TABLE `airport`(
+<span class='line'>807</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
+<span class='line'>808</span>              *      //    airportCode varchar(4) UNIQUE NOT NULL,
+<span class='line'>809</span>              *      //    name varchar(255) NOT NULL,
+<span class='line'>810</span>              *      //    city varchar(255) NOT NULL,
+<span class='line'>811</span>              *      //    state varchar(2) NOT NULL
+<span class='line'>812</span>              *      //);
+<span class='line'>813</span>              *  }):
+<span class='line'>814</span>              *
+<span class='line'>815</span>              * @param {Boolean} camelize set to true to underscore all identifiers coming from the database and to
+<span class='line'>816</span>              *                  camelize all identifiers sent to the database.
+<span class='line'>817</span>              */</span><span class="WHIT">
+<span class='line'>818</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">underscore</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>819</span> </span><span class="WHIT">                </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>820</span> </span><span class="WHIT">                </span><span class="NAME">Model.underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>821</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>822</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>823</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>824</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>825</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>826</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>827</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>828</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>829</span> 
+<span class='line'>830</span> 
+<span class='line'>831</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>832</span> </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>833</span> </span><span class="NAME">patio.__Patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>834</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Database.ADAPTERS</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>835</span> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>836</span> </span><span class="WHIT">    </span><span class="NAME">patio</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>837</span> </span><span class="PUNC">}</span></pre></body></html>

@@ -1,5 +1,5 @@
-var patio = require("../../lib"),
-    helpers = require("helpers.js"),
+var patio = require("../../index"),
+    helpers = require("./helpers"),
     express = require("express");
 
 

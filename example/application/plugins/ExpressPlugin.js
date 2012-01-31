@@ -1,4 +1,4 @@
-var patio = require("../../lib"), comb = require("comb");
+var patio = require("../../../index"), comb = require("comb");
 
 /*
  * Very simple express routing for a model
