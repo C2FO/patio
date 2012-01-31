@@ -1,0 +1,409 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">associations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"../associations"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="WHIT">    </span><span class="NAME">oneToMany</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations.oneToMany</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="WHIT">    </span><span class="NAME">manyToOne</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations.manyToOne</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">    </span><span class="NAME">oneToOne</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations.oneToOne</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">    </span><span class="NAME">manyToMany</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations.manyToMany</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="NAME">fetch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations.fetch</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    </span><span class="NAME">comb</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"comb"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">RECIPROCAL_ASSOC</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="STRN">"oneToOne"</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"manyToOne"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="STRN">"manyToOne"</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"oneToMany"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"oneToOne"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="STRN">"oneToMany"</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"manyToOne"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="STRN">"manyToMany"</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"manyToMany"</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="NAME">exports.AssociationPlugin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.define</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">instance</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Model.prototype*/</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 23</span>          * @ignore
+<span class='line'> 24</span>          * &lt;p>Plugin to expose association capability.&lt;/p>
+<span class='line'> 25</span>          *
+<span class='line'> 26</span>          * The associations exposed include
+<span class='line'> 27</span>          *
+<span class='line'> 28</span>          * &lt;ul>
+<span class='line'> 29</span>          *     &lt;li>&lt;b>oneToMany&lt;/b> - Foreign key in associated model's table points to this
+<span class='line'> 30</span>          *         model's primary key.   Each current model object can be associated with
+<span class='line'> 31</span>          *         more than one associated model objects.  Each associated model object
+<span class='line'> 32</span>          *         can be associated with only one current model object.&lt;/li>
+<span class='line'> 33</span>          *     &lt;li>&lt;b>manyToOne&lt;/b> - Foreign key in current model's table points to
+<span class='line'> 34</span>          *         associated model's primary key.  Each associated model object can
+<span class='line'> 35</span>          *         be associated with more than one current model objects.  Each current
+<span class='line'> 36</span>          *         model object can be associated with only one associated model object.&lt;/li>
+<span class='line'> 37</span>          *     &lt;li>&lt;b>oneToOne&lt;/b> - Similar to one_to_many in terms of foreign keys, but
+<span class='line'> 38</span>          *         only one object is associated to the current object through the
+<span class='line'> 39</span>          *         association.  The methods created are similar to many_to_one, except
+<span class='line'> 40</span>          *         that the one_to_one setter method saves the passed object./li>
+<span class='line'> 41</span>          *     &lt;li>&lt;b>manyToMany&lt;/b> - A join table is used that has a foreign key that points
+<span class='line'> 42</span>          *         to this model's primary key and a foreign key that points to the
+<span class='line'> 43</span>          *         associated model's primary key.  Each current model object can be
+<span class='line'> 44</span>          *         associated with many associated model objects, and each associated
+<span class='line'> 45</span>          *         model object can be associated with many current model objects./li>
+<span class='line'> 46</span>          * &lt;/ul>
+<span class='line'> 47</span>          *
+<span class='line'> 48</span>          * @constructs
+<span class='line'> 49</span>          *
+<span class='line'> 50</span>          */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="NAME">constructor</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">            </span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isUndefinedOrNull</span><span class="PUNC">(</span><span class="NAME">this.__associations</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">                </span><span class="NAME">this.__associations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">        </span><span class="NAME">getters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.Model.prototype*/</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'> 63</span>              * List of associations on the {@link patio.Model}
+<span class='line'> 64</span>              * @field
+<span class='line'> 65</span>              */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">            </span><span class="NAME">associations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.associations</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'> 71</span>              * Returns true if this {@link patio.Model} has associations.
+<span class='line'> 72</span>              * @field
+<span class='line'> 73</span>              */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">            </span><span class="NAME">hasAssociations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.hasAssociations</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">    </span><span class="NAME">static</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Model*/</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">        </span><span class="NAME">__associations</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 86</span>          * @borrows _Association.fetch as fetch
+<span class='line'> 87</span>          */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="NAME">fetchType</span><span class="PUNC">:</span><span class="NAME">fetch</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 91</span>          * String for to signify an association as one to one.
+<span class='line'> 92</span>          * @const
+<span class='line'> 93</span>          */</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">        </span><span class="NAME">ONE_TO_ONE</span><span class="PUNC">:</span><span class="STRN">"oneToOne"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 96</span>          * String for to signify an association as one to many.
+<span class='line'> 97</span>          * @const
+<span class='line'> 98</span>          */</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="NAME">ONE_TO_MANY</span><span class="PUNC">:</span><span class="STRN">"oneToMany"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>101</span>          * String for to signify an association as many to one.
+<span class='line'>102</span>          * @const
+<span class='line'>103</span>          */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">        </span><span class="NAME">MANY_TO_ONE</span><span class="PUNC">:</span><span class="STRN">"manyToOne"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>106</span>          * String for to signify an association as many to many.
+<span class='line'>107</span>          * @const
+<span class='line'>108</span>          */</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="NAME">MANY_TO_MANY</span><span class="PUNC">:</span><span class="STRN">"manyToMany"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>112</span>          *Creates a ONE_TO_MANY association.
+<span class='line'>113</span>          * See {@link patio.plugins.AssociationPlugin.associate} for options.
+<span class='line'>114</span>          *
+<span class='line'>115</span>          * @example
+<span class='line'>116</span>          *
+<span class='line'>117</span>          *
+<span class='line'>118</span>          *  //define the BiologicalFather model
+<span class='line'>119</span>          *  patio.addModel("biologicalFather", {
+<span class='line'>120</span>          *      static:{
+<span class='line'>121</span>          *          init:function () {
+<span class='line'>122</span>          *              this.oneToMany("children");
+<span class='line'>123</span>          *          }
+<span class='line'>124</span>          *      }
+<span class='line'>125</span>          * });
+<span class='line'>126</span>          *
+<span class='line'>127</span>          *
+<span class='line'>128</span>          * //define Child  model
+<span class='line'>129</span>          * patio.addModel("child", {
+<span class='line'>130</span>          *      static:{
+<span class='line'>131</span>          *          init:function () {
+<span class='line'>132</span>          *              this.manyToOne("biologicalFather");
+<span class='line'>133</span>          *          }
+<span class='line'>134</span>          *     }
+<span class='line'>135</span>          * });
+<span class='line'>136</span>          *
+<span class='line'>137</span>          */</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">        </span><span class="NAME">oneToMany</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.associate</span><span class="PUNC">(</span><span class="NAME">this.ONE_TO_MANY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>141</span> 
+<span class='line'>142</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>143</span>          * Creates a MANY_TO_ONE association.
+<span class='line'>144</span>          * See {@link patio.plugins.AssociationPlugin.oneToMany}.
+<span class='line'>145</span>          * See {@link patio.plugins.AssociationPlugin.associate}
+<span class='line'>146</span>          */</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">        </span><span class="NAME">manyToOne</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.associate</span><span class="PUNC">(</span><span class="NAME">this.MANY_TO_ONE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>150</span> 
+<span class='line'>151</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>152</span>          * Creates a ONE_TO_ONE relationship between models.
+<span class='line'>153</span>          * See {@link patio.plugins.AssociationPlugin.associate} for options.
+<span class='line'>154</span>          *
+<span class='line'>155</span>          * @example
+<span class='line'>156</span>          *
+<span class='line'>157</span>          * patio.addModel("state", {
+<span class='line'>158</span>          *      static:{
+<span class='line'>159</span>          *          init:function () {
+<span class='line'>160</span>          *              this.oneToOne("capital");
+<span class='line'>161</span>          *          }
+<span class='line'>162</span>          *     }
+<span class='line'>163</span>          * });
+<span class='line'>164</span>          *
+<span class='line'>165</span>          * patio.addModel("capital", {
+<span class='line'>166</span>          *      static:{
+<span class='line'>167</span>          *        init:function () {
+<span class='line'>168</span>          *          this.manyToOne("state");
+<span class='line'>169</span>          *        }
+<span class='line'>170</span>          *      }
+<span class='line'>171</span>          * });
+<span class='line'>172</span>          */</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">        </span><span class="NAME">oneToOne</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.associate</span><span class="PUNC">(</span><span class="NAME">this.ONE_TO_ONE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>178</span>          * Creates a MANY_TO_MANY relationship between models.
+<span class='line'>179</span>          * See {@link patio.plugins.AssociationPlugin.associate} for options.
+<span class='line'>180</span>          *
+<span class='line'>181</span>          * @example
+<span class='line'>182</span>          *
+<span class='line'>183</span>          *  patio.addModel("class", {
+<span class='line'>184</span>          *      static:{
+<span class='line'>185</span>          *          init:function(){
+<span class='line'>186</span>          *              this.manyToMany("students", {fetchType:this.fetchType.EAGER, order : [sql.firstName.desc(), sql.lastName.desc()]});
+<span class='line'>187</span>          *          }
+<span class='line'>188</span>          *      }
+<span class='line'>189</span>          * });
+<span class='line'>190</span>          * patio.addModel("student", {
+<span class='line'>191</span>          *      instance:{
+<span class='line'>192</span>          *          enroll:function(clas){
+<span class='line'>193</span>          *              if (comb.isArray(clas)) {
+<span class='line'>194</span>          *                  return this.addClasses(clas);
+<span class='line'>195</span>          *              } else {
+<span class='line'>196</span>          *                  return this.addClass(clas);
+<span class='line'>197</span>          *              }
+<span class='line'>198</span>          *          }
+<span class='line'>199</span>          *      },
+<span class='line'>200</span>          *      static:{
+<span class='line'>201</span>          *          init:function(){
+<span class='line'>202</span>          *              this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order : sql.name.desc()});
+<span class='line'>203</span>          *          }
+<span class='line'>204</span>          *      }
+<span class='line'>205</span>          });
+<span class='line'>206</span>          *
+<span class='line'>207</span>          */</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">        </span><span class="NAME">manyToMany</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.associate</span><span class="PUNC">(</span><span class="NAME">this.MANY_TO_MANY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>211</span> 
+<span class='line'>212</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>213</span>          * Associates a related model with the current model. The following types are
+<span class='line'>214</span>          * supported:
+<span class='line'>215</span>          *
+<span class='line'>216</span>          * &lt;ul>
+<span class='line'>217</span>          *     &lt;li>&lt;b>oneToMany&lt;/b> - Foreign key in associated model's table points to this
+<span class='line'>218</span>          *         model's primary key.   Each current model object can be associated with
+<span class='line'>219</span>          *         more than one associated model objects.  Each associated model object
+<span class='line'>220</span>          *         can be associated with only one current model object.&lt;/li>
+<span class='line'>221</span>          *     &lt;li>&lt;b>manyToOne&lt;/b> - Foreign key in current model's table points to
+<span class='line'>222</span>          *         associated model's primary key.  Each associated model object can
+<span class='line'>223</span>          *         be associated with more than one current model objects.  Each current
+<span class='line'>224</span>          *         model object can be associated with only one associated model object.&lt;/li>
+<span class='line'>225</span>          *     &lt;li>&lt;b>oneToOne&lt;/b> - Similar to one_to_many in terms of foreign keys, but
+<span class='line'>226</span>          *         only one object is associated to the current object through the
+<span class='line'>227</span>          *         association.  The methods created are similar to many_to_one, except
+<span class='line'>228</span>          *         that the one_to_one setter method saves the passed object./li>
+<span class='line'>229</span>          *     &lt;li>&lt;b>manyToMany&lt;/b> - A join table is used that has a foreign key that points
+<span class='line'>230</span>          *         to this model's primary key and a foreign key that points to the
+<span class='line'>231</span>          *         associated model's primary key.  Each current model object can be
+<span class='line'>232</span>          *         associated with many associated model objects, and each associated
+<span class='line'>233</span>          *         model object can be associated with many current model objects.&lt;/li>
+<span class='line'>234</span>          * &lt;/ul>
+<span class='line'>235</span>          *
+<span class='line'>236</span>          * @param {patio.Model.ONE_TO_ONE|patio.Model.ONE_TO_MANY|patio.Model.MANY_TO_ONE|patio.Model.MANY_TO_MANY} type the
+<span class='line'>237</span>          *          type of association that is to be created.
+<span class='line'>238</span>          * @param {String} name the name of the association, the name specified will be exposed as a property on instances
+<span class='line'>239</span>          * of the model.
+<span class='line'>240</span>          @param {Object} [options] additional options.
+<span class='line'>241</span>          * The following options can be supplied:
+<span class='line'>242</span>          * &lt;ul>
+<span class='line'>243</span>          *   &lt;li>&lt;b>model&lt;/b> - The associated class or its name. If not  given, uses the association's name,
+<span class='line'>244</span>          *    which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE&lt;/li>
+<span class='line'>245</span>          *   &lt;li>&lt;b>query&lt;/b> - The conditions to use to filter the association, can be any argument passed
+<span class='line'>246</span>          *   to {@link patio.Dataset#filter}.&lt;/li>
+<span class='line'>247</span>          *   &lt;li>&lt;b>dataset&lt;/b> - A function that is called in the scope of the model and called with the model as the
+<span class='line'>248</span>          *     first argument. The function must return a dataset that can be used as the base for all dataset
+<span class='line'>249</span>          *     operations.&lt;b>NOTE:&lt;/b>The dataset returned will have all options applied to it.&lt;/li>
+<span class='line'>250</span>          *   &lt;li>&lt;b>distinct&lt;/b> Use the DISTINCT clause when selecting associated objects.
+<span class='line'>251</span>          *   See {@link patio.Dataset#distinct}.&lt;/li>
+<span class='line'>252</span>          *   &lt;li>&lt;b>limit&lt;/b> : Limit the number of records to the provided value.  Use
+<span class='line'>253</span>          *     an array with two elements for the value to specify a limit (first element) and an
+<span class='line'>254</span>          *     offset (second element). See {@link patio.Dataset#limit}.&lt;/li>
+<span class='line'>255</span>          *   &lt;li>&lt;b>order&lt;/b> : the column/s order the association dataset by.  Can be a
+<span class='line'>256</span>          *     one or more columns.
+<span class='line'>257</span>          *     See {@link patio.Dataset#order}.&lt;/li>
+<span class='line'>258</span>          *   &lt;li>&lt;b>readOnly&lt;/b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
+<span class='line'>259</span>          *     or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).&lt;/li>
+<span class='line'>260</span>          *   &lt;li>&lt;b>select&lt;/b> : the columns to select.  Defaults to the associated class's
+<span class='line'>261</span>          *     tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
+<span class='line'>262</span>          *     join table.  If you want to include the join table attributes, you can
+<span class='line'>263</span>          *     use this option, but beware that the join table attributes can clash with
+<span class='line'>264</span>          *     attributes from the model table, so you should alias any attributes that have
+<span class='line'>265</span>          *     the same name in both the join table and the associated table.&lt;/li>
+<span class='line'>266</span>          *   &lt;/ul>
+<span class='line'>267</span>          *   ManyToOne additional options:
+<span class='line'>268</span>          *   &lt;ul>
+<span class='line'>269</span>          *      &lt;li>&lt;b>key&lt;/b> : foreignKey in current model's table that references
+<span class='line'>270</span>          *          associated model's primary key.  Defaults to : "{tableName}Id".  Can use an
+<span class='line'>271</span>          *          array of strings for a composite key association.&lt;/li>
+<span class='line'>272</span>          *       &lt;li>&lt;b>primaryKey&lt;/b> : column in the associated table that the &lt;b>key&lt;/b> option references.
+<span class='line'>273</span>          *              Defaults to the primary key of the associated table. Can use an
+<span class='line'>274</span>          *              array of strings for a composite key association.&lt;/li>
+<span class='line'>275</span>          *   &lt;/ul>
+<span class='line'>276</span>          * OneToMany and OneToOne additional options:
+<span class='line'>277</span>          * &lt;ul>
+<span class='line'>278</span>          *      &lt;li>&lt;b>key&lt;/b> : foreign key in associated model's table that references
+<span class='line'>279</span>          *             current model's primary key, as a string.  Defaults to
+<span class='line'>280</span>          *             "{thisTableName}Id".  Can use an array of columns for a composite key association.&lt;/li>
+<span class='line'>281</span>          *      &lt;li>&lt;b>primaryKey&lt;/b> : column in the current table that &lt;b>key&lt;/b> option references.
+<span class='line'>282</span>          *             Defaults to primary key of the current table. Can use an array of strings for a
+<span class='line'>283</span>          *             composite key association.&lt;/li>
+<span class='line'>284</span>          * &lt;/ul>
+<span class='line'>285</span>          *
+<span class='line'>286</span>          * ManyToMany additional options:
+<span class='line'>287</span>          *   &lt;ul>
+<span class='line'>288</span>          *      &lt;li>&lt;b>joinTable&lt;/b> : name of table that includes the foreign keys to both
+<span class='line'>289</span>          *          the current model and the associated model.  Defaults to the name
+<span class='line'>290</span>          *          of current model and name of associated model, pluralized,
+<span class='line'>291</span>          *          sorted, and joined with '' and camelized.
+<span class='line'>292</span>          *      &lt;li>&lt;b>leftKey&lt;/b> : foreign key in join table that points to current model's
+<span class='line'>293</span>          *          primary key. Defaults to :"{tableName}Id".
+<span class='line'>294</span>          *          Can use an array of strings for a composite key association.
+<span class='line'>295</span>          *      &lt;li>&lt;b>leftPrimaryKey&lt;/b> - column in current table that &lt;b>leftKey&lt;/b> points to.
+<span class='line'>296</span>          *          Defaults to primary key of current table.  Can use an array of strings for a
+<span class='line'>297</span>          *          composite key association.
+<span class='line'>298</span>          *      &lt;li>&lt;b>rightKey&lt;/b> : foreign key in join table that points to associated
+<span class='line'>299</span>          *          model's primary key.  Defaults to Defaults to :"{associatedTableName}Id".
+<span class='line'>300</span>          *          Can use an array of strings for a composite key association.
+<span class='line'>301</span>          *      &lt;li>&lt;b>rightPrimaryKey&lt;/b> : column in associated table that &lt;b>rightKey&lt;/b> points to.
+<span class='line'>302</span>          *          Defaults to primary key of the associated table.  Can use an
+<span class='line'>303</span>          *          array of strings for a composite key association.
+<span class='line'>304</span>          *  &lt;/ul>
+<span class='line'>305</span>          * @param {Function} [filter] optional function to filter the dataset after all other options have been applied.
+<span class='line'>306</span>          *
+<span class='line'>307</span>          */</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">        </span><span class="NAME">associate</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isFunction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">                </span><span class="NAME">filter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">                </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">            </span><span class="NAME">this.__associations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__associations</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">manyToMany</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oneToMany</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">manyToOne</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">oneToOne</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">assoc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">associations</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">comb.merge</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">model</span><span class="PUNC">:</span><span class="NAME">name</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.patio</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">filter</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">            </span><span class="NAME">assoc.inject</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">            </span><span class="NAME">this.__associations</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">assoc</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>319</span> 
+<span class='line'>320</span> </span><span class="WHIT">        </span><span class="NAME">__isReciprocalAssociation</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pAssoc</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">assoc._getAssociationKey</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">leftKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rightKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pAssoc._getAssociationKey</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pLeftKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pKeys</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pRightKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pKeys</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">leftKey.every</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">pRightKey</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">rightKey.every</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">pLeftKey</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">assoc.parent</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">pAssoc.model</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>329</span> 
+<span class='line'>330</span> </span><span class="WHIT">        </span><span class="NAME">_findAssociation</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">assoc.type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">recipTypes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">RECIPROCAL_ASSOC</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">            </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">recipTypes</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">recipType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">recipTypes</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">potentialAssociations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__associations</span><span class="PUNC">[</span><span class="NAME">recipType</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">                </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">potentialAssociations</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pAssoc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">potentialAssociations</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">                    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__isReciprocalAssociation</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pAssoc</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">                        </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pAssoc</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">                        </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">found</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>346</span> 
+<span class='line'>347</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span> 
+<span class='line'>351</span> </span><span class="WHIT">        </span><span class="NAME">_clearAssociationsForType</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">            </span><span class="NAME">this._findAssociationsForType</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">                </span><span class="NAME">assoc._clearAssociations</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>356</span> 
+<span class='line'>357</span> </span><span class="WHIT">        </span><span class="NAME">_reloadAssociationsForType</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._findAssociationsForType</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">assoc._forceReloadAssociations</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">pl.length</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.PromiseList</span><span class="PUNC">(</span><span class="NAME">pl</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>363</span> 
+<span class='line'>364</span> </span><span class="WHIT">        </span><span class="NAME">_findAssociationsForType</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">associations</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__associations</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">            </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">associations</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">assoc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">associations</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">assoc.model</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">clazz</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">                    </span><span class="NAME">ret.push</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span> 
+<span class='line'>374</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>375</span> 
+<span class='line'>376</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">        </span><span class="NAME">getters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.plugins.AssociationPlugin*/</span><span class="WHIT">
+<span class='line'>379</span> 
+<span class='line'>380</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>381</span>              * A list of associated model names.
+<span class='line'>382</span>              * @field
+<span class='line'>383</span>              * @type String[]
+<span class='line'>384</span>              */</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">            </span><span class="NAME">associations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">assoc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__associations</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">                </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">                    </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ret.concat</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">assoc</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>392</span> 
+<span class='line'>393</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>394</span>              * Returns true if this model has associations.
+<span class='line'>395</span>              * @field
+<span class='line'>396</span>              * @type Boolean
+<span class='line'>397</span>              */</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">            </span><span class="NAME">hasAssociations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.associations.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

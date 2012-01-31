@@ -1,0 +1,1164 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">comb</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"comb"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="WHIT">    </span><span class="NAME">hitch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="WHIT">    </span><span class="NAME">errors</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"../errors"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="WHIT">    </span><span class="NAME">NotImplemented</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">errors.NotImplemented</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="WHIT">    </span><span class="NAME">QueryError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">errors.QueryError</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="WHIT">    </span><span class="NAME">sql</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"../sql"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="WHIT">    </span><span class="NAME">Identifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sql.Identifier</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="WHIT">    </span><span class="NAME">QualifiedIdentifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sql.QualifiedIdentifier</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="WHIT">    </span><span class="NAME">AliasedExpression</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sql.AliasedExpression</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="WHIT">    </span><span class="NAME">logging</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.logging</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="WHIT">    </span><span class="NAME">Logger</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">logging.Logger</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">    </span><span class="NAME">Promise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">    </span><span class="NAME">PromiseList</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.PromiseList</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Dataset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> 
+<span class='line'> 17</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">LOGGER</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Logger.getLogger</span><span class="PUNC">(</span><span class="STRN">"patio.Dataset"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="NAME">comb.define</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="NAME">instance</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Dataset.prototype*/</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">        </span><span class="NAME">constructor</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">            </span><span class="PUNC">!</span><span class="NAME">Dataset</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Dataset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">"../index"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">Dataset</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">            </span><span class="NAME">this._super</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 31</span>          * Returns a Promise that is resolved with an array with all records in the dataset.
+<span class='line'> 32</span>          * If a block is given, the array is iterated over after all items have been loaded.
+<span class='line'> 33</span>          *
+<span class='line'> 34</span>          * @example
+<span class='line'> 35</span>          *
+<span class='line'> 36</span>          * // SELECT * FROM table
+<span class='line'> 37</span>          * DB.from("table").all().then(function(res){
+<span class='line'> 38</span>          *      //res === [{id : 1, ...}, {id : 2, ...}, ...];
+<span class='line'> 39</span>          * });
+<span class='line'> 40</span>          * // Iterate over all rows in the table
+<span class='line'> 41</span>          * var myArr = [];
+<span class='line'> 42</span>          * var rowPromise = DB.from("table").all(function(row){ myArr.push(row);});
+<span class='line'> 43</span>          * rowPromise.then(function(rows){
+<span class='line'> 44</span>          *    //=> rows == myArr;
+<span class='line'> 45</span>          * });
+<span class='line'> 46</span>          *
+<span class='line'> 47</span>          * @param {Function} block a block to be called with each item. The return value of the block is ignored.
+<span class='line'> 48</span>          *
+<span class='line'> 49</span>          * @return {comb.Promise} a promise that is resolved with an array of rows.
+<span class='line'> 50</span>          */</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">        </span><span class="NAME">all</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">            </span><span class="NAME">this.forEach</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">                </span><span class="NAME">a.push</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">                </span><span class="NAME">this.postLoad</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">                </span><span class="NAME">block</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">a.forEach</span><span class="PUNC">(</span><span class="NAME">block</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 65</span>          * Returns a promise that is resolved with the average value for the given column.
+<span class='line'> 66</span>          *
+<span class='line'> 67</span>          * @example
+<span class='line'> 68</span>          *
+<span class='line'> 69</span>          * // SELECT avg(number) FROM table LIMIT 1
+<span class='line'> 70</span>          * DB.from("table").avg("number").then(function(avg){
+<span class='line'> 71</span>          *      // avg === 3
+<span class='line'> 72</span>          * });
+<span class='line'> 73</span>          *
+<span class='line'> 74</span>          * @return {comb.Promise} a promise that is resolved with the average value of the column.
+<span class='line'> 75</span>          */</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="NAME">avg</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.avg</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'> 81</span>          * Returns a promise that is resolved with the number of records in the dataset.
+<span class='line'> 82</span>          *
+<span class='line'> 83</span>          * @example
+<span class='line'> 84</span>          *
+<span class='line'> 85</span>          * // SELECT COUNT(*) AS count FROM table LIMIT 1
+<span class='line'> 86</span>          * DB.from("table").count().then(function(count){
+<span class='line'> 87</span>          *     //count === 3;
+<span class='line'> 88</span>          * });
+<span class='line'> 89</span>          *
+<span class='line'> 90</span>          * @return {comb.Promise} a promise that is resolved with the the number of records in the dataset.
+<span class='line'> 91</span>          */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">        </span><span class="NAME">count</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">            </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.COUNT</span><span class="PUNC">(</span><span class="NAME">sql.literal</span><span class="PUNC">(</span><span class="STRN">"*"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"count"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">        </span><span class="STRN">"delete"</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">            </span><span class="NAME">this.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>107</span>          * Deletes the records in the dataset.  The returned Promise should be resolved with the
+<span class='line'>108</span>          * number of records deleted, but that is adapter dependent.
+<span class='line'>109</span>          *
+<span class='line'>110</span>          * @example
+<span class='line'>111</span>          *
+<span class='line'>112</span>          * // DELETE * FROM table
+<span class='line'>113</span>          * DB.from("table").remove().then(function(numDeleted){
+<span class='line'>114</span>          *     //numDeleted === 3
+<span class='line'>115</span>          * });
+<span class='line'>116</span>          *
+<span class='line'>117</span>          * @return {comb.Promise} a promise resolved with the
+<span class='line'>118</span>          * number of records deleted, but that is adapter dependent.
+<span class='line'>119</span>          */</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="NAME">remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.executeDui</span><span class="PUNC">(</span><span class="NAME">this.deleteSql</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>125</span>          * Iterates over the records in the dataset as they are returned from the
+<span class='line'>126</span>          * database adapter.
+<span class='line'>127</span>          *
+<span class='line'>128</span>          * @example
+<span class='line'>129</span>          *
+<span class='line'>130</span>          * // SELECT * FROM table
+<span class='line'>131</span>          * DB.from("table").forEach(function(row){
+<span class='line'>132</span>          *      //....do something
+<span class='line'>133</span>          * });
+<span class='line'>134</span>          *
+<span class='line'>135</span>          * @return {comb.Promise} a promise that is resolved when the action has completed.
+<span class='line'>136</span>          */</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">        </span><span class="NAME">forEach</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rowCb</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__opts.graph</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.graphEach</span><span class="PUNC">(</span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">rowCb</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.rowCb</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.fetchRows</span><span class="PUNC">(</span><span class="NAME">this.selectSql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">                    </span><span class="NAME">comb.when</span><span class="PUNC">(</span><span class="NAME">rowCb</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">                        </span><span class="NAME">comb.when</span><span class="PUNC">(</span><span class="NAME">cb</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.fetchRows</span><span class="PUNC">(</span><span class="NAME">this.selectSql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>155</span>          * Returns a promise that is resolved with true if no records exist in the dataset,
+<span class='line'>156</span>          * false otherwise.
+<span class='line'>157</span>          * @example
+<span class='line'>158</span>          *
+<span class='line'>159</span>          * // SELECT 1 FROM table LIMIT 1
+<span class='line'>160</span>          * DB.from("table").isEmpty().then(function(isEmpty){
+<span class='line'>161</span>          *   // isEmpty === false
+<span class='line'>162</span>          * });
+<span class='line'>163</span>          *
+<span class='line'>164</span>          * @return {comb.Promise} a promise that is resolved with a boolean indicating if the table is empty.
+<span class='line'>165</span>          */</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">        </span><span class="NAME">isEmpty</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">            </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">comb.isUndefinedOrNull</span><span class="PUNC">(</span><span class="NAME">res</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">res.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>175</span>          * @private
+<span class='line'>176</span>          * Executes a select query and fetches records, passing each record to the
+<span class='line'>177</span>          * supplied cb. This method should not be called by user code, use {@link patio.Dataset#forEach}
+<span class='line'>178</span>          * instead.
+<span class='line'>179</span>          */</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">        </span><span class="NAME">fetchRows</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">NotImplemented</span><span class="PUNC">(</span><span class="STRN">"fetchRows must be implemented by the adapter"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>183</span> 
+<span class='line'>184</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>185</span>          * If a integer argument is given, it is interpreted as a limit, and then returns all
+<span class='line'>186</span>          * matching records up to that limit.  If no argument is passed,
+<span class='line'>187</span>          * it returns the first matching record.  If any other type of
+<span class='line'>188</span>          * argument(s) is passed, it is given to {@link patio.Dataset#filter} and the
+<span class='line'>189</span>          * first matching record is returned.  Examples:
+<span class='line'>190</span>          *
+<span class='line'>191</span>          * @example
+<span class='line'>192</span>          *
+<span class='line'>193</span>          * comb.executeInOrder(DB.from("table"), function(ds){
+<span class='line'>194</span>          *   // SELECT * FROM table LIMIT 1
+<span class='line'>195</span>          *   ds.first(); // => {id : 7}
+<span class='line'>196</span>          *
+<span class='line'>197</span>          *   // SELECT * FROM table LIMIT 2
+<span class='line'>198</span>          *   ds.first(2); // => [{id : 6}, {id : 4}]
+<span class='line'>199</span>          *
+<span class='line'>200</span>          *   // SELECT * FROM table WHERE (id = 2) LIMIT 1
+<span class='line'>201</span>          *   ds.first({id : 2}) // => {id : 2}
+<span class='line'>202</span>          *
+<span class='line'>203</span>          *
+<span class='line'>204</span>          *  // SELECT * FROM table WHERE (id = 3) LIMIT 1
+<span class='line'>205</span>          *   ds.first("id = 3"); // => {id : 3}
+<span class='line'>206</span>          *
+<span class='line'>207</span>          *   // SELECT * FROM table WHERE (id = 4) LIMIT 1
+<span class='line'>208</span>          *   ds.first("id = ?", 4); // => {id : 4}
+<span class='line'>209</span>          *
+<span class='line'>210</span>          *   // SELECT * FROM table WHERE (id > 2) LIMIT 1
+<span class='line'>211</span>          *   ds.first(function(){return this.id.gt(2);}); // => {id : 5}
+<span class='line'>212</span>          *
+<span class='line'>213</span>          *
+<span class='line'>214</span>          *   // SELECT * FROM table WHERE ((id > 4) AND (id &lt; 6)) LIMIT 1
+<span class='line'>215</span>          *   ds.first("id > ?", 4, function(){
+<span class='line'>216</span>          *          return this.id.lt(6);
+<span class='line'>217</span>          *   }); // => {id : 5}
+<span class='line'>218</span>          *
+<span class='line'>219</span>          *    // SELECT * FROM table WHERE (id &lt; 2) LIMIT 2
+<span class='line'>220</span>          *   ds.first(2, function(){
+<span class='line'>221</span>          *          return this.id.lt(2)
+<span class='line'>222</span>          *   }); // => [{id:1}]
+<span class='line'>223</span>          * });
+<span class='line'>224</span>          *
+<span class='line'>225</span>          * @param {*} args varargs to be used to limit/filter the result set.
+<span class='line'>226</span>          *
+<span class='line'>227</span>          * @return {comb.Promise} a promise that is resolved with the either the first matching record.
+<span class='line'>228</span>          *                        Or an array of items if a limit was provided as the first argument.
+<span class='line'>229</span>          */</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">        </span><span class="NAME">first</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">            </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">block</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isFunction</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">[</span><span class="NAME">args.length</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">args.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">block</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.filter</span><span class="PUNC">(</span><span class="NAME">block</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">args.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.singleRecord</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">                </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">args.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isNumber</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.limit</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">all</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.filter</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">singleRecord</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span> 
+<span class='line'>246</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>247</span>          * Return the column value for the first matching record in the dataset.
+<span class='line'>248</span>          *
+<span class='line'>249</span>          * @example
+<span class='line'>250</span>          *  // SELECT id FROM table LIMIT 1
+<span class='line'>251</span>          *  DB.from("table").get("id").then(function(val){
+<span class='line'>252</span>          *   // val === 3
+<span class='line'>253</span>          *  });
+<span class='line'>254</span>          *
+<span class='line'>255</span>          *
+<span class='line'>256</span>          * // SELECT sum(id) FROM table LIMIT 1
+<span class='line'>257</span>          * ds.get(sql.sum("id")).then(function(val){
+<span class='line'>258</span>          *      // val === 6;
+<span class='line'>259</span>          * });
+<span class='line'>260</span>          *
+<span class='line'>261</span>          * // SELECT sum(id) FROM table LIMIT 1
+<span class='line'>262</span>          * ds.get(function(){
+<span class='line'>263</span>          *      return this.sum("id");
+<span class='line'>264</span>          * }).then(function(val){
+<span class='line'>265</span>          *      // val === 6;
+<span class='line'>266</span>          * });
+<span class='line'>267</span>          *
+<span class='line'>268</span>          * @param {*} column the column to filter on can be anything that
+<span class='line'>269</span>          *            {@link patio.Dataset#select} accepts.
+<span class='line'>270</span>          *
+<span class='line'>271</span>          * @return {comb.Promise} a promise that will be resolved will the value requested.
+<span class='line'>272</span>          */</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">        </span><span class="NAME">get</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cb</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.select</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">singleValue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>276</span> 
+<span class='line'>277</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>278</span>          * Inserts multiple records into the associated table. This method can be
+<span class='line'>279</span>          * used to efficiently insert a large number of records into a table in a
+<span class='line'>280</span>          * single query if the database supports it. Inserts
+<span class='line'>281</span>          * are automatically wrapped in a transaction.
+<span class='line'>282</span>          *
+<span class='line'>283</span>          * This method is called with a columns array and an array of value arrays:
+<span class='line'>284</span>          * &lt;pre class="code">
+<span class='line'>285</span>          *   // INSERT INTO table (x, y) VALUES (1, 2)
+<span class='line'>286</span>          *   // INSERT INTO table (x, y) VALUES (3, 4)
+<span class='line'>287</span>          *   DB.from("table").import(["x", "y"], [[1, 2], [3, 4]]).
+<span class='line'>288</span>          * &lt;/pre>
+<span class='line'>289</span>          *
+<span class='line'>290</span>          * This method also accepts a dataset instead of an array of value arrays:
+<span class='line'>291</span>          *
+<span class='line'>292</span>          * &lt;pre class="code">
+<span class='line'>293</span>          *  // INSERT INTO table (x, y) SELECT a, b FROM table2
+<span class='line'>294</span>          *  DB.from("table").import(["x", "y"], DB.from("table2").select("a", "b"));
+<span class='line'>295</span>          * &lt;/pre>
+<span class='line'>296</span>          *
+<span class='line'>297</span>          * The method also accepts a commitEvery option that specifies
+<span class='line'>298</span>          * the number of records to insert per transaction. This is useful especially
+<span class='line'>299</span>          * when inserting a large number of records, e.g.:
+<span class='line'>300</span>          *
+<span class='line'>301</span>          * &lt;pre class="code">
+<span class='line'>302</span>          *   // this will commit every 50 records
+<span class='line'>303</span>          *  DB.from("table").import(["x", "y"], [[1, 2], [3, 4], ...], {commitEvery : 50});
+<span class='line'>304</span>          * &lt;/pre>
+<span class='line'>305</span>          *
+<span class='line'>306</span>          * @param {Array} columns The columns to insert values for.
+<span class='line'>307</span>          *                  This array will be used as the base for each values item in the values array.
+<span class='line'>308</span>          * @param {Array[Array]} values Array of arrays of values to insert into the columns.
+<span class='line'>309</span>          * @param {Object} [opts] options
+<span class='line'>310</span>          * @param {Number} [opts.commitEvery] the number of records to insert per transaction.
+<span class='line'>311</span>          *
+<span class='line'>312</span>          * @return {comb.Promise} a promise that is resolved once all records have been inserted.
+<span class='line'>313</span>          */</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">        </span><span class="NAME">import</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">columns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">values</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Dataset</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.transaction</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insert</span><span class="PUNC">(</span><span class="NAME">columns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">values</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">values.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">columns.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">                </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">QueryError</span><span class="PUNC">(</span><span class="STRN">"Invalid columns in import"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>328</span> 
+<span class='line'>329</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sliceSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts.commitEvery</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">opts.slice</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">sliceSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">execute</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">                    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">values.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">                        </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>337</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">                    </span><span class="NAME">this.db.transaction</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">                        </span><span class="NAME">this.multiInsertSql</span><span class="PUNC">(</span><span class="NAME">columns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">values.slice</span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sliceSize</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">st</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">                            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.executeDui</span><span class="PUNC">(</span><span class="NAME">st</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>343</span> </span><span class="WHIT">                        </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sliceSize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>344</span> </span><span class="WHIT">                        </span><span class="NAME">execute</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> </span><span class="WHIT">                </span><span class="NAME">execute</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">statements</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.multiInsertSql</span><span class="PUNC">(</span><span class="NAME">columns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">values</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.transaction</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">                    </span><span class="NAME">statements.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">st</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">                        </span><span class="NAME">this.executeDui</span><span class="PUNC">(</span><span class="NAME">st</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>360</span>          * This is the recommended function to do the insert of multiple items into the
+<span class='line'>361</span>          * database. This acts as a proxy to the {@link patio.Dataset#import} method so
+<span class='line'>362</span>          * one can use an array of hashes rather than an array of columns and an array of values.
+<span class='line'>363</span>          * See {@link patio.Dataset#import} for more information regarding the method of inserting.
+<span class='line'>364</span>          * &lt;p>
+<span class='line'>365</span>          *     &lt;b>NOTE:&lt;/b>All hashes should have the same keys other wise some values could be missed&lt;/b>
+<span class='line'>366</span>          * &lt;/p>
+<span class='line'>367</span>          *
+<span class='line'>368</span>          * @example
+<span class='line'>369</span>          *
+<span class='line'>370</span>          * // INSERT INTO table (x) VALUES (1)
+<span class='line'>371</span>          * // INSERT INTO table (x) VALUES (2)
+<span class='line'>372</span>          * DB.from("table").multiInsert([{x : 1}, {x : 2}]).then(function(){
+<span class='line'>373</span>          *     //...do something
+<span class='line'>374</span>          * })
+<span class='line'>375</span>          *
+<span class='line'>376</span>          * //commit every 50 inserts
+<span class='line'>377</span>          * DB.from("table").multiInsert([{x : 1}, {x : 2},....], {commitEvery : 50}).then(function(){
+<span class='line'>378</span>          *     //...do something
+<span class='line'>379</span>          * });
+<span class='line'>380</span>          *
+<span class='line'>381</span>          * @param {Object[]} hashes an array of objects to insert into the database. The keys of
+<span class='line'>382</span>          * the first item in the array will be used to look up columns in all subsequent objects. If the
+<span class='line'>383</span>          * array is empty then the promise is resolved immediatly.
+<span class='line'>384</span>          *
+<span class='line'>385</span>          * @param {Object} opts See {@link patio.Dataset#import}.
+<span class='line'>386</span>          *
+<span class='line'>387</span>          * @return {comb.Promise} See {@link patio.Dataset#import} for return functionality.
+<span class='line'>388</span>          */</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">        </span><span class="NAME">multiInsert</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">hashes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">            </span><span class="NAME">hashes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">hashes</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">hashes.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">columns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">hashes</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.import</span><span class="PUNC">(</span><span class="NAME">columns</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hashes.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">h</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">columns.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">h</span><span class="PUNC">[</span><span class="NAME">c</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>405</span> 
+<span class='line'>406</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>407</span>          * Inserts values into the associated table. The returned value is generally
+<span class='line'>408</span>          * the value of the primary key for the inserted row, but that is adapter dependent.
+<span class='line'>409</span>          *
+<span class='line'>410</span>          * @example
+<span class='line'>411</span>          *
+<span class='line'>412</span>          * // INSERT INTO items DEFAULT VALUES
+<span class='line'>413</span>          * DB.from("items").insert()
+<span class='line'>414</span>          *
+<span class='line'>415</span>          * // INSERT INTO items DEFAULT VALUES
+<span class='line'>416</span>          * DB.from("items").insert({});
+<span class='line'>417</span>          *
+<span class='line'>418</span>          * // INSERT INTO items VALUES (1, 2, 3)
+<span class='line'>419</span>          * DB.from("items").insert([1,2,3]);
+<span class='line'>420</span>          *
+<span class='line'>421</span>          * // INSERT INTO items (a, b) VALUES (1, 2)
+<span class='line'>422</span>          * DB.from("items").insert(["a", "b"], [1,2]);
+<span class='line'>423</span>          *
+<span class='line'>424</span>          * // INSERT INTO items (a, b) VALUES (1, 2)
+<span class='line'>425</span>          * DB.from("items").insert({a : 1, b : 2});
+<span class='line'>426</span>          *
+<span class='line'>427</span>          * // INSERT INTO items SELECT * FROM old_items
+<span class='line'>428</span>          * DB.from("items").insert(DB.from("old_items"));
+<span class='line'>429</span>          *
+<span class='line'>430</span>          * // INSERT INTO items (a, b) SELECT * FROM old_items
+<span class='line'>431</span>          * DB.from("items").insert(["a", "b"], DB.from("old_items"));
+<span class='line'>432</span>          *
+<span class='line'>433</span>          *
+<span class='line'>434</span>          *
+<span class='line'>435</span>          * @param {patio.Dataset|patio.sql.LiteralString|Array|Object|patio.sql.BooleanExpression|...} values  values to
+<span class='line'>436</span>          *      insert into the database. The INSERT statement generated depends on the type.
+<span class='line'>437</span>          *      &lt;ul>
+<span class='line'>438</span>          *          &lt;li>Empty object| Or no arugments: then DEFAULT VALUES is used.&lt;/li>
+<span class='line'>439</span>          *          &lt;li>Object: the keys will be used as the columns, and values will be the values inserted.&lt;/li>
+<span class='line'>440</span>          *          &lt;li>Single {@link patio.Dataset} : an insert with subselect will be performed.&lt;/li>
+<span class='line'>441</span>          *          &lt;li>Array with {@link patio.Dataset} : The array will be used for columns and a subselect will performed with the dataset for the values.&lt;/li>
+<span class='line'>442</span>          *          &lt;li>{@link patio.sql.LiteralString} : the literal value will be used.&lt;/li>
+<span class='line'>443</span>          *          &lt;li>Single Array : the values in the array will be used as the VALUES clause.&lt;/li>
+<span class='line'>444</span>          *          &lt;li>Two Arrays: the first array is the columns the second array is the values.&lt;/li>
+<span class='line'>445</span>          *          &lt;li>{@link patio.sql.BooleanExpression} : the expression will be used as the values.
+<span class='line'>446</span>          *          &lt;li>An arbitrary number of arguments : the {@link patio.Dataset#literal} version of the values will be used&lt;/li>
+<span class='line'>447</span>          *      &lt;/ul>
+<span class='line'>448</span>          *
+<span class='line'>449</span>          * @return {comb.Promise} a promise that is typically resolved with the ID of the inserted row.
+<span class='line'>450</span>          */</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">        </span><span class="NAME">insert</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.executeInsert</span><span class="PUNC">(</span><span class="NAME">this.insertSql.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>454</span> 
+<span class='line'>455</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>456</span>          * @see patio.Dataset#insert
+<span class='line'>457</span>          */</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">        </span><span class="NAME">save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insert.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>461</span> 
+<span class='line'>462</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>463</span>          * Inserts multiple values. If a block is given it is invoked for each
+<span class='line'>464</span>          * item in the given array before inserting it.  See {@link patio.Dataset#multiInsert} as
+<span class='line'>465</span>          * a possible faster version that inserts multiple records in one SQL statement.
+<span class='line'>466</span>          *
+<span class='line'>467</span>          * &lt;b> Params see @link patio.Dataset#insert&lt;/b>
+<span class='line'>468</span>          *
+<span class='line'>469</span>          * @example
+<span class='line'>470</span>          *
+<span class='line'>471</span>          * DB.from("table").insertMultiple([{x : 1}, {x : 2}]);
+<span class='line'>472</span>          *      //=> INSERT INTO table (x) VALUES (1)
+<span class='line'>473</span>          *      //=> INSERT INTO table (x) VALUES (2)
+<span class='line'>474</span>          *
+<span class='line'>475</span>          * DB.from("table").insertMultiple([{x : 1}, {x : 2}], function(row){
+<span class='line'>476</span>          *      row.y = row.x * 2;
+<span class='line'>477</span>          * });
+<span class='line'>478</span>          *      //=> INSERT INTO table (x, y) VALUES (1, 2)
+<span class='line'>479</span>          *      //=> INSERT INTO table (x, y) VALUES (2, 4)
+<span class='line'>480</span>          *
+<span class='line'>481</span>          * @param array See {@link patio.Dataset#insert} for possible values.
+<span class='line'>482</span>          * @param {Function} [block] a function to be called before each item is inserted.
+<span class='line'>483</span>          *
+<span class='line'>484</span>          * @return {comb.PromiseList} a promiseList that should be resolved with the id of each item inserted
+<span class='line'>485</span>          *          in the order that was in the array.
+<span class='line'>486</span>          */</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">        </span><span class="NAME">insertMultiple</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">array</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promises</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">block</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">                </span><span class="NAME">promises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">array.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insert</span><span class="PUNC">(</span><span class="NAME">block</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">                </span><span class="NAME">promises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">array.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insert</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PromiseList</span><span class="PUNC">(</span><span class="NAME">promises</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>500</span> 
+<span class='line'>501</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>502</span>          * @see patio.Dataset#insertMultiple
+<span class='line'>503</span>          */</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">        </span><span class="NAME">saveMultiple</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.insertMultiple.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>507</span> 
+<span class='line'>508</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>509</span>          * Returns a promise that is resolved with the interval between minimum and maximum values
+<span class='line'>510</span>          * for the given column.
+<span class='line'>511</span>          *
+<span class='line'>512</span>          * @example
+<span class='line'>513</span>          *  // SELECT (max(id) - min(id)) FROM table LIMIT 1
+<span class='line'>514</span>          *   DB.from("table").interval("id").then(function(interval){
+<span class='line'>515</span>          *      //(e.g) interval === 6
+<span class='line'>516</span>          *   });
+<span class='line'>517</span>          *
+<span class='line'>518</span>          * @param {String|patio.sql.Identifier} column to find the interval of.
+<span class='line'>519</span>          *
+<span class='line'>520</span>          * @return {comb.Promise} a promise that will be resolved with the interval between the min and max values
+<span class='line'>521</span>          * of the column.
+<span class='line'>522</span>          */</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">        </span><span class="NAME">interval</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.max</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">minus</span><span class="PUNC">(</span><span class="NAME">sql.min</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>526</span> 
+<span class='line'>527</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>528</span>          * Reverses the order and then runs first.  Note that this
+<span class='line'>529</span>          * will not necessarily give you the last record in the dataset,
+<span class='line'>530</span>          * unless you have an unambiguous order.
+<span class='line'>531</span>          *
+<span class='line'>532</span>          * @example
+<span class='line'>533</span>          *
+<span class='line'>534</span>          *  // SELECT * FROM table ORDER BY id DESC LIMIT 1
+<span class='line'>535</span>          *  DB.from("table").order("id").last().then(function(lastItem){
+<span class='line'>536</span>          *      //...(e.g lastItem === {id : 10})
+<span class='line'>537</span>          *  });
+<span class='line'>538</span>          *
+<span class='line'>539</span>          *  // SELECT * FROM table ORDER BY id ASC LIMIT 2
+<span class='line'>540</span>          *   DB.from("table").order(sql.id.desc()).last(2).then(function(lastItems){
+<span class='line'>541</span>          *      //...(e.g lastItems === [{id : 1}, {id : 2});
+<span class='line'>542</span>          *  });
+<span class='line'>543</span>          *
+<span class='line'>544</span>          * @throws {patio.error.QueryError} If there is not currently an order for this dataset.
+<span class='line'>545</span>          *
+<span class='line'>546</span>          * @param {*} args See {@link patio.Dataset#first} for argument types.
+<span class='line'>547</span>          *
+<span class='line'>548</span>          * @return {comb.Promise} a promise that will be resolved with a single object or array depending on the
+<span class='line'>549</span>          * arguments provided.
+<span class='line'>550</span>          */</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">        </span><span class="NAME">last</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.__opts.order</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">                </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">QueryError</span><span class="PUNC">(</span><span class="STRN">"No order specified"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.reverse</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.first.apply</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>558</span> 
+<span class='line'>559</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>560</span>          * Maps column values for each record in the dataset (if a column name is
+<span class='line'>561</span>          * given).
+<span class='line'>562</span>          *
+<span class='line'>563</span>          * @example
+<span class='line'>564</span>          *
+<span class='line'>565</span>          * // SELECT * FROM table
+<span class='line'>566</span>          * DB.from("table").map("id").then(function(ids){
+<span class='line'>567</span>          *   // e.g. ids === [1, 2, 3, ...]
+<span class='line'>568</span>          * });
+<span class='line'>569</span>          *
+<span class='line'>570</span>          *  // SELECT * FROM table
+<span class='line'>571</span>          * DB.from("table").map(function(r){
+<span class='line'>572</span>          *      return r.id * 2;
+<span class='line'>573</span>          * }).then(function(ids){
+<span class='line'>574</span>          *     // e.g. ids === [2, 4, 6, ...]
+<span class='line'>575</span>          * });
+<span class='line'>576</span>          *
+<span class='line'>577</span>          * @param {Function|String} column if a string is provided then then it is assumed
+<span class='line'>578</span>          * to be the name of a column in that table and the value of the column for each row
+<span class='line'>579</span>          * will be returned. If column is a function then the return value of the function will
+<span class='line'>580</span>          * be used.
+<span class='line'>581</span>          *
+<span class='line'>582</span>          * @return {comb.Promise} a promise resolved with the array of mapped values.
+<span class='line'>583</span>          */</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">        </span><span class="NAME">map</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isFunction</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="WHIT">                </span><span class="NAME">block</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">column</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">                </span><span class="NAME">column</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">forEachP</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">            </span><span class="NAME">forEachP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">item</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">column</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">column</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">block</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.when</span><span class="PUNC">(</span><span class="NAME">item</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">mapped</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">                    </span><span class="NAME">a.push</span><span class="PUNC">(</span><span class="NAME">mapped</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">            </span><span class="NAME">forEachP.then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>602</span> 
+<span class='line'>603</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>604</span>          * Returns a promise resolved with  the maximum value for the given column.
+<span class='line'>605</span>          *
+<span class='line'>606</span>          * @example
+<span class='line'>607</span>          *
+<span class='line'>608</span>          * // SELECT max(id) FROM table LIMIT 1
+<span class='line'>609</span>          * DB.from("table").max("id").then(function(max){
+<span class='line'>610</span>          *   // e.g. max === 10.
+<span class='line'>611</span>          * });
+<span class='line'>612</span>          *
+<span class='line'>613</span>          *
+<span class='line'>614</span>          * @param {String|patio.sql.Identifier} column the column to find the maximum value for.
+<span class='line'>615</span>          *
+<span class='line'>616</span>          * @return {*} the maximum value for the column.
+<span class='line'>617</span>          */</span><span class="WHIT">
+<span class='line'>618</span> </span><span class="WHIT">        </span><span class="NAME">max</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>619</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.max</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>621</span> 
+<span class='line'>622</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>623</span>          * Returns a promise resolved with  the minimum value for the given column.
+<span class='line'>624</span>          *
+<span class='line'>625</span>          * @example
+<span class='line'>626</span>          *
+<span class='line'>627</span>          * // SELECT min(id) FROM table LIMIT 1
+<span class='line'>628</span>          * DB.from("table").min("id").then(function(min){
+<span class='line'>629</span>          *   // e.g. max === 0.
+<span class='line'>630</span>          * });
+<span class='line'>631</span>          *
+<span class='line'>632</span>          *
+<span class='line'>633</span>          * @param {String|patio.sql.Identifier} column the column to find the minimum value for.
+<span class='line'>634</span>          *
+<span class='line'>635</span>          * @return {*} the minimum value for the column.
+<span class='line'>636</span>          */</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">        </span><span class="NAME">min</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>638</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.min</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>640</span> 
+<span class='line'>641</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>642</span>          * Returns a promise resolved with  a range from the minimum and maximum values for the
+<span class='line'>643</span>          * given column.
+<span class='line'>644</span>          *
+<span class='line'>645</span>          * @example
+<span class='line'>646</span>          *  // SELECT max(id) AS v1, min(id) AS v2 FROM table LIMIT 1
+<span class='line'>647</span>          *  DB.from("table").range("id").then(function(min, max){
+<span class='line'>648</span>          *      //e.g min === 1 AND max === 10
+<span class='line'>649</span>          *  });
+<span class='line'>650</span>          *
+<span class='line'>651</span>          * @param {String|patio.sql.Identifier} column the column to find the min and max value for.
+<span class='line'>652</span>          *
+<span class='line'>653</span>          * @return {comb.Promise} a promise that is resolved with the min and max value, as the first
+<span class='line'>654</span>          * and second args respectively.
+<span class='line'>655</span>          */</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">        </span><span class="NAME">range</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>657</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>658</span> </span><span class="WHIT">            </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">sql.min</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"v1"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">sql.max</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"v2"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">first</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">r.v1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">r.v2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>661</span> 
+<span class='line'>662</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>664</span> 
+<span class='line'>665</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>666</span>          * Returns a promise resolved with a hash with keyColumn values as keys and valueColumn values as
+<span class='line'>667</span>          * values.  Similar to {@link patio.Dataset#toHash}, but only selects the two columns.
+<span class='line'>668</span>          *
+<span class='line'>669</span>          * @example
+<span class='line'>670</span>          *  // SELECT id, name FROM table
+<span class='line'>671</span>          *  DB.from("table").selectHash("id", "name").then(function(hash){
+<span class='line'>672</span>          *   // e.g {1 : 'a', 2 : 'b', ...}
+<span class='line'>673</span>          *  });
+<span class='line'>674</span>          *
+<span class='line'>675</span>          * @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} keyColumn the column
+<span class='line'>676</span>          * to use as the key in the hash.
+<span class='line'>677</span>          *
+<span class='line'>678</span>          * @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} valueColumn the column
+<span class='line'>679</span>          * to use as the value in the hash.
+<span class='line'>680</span>          *
+<span class='line'>681</span>          * @return {comb.Promise} a promise that is resolved with an array of hashes, that have the keyColumn
+<span class='line'>682</span>          * as the key and the valueColumn as the value.
+<span class='line'>683</span>          */</span><span class="WHIT">
+<span class='line'>684</span> </span><span class="WHIT">        </span><span class="NAME">selectHash</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>685</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.toHash</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>686</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>687</span> 
+<span class='line'>688</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>689</span>          * Selects the column given (either as an argument or as a callback), and
+<span class='line'>690</span>          * returns an array of all values of that column in the dataset.  If you
+<span class='line'>691</span>          * give a block argument that returns an array with multiple entries,
+<span class='line'>692</span>          * the contents of the resulting array are undefined.
+<span class='line'>693</span>          *
+<span class='line'>694</span>          *
+<span class='line'>695</span>          * @example
+<span class='line'>696</span>          *  // SELECT id FROM table
+<span class='line'>697</span>          *  DB.from("table").selectMap("id").then(function(selectMap){
+<span class='line'>698</span>          *   // e,g. selectMap === [3, 5, 8, 1, ...]
+<span class='line'>699</span>          * });
+<span class='line'>700</span>          *
+<span class='line'>701</span>          * // SELECT abs(id) FROM table
+<span class='line'>702</span>          * DB.from("table").selectMap(function(){
+<span class='line'>703</span>          *      return this.abs("id");
+<span class='line'>704</span>          * }).then(function(selectMap){
+<span class='line'>705</span>          *   //e.g selectMap === [3, 5, 8, 1, ...]
+<span class='line'>706</span>          * });
+<span class='line'>707</span>          *
+<span class='line'>708</span>          * @param {*} column  The column to return the values for.
+<span class='line'>709</span>          *      See {@link patio.Dataset#select} for valid column values.
+<span class='line'>710</span>          *
+<span class='line'>711</span>          * @return {comb.Promise} a promise resolved with the array of mapped values.
+<span class='line'>712</span>          */</span><span class="WHIT">
+<span class='line'>713</span> </span><span class="WHIT">        </span><span class="NAME">selectMap</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>714</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">ungraphed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>715</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>716</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>717</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>718</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>719</span> 
+<span class='line'>720</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>721</span>          * The same as {@link patio.Dataset#selectMap}, but in addition orders the array by the column.
+<span class='line'>722</span>          *
+<span class='line'>723</span>          * @example
+<span class='line'>724</span>          * // SELECT id FROM table ORDER BY id
+<span class='line'>725</span>          * DB.from("table").selectOrderMap("id").then(function(mappedIds){
+<span class='line'>726</span>          *   //e.g. [1, 2, 3, 4, ...]
+<span class='line'>727</span>          * });
+<span class='line'>728</span>          *
+<span class='line'>729</span>          *  // SELECT abs(id) FROM table ORDER BY abs(id)
+<span class='line'>730</span>          *  DB.from("table").selectOrderMap(function(){
+<span class='line'>731</span>          *          return this.abs("id");
+<span class='line'>732</span>          *  }).then(function(mappedIds){
+<span class='line'>733</span>          *      //e.g. [1, 2, 3, 4, ...]
+<span class='line'>734</span>          *  });
+<span class='line'>735</span>          *
+<span class='line'>736</span>          * @param {*} column  The column to return the values for.
+<span class='line'>737</span>          *      See {@link patio.Dataset#select} for valid column values.
+<span class='line'>738</span>          *
+<span class='line'>739</span>          * @return {comb.Promise} a promise resolved with the array of mapped values.
+<span class='line'>740</span>          */</span><span class="WHIT">
+<span class='line'>741</span> </span><span class="WHIT">        </span><span class="NAME">selectOrderMap</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">                </span><span class="PUNC">.</span><span class="NAME">ungraphed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>744</span> </span><span class="WHIT">                </span><span class="PUNC">.</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>745</span> </span><span class="WHIT">                </span><span class="PUNC">.</span><span class="NAME">order</span><span class="PUNC">(</span><span class="NAME">comb.isFunction</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">column</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this._unaliasedIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>746</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>747</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>748</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>749</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>750</span> 
+<span class='line'>751</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>752</span>          * Same as {@link patio.Dataset#singleRecord} but accepts arguments
+<span class='line'>753</span>          * to filter the dataset. See {@link patio.Dataset#filter} for argument types.
+<span class='line'>754</span>          *
+<span class='line'>755</span>          * @return {comb.Promise} a promise resolved with a single row from the database that matched the filter.
+<span class='line'>756</span>          */</span><span class="WHIT">
+<span class='line'>757</span> </span><span class="WHIT">        </span><span class="NAME">one</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>758</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>759</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">args.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>760</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.filter.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">singleRecord</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>761</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>762</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.singleRecord</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>763</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>764</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>765</span> 
+<span class='line'>766</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>767</span>          * Returns a promise resolved with  the first record in the dataset, or null if the dataset
+<span class='line'>768</span>          * has no records. Users should probably use {@link patio.Dataset#first} instead of
+<span class='line'>769</span>          * this method.
+<span class='line'>770</span>          *
+<span class='line'>771</span>          * @example
+<span class='line'>772</span>          *
+<span class='line'>773</span>          * //'SELECT * FROM test LIMIT 1'
+<span class='line'>774</span>          * DB.from("test").singleRecord().then(function(r) {
+<span class='line'>775</span>          *     //e.g r === {id : 1, name : "firstName"}
+<span class='line'>776</span>          * });
+<span class='line'>777</span>          *
+<span class='line'>778</span>          * @return {comb.Promise} a promise resolved with the first record returned from the query.
+<span class='line'>779</span>          */</span><span class="WHIT">
+<span class='line'>780</span> </span><span class="WHIT">        </span><span class="NAME">singleRecord</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>781</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>782</span> </span><span class="WHIT">            </span><span class="NAME">this.mergeOptions</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">limit</span><span class="PUNC">:</span><span class="NUMB">1</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">all</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>783</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">r.length</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>784</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>785</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>786</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>787</span> 
+<span class='line'>788</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>789</span>          * Returns a promise resolved with the first value of the first record in the dataset.
+<span class='line'>790</span>          * Returns null if dataset is empty.  Users should generally use
+<span class='line'>791</span>          * {@link patio.Dataset#get} instead of this method.
+<span class='line'>792</span>          *
+<span class='line'>793</span>          * @example
+<span class='line'>794</span>          *
+<span class='line'>795</span>          * //'SELECT * FROM test LIMIT 1'
+<span class='line'>796</span>          * DB.from("test").singleValue().then(function(r) {
+<span class='line'>797</span>          *     //e.g r === 1
+<span class='line'>798</span>          * });
+<span class='line'>799</span>          *
+<span class='line'>800</span>          * @return {comb.Promise} a promise that will be resolved with the first value of the first row returned
+<span class='line'>801</span>          * from the dataset.
+<span class='line'>802</span>          *
+<span class='line'>803</span>          */</span><span class="WHIT">
+<span class='line'>804</span> </span><span class="WHIT">        </span><span class="NAME">singleValue</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>805</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>806</span> </span><span class="WHIT">            </span><span class="NAME">this.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">ungraphed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">singleRecord</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>807</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>808</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>809</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>810</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>811</span> 
+<span class='line'>812</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>813</span>          * Returns a promise resolved the sum for the given column.
+<span class='line'>814</span>          *
+<span class='line'>815</span>          * @example
+<span class='line'>816</span>          *
+<span class='line'>817</span>          *  // SELECT sum(id) FROM table LIMIT 1
+<span class='line'>818</span>          * DB.from("table").sum("id").then(function(sum){
+<span class='line'>819</span>          *   // e.g sum === 55
+<span class='line'>820</span>          * });
+<span class='line'>821</span>          *
+<span class='line'>822</span>          * @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} column
+<span class='line'>823</span>          * the column to find the sum of.
+<span class='line'>824</span>          *
+<span class='line'>825</span>          * @return {comb.Promise} a promise resolved with the sum of the column.
+<span class='line'>826</span>          */</span><span class="WHIT">
+<span class='line'>827</span> </span><span class="WHIT">        </span><span class="NAME">sum</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>828</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__aggregateDataset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">sql.sum</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">column</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>829</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>830</span> 
+<span class='line'>831</span> 
+<span class='line'>832</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>833</span>          * Returns a promise resolved with a string in CSV format containing the dataset records. By
+<span class='line'>834</span>          * default the CSV representation includes the column titles in the
+<span class='line'>835</span>          * first line. You can turn that off by passing false as the
+<span class='line'>836</span>          * includeColumnTitles argument.
+<span class='line'>837</span>          *
+<span class='line'>838</span>          * &lt;p>
+<span class='line'>839</span>          *    &lt;b>NOTE:&lt;/b> This does not use a CSV library or handle quoting of values in
+<span class='line'>840</span>          *          any way.  If any values in any of the rows could include commas or line
+<span class='line'>841</span>          *          endings, you shouldn't use this.
+<span class='line'>842</span>          * &lt;/p>
+<span class='line'>843</span>          *
+<span class='line'>844</span>          * @example
+<span class='line'>845</span>          *  // SELECT * FROM table
+<span class='line'>846</span>          *  DB.from("table").toCsv().then(function(csv){
+<span class='line'>847</span>          *      console.log(csv);
+<span class='line'>848</span>          *      //outputs
+<span class='line'>849</span>          *        id,name
+<span class='line'>850</span>          *        1,Jim
+<span class='line'>851</span>          *        2,Bob
+<span class='line'>852</span>          *  });
+<span class='line'>853</span>          *
+<span class='line'>854</span>          *    // SELECT * FROM table
+<span class='line'>855</span>          *  DB.from("table").toCsv(false).then(function(csv){
+<span class='line'>856</span>          *      console.log(csv);
+<span class='line'>857</span>          *      //outputs
+<span class='line'>858</span>          *        1,Jim
+<span class='line'>859</span>          *        2,Bob
+<span class='line'>860</span>          *  });
+<span class='line'>861</span>          *
+<span class='line'>862</span>          *  @param {Boolean} [includeColumnTitles=true] Set to false to prevent the printing of the column
+<span class='line'>863</span>          *  titles as the first line.
+<span class='line'>864</span>          *
+<span class='line'>865</span>          *  @return {comb.Promise} a promise that will be resolved with the CSV string of the results of the
+<span class='line'>866</span>          *  query.
+<span class='line'>867</span>          */</span><span class="WHIT">
+<span class='line'>868</span> </span><span class="WHIT">        </span><span class="NAME">toCsv</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">includeColumnTitles</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>869</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>870</span> </span><span class="WHIT">            </span><span class="NAME">includeColumnTitles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isBoolean</span><span class="PUNC">(</span><span class="NAME">includeColumnTitles</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">includeColumnTitles</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>871</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">csv</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">cols</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>872</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>873</span> </span><span class="WHIT">            </span><span class="NAME">n.columns.then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cols</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>874</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">vals</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>875</span> </span><span class="WHIT">                </span><span class="NAME">includeColumnTitles</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">vals.push</span><span class="PUNC">(</span><span class="NAME">cols.join</span><span class="PUNC">(</span><span class="STRN">", "</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>876</span> </span><span class="WHIT">                </span><span class="NAME">n.forEach</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>877</span> </span><span class="WHIT">                    </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>878</span> </span><span class="WHIT">                        </span><span class="NAME">vals.push</span><span class="PUNC">(</span><span class="NAME">cols.map</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>879</span> </span><span class="WHIT">                            </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>880</span> </span><span class="WHIT">                                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">c</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">""</span><span class="WHIT">
+<span class='line'>881</span> </span><span class="WHIT">                            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">", "</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>882</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>883</span> </span><span class="WHIT">                        </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">vals.join</span><span class="PUNC">(</span><span class="STRN">"\r\n"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\r\n"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>884</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>885</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>886</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>887</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>888</span> 
+<span class='line'>889</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>890</span>          * Returns a promise resolved with a hash with one column used as key and another used as value.
+<span class='line'>891</span>          * If rows have duplicate values for the key column, the latter row(s)
+<span class='line'>892</span>          * will overwrite the value of the previous row(s). If the valueColumn
+<span class='line'>893</span>          * is not given or null, uses the entire hash as the value.
+<span class='line'>894</span>          *
+<span class='line'>895</span>          * @example
+<span class='line'>896</span>          *  // SELECT * FROM table
+<span class='line'>897</span>          *  DB.from("table").toHash("id", "name").then(function(hash){
+<span class='line'>898</span>          *    // {1 : 'Jim', 2 : 'Bob', ...}
+<span class='line'>899</span>          *  });
+<span class='line'>900</span>          *
+<span class='line'>901</span>          * // SELECT * FROM table
+<span class='line'>902</span>          * DB.from("table").toHash("id").then(function(hash){
+<span class='line'>903</span>          *   // {1 : {id : 1, name : 'Jim'}, 2 : {id : 2, name : 'Bob'}, ...}
+<span class='line'>904</span>          * });
+<span class='line'>905</span>          *
+<span class='line'>906</span>          *  @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} keyColumn the column
+<span class='line'>907</span>          *  to use as the key in the returned hash.
+<span class='line'>908</span>          *
+<span class='line'>909</span>          *  @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} [keyValue=null] the
+<span class='line'>910</span>          *  key of the column to use as the value in the hash.
+<span class='line'>911</span>          *
+<span class='line'>912</span>          *  @return {comb.Promise} a promise that will be resolved with the resulting hash.
+<span class='line'>913</span>          */</span><span class="WHIT">
+<span class='line'>914</span> </span><span class="WHIT">        </span><span class="NAME">selectHash</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>915</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">map</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>916</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__hashIdentifierToName</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__hashIdentifierToName</span><span class="PUNC">(</span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>917</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">mapPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.select.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>918</span> </span><span class="WHIT">                </span><span class="NAME">map</span><span class="PUNC">[</span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">v</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>919</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>920</span> </span><span class="WHIT">            </span><span class="NAME">mapPromise.then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>921</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">map</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>922</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>923</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>924</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>925</span> 
+<span class='line'>926</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>927</span>          * Returns a promise resolved with a hash with one column used as key and another used as value.
+<span class='line'>928</span>          * If rows have duplicate values for the key column, the latter row(s)
+<span class='line'>929</span>          * will overwrite the value of the previous row(s). If the valueColumn
+<span class='line'>930</span>          * is not given or null, uses the entire hash as the value.
+<span class='line'>931</span>          *
+<span class='line'>932</span>          * @example
+<span class='line'>933</span>          *  // SELECT * FROM table
+<span class='line'>934</span>          *  DB.from("table").toHash("id", "name").then(function(hash){
+<span class='line'>935</span>          *    // {1 : 'Jim', 2 : 'Bob', ...}
+<span class='line'>936</span>          *  });
+<span class='line'>937</span>          *
+<span class='line'>938</span>          * // SELECT * FROM table
+<span class='line'>939</span>          * DB.from("table").toHash("id").then(function(hash){
+<span class='line'>940</span>          *   // {1 : {id : 1, name : 'Jim'}, 2 : {id : 2, name : 'Bob'}, ...}
+<span class='line'>941</span>          * });
+<span class='line'>942</span>          *
+<span class='line'>943</span>          *  @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} keyColumn the column
+<span class='line'>944</span>          *  to use as the key in the returned hash.
+<span class='line'>945</span>          *
+<span class='line'>946</span>          *  @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} [keyValue=null] the
+<span class='line'>947</span>          *  key of the column to use as the value in the hash.
+<span class='line'>948</span>          *
+<span class='line'>949</span>          *  @return {comb.Promise} a promise that will be resolved with the resulting hash.
+<span class='line'>950</span>          */</span><span class="WHIT">
+<span class='line'>951</span> </span><span class="WHIT">        </span><span class="NAME">toHash</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>952</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">map</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>953</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">k</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__hashIdentifierToName</span><span class="PUNC">(</span><span class="NAME">keyColumn</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.__hashIdentifierToName</span><span class="PUNC">(</span><span class="NAME">valueColumn</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>954</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">mapPromise</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>955</span> </span><span class="WHIT">                </span><span class="NAME">map</span><span class="PUNC">[</span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">v</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">[</span><span class="NAME">v</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>956</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>957</span> </span><span class="WHIT">            </span><span class="NAME">mapPromise.then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>958</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">map</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>959</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>960</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>961</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>962</span> 
+<span class='line'>963</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>964</span>          * Truncates the dataset.  Returns a promise that is resolved once truncation is complete.
+<span class='line'>965</span>          *
+<span class='line'>966</span>          * @example
+<span class='line'>967</span>          *
+<span class='line'>968</span>          * // TRUNCATE table
+<span class='line'>969</span>          * DB.from("table").truncate().then(function(){
+<span class='line'>970</span>          *     //...do something
+<span class='line'>971</span>          * });
+<span class='line'>972</span>          *
+<span class='line'>973</span>          * @return {comb.Promise} a promise that is resolved once truncation is complete.
+<span class='line'>974</span>          */</span><span class="WHIT">
+<span class='line'>975</span> </span><span class="WHIT">        </span><span class="NAME">truncate</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>976</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.executeDdl</span><span class="PUNC">(</span><span class="NAME">this.truncateSql</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>977</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>978</span> 
+<span class='line'>979</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>980</span>          * Updates values for the dataset.  The returned promise is resolved with a value that is generally the
+<span class='line'>981</span>          * number of rows updated, but that is adapter dependent.
+<span class='line'>982</span>          *
+<span class='line'>983</span>          * @example
+<span class='line'>984</span>          * // UPDATE table SET x = NULL
+<span class='line'>985</span>          *  DB.from("table").update({x : null}).then(function(numRowsUpdated){
+<span class='line'>986</span>          *      //e.g. numRowsUpdated === 10
+<span class='line'>987</span>          *  });
+<span class='line'>988</span>          *
+<span class='line'>989</span>          * // UPDATE table SET x = (x + 1), y = 0
+<span class='line'>990</span>          * DB.from("table").update({ x : sql.x.plus(1), y : 0}).then(function(numRowsUpdated){
+<span class='line'>991</span>          *   // e.g. numRowsUpdated === 10
+<span class='line'>992</span>          * });
+<span class='line'>993</span>          *
+<span class='line'>994</span>          * @param {Object} values See {@link patio.Dataset#updateSql} for parameter types.
+<span class='line'>995</span>          *
+<span class='line'>996</span>          * @return {comb.Promise}  a promise that is generally resolved with the
+<span class='line'>997</span>          * number of rows updated, but that is adapter dependent.
+<span class='line'>998</span>          */</span><span class="WHIT">
+<span class='line'>999</span> </span><span class="WHIT">        </span><span class="NAME">update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1000</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.executeDui</span><span class="PUNC">(</span><span class="NAME">this.updateSql</span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1001</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1002</span> 
+<span class='line'>1003</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1004</span>          * @see patio.Dataset#set
+<span class='line'>1005</span>          */</span><span class="WHIT">
+<span class='line'>1006</span> </span><span class="WHIT">        </span><span class="NAME">set</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1007</span> </span><span class="WHIT">            </span><span class="NAME">this.update.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1008</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1009</span> 
+<span class='line'>1010</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1011</span>          * @private
+<span class='line'>1012</span>          * Execute the given select SQL on the database using execute. Use the
+<span class='line'>1013</span>          * readOnly server unless a specific server is set.
+<span class='line'>1014</span>          */</span><span class="WHIT">
+<span class='line'>1015</span> </span><span class="WHIT">        </span><span class="NAME">execute</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1016</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1017</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.execute</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.merge</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">server</span><span class="PUNC">:</span><span class="NAME">this.__opts.server</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"readOnly"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1018</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1019</span> 
+<span class='line'>1020</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1021</span>          * @private
+<span class='line'>1022</span>          * Execute the given SQL on the database using {@link patio.Database#executeDdl}.
+<span class='line'>1023</span>          */</span><span class="WHIT">
+<span class='line'>1024</span> </span><span class="WHIT">        </span><span class="NAME">executeDdl</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1025</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1026</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.executeDdl</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.__defaultServerOpts</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1027</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1028</span> 
+<span class='line'>1029</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1030</span>          * @private
+<span class='line'>1031</span>          * Execute the given SQL on the database using {@link patio.Database#executeDui}.
+<span class='line'>1032</span>          */</span><span class="WHIT">
+<span class='line'>1033</span> </span><span class="WHIT">        </span><span class="NAME">executeDui</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1034</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1035</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.executeDui</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.__defaultServerOpts</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1036</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1037</span> 
+<span class='line'>1038</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1039</span>          * @private
+<span class='line'>1040</span>          * Execute the given SQL on the database using {@link patio.Database#executeInsert}.
+<span class='line'>1041</span>          */</span><span class="WHIT">
+<span class='line'>1042</span> </span><span class="WHIT">        </span><span class="NAME">executeInsert</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1043</span> </span><span class="WHIT">            </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1044</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.db.executeInsert</span><span class="PUNC">(</span><span class="NAME">sql</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.__defaultServerOpts</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">block</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1045</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1046</span> 
+<span class='line'>1047</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1048</span>          * This is run inside {@link patio.Dataset#all}, after all of the records have been loaded
+<span class='line'>1049</span>          * via {@link patio.Dataset#forEach}, but before any block passed to all is called.  It is called with
+<span class='line'>1050</span>          * a single argument, an array of all returned records.  Does nothing by
+<span class='line'>1051</span>          * default.
+<span class='line'>1052</span>          */</span><span class="WHIT">
+<span class='line'>1053</span> </span><span class="WHIT">        </span><span class="NAME">postLoad</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">allRecords</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1054</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">allRecords</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1055</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1056</span> 
+<span class='line'>1057</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1058</span>          * @private
+<span class='line'>1059</span>          *
+<span class='line'>1060</span>          * Clone of this dataset usable in aggregate operations.  Does
+<span class='line'>1061</span>          * a {@link patio.Dataset#fromSelf} if dataset contains any parameters that would
+<span class='line'>1062</span>          * affect normal aggregation, or just removes an existing
+<span class='line'>1063</span>          * order if not.
+<span class='line'>1064</span>          */</span><span class="WHIT">
+<span class='line'>1065</span> </span><span class="WHIT">        </span><span class="NAME">__aggregateDataset</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1066</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._optionsOverlap</span><span class="PUNC">(</span><span class="NAME">this._static.COUNT_FROM_SELF_OPTS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.fromSelf</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.unordered</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1067</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1068</span> 
+<span class='line'>1069</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1070</span>          * @private
+<span class='line'>1071</span>          * Set the server to use to "default" unless it is already set in the passed opts
+<span class='line'>1072</span>          */</span><span class="WHIT">
+<span class='line'>1073</span> </span><span class="WHIT">        </span><span class="NAME">__defaultServerOpts</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1074</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.merge</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">server</span><span class="PUNC">:</span><span class="NAME">this.__opts.server</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"default"</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1075</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1076</span> 
+<span class='line'>1077</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1078</span>          * @private
+<span class='line'>1079</span>          *
+<span class='line'>1080</span>          * Returns the string version of the identifier.
+<span class='line'>1081</span>          *
+<span class='line'>1082</span>          * @param {String|patio.sql.Identifier\patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} identifier
+<span class='line'>1083</span>          *      identifier to resolve to a string.
+<span class='line'>1084</span>          * @return {String} the string version of the identifier.
+<span class='line'>1085</span>          */</span><span class="WHIT">
+<span class='line'>1086</span> </span><span class="WHIT">        </span><span class="NAME">__hashIdentifierToName</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1087</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.isString</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.__hashIdentifierToName</span><span class="PUNC">(</span><span class="NAME">this.stringToIdentifier</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>1088</span> </span><span class="WHIT">                </span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">Identifier</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">identifier.value</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>1089</span> </span><span class="WHIT">                    </span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">QualifiedIdentifier</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">identifier.column</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>1090</span> </span><span class="WHIT">                        </span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">identifier</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">AliasedExpression</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">identifier.alias</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">identifier</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1091</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1092</span> 
+<span class='line'>1093</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>1094</span> </span><span class="WHIT">        </span><span class="NAME">getters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1095</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.Dataset.prototype*/</span><span class="WHIT">
+<span class='line'>1096</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>1097</span>              * @field
+<span class='line'>1098</span>              * @type {comb.Promise}
+<span class='line'>1099</span>              *
+<span class='line'>1100</span>              *  Returns a promise that is resolved with the columns in the result set in order as an array of strings.
+<span class='line'>1101</span>              * If the columns are currently cached, then the promise is immediately resolved with the cached value. Otherwise,
+<span class='line'>1102</span>              * a SELECT query is performed to retrieve a single row in order to get the columns.
+<span class='line'>1103</span>              *
+<span class='line'>1104</span>              * If you are looking for all columns for a single table and maybe some information about
+<span class='line'>1105</span>              * each column (e.g. database type), see {@link patio.Database#schema}.
+<span class='line'>1106</span>              *
+<span class='line'>1107</span>              * &lt;pre class="code">
+<span class='line'>1108</span>              *  DB.from("table").columns.then(function(columns){
+<span class='line'>1109</span>              *        // => ["id", "name"]
+<span class='line'>1110</span>              *   });
+<span class='line'>1111</span>              * &lt;/pre>
+<span class='line'>1112</span>              **/</span><span class="WHIT">
+<span class='line'>1113</span> </span><span class="WHIT">            </span><span class="NAME">columns</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1114</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1115</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__columns</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1116</span> </span><span class="WHIT">                    </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">this.__columns</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>1117</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1118</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.unfiltered</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">unordered</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">mergeOptions</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">distinct</span><span class="PUNC">:</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="PUNC">:</span><span class="NUMB">1</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1119</span> </span><span class="WHIT">                    </span><span class="NAME">ds.forEach</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1120</span> </span><span class="WHIT">                        </span><span class="NAME">this.__columns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds.__columns</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1121</span> </span><span class="WHIT">                        </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">this.__columns</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1122</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1123</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1124</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1125</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1126</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1127</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1128</span> 
+<span class='line'>1129</span> </span><span class="WHIT">    </span><span class="NAME">static</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1130</span> 
+<span class='line'>1131</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Dataset*/</span><span class="WHIT">
+<span class='line'>1132</span> 
+<span class='line'>1133</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1134</span>          * List of action methods avaiable on the dataset.
+<span class='line'>1135</span>          *
+<span class='line'>1136</span>          * @type String[]
+<span class='line'>1137</span>          * @default ['all', 'one', 'avg', 'count', 'columns', 'remove', 'forEach', 'isEmpty', 'first',
+<span class='line'>1138</span>          *          'get', 'import', 'insert', 'save', 'insertMultiple', 'saveMultiple', 'interval', 'last',
+<span class='line'>1139</span>          *          'map', 'max', 'min', 'multiInsert', 'range', 'selectHash', 'selectMap', 'selectOrderMap', 'set',
+<span class='line'>1140</span>          *          'singleRecord', 'singleValue', 'sum', 'toCsv', 'toHash', 'truncate', 'update']
+<span class='line'>1141</span>          */</span><span class="WHIT">
+<span class='line'>1142</span> </span><span class="WHIT">        </span><span class="NAME">ACTION_METHODS</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">'all'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'one'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'avg'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'count'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'columns'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'remove'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'forEach'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'isEmpty'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'first'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1143</span> </span><span class="WHIT">            </span><span class="STRN">'get'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'import'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'insert'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'save'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'insertMultiple'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'saveMultiple'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'interval'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'last'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1144</span> </span><span class="WHIT">            </span><span class="STRN">'map'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'max'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'min'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'multiInsert'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'range'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'selectHash'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'selectMap'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'selectOrderMap'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'set'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1145</span> </span><span class="WHIT">            </span><span class="STRN">'singleRecord'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'singleValue'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'sum'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'toCsv'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'toHash'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'truncate'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'update'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1146</span> 
+<span class='line'>1147</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>1148</span>          * List of options that can interfere with the aggregation of a {@link patio.Dataset}
+<span class='line'>1149</span>          * @type String[]
+<span class='line'>1150</span>          * @default ["distinct", "group", "sql", "limit", "compounds"]
+<span class='line'>1151</span>          */</span><span class="WHIT">
+<span class='line'>1152</span> </span><span class="WHIT">        </span><span class="NAME">COUNT_FROM_SELF_OPTS</span><span class="PUNC">:</span><span class="PUNC">[</span><span class="STRN">"distinct"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"group"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"sql"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"limit"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"compounds"</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>1153</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1154</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'>1155</span> </span><span class="WHIT">    </span><span class="NAME">as</span><span class="PUNC">(</span><span class="NAME">module</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1156</span> 
+<span class='line'>1157</span> </span></pre></body></html>

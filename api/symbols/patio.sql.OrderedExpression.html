@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>patio.sql.OrderedExpression</title>
+
+<!--[if gte IE 9]>
+            <style type="text/css">
+              * {
+                 filter: none !important;
+              }
+            </style>
+          <![endif]-->
+        <link type="text/css" href="../css/default.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/doc.js"></script>
+        <script type="text/javaScript" src="../js/chili/jquery.chili-2.2.js"></script>
+        <script type="text/javaScript" src="../js/chili/recipes.js"></script>
+	</head>
+
+	<body>
+	
+    	    <a href="http://github.com/doug-martin/patio-query">
+    	            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub">
+    	       </a>
+    	    
+         <div class="menuContainer">
+                        <div class="menuContainerContent">
+
+                        <div class="menuContainerTitle">Class Table Of Contents</div>
+                        <ul>
+                            
+            <li><span class='nodeContainer'><a href="../index.html" class=""><span>All Classes</span></a></span></li>
+            <li><span class='nodeContainer'><a href="../files.html" class=""><span>All Files</span></a></span></li>
+            <li class="parent"><span class='parentContainer'><a href="../index.html" class=""><span>API</span></a></span></a>
+                <ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.html" class="" >patio</a></span><ul><li class='parent'><span class='parentContainer'><a href="../symbols/patio.sql.html" class="" >sql</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.sql.Year.html" class="" >Year</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SQLFunction.html" class="" >SQLFunction</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Decimal.html" class="" >Decimal</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasMethods.html" class="" >AliasMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinClause.html" class="" >JoinClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Expression.html" class="" >Expression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CaseExpression.html" class="" >CaseExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringMethods.html" class="" >StringMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubscriptMethods.html" class="" >SubscriptMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.LiteralString.html" class="" >LiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.PlaceHolderLiteralString.html" class="" >PlaceHolderLiteralString</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Identifier.html" class="" >Identifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedMethods.html" class="" >OrderedMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringConcatenationMethods.html" class="" >StringConcatenationMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.StringExpression.html" class="" >StringExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanConstant.html" class="" >BooleanConstant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.GenericExpression.html" class="" >GenericExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Cast.html" class="" >Cast</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BitWiseMethods.html" class="" >BitWiseMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.AliasedExpression.html" class="" >AliasedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.OrderedExpression.html" class="" >OrderedExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.DateTime.html" class="" >DateTime</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NumericMethods.html" class="" >NumericMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Float.html" class="" >Float</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanMethods.html" class="" >BooleanMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinUsingClause.html" class="" >JoinUsingClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.SubScript.html" class="" >SubScript</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.NoBooleanInputMethods.html" class="" >NoBooleanInputMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.TimeStamp.html" class="" >TimeStamp</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ColumnAll.html" class="" >ColumnAll</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.BooleanExpression.html" class="" >BooleanExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifiedIdentifier.html" class="" >QualifiedIdentifier</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpression.html" class="" >ComplexExpression</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.JoinOnClause.html" class="" >JoinOnClause</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.ComplexExpressionMethods.html" class="" >ComplexExpressionMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.InequalityMethods.html" class="" >InequalityMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constants.html" class="" >Constants</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.QualifyingMethods.html" class="" >QualifyingMethods</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.Constant.html" class="" >Constant</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.sql.CastMethods.html" class="" >CastMethods</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.AlterTableGenerator.html" class="" >AlterTableGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href='#'>migrations</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.migrations.TimestampMigrator.html" class="" >TimestampMigrator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.migrations.IntegerMigrator.html" class="" >IntegerMigrator</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.migrations.Migrator.html" class="" >Migrator</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Database.html" class="" >Database</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Time.html" class="" >Time</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.SchemaGenerator.html" class="" >SchemaGenerator</a></span></li><li class='parent'><span class='parentContainer'><a href="../symbols/patio.plugins.html" class="" >plugins</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.plugins.CachePlugin.html" class="" >CachePlugin</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.plugins.TimeStampPlugin.html" class="" >TimeStampPlugin</a></span></li></ul></li><li class='parent'><span class='parentContainer'><a href='#'>associations</a></span><ul><li><span class='nodeContainer'><a href="../symbols/patio.associations.OneToMany.html" class="" >OneToMany</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations.ManyToMany.html" class="" >ManyToMany</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations.Association.html" class="" >Association</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.associations.ManyToOne.html" class="" >ManyToOne</a></span></li></ul></li><li><span class='nodeContainer'><a href="../symbols/patio.Model.html" class="" >Model</a></span></li><li><span class='nodeContainer'><a href="../symbols/patio.Dataset.html" class="" >Dataset</a></span></li></ul></li></ul>
+
+            </li>
+
+
+                        <!-- ============================== constructor summary ==================== -->
+                        			
+
+                        			   <li>
+                        			        <span class="nodeContainer">
+                        			                <a href="../symbols/patio.sql.OrderedExpression.html#constructor" class="" >patio.sql.OrderedExpression</a>
+                        			        </span>
+                        			   </li>
+                                     
+                        <!-- ============================== properties toc ===================== -->
+                        			
+                        				
+                        				
+                        				 <li class="parent">
+                        				        <span class="parentContainer"><a href="#">Properties</a></span>
+        	                             	    <ul>
+        	                             	        	
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.sql.OrderedExpression.html#descending" class="" >descending</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.sql.OrderedExpression.html#expression" class="" >expression</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.sql.OrderedExpression.html#.INVERT_NULLS" class="" >INVERT_NULLS</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class="">
+                                                                		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.sql.OrderedExpression.html#nulls" class="" >nulls</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	    </ul>
+        	                             	</li>
+                        				
+                        			
+
+                        <!-- ============================== methods toc ======================== -->
+                                    
+                                        
+                                        	
+                                        	 <li class="parent"><span class="parentContainer"><a href="#">Methods</a></span>
+                                                <ul>
+                                                    	
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.OrderedExpression.html#asc" class="" >asc</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.OrderedExpression.html#desc" class="" >desc</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.OrderedExpression.html#invert" class="" >invert</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.sql.OrderedExpression.html#toString" class="" >toString</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                </ul>
+                                             </li>
+                                        	
+                                     
+
+                        <!-- ============================== events toc ======================== -->
+                        			
+                               </ul>
+                         </div>
+
+                    </div>
+
+
+<!-- ============================== classes index ============================ -->
+		<div class="contentContainer">
+		<div id="content">
+		<div class="section">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class patio.sql.OrderedExpression
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					<a href="../symbols/patio.sql.Expression.html" class="" >patio.sql.Expression</a>.<br />
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/lib_sql.js.html" class="">sql.js</a>.
+				
+				
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				<dt>Methods borrowed from class <a href="../symbols/patio.sql.Expression.html" class="" >patio.sql.Expression</a>: </dt><dd><a href="../symbols/patio.sql.Expression.html#sqlLiteral" class="" >sqlLiteral</a></dd>
+                                				</dl>
+                                				
+                
+                                				<dl class="inheritsList">
+                                				
+                                				</dl>
+                                				
+			</p>
+            </div>
+
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="section">
+			<div class="sectionTitle">
+            					Class Detail
+            				</div>
+			<div class="methodDetail"><a name="constructor"> </a>
+				
+				<div class="fixedFont">
+						<b>patio.sql.OrderedExpression</b>(expression, descending, opts)
+				</div>
+				
+				<div class="description">
+					Represents a column/expression to order the result set by.
+					
+				</div>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								 <b>expression</b>
+								
+							</dt>
+								<dd>the expression to order</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Boolean}</span>  <b>descending</b>
+								<i>Optional, Default: true</i>
+							</dt>
+								<dd>set to false to order ASC</dd>
+						
+							<dt>
+								<span class="light fixedFont">{String|Object}</span>  <b>opts</b>
+								<i>Optional, Default: null</i>
+							</dt>
+								<dd>additional options
+<ul>
+    <li>String: if value is "first" the null values will be first, if "last" then null values
+    will be last</li>
+    <li>Object: will pull the nulls property off of the object use use the same rules as if it
+    were a string</li>
+</ul></dd>
+						
+						</dl>
+					
+					
+					
+					
+					
+					
+					
+					
+                        <div class="sourceCode">
+                            <pre class="code">
+descending = comb.isBoolean(descending) ? descending : true;
+opts = opts || {};
+this.__expression = expression;
+this.__descending = descending;
+var nulls = comb.isString(opts) ? opts : opts.nulls;
+this.__nulls = comb.isString(nulls) ? nulls.toLowerCase() : null;
+        </pre>
+                        </div>
+                    
+
+			</div>
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+				<a name="descending"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>descending</b>
+					
+					</div>
+					<div class="description">
+						<b>READ ONLY</b> true if decending, false otherwise.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								true
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				<a name="expression"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>expression</b>
+					
+					</div>
+					<div class="description">
+						<b>READ ONLY</b> the expression to order.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+					</div>
+				
+				<a name=".INVERT_NULLS"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">patio.sql.OrderedExpression.</span><b>INVERT_NULLS</b>
+					
+					</div>
+					<div class="description">
+						Hash that contains the inversions for "first" and "last".
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+                       
+                                               	<div class="sourceCode">
+                                                       <pre class="code">first:"last", last:"first"</pre>
+                                                   </div>
+                                               
+					</div>
+				
+				<a name="nulls"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>nulls</b>
+					
+					</div>
+					<div class="description">
+						if value is "first" the null values will be first, if "last" then null values
+    will be last
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Default Value:</dt>
+							<dd>
+								null
+							</dd>
+							</dl>
+						
+
+                       
+					</div>
+				
+				</div>
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			<div class="section">
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+				<a name="asc"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a>}</span>
+					<b>asc</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a>}</span> a copy that is ordered ASC</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return new OrderedExpression(this.__expression, false, {nulls:this.__nulls});
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="desc"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a>}</span>
+					<b>desc</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a>}</span> Return a copy that is ordered DESC</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return new OrderedExpression(this.__expression, true, {nulls:this.__nulls});
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="invert"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>invert</b>()
+					
+					</div>
+					<div class="description">
+						* @return {patio.sql.OrderedExpression} an inverted expression, changing ASC to DESC and NULLS FIRST to NULLS LAST.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+return new OrderedExpression(this.__expression, !this.__descending, {nulls:this._static.INVERT_NULLS[this.__nulls] || this.__nulls});
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name="toString"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					
+					<b>toString</b>(ds)
+					
+					</div>
+					<div class="description">
+						Converts the <a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a> to a string.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a>}</span> <b>ds</b>
+									<i>Optional</i>
+								</dt>
+								<dd>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href="../symbols/patio.Dataset.html" class="" >patio.Dataset</a> implementation is used.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>String the SQL version of the <a href="../symbols/patio.sql.OrderedExpression.html" class="" >patio.sql.OrderedExpression</a>.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+!Dataset && (Dataset = require("./dataset"));
+ds = ds || new Dataset();
+return ds.orderedExpressionSql(this);
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				</div>
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+			<div class="fineprint section" style="clear:both">
+                    			
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jan 31 2012 12:54:39 GMT-0600 (CST)
+                    		</div>
+		</div>
+       </div>
+
+	</body>
+</html>

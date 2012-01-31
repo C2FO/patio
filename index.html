@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>Patio</title>
+    <meta name="generator" content="JsDoc Toolkit"/>
+    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script type="text/javascript" src="./api/js/doc.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+</head>
+<!--[if gte IE 9]>
+<style type="text/css">
+    * {
+        filter: none !important;
+    }
+</style>
+<![endif]-->
+<style type="text/css">
+    .featureList li {
+        margin: 10px;
+    }
+</style>
+<body>
+
+<a href="http://github.com/doug-martin/patio-query">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+         alt="Fork me on GitHub">
+</a>
+
+
+<div class="menuContainer">
+    <div class="menuContainerContent">
+        <ul>
+
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li><span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span></li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.html" class="">
+                        <span>Connecting to a database</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./DDL.html" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./migrations.html" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./associations.html" class="">
+                        <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contentContainer">
+    <div id="content">
+        <div class="section">
+            <h1 class="classTitle">Patio</h1>
+
+            <p>
+                Patio-query is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
+            </p>
+            <pre class="code">
+var patio = require("./index");
+var comb = require("comb");
+
+patio.camelize = true;
+var createSchema = patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
+    db.forceDropTable(["legInstance", "flightLeg", "flight", "airplane", "canLand", "airplaneType", "airport"]);
+    db.createTable("airport", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.airportCode(String, {size:4, allowNull:false, unique:true});
+        this.name(String, {allowNull:false});
+        this.city(String, {allowNull:false});
+        this.state(String, {size:2, allowNull:false});
+    });
+    db.createTable("airplaneType", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.name(String, {allowNull:false});
+        this.maxSeats(Number, {size:3, allowNull:false});
+        this.company(String, {allowNull:false});
+    });
+    db.createTable("flight", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.weekdays("set", {elements:["M", 'T', "W", "TH", "F", "S", "SU"], allowNull:false});
+        this.airline(String, {allowNull:false});
+    });
+    db.createTable("canLand", {engine:"innodb"}, function () {
+        this.foreignKey("airplaneTypeId", "airplaneType", {key:"id"});
+        this.foreignKey("airportId", "airport", {key:"airportCode", type : String, size : 4});
+    });
+    db.createTable("airplane", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.totalNoOfSeats(Number, {size:3, allowNull:false});
+        this.foreignKey("typeId", "airplaneType", {key:"id"});
+    });
+    db.createTable("flightLeg", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.scheduledDepartureTime("time");
+        this.scheduledArrivalTime("time");
+        this.foreignKey("departureCode", "airport", {key:"airportCode", type : String, size : 4});
+        this.foreignKey("arrivalCode", "airport", {key:"airportCode", type : String, size : 4});
+        this.foreignKey("flightId", "flight", {key:"id"});
+    });
+    db.createTable("leg_instance", {engine:"innodb"}, function () {
+        this.primaryKey("id");
+        this.date("date");
+        this.arrTime("datetime");
+        this.depTime("datetime");
+        this.foreignKey("airplaneId", "airplane", {key:"id"});
+        this.foreignKey("flight_legId", "flightLeg", {key:"id"});
+    });
+});
+createSchema.then(function(DB){
+    var ds = DB.from('airport');
+    comb.executeInOrder(ds, patio, function(ds, patio){
+        ds.multiInsert([{airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},
+            {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},
+            {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}]);
+        ds.forEach(function(airport){
+            console.log(airport.airportCode);
+        });
+        patio.disconnect();
+    });
+});
+            </pre>
+        </div>
+        <div class="section">
+            <h2>Features</h2>
+            <ul class="featureList">
+                <li>Comprehensive documentation with examples.</li>
+                <li> &gt; 80% test coverage</li>
+                <li>Support for connection URIs</li>
+                <li>Supported Databases
+                    <ul>
+                        <li>MySQL</li>
+                        <li>Postgres - Coming Soon!</li>
+                    </ul>
+                </li>
+                <li>Simple adapter extensions</li>
+                <li><a href="./migrations.html">Migrations</a>
+                    <ul>Integer and Timestamp based.</ul>
+                </li>
+                <li>Powerful <a href="./querying.html">query</a> API</li>
+                <li><a href="./api/symbols/patio.Database.html#transaction" target="patioapi">Transactions</a> with
+                    <ul>
+                        <li>Savepoints</li>
+                        <li>Isolation Levels</li>
+                        <li>Two phase commits</li>
+                    </ul>
+
+                </li>
+                <li>SQL Datatype casting</li>
+                <li>Full database CRUD operations
+                    <ul>
+                        <li><a href="./api/symbols/patio.Database.html#createTable" target="patioapi">createTable</a></li>
+                        <li><a href="./api/symbols/patio.Database.html#alterTable" target="patioapi">alterTable</a></li>
+                        <li><a href="./api/symbols/patio.Database.html#dropTable" target="patioapi">dropTable</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#insert" target="patioapi">insert</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#multiInsert" target="patioapi">multiInsert</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#update" target="patioapi">update</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#remove" target="patioapi">remove</a></li>
+                        <li><a href="./api/symbols/patio.Dataset.html#filter" target="patioapi">query</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

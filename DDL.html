@@ -1,0 +1,709 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>Patio - Schema CRUD</title>
+    <meta name="generator" content="JsDoc Toolkit"/>
+    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script type="text/javascript" src="./api/js/doc.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+</head>
+<!--[if gte IE 9]>
+<style type="text/css">
+    * {
+        filter: none !important;
+    }
+</style>
+<![endif]-->
+<style type="text/css">
+    .featureList li {
+        margin: 10px;
+    }
+</style>
+<body>
+
+<a href="http://github.com/doug-martin/patio-query" target="patioapi">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+         alt="Fork me on GitHub">
+</a>
+
+
+<div class="menuContainer">
+    <div class="menuContainerContent">
+        <ul>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./index.html" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.html" class="">
+                        <span>Connecting to a database</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./migrations.html" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./associations.html" class="">
+                        <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contentContainer">
+<div id="content">
+<div class="section">
+<h1 class="classTitle">DDL</h1>
+
+<div class="methodDetail">
+<h3><a href="./api/symbols/patio.Database.html#createTable">patio.Database#createTable</a></h3>
+
+<p>
+    Patio supports the creation to tables through an instance of
+    <a href="./api/symbols/patio.Database.html#createTable" target="patioapi">patio.Database</a>.
+    The <a href="./api/symbols/patio.Database.html#createTable">patio.Database#createTable</a> method is
+    used
+    by passing it a name of the table to create and a function which performs the actions to create
+    column, indexes, foreignKeys, constraints, and primaryKeys.
+                    <pre class="code">
+DB.createTable("airport", function () {
+        this.primaryKey("id");
+        this.airportCode(String, {size:4, allowNull:false, unique:true});
+        this.name(String, {allowNull:false});
+        this.city(String, {allowNull:false});
+        this.state(String, {size:2, allowNull:false});
+    });
+                    </pre>
+</p>
+<p>
+    Patio by default supports the built in JavaScript types
+<ul>
+    <li>String - varchar</li>
+    <li>Boolean - boolean or tinyint(1)</li>
+    <li>Number - numeric</li>
+    <li>Date - date</li>
+</ul>
+                    <pre class="code">
+DB.createTable("test", function(){
+    this.name(String); //=> `name` varchar(255)
+    this.num(Number); //=>  `num` numeric
+    this.boolean(Boolean); //=> `boolean` tinyint(1)
+    this.date(Date); //=> `date` date
+});
+                    </pre>
+Patio also has a few other built in types that can be used.
+<ul>
+    <li><a href="./api/symbols/patio.sql.Time.html" target="patioapi">patio.sql.Time</a> - time</li>
+    <li><a href="./api/symbols/patio.sql.TimeStamp.html" target="patioapi">patio.sql.TimeStamp</a> -
+        timestamp
+    </li>
+    <li><a href="./api/symbols/patio.sql.DateTime.html" target="patioapi">patio.sql.DateTime</a> -
+        datetime
+    </li>
+    <li><a href="./api/symbols/patio.sql.Year.html" target="patioapi">patio.sql.Year</a> - year</li>
+    <li><a href="./api/symbols/patio.sql.Float.html" target="patioapi">patio.sql.Float</a> - double
+        precision
+    </li>
+    <li><a href="./api/symbols/patio.sql.Decimal.html" target="patioapi">patio.sql.Decimal</a> - double
+        precision
+    </li>
+</ul>
+                <pre class='code'>
+var sql = patio.sql;
+DB.createTable("test", function () {
+    this.timestamp(sql.TimeStamp);
+    this.datetime(sql.DateTime);
+    this.time(sql.Time);
+    this.year(sql.Year);
+    this.decimal(sql.Decimal);
+    this.float(sql.Float);
+});
+                </pre>
+</p>
+<p>
+    When creating a table there are a number of methods that can be invoked to create the table.
+    For a full reference see <a href="./api/symbols/patio.SchemaGenerator.html" target="patioapi">patio
+    .SchemaGenerator</a>. The most commonly used methods are:
+<ul>
+<li><b>column</b> : add a column to the DDL
+    <p>
+        Options for columns include:
+    </p>
+    <ul>
+        <li><b>key</b> : For foreign key columns, the column in the
+            associated table that this column references. Unnecessary if this column references
+            the primary key of the associated table.
+        </li>
+        <li>
+            <b>allowNull</b> : Mark the column as allowing NULL values (if true),
+            or not allowing NULL values (if false). If unspecified, will default
+            to whatever the database default is.
+        </li>
+        <li>
+            <b>onDelete</b> : Specify the behavior of this column when being deleted.
+            Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").
+        </li>
+        <b>onUpdate</b> : Specify the behavior of this column when being updated
+        Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").
+        <li>
+            <b>primaryKey</b> : Make the column as a single primary key column. This should only
+            be used if you have a single, non-autoincrementing primary key column.
+        </li>
+        <li>
+            <b>size</b> : The size of the column, generally used with string
+            columns to specify the maximum number of characters the column will hold.
+            An array of two integers can be provided to set the size and the
+            precision, respectively, of decimal columns.
+        </li>
+        <li>
+            <b>unique</b> : Mark the column as unique, generally has the same effect as
+            creating a unique index on the column.
+        </li>
+        <li>
+            <b>unsigned</b> : Make the column type unsigned, only useful for integer
+            columns.
+        </li>
+        <li>
+            <b>elements</b> : Available items used for set and enum columns.
+        </li>
+    </ul>
+
+                            <pre class="code">
+ DB.createTable("test", function(){
+     this.column("num", "integer");
+         //=> num INTEGER
+     this.column('name", String, {allowNull : false, "default" : "a");
+         //=> name varchar(255) NOT NULL DEFAULT 'a'
+     this.column("ip", "inet");
+         //=> ip inet
+ });
+                        </pre>
+    You can also create columns via method missing, so the following are
+    equivalent:
+<pre class="code">
+DB.createTable("test", function(){
+  this.column("number", "integer");
+  this.number("integer");
+});
+</pre>
+</li>
+<li>
+    <b>primaryKey</b> : Adds an auto-incrementing primary key column or a primary key constraint to
+    the DDL
+                            <pre class="code">db.createTable("airplane_type", function () {
+     this.primaryKey("id");
+         //=> id integer NOT NULL PRIMARY KEY AUTOINCREMENT
+     this.name(String, {allowNull:false});
+     this.created(sql.TimeStamp);
+});</pre>
+    If you want a primary key that is not an auto-incrementing number use
+    <a href="./api/symbols/patio.SchemaGenerator.html#column">column</a> instead.
+                        <pre class="code">
+DB.createTable("test", function(){
+    this.pk("integer", {primaryKey : true}); //Non auto incrementing primary key.
+});
+DB.createTable("test2", function(){
+    this.pk(String, {primaryKey : true}); //varchar(255) primary key.
+});
+                        </pre>
+    If you want a composite primary key pass an array of column names. <b>Note:</b> when creating
+    a composite primary key it does not create the columns so you must create those also.
+                        <pre class="code">
+DB.createTable("test", function(){
+    this.first_name(String);
+    this.last_name(String);
+    this.primaryKey(["first_name", "last_name"]); //composite key
+});
+                        </pre>
+</li>
+<li>
+    <b>foreignKey</b> - add a foreign key constraint to the DDL.
+    <p>
+        Options for foreignKey include:
+    </p>
+    <ul>
+        <li><b>deferrable</b> : Makes the foreign key constraint checks deferrable, so they aren't
+            checked until the end of the transaction.
+        </li>
+        <li><b>key </b> : For foreign key columns, the column in the associated table that this column
+            references. Unnecessary if this column references the primary key of the associated table, at least
+            on most databases.
+        </li>
+        <li><b>onDelete</b> : Specify the behavior of this column when being deleted.
+            Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").
+        </li>
+        <li><b>onUpdate </b> : Specify the behavior of this column when being updated
+            Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").
+        </li>
+    </ul>
+                        <pre class="code">
+DB.createTable("flight", function () {
+     this.primaryKey("id");
+     this.weekdays("set", {elements:["M", 'T', "W", "TH", "F", "S", "SU"], allowNull:false});
+     this.airline(String, {allowNull:false});
+});
+DB.createTable("airport", function () {
+     this.primaryKey("id");
+     this.airportCode(String, {size:4, allowNull:false, unique:true});
+     this.name(String, {allowNull:false});
+     this.city(String, {allowNull:false});
+     this.state(String, {size:2, allowNull:false});
+});
+DB.createTable("flight_leg", function () {
+     this.primaryKey("id");
+     this.scheduled_departure_time("time");
+     this.scheduled_arrival_time("time");
+     this.foreignKey("departure_code", "airport", {key:"airport_code", type : String, size : 4});
+     this.foreignKey("arrival_code", "airport", {key:"airport_code", type : String, size : 4});
+     this.foreignKey("flight_id", "flight", {key:"id"});
+});
+                            </pre>
+</li>
+<li>
+    <b>index</b> - adds an index to the the DDL. For single columns, calling index is the same as using the
+    <b>index</b> option when creating the column:
+    <p>
+        Options for index include.
+    </p>
+    <ul>
+        <li><b>name</b> : The name of the index (generated based on the table and column names if not
+            provided).
+        </li>
+
+        <li><b>type</b> : The type of index to use (only supported by some databases)</li>
+
+        <li><b>unique</b> : Make the index unique, so duplicate values are not allowed.</li>
+
+        <li><b>where</b> : Create a partial index (only supported by some databases).</li>
+    </ul>
+        <pre class="code">
+DB.createTable("a", function(){
+    this.id("integer", {index : true});
+});
+// Same as:
+DB.createTable("a", function(){
+  this.id("iteger");
+  this.index("id");
+});
+        </pre>
+    Similar to the <b>primaryKey</b> and <b>foreignKey</b> methods, calling index with an array of strings will
+    create a multiple column index:
+        <pre class="code">
+DB.createTable("test", function(){
+    this.primaryKey("id");
+    this.first_name(String);
+    this.last_name(String);
+    this.index(["first_name", "last_name"]); //multi-column index
+});
+            </pre>
+</li>
+<li>
+    <b>unique</b> The unique method creates a unique constraint on the table. A unique constraint generally operates
+    identically to a unique index.
+            <pre class="code">
+DB.createTable("a", function(){
+    this.id("integer", {unique : true});
+});
+// Same as:
+DB.createTable("a", function(){
+  this.id("iteger");
+  this.index("id", {unique : true});
+});
+
+// Same as:
+DB.createTable("a", function(){
+  this.id("iteger");
+  this.unique("id");
+});
+
+            </pre>
+    Just like index, unique can set up a multiple column unique constraint, where the combination of the columns
+    must be unique.
+       <pre class="code">
+DB.createTable("test", function(){
+    this.primaryKey("id");
+    this.first_name(String);
+    this.last_name(String);
+    this.unique(["first_name", "last_name"]);
+});
+
+       </pre>
+</li>
+<li>
+    <b>constraint</b> creates a named table constraint:
+    <pre class="code">
+DB.createTable("test", function(){
+    this.primaryKey("id");
+    this.name(String);
+    this.constraint("name_min_length", function(){ 
+        return this.char_length(this.name).gt(2)
+    });
+});
+    </pre>
+    Instead of using a block, you can use arguments that will be handled similarly to <a
+        href="./api/symbols/patio.Dataset.html#filter" target="patioapi">patio.Dataset#filter</a>:
+    <pre class="code">
+var sql = patio.sql;
+DB.createTable("test", function(){
+    this.primaryKey("id");
+    this.name(String);
+    this.constraint("name_min_length",  sql.char_length(sql.name).gt(2));
+});
+    </pre>
+</li>
+<li>
+    <b>check</b> operates just like <b>constraint</b>, except that it doesn't take a name and it creates an unnamed
+    constraint.
+        <pre class="code">
+DB.createTable("test", function(){
+    this.primaryKey("id");
+    this.name(String);
+    this.check(function(){
+        return this.char_length(this.name).gt(2)
+    });
+});
+        </pre>
+</li>
+</ul>
+</p>
+</div>
+<div class="methodDetail">
+    <h3><a href="./api/symbols/patio.Database.html#alterTable">patio.Database#alterTable</a></h3>
+
+    <p>
+        <b>alterTable</b> is used to alter a tables definition. It is used just like <b>createTable</b> where you use
+        a function to alter the table's definition. For a full reference see <a
+            href="./api/symbols/patio.AlterTableGenerator.html" target="patioapi">patio
+        .AlterTableGenerator</a>.
+        <pre class="code">
+ DB.alterTable("xyz", function() {
+     this.addColumn("aaa", "text", {null : false, unique : true});
+     this.dropColumn("bbb");
+     this.renameColumn("ccc", "ddd");
+     this.setColumnType("eee", "integer");
+     this.setColumnDefault("hhh", 'abcd');
+     this.addIndex("fff", {unique : true});
+     this.dropIndex("ggg");
+});
+        </pre>
+    </p>
+    <p>
+        The most commonly used methods are:
+    <ul>
+        <li><b>addColumn</b> This method adds a column to the table. This method is similar to
+            <b>createTable</b>'s column method where the first parameter is the column and the second
+            parameter is the data type and third parameter an optional options hash
+                <pre class="code">
+ DB.alterTable("test", function(){
+     this.addColumn("num", "integer");
+     this.addColumn("name", String, {allowNull : false, "default" : "a");
+     this.addColumn("ip", "inet");
+ });
+                </pre>
+        </li>
+        <li>
+            <b>dropColumn</b> This method removes a column from the table definition.
+            <pre class="code">
+DB.alterTable("test", function(){
+     this.dropColumn("num");
+     this.dropColumn("name");
+     this.dropColumn("ip");
+ });
+            </pre>
+        </li>
+        <li>
+            <b>renameColumn</b> This method renames a column.
+            <pre class="code">
+DB.alterTable("test", function(){
+     this.renameColumn("num", "number");
+     this.renameColumn("name", "first_name");
+     this.renameColumn("ip", "ip_address");
+ });
+            </pre>
+        </li>
+        <li>
+            <b>addPrimaryKey</b> This method is used to add a primaryKey to a table incase you forgot to include a
+            primaryKey when creating the table.
+        <pre class="code">
+DB.alterTable("test", function(){
+     this.addPrimaryKey("id");     
+ });        
+            </pre>
+            Just like <b>createTable</b>'s primaryKey method if you provide an array of columns to use it will not
+            create
+            the columns but, add a composite primaryKey.
+        <pre class="code">
+DB.createTable("test", function(){
+    this.primaryKey(["first_name", "last_name"]); //composite key
+});
+        </pre>
+
+            If you just want to take an existing single column and make it a primary key, call addPrimaryKey with an
+            array of one element:
+        <pre class="code">
+DB.alterTable("test", function(){
+    this.addPrimarykey(["id"]);
+});
+        </pre>
+        </li>
+        <li>
+            <b>addForeignKey</b> This method is used to add a foreign key to a table. Like when using addPrimaryKey if
+            you pass a string as the first argument then a column will be created.
+
+        <pre class="code">
+DB.alterTable("test", function(){
+     this.addForeignKey("test2_id", "test2");
+        //=>ADD COLUMN test2_id integer REFERENCES test2
+ });
+            </pre>
+            Just like <b>createTable</b>'s foreignKey method if you provide an array of columns to use it will not
+            create the columns but, add a composite foreignKey.
+        <pre class="code">
+DB.createTable("test", function(){
+    this.addForeignKey(["first_name", "last_name"], "users"); //composite key
+});
+        </pre>
+
+            If you just want to take an existing single column and make it a foreign key, call addForeignKey with an
+            array of one element:
+        <pre class="code">
+DB.alterTable("test", function(){
+    this.addForeignKey(["test2_id"], "test2");
+});
+        </pre>
+        </li>
+        <li>
+            <b>addIndex</b> just like <b>createTable</b>'s index method.
+            <pre class="code">
+DB.alterTable("table", function(){
+  this.addIndex("first_name");
+});
+            </pre>
+            Just like <b>createTable</b>'s index method you can create a composite key by passing in an array of
+            column names.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.addIndex(["first_name", "last_name"]);
+});
+            </pre>
+        </li>
+        <li>
+            <b>dropIndex</b> drops an index from a table.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.dropIndex("first_name");
+});
+            </pre>
+            To drop an index with a custom name use the name option.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.dropIndex("first_name", {name : "first_name_index"});
+});
+            </pre>
+        </li>
+        <li>
+            <b>addConstraint</b> adds a named constraint to a table. Just like <b>createTable</b>'s constraint method.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.addConstraint("name_min_length", function(){
+        return this.char_length(this.name).gt(2);
+    });
+});
+            </pre>
+            <b>Note:</b> there is not a method to add an unnamed constraint when altering a table.
+        </li>
+        <li>
+            <b>addUniqueConstraint</b> adds a unique constraint to a table. Just like <b>createTable</b>'s unique
+            method.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.addUniqueConstraint("name");
+});
+            </pre>
+        </li>
+        <li>
+            <b>dropConstraint</b> drops a named constraint from a table.
+            <pre class="code">
+DB.alterTable("albums", function(){
+    this.dropConstraint("name_min_length");
+});
+            </pre>
+            On MySQL you specify the type of constraint you are dropping.
+            <pre class="code">
+DB.alterTable("albums", function(){
+  this.dropConstraint("albums_pk", {type : "primaryKey"});
+  this.dropConstraint("albums_fk", {type : "foreignKey"});
+  this.dropConstraint("albums_uk", {type : "unique"});
+});
+            </pre>
+        </li>
+        <li>
+            <b>setColumnDefault</b> sets a columns default value.
+            <pre class="code">
+DB.alterTable("test", function(){
+    this.setColumnDefault("first_name", "John");
+    this.setColumnDefault("last_name", "Doe");
+});
+            </pre>
+        </li>
+        <li>
+            <b>setColumnType</b> sets the columns type.
+        <pre class="code">
+DB.alterTable("test", function(){
+    this.setColumnType("first_name", "char(10)");
+});
+        </pre>
+        </li>
+        <li>
+            <b>setColumnAllowNull</b> changes the NULL/NOT NULL modifier of a column.
+        <pre class="code">
+DB.alterTable("test", function(){
+    this.setColumnAllowNull("first_name", false); /NOT NULL
+    this.setColumnAllowNull("last_name", true); //NULL
+});
+        </pre>
+        </li>
+    </ul>
+    </p>
+</div>
+<div class="methodDetail">
+    <h3><a href="./api/symbols/patio.Database.html" target="patioapi">patio.Database</a> modification methods</h3>
+    <a href="./api/symbols/patio.Database.html">patio.Database</a> has methods that act as shortcuts to an alter
+    table call these methods include
+    <ul>
+        <li><a href="./api/symbols/patio.Database.html#addColumn" target="patioapi">addColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#dropColumn" target="patioapi">dropColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#renameColumn" target="patioapi">renameColumn</a></li>
+        <li><a href="./api/symbols/patio.Database.html#addIndex" target="patioapi">addIndex</a></li>
+        <li><a href="./api/symbols/patio.Database.html#dropIndex" target="patioapi">dropIndex</a></li>
+        <li><a href="./api/symbols/patio.Database.html#setColumnDefault" target="patioapi">setColumnDefault</a></li>
+        <li><a href="./api/symbols/patio.Database.html#setColumnType" target="patioapi">setColumnType</a></li>
+    </ul>
+    These methods are useful when your only performing a couple of modifications at a time.
+    <pre class="code">
+DB.alterTable("test", function(){
+    this.addColumn("num", "integer");
+});
+
+//same as
+DB.addColumn("test", "num", "integer");
+    </pre>
+    <ul>
+        <li>
+            <b>dropTable</b> can drop either a single table or multiple tables at a time.
+            <pre class="code">
+DB.dropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"]);
+//same as
+DB.dropTable("leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport");
+//OR one table
+DB.dropTable("leg_instance");
+            </pre>
+        </li>
+        <li>
+            <b>renameTable</b> renames an existing table.
+            <pre class="code">
+DB.renameTable("test", "test_old");
+            </pre>
+        </li>
+        <li>
+            <b>forceCreateTable</b> Forcibly creates a table, attempting to drop it unconditionally (and catching any
+            errors), then creating it.
+            <pre class="code">
+DB.forceCreateTable("test", function(){
+    this.primaryKey("id);
+    this.first_name(String);
+    this.last_name(String);
+    this.date_of_birth(Date);
+});
+            </pre>
+        </li>
+        <li>
+            <b>createTableUnlessExists</b> Creates the table unless the table already exists.
+            <pre class="code">
+DB.createTableUnlessExists("test", function(){
+    this.primaryKey("id);
+    this.first_name(String);
+    this.last_name(String);
+    this.date_of_birth(Date);
+});
+            </pre>
+        </li>
+        <li>
+            <b>createView</b> Creates a view based on a dataset or an SQL string:
+            <pre class="code">
+DB.createView("cheapItems", "SELECT * FROM items WHERE price < 100");
+    //=> CREATE VIEW cheapItems AS SELECT * FROM items WHERE price < 100
+DB.createView("miscItems", DB[:items].filter({category : 'misc'}));
+    //=> CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = 'misc'
+            </pre>
+        </li>
+        <li>
+            <b>createOrReplaceView</b> Same as create view but replaces the view if it already exists.
+            <pre class="code">
+DB.createOrReplaceView("cheapItems", "SELECT * FROM items WHERE price < 100");
+    //=> CREATE VIEW cheapItems AS SELECT * FROM items WHERE price < 100
+DB.createOrReplaceView("miscItems", DB[:items].filter({category : 'misc'}));
+    //=> CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = 'misc'
+            </pre>
+        </li>
+        <li>
+            <b>dropView</b> Similar to <b>dropTable</b> but instead of a table it drops a view.
+            <pre class="code">
+DB.dropView("test_view");
+    //=>'DROP VIEW test_view'
+DB.dropTable("test_view_1", "test_view_2", "test_view_3");
+    //=>'DROP VIEW test_view_1',
+    //=>'DROP VIEW test_view_2',
+    //=>'DROP VIEW test_view_3'
+            </pre>
+        </li>
+    </ul>
+</div>
+
+</div>
+</div>
+</div>
+</body>
+</html>
