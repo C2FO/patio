@@ -105,17 +105,17 @@ suite.addBatch({
             return new Dataset().from("test");
         },
 
-        "should return given symbol if it hasn't already been used":function (ds) {
+        "should return given string if it hasn't already been used":function (ds) {
             assert.equal(ds.unusedTableAlias("blah"), "blah")
         },
 
-        "should return a symbol specifying an alias that hasn't already been used if it has already been used":function (ds) {
+        "should return a string specifying an alias that hasn't already been used if it has already been used":function (ds) {
             assert.equal(ds.unusedTableAlias("test"), "test0");
             assert.equal(ds.from("test", "test0").unusedTableAlias("test"), "test1");
             assert.equal(ds.from("test", "test0").crossJoin("test1").unusedTableAlias("test"), "test2");
         },
 
-        "should return an appropriate symbol if given other forms of identifiers":function (ds) {
+        "should return an appropriate string if given other forms of identifiers":function (ds) {
             ds.mergeOptions({from:null});
             ds.from("test");
             assert.equal(ds.unusedTableAlias('test'), "test0");
@@ -637,7 +637,7 @@ suite.addBatch({
             assert.equal(dataset.literal([1, "a'b''c", 3]), "(1, 'a''b''''c', 3)");
         },
 
-        "should literalize symbols as column references":function (dataset) {
+        "should literalize string as column references":function (dataset) {
             assert.equal(dataset.literal(sql.name), "name");
             assert.equal(dataset.literal("items__name"), "items.name");
         },
@@ -721,7 +721,7 @@ suite.addBatch({
             assert.equal(dataset.from(sql.a("i")).selectSql, "SELECT * FROM a(i)");
         },
 
-        "should accept :schema__table___alias symbol format":function (dataset) {
+        "should accept schema__table___alias string format":function (dataset) {
             assert.equal(dataset.from("abc__def").selectSql, "SELECT * FROM abc.def");
             assert.equal(dataset.from("abc__def___d").selectSql, "SELECT * FROM abc.def AS d");
             assert.equal(dataset.from("abc___def").selectSql, "SELECT * FROM abc AS def");
@@ -736,7 +736,7 @@ suite.addBatch({
             assert.equal(dataset.select("a", "b", "test__c").sql, 'SELECT a, b, test.c FROM test');
         },
 
-        "should accept symbols and literal strings":function (dataset) {
+        "should accept strings and literal strings":function (dataset) {
             assert.equal(dataset.select("aaa").sql, 'SELECT aaa FROM test');
             assert.equal(dataset.select("a", "b").sql, 'SELECT a, b FROM test');
             assert.equal(dataset.select("test__cc", 'test.d AS e').sql, 'SELECT test.cc, test.d AS e FROM test');
@@ -1137,17 +1137,17 @@ suite.addBatch({
     "Dataset.qualifiedColumnName":{
         topic:new Dataset().from("test"),
 
-        "should return the literal value if not given a symbol":function (dataset) {
+        "should return the literal value if not given a string":function (dataset) {
             assert.equal(dataset.literal(dataset.qualifiedColumnName(new sql.LiteralString("'ccc__b'"), "items")), "'ccc__b'");
             assert.equal(dataset.literal(dataset.qualifiedColumnName(3), "items"), '3');
             assert.equal(dataset.literal(dataset.qualifiedColumnName(new sql.LiteralString("a")), "items"), 'a');
         },
 
-        "should qualify the column with the supplied table name if given an unqualified symbol":function (dataset) {
+        "should qualify the column with the supplied table name if given an unqualified string":function (dataset) {
             assert.equal(dataset.literal(dataset.qualifiedColumnName("b1", "items")), 'items.b1');
         },
 
-        "should not changed the qualifed column's table if given a qualified symbol":function (dataset) {
+        "should not changed the qualifed column's table if given a qualified string":function (dataset) {
             assert.equal(dataset.literal(dataset.qualifiedColumnName("ccc__b", "items")), 'ccc.b');
         }
     },
@@ -1336,12 +1336,12 @@ suite.addBatch({
         },
 
 
-        "should support implicit schemas in from table symbols":function (d) {
+        "should support implicit schemas in from table strings":function (d) {
             assert.equal(d.from("s__t").join("u__v", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" INNER JOIN "u"."v" ON ("u"."v"."id" = "s"."t"."playerId")');
         },
 
 
-        "should support implicit aliases in from table symbols":function (d) {
+        "should support implicit aliases in from table strings":function (d) {
             assert.equal(d.from("t___z").join("v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "t" AS "z" INNER JOIN "v" AS "y" ON ("y"."id" = "z"."playerId")');
             assert.equal(d.from("s__t___z").join("u__v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" AS "z" INNER JOIN "u"."v" AS "y" ON ("y"."id" = "z"."playerId")');
         },
@@ -1733,7 +1733,7 @@ suite.addBatch({
             assert.equal(ds.updateSql("a = b"), "UPDATE items SET a = b");
         },
 
-        "should handle implicitly qualified symbols":function (ds) {
+        "should handle implicitly qualified strings":function (ds) {
             assert.equal(ds.updateSql({items__a:sql.b}), "UPDATE items SET items.a = b");
         },
 
@@ -1753,7 +1753,7 @@ suite.addBatch({
     "Dataset.insertSql":{
         topic:new Dataset().from("items"),
 
-        "should accept hash with symbol keys":function (ds) {
+        "should accept hash with string keys":function (ds) {
             assert.equal(ds.insertSql({c:'d'}), "INSERT INTO items (c) VALUES ('d')");
         },
 
@@ -2114,11 +2114,11 @@ suite.addBatch({
             assert.equal(ds.forUpdate().sql, "SELECT * FROM t FOR UPDATE");
         },
 
-        "#lock_style should accept symbols":function (ds) {
+        "lockStyle should accept strings":function (ds) {
             assert.equal(ds.lockStyle("update").sql, "SELECT * FROM t FOR UPDATE");
         },
 
-        "#lock_style should accept strings for arbitrary SQL":function (ds) {
+        "lockStyle should accept strings for arbitrary SQL":function (ds) {
             assert.equal(ds.lockStyle("FOR SHARE").sql, "SELECT * FROM t FOR SHARE");
         }
     }

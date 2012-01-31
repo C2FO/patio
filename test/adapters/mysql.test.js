@@ -8,7 +8,6 @@ var vows = require('vows'),
 
 patio.quoteIdentifiers = false;
 
-new comb.logging.BasicConfigurator().configure();
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
@@ -16,6 +15,8 @@ var MYSQL_USER = "root";
 
 var MYSQL_URL = format("mysql://%s@localhost:3306/sandbox", MYSQL_USER);
 var MYSQL_DB = patio.connect(MYSQL_URL);
+
+
 
 
 var INTEGRATION_DB = MYSQL_DB;
@@ -34,20 +35,15 @@ MYSQL_DB.__defineSetter__("sqls", function (sql) {
     return this.__sqls = sql;
 });
 
+var origExecute = MYSQL_DB.__logAndExecute;
+MYSQL_DB.__logAndExecute = function(sql){
+    this.sqls.push(sql.trim());
+    return origExecute.apply(this, arguments);
+}
+
 var SQL_BEGIN = 'BEGIN';
 var SQL_ROLLBACK = 'ROLLBACK';
 var SQL_COMMIT = 'COMMIT';
-var orig = console.log;
-
-console.log = function (m) {
-    if (comb.isString(m)) {
-        var parts = m.split(";");
-        if (parts.length == 2) {
-            MYSQL_DB.sqls.push(parts[1].trim());
-        }
-    }
-    orig.apply(console, arguments);
-};
 
 p1.both(function () {
     suite.addBatch({
@@ -1773,7 +1769,6 @@ p1.both(function () {
 
 
     suite.run({reporter:require("vows").reporter.spec}, function () {
-        console.log = orig;
         patio.disconnect().both(hitch(ret, "callback"));
     });
 });

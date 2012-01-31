@@ -64,6 +64,13 @@
             </li>
             <li>
                 <span class='nodeContainer'>
+                    <a href="./migrations.html" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
                     <a href="#" class="">
                         <span>Querying</span>
                     </a>
@@ -439,7 +446,7 @@ User.selectHash("name", "id").then(function(){
                 <a href="api/symbols/patio.sql.BooleanExpression.html" target="patioapi">patio.sql.BooleanExpression</a>
                 object, which is used directly in the filter.
 
-                You can use the DSL to create arbitrary complex expression.
+                You can use the sql methodMissing feature to create arbitrary complex expression.
 
                 <pre class="code">
  User.filter(sql.name.like('B%').and(sql.b.eq(1).or(sql.c.neq(3))));

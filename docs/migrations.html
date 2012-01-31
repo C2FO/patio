@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>Patio-migration</title>
+    <meta name="generator" content="JsDoc Toolkit"/>
+    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script type="text/javascript" src="./api/js/doc.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+    <!--[if gte IE 9]>
+    <style type="text/css">
+        * {
+            filter: none !important;
+        }
+    </style>
+    <![endif]-->
+    <style type="text/css">
+        .featureList li {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="http://github.com/doug-martin/patio-query">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+         alt="Fork me on GitHub">
+</a>
+
+
+<div class="menuContainer">
+    <div class="menuContainerContent">
+        <ul>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./index.html" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.html" class="">
+                        <span>Connecting to a database</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./DDL.html" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./associations.html" class="">
+                        <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contentContainer">
+    <div id="content">
+        <div class="section">
+            <h1 class="classTitle">Migrations</h1>
+
+            <div class="methodDetail">
+
+                Migrates the database using migration files found in the supplied directory.
+                <br>
+                <br>
+
+                <div>
+                    <h3>Integer Migrations</h3>
+                    Integer migrations are the simpler of the two migrations but are less flexible than timestamp
+                    based migrations. In order for patio to determine which versions to use the file names must end
+                    in
+                    {versionnumber}.js where versionNumber is a integer value representing the version number.
+                    <br>
+                    <b>NOTE:</b> With integer migrations missing versions are not allowed.
+                    <br>
+                    <br>
+                    An example directory structure might look like the following:
+                             <pre class="code">
+-migrations
+     - createFirstTables.0.js
+     - shortDescription.1.js
+     - another.2.js
+     .
+     .
+     .
+     -lastMigration.n.js
+                            </pre>
+                    In order to easily identify where certain schema alterations have taken place it is a good idea
+                    to provide a brief but meaningful migration name.
+                              <pre class="code">
+createEmployee.0.js
+alterEmployeeNameColumn.1.js
+                              </pre>
+                </div>
+
+                <div>
+                    <h3>Timestamp Migrations</h3>
+                    Timestamp migrations are the more complex of the two migrations but offer greater flexibility
+                    especially
+                    with development teams. This is because Timestamp migrations do not require consecutive version
+                    numbers,
+                    ,allow for duplicate version numbers(but this should be avoided), keeps track of all currently
+                    applied migrations,
+                    and it will merge missing migrations. In order for patio to determine the order of the migration
+                    files
+                    the file names must end in
+                    {timestamp}.js where the timestamp can be any form of a time stamp.
+                              <pre class="code">
+ //yyyyMMdd
+ 20110131
+ //yyyyMMddHHmmss
+ 20110131123940
+ //unix epoch timestamp
+ 1328035161
+      </pre>
+                    <br/>
+                    <br/>
+                    An example directory structure might look like the following:
+
+                        <pre class="code">
+-migrations
+     - createFirstTables.1328035161.js
+     - shortDescription.1328035360.js
+     - another.1328035376.js
+     .
+     .
+     .
+     -lastMigration.n.js
+                        </pre>
+                    In order to easily identify where certain schema alterations have taken place it is a good idea
+                    to provide a brief but meaningful migration name.
+                        <pre class="code">
+ createEmployee.1328035161.js
+ alterEmployeeNameColumn.1328035360.js
+                         </pre>
+
+                </div>
+
+                <b>NOTE:</b>If you start with IntegerBased migrations and decide to transition to Timestamp
+                migrations the patio will attempt the migrate the current schema to the timestamp based migration
+                schema.
+
+                <h2 class="classTitle">Migration Files</h2>
+                Migration files are files with an up and down method.
+                <h3 class="classTitle">exports.up</h3>
+                The up function is called when applying the migration. The up function typically
+                contains create and alter table statements. See <a href="./DDL.html">Schema CRUD</a> for
+                more examples and operations that are available.
+                <br>
+
+                <h3 class="classTitle">exports.down</h3>
+                The down function is called when rolling back the migration. The down function typically
+                contains drop and alter table statements. See <a href="./DDL.html">Schema CRUD</a> for
+                more examples and operations that are available.
+                <br>
+                <br>
+                <b>Example migration file</b>
+                        <pre class="code">
+
+ //Up function used to migrate up a version
+ exports.up = function(db) {
+   //create a new table
+   db.createTable("company", function() {
+       this.primaryKey("id");
+       this.companyName(String, {size : 20, allowNull : false});
+   });
+   db.createTable("employee", function(table) {
+       this.primaryKey("id");
+       this.firstName(String);
+       this.lastName(String);
+       this.middleInitial("char", {size : 1});
+   });
+};
+
+ //Down function used to migrate down version
+exports.down = function(db) {
+    db.dropTable("employee", "company");
+};
+                        </pre>
+                If you perform more complex actions from within the up or down block you should return a
+                promise.
+                Returning the promise will prevent the next migration from being applied until the promise
+                resolves.
+                <br>
+                <br>
+                Consider the next example, its crazy but if you did not return a promise then the next migration
+                would be applied after the Dataset#map call. In order to prevent the migration from continuing you
+                must return a promise.
+                        <pre class="code">
+ //Up function used to migrate up a version
+exports.up = function(db) {
+    //create a new table
+    var ret = new comb.Promise();
+    db.renameTable("employees", "employeesOld");
+    db.createTable("employees", function(table){
+        this.primaryKey("id");
+        this.firstName(String);
+        this.lastName(String);
+        this.hireDate(Date);
+        this.middleInitial("char", {size:1});
+    });
+    db.from("employeesOld").map(function(employee){
+            return comb.merge(employee, {hireDate:new Date()});
+    }).then(function(employees){
+            db.from("employees").multiInsert(employees)
+                .then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+        }, comb.hitch(ret, "errback"));
+    return ret;
+};
+
+ //Down function used to migrate down version
+exports.down = function(db) {
+    db.alterTable("employee", function(){
+        this.dropColumn("hireDate");
+    });
+};
+                        </pre>
+                <h2 class="classTitle">Running migrations</h2>
+
+                <div>
+                    In order to run a migraton all one has to do is call
+                    <a href="api/symbols/patio.html#migrate" target="patioapi">patio#migrate</a>
+
+                    <h3 class="classTitle">Available options</h3>
+                    <ul>
+                        <li><b>column</b> : the column in the table that version information should be stored.</li>
+                        <li><b>table</b> : the table that version information should be stored.</li>
+                        <li><b>target</b> : the target migration(i.e the migration to migrate up/down to).</li>
+                    </ul>
+                    <h3 class="classTitle">Integer migrator options</h3>
+                    <ul>
+                        <li><b>current</b> : the version that the database is currently at if the current
+                            version
+                            is not provided it is retrieved from the database.
+                        </li>
+                    </ul>
+
+
+                        <pre class="code">
+  var DB = patio.connect("my://connection/string");
+  patio.migrate(DB, __dirname + "/migrations").then(function(){
+      console.log("migrations finished");
+  });
+                        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

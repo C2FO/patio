@@ -283,7 +283,7 @@
 <span class='line'>276</span>          * OneToMany and OneToOne additional options:
 <span class='line'>277</span>          * &lt;ul>
 <span class='line'>278</span>          *      &lt;li>&lt;b>key&lt;/b> : foreign key in associated model's table that references
-<span class='line'>279</span>          *             current model's primary key, as a symbol.  Defaults to
+<span class='line'>279</span>          *             current model's primary key, as a string.  Defaults to
 <span class='line'>280</span>          *             "{thisTableName}Id".  Can use an array of columns for a composite key association.&lt;/li>
 <span class='line'>281</span>          *      &lt;li>&lt;b>primaryKey&lt;/b> : column in the current table that &lt;b>key&lt;/b> option references.
 <span class='line'>282</span>          *             Defaults to primary key of the current table. Can use an array of strings for a
@@ -298,7 +298,7 @@
 <span class='line'>291</span>          *          sorted, and joined with '' and camelized.
 <span class='line'>292</span>          *      &lt;li>&lt;b>leftKey&lt;/b> : foreign key in join table that points to current model's
 <span class='line'>293</span>          *          primary key. Defaults to :"{tableName}Id".
-<span class='line'>294</span>          *          Can use an array of symbols for a composite key association.
+<span class='line'>294</span>          *          Can use an array of strings for a composite key association.
 <span class='line'>295</span>          *      &lt;li>&lt;b>leftPrimaryKey&lt;/b> - column in current table that &lt;b>leftKey&lt;/b> points to.
 <span class='line'>296</span>          *          Defaults to primary key of current table.  Can use an array of strings for a
 <span class='line'>297</span>          *          composite key association.

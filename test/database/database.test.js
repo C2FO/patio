@@ -14,7 +14,6 @@ var vows = require('vows'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-new comb.logging.BasicConfigurator().configure();
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
