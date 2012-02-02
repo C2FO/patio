@@ -15,11 +15,17 @@
     {
         "mysql" : "0.9.5",
         "comb" : "0.0.6",
-        "hive-cache" : "0.0.2"
+        "hive-cache" : "0.0.2",
+        "commander" : "0.5.1"
+    },
+    "devDependencies" :
+    {
+        "vows" : "0.6.1"
     },
     "directories": {
         "lib": "lib"
     },
+    "bin": { "patio": "./bin/patio" },
     "engines": {
         "node": ">= 0.6.0"
     }

@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>Patio-Logging</title>
+    <meta name="generator" content="JsDoc Toolkit"/>
+    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script type="text/javascript" src="./api/js/doc.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+    <!--[if gte IE 9]>
+    <style type="text/css">
+        * {
+            filter: none !important;
+        }
+    </style>
+    <![endif]-->
+    <style type="text/css">
+        .featureList li {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<a href="http://github.com/pollenware/patio">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+         alt="Fork me on GitHub">
+</a>
+
+
+<div class="menuContainer">
+    <div class="menuContainerContent">
+        <ul>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./index.html" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.html" class="">
+                        <span>Connecting to a database</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./DDL.html" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./migrations.html" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./associations.html" class="">
+                        <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Logging</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contentContainer">
+    <div id="content">
+        <div class="section">
+            <h1 class="classTitle">Logging</h1>
+
+            <div class="methodDetail">
+                Patio uses the
+                <a href="http://pollenware.github.com/comb/symbols/comb.logging.Logger.html" target="patioapi">comb
+                    logging</a>
+                framework for all logging. To set up logging there are two scenarios.
+                <ul>
+                    <li>If you installed comb at the root of your project and then installed patio
+                        <pre class="code">
+npm install comb patio
+                        </pre>
+                        Then patio should be using the same version of comb that your application uses. If that is
+                        the case then you can configure logging through
+                        <ul>
+                            <li>
+                                <a href="http://pollenware.github.com/comb/symbols/comb.logging.BasicConfigurator.html" target="patioapi">
+                                    comb.logging.BasicConfigurator
+                                </a>
+                            </li>
+                            <li>
+                                <a href="http://pollenware.github.com/comb/symbols/comb.logging.PropertyConfigurator.html" target="patioapi">
+                                    comb.logging.PropertyConfigurator
+                                </a>
+                            </li>
+                        </ul>
+                        <pre class="code">
+var comb = require("comb"),
+    Logger = comb.logging.Logger,
+    Level = comb.logging.Level,
+    patio = require("patio");                            
+
+new comb.logging.BasicConfigurator().configure();
+Logger.getLogger("patio").level = Level.INFO;
+                        </pre>
+                        Or
+                        <pre class="code">
+//configure with a JSON file.
+new comb.logging.PropertyConfigurator().configure("/location/of/log/config.json");
+
+//or
+
+var loggingConfig = {
+    //set the root patio logger to INFO by setting it on the root patio logger, patio.Dataset, patio.Database will
+    //all get set to INFO level.
+    "patio" : {
+        level : "INFO",
+        appenders : [
+            {
+                type : "ConsoleAppender"
+            }
+        ]
+    },
+    //set the database logger to DEBUG
+    "patio.Database" : {
+        level : "DEBUG",
+        appenders : [
+            {
+                type : "ConsoleAppender"
+            }
+        ]
+    }
+};
+new comb.logging.PropertyConfigurator().configure(loggingConfig);
+
+
+                        </pre>
+                    </li>
+                    <li>
+                        If you are using a different version of comb or do not want to use comb, then you can use the following method.
+                        <a href="api/symbols/patio.html#configureLogging">patio.configureLogging</a>
+                        <pre class="code">
+var comb = require("comb"),
+    patio = require("patio");
+//sets up a basic configurator
+patio.configureLogging();
+
+//configure with a JSON file.
+patio.configureLogging("/location/of/log/config.json");
+
+//or
+var loggingConfig = {
+    //set the root patio logger to INFO by setting it on the root patio logger, patio.Dataset, patio.Database will
+    //all get set to INFO level.
+    "patio" : {
+        level : "INFO",
+        appenders : [
+            {
+                type : "ConsoleAppender"
+            }
+        ]
+    },
+    //set the database logger to DEBUG
+    "patio.Database" : {
+        level : "DEBUG",
+        appenders : [
+            {
+                type : "ConsoleAppender"
+            }
+        ]
+    }
+};
+patio.configureLogging(loggingConfig);
+                        </pre>
+                    </li>
+                </ul>
+                The patio logger currently contains the following loggers:
+                <ul>
+                    <li>patio</li>
+                    <li>patio.Dataset</li>
+                    <li>patio.Database</li>
+                </ul>
+                To get access to patios root logger use the <a href="api/symbols/patio.html#LOGGER">patio.LOGGER</a>
+                property.
+                <pre class="code">
+var patioLogger = patio.LOGGER;
+patioLogger.level = "off";
+                </pre>
+                There are also a methods for each logger method on patio.
+                <pre class="code">
+patio.logDebug("DEBUG");
+patio.logInfo("INFO");
+patio.logTrace("TRACE");
+patio.logError("ERROR");
+patio.logWarn("WARN");
+patio.logFatal("FATAL");
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

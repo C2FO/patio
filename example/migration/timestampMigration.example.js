@@ -3,6 +3,8 @@ patio.camelize = true;
 
 var DB = patio.createConnection("mysql://test:testpass@localhost:3306/sandbox");
 
+new comb.logging.BasicConfigurator().configure();
+comb.logging.Logger.getRootLogger().level = "info";
 var disconnectErr = function(err){
     patio.logError(err);
     patio.disconnect();

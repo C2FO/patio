@@ -89,6 +89,13 @@
                     </a>
                 </span>
             </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./logging.html" class="">
+                        <span>Logging</span>
+                    </a>
+                </span>
+            </li>
         </ul>
     </div>
 </div>
@@ -597,11 +604,11 @@ DB.alterTable("test", function(){
         </pre>
         </li>
         <li>
-            <b>setColumnAllowNull</b> changes the NULL/NOT NULL modifier of a column.
+            <b>setAllowNull</b> changes the NULL/NOT NULL modifier of a column.
         <pre class="code">
 DB.alterTable("test", function(){
-    this.setColumnAllowNull("first_name", false); /NOT NULL
-    this.setColumnAllowNull("last_name", true); //NULL
+    this.setAllowNull("first_name", false); //NOT NULL
+    this.setAllowNull("last_name", true); //NULL
 });
         </pre>
         </li>

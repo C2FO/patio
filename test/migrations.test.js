@@ -2,7 +2,7 @@ var vows = require('vows'),
     assert = require('assert'),
     comb = require("comb"),
     hitch = comb.hitch,
-    patio = require("index");
+    patio = require("../index");
 
 
 /*options : Object
@@ -15,10 +15,10 @@ var vows = require('vows'),
 
 var ret = exports = module.exports = new comb.Promise();
 var suite = vows.describe('Migrations');
-var patioMigrationVersion = 0, patioMigrationFiles = [];
+var patioMigrationVersion = -1, patioMigrationFiles = [];
 
 var getFileVersion = function(file){
-    return parseInt(file.split(".")[1], 10);
+    return parseInt(file.split(".")[0], 10);
 }
 
 var sortMigrationFiles = function(){
@@ -158,7 +158,7 @@ var MockDB = comb.define(patio.Database, {
             this.columnsAltered = {};
             this.tables = {};
             this.alteredTables = {};
-            patioMigrationVersion = 0;
+            patioMigrationVersion = -1;
             patioMigrationFiles = [];
         },
 
@@ -336,13 +336,13 @@ suite.addBatch({
                     this.version("integer", {"default":0});
                 });
                 DB.from("schema_info").update({version:3});
-                patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:0}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1}).then(hitch(this, "callback", null), hitch(this, "callback"));
 
             },
 
             "":function(res){
                 assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"])
-                assert.equal(patioMigrationVersion, 0);
+                assert.equal(patioMigrationVersion, -1);
                 assert.isTrue(comb.isEmpty(DB.alteredTables));
                 assert.isTrue(comb.isEmpty(DB.columnsAltered))
                 DB.reset();
@@ -363,13 +363,13 @@ suite.addBatch({
                     this.version("integer", {"default":0});
                 });
                 DB.from("schema_info").update({version:3});
-                patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:0, current:4}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1, current:4}).then(hitch(this, "callback", null), hitch(this, "callback"));
 
             },
 
             "":function(res){
                 assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"])
-                assert.equal(patioMigrationVersion, 0);
+                assert.equal(patioMigrationVersion, -1);
                 assert.isTrue(DB.alteredTables["test1"]);
                 assert.isTrue(DB.alteredTables["test2"]);
                 assert.isTrue(DB.alteredTables["test3"]);
@@ -398,7 +398,7 @@ suite.addBatch({
                 var ret = [];
                 patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:4, current:2})
                     .addCallback(comb.hitch(ret, "push"))
-                    .chain(comb.hitch(patio, "migrate", DB, __dirname + "/migrations/files/basic_integer_migration", {target:0}), hitch(this, "callback"))
+                    .chain(comb.hitch(patio, "migrate", DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1}), hitch(this, "callback"))
                     .addCallback(comb.hitch(ret, "push"))
                     .chain(comb.hitch(patio, "migrate", DB, __dirname + "/migrations/files/basic_integer_migration"), hitch(this, "callback"))
                     .addCallback(comb.hitch(ret, "push"))
@@ -504,13 +504,13 @@ suite.addBatch({
                 assert.isTrue(TSDB.tables["test4"]);
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3", "column4"]);
                 assert.lengthOf(patioMigrationFiles, 4);
-                assert.deepEqual(patioMigrationFiles, ["create_table.1327997153.js", "create_table.1327997224.js", "migration.1327997243.js", "migration.1327997262.js"]);
+                assert.deepEqual(patioMigrationFiles, ["1327997153.create_table.js", "1327997224.create_table.js", "1327997243.migration.js", "1327997262.migration.js"]);
             },
 
             " and migrate all the way down":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/timestamp_migration", {target:0}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/timestamp_migration", {target:-1}).then(hitch(this, "callback", null), hitch(this, "callback"));
 
 
                 },
@@ -552,13 +552,13 @@ suite.addBatch({
                 assert.isTrue(TSDB.tables["test3"]);
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3"]);
                 assert.lengthOf(patioMigrationFiles, 3);
-                assert.deepEqual(patioMigrationFiles, ["create_table.1327997153.js", "create_table.1327997224.js", "migration.1327997243.js"]);
+                assert.deepEqual(patioMigrationFiles, ["1327997153.create_table.js", "1327997224.create_table.js", "1327997243.migration.js"]);
             },
 
             " and migrate all the way down to a timestamp":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/timestamp_migration", {target:0}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/timestamp_migration", {target:-1}).then(hitch(this, "callback", null), hitch(this, "callback"));
 
 
                 },
@@ -596,7 +596,7 @@ suite.addBatch({
                 assert.isTrue(TSDB.tables["test3"]);
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3", "column4"]);
                 assert.lengthOf(patioMigrationFiles, 4);
-                assert.deepEqual(patioMigrationFiles, ["create_table.1327997153.js", "create_table.1327997224.js", "migration.1327997243.js", 'migration.1327997262.js']);
+                assert.deepEqual(patioMigrationFiles, ["1327997153.create_table.js", "1327997224.create_table.js", "1327997243.migration.js", '1327997262.migration.js']);
             },
 
             " and apply missing files":{
@@ -623,14 +623,14 @@ suite.addBatch({
                         column4:"column5"
                     })
                     assert.lengthOf(patioMigrationFiles, 8);
-                    assert.deepEqual(patioMigrationFiles, ['create_table.1327997153.js',
-                        'create_table.1327997224.js',
-                        'migration.1327997243.js',
-                        'migration.1327997262.js',
-                        'create_table.1327997155.js',
-                        'create_table.1327997230.js',
-                        'migration.1327997250.js',
-                        'migration.1327997265.js']);
+                    assert.deepEqual(patioMigrationFiles, ['1327997153.create_table.js',
+                        '1327997224.create_table.js',
+                        '1327997243.migration.js',
+                        '1327997262.migration.js',
+                        '1327997155.create_table.js',
+                        '1327997230.create_table.js',
+                        '1327997250.migration.js',
+                        '1327997265.migration.js']);
                     TSDB.reset();
                 }
 
@@ -657,13 +657,13 @@ suite.addBatch({
                 assert.isTrue(TSDB.tables["test3"]);
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3", "column4"]);
                 assert.lengthOf(patioMigrationFiles, 4);
-                assert.deepEqual(patioMigrationFiles, ["create_table.1327997153.js", "create_table.1327997224.js", "migration.1327997243.js", 'migration.1327997262.js']);
+                assert.deepEqual(patioMigrationFiles, ["1327997153.create_table.js", "1327997224.create_table.js", "1327997243.migration.js", '1327997262.migration.js']);
             },
 
             " and not apply down action when up action has not been called":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/interleaved_timestamp_migrations", {target:0}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/interleaved_timestamp_migrations", {target:-1}).then(hitch(this, "callback", null), hitch(this, "callback"));
 
 
                 },
@@ -700,7 +700,7 @@ suite.addBatch({
                 assert.isTrue(TSDB.tables["test3"]);
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3", "column4"]);
                 assert.lengthOf(patioMigrationFiles, 4);
-                assert.deepEqual(patioMigrationFiles, ["create_table.1327997153.js", "create_table.1327997224.js", "migration.1327997243.js", 'migration.1327997262.js']);
+                assert.deepEqual(patioMigrationFiles, ["1327997153.create_table.js", "1327997224.create_table.js", "1327997243.migration.js", '1327997262.migration.js']);
             },
 
             " and apply missing files up to a certain timestamp":{
@@ -728,13 +728,13 @@ suite.addBatch({
                     assert.lengthOf(patioMigrationFiles, 7);
                     sortMigrationFiles();
                     assert.deepEqual(patioMigrationFiles, [
-                        'create_table.1327997153.js',
-                        'create_table.1327997155.js',
-                        'create_table.1327997224.js',
-                        'create_table.1327997230.js',
-                        'migration.1327997243.js',
-                        'migration.1327997250.js',
-                        'migration.1327997262.js']);
+                        '1327997153.create_table.js',
+                        '1327997155.create_table.js',
+                        '1327997224.create_table.js',
+                        '1327997230.create_table.js',
+                        '1327997243.migration.js',
+                        '1327997250.migration.js',
+                        '1327997262.migration.js']);
                     TSDB.reset();
                 }
 
@@ -762,13 +762,13 @@ suite.addBatch({
                 assert.deepEqual(TSDB.columnsCreated, ["column1", "column2", "column3"]);
                 assert.lengthOf(patioMigrationFiles, 3);
                 sortMigrationFiles();
-                assert.deepEqual(patioMigrationFiles, ['create_table.1327997153.js', 'create_table.1327997224.js', 'migration.1327997243.js']);
+                assert.deepEqual(patioMigrationFiles, ['1327997153.create_table.js', '1327997224.create_table.js', '1327997243.migration.js']);
             },
 
             " and down ":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/bad_timestamp_migration", {target:0}).then(hitch(this, "callback"), hitch(this, "callback", null));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/bad_timestamp_migration", {target:-1}).then(hitch(this, "callback"), hitch(this, "callback", null));
                 },
 
                 "":function(res){
@@ -777,7 +777,7 @@ suite.addBatch({
                     assert.isNull(TSDB.tables["test3"]);
                     assert.lengthOf(patioMigrationFiles, 1);
                     sortMigrationFiles();
-                    assert.deepEqual(patioMigrationFiles, ['create_table.1327997153.js']);
+                    assert.deepEqual(patioMigrationFiles, ['1327997153.create_table.js']);
                 }
             }
         }
@@ -805,18 +805,18 @@ suite.addBatch({
                 assert.lengthOf(patioMigrationFiles, 5);
                 sortMigrationFiles();
                 assert.deepEqual(patioMigrationFiles, [
-                    'create_table.1327997153.js',
-                    'migration.1327997153.js',
-                    'create_table.1327997224.js',
-                    'migration.1327997243.js',
-                    'migration.1327997262.js'
+                    '1327997153.create_table.js',
+                    '1327997153.migration.js',
+                    '1327997224.create_table.js',
+                    '1327997243.migration.js',
+                    '1327997262.migration.js'
                 ]);
             },
 
             " and down ":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/duplicate_timestamp_migration", {target:0}).then(hitch(this, "callback"), hitch(this, "callback", null));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/duplicate_timestamp_migration", {target:-1}).then(hitch(this, "callback"), hitch(this, "callback", null));
                 },
 
                 "":function(res){
@@ -862,19 +862,19 @@ suite.addBatch({
                 assert.lengthOf(patioMigrationFiles, 7);
                 sortMigrationFiles();
                 assert.deepEqual(patioMigrationFiles, [
-                    'create_tables.0.js',
-                    'create_2.1.js',
-                    'create_table.2.js',
-                    'create_3.3.js',
-                    'alter_tables.4.js',
-                    'create_table.1327997153.js',
-                    'create_table.1327997224.js']);
+                    '0.create_tables.js',
+                    '1.create_2.js',
+                    '2.create_table.js',
+                    '3.create_3.js',
+                    '4.alter_tables.js',
+                    '1327997153.create_table.js',
+                    '1327997224.create_table.js']);
             },
 
             " and down ":{
                 topic:function(){
                     var ret = [];
-                    patio.migrate(TSDB, __dirname + "/migrations/files/both_migration", {target:0}).then(hitch(this, "callback"), hitch(this, "callback", null));
+                    patio.migrate(TSDB, __dirname + "/migrations/files/both_migration", {target:-1}).then(hitch(this, "callback"), hitch(this, "callback", null));
                 },
 
                 "":function(res){
