@@ -166,7 +166,7 @@ this.oneToMany("maleChildren", {query : {gender : "male"}});
                 <pre class="code">
 this.oneToMany("letterBChildren", {model : "child", dataset : function(){
             //called in the scope of the model instance
-            return this.db.from("child").filter(sql.name.like('B%'));
+            return this.db.from("child").filter({fatherId : this.id, name : {like : "B%"}});
 }});
                 </pre>
     </li>
