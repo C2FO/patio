@@ -63,6 +63,6 @@ var start = new Date();
 patio.logInfo("Starting Migration");
 patio.migrate(program.uri, path.resolve(process.cwd(), program.directory), opts).then(function(){
     patio.logInfo("Finished Migration");
-    patio.logInfo(format("Duration: % 4dms", new Date() - start));
+    patio.logInfo(format("Duration: % 6dms", new Date() - start));
     patio.disconnect();
 }, disconnectError);

@@ -6,7 +6,7 @@ var patio = require("../../index"),
 
 patio.camelize = true;
 
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+patio.configureLogging({"patio" : {level : "ERROR"}});
 patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
   function(db, patio){
     db.forceDropTable("child", "biologicalFather");
@@ -28,7 +28,7 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
           var patio = this.patio;
           this.oneToMany("children");
           this.oneToMany("letterBChildren", {model : "child", fetchType : this.fetchType.EAGER, dataset : function(){
-            return this.db.from("child").filter(sql.name.like('B%'));
+            return this.db.from("child").filter({name : {like : "B%"}, biologicalFatherId : this.id});
           }});
         }
       }
@@ -61,7 +61,8 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
     BiologicalFather.forEach(function(father){
       //you use a promise now because this is not an
       //executeInOrderBlock
-      if(father.letterBChildren){
+      if(father.letterBChildren.length > 0){
+          console.log(father.name + " has " + father.letterBChildren.length + " B children");
         console.log("The B letter children's names are " + father.letterBChildren.map(function(child){
           return child.name;
         }));
