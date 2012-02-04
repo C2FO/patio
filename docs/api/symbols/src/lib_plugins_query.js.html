@@ -17,18 +17,18 @@
 <span class='line'> 10</span> </span><span class="WHIT">    </span><span class="NAME">instance</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 11</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Model.prototype*/</span><span class="WHIT">
 <span class='line'> 12</span> 
-<span class='line'> 13</span> </span><span class="WHIT">        </span><span class="NAME">_getPrimaryKeyQuery</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">        </span><span class="NAME">_getPrimaryKeyQuery</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 14</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 15</span> </span><span class="WHIT">            </span><span class="NAME">this.primaryKey.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">            </span><span class="NAME">this.primaryKey.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 16</span> </span><span class="WHIT">                </span><span class="NAME">q</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 17</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 18</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">q</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 19</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 20</span> 
-<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="NAME">_clearPrimaryKeys</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="NAME">_clearPrimaryKeys</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 23</span> </span><span class="WHIT">            </span><span class="NAME">this.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">            </span><span class="NAME">this.primaryKey.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">            </span><span class="NAME">this.primaryKey.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 25</span> </span><span class="WHIT">                </span><span class="NAME">this.__values</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 26</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 27</span> </span><span class="WHIT">            </span><span class="NAME">this.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
@@ -46,10 +46,10 @@
 <span class='line'> 39</span>          *
 <span class='line'> 40</span>          * @return {comb.Promise} resolved with the model instance.
 <span class='line'> 41</span>          */</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">        </span><span class="NAME">reload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">        </span><span class="NAME">reload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 44</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.__isNew</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT">                </span><span class="NAME">this.dataset.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">filter</span><span class="PUNC">(</span><span class="NAME">this._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">one</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">                </span><span class="NAME">this.dataset.naked</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">filter</span><span class="PUNC">(</span><span class="NAME">this._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">one</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 46</span> </span><span class="WHIT">                    </span><span class="NAME">this.__set</span><span class="PUNC">(</span><span class="NAME">values</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 47</span> </span><span class="WHIT">                    </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 48</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -82,440 +82,469 @@
 <span class='line'> 75</span>          *
 <span class='line'> 76</span>          * @return {comb.Promise} called back after the deletion is successful.
 <span class='line'> 77</span>          */</span><span class="WHIT">
-<span class='line'> 78</span> </span><span class="WHIT">        </span><span class="NAME">remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">        </span><span class="NAME">remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 79</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.__isNew</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 80</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.executeInOrder</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"remove"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 83</span> </span><span class="WHIT">                        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds.filter</span><span class="PUNC">(</span><span class="NAME">m._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"remove"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">                        </span><span class="NAME">m._clearPrimaryKeys</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 86</span> </span><span class="WHIT">                        </span><span class="NAME">m.__isNew</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 87</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 89</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 90</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 94</span> 
-<span class='line'> 95</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'> 96</span>          * @private
-<span class='line'> 97</span>          * Called after a save action to reload the model properties,
-<span class='line'> 98</span>          * abstracted out so this can be overidden by sub classes
-<span class='line'> 99</span>          */</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="WHIT">        </span><span class="NAME">_saveReload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>101</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.reloadOnSave</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.reload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>102</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>103</span> 
-<span class='line'>104</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>105</span>          * @private
-<span class='line'>106</span>          * Called after an update action to reload the model properties,
-<span class='line'>107</span>          * abstracted out so this can be overidden by sub classes
-<span class='line'>108</span>          */</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">        </span><span class="NAME">_updateReload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>110</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.reloadOnUpdate</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.reload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>111</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>112</span> 
-<span class='line'>113</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>114</span>          * Updates a model. This action checks if the model is not new and values have changed.
-<span class='line'>115</span>          * If the model is new then the {@link patio.Model#save} action is called.
-<span class='line'>116</span>          *
-<span class='line'>117</span>          * @example
-<span class='line'>118</span>          *
-<span class='line'>119</span>          * //set values before saving
-<span class='line'>120</span>          * someModel.update({
-<span class='line'>121</span>          *      myVal1 : "newValue1",
-<span class='line'>122</span>          *      myVal2 : "newValue2",
-<span class='line'>123</span>          *      myVal3 : "newValue3"
-<span class='line'>124</span>          *      }).then(function(){
-<span class='line'>125</span>          *     //do something
-<span class='line'>126</span>          * });
-<span class='line'>127</span>          *
-<span class='line'>128</span>          * //set vals before saving and don't use a transaction
-<span class='line'>129</span>          * someModel.update({
-<span class='line'>130</span>          *      myVal1 : "newValue1",
-<span class='line'>131</span>          *      myVal2 : "newValue2",
-<span class='line'>132</span>          *      myVal3 : "newValue3"
-<span class='line'>133</span>          *      }, {transaction : false}).then(function(){
-<span class='line'>134</span>          *     //do something
-<span class='line'>135</span>          * });
-<span class='line'>136</span>          *
-<span class='line'>137</span>          * //or
-<span class='line'>138</span>          *
-<span class='line'>139</span>          * someModel.myVal1 = "newValue1";
-<span class='line'>140</span>          * someModel.myVal2 = "newValue2";
-<span class='line'>141</span>          * someModel.myVal3 = "newValue3";
-<span class='line'>142</span>          *
-<span class='line'>143</span>          * //update model with current values
-<span class='line'>144</span>          * someModel.update().then(function(){
-<span class='line'>145</span>          *     //do something
-<span class='line'>146</span>          * });
-<span class='line'>147</span>          *
-<span class='line'>148</span>          *
-<span class='line'>149</span>          * //don't use a transaction
-<span class='line'>150</span>          * someModel.update(null, {transaction : false});
-<span class='line'>151</span>          *
-<span class='line'>152</span>          * @param {Object} [vals] optional values hash to set on the model before saving.
-<span class='line'>153</span>          * @param {Object} [options] additional options.
-<span class='line'>154</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>155</span>          * updating the model.
-<span class='line'>156</span>          *
-<span class='line'>157</span>          * @return {comb.Promise} resolved when the update action has completed.
-<span class='line'>158</span>          */</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">        </span><span class="NAME">update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.__isNew</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__isChanged</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>161</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>162</span> </span><span class="WHIT">                    </span><span class="NAME">comb.isHash</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__set</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>163</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">saveChanged</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">comb.isEmpty</span><span class="PUNC">(</span><span class="NAME">this.__changed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>164</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.executeInOrder</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dataset.filter</span><span class="PUNC">(</span><span class="NAME">this._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"update"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">                        </span><span class="NAME">saveChanged</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ds.update</span><span class="PUNC">(</span><span class="NAME">m.__changed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">                        </span><span class="NAME">m._updateReload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"update"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">m</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>172</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__isNew</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__isChanged</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.save</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>178</span> 
-<span class='line'>179</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>180</span>          * Updates a model. This action checks if the model is new and values have changed.
-<span class='line'>181</span>          * If the model is not new then the {@link patio.Model#update} action is called.
-<span class='line'>182</span>          *
-<span class='line'>183</span>          * @example
-<span class='line'>184</span>          *
-<span class='line'>185</span>          * //set new values and save the model
-<span class='line'>186</span>          * someModel.save({
-<span class='line'>187</span>          *      myVal1 : "newValue1",
-<span class='line'>188</span>          *      myVal2 : "newValue2",
-<span class='line'>189</span>          *      myVal3 : "newValue3"
-<span class='line'>190</span>          *      }).then(function(){
-<span class='line'>191</span>          *          //do something
-<span class='line'>192</span>          *      });
-<span class='line'>193</span>          *
-<span class='line'>194</span>          * //or
-<span class='line'>195</span>          *
-<span class='line'>196</span>          * //set new values and save the model and DO NOT use a transaction
-<span class='line'>197</span>          * someModel.save({
-<span class='line'>198</span>          *      myVal1 : "newValue1",
-<span class='line'>199</span>          *      myVal2 : "newValue2",
-<span class='line'>200</span>          *      myVal3 : "newValue3"
-<span class='line'>201</span>          *      }, {transaction : false}).then(function(){
-<span class='line'>202</span>          *          //do something
-<span class='line'>203</span>          *      });
-<span class='line'>204</span>          *
-<span class='line'>205</span>          * //or
-<span class='line'>206</span>          * someModel.myVal1 = "newValue1";
-<span class='line'>207</span>          * someModel.myVal2 = "newValue2";
-<span class='line'>208</span>          * someModel.myVal3 = "newValue3";
-<span class='line'>209</span>          *
-<span class='line'>210</span>          * someModel.save().then(function(){
-<span class='line'>211</span>          *     //do something
-<span class='line'>212</span>          * });
-<span class='line'>213</span>          *
-<span class='line'>214</span>          * //or
-<span class='line'>215</span>          *
-<span class='line'>216</span>          * //dont use a transaction
-<span class='line'>217</span>          * someModel.save(null, {transaction : false}).then(function(){
-<span class='line'>218</span>          *     //do something
-<span class='line'>219</span>          * });
-<span class='line'>220</span>          *
-<span class='line'>221</span>          * @param {Object} [vals] optional values hash to set on the model before saving.
-<span class='line'>222</span>          * @param {Object} [options] additional options.
-<span class='line'>223</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>224</span>          * saving the model.
-<span class='line'>225</span>          *
-<span class='line'>226</span>          * @return {comb.Promise} resolved when the save action has completed.
-<span class='line'>227</span>          */</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">        </span><span class="NAME">save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__isNew</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">                    </span><span class="NAME">comb.isHash</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__set</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>232</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._static.primaryKey</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>233</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">comb.executeInOrder</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>234</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"save"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>235</span> </span><span class="WHIT">                        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds.insert</span><span class="PUNC">(</span><span class="NAME">m._toObject</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>236</span> </span><span class="WHIT">                        </span><span class="NAME">m.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>237</span> </span><span class="WHIT">                        </span><span class="NAME">m</span><span class="PUNC">[</span><span class="NAME">pk</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">                        </span><span class="NAME">m.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>239</span> </span><span class="WHIT">                        </span><span class="NAME">m.__isNew</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>240</span> </span><span class="WHIT">                        </span><span class="NAME">m.__isChanged</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>241</span> </span><span class="WHIT">                        </span><span class="NAME">m._saveReload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>242</span> </span><span class="WHIT">                        </span><span class="NAME">m._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"save"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>243</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">m</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>244</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>245</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>247</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.update</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>248</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>249</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>250</span> 
-<span class='line'>251</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>252</span> 
-<span class='line'>253</span> </span><span class="WHIT">    </span><span class="NAME">static</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">                    </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"remove"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">                        </span><span class="NAME">this._remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">                            </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"remove"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">                                </span><span class="NAME">this._clearPrimaryKeys</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">                                </span><span class="NAME">this.__isNew</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">                                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">                            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="WHIT">        </span><span class="NAME">_remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.dataset.filter</span><span class="PUNC">(</span><span class="NAME">this._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>103</span>          * @private
+<span class='line'>104</span>          * Called after a save action to reload the model properties,
+<span class='line'>105</span>          * abstracted out so this can be overidden by sub classes
+<span class='line'>106</span>          */</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">        </span><span class="NAME">_saveReload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.reloadOnSave</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.reload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>112</span>          * @private
+<span class='line'>113</span>          * Called after an update action to reload the model properties,
+<span class='line'>114</span>          * abstracted out so this can be overidden by sub classes
+<span class='line'>115</span>          */</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">        </span><span class="NAME">_updateReload</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._static.reloadOnUpdate</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.reload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>121</span>          * Updates a model. This action checks if the model is not new and values have changed.
+<span class='line'>122</span>          * If the model is new then the {@link patio.Model#save} action is called.
+<span class='line'>123</span>          *
+<span class='line'>124</span>          * @example
+<span class='line'>125</span>          *
+<span class='line'>126</span>          * //set values before saving
+<span class='line'>127</span>          * someModel.update({
+<span class='line'>128</span>          *      myVal1 : "newValue1",
+<span class='line'>129</span>          *      myVal2 : "newValue2",
+<span class='line'>130</span>          *      myVal3 : "newValue3"
+<span class='line'>131</span>          *      }).then(function(){
+<span class='line'>132</span>          *     //do something
+<span class='line'>133</span>          * });
+<span class='line'>134</span>          *
+<span class='line'>135</span>          * //set vals before saving and don't use a transaction
+<span class='line'>136</span>          * someModel.update({
+<span class='line'>137</span>          *      myVal1 : "newValue1",
+<span class='line'>138</span>          *      myVal2 : "newValue2",
+<span class='line'>139</span>          *      myVal3 : "newValue3"
+<span class='line'>140</span>          *      }, {transaction : false}).then(function(){
+<span class='line'>141</span>          *     //do something
+<span class='line'>142</span>          * });
+<span class='line'>143</span>          *
+<span class='line'>144</span>          * //or
+<span class='line'>145</span>          *
+<span class='line'>146</span>          * someModel.myVal1 = "newValue1";
+<span class='line'>147</span>          * someModel.myVal2 = "newValue2";
+<span class='line'>148</span>          * someModel.myVal3 = "newValue3";
+<span class='line'>149</span>          *
+<span class='line'>150</span>          * //update model with current values
+<span class='line'>151</span>          * someModel.update().then(function(){
+<span class='line'>152</span>          *     //do something
+<span class='line'>153</span>          * });
+<span class='line'>154</span>          *
+<span class='line'>155</span>          *
+<span class='line'>156</span>          * //don't use a transaction
+<span class='line'>157</span>          * someModel.update(null, {transaction : false});
+<span class='line'>158</span>          *
+<span class='line'>159</span>          * @param {Object} [vals] optional values hash to set on the model before saving.
+<span class='line'>160</span>          * @param {Object} [options] additional options.
+<span class='line'>161</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>162</span>          * updating the model.
+<span class='line'>163</span>          *
+<span class='line'>164</span>          * @return {comb.Promise} resolved when the update action has completed.
+<span class='line'>165</span>          */</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">        </span><span class="NAME">update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.__isNew</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">                    </span><span class="NAME">comb.isHash</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__set</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">saveChange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">comb.isEmpty</span><span class="PUNC">(</span><span class="NAME">this.__changed</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">                    </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"update"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">                        </span><span class="PUNC">(</span><span class="NAME">saveChange</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this._update</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">                            </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"update"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> 
+<span class='line'>180</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__isNew</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__isChanged</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.save</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> </span><span class="WHIT">        </span><span class="NAME">_update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">            </span><span class="NAME">this.dataset.filter</span><span class="PUNC">(</span><span class="NAME">this._getPrimaryKeyQuery</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">update</span><span class="PUNC">(</span><span class="NAME">this.__changed</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">                </span><span class="PUNC">.</span><span class="NAME">chain</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"_updateReload"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">                </span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>197</span>          * Updates a model. This action checks if the model is new and values have changed.
+<span class='line'>198</span>          * If the model is not new then the {@link patio.Model#update} action is called.
+<span class='line'>199</span>          *
+<span class='line'>200</span>          * @example
+<span class='line'>201</span>          *
+<span class='line'>202</span>          * //set new values and save the model
+<span class='line'>203</span>          * someModel.save({
+<span class='line'>204</span>          *      myVal1 : "newValue1",
+<span class='line'>205</span>          *      myVal2 : "newValue2",
+<span class='line'>206</span>          *      myVal3 : "newValue3"
+<span class='line'>207</span>          *      }).then(function(){
+<span class='line'>208</span>          *          //do something
+<span class='line'>209</span>          *      });
+<span class='line'>210</span>          *
+<span class='line'>211</span>          * //or
+<span class='line'>212</span>          *
+<span class='line'>213</span>          * //set new values and save the model and DO NOT use a transaction
+<span class='line'>214</span>          * someModel.save({
+<span class='line'>215</span>          *      myVal1 : "newValue1",
+<span class='line'>216</span>          *      myVal2 : "newValue2",
+<span class='line'>217</span>          *      myVal3 : "newValue3"
+<span class='line'>218</span>          *      }, {transaction : false}).then(function(){
+<span class='line'>219</span>          *          //do something
+<span class='line'>220</span>          *      });
+<span class='line'>221</span>          *
+<span class='line'>222</span>          * //or
+<span class='line'>223</span>          * someModel.myVal1 = "newValue1";
+<span class='line'>224</span>          * someModel.myVal2 = "newValue2";
+<span class='line'>225</span>          * someModel.myVal3 = "newValue3";
+<span class='line'>226</span>          *
+<span class='line'>227</span>          * someModel.save().then(function(){
+<span class='line'>228</span>          *     //do something
+<span class='line'>229</span>          * });
+<span class='line'>230</span>          *
+<span class='line'>231</span>          * //or
+<span class='line'>232</span>          *
+<span class='line'>233</span>          * //dont use a transaction
+<span class='line'>234</span>          * someModel.save(null, {transaction : false}).then(function(){
+<span class='line'>235</span>          *     //do something
+<span class='line'>236</span>          * });
+<span class='line'>237</span>          *
+<span class='line'>238</span>          * @param {Object} [vals] optional values hash to set on the model before saving.
+<span class='line'>239</span>          * @param {Object} [options] additional options.
+<span class='line'>240</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>241</span>          * saving the model.
+<span class='line'>242</span>          *
+<span class='line'>243</span>          * @return {comb.Promise} resolved when the save action has completed.
+<span class='line'>244</span>          */</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">        </span><span class="NAME">save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.__isNew</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">                    </span><span class="NAME">comb.isHash</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.__set</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">                    </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"pre"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"save"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">                        </span><span class="PUNC">.</span><span class="NAME">chain</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"_save"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">                        </span><span class="NAME">this._hook</span><span class="PUNC">(</span><span class="STRN">"post"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"save"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>254</span> 
-<span class='line'>255</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Model*/</span><span class="WHIT">
-<span class='line'>256</span> 
-<span class='line'>257</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>258</span>          * Retrieves a record by the primaryKey/s of a table.
-<span class='line'>259</span>          *
-<span class='line'>260</span>          * @example
-<span class='line'>261</span>          *
-<span class='line'>262</span>          * var User = patio.getModel("user");
-<span class='line'>263</span>          *
-<span class='line'>264</span>          * User.findById(1).then(function(userOne){
-<span class='line'>265</span>          *
-<span class='line'>266</span>          * });
-<span class='line'>267</span>          *
-<span class='line'>268</span>          * //assume the primary key is a compostie of first_name and last_name
-<span class='line'>269</span>          * User.findById(["greg", "yukon"]).then(function(userOne){
-<span class='line'>270</span>          *
-<span class='line'>271</span>          * });
-<span class='line'>272</span>          *
-<span class='line'>273</span>          *
-<span class='line'>274</span>          * @param {*} id the primary key of the record to find.
-<span class='line'>275</span>          *
-<span class='line'>276</span>          * @return {comb.Promise} called back with the record or null if one is not found.
-<span class='line'>277</span>          */</span><span class="WHIT">
-<span class='line'>278</span> </span><span class="WHIT">        </span><span class="NAME">findById</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>279</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.primaryKey</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>280</span> </span><span class="WHIT">            </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pk.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>281</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>282</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">pk</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>283</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">pk.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">                    </span><span class="NAME">pk.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>285</span> </span><span class="WHIT">                        </span><span class="NAME">q</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT">
-<span class='line'>286</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>287</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>288</span> </span><span class="WHIT">                    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ModelError</span><span class="PUNC">(</span><span class="STRN">"findById : ids length does not equal the primaryKeys length."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>289</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>290</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>291</span> </span><span class="WHIT">                </span><span class="NAME">q</span><span class="PUNC">[</span><span class="NAME">pk</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>292</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>293</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.filter</span><span class="PUNC">(</span><span class="NAME">q</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">one</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>294</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>295</span> 
-<span class='line'>296</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>297</span>          * Finds a single model according to the supplied filter.
-<span class='line'>298</span>          * See {@link patio.Dataset#filter} for filter options.
+<span class='line'>255</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.update</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">        </span><span class="NAME">_save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._static.primaryKey</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">            </span><span class="NAME">this.dataset.insert</span><span class="PUNC">(</span><span class="NAME">this._toObject</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">                </span><span class="NAME">this.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">pk</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">                </span><span class="NAME">this.__ignore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">                </span><span class="NAME">this.__isNew</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">                </span><span class="NAME">this.__isChanged</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">                </span><span class="NAME">this._saveReload</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">                    </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>279</span> 
+<span class='line'>280</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span> </span><span class="WHIT">    </span><span class="NAME">static</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>283</span> 
+<span class='line'>284</span> </span><span class="WHIT">        </span><span class="COMM">/**@lends patio.Model*/</span><span class="WHIT">
+<span class='line'>285</span> 
+<span class='line'>286</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>287</span>          * Retrieves a record by the primaryKey/s of a table.
+<span class='line'>288</span>          *
+<span class='line'>289</span>          * @example
+<span class='line'>290</span>          *
+<span class='line'>291</span>          * var User = patio.getModel("user");
+<span class='line'>292</span>          *
+<span class='line'>293</span>          * User.findById(1).then(function(userOne){
+<span class='line'>294</span>          *
+<span class='line'>295</span>          * });
+<span class='line'>296</span>          *
+<span class='line'>297</span>          * //assume the primary key is a compostie of first_name and last_name
+<span class='line'>298</span>          * User.findById(["greg", "yukon"]).then(function(userOne){
 <span class='line'>299</span>          *
-<span class='line'>300</span>          *
+<span class='line'>300</span>          * });
 <span class='line'>301</span>          *
-<span class='line'>302</span>          * @param id
-<span class='line'>303</span>          */</span><span class="WHIT">
-<span class='line'>304</span> </span><span class="WHIT">        </span><span class="NAME">find</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.filter.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">first</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>307</span> 
-<span class='line'>308</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>309</span>          * Update multiple rows with a set of values.
-<span class='line'>310</span>          *
-<span class='line'>311</span>          * @example
-<span class='line'>312</span>          * var User = patio.getModel("user");
-<span class='line'>313</span>          *
-<span class='line'>314</span>          * //BEGIN
-<span class='line'>315</span>          * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')
-<span class='line'>316</span>          * //COMMIT
-<span class='line'>317</span>          * User.update({password : null}, function(){
-<span class='line'>318</span>          *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
-<span class='line'>319</span>          * });
-<span class='line'>320</span>          * //same as
-<span class='line'>321</span>          * User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), "year", -1)}});
-<span class='line'>322</span>          *
-<span class='line'>323</span>          * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')
-<span class='line'>324</span>          * User.update({password : null}, function(){
-<span class='line'>325</span>          *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
-<span class='line'>326</span>          * }, {transaction : false});
-<span class='line'>327</span>          *
-<span class='line'>328</span>          * @param {Object} vals a hash of values to update. See {@link patio.Dataset#update}.
-<span class='line'>329</span>          * @param query a filter to apply to the UPDATE.  See {@link patio.Dataset#filter}.
+<span class='line'>302</span>          *
+<span class='line'>303</span>          * @param {*} id the primary key of the record to find.
+<span class='line'>304</span>          *
+<span class='line'>305</span>          * @return {comb.Promise} called back with the record or null if one is not found.
+<span class='line'>306</span>          */</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">        </span><span class="NAME">findById</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.primaryKey</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">            </span><span class="NAME">pk</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pk.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">pk</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">pk</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">pk.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">                    </span><span class="NAME">pk.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">                        </span><span class="NAME">q</span><span class="PUNC">[</span><span class="NAME">k</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">                    </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ModelError</span><span class="PUNC">(</span><span class="STRN">"findById : ids length does not equal the primaryKeys length."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">                </span><span class="NAME">q</span><span class="PUNC">[</span><span class="NAME">pk</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.filter</span><span class="PUNC">(</span><span class="NAME">q</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">one</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>324</span> 
+<span class='line'>325</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>326</span>          * Finds a single model according to the supplied filter.
+<span class='line'>327</span>          * See {@link patio.Dataset#filter} for filter options.
+<span class='line'>328</span>          *
+<span class='line'>329</span>          *
 <span class='line'>330</span>          *
-<span class='line'>331</span>          * @param {Object} [options] additional options.
-<span class='line'>332</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>333</span>          * updating the models.
-<span class='line'>334</span>          *
-<span class='line'>335</span>          * @return {Promise} a promise that is resolved once the update statement has completed.
-<span class='line'>336</span>          */</span><span class="WHIT">
-<span class='line'>337</span> </span><span class="WHIT">        </span><span class="NAME">update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/*?object*/</span><span class="NAME">query</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>338</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>339</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>340</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>341</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dataset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>342</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isUndefined</span><span class="PUNC">(</span><span class="NAME">query</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>343</span> </span><span class="WHIT">                    </span><span class="NAME">dataset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dataset.filter</span><span class="PUNC">(</span><span class="NAME">query</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>344</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>345</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">dataset.update</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>346</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>347</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>348</span> 
-<span class='line'>349</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>350</span>          * Remove(delete) models. This can be used to do a mass delete of models.
+<span class='line'>331</span>          * @param id
+<span class='line'>332</span>          */</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">        </span><span class="NAME">find</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.filter.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">first</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>336</span> 
+<span class='line'>337</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>338</span>          * Update multiple rows with a set of values.
+<span class='line'>339</span>          *
+<span class='line'>340</span>          * @example
+<span class='line'>341</span>          * var User = patio.getModel("user");
+<span class='line'>342</span>          *
+<span class='line'>343</span>          * //BEGIN
+<span class='line'>344</span>          * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')
+<span class='line'>345</span>          * //COMMIT
+<span class='line'>346</span>          * User.update({password : null}, function(){
+<span class='line'>347</span>          *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
+<span class='line'>348</span>          * });
+<span class='line'>349</span>          * //same as
+<span class='line'>350</span>          * User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), "year", -1)}});
 <span class='line'>351</span>          *
-<span class='line'>352</span>          * @example
-<span class='line'>353</span>          * var User = patio.getModel("user");
-<span class='line'>354</span>          *
-<span class='line'>355</span>          * //remove all users
-<span class='line'>356</span>          * User.remove();
-<span class='line'>357</span>          *
-<span class='line'>358</span>          * //remove all users who's names start with a.
-<span class='line'>359</span>          * User.remove({name : /A%/i});
-<span class='line'>360</span>          *
-<span class='line'>361</span>          * //remove all users who's names start with a, without a transaction.
-<span class='line'>362</span>          * User.remove({name : /A%/i}, {transaction : false});
+<span class='line'>352</span>          * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')
+<span class='line'>353</span>          * User.update({password : null}, function(){
+<span class='line'>354</span>          *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
+<span class='line'>355</span>          * }, {transaction : false});
+<span class='line'>356</span>          *
+<span class='line'>357</span>          * @param {Object} vals a hash of values to update. See {@link patio.Dataset#update}.
+<span class='line'>358</span>          * @param query a filter to apply to the UPDATE.  See {@link patio.Dataset#filter}.
+<span class='line'>359</span>          *
+<span class='line'>360</span>          * @param {Object} [options] additional options.
+<span class='line'>361</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>362</span>          * updating the models.
 <span class='line'>363</span>          *
-<span class='line'>364</span>          * @param {Object} [q] query to filter the rows to remove. See {@link patio.Dataset#filter}.
-<span class='line'>365</span>          * @param {Object} [options] additional options.
-<span class='line'>366</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>367</span>          * removing the models.
-<span class='line'>368</span>          * @param {Boolean} [options.load=true] boolean set to prevent the loading of each model. This is more efficient
-<span class='line'>369</span>          * but the pre/post remove hooks not be notified of the deletion.
-<span class='line'>370</span>          *
-<span class='line'>371</span>          * @return {comb.Promise} called back when the removal completes.
-<span class='line'>372</span>          */</span><span class="WHIT">
-<span class='line'>373</span> </span><span class="WHIT">        </span><span class="NAME">remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">q</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>374</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>375</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loadEach</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isBoolean</span><span class="PUNC">(</span><span class="NAME">options.load</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options.load</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>376</span> </span><span class="WHIT">            </span><span class="COMM">//first find all records so we call alert the middleware for each model</span><span class="WHIT">
-<span class='line'>377</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>378</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>379</span> </span><span class="WHIT">                </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds.filter.call</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">q</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>380</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">loadEach</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>381</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>382</span> </span><span class="WHIT">                        </span><span class="COMM">//todo this sucks find a better way!</span><span class="WHIT">
-<span class='line'>383</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r.remove</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>384</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>385</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>386</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>387</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>388</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>389</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>390</span> 
-<span class='line'>391</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>392</span>          * Similar to remove but takes an id or an array for a composite key.
-<span class='line'>393</span>          *
-<span class='line'>394</span>          * @example
-<span class='line'>395</span>          *
-<span class='line'>396</span>          * User.removeById(1);
-<span class='line'>397</span>          *
-<span class='line'>398</span>          * @param id id or an array for a composite key, to find the model by
-<span class='line'>399</span>          * @param {Object} [options] additional options.
-<span class='line'>400</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>401</span>          * removing the model.
-<span class='line'>402</span>          *
-<span class='line'>403</span>          * @return {comb.Promise} called back when the removal completes.
-<span class='line'>404</span>          */</span><span class="WHIT">
-<span class='line'>405</span> </span><span class="WHIT">        </span><span class="NAME">removeById</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>406</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>407</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>408</span> </span><span class="WHIT">                </span><span class="NAME">this.findById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>409</span> </span><span class="WHIT">                    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>410</span> </span><span class="WHIT">                        </span><span class="NAME">model.remove</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>411</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>412</span> </span><span class="WHIT">                        </span><span class="NAME">p.callback</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>413</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>414</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>415</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">p</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>416</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>417</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>418</span> 
-<span class='line'>419</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>420</span>          * Save either a new model or list of models to the database.
-<span class='line'>421</span>          *
-<span class='line'>422</span>          * @example
-<span class='line'>423</span>          * var Student = patio.getModel("student");
-<span class='line'>424</span>          * Student.save([
-<span class='line'>425</span>          *      {
-<span class='line'>426</span>          *          firstName:"Bob",
-<span class='line'>427</span>          *          lastName:"Yukon",
-<span class='line'>428</span>          *          gpa:3.689,
-<span class='line'>429</span>          *          classYear:"Senior"
-<span class='line'>430</span>          *      },
-<span class='line'>431</span>          *      {
-<span class='line'>432</span>          *          firstName:"Greg",
-<span class='line'>433</span>          *          lastName:"Horn",
-<span class='line'>434</span>          *          gpa:3.689,
-<span class='line'>435</span>          *          classYear:"Sohpmore"
-<span class='line'>436</span>          *      },
-<span class='line'>437</span>          *      {
-<span class='line'>438</span>          *          firstName:"Sara",
-<span class='line'>439</span>          *          lastName:"Malloc",
-<span class='line'>440</span>          *          gpa:4.0,
-<span class='line'>441</span>          *          classYear:"Junior"
-<span class='line'>442</span>          *      },
-<span class='line'>443</span>          *      {
-<span class='line'>444</span>          *          firstName:"John",
-<span class='line'>445</span>          *          lastName:"Favre",
-<span class='line'>446</span>          *          gpa:2.867,
-<span class='line'>447</span>          *          classYear:"Junior"
-<span class='line'>448</span>          *      },
-<span class='line'>449</span>          *      {
-<span class='line'>450</span>          *          firstName:"Kim",
-<span class='line'>451</span>          *          lastName:"Bim",
-<span class='line'>452</span>          *          gpa:2.24,
-<span class='line'>453</span>          *          classYear:"Senior"
-<span class='line'>454</span>          *      },
-<span class='line'>455</span>          *      {
-<span class='line'>456</span>          *          firstName:"Alex",
-<span class='line'>457</span>          *          lastName:"Young",
-<span class='line'>458</span>          *          gpa:1.9,
-<span class='line'>459</span>          *          classYear:"Freshman"
-<span class='line'>460</span>          *      }
-<span class='line'>461</span>          * ]).then(function(users){
-<span class='line'>462</span>          *     //work with the users
-<span class='line'>463</span>          * });
-<span class='line'>464</span>          *
-<span class='line'>465</span>          * Save a single record
-<span class='line'>466</span>          * MyModel.save(m1);
-<span class='line'>467</span>          *
-<span class='line'>468</span>          * @param {patio.Model|Object|patio.Model[]|Object[]} record the record/s to save.
-<span class='line'>469</span>          * @param {Object} [options] additional options.
-<span class='line'>470</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
-<span class='line'>471</span>          * saving the models.
-<span class='line'>472</span>          *
-<span class='line'>473</span>          * @return {comb.Promise} called back with the saved record/s.
-<span class='line'>474</span>          */</span><span class="WHIT">
-<span class='line'>475</span> </span><span class="WHIT">        </span><span class="NAME">save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>476</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>477</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>478</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ps</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>479</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>480</span> </span><span class="WHIT">                    </span><span class="NAME">ps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">items.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>481</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>482</span> </span><span class="WHIT">                            </span><span class="NAME">o</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>483</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>484</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">o.save</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>485</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>486</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>487</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PromiseList</span><span class="PUNC">(</span><span class="NAME">ps</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>488</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>489</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>490</span> </span><span class="WHIT">                    </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>491</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>492</span> </span><span class="WHIT">                            </span><span class="NAME">items</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>493</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>494</span> </span><span class="WHIT">                        </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">items.save</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>495</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>496</span> </span><span class="WHIT">                        </span><span class="NAME">ret.errback</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>497</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>498</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>499</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>500</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>501</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>502</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>503</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="NAME">exports</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"QueryPlugin"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>504</span> 
-<span class='line'>505</span> </span><span class="NAME">Dataset.ACTION_METHODS.concat</span><span class="PUNC">(</span><span class="NAME">Dataset.QUERY_METHODS</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>506</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">QueryPlugin</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>507</span> </span><span class="WHIT">        </span><span class="NAME">QueryPlugin</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>508</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>509</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>510</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>511</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>512</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>513</span> 
-<span class='line'>514</span> </span></pre></body></html>
+<span class='line'>364</span>          * @return {Promise} a promise that is resolved once the update statement has completed.
+<span class='line'>365</span>          */</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">        </span><span class="NAME">update</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">/*?object*/</span><span class="NAME">query</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dataset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isUndefined</span><span class="PUNC">(</span><span class="NAME">query</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">                    </span><span class="NAME">dataset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dataset.filter</span><span class="PUNC">(</span><span class="NAME">query</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">dataset.update</span><span class="PUNC">(</span><span class="NAME">vals</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>377</span> 
+<span class='line'>378</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>379</span>          * Remove(delete) models. This can be used to do a mass delete of models.
+<span class='line'>380</span>          *
+<span class='line'>381</span>          * @example
+<span class='line'>382</span>          * var User = patio.getModel("user");
+<span class='line'>383</span>          *
+<span class='line'>384</span>          * //remove all users
+<span class='line'>385</span>          * User.remove();
+<span class='line'>386</span>          *
+<span class='line'>387</span>          * //remove all users who's names start with a.
+<span class='line'>388</span>          * User.remove({name : /A%/i});
+<span class='line'>389</span>          *
+<span class='line'>390</span>          * //remove all users who's names start with a, without a transaction.
+<span class='line'>391</span>          * User.remove({name : /A%/i}, {transaction : false});
+<span class='line'>392</span>          *
+<span class='line'>393</span>          * @param {Object} [q] query to filter the rows to remove. See {@link patio.Dataset#filter}.
+<span class='line'>394</span>          * @param {Object} [options] additional options.
+<span class='line'>395</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>396</span>          * removing the models.
+<span class='line'>397</span>          * @param {Boolean} [options.load=true] boolean set to prevent the loading of each model. This is more efficient
+<span class='line'>398</span>          * but the pre/post remove hooks not be notified of the deletion.
+<span class='line'>399</span>          *
+<span class='line'>400</span>          * @return {comb.Promise} called back when the removal completes.
+<span class='line'>401</span>          */</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">        </span><span class="NAME">remove</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">q</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loadEach</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isBoolean</span><span class="PUNC">(</span><span class="NAME">options.load</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options.load</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">            </span><span class="COMM">//first find all records so we call alert the middleware for each model</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">                </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ds.filter.call</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">q</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">loadEach</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">                        </span><span class="COMM">//todo this sucks find a better way!</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r.remove</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds.remove</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>419</span> 
+<span class='line'>420</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>421</span>          * Similar to remove but takes an id or an array for a composite key.
+<span class='line'>422</span>          *
+<span class='line'>423</span>          * @example
+<span class='line'>424</span>          *
+<span class='line'>425</span>          * User.removeById(1);
+<span class='line'>426</span>          *
+<span class='line'>427</span>          * @param id id or an array for a composite key, to find the model by
+<span class='line'>428</span>          * @param {Object} [options] additional options.
+<span class='line'>429</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>430</span>          * removing the model.
+<span class='line'>431</span>          *
+<span class='line'>432</span>          * @return {comb.Promise} called back when the removal completes.
+<span class='line'>433</span>          */</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">        </span><span class="NAME">removeById</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">comb.hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">p</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">                </span><span class="NAME">this.findById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">                    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">                        </span><span class="NAME">model.remove</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">                        </span><span class="NAME">p.callback</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">p</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">p</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>447</span> 
+<span class='line'>448</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>449</span>          * Save either a new model or list of models to the database.
+<span class='line'>450</span>          *
+<span class='line'>451</span>          * @example
+<span class='line'>452</span>          * var Student = patio.getModel("student");
+<span class='line'>453</span>          * Student.save([
+<span class='line'>454</span>          *      {
+<span class='line'>455</span>          *          firstName:"Bob",
+<span class='line'>456</span>          *          lastName:"Yukon",
+<span class='line'>457</span>          *          gpa:3.689,
+<span class='line'>458</span>          *          classYear:"Senior"
+<span class='line'>459</span>          *      },
+<span class='line'>460</span>          *      {
+<span class='line'>461</span>          *          firstName:"Greg",
+<span class='line'>462</span>          *          lastName:"Horn",
+<span class='line'>463</span>          *          gpa:3.689,
+<span class='line'>464</span>          *          classYear:"Sohpmore"
+<span class='line'>465</span>          *      },
+<span class='line'>466</span>          *      {
+<span class='line'>467</span>          *          firstName:"Sara",
+<span class='line'>468</span>          *          lastName:"Malloc",
+<span class='line'>469</span>          *          gpa:4.0,
+<span class='line'>470</span>          *          classYear:"Junior"
+<span class='line'>471</span>          *      },
+<span class='line'>472</span>          *      {
+<span class='line'>473</span>          *          firstName:"John",
+<span class='line'>474</span>          *          lastName:"Favre",
+<span class='line'>475</span>          *          gpa:2.867,
+<span class='line'>476</span>          *          classYear:"Junior"
+<span class='line'>477</span>          *      },
+<span class='line'>478</span>          *      {
+<span class='line'>479</span>          *          firstName:"Kim",
+<span class='line'>480</span>          *          lastName:"Bim",
+<span class='line'>481</span>          *          gpa:2.24,
+<span class='line'>482</span>          *          classYear:"Senior"
+<span class='line'>483</span>          *      },
+<span class='line'>484</span>          *      {
+<span class='line'>485</span>          *          firstName:"Alex",
+<span class='line'>486</span>          *          lastName:"Young",
+<span class='line'>487</span>          *          gpa:1.9,
+<span class='line'>488</span>          *          classYear:"Freshman"
+<span class='line'>489</span>          *      }
+<span class='line'>490</span>          * ]).then(function(users){
+<span class='line'>491</span>          *     //work with the users
+<span class='line'>492</span>          * });
+<span class='line'>493</span>          *
+<span class='line'>494</span>          * Save a single record
+<span class='line'>495</span>          * MyModel.save(m1);
+<span class='line'>496</span>          *
+<span class='line'>497</span>          * @param {patio.Model|Object|patio.Model[]|Object[]} record the record/s to save.
+<span class='line'>498</span>          * @param {Object} [options] additional options.
+<span class='line'>499</span>          * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when
+<span class='line'>500</span>          * saving the models.
+<span class='line'>501</span>          *
+<span class='line'>502</span>          * @return {comb.Promise} called back with the saved record/s.
+<span class='line'>503</span>          */</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">        </span><span class="NAME">save</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._checkTransaction</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ps</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">comb.isArray</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">                    </span><span class="NAME">ps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">items.map</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">                            </span><span class="NAME">o</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">                        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">o.save</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PromiseList</span><span class="PUNC">(</span><span class="NAME">ps</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"callback"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">                    </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">comb.isInstanceOf</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>521</span> </span><span class="WHIT">                            </span><span class="NAME">items</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">(</span><span class="NAME">items</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">                        </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">items.save</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">                        </span><span class="NAME">ret.errback</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">                    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="NAME">exports</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"QueryPlugin"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>533</span> 
+<span class='line'>534</span> </span><span class="NAME">Dataset.ACTION_METHODS.concat</span><span class="PUNC">(</span><span class="NAME">Dataset.QUERY_METHODS</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">QueryPlugin</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">        </span><span class="NAME">QueryPlugin</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.dataset</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ds</span><span class="PUNC">[</span><span class="NAME">m</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">ds</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>542</span> 
+<span class='line'>543</span> </span></pre></body></html>
