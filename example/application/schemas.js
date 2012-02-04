@@ -3,7 +3,7 @@ var patio = require("../../index"),
 
 var DB;
 exports.createTables = function () {
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports",
+    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         function (db) {
             db.forceDropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"]);
             db.createTable("airport", {engine:"innodb"}, function () {
@@ -12,6 +12,7 @@ exports.createTables = function () {
                 this.name(String, {allowNull:false});
                 this.city(String, {allowNull:false});
                 this.state(String, {size:2, allowNull:false});
+                this.index("airport_code");
             });
             db.createTable("airplane_type", {engine:"innodb"}, function () {
                 this.primaryKey("id");
