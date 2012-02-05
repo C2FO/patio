@@ -14,6 +14,7 @@ exports.loadModels = function () {
                 identifierInputMethod:"underscore",
 
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("employees");
                 }
             }
@@ -26,6 +27,7 @@ exports.loadModels = function () {
                 identifierInputMethod:"underscore",
 
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("companies");
                 }
             }

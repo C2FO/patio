@@ -9,6 +9,7 @@ patio.camelize = true;
 comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
 
 //disconnect and error callback helpers
+patio.configureLogging();
 var disconnect = comb.hitch(patio, "disconnect");
 var disconnectError = function(err){
     patio.logError(err);

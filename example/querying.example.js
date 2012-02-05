@@ -6,13 +6,17 @@ var patio = require("../index"),
 
 patio.camelize = true;
 
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+patio.configureLogging();
+patio.LOGGER.level = comb.logging.Level.ERROR;
 
+var DB;
 //disconnect and error callback helpers
-var disconnect = comb.hitch(patio, "disconnect");
+var disconnect = function(){
+    DB.forceDropTable("blog", "user").both(comb.hitch(patio, "disconnect"));
+}
 var disconnectError = function(err){
     patio.logError(err);
-    patio.disconnect();
+    DB.forceDropTable("blog", "user").both(comb.hitch(patio, "disconnect"));
 };
 
 var connectAndCreateSchema = function(){
@@ -39,6 +43,8 @@ var connectAndCreateSchema = function(){
                 this.numFollowers("integer");
                 this.foreignKey("userId", "user", {key:"id"});
             });
+        }).addCallback(function(db){
+            DB = db;
         });
 };
 

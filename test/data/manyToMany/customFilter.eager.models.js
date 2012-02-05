@@ -10,6 +10,7 @@ exports.loadModels = function () {
         var Company = patio.addModel(DB.from("company"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("employees", {fetchType:this.fetchType.EAGER});
                     this.manyToMany("omahaEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
                         return ds.filter(sql.identifier("city").ilike("omaha"));
@@ -23,6 +24,7 @@ exports.loadModels = function () {
         var Employee = patio.addModel(DB.from("employee"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("companies", {fetchType:this.fetchType.EAGER});
                 }
             }
