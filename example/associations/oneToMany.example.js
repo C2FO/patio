@@ -1,4 +1,3 @@
-"use strict";
 var patio = require("../../index"),
     sql = patio.sql,
     comb = require("comb"),
@@ -8,13 +7,13 @@ patio.camelize = true;
 
 //comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
 patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
-    function(db, patio){
+    function (db, patio) {
         db.forceDropTable("child", "biologicalFather");
-        db.createTable("biologicalFather", function(){
+        db.createTable("biologicalFather", function () {
             this.primaryKey("id");
             this.name(String);
         });
-        db.createTable("child", function(){
+        db.createTable("child", function () {
             this.primaryKey("id");
             this.name(String);
             this.foreignKey("biologicalFatherId", "biologicalFather", {key:"id"});
@@ -24,7 +23,8 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         //define the BiologicalFather model
         patio.addModel("biologicalFather", {
             static:{
-                init:function(){
+                init:function () {
+                    this._super(arguments);
                     this.oneToMany("children");
                 }
             }
@@ -34,7 +34,8 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         //define Child  model
         patio.addModel("child", {
             static:{
-                init:function(){
+                init:function () {
+                    this._super(arguments);
                     this.manyToOne("biologicalFather");
                 }
             }
@@ -54,13 +55,13 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
                 {name:"Brad"}
             ]}
         ]);
-        BiologicalFather.forEach(function(father){
+        BiologicalFather.forEach(function (father) {
             //you use a promise now because this is not an
             //executeInOrderBlock
-            return father.children.then(function(children){
+            return father.children.then(function (children) {
                 console.log(father.name + " has " + children.length + " children");
                 if (children.length) {
-                    console.log("The children's names are " + children.map(function(child){
+                    console.log("The children's names are " + children.map(function (child) {
                         return child.name;
                     }))
                 }
@@ -69,7 +70,7 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
         var father =
             patio.logInfo(Child.findById(1).biologicalFather.name);
         patio.logInfo(father.name);
-        patio.logInfo(father.children.map(function(child){
+        patio.logInfo(father.children.map(function (child) {
             return child.name
         }));
     }).both(comb.hitch(patio, "disconnect"));

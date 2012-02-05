@@ -8,7 +8,6 @@ var vows = require('vows'),
 
 var ret = module.exports = exports = new comb.Promise();
 var suite = vows.describe("model object");
-
 var gender = ["M", "F"];
 helper.loadModels().then(function() {
     var Employee = patio.getModel("employee");

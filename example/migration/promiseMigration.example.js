@@ -24,9 +24,9 @@ var migrate = function(){
     patio.migrate(DB, directory).then(function(){
         console.log("Done migrating up");
         checkTables().then(function(){
-            patio.migrate(DB, directory, {target:0}).then(function(){
+            patio.migrate(DB, directory, {target:-1}).then(function(){
                 console.log("\nDone migrating down");
-                migrate();
+                patio.disconnect();
             }, disconnectErr);
         }, disconnectErr);
     }, disconnectErr);

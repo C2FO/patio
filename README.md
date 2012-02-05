@@ -7,6 +7,10 @@ While it is not mandatory it is recommened that you install comb first, as it wi
 
     npm install comb patio
 
+To use the patio executable for migrations
+
+    npm install -g patio
+
 
 ##Example
 

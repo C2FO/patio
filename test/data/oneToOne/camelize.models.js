@@ -12,6 +12,7 @@ exports.loadModels = function () {
                 camelize:true,
 
                 init:function () {
+                    this._super(arguments);
                     this.manyToOne("employee");
                 }
             }
@@ -22,6 +23,7 @@ exports.loadModels = function () {
                 camelize:true,
 
                 init:function () {
+                    this._super(arguments);
                     this.oneToOne("works");
                 }
             }

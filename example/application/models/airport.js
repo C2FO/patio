@@ -7,6 +7,7 @@ patio.addModel("airport", {
 
     static:{
         init:function () {
+            this._super(arguments);
             this.manyToMany("supportedAirplaneTypes", {
                 joinTable:"canLand",
                 model:"airplaneType"

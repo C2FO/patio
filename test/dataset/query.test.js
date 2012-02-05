@@ -736,6 +736,11 @@ suite.addBatch({
             assert.equal(dataset.select("a", "b", "test__c").sql, 'SELECT a, b, test.c FROM test');
         },
 
+        "should accept ColumnAll expression" : function(dataset){
+            assert.equal(dataset.select(sql.test.all()).sql, 'SELECT test.* FROM test');
+            assert.equal(dataset.select(new sql.ColumnAll("test")).sql, 'SELECT test.* FROM test');
+        },
+
         "should accept strings and literal strings":function (dataset) {
             assert.equal(dataset.select("aaa").sql, 'SELECT aaa FROM test');
             assert.equal(dataset.select("a", "b").sql, 'SELECT a, b FROM test');
