@@ -295,539 +295,589 @@
 <span class='line'>288</span>          *
 <span class='line'>289</span>          *
 <span class='line'>290</span>          * @param {String|patio.Dataset} table the table to use as the base for the model.
-<span class='line'>291</span>          * @param {Object} proto an object to be used as the prototype for the model. See
-<span class='line'>292</span>          * &lt;a href="http://pollenware.github.com/comb/symbols/comb.html#.define">comb.define&lt;/a>.
-<span class='line'>293</span>          * @param [Object[]] [proto.plugins] this can be used to specify additional plugins to use such as.
-<span class='line'>294</span>          * &lt;ul>
-<span class='line'>295</span>          *     &lt;li>{@link patio.plugins.TimeStampPlugin&lt;/li>
-<span class='line'>296</span>          *     &lt;li>{@link patio.plugins.CachePlugin&lt;/li>
-<span class='line'>297</span>          * &lt;/ul>
-<span class='line'>298</span>          *
-<span class='line'>299</span>          *
+<span class='line'>291</span>          * @param {patio.Model|patio.Model[]} Parent models of this model.
+<span class='line'>292</span>          *                  See {@link patio.plugins.ClassTableInheritancePlugin}.
+<span class='line'>293</span>          * @param {Object} [proto] an object to be used as the prototype for the model. See
+<span class='line'>294</span>          * &lt;a href="http://pollenware.github.com/comb/symbols/comb.html#.define">comb.define&lt;/a>.
+<span class='line'>295</span>          * @param [Object[]] [proto.plugins] this can be used to specify additional plugins to use such as.
+<span class='line'>296</span>          * &lt;ul>
+<span class='line'>297</span>          *     &lt;li>{@link patio.plugins.TimeStampPlugin&lt;/li>
+<span class='line'>298</span>          *     &lt;li>{@link patio.plugins.CachePlugin&lt;/li>
+<span class='line'>299</span>          * &lt;/ul>
 <span class='line'>300</span>          *
-<span class='line'>301</span>          */</span><span class="WHIT">
-<span class='line'>302</span> </span><span class="WHIT">        </span><span class="NAME">addModel</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">table</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">proto</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>303</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>304</span> </span><span class="WHIT">            </span><span class="NAME">model.create</span><span class="PUNC">(</span><span class="NAME">table</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">proto</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>307</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>308</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>309</span> 
-<span class='line'>310</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>311</span>          * Returns a model from the name of the table for which the model was created.
-<span class='line'>312</span>          *
-<span class='line'>313</span>          * &lt;pre class="code">
-<span class='line'>314</span>          * patio.addModel("test_model").then(function(){
-<span class='line'>315</span>          *      var TestModel = patio.getModel("test_model");
-<span class='line'>316</span>          * });
-<span class='line'>317</span>          * &lt;/pre>
-<span class='line'>318</span>          *
-<span class='line'>319</span>          * If you have two tables with the same name in different databases then you can use the db parameter also.
+<span class='line'>301</span>          *
+<span class='line'>302</span>          *
+<span class='line'>303</span>          */</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">        </span><span class="NAME">addModel</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">table</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">supers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">proto</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">            </span><span class="NAME">model.create.apply</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">then</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">                </span><span class="NAME">ret.callback</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"errback"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>311</span> 
+<span class='line'>312</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>313</span>          * Returns a model from the name of the table for which the model was created.
+<span class='line'>314</span>          *
+<span class='line'>315</span>          * &lt;pre class="code">
+<span class='line'>316</span>          * patio.addModel("test_model").then(function(){
+<span class='line'>317</span>          *      var TestModel = patio.getModel("test_model");
+<span class='line'>318</span>          * });
+<span class='line'>319</span>          * &lt;/pre>
 <span class='line'>320</span>          *
-<span class='line'>321</span>          * &lt;pre class="code">
-<span class='line'>322</span>          * var DB1 = patio.createConnection("mysql://test:testpass@localhost:3306/test_1");
-<span class='line'>323</span>          * var DB2 = patio.createConnection("mysql://test:testpass@localhost:3306/test_2");
-<span class='line'>324</span>          * comb.executeInOrder(patio, function(patio){
-<span class='line'>325</span>          *     patio.addModel(DB1.from("test");
-<span class='line'>326</span>          *     patio.addModel(DB2.from("test");
-<span class='line'>327</span>          * }).then(function(){
-<span class='line'>328</span>          *      var DB1Test = patio.getModel("test", DB1);
-<span class='line'>329</span>          *      var DB2Test = patio.getModel("test", DB2);
-<span class='line'>330</span>          * });
-<span class='line'>331</span>          *
-<span class='line'>332</span>          * &lt;/pre>
+<span class='line'>321</span>          * If you have two tables with the same name in different databases then you can use the db parameter also.
+<span class='line'>322</span>          *
+<span class='line'>323</span>          * &lt;pre class="code">
+<span class='line'>324</span>          * var DB1 = patio.createConnection("mysql://test:testpass@localhost:3306/test_1");
+<span class='line'>325</span>          * var DB2 = patio.createConnection("mysql://test:testpass@localhost:3306/test_2");
+<span class='line'>326</span>          * comb.executeInOrder(patio, function(patio){
+<span class='line'>327</span>          *     patio.addModel(DB1.from("test");
+<span class='line'>328</span>          *     patio.addModel(DB2.from("test");
+<span class='line'>329</span>          * }).then(function(){
+<span class='line'>330</span>          *      var DB1Test = patio.getModel("test", DB1);
+<span class='line'>331</span>          *      var DB2Test = patio.getModel("test", DB2);
+<span class='line'>332</span>          * });
 <span class='line'>333</span>          *
-<span class='line'>334</span>          * @param {String} name the name of the table that the model represents.
-<span class='line'>335</span>          * @param {@patio.Database} [db] optional database in case you have two models with the same table names in
-<span class='line'>336</span>          *                               different databases.
-<span class='line'>337</span>          */</span><span class="WHIT">
-<span class='line'>338</span> </span><span class="WHIT">        </span><span class="NAME">getModel</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>339</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">model.getModel</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>340</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>341</span> 
-<span class='line'>342</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>343</span>          * @private
-<span class='line'>344</span>          *
-<span class='line'>345</span>          * Proxies all {@link patio#addModel} calls to allow for the easy import of a group of models that
-<span class='line'>346</span>          * are in a directory.
-<span class='line'>347</span>          * @param file
-<span class='line'>348</span>          */</span><span class="WHIT">
-<span class='line'>349</span> </span><span class="WHIT">        </span><span class="NAME">__addModelProxy</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>350</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>351</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">repl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>352</span> 
-<span class='line'>353</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">orig</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="STRN">"addModel"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>354</span> </span><span class="WHIT">            </span><span class="NAME">repl.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="STRN">"addModel"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">orig</span><span class="PUNC">:</span><span class="NAME">orig</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>355</span> </span><span class="WHIT">            </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="STRN">"addModel"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg2</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>356</span> </span><span class="WHIT">                </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>357</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>358</span> </span><span class="WHIT">                    </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">orig.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>359</span> </span><span class="WHIT">                    </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="NAME">comb.when</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>360</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>361</span> </span><span class="WHIT">                    </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">errback</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>362</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>363</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>364</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>365</span> </span><span class="WHIT">            </span><span class="NAME">require</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>366</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">promises.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>367</span> </span><span class="WHIT">                </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>368</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>369</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PromiseList</span><span class="PUNC">(</span><span class="NAME">promises</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">both</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>370</span> </span><span class="WHIT">                </span><span class="NAME">repl.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>371</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">o.name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.orig</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>372</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>373</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>374</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>375</span> 
-<span class='line'>376</span> </span><span class="WHIT">        </span><span class="NAME">resetIdentifierMethods</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>377</span> </span><span class="WHIT">            </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>378</span> </span><span class="WHIT">            </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>379</span> </span><span class="WHIT">            </span><span class="NAME">Model.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>380</span> </span><span class="WHIT">            </span><span class="NAME">Model.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>381</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>382</span> 
-<span class='line'>383</span> 
-<span class='line'>384</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>385</span>          * Migrates the database using migration files found in the supplied directory.
-<span class='line'>386</span>          * &lt;br/>
-<span class='line'>387</span>          * &lt;br/>
-<span class='line'>388</span>          * &lt;div>
-<span class='line'>389</span>          *     &lt;h3>Integer Migrations&lt;/h3>
-<span class='line'>390</span>          *      Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations.
-<span class='line'>391</span>          *      In order for patio to determine which versions to use the file names must end in &lt;versionNumber>.js where
-<span class='line'>392</span>          *      versionNumber is a integer value representing the version number. &lt;b>NOTE:&lt;/b>With integer migrations
-<span class='line'>393</span>          *      missing versions are not allowed.
-<span class='line'>394</span>          *      &lt;br/>
-<span class='line'>395</span>          *      &lt;br/>
-<span class='line'>396</span>          *      An example directory structure might look like the following:
-<span class='line'>397</span>          *
-<span class='line'>398</span>          *      &lt;pre class="code">
-<span class='line'>399</span>          * -migrations
-<span class='line'>400</span>          *      - createFirstTables.0.js
-<span class='line'>401</span>          *      - shortDescription.1.js
-<span class='line'>402</span>          *      - another.2.js
-<span class='line'>403</span>          *      .
-<span class='line'>404</span>          *      .
+<span class='line'>334</span>          * &lt;/pre>
+<span class='line'>335</span>          *
+<span class='line'>336</span>          * @param {String} name the name of the table that the model represents.
+<span class='line'>337</span>          * @param {@patio.Database} [db] optional database in case you have two models with the same table names in
+<span class='line'>338</span>          *                               different databases.
+<span class='line'>339</span>          */</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">        </span><span class="NAME">getModel</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">model.getModel</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span> 
+<span class='line'>344</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>345</span>          * @private
+<span class='line'>346</span>          *
+<span class='line'>347</span>          * Proxies all {@link patio#addModel} calls to allow for the easy import of a group of models that
+<span class='line'>348</span>          * are in a directory.
+<span class='line'>349</span>          * @param file
+<span class='line'>350</span>          */</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">        </span><span class="NAME">__addModelProxy</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">promises</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">repl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> 
+<span class='line'>355</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">orig</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="STRN">"addModel"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">            </span><span class="NAME">repl.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">name</span><span class="PUNC">:</span><span class="STRN">"addModel"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">orig</span><span class="PUNC">:</span><span class="NAME">orig</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">            </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="STRN">"addModel"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">arg1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arg2</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">                </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">                    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">                    </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">orig.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>361</span> </span><span class="WHIT">                    </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="NAME">comb.when</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">                    </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">errback</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>365</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">            </span><span class="NAME">require</span><span class="PUNC">(</span><span class="NAME">file</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">promises.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">                </span><span class="NAME">promises.push</span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Promise</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">PromiseList</span><span class="PUNC">(</span><span class="NAME">promises</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">both</span><span class="PUNC">(</span><span class="NAME">hitch</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">                </span><span class="NAME">repl.forEach</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">o.name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.orig</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>377</span> 
+<span class='line'>378</span> </span><span class="WHIT">        </span><span class="NAME">resetIdentifierMethods</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">            </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">            </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">            </span><span class="NAME">Model.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">            </span><span class="NAME">Model.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>384</span> 
+<span class='line'>385</span> 
+<span class='line'>386</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>387</span>          * Migrates the database using migration files found in the supplied directory.
+<span class='line'>388</span>          * &lt;br/>
+<span class='line'>389</span>          * &lt;br/>
+<span class='line'>390</span>          * &lt;div>
+<span class='line'>391</span>          *     &lt;h3>Integer Migrations&lt;/h3>
+<span class='line'>392</span>          *      Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations.
+<span class='line'>393</span>          *      In order for patio to determine which versions to use the file names must end in &lt;versionNumber>.js where
+<span class='line'>394</span>          *      versionNumber is a integer value representing the version number. &lt;b>NOTE:&lt;/b>With integer migrations
+<span class='line'>395</span>          *      missing versions are not allowed.
+<span class='line'>396</span>          *      &lt;br/>
+<span class='line'>397</span>          *      &lt;br/>
+<span class='line'>398</span>          *      An example directory structure might look like the following:
+<span class='line'>399</span>          *
+<span class='line'>400</span>          *      &lt;pre class="code">
+<span class='line'>401</span>          * -migrations
+<span class='line'>402</span>          *      - createFirstTables.0.js
+<span class='line'>403</span>          *      - shortDescription.1.js
+<span class='line'>404</span>          *      - another.2.js
 <span class='line'>405</span>          *      .
-<span class='line'>406</span>          *      -lastMigration.n.js
-<span class='line'>407</span>          *      &lt;/pre>
-<span class='line'>408</span>          *      In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
-<span class='line'>409</span>          *      but meaningful migration name.
-<span class='line'>410</span>          *      &lt;pre class="code">
-<span class='line'>411</span>          *          createEmployee.0.js
-<span class='line'>412</span>          *          alterEmployeeNameColumn.1.js
-<span class='line'>413</span>          *      &lt;/pre>
-<span class='line'>414</span>          *&lt;/div>
-<span class='line'>415</span>          *
-<span class='line'>416</span>          * &lt;div>
-<span class='line'>417</span>          *     &lt;h3>Timestamp Migrations&lt;/h3>
-<span class='line'>418</span>          *      Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially
-<span class='line'>419</span>          *      with development teams. This is because Timestamp migrations do not require consecutive version numbers,
-<span class='line'>420</span>          *      ,allow for duplicate version numbers(but this should be avoided), keeps track of all currently applied migrations,
-<span class='line'>421</span>          *      and it will merge missing migrations. In order for patio to determine the order of the migration files
-<span class='line'>422</span>          *      the file names must end in &lt;timestamp>.js where the timestamp can be any form of a time stamp.
-<span class='line'>423</span>          *      &lt;pre class="code">
-<span class='line'>424</span>          * //yyyyMMdd
-<span class='line'>425</span>          * 20110131
-<span class='line'>426</span>          * //yyyyMMddHHmmss
-<span class='line'>427</span>          * 20110131123940
-<span class='line'>428</span>          * //unix epoch timestamp
-<span class='line'>429</span>          * 1328035161
-<span class='line'>430</span>          *      &lt;/pre>
-<span class='line'>431</span>          *      as long as it is greater than 20000101 other wise it will be assumed to be part of an integer migration.
-<span class='line'>432</span>          *      &lt;br/>
-<span class='line'>433</span>          *      &lt;br/>
-<span class='line'>434</span>          *      An example directory structure might look like the following:
-<span class='line'>435</span>          *
-<span class='line'>436</span>          *      &lt;pre class="code">
-<span class='line'>437</span>          * -migrations
-<span class='line'>438</span>          *      - createFirstTables.1328035161.js
-<span class='line'>439</span>          *      - shortDescription.1328035360.js
-<span class='line'>440</span>          *      - another.1328035376.js
-<span class='line'>441</span>          *      .
-<span class='line'>442</span>          *      .
+<span class='line'>406</span>          *      .
+<span class='line'>407</span>          *      .
+<span class='line'>408</span>          *      -lastMigration.n.js
+<span class='line'>409</span>          *      &lt;/pre>
+<span class='line'>410</span>          *      In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
+<span class='line'>411</span>          *      but meaningful migration name.
+<span class='line'>412</span>          *      &lt;pre class="code">
+<span class='line'>413</span>          *          createEmployee.0.js
+<span class='line'>414</span>          *          alterEmployeeNameColumn.1.js
+<span class='line'>415</span>          *      &lt;/pre>
+<span class='line'>416</span>          *&lt;/div>
+<span class='line'>417</span>          *
+<span class='line'>418</span>          * &lt;div>
+<span class='line'>419</span>          *     &lt;h3>Timestamp Migrations&lt;/h3>
+<span class='line'>420</span>          *      Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially
+<span class='line'>421</span>          *      with development teams. This is because Timestamp migrations do not require consecutive version numbers,
+<span class='line'>422</span>          *      ,allow for duplicate version numbers(but this should be avoided), keeps track of all currently applied migrations,
+<span class='line'>423</span>          *      and it will merge missing migrations. In order for patio to determine the order of the migration files
+<span class='line'>424</span>          *      the file names must end in &lt;timestamp>.js where the timestamp can be any form of a time stamp.
+<span class='line'>425</span>          *      &lt;pre class="code">
+<span class='line'>426</span>          * //yyyyMMdd
+<span class='line'>427</span>          * 20110131
+<span class='line'>428</span>          * //yyyyMMddHHmmss
+<span class='line'>429</span>          * 20110131123940
+<span class='line'>430</span>          * //unix epoch timestamp
+<span class='line'>431</span>          * 1328035161
+<span class='line'>432</span>          *      &lt;/pre>
+<span class='line'>433</span>          *      as long as it is greater than 20000101 other wise it will be assumed to be part of an integer migration.
+<span class='line'>434</span>          *      &lt;br/>
+<span class='line'>435</span>          *      &lt;br/>
+<span class='line'>436</span>          *      An example directory structure might look like the following:
+<span class='line'>437</span>          *
+<span class='line'>438</span>          *      &lt;pre class="code">
+<span class='line'>439</span>          * -migrations
+<span class='line'>440</span>          *      - createFirstTables.1328035161.js
+<span class='line'>441</span>          *      - shortDescription.1328035360.js
+<span class='line'>442</span>          *      - another.1328035376.js
 <span class='line'>443</span>          *      .
-<span class='line'>444</span>          *      -lastMigration.n.js
-<span class='line'>445</span>          *      &lt;/pre>
-<span class='line'>446</span>          *      In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
-<span class='line'>447</span>          *      but meaningful migration name.
-<span class='line'>448</span>          *      &lt;pre class="code">
-<span class='line'>449</span>          *          createEmployee.1328035161.js
-<span class='line'>450</span>          *          alterEmployeeNameColumn.1328035360.js
-<span class='line'>451</span>          *      &lt;/pre>
-<span class='line'>452</span>          *&lt;/div>
-<span class='line'>453</span>          *
-<span class='line'>454</span>          * &lt;b>NOTE:&lt;/b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
-<span class='line'>455</span>          * patio will attempt the migrate the current schema to the timestamp based migration schema.
-<span class='line'>456</span>          *
-<span class='line'>457</span>          * &lt;div>
-<span class='line'>458</span>          * In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
-<span class='line'>459</span>          *
-<span class='line'>460</span>          * &lt;pre class="code">
-<span class='line'>461</span>          *  var DB = patio.connect("my://connection/string");
-<span class='line'>462</span>          *  patio.migrate(DB, __dirname + "/migrations").then(function(){
-<span class='line'>463</span>          *      console.log("migrations finished");
-<span class='line'>464</span>          *  });
-<span class='line'>465</span>          * &lt;/pre>
-<span class='line'>466</span>          *
-<span class='line'>467</span>          * &lt;b>Example migration file&lt;/b>
-<span class='line'>468</span>          * &lt;pre class="code">
-<span class='line'>469</span>          *
-<span class='line'>470</span>          * //Up function used to migrate up a version
-<span class='line'>471</span>          * exports.up = function(db) {
-<span class='line'>472</span>          *   //create a new table
-<span class='line'>473</span>          *   db.createTable("company", function() {
-<span class='line'>474</span>          *       this.primaryKey("id");
-<span class='line'>475</span>          *       this.companyName(String, {size : 20, allowNull : false});
-<span class='line'>476</span>          *   });
-<span class='line'>477</span>          *   db.createTable("employee", function(table) {
-<span class='line'>478</span>          *       this.primaryKey("id");
-<span class='line'>479</span>          *       this.firstName(String);
-<span class='line'>480</span>          *       this.lastName(String);
-<span class='line'>481</span>          *       this.middleInitial("char", {size : 1});
-<span class='line'>482</span>          *   });
-<span class='line'>483</span>          *};
-<span class='line'>484</span>          *
-<span class='line'>485</span>          * //Down function used to migrate down version
-<span class='line'>486</span>          *exports.down = function(db) {
-<span class='line'>487</span>          *    db.dropTable("employee", "company");
-<span class='line'>488</span>          *};
-<span class='line'>489</span>          * &lt;/pre>
-<span class='line'>490</span>          *
-<span class='line'>491</span>          *&lt;/div>
+<span class='line'>444</span>          *      .
+<span class='line'>445</span>          *      .
+<span class='line'>446</span>          *      -lastMigration.n.js
+<span class='line'>447</span>          *      &lt;/pre>
+<span class='line'>448</span>          *      In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
+<span class='line'>449</span>          *      but meaningful migration name.
+<span class='line'>450</span>          *      &lt;pre class="code">
+<span class='line'>451</span>          *          createEmployee.1328035161.js
+<span class='line'>452</span>          *          alterEmployeeNameColumn.1328035360.js
+<span class='line'>453</span>          *      &lt;/pre>
+<span class='line'>454</span>          *&lt;/div>
+<span class='line'>455</span>          *
+<span class='line'>456</span>          * &lt;b>NOTE:&lt;/b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
+<span class='line'>457</span>          * patio will attempt the migrate the current schema to the timestamp based migration schema.
+<span class='line'>458</span>          *
+<span class='line'>459</span>          * &lt;div>
+<span class='line'>460</span>          * In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
+<span class='line'>461</span>          *
+<span class='line'>462</span>          * &lt;pre class="code">
+<span class='line'>463</span>          *  var DB = patio.connect("my://connection/string");
+<span class='line'>464</span>          *  patio.migrate(DB, __dirname + "/migrations").then(function(){
+<span class='line'>465</span>          *      console.log("migrations finished");
+<span class='line'>466</span>          *  });
+<span class='line'>467</span>          * &lt;/pre>
+<span class='line'>468</span>          *
+<span class='line'>469</span>          * &lt;b>Example migration file&lt;/b>
+<span class='line'>470</span>          * &lt;pre class="code">
+<span class='line'>471</span>          *
+<span class='line'>472</span>          * //Up function used to migrate up a version
+<span class='line'>473</span>          * exports.up = function(db) {
+<span class='line'>474</span>          *   //create a new table
+<span class='line'>475</span>          *   db.createTable("company", function() {
+<span class='line'>476</span>          *       this.primaryKey("id");
+<span class='line'>477</span>          *       this.companyName(String, {size : 20, allowNull : false});
+<span class='line'>478</span>          *   });
+<span class='line'>479</span>          *   db.createTable("employee", function(table) {
+<span class='line'>480</span>          *       this.primaryKey("id");
+<span class='line'>481</span>          *       this.firstName(String);
+<span class='line'>482</span>          *       this.lastName(String);
+<span class='line'>483</span>          *       this.middleInitial("char", {size : 1});
+<span class='line'>484</span>          *   });
+<span class='line'>485</span>          *};
+<span class='line'>486</span>          *
+<span class='line'>487</span>          * //Down function used to migrate down version
+<span class='line'>488</span>          *exports.down = function(db) {
+<span class='line'>489</span>          *    db.dropTable("employee", "company");
+<span class='line'>490</span>          *};
+<span class='line'>491</span>          * &lt;/pre>
 <span class='line'>492</span>          *
-<span class='line'>493</span>          * @param {String|patio.Database} db the database or connection string to a database to migrate.
-<span class='line'>494</span>          * @param {String} directory directory that the migration files reside in
-<span class='line'>495</span>          * @param {Object} [opts={}] optional parameters.
-<span class='line'>496</span>          * @param {String} [opts.column] the column in the table that version information should be stored.
-<span class='line'>497</span>          * @param {String} [opts.table] the table that version information should be stored.
-<span class='line'>498</span>          * @param {Number} [opts.target] the target migration(i.e the migration to migrate up/down to).
-<span class='line'>499</span>          * @param {String} [opts.current] the version that the database is currently at if the current version
-<span class='line'>500</span>          * is not provided it is retrieved from the database.
-<span class='line'>501</span>          *
-<span class='line'>502</span>          * @return {Promise} a promise that is resolved once the migration is complete.
-<span class='line'>503</span>          */</span><span class="WHIT">
-<span class='line'>504</span> </span><span class="WHIT">        </span><span class="NAME">migrate</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>505</span> </span><span class="WHIT">            </span><span class="NAME">db</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isString</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.connect</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>506</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>507</span> </span><span class="WHIT">            </span><span class="NAME">args.splice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>508</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">migrate.run.apply</span><span class="PUNC">(</span><span class="NAME">migrate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">db</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">concat</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>509</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>510</span> 
-<span class='line'>511</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>512</span>          * Logs an INFO level message to the "patio" logger.
-<span class='line'>513</span>          */</span><span class="WHIT">
-<span class='line'>514</span> </span><span class="WHIT">        </span><span class="NAME">logInfo</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>515</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isInfo</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>516</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.info.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>517</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>518</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>519</span> 
-<span class='line'>520</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>521</span>          * Logs a DEBUG level message to the "patio" logger.
-<span class='line'>522</span>          */</span><span class="WHIT">
-<span class='line'>523</span> </span><span class="WHIT">        </span><span class="NAME">logDebug</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>524</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isDebug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>525</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.debug.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>526</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>527</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>528</span> 
-<span class='line'>529</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>530</span>          * Logs an ERROR level message to the "patio" logger.
-<span class='line'>531</span>          */</span><span class="WHIT">
-<span class='line'>532</span> </span><span class="WHIT">        </span><span class="NAME">logError</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>533</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isError</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>534</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.error.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>535</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>536</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>537</span> 
-<span class='line'>538</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>539</span>          * Logs a WARN level message to the "patio" logger.
+<span class='line'>493</span>          *&lt;/div>
+<span class='line'>494</span>          *
+<span class='line'>495</span>          * @param {String|patio.Database} db the database or connection string to a database to migrate.
+<span class='line'>496</span>          * @param {String} directory directory that the migration files reside in
+<span class='line'>497</span>          * @param {Object} [opts={}] optional parameters.
+<span class='line'>498</span>          * @param {String} [opts.column] the column in the table that version information should be stored.
+<span class='line'>499</span>          * @param {String} [opts.table] the table that version information should be stored.
+<span class='line'>500</span>          * @param {Number} [opts.target] the target migration(i.e the migration to migrate up/down to).
+<span class='line'>501</span>          * @param {String} [opts.current] the version that the database is currently at if the current version
+<span class='line'>502</span>          * is not provided it is retrieved from the database.
+<span class='line'>503</span>          *
+<span class='line'>504</span>          * @return {Promise} a promise that is resolved once the migration is complete.
+<span class='line'>505</span>          */</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">        </span><span class="NAME">migrate</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">            </span><span class="NAME">db</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.isString</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.connect</span><span class="PUNC">(</span><span class="NAME">db</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">db</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">comb.argsToArray</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">            </span><span class="NAME">args.splice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">migrate.run.apply</span><span class="PUNC">(</span><span class="NAME">migrate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">db</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">concat</span><span class="PUNC">(</span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>512</span> 
+<span class='line'>513</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>514</span>          * This can be used to configure logging. If a options
+<span class='line'>515</span>          * hash is passed in then it will passed to the comb.logging.PropertyConfigurator.
+<span class='line'>516</span>          * If the options are omitted then a ConsoleAppender will be added and the level will
+<span class='line'>517</span>          * be set to info.
+<span class='line'>518</span>          *
+<span class='line'>519</span>          * @example
+<span class='line'>520</span>          * var config = {
+<span class='line'>521</span>          *     "patio" : {
+<span class='line'>522</span>          *         level : "INFO",
+<span class='line'>523</span>          *         appenders : [
+<span class='line'>524</span>          *             {
+<span class='line'>525</span>          *                 type : "RollingFileAppender",
+<span class='line'>526</span>          *                 file : "/var/log/patio.log",
+<span class='line'>527</span>          *             },
+<span class='line'>528</span>          *             {
+<span class='line'>529</span>          *                 type : "RollingFileAppender",
+<span class='line'>530</span>          *                 file : "/var/log/patio-error.log",
+<span class='line'>531</span>          *                 name : "errorFileAppender",
+<span class='line'>532</span>          *                 level : "ERROR"
+<span class='line'>533</span>          *             }
+<span class='line'>534</span>          *         ]
+<span class='line'>535</span>          * };
+<span class='line'>536</span>          *
+<span class='line'>537</span>          * patio.configureLogging(config);
+<span class='line'>538</span>          *
+<span class='line'>539</span>          * @param opts
 <span class='line'>540</span>          */</span><span class="WHIT">
-<span class='line'>541</span> </span><span class="WHIT">        </span><span class="NAME">logWarn</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>542</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isWarn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>543</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.warn.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>544</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>545</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>546</span> 
-<span class='line'>547</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>548</span>          * Logs a TRACE level message to the "patio" logger.
-<span class='line'>549</span>          */</span><span class="WHIT">
-<span class='line'>550</span> </span><span class="WHIT">        </span><span class="NAME">logTrace</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>551</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isTrace</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>552</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.trace.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>553</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>554</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>555</span> 
-<span class='line'>556</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>557</span>          * Logs a FATAL level message to the "patio" logger.
-<span class='line'>558</span>          */</span><span class="WHIT">
-<span class='line'>559</span> </span><span class="WHIT">        </span><span class="NAME">logFatal</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>560</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isFatal</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>561</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.fatal.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>562</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>563</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>564</span> 
-<span class='line'>565</span> 
-<span class='line'>566</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>567</span> </span><span class="WHIT">        </span><span class="NAME">getters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>568</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
-<span class='line'>569</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>570</span>              * An array of databases that are currently connected.
-<span class='line'>571</span>              * @field
-<span class='line'>572</span>              * @type patio.Database[]
-<span class='line'>573</span>              */</span><span class="WHIT">
-<span class='line'>574</span> </span><span class="WHIT">            </span><span class="NAME">DATABASES</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>575</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.DATABASES</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>576</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>577</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>578</span>              * Returns the default database. This is the first database created using {@link patio#connect}.
-<span class='line'>579</span>              * @field
-<span class='line'>580</span>              * @type patio.Database
-<span class='line'>581</span>              */</span><span class="WHIT">
-<span class='line'>582</span> </span><span class="WHIT">            </span><span class="NAME">defaultDatabase</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>583</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.DATABASES.length</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.DATABASES</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>584</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>585</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>586</span> </span><span class="WHIT">            </span><span class="NAME">Database</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>587</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>588</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>589</span> 
-<span class='line'>590</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>591</span> </span><span class="WHIT">            </span><span class="NAME">Dataset</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>592</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Dataset</span><span class="WHIT">
-<span class='line'>593</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">        </span><span class="NAME">configureLogging</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">comb.isHash</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">                </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.logging.PropertyConfigurator</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">configure</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="KEYW">else</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>545</span> </span><span class="WHIT">                </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">comb.logging.BasicConfigurator</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">configure</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.level</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"info"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>549</span> 
+<span class='line'>550</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>551</span>          * Logs an INFO level message to the "patio" logger.
+<span class='line'>552</span>          */</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">        </span><span class="NAME">logInfo</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isInfo</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.info.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>558</span> 
+<span class='line'>559</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>560</span>          * Logs a DEBUG level message to the "patio" logger.
+<span class='line'>561</span>          */</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">        </span><span class="NAME">logDebug</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isDebug</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>564</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.debug.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>567</span> 
+<span class='line'>568</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>569</span>          * Logs an ERROR level message to the "patio" logger.
+<span class='line'>570</span>          */</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">        </span><span class="NAME">logError</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isError</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.error.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>576</span> 
+<span class='line'>577</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>578</span>          * Logs a WARN level message to the "patio" logger.
+<span class='line'>579</span>          */</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">        </span><span class="NAME">logWarn</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isWarn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.warn.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>585</span> 
+<span class='line'>586</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>587</span>          * Logs a TRACE level message to the "patio" logger.
+<span class='line'>588</span>          */</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">        </span><span class="NAME">logTrace</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isTrace</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.trace.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>594</span> 
-<span class='line'>595</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>596</span> </span><span class="WHIT">            </span><span class="NAME">SQL</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>597</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">SQL</span><span class="WHIT">
-<span class='line'>598</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>599</span> 
-<span class='line'>600</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>601</span> </span><span class="WHIT">            </span><span class="NAME">sql</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>602</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">SQL</span><span class="WHIT">
-<span class='line'>603</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>596</span>          * Logs a FATAL level message to the "patio" logger.
+<span class='line'>597</span>          */</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">        </span><span class="NAME">logFatal</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">LOGGER.isFatal</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">                </span><span class="NAME">LOGGER.fatal.apply</span><span class="PUNC">(</span><span class="NAME">LOGGER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>603</span> 
 <span class='line'>604</span> 
-<span class='line'>605</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>606</span> </span><span class="WHIT">            </span><span class="NAME">plugins</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>607</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">plugins</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>608</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>609</span> 
-<span class='line'>610</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>611</span> </span><span class="WHIT">            </span><span class="NAME">migrations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>612</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">migrate</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>613</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>614</span> 
-<span class='line'>615</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>616</span>              * @ignore
-<span class='line'>617</span>              * @field
-<span class='line'>618</span>              * @type String
-<span class='line'>619</span>              * Returns the default method used to transform identifiers sent to the database.
+<span class='line'>605</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>606</span> </span><span class="WHIT">        </span><span class="NAME">getters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>607</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
+<span class='line'>608</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>609</span>              * An array of databases that are currently connected.
+<span class='line'>610</span>              * @field
+<span class='line'>611</span>              * @type patio.Database[]
+<span class='line'>612</span>              */</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">            </span><span class="NAME">DATABASES</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.DATABASES</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>617</span>              * Returns the default database. This is the first database created using {@link patio#connect}.
+<span class='line'>618</span>              * @field
+<span class='line'>619</span>              * @type patio.Database
 <span class='line'>620</span>              */</span><span class="WHIT">
-<span class='line'>621</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>622</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierInputMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>621</span> </span><span class="WHIT">            </span><span class="NAME">defaultDatabase</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.DATABASES.length</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.DATABASES</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>623</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>624</span> 
-<span class='line'>625</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>626</span>              * @ignore
-<span class='line'>627</span>              * @field
-<span class='line'>628</span>              * @type String
-<span class='line'>629</span>              * Returns the default method used to transform identifiers returned from the database.
-<span class='line'>630</span>              */</span><span class="WHIT">
-<span class='line'>631</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>632</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierOutputMethod</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>633</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>634</span> 
-<span class='line'>635</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>636</span>              * @ignore
-<span class='line'>637</span>              * @type Boolean
-<span class='line'>638</span>              * Returns whether or not identifiers are quoted before being sent to the database.
-<span class='line'>639</span>              */</span><span class="WHIT">
-<span class='line'>640</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>641</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.quoteIdentifiers</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>625</span> </span><span class="WHIT">            </span><span class="NAME">Database</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>626</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>627</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>628</span> 
+<span class='line'>629</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">            </span><span class="NAME">Dataset</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Dataset</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>633</span> 
+<span class='line'>634</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">            </span><span class="NAME">SQL</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">SQL</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>638</span> 
+<span class='line'>639</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>640</span> </span><span class="WHIT">            </span><span class="NAME">sql</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">SQL</span><span class="WHIT">
 <span class='line'>642</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>643</span> 
 <span class='line'>644</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>645</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>646</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>645</span> </span><span class="WHIT">            </span><span class="NAME">plugins</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>646</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">plugins</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>647</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>648</span> 
 <span class='line'>649</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>650</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>651</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>652</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>650</span> </span><span class="WHIT">            </span><span class="NAME">migrations</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">migrate</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>653</span> 
-<span class='line'>654</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>655</span> 
-<span class='line'>656</span> 
-<span class='line'>657</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
-<span class='line'>658</span> </span><span class="WHIT">        </span><span class="NAME">setters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>659</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
-<span class='line'>660</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>661</span>              * @field
-<span class='line'>662</span>              * @type String
-<span class='line'>663</span>              *  Set the method to call on identifiers going into the database.  This affects
-<span class='line'>664</span>              * how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
-<span class='line'>665</span>              * use camelize. The method can include
-<span class='line'>666</span>              * &lt;ul>
-<span class='line'>667</span>              *     &lt;li>toUpperCase&lt;/li>
-<span class='line'>668</span>              *     &lt;li>toLowerCase&lt;/li>
-<span class='line'>669</span>              *     &lt;li>camelize&lt;/li>
-<span class='line'>670</span>              *     &lt;li>underscore&lt;/li>
-<span class='line'>671</span>              *     &lt;li>Other String instance method names.&lt;/li>
-<span class='line'>672</span>              * &lt;/ul>
-<span class='line'>673</span>              *
-<span class='line'>674</span>              * patio uses toUpperCase identifiers in all SQL strings for most databases.
-<span class='line'>675</span>              *
-<span class='line'>676</span>              * @example
-<span class='line'>677</span>              *  //use whatever is passed in
-<span class='line'>678</span>              *   patio.identifierInputMethod = null;
-<span class='line'>679</span>              *  //convert to uppercase
-<span class='line'>680</span>              *  patio.identifierInputMethod = "toUpperCase";
-<span class='line'>681</span>              *  //convert to camelCase
-<span class='line'>682</span>              *  patio.identifierInputMethod = "camelize";
-<span class='line'>683</span>              *  //convert to underscore
-<span class='line'>684</span>              *  patio.identifierInputMethod = "underscore";
-<span class='line'>685</span>              *
-<span class='line'>686</span>              * */</span><span class="WHIT">
-<span class='line'>687</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>688</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT">
-<span class='line'>689</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>690</span> 
-<span class='line'>691</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>692</span>              * @field
-<span class='line'>693</span>              * @type String
-<span class='line'>694</span>              * Set the method to call on identifiers coming out of the database.  This affects
-<span class='line'>695</span>              * the how identifiers are represented by calling the method on them.
-<span class='line'>696</span>              * The method can include
-<span class='line'>697</span>              * &lt;ul>
-<span class='line'>698</span>              *     &lt;li>toUpperCase&lt;/li>
-<span class='line'>699</span>              *     &lt;li>toLowerCase&lt;/li>
-<span class='line'>700</span>              *     &lt;li>camelize&lt;/li>
-<span class='line'>701</span>              *     &lt;li>underscore&lt;/li>
-<span class='line'>702</span>              *     &lt;li>Other String instance method names.&lt;/li>
-<span class='line'>703</span>              * &lt;/ul>
-<span class='line'>704</span>              * most database implementations in patio use toLowerCase
-<span class='line'>705</span>              * @example
-<span class='line'>706</span>              *  //use whatever the db returns
-<span class='line'>707</span>              *   patio.identifierOutputMethod = null;
-<span class='line'>708</span>              *  //convert to uppercase
-<span class='line'>709</span>              *  patio.identifierOutputMethod = "toUpperCase";
-<span class='line'>710</span>              *  //convert to camelCase
-<span class='line'>711</span>              *  patio.identifierOutputMethod = "camelize";
-<span class='line'>712</span>              *  //convert to underscore
-<span class='line'>713</span>              *  patio.identifierOutputMethod = "underscore";
-<span class='line'>714</span>              *
-<span class='line'>715</span>              * */</span><span class="WHIT">
-<span class='line'>716</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>717</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>718</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>719</span> 
-<span class='line'>720</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>721</span>              * @field
-<span class='line'>722</span>              * @type Boolean
-<span class='line'>723</span>              * Set whether to quote identifiers for all databases by default. By default,
-<span class='line'>724</span>              * patio quotes identifiers in all SQL strings.
+<span class='line'>654</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>655</span>              * Returns the root comb logger using this logger you
+<span class='line'>656</span>              * can set the levels add appenders etc.
+<span class='line'>657</span>              *
+<span class='line'>658</span>              * @type Logger
+<span class='line'>659</span>              * @field
+<span class='line'>660</span>              */</span><span class="WHIT">
+<span class='line'>661</span> </span><span class="WHIT">            </span><span class="NAME">LOGGER</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">LOGGER</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>664</span> 
+<span class='line'>665</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>666</span>              * @ignore
+<span class='line'>667</span>              * @field
+<span class='line'>668</span>              * @type String
+<span class='line'>669</span>              * Returns the default method used to transform identifiers sent to the database.
+<span class='line'>670</span>              */</span><span class="WHIT">
+<span class='line'>671</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>672</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierInputMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>673</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>674</span> 
+<span class='line'>675</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>676</span>              * @ignore
+<span class='line'>677</span>              * @field
+<span class='line'>678</span>              * @type String
+<span class='line'>679</span>              * Returns the default method used to transform identifiers returned from the database.
+<span class='line'>680</span>              */</span><span class="WHIT">
+<span class='line'>681</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>682</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.identifierOutputMethod</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>683</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>684</span> 
+<span class='line'>685</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>686</span>              * @ignore
+<span class='line'>687</span>              * @type Boolean
+<span class='line'>688</span>              * Returns whether or not identifiers are quoted before being sent to the database.
+<span class='line'>689</span>              */</span><span class="WHIT">
+<span class='line'>690</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Database.quoteIdentifiers</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>692</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>693</span> 
+<span class='line'>694</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>695</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>697</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>698</span> 
+<span class='line'>699</span> </span><span class="WHIT">            </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>700</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>701</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.__underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>702</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>703</span> 
+<span class='line'>704</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>705</span> 
+<span class='line'>706</span> 
+<span class='line'>707</span> </span><span class="WHIT">        </span><span class="COMM">/**@ignore*/</span><span class="WHIT">
+<span class='line'>708</span> </span><span class="WHIT">        </span><span class="NAME">setters</span><span class="PUNC">:</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>709</span> </span><span class="WHIT">            </span><span class="COMM">/**@lends patio.prototype*/</span><span class="WHIT">
+<span class='line'>710</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>711</span>              * @field
+<span class='line'>712</span>              * @type String
+<span class='line'>713</span>              *  Set the method to call on identifiers going into the database.  This affects
+<span class='line'>714</span>              * how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
+<span class='line'>715</span>              * use camelize. The method can include
+<span class='line'>716</span>              * &lt;ul>
+<span class='line'>717</span>              *     &lt;li>toUpperCase&lt;/li>
+<span class='line'>718</span>              *     &lt;li>toLowerCase&lt;/li>
+<span class='line'>719</span>              *     &lt;li>camelize&lt;/li>
+<span class='line'>720</span>              *     &lt;li>underscore&lt;/li>
+<span class='line'>721</span>              *     &lt;li>Other String instance method names.&lt;/li>
+<span class='line'>722</span>              * &lt;/ul>
+<span class='line'>723</span>              *
+<span class='line'>724</span>              * patio uses toUpperCase identifiers in all SQL strings for most databases.
 <span class='line'>725</span>              *
 <span class='line'>726</span>              * @example
-<span class='line'>727</span>              *   //Turn quoting off
-<span class='line'>728</span>              *   patio.quoteIdentifiers = false
-<span class='line'>729</span>              * */</span><span class="WHIT">
-<span class='line'>730</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>731</span> </span><span class="WHIT">                </span><span class="NAME">Database.quoteIdentifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>732</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>733</span> 
-<span class='line'>734</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>735</span>              * @field
-<span class='line'>736</span>              * Sets the whether or not to camelize identifiers coming from the database and to underscore
-<span class='line'>737</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
-<span class='line'>738</span>              * as:
-<span class='line'>739</span>              * &lt;pre class="code">
-<span class='line'>740</span>              *     patio.identifierOutputMethod = "camelize";
-<span class='line'>741</span>              *     patio.identifierInputMethod = "underscore";
-<span class='line'>742</span>              * &lt;/pre>
-<span class='line'>743</span>              *
-<span class='line'>744</span>              * @example
-<span class='line'>745</span>              * patio.camelize = true;
-<span class='line'>746</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
-<span class='line'>747</span>              *      db.createTable("airport", function () {
-<span class='line'>748</span>              *          this.primaryKey("id");
-<span class='line'>749</span>              *          this.airportCode(String, {size:4, allowNull:false, unique:true});
-<span class='line'>750</span>              *          this.name(String, {allowNull:false});
-<span class='line'>751</span>              *          this.city(String, {allowNull:false});
-<span class='line'>752</span>              *          this.state(String, {size:2, allowNull:false});
-<span class='line'>753</span>              *      });
-<span class='line'>754</span>              *      //=> CREATE TABLE `airport`(
-<span class='line'>755</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
-<span class='line'>756</span>              *      //    airport_code varchar(4) UNIQUE NOT NULL,
-<span class='line'>757</span>              *      //    name varchar(255) NOT NULL,
-<span class='line'>758</span>              *      //    city varchar(255) NOT NULL,
-<span class='line'>759</span>              *      //    state varchar(2) NOT NULL
-<span class='line'>760</span>              *      //);
-<span class='line'>761</span>              *  }):
-<span class='line'>762</span>              *
-<span class='line'>763</span>              * @param {Boolean} camelize set to true to camelize all identifiers coming from the database and to
-<span class='line'>764</span>              *                  underscore all identifiers sent to the database.
-<span class='line'>765</span>              */</span><span class="WHIT">
-<span class='line'>766</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">camelize</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>767</span> </span><span class="WHIT">                </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>768</span> </span><span class="WHIT">                </span><span class="NAME">Model.camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>769</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>770</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>771</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>772</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>773</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>774</span> 
-<span class='line'>775</span> </span><span class="WHIT">            </span><span class="COMM">/**
-<span class='line'>776</span>              * @field
-<span class='line'>777</span>              * Sets the whether or not to underscore identifiers coming from the database and to camelize
-<span class='line'>778</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
-<span class='line'>779</span>              * as:
-<span class='line'>780</span>              * &lt;pre class="code">
-<span class='line'>781</span>              *     patio.identifierOutputMethod = "underscore";
-<span class='line'>782</span>              *     patio.identifierInputMethod = "camelize";
-<span class='line'>783</span>              * &lt;/pre>
-<span class='line'>784</span>              *
-<span class='line'>785</span>              * @example
-<span class='line'>786</span>              * patio.camelize = true;
-<span class='line'>787</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
-<span class='line'>788</span>              *      db.createTable("airport", function () {
-<span class='line'>789</span>              *          this.primaryKey("id");
-<span class='line'>790</span>              *          this.airport_code(String, {size:4, allowNull:false, unique:true});
-<span class='line'>791</span>              *          this.name(String, {allowNull:false});
-<span class='line'>792</span>              *          this.city(String, {allowNull:false});
-<span class='line'>793</span>              *          this.state(String, {size:2, allowNull:false});
-<span class='line'>794</span>              *      });
-<span class='line'>795</span>              *      //=> CREATE TABLE `airport`(
-<span class='line'>796</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
-<span class='line'>797</span>              *      //    airportCode varchar(4) UNIQUE NOT NULL,
-<span class='line'>798</span>              *      //    name varchar(255) NOT NULL,
-<span class='line'>799</span>              *      //    city varchar(255) NOT NULL,
-<span class='line'>800</span>              *      //    state varchar(2) NOT NULL
-<span class='line'>801</span>              *      //);
-<span class='line'>802</span>              *  }):
-<span class='line'>803</span>              *
-<span class='line'>804</span>              * @param {Boolean} camelize set to true to underscore all identifiers coming from the database and to
-<span class='line'>805</span>              *                  camelize all identifiers sent to the database.
-<span class='line'>806</span>              */</span><span class="WHIT">
-<span class='line'>807</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">underscore</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>808</span> </span><span class="WHIT">                </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>809</span> </span><span class="WHIT">                </span><span class="NAME">Model.underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>810</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>811</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>812</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>813</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>814</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>815</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>816</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>817</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>818</span> 
-<span class='line'>819</span> 
-<span class='line'>820</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>821</span> </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>822</span> </span><span class="NAME">patio.__Patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>823</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Database.ADAPTERS</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>824</span> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>825</span> </span><span class="WHIT">    </span><span class="NAME">patio</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>826</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'>727</span>              *  //use whatever is passed in
+<span class='line'>728</span>              *   patio.identifierInputMethod = null;
+<span class='line'>729</span>              *  //convert to uppercase
+<span class='line'>730</span>              *  patio.identifierInputMethod = "toUpperCase";
+<span class='line'>731</span>              *  //convert to camelCase
+<span class='line'>732</span>              *  patio.identifierInputMethod = "camelize";
+<span class='line'>733</span>              *  //convert to underscore
+<span class='line'>734</span>              *  patio.identifierInputMethod = "underscore";
+<span class='line'>735</span>              *
+<span class='line'>736</span>              * */</span><span class="WHIT">
+<span class='line'>737</span> </span><span class="WHIT">            </span><span class="NAME">identifierInputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>738</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT">
+<span class='line'>739</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>740</span> 
+<span class='line'>741</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>742</span>              * @field
+<span class='line'>743</span>              * @type String
+<span class='line'>744</span>              * Set the method to call on identifiers coming out of the database.  This affects
+<span class='line'>745</span>              * the how identifiers are represented by calling the method on them.
+<span class='line'>746</span>              * The method can include
+<span class='line'>747</span>              * &lt;ul>
+<span class='line'>748</span>              *     &lt;li>toUpperCase&lt;/li>
+<span class='line'>749</span>              *     &lt;li>toLowerCase&lt;/li>
+<span class='line'>750</span>              *     &lt;li>camelize&lt;/li>
+<span class='line'>751</span>              *     &lt;li>underscore&lt;/li>
+<span class='line'>752</span>              *     &lt;li>Other String instance method names.&lt;/li>
+<span class='line'>753</span>              * &lt;/ul>
+<span class='line'>754</span>              * most database implementations in patio use toLowerCase
+<span class='line'>755</span>              * @example
+<span class='line'>756</span>              *  //use whatever the db returns
+<span class='line'>757</span>              *   patio.identifierOutputMethod = null;
+<span class='line'>758</span>              *  //convert to uppercase
+<span class='line'>759</span>              *  patio.identifierOutputMethod = "toUpperCase";
+<span class='line'>760</span>              *  //convert to camelCase
+<span class='line'>761</span>              *  patio.identifierOutputMethod = "camelize";
+<span class='line'>762</span>              *  //convert to underscore
+<span class='line'>763</span>              *  patio.identifierOutputMethod = "underscore";
+<span class='line'>764</span>              *
+<span class='line'>765</span>              * */</span><span class="WHIT">
+<span class='line'>766</span> </span><span class="WHIT">            </span><span class="NAME">identifierOutputMethod</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>767</span> </span><span class="WHIT">                </span><span class="NAME">Database.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>768</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>769</span> 
+<span class='line'>770</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>771</span>              * @field
+<span class='line'>772</span>              * @type Boolean
+<span class='line'>773</span>              * Set whether to quote identifiers for all databases by default. By default,
+<span class='line'>774</span>              * patio quotes identifiers in all SQL strings.
+<span class='line'>775</span>              *
+<span class='line'>776</span>              * @example
+<span class='line'>777</span>              *   //Turn quoting off
+<span class='line'>778</span>              *   patio.quoteIdentifiers = false
+<span class='line'>779</span>              * */</span><span class="WHIT">
+<span class='line'>780</span> </span><span class="WHIT">            </span><span class="NAME">quoteIdentifiers</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>781</span> </span><span class="WHIT">                </span><span class="NAME">Database.quoteIdentifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>782</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>783</span> 
+<span class='line'>784</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>785</span>              * @field
+<span class='line'>786</span>              * Sets the whether or not to camelize identifiers coming from the database and to underscore
+<span class='line'>787</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
+<span class='line'>788</span>              * as:
+<span class='line'>789</span>              * &lt;pre class="code">
+<span class='line'>790</span>              *     patio.identifierOutputMethod = "camelize";
+<span class='line'>791</span>              *     patio.identifierInputMethod = "underscore";
+<span class='line'>792</span>              * &lt;/pre>
+<span class='line'>793</span>              *
+<span class='line'>794</span>              * @example
+<span class='line'>795</span>              * patio.camelize = true;
+<span class='line'>796</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
+<span class='line'>797</span>              *      db.createTable("airport", function () {
+<span class='line'>798</span>              *          this.primaryKey("id");
+<span class='line'>799</span>              *          this.airportCode(String, {size:4, allowNull:false, unique:true});
+<span class='line'>800</span>              *          this.name(String, {allowNull:false});
+<span class='line'>801</span>              *          this.city(String, {allowNull:false});
+<span class='line'>802</span>              *          this.state(String, {size:2, allowNull:false});
+<span class='line'>803</span>              *      });
+<span class='line'>804</span>              *      //=> CREATE TABLE `airport`(
+<span class='line'>805</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
+<span class='line'>806</span>              *      //    airport_code varchar(4) UNIQUE NOT NULL,
+<span class='line'>807</span>              *      //    name varchar(255) NOT NULL,
+<span class='line'>808</span>              *      //    city varchar(255) NOT NULL,
+<span class='line'>809</span>              *      //    state varchar(2) NOT NULL
+<span class='line'>810</span>              *      //);
+<span class='line'>811</span>              *  }):
+<span class='line'>812</span>              *
+<span class='line'>813</span>              * @param {Boolean} camelize set to true to camelize all identifiers coming from the database and to
+<span class='line'>814</span>              *                  underscore all identifiers sent to the database.
+<span class='line'>815</span>              */</span><span class="WHIT">
+<span class='line'>816</span> </span><span class="WHIT">            </span><span class="NAME">camelize</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">camelize</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>817</span> </span><span class="WHIT">                </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>818</span> </span><span class="WHIT">                </span><span class="NAME">Model.camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>819</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>820</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>821</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>822</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">camelize</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>823</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>824</span> 
+<span class='line'>825</span> </span><span class="WHIT">            </span><span class="COMM">/**
+<span class='line'>826</span>              * @field
+<span class='line'>827</span>              * Sets the whether or not to underscore identifiers coming from the database and to camelize
+<span class='line'>828</span>              * identifiers when sending identifiers to the database. Setting this property to true has the same effect
+<span class='line'>829</span>              * as:
+<span class='line'>830</span>              * &lt;pre class="code">
+<span class='line'>831</span>              *     patio.identifierOutputMethod = "underscore";
+<span class='line'>832</span>              *     patio.identifierInputMethod = "camelize";
+<span class='line'>833</span>              * &lt;/pre>
+<span class='line'>834</span>              *
+<span class='line'>835</span>              * @example
+<span class='line'>836</span>              * patio.camelize = true;
+<span class='line'>837</span>              * patio.connectAndExecute("mysql://test:testpass@localhost:3306/airports", function (db) {
+<span class='line'>838</span>              *      db.createTable("airport", function () {
+<span class='line'>839</span>              *          this.primaryKey("id");
+<span class='line'>840</span>              *          this.airport_code(String, {size:4, allowNull:false, unique:true});
+<span class='line'>841</span>              *          this.name(String, {allowNull:false});
+<span class='line'>842</span>              *          this.city(String, {allowNull:false});
+<span class='line'>843</span>              *          this.state(String, {size:2, allowNull:false});
+<span class='line'>844</span>              *      });
+<span class='line'>845</span>              *      //=> CREATE TABLE `airport`(
+<span class='line'>846</span>              *      //    id integer PRIMARY KEY AUTO_INCREMENT,
+<span class='line'>847</span>              *      //    airportCode varchar(4) UNIQUE NOT NULL,
+<span class='line'>848</span>              *      //    name varchar(255) NOT NULL,
+<span class='line'>849</span>              *      //    city varchar(255) NOT NULL,
+<span class='line'>850</span>              *      //    state varchar(2) NOT NULL
+<span class='line'>851</span>              *      //);
+<span class='line'>852</span>              *  }):
+<span class='line'>853</span>              *
+<span class='line'>854</span>              * @param {Boolean} camelize set to true to underscore all identifiers coming from the database and to
+<span class='line'>855</span>              *                  camelize all identifiers sent to the database.
+<span class='line'>856</span>              */</span><span class="WHIT">
+<span class='line'>857</span> </span><span class="WHIT">            </span><span class="NAME">underscore</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">underscore</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>858</span> </span><span class="WHIT">                </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>859</span> </span><span class="WHIT">                </span><span class="NAME">Model.underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>860</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierOutputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>861</span> </span><span class="WHIT">                </span><span class="NAME">this.identifierInputMethod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"camelize"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"underscore"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>862</span> </span><span class="WHIT">                </span><span class="NAME">this.__camelize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>863</span> </span><span class="WHIT">                </span><span class="NAME">this.__underscore</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">underscore</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>864</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>865</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>866</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>867</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>868</span> 
+<span class='line'>869</span> 
+<span class='line'>870</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">exports</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>871</span> </span><span class="NAME">module.exports</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>872</span> </span><span class="NAME">patio.__Patio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Patio</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>873</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Database.ADAPTERS</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>874</span> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>875</span> </span><span class="WHIT">    </span><span class="NAME">patio</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">adapters</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>876</span> </span><span class="PUNC">}</span></pre></body></html>

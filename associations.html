@@ -84,8 +84,22 @@
             </li>
             <li>
                 <span class='nodeContainer'>
+                    <a href="./model-inheritance.html" class="">
+                        <span>Model Inheritance</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
                     <a href="#" class="">
                         <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./logging.html" class="">
+                        <span>Logging</span>
                     </a>
                 </span>
             </li>
@@ -159,7 +173,7 @@ this.oneToMany("maleChildren", {query : {gender : "male"}});
                 <pre class="code">
 this.oneToMany("letterBChildren", {model : "child", dataset : function(){
             //called in the scope of the model instance
-            return this.db.from("child").filter(sql.name.like('B%'));
+            return this.db.from("child").filter({fatherId : this.id, name : {like : "B%"}});
 }});
                 </pre>
     </li>
@@ -216,6 +230,7 @@ ManyToOne additional options:
 patio.addModel("biologicalFather", {
     static:{
         init:function(){
+            this._super("arguments");
             //assumes biologicalFatherId
             this.oneToMany("children");
         }
@@ -225,6 +240,7 @@ patio.addModel("biologicalFather", {
 patio.addModel("child", {
     static:{
         init:function(){
+            this._super("arguments");
             //assumes biologicalFatherId
             this.manyToOne("biologicalFather");
         }
@@ -244,6 +260,7 @@ biological_father       child
 patio.addModel("biologicalFather", {
     static:{
         init:function(){
+            this._super("arguments");
             //override default biologicalFatherId with biologicalFatherKey
             this.oneToMany("children", {key : "biologicalFatherKey"});
         }
@@ -253,6 +270,7 @@ patio.addModel("biologicalFather", {
 patio.addModel("child", {
     static:{
         init:function(){
+            this._super("arguments");
             //override default biologicalFatherId with biologicalFatherKey
             this.manyToOne("biologicalFather", {key : "biologicalFatherKey"});
         }
@@ -277,6 +295,7 @@ biological_father       child
 patio.addModel("stepFather", {
     static:{
         init:function(){
+            this._super("arguments");
             this.oneToMany("children", {key : "stepFatherKey", primaryKey : "name"});
         }
     }
@@ -285,6 +304,7 @@ patio.addModel("stepFather", {
 patio.addModel("child", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToOne("stepFather", {key : "stepFatherKey", primaryKey : "name"});
         }
     }
@@ -324,6 +344,7 @@ patio.camelize = true;
 patio.addModel("class", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("students", {joinTable:"studentsClasses"});
         }
     }
@@ -331,6 +352,7 @@ patio.addModel("class", {
 patio.addModel("student", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("classes", {joinTable:"studentsClasses"});
         }
     }
@@ -365,6 +387,7 @@ patio.camelize = true;
 patio.addModel("class", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("students", {leftKey:"classKey", rightKey:"studentKey"});
         }
     }
@@ -372,6 +395,7 @@ patio.addModel("class", {
 patio.addModel("student", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("classes", {leftKey:"studentKey", rightKey:"classKey"});
         }
     }
@@ -407,6 +431,7 @@ patio.camelize = true;
 patio.addModel("class", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("students", {
                 //use the composite key of name and subject
                 leftPrimaryKey:["name", "subject"],
@@ -420,6 +445,7 @@ patio.addModel("class", {
 patio.addModel("student", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("classes", {
                  leftPrimaryKey:["firstName", "lastName"],
                  leftKey:["firstNameKey", "lastNameKey"],
@@ -446,6 +472,7 @@ patio.addModel("student", {
 patio.addModel("class", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("students");
             this.manyToMany("aboveAverageStudents", {model:"student"}, function(ds) {
                 return ds.filter({gpa:{gte:3.5}});
@@ -463,6 +490,7 @@ patio.addModel("class", {
 patio.addModel("student", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToMany("classes");
             this.manyToMany("fallClasses", {model : "class"}, function(ds){
                 return ds.filter({semester : "FALL"});
@@ -528,6 +556,7 @@ comb.executeInOrder(patio, function(patio){
      patio.addModel("biologicalFather", {
          static : {
              init : function(){
+                 this._super("arguments");
                  this.oneToMany("children");
              }
          }
@@ -537,7 +566,8 @@ comb.executeInOrder(patio, function(patio){
      patio.addModel("child", {
          static : {
              init : function(){
-                 this.manyToOne("biologicalFather");
+                this._super("arguments");
+                this.manyToOne("biologicalFather");
              }
          }
      });
@@ -598,7 +628,8 @@ comb.executeInOrder(patio, function(patio){
      patio.addModel("biologicalFather", {
          static : {
              init : function(){
-                 this.oneToMany("children", {fetchType : this.fetchType.EAGER});
+                this._super("arguments");
+                this.oneToMany("children", {fetchType : this.fetchType.EAGER});
              }
          }
      });
@@ -607,7 +638,8 @@ comb.executeInOrder(patio, function(patio){
      patio.addModel("child", {
          static : {
              init : function(){
-                 this.manyToOne("biologicalFather", {fetchType : this.fetchType.EAGER});
+                this._super("arguments");
+                this.manyToOne("biologicalFather", {fetchType : this.fetchType.EAGER});
              }
          }
      });
@@ -672,6 +704,7 @@ db.createTable("capital", function(){
 patio.addModel("state", {
     static:{
         init:function(){
+            this._super("arguments");
             this.oneToOne("capital");
         }
     }
@@ -679,6 +712,7 @@ patio.addModel("state", {
 patio.addModel("capital", {
     static:{
         init:function(){
+            this._super("arguments");
             this.manyToOne("state");
         }
     }
@@ -837,6 +871,7 @@ option when creating the associations.
 patio.addModel("class", {
     static:{
       init:function() {
+        this._super("arguments");
         this.manyToMany("students",
           {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]});
     
@@ -866,9 +901,10 @@ patio.addModel("student", {
     },
 
     static:{
-      init:function() {
-        this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
-      }
+        init:function() {
+            this._super("arguments");
+            this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
+        }
     }
 });    
         </pre>
