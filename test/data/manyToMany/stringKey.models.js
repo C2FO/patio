@@ -9,6 +9,7 @@ exports.loadModels = function () {
         var Company = patio.addModel(DB.from("company"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("employees", {leftKey:"companyId", rightKey:"employeeId"});
                 }
             }
@@ -16,6 +17,7 @@ exports.loadModels = function () {
         var Employee = patio.addModel(DB.from("employee"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToMany("companies", {leftKey:"employeeId", rightKey:"companyId"});
                 }
             }

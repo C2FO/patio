@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+NUM=50
+CONCURRENT=50
+BASE_URL=http://127.0.0.1:8080
+
+
+bench() {
+  ab -n $NUM -c $CONCURRENT -k -q $BASE_URL$1 | grep "Requests per" | cut -d ' ' -f 7,1,2,3 | xargs echo "$2:"
+}
+
+sleep .5
+bench /flight/1 "Flight One"
+bench /flight/2 "Flight Two"
+bench /flight/3 "Flight Three"
+bench /flight/4 "Flight Four"
+bench /airport/1 "Airport One"
+bench /airport/2 "Airport Two"
+bench /airport/3 "Airport Three"
+bench /airport/4 "Airport Four"
+bench /airport/5 "Airport Five"
+bench /airport/6 "Airport Six"
+bench /airport/7 "Airport Seven"
+bench /airport/8 "Airport Eight"
+bench /airport/9 "Airport Nine"
+bench /airport/10 "Airport Ten"
+bench /airport/11 "Airport Eleven"
+bench /airport/12 "Airport Twelve"
+bench /airport/13 "Airport Thirteen"

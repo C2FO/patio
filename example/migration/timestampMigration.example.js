@@ -3,6 +3,7 @@ patio.camelize = true;
 
 var DB = patio.createConnection("mysql://test:testpass@localhost:3306/sandbox");
 
+patio.configureLogging();
 var disconnectErr = function(err){
     patio.logError(err);
     patio.disconnect();

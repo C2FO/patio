@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>Patio - Model Inheritance</title>
+    <meta name="generator" content="JsDoc Toolkit"/>
+    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
+            charset="utf-8"></script>
+    <script type="text/javascript" src="./api/js/doc.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
+    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+</head>
+<!--[if gte IE 9]>
+<style type="text/css">
+    * {
+        filter: none !important;
+    }
+</style>
+<![endif]-->
+<style type="text/css">
+    .featureList li {
+        margin: 10px;
+    }
+</style>
+<body>
+
+<a href="http://github.com/pollenware/patio">
+    <img style="position: absolute; top: 0; right: 0; border: 0;"
+         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
+         alt="Fork me on GitHub">
+</a>
+
+
+<div class="menuContainer">
+    <div class="menuContainerContent">
+        <ul>
+
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Patio</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'><a href="./api/index.html" class=""
+                                               target="patioapi"><span>API</span></a></span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./connecting.html" class="">
+                        <span>Connecting to a database</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./DDL.html" class="">
+                        <span>Schema CRUD</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./migrations.html" class="">
+                        <span>Migrations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./querying.html" class="">
+                        <span>Querying</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./models.html" class="">
+                        <span>Models</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="#" class="">
+                        <span>Model Inheritance</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./associations.html" class="">
+                        <span>Model Associations</span>
+                    </a>
+                </span>
+            </li>
+            <li>
+                <span class='nodeContainer'>
+                    <a href="./logging.html" class="">
+                        <span>Logging</span>
+                    </a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="contentContainer">
+    <div id="content">
+        <div class="section">
+            <h1 class="classTitle">Model Inheritance</h1>
+
+
+            <div class="methodDetail">
+                <h2 class="classTitle"><a href="http://www.martinfowler.com/eaaCatalog/classTableInheritance.html"
+                                          target="patioapi">Class Table Inheritance</a></h2>
+
+                <div>
+                    Consider the following table model.
+     <pre class="code">
+          employee
+            - id
+            - name (varchar)
+            - kind (varchar)
+     /                          \
+ staff                        manager
+   - id (fk employee)           - id (fk employee)
+   - manager_id (fk manger)     - numStaff (number)
+                                 |
+                              executive
+                                - id (fk manager)
+     </pre>
+                    <ul>
+                        <li><b>employee</b>: This is the parent table of all employee instances.</li>
+                        <li><b>staff</b>: Table that inherits from employee where and represents.</li>
+                        <li><b>manager</b>: Another subclass of employee.</li>
+                        <li><b>executive</b>: Subclass of manager that also inherits from employee through inhertiance
+                        </li>
+                    </ul>
+                    <p>
+                        When setting up you tables the parent table should contain a String column that contains the
+                        "kind" of class it is.
+                        (i.e. employee, staff, manager, executive). This allows the plugin to return the proper instance
+                        type when querying
+                        the tables.
+                    </p>
+
+                    <p>
+                        All other tables that inherit from employee should contain a foreign key to their direct super
+                        class that is the
+                        same name as the primary key of the parent table(<b>employee</b>). So, in the
+                        above example <b>staff</b> and <b>manager</b> both contain foreign keys to employee and <b>executive</b>
+                        contains
+                        a foreign key to <b>manager</b> and they are all named <b>id</b>.
+                    </p>
+                </div>
+
+                To set up you models the base super class should contain the ClassTableInheritancePlugin
+
+ <pre class="code">
+ patio.addModel("employee", {
+      plugins : [patio.plougins.ClassTableInheritancePlugin],
+      static:{
+          init:function () {
+              this._super(arguments);
+              this.configure({key : "kind"});
+          }
+      }
+  });
+ </pre>
+                All sub classes should just inherit their super class
+ <pre class="code">
+ var Employee = patio.getModel("employee");
+  patio.addModel("staff", Employee, {
+      static:{
+          init:function () {
+              this._super(arguments);
+              this.manyToOne("manager", {key : "managerId", fetchType : this.fetchType.EAGER});
+          }
+      }
+ });
+ patio.addModel("manager", Employee, {
+      static:{
+          init:function () {
+              this._super(arguments);
+              this.oneToMany("staff", {key : "managerId", fetchType : this.fetchType.EAGER});
+          }
+      }
+ });
+
+ </pre>
+                Executive inherits from manager, and through inheritance will also receive the oneToMany relationship
+                with staff
+ <pre class="code">
+ var Manager = require("manager");
+ patio.addModel("executive",  Manager);
+ </pre>
+
+                Working with models
+
+ <pre class="code">
+ comb.when(
+     new Employee({name:"Bob"}).save(),
+     new Staff({name:"Greg"}).save(),
+     new Manager({name:"Jane"}).save(),
+     new Executive({name:"Sue"}).save()
+ ).then(function(){
+      Employee.all().then(function(emps){
+          var bob = emps[0], greg = emps[1], jane = emps[2], sue = emps[3];
+          console.log(bob instanceof Employee); //true
+          console.log(greg instanceof Employee);  //true
+          console.log(greg instanceof Staff);  //true
+          console.log(jane instanceof Employee);  //true
+          console.log(jane instanceof Manager);  //true
+          console.log(sue instanceof Employee);  //true
+          console.log(sue instanceof Manager);  //true
+          console.log(sue instanceof Executive);  //true
+      });
+ });
+ </pre>
+                <div>
+                    <h3 class='classTitle'>Configuring</h3>
+                    When setting up the CTI plugin you should include it as a plugin on the base model, and
+                    call configure in the init block of the Model.
+                    <div>
+                        <b>Options</b>
+                        <ul>
+                            <li><b>key</b> : The name of the column in the parent table that contains the name of the subclass that
+                            the row in the parent table represents.</li>
+                        </ul>
+                    </div>
+                    <pre class="code">
+ patio.addModel("employee", {
+      plugins : [patio.plougins.ClassTableInheritancePlugin],
+      static:{
+          init:function () {
+              this._super(arguments);
+              this.configure({key : "kind"});
+          }
+      }
+  });                        
+                    </pre>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

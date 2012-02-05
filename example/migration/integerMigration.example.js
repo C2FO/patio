@@ -24,7 +24,7 @@ var directory =  __dirname + "/integer_migration";
 patio.migrate(DB, directory).then(function(){
     console.log("Done migrating up");
     checkTables().then(function(){
-        patio.migrate(DB, directory, {target : 0}).then(function(){
+        patio.migrate(DB, directory, {target : -1}).then(function(){
             console.log("\nDone migrating down");
             checkTables().then(comb.hitch(patio, "disconnect"), disconnectErr);
         }, disconnectErr);

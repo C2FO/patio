@@ -9,6 +9,7 @@ exports.loadModels = function () {
         var Works = patio.addModel(DB.from("works"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToOne("employee");
                 }
             }
@@ -16,6 +17,7 @@ exports.loadModels = function () {
         var Employee = patio.addModel(DB.from("employee"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.oneToOne("works", function (ds) {
                         return ds.filter(function () {
                             return this.salary.gte(100000.00);

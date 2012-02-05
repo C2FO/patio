@@ -12,7 +12,7 @@ var disconnectError = function(err){
     patio.logError(err);
     return patio.disconnect();
 };
-
+patio.configureLogging();
 var connectAndCreateSchema = function(){
     //This assumes new tables each time you could just connect to the database
     return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",

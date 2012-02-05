@@ -5,7 +5,7 @@ var patio = require("../../../index"),
 
 
 patio.addModel("flight", {
-    plugins:[patio.plugins.CachePlugin, expressPlugin],
+    plugins:[expressPlugin],
     instance:{
         toObject:function () {
             var obj = this._super(arguments);
@@ -25,6 +25,7 @@ patio.addModel("flight", {
     static:{
 
         init:function () {
+            this._super(arguments);
             this.oneToMany("legs", {
                 model:"flightLeg",
                 orderBy:"scheduledDepartureTime",

@@ -11,9 +11,8 @@ patio.quoteIdentifiers = false;
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("Database");
 
-var MYSQL_USER = "root";
 
-var MYSQL_URL = format("mysql://%s@localhost:3306/sandbox", MYSQL_USER);
+var MYSQL_URL = format("mysql://test:testpass@localhost:3306/sandbox");
 var MYSQL_DB = patio.connect(MYSQL_URL);
 
 

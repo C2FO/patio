@@ -10,6 +10,7 @@ exports.loadModels = function () {
         var Company = patio.addModel(DB.from("company"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.oneToMany("employees");
                     this.oneToMany("omahaEmployees", {model:"employee"}, function (ds) {
                         return ds.filter(sql.identifier("city").ilike("omaha"));
@@ -23,6 +24,7 @@ exports.loadModels = function () {
         var Employee = patio.addModel(DB.from("employee"), {
             static:{
                 init:function () {
+                    this._super(arguments);
                     this.manyToOne("company");
                 }
             }
