@@ -409,7 +409,7 @@
 <span class='line'>402</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>403</span> 
 <span class='line'>404</span> </span><span class="WHIT">        </span><span class="NAME">associationLoaded</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>405</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">comb.isUndefinedOrNull</span><span class="PUNC">(</span><span class="NAME">model.__associations</span><span class="PUNC">[</span><span class="NAME">this.name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">model.__associations.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">this.name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>406</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>407</span> 
 <span class='line'>408</span> </span><span class="WHIT">        </span><span class="NAME">getAssociation</span><span class="PUNC">:</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
