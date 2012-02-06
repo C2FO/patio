@@ -128,12 +128,12 @@
     <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
         only one object is associated to the current object through the
         association. The methods created are similar to many_to_one, except
-        that the one_to_one setter method saves the passed object./li>
+        that the one_to_one setter method saves the passed object.</li>
     <li><b>manyToMany</b> - A join table is used that has a foreign key that points
         to this model's primary key and a foreign key that points to the
         associated model's primary key. Each current model object can be
         associated with many associated model objects, and each associated
-        model object can be associated with many current model objects./li>
+        model object can be associated with many current model objects.</li>
 </ul>
 
 <b>The following options can be supplied:</b>
@@ -651,10 +651,10 @@ comb.executeInOrder(patio, function(patio){
          //father.children.length === 3
     });
 });
+</pre>
 <p>
     When working with eager associations the eagerly loaded association will be fetched on the load of a model.
 </p>
-</pre>
 </div>
 <div class="methodDetail">
     <h3><a href="./api/symbols/patio.Model.html#.oneToOne">patio.Model.oneToOne</a></h3>
@@ -866,7 +866,7 @@ to correctly guess the join table you must follow this convention. Otherwise you
 option when creating the associations.
 </p>
 <p>
-    Standar model definition:
+    Standard model definition:
         <pre class="code">
 patio.addModel("class", {
     static:{
