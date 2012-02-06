@@ -162,7 +162,7 @@
 
  <pre class="code">
  patio.addModel("employee", {
-      plugins : [patio.plougins.ClassTableInheritancePlugin],
+      plugins : [patio.plugins.ClassTableInheritancePlugin],
       static:{
           init:function () {
               this._super(arguments);
@@ -195,7 +195,7 @@
                 Executive inherits from manager, and through inheritance will also receive the oneToMany relationship
                 with staff
  <pre class="code">
- var Manager = require("manager");
+ var Manager = patio.getModel("manager");
  patio.addModel("executive",  Manager);
  </pre>
 
@@ -234,7 +234,7 @@
                     </div>
                     <pre class="code">
  patio.addModel("employee", {
-      plugins : [patio.plougins.ClassTableInheritancePlugin],
+      plugins : [patio.plugins.ClassTableInheritancePlugin],
       static:{
           init:function () {
               this._super(arguments);
