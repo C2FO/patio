@@ -168,7 +168,7 @@ User.first(sql.name.like('B%')).then(function(user){
                         <h3 class="classTitle">Using last</h3>
                         If you want the last record in the dataset use
                         <a href="api/symbols/patio.Dataset.html#last" target="patioapi">patio.Dataset#last</a>.
-                        <strong>Note</strong> last requires that the dataset be ordered. Without an
+                        <strong>Note:</strong> last requires that the dataset be ordered. Without an
                         order, any object can be considered the first as well as the last.
                 <pre class="code">
  User.order("name").last().then(function(user){
@@ -176,7 +176,7 @@ User.first(sql.name.like('B%')).then(function(user){
 });
                     </pre>
                         <b>Note:</b> last will throws an Error if there is no order on the dataset. Because otherwise it
-                        would provide the same record as first, and most user would find that confusing.
+                        would provide the same record as first, and most users would find that confusing.
                         <br/><br/>
                         <b>Note:</b> that last is not necessarily going to give you the last record in the dataset
                         unless you give the dataset an unambiguous order.
@@ -795,7 +795,7 @@ User.filter(function(){
     }).where(sql.name.like('A%'));
     // SELECT user_id, COUNT(*) AS count FROM user WHERE name LIKE 'A%' GROUP BY id HAVING count >= 10
                  </pre>
-                Both the WHERE clause and the HAVING be be removed by using the unfiltered method:
+                Both the WHERE clause and the HAVING clause can be removed by using the unfiltered method:
 
                     <pre class="code">
  User.groupAndCount("id").having(function(){

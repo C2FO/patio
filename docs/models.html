@@ -605,7 +605,7 @@ Student.save([
           firstName:"Greg",
           lastName:"Horn",
           gpa:3.689,
-          classYear:"Sohpmore"
+          classYear:"Sophomore"
       },
       {
           firstName:"Sara",
@@ -654,7 +654,7 @@ Student.save([
           firstName:"Greg",
           lastName:"Horn",
           gpa:3.689,
-          classYear:"Sohpmore"
+          classYear:"Sophomore"
       }
  ], {transaction : false}).then(function(users){
      //work with the users
@@ -786,12 +786,12 @@ User.remove({lastName : /m%/i});
                     false.
                     <strong>Note</strong> If you do this then the pre/post remove hooks will not be called.
                <pre class="code">
-//remove models that start with m
+//mass remove models without loading them
 User.remove(null, {load : false});
         </pre>
                     The default transaction behavior pass in the transaction option.
                <pre class="code">
-//remove models that start with m
+//removing models, preventing default transaction behaviour
 User.remove(null, {transaction : false});
         </pre>
                     If you have an instance of a model and you want to remove it you can use the
@@ -835,7 +835,7 @@ User.map(function(user){
                     <h3><a href="api/symbols/patio.Dataset.html#all" target="patioapi">all</a></h3>
 <pre class="code">
 User.all().then(function(allUsers){
-    users.forEach(function(){
+    allUsers.forEach(function(user){
         console.log(user.firstName);
     });
 });
@@ -872,10 +872,9 @@ User.isEmpty().then(function(isUserTableEmpty){
     //true if the user table is empty.
 });
 </pre>
-                    /div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </body>
