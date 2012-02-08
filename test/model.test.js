@@ -12,6 +12,76 @@ var gender = ["M", "F"];
 helper.loadModels().then(function() {
     var Employee = patio.getModel("employee");
     var DB = patio.defaultDatabase;
+
+    suite.addBatch({
+        "An Employee " : {
+            topic : function(){
+                return Employee;
+            },
+
+            "should throw an error setting primary keys on mass assignment" : function(){
+                assert.throws(function(){
+                    new Employee({
+                        id : 1})
+                });
+                var emp = new Employee();
+                assert.throws(function(){
+                    emp.setValues({
+                        id : 1});
+                });
+            },
+
+            "should throw an error setting primary keys on mass assignment when isRestrictedPrimaryKey is false" : function(){
+                Employee.isRestrictedPrimaryKey = false;
+                assert.doesNotThrow(function(){
+                    new Employee({
+                        id : 1})
+                });
+                var emp = new Employee();
+                assert.doesNotThrow(function(){
+                    emp.setValues({
+                        id : 1});
+                });
+                Employee.isRestrictedPrimaryKey = true;
+            },
+
+            "should not throw an error setting primary key directly " : function(){
+                var emp = new Employee();
+                assert.doesNotThrow(function(){
+                   emp.id = 1;
+                });
+            },
+
+            "should not throw an error setting a restricted column directly " : function(){
+                Employee.restrictedColumns = ["firstname", "lastname"];
+                var emp = new Employee();
+                assert.doesNotThrow(function(){
+                    emp.firstname = "doug";
+                    emp.lastname = "martin";
+                });
+                Employee.restrictedColumns = null;
+            },
+
+
+
+            "should throw an error when setting a restricted column on mass assignemtn" : function(){
+                Employee.restrictedColumns = ["firstname", "lastname"];
+                assert.throws(function(){
+                    new Employee({
+                        firstname : "doug",
+                        lastname : "martin"})
+                });
+                var emp = new Employee();
+                assert.throws(function(){
+                    emp.setValues({
+                        firstname : "doug",
+                        lastname : "martin"});
+                });
+                Employee.restrictedColumns = null;
+            }
+        }
+    });
+
     suite.addBatch({
         "should save an employee" : {
             topic : function() {
