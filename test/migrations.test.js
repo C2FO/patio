@@ -2,7 +2,7 @@ var vows = require('vows'),
     assert = require('assert'),
     comb = require("comb"),
     hitch = comb.hitch,
-    patio = require("../index");
+    patio = require("index");
 
 
 /*options : Object
