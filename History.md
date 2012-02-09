@@ -1,3 +1,13 @@
+0.0.3 / 2012-02-09
+===
+* Bug Fixes
+  * Fixed issue in associations where options were not being applied correctly
+  * Change Model to return transaction cb error if it was generated otherwise the transaction error.
+  * Removed automatic casting to null if property does not exist on current model
+  * Table inheritance added check for undefined on the pk and accounted for non autoincrementing ids when creating realationships
+  * Changed patio.sql Date wrappers to create a new Date if one is not provided
+* Docs fixes
+
 0.0.2 / 2012-02-04
 ==================
 
