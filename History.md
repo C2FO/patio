@@ -1,3 +1,14 @@
+0.0.4 / 2012-02-16
+===
+* Bug Fixes
+   * Fixed issue with closing connections in the Connection Pool
+   * Changed association ds rowCb behavior so when using the associated models dataset directly you receive instances back
+   * Changed database transaction tracking behavior
+   * Added findOrCreate method to query plugin
+   * Fixed reload method to clear and reload associations
+   * upped comb version to v0.0.9
+   
+
 0.0.3 / 2012-02-09
 ===
 * Bug Fixes
