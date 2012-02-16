@@ -1,4 +1,4 @@
-var patio = require("index"),
+var patio = require("../index"),
     comb = require("comb");
 
 var DB;
