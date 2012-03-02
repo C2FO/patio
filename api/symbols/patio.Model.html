@@ -210,6 +210,12 @@
                                                       
         	                             	        	       <li class=" italic">
                                                                 		<span class="nodeContainer">
+                                                                		    <a href="../symbols/patio.Model.html#.restrictedColumns" class="" >restrictedColumns</a>
+                                                                		 </span>
+                                                               </li>
+                                                      
+        	                             	        	       <li class=" italic">
+                                                                		<span class="nodeContainer">
                                                                 		    <a href="../symbols/patio.Model.html#.schema" class="" >schema</a>
                                                                 		 </span>
                                                                </li>
@@ -367,6 +373,12 @@
                                                     	       <li class=" italic">
                                                                    		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#.findById" class="" >findById</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.findOrCreate" class="" >findOrCreate</a>
                                                                    		</span>
                                                                </li>
                                                          
@@ -654,12 +666,6 @@
                                                          
                                                     	       <li class="">
                                                                    		<span class="nodeContainer">
-                                                                   		    <a href="../symbols/patio.Model.html#reload" class="" >reload</a>
-                                                                   		</span>
-                                                               </li>
-                                                         
-                                                    	       <li class="">
-                                                                   		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#remove" class="" >remove</a>
                                                                    		</span>
                                                                </li>
@@ -769,6 +775,12 @@
                                                     	       <li class=" italic">
                                                                    		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#.setOverrides" class="" >setOverrides</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class="">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#setValues" class="" >setValues</a>
                                                                    		</span>
                                                                </li>
                                                          
@@ -1731,6 +1743,30 @@ return this.__primaryKey.slice(0);
 								true
 							</dd>
 							</dl>
+						
+
+                       
+					</div>
+				
+				<a name=".restrictedColumns"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>restrictedColumns</b>
+					
+					</div>
+					<div class="description">
+						Columns that should be restriced when setting values through the patio.Model#set method.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
 						
 
                        
@@ -2927,7 +2963,7 @@ See <a href="../symbols/patio.Dataset.html#filter" class="" >patio.Dataset#filte
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return this.filter.apply(this, args).first();
+return this.filter.apply(this, arguments).first();
         </pre>
                             </div>
                         
@@ -3012,6 +3048,58 @@ if (comb.isArray(id) && comb.isArray(pk)) {
     q[pk] = id;
 }
 return this.filter(q).one();
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".findOrCreate"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>findOrCreate</b>(q)
+					
+					</div>
+					<div class="description">
+						Finds a single model according to the supplied filter.
+See <a href="../symbols/patio.Dataset.html#filter" class="" >patio.Dataset#filter</a> for filter options. If the model
+does not exist then a new one is created as passed back.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>q</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret = new comb.Promise()
+this.find(q).then(comb.hitch(this, function (res) {
+    ret.callback(res || this.create());
+}), comb.hitch(ret, "errback"));
+return ret;
         </pre>
                             </div>
                         
@@ -6051,68 +6139,6 @@ and second args respectively.</dd>
 						
                     </div>
 				
-				<a name="reload"> </a>
-				<div class="methodDetail">
-					<div class="fixedFont">
-					
-					<span class="light">{comb.Promise}</span>
-					<b>reload</b>()
-					
-					</div>
-					<div class="description">
-						Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the
-model.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
-						
-						
-					</div>
-					
-					
-					
-					   <div class="exampleCode">
-                       				    <h4>Example 1 : </h4>
-                       				    <pre class="code">
-myModel.reload().then(function(model){
-   //model === myModel
-});</pre>
-                       				</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{comb.Promise}</span> resolved with the model instance.</dd>
-							
-							</dl>
-						
-						
-						
-						
-                        	<div class="sourceCode">
-                                <pre class="code">
-var ret = new Promise();
-if (!this.__isNew) {
-    this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().then(hitch(this, function (values) {
-        this.__set(values, true);
-        ret.callback(this);
-    }), hitch(ret, "errback"));
-} else {
-    ret.callback(this);
-}
-return ret;
-        </pre>
-                            </div>
-                        
-                    </div>
-				
 				<a name="remove"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">
@@ -6190,7 +6216,7 @@ if (!this.__isNew) {
         var ret = new Promise();
         this._hook("pre", "remove").then(comb.hitch(this, function () {
             this._remove().then(comb.hitch(this, function () {
-                this._hook("post", "remove").then(comb.hitch(this, function(){
+                this._hook("post", "remove").then(comb.hitch(this, function () {
                     this._clearPrimaryKeys();
                     this.__isNew = true;
                     ret.callback(this);
@@ -7427,6 +7453,70 @@ will override any values given in the insert/update hashes.
 						
 						
 						
+                    </div>
+				
+				<a name="setValues"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/patio.Model.html" class="" >patio.Model</a>}</span>
+					<b>setValues</b>(values)
+					
+					</div>
+					<div class="description">
+						Set multiple values at once. Useful if you have a hash of properties that you want to set.
+
+<b>NOTE:</b> This method will use the static restrictedColumns property of the model.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+myModel.setValues({firstName : "Bob", lastName : "yukon"});
+
+//this will throw an error by default, assuming id is a pk.
+myModel.setValues({id : 1, firstName : "Bob", lastName : "yukon"});</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>values</b>
+									
+								</dt>
+								<dd>value to set on the model.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/patio.Model.html" class="" >patio.Model</a>}</span> return this for chaining.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+this.__set(values, false);
+return this;
+        </pre>
+                            </div>
+                        
                     </div>
 				
 				<a name=".singleRecord"> </a>
@@ -8673,7 +8763,7 @@ to keep the same <a href="../symbols/patio.Dataset.html#rowCb" class="" >patio.D
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Mon Feb 06 2012 10:10:06 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Mar 02 2012 14:09:56 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>
