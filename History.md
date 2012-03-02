@@ -1,3 +1,7 @@
+0.0.5 / 2012-02-02
+===
+* Made "use strict" compatibile
+
 0.0.4 / 2012-02-16
 ===
 * Bug Fixes
