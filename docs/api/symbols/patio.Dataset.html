@@ -1499,7 +1499,7 @@ if (this.__columns) {
     ret.callback(this.__columns)
 } else {
     var ds = this.unfiltered().unordered().mergeOptions({distinct:null, limit:1});
-    ds.forEach().then(hitch(this, function(){
+    ds.forEach().then(hitch(this, function () {
         this.__columns = ds.__columns || [];
         ret.callback(this.__columns);
     }), hitch(ret, "errback"));
@@ -3102,9 +3102,9 @@ rowPromise.then(function(rows){
                                 <pre class="code">
 var a = [];
 var ret = new Promise();
-this.forEach(hitch(this, function(r){
+this.forEach(hitch(this, function (r) {
     a.push(r);
-})).then(hitch(this, function(){
+})).then(hitch(this, function () {
     this.postLoad(a);
     block && a.forEach(block, this);
     ret.callback(a);
@@ -3432,7 +3432,7 @@ DB.from("table").count().then(function(count){
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.__aggregateDataset().get(sql.COUNT(sql.literal("*")).as("count")).then(hitch(this, function(res){
+this.__aggregateDataset().get(sql.COUNT(sql.literal("*")).as("count")).then(hitch(this, function (res) {
     ret.callback(parseInt(res, 10));
 }), hitch(ret, "errback"));
 return ret;
@@ -4107,11 +4107,19 @@ var rowCb;
 if (this.__opts.graph) {
     return this.graphEach(cb);
 } else if ((rowCb = this.rowCb)) {
-    return this.fetchRows(this.selectSql, function(r){
+    return this.fetchRows(this.selectSql, function (r) {
         var ret = new comb.Promise();
-        comb.when(rowCb(r), function(r){
-            comb.when(cb(r), hitch(ret, "callback", r), hitch(ret, "errback"));
-        }, hitch(ret, "errback"));
+        try {
+            comb.when(rowCb(r), function (r) {
+                try {
+                    comb.when(cb(r), hitch(ret, "callback", r), hitch(ret, "errback"));
+                } catch (e) {
+                    ret.errback(e);
+                }
+            }, hitch(ret, "errback"));
+        } catch (e) {
+            ret.errback(e);
+        }
         return ret;
     });
 } else {
@@ -5346,7 +5354,7 @@ when inserting a large number of records, e.g.:
                                 <pre class="code">
 opts = opts || {};
 if (comb.isInstanceOf(values, Dataset)) {
-    return this.db.transaction(hitch(this, function(){
+    return this.db.transaction(hitch(this, function () {
         return this.insert(columns, values)
     }));
 }
@@ -5362,16 +5370,16 @@ var sliceSize = opts.commitEvery || opts.slice;
 if (sliceSize) {
     var offset = 0;
     var ret = new Promise();
-    var execute = hitch(this, function(){
+    var execute = hitch(this, function () {
         if (offset >= values.length) {
             ret.callback();
             return;
         }
-        this.db.transaction(opts, hitch(this, function(){
-            this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).forEach(hitch(this, function(st){
+        this.db.transaction(opts, hitch(this, function () {
+            this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).forEach(hitch(this, function (st) {
                 return this.executeDui(st);
             }));
-        })).then(hitch(this, function(){
+        })).then(hitch(this, function () {
             offset += sliceSize;
             execute();
         }), hitch(ret, "errback"));
@@ -5380,8 +5388,8 @@ if (sliceSize) {
     return ret;
 } else {
     var statements = this.multiInsertSql(columns, values);
-    return this.db.transaction(hitch(this, function(){
-        statements.forEach(function(st){
+    return this.db.transaction(hitch(this, function () {
+        statements.forEach(function (st) {
             this.executeDui(st);
         }, this);
     }));
@@ -5560,11 +5568,11 @@ DB.from("table").insertMultiple([{x : 1}, {x : 2}], function(row){
                                 <pre class="code">
 var promises;
 if (block) {
-    promises = array.map(function(i){
+    promises = array.map(function (i) {
         return this.insert(block(i));
     }, this);
 } else {
-    promises = array.map(function(i){
+    promises = array.map(function (i) {
         return this.insert(i);
     }, this);
 }
@@ -6099,7 +6107,7 @@ DB.from("table").isEmpty().then(function(isEmpty){
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.get(1).then(hitch(this, function(res){
+this.get(1).then(hitch(this, function (res) {
     ret.callback(comb.isUndefinedOrNull(res) || res.length == 0);
 }), hitch(ret, "errback"));
 return ret;
@@ -7407,7 +7415,7 @@ clause.
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-arr = this.__arrayToConditionSpecifier(comb.argsToArray(arguments), "lte");
+var arr = this.__arrayToConditionSpecifier(comb.argsToArray(arguments), "lte");
 return this.filter(this.__createBoolExpression("lte", obj));
         </pre>
                             </div>
@@ -7489,13 +7497,13 @@ if (comb.isFunction(column)) {
     column = null;
 }
 var a = [], forEachP;
-forEachP = this.forEach(function(r){
+forEachP = this.forEach(function (r) {
     var item = column ? r[column] : (block ? block(r) : r);
-    return comb.when(item, function(mapped){
+    return comb.when(item, function (mapped) {
         a.push(mapped);
     });
 });
-forEachP.then(hitch(this, function(){
+forEachP.then(hitch(this, function () {
     ret.callback(a);
 }), hitch(ret, "errback"));
 return ret;
@@ -7618,14 +7626,14 @@ directly by user code.
 opts = comb.isUndefined(opts) ? {} : opts;
 var ds = new this._static(this.db, {});
 ds.rowCb = this.rowCb;
-this._static.FEATURES.forEach(function(f){
+this._static.FEATURES.forEach(function (f) {
     ds[f] = this[f]
 }, this);
 ds.__opts = comb.merge({}, this.__opts, opts);
 ds.identifierInputMethod = this.identifierInputMethod;
 ds.identifierOutputMethod = this.identifierOutputMethod;
 var columnChangeOpts = this._static.COLUMN_CHANGE_OPTS;
-if (Object.keys(opts).some(function(o){
+if (Object.keys(opts).some(function (o) {
     return columnChangeOpts.indexOf(o) != -1;
 })) {
     ds.__opts.columns = null;
@@ -7785,8 +7793,8 @@ if (!hashes.length) {
     ret.callback();
 } else {
     var columns = Object.keys(hashes[0]);
-    return this.import(columns, hashes.map(function(h){
-        return columns.map(function(c){
+    return this.import(columns, hashes.map(function (h) {
+        return columns.map(function (c) {
             return h[c]
         })
     }), opts);
@@ -8884,7 +8892,7 @@ and second args respectively.</dd>
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.__aggregateDataset().select(sql.min(this.stringToIdentifier(column)).as("v1"), sql.max(this.stringToIdentifier(column)).as("v2")).first().then(hitch(this, function(r){
+this.__aggregateDataset().select(sql.min(this.stringToIdentifier(column)).as("v1"), sql.max(this.stringToIdentifier(column)).as("v2")).first().then(hitch(this, function (r) {
     ret.callback(r.v1, r.v2);
 }), hitch(ret, "errback"));
 
@@ -9419,7 +9427,15 @@ as the key and the valueColumn as the value.</dd>
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return this.toHash(keyColumn, valueColumn);
+var ret = new Promise(), map = {};
+var k = this.__hashIdentifierToName(keyColumn), v = this.__hashIdentifierToName(valueColumn)
+var mapPromise = this.select.apply(this, arguments).map(function (r) {
+    map[r[k]] = v ? r[v] : r;
+});
+mapPromise.then(function () {
+    ret.callback(map);
+}, hitch(ret, "errback"));
+return ret;
         </pre>
                             </div>
                         
@@ -9494,7 +9510,7 @@ DB.from("table").selectMap(function(){
                         	<div class="sourceCode">
                                 <pre class="code">
 var ds = this.naked().ungraphed().select(column);
-return ds.map(function(r){
+return ds.map(function (r) {
     return r[Object.keys(r)[0]];
 });
         </pre>
@@ -9642,7 +9658,7 @@ var ds = this.naked()
     .ungraphed()
     .select(column)
     .order(comb.isFunction(column) ? column : this._unaliasedIdentifier(column));
-return ds.map(function(r){
+return ds.map(function (r) {
     return r[Object.keys(r)[0]];
 });
         </pre>
@@ -9940,7 +9956,7 @@ DB.from("test").singleRecord().then(function(r) {
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.mergeOptions({limit:1}).all().then(function(r){
+this.mergeOptions({limit:1}).all().then(function (r) {
     ret.callback(r && r.length ? r[0] : null);
 }, hitch(ret, "errback"));
 return ret;
@@ -10000,7 +10016,7 @@ from the dataset.</dd>
                         	<div class="sourceCode">
                                 <pre class="code">
 var ret = new Promise();
-this.naked().ungraphed().singleRecord().then(function(r){
+this.naked().ungraphed().singleRecord().then(function (r) {
     ret.callback(r ? r[Object.keys(r)[0]] : null);
 }, hitch(ret, "errback"));
 return ret;
@@ -10076,11 +10092,11 @@ if (comb.isString(name)) {
     var parts = this._splitString(name);
     var schema = parts[0], table = parts[1], alias = parts[2];
     return (schema && table && alias
-        ? new AliasedExpression(new QualifiedIdentifier(schema, table), alias)
-        : (schema && table
-        ? new QualifiedIdentifier(schema, table)
-        : (table && alias
-        ? new AliasedExpression(new Identifier(table), alias) : new Identifier(table))));
+            ? new AliasedExpression(new QualifiedIdentifier(schema, table), alias)
+            : (schema && table
+            ? new QualifiedIdentifier(schema, table)
+            : (table && alias
+            ? new AliasedExpression(new Identifier(table), alias) : new Identifier(table))));
 } else {
     return name;
 }
@@ -10237,16 +10253,16 @@ var n = this.naked();
 includeColumnTitles = comb.isBoolean(includeColumnTitles) ? includeColumnTitles : true;
 var csv = null, cols = [];
 var ret = new comb.Promise();
-n.columns.then(hitch(this, function(cols){
+n.columns.then(hitch(this, function (cols) {
     var vals = [];
     includeColumnTitles && vals.push(cols.join(", "));
     n.forEach(
-        function(r){
+        function (r) {
             vals.push(cols.map(
-                function(c){
+                function (c) {
                     return r[c] || ""
                 }).join(", "));
-        }).then(function(){
+        }).then(function () {
             ret.callback(vals.join("\r\n") + "\r\n");
         }, hitch(ret, "errback"));
 }), hitch(ret, "errback"));
@@ -10331,10 +10347,10 @@ DB.from("table").toHash("id").then(function(hash){
                                 <pre class="code">
 var ret = new Promise(), map = {};
 var k = this.__hashIdentifierToName(keyColumn), v = this.__hashIdentifierToName(valueColumn)
-var mapPromise = this.map(function(r){
+var mapPromise = this.map(function (r) {
     map[r[k]] = v ? r[v] : r;
 });
-mapPromise.then(function(){
+mapPromise.then(function () {
     ret.callback(map);
 }, hitch(ret, "errback"));
 return ret;
@@ -11195,7 +11211,7 @@ return this.mergeOptions({sql:sql});
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Feb 08 2012 10:32:23 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Mar 02 2012 14:09:55 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>
