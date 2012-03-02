@@ -378,6 +378,12 @@
                                                          
                                                     	       <li class=" italic">
                                                                    		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.findOrCreate" class="" >findOrCreate</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#.first" class="" >first</a>
                                                                    		</span>
                                                                </li>
@@ -660,12 +666,6 @@
                                                          
                                                     	       <li class="">
                                                                    		<span class="nodeContainer">
-                                                                   		    <a href="../symbols/patio.Model.html#reload" class="" >reload</a>
-                                                                   		</span>
-                                                               </li>
-                                                         
-                                                    	       <li class="">
-                                                                   		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#remove" class="" >remove</a>
                                                                    		</span>
                                                                </li>
@@ -694,15 +694,15 @@
                                                                    		</span>
                                                                </li>
                                                          
-                                                    	       <li class=" italic">
-                                                                   		<span class="nodeContainer">
-                                                                   		    <a href="../symbols/patio.Model.html#.save" class="" >save</a>
-                                                                   		</span>
-                                                               </li>
-                                                         
                                                     	       <li class="">
                                                                    		<span class="nodeContainer">
                                                                    		    <a href="../symbols/patio.Model.html#save" class="" >save</a>
+                                                                   		</span>
+                                                               </li>
+                                                         
+                                                    	       <li class=" italic">
+                                                                   		<span class="nodeContainer">
+                                                                   		    <a href="../symbols/patio.Model.html#.save" class="" >save</a>
                                                                    		</span>
                                                                </li>
                                                          
@@ -2963,7 +2963,7 @@ See <a href="../symbols/patio.Dataset.html#filter" class="" >patio.Dataset#filte
 						
                         	<div class="sourceCode">
                                 <pre class="code">
-return this.filter.apply(this, args).first();
+return this.filter.apply(this, arguments).first();
         </pre>
                             </div>
                         
@@ -3048,6 +3048,58 @@ if (comb.isArray(id) && comb.isArray(pk)) {
     q[pk] = id;
 }
 return this.filter(q).one();
+        </pre>
+                            </div>
+                        
+                    </div>
+				
+				<a name=".findOrCreate"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">patio.Model.</span><b>findOrCreate</b>(q)
+					
+					</div>
+					<div class="description">
+						Finds a single model according to the supplied filter.
+See <a href="../symbols/patio.Dataset.html#filter" class="" >patio.Dataset#filter</a> for filter options. If the model
+does not exist then a new one is created as passed back.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>q</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+var ret = new comb.Promise()
+this.find(q).then(comb.hitch(this, function (res) {
+    ret.callback(res || this.create());
+}), comb.hitch(ret, "errback"));
+return ret;
         </pre>
                             </div>
                         
@@ -6087,68 +6139,6 @@ and second args respectively.</dd>
 						
                     </div>
 				
-				<a name="reload"> </a>
-				<div class="methodDetail">
-					<div class="fixedFont">
-					
-					<span class="light">{comb.Promise}</span>
-					<b>reload</b>()
-					
-					</div>
-					<div class="description">
-						Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the
-model.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
-						
-						
-					</div>
-					
-					
-					
-					   <div class="exampleCode">
-                       				    <h4>Example 1 : </h4>
-                       				    <pre class="code">
-myModel.reload().then(function(model){
-   //model === myModel
-});</pre>
-                       				</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{comb.Promise}</span> resolved with the model instance.</dd>
-							
-							</dl>
-						
-						
-						
-						
-                        	<div class="sourceCode">
-                                <pre class="code">
-var ret = new Promise();
-if (!this.__isNew) {
-    this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().then(hitch(this, function (values) {
-        this.__set(values, true);
-        ret.callback(this);
-    }), hitch(ret, "errback"));
-} else {
-    ret.callback(this);
-}
-return ret;
-        </pre>
-                            </div>
-                        
-                    </div>
-				
 				<a name="remove"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">
@@ -6226,7 +6216,7 @@ if (!this.__isNew) {
         var ret = new Promise();
         this._hook("pre", "remove").then(comb.hitch(this, function () {
             this._remove().then(comb.hitch(this, function () {
-                this._hook("post", "remove").then(comb.hitch(this, function(){
+                this._hook("post", "remove").then(comb.hitch(this, function () {
                     this._clearPrimaryKeys();
                     this.__isNew = true;
                     ret.callback(this);
@@ -6528,6 +6518,128 @@ DB.from("items").order("id").reverse(sql.identifier("name").asc);
 						
                     </div>
 				
+				<a name="save"> </a>
+				<div class="methodDetail">
+					<div class="fixedFont">
+					
+					<span class="light">{comb.Promise}</span>
+					<b>save</b>(vals, options)
+					
+					</div>
+					<div class="description">
+						Updates a model. This action checks if the model is new and values have changed.
+If the model is not new then the <a href="../symbols/patio.Model.html#update" class="" >patio.Model#update</a> action is called.
+						
+							<br />
+							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
+						
+						
+					</div>
+					
+					
+					
+					   <div class="exampleCode">
+                       				    <h4>Example 1 : </h4>
+                       				    <pre class="code">
+//set new values and save the model
+someModel.save({
+     myVal1 : "newValue1",
+     myVal2 : "newValue2",
+     myVal3 : "newValue3"
+     }).then(function(){
+         //do something
+     });
+
+//or
+
+//set new values and save the model and DO NOT use a transaction
+someModel.save({
+     myVal1 : "newValue1",
+     myVal2 : "newValue2",
+     myVal3 : "newValue3"
+     }, {transaction : false}).then(function(){
+         //do something
+     });
+
+//or
+someModel.myVal1 = "newValue1";
+someModel.myVal2 = "newValue2";
+someModel.myVal3 = "newValue3";
+
+someModel.save().then(function(){
+    //do something
+});
+
+//or
+
+//dont use a transaction
+someModel.save(null, {transaction : false}).then(function(){
+    //do something
+});</pre>
+                       				</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>vals</b>
+									<i>Optional</i>
+								</dt>
+								<dd>optional values hash to set on the model before saving.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>options</b>
+									<i>Optional</i>
+								</dt>
+								<dd>additional options.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>options.transaction</b>
+									<i>Optional</i>
+								</dt>
+								<dd>boolean indicating if a transaction should be used when
+saving the model.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{comb.Promise}</span> resolved when the save action has completed.</dd>
+							
+							</dl>
+						
+						
+						
+						
+                        	<div class="sourceCode">
+                                <pre class="code">
+if (this.__isNew) {
+    return this._checkTransaction(options, comb.hitch(this, function () {
+        comb.isHash(vals) && this.__set(vals);
+        var ret = new comb.Promise();
+        this._hook("pre", "save")
+            .chain(comb.hitch(this, "_save"), comb.hitch(ret, "errback")).then(comb.hitch(this, function () {
+            this._hook("post", "save").then(comb.hitch(ret, "callback", this), comb.hitch(ret, "errback"));
+        }), comb.hitch(ret, "errback"));
+
+        return ret;
+    }));
+} else {
+    return this.update(vals, options);
+}
+        </pre>
+                            </div>
+                        
+                    </div>
+				
 				<a name=".save"> </a>
 				<div class="methodDetail">
 					<div class="fixedFont">&lt;static&gt; 
@@ -6663,128 +6775,6 @@ return this._checkTransaction(options, hitch(this, function () {
         return ret;
     }
 }));
-        </pre>
-                            </div>
-                        
-                    </div>
-				
-				<a name="save"> </a>
-				<div class="methodDetail">
-					<div class="fixedFont">
-					
-					<span class="light">{comb.Promise}</span>
-					<b>save</b>(vals, options)
-					
-					</div>
-					<div class="description">
-						Updates a model. This action checks if the model is new and values have changed.
-If the model is not new then the <a href="../symbols/patio.Model.html#update" class="" >patio.Model#update</a> action is called.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/lib_plugins_query.js.html" class="">query.js</a>.
-						
-						
-					</div>
-					
-					
-					
-					   <div class="exampleCode">
-                       				    <h4>Example 1 : </h4>
-                       				    <pre class="code">
-//set new values and save the model
-someModel.save({
-     myVal1 : "newValue1",
-     myVal2 : "newValue2",
-     myVal3 : "newValue3"
-     }).then(function(){
-         //do something
-     });
-
-//or
-
-//set new values and save the model and DO NOT use a transaction
-someModel.save({
-     myVal1 : "newValue1",
-     myVal2 : "newValue2",
-     myVal3 : "newValue3"
-     }, {transaction : false}).then(function(){
-         //do something
-     });
-
-//or
-someModel.myVal1 = "newValue1";
-someModel.myVal2 = "newValue2";
-someModel.myVal3 = "newValue3";
-
-someModel.save().then(function(){
-    //do something
-});
-
-//or
-
-//dont use a transaction
-someModel.save(null, {transaction : false}).then(function(){
-    //do something
-});</pre>
-                       				</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>vals</b>
-									<i>Optional</i>
-								</dt>
-								<dd>optional values hash to set on the model before saving.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>options</b>
-									<i>Optional</i>
-								</dt>
-								<dd>additional options.</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Boolean}</span> <b>options.transaction</b>
-									<i>Optional</i>
-								</dt>
-								<dd>boolean indicating if a transaction should be used when
-saving the model.</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{comb.Promise}</span> resolved when the save action has completed.</dd>
-							
-							</dl>
-						
-						
-						
-						
-                        	<div class="sourceCode">
-                                <pre class="code">
-if (this.__isNew) {
-    return this._checkTransaction(options, comb.hitch(this, function () {
-        comb.isHash(vals) && this.__set(vals);
-        var ret = new comb.Promise();
-        this._hook("pre", "save")
-            .chain(comb.hitch(this, "_save"), comb.hitch(ret, "errback")).then(comb.hitch(this, function () {
-            this._hook("post", "save").then(comb.hitch(ret, "callback", this), comb.hitch(ret, "errback"));
-        }), comb.hitch(ret, "errback"));
-
-        return ret;
-    }));
-} else {
-    return this.update(vals, options);
-}
         </pre>
                             </div>
                         
@@ -8773,7 +8763,7 @@ to keep the same <a href="../symbols/patio.Dataset.html#rowCb" class="" >patio.D
 			<hr />
 			<div class="fineprint section" style="clear:both">
                     			
-                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Feb 08 2012 10:32:24 GMT-0600 (CST)
+                    			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Fri Mar 02 2012 14:09:56 GMT-0600 (CST)
                     		</div>
 		</div>
        </div>
