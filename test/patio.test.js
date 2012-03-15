@@ -17,8 +17,8 @@ patio.quoteIdentifiers = false;
 var ret = (module.exports = exports = new comb.Promise());
 var suite = vows.describe("patio");
 
-var getTimeZoneOffset = function () {
-    var offset = new Date().getTimezoneOffset();
+var getTimeZoneOffset = function (date) {
+    var offset = date.getTimezoneOffset();
     var tz = [
         (offset >= 0 ? "-" : "+"),
         comb.string.pad(Math.floor(Math.abs(offset) / 60), 2, "0"),
@@ -196,7 +196,7 @@ suite.addBatch({
         "should format datetimes ":function (patio) {
             var date = new Date(2004, 1, 1, 12, 12, 12),
                 dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
-                offset = getTimeZoneOffset();
+                offset = getTimeZoneOffset(date);
             assert.equal(patio.dateTimeToString(date), '2004-02-01 12:12:12');
             assert.equal(patio.dateTimeToString(dateTime), '2004-02-01 12:12:12');
             patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
@@ -221,7 +221,7 @@ suite.addBatch({
         "should format timestamps ":function (patio) {
             var date = new Date(2004, 1, 1, 12, 12, 12),
                 dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
-                offset = getTimeZoneOffset();
+                offset = getTimeZoneOffset(date);
             assert.equal(patio.timeStampToString(date), '2004-02-01 12:12:12');
             assert.equal(patio.timeStampToString(dateTime), '2004-02-01 12:12:12');
             patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
@@ -248,7 +248,7 @@ suite.addBatch({
                 dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
                 year = new sql.Year(2004),
                 time = new sql.Time(12,12,12),
-                offset = getTimeZoneOffset();
+                offset = getTimeZoneOffset(date);
 
             //convert years
             assert.equal(patio.dateToString(year), '2004');
@@ -323,7 +323,7 @@ suite.addBatch({
 
         "should convert dateTimes" : function(patio){
                 var dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
-                offset = getTimeZoneOffset();
+                offset = getTimeZoneOffset(dateTime);
             assert.deepEqual(patio.stringToDateTime('2004-02-01 12:12:12'), dateTime);
             patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
             assert.deepEqual(patio.stringToDateTime('04-02-01 12:12:12'  + offset), dateTime);
@@ -343,7 +343,7 @@ suite.addBatch({
 
         "should convert timestamps" : function(patio){
             var dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
-                offset = getTimeZoneOffset();
+                offset = getTimeZoneOffset(dateTime);
             assert.deepEqual(patio.stringToTimeStamp('2004-02-01 12:12:12'), dateTime);
             patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
             assert.deepEqual(patio.stringToTimeStamp('04-02-01 12:12:12'  + offset), dateTime);
