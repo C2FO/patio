@@ -737,7 +737,7 @@ p1.both(function () {
                                 db.sqls = [];
                                 db.createTable("items", function () {
                                     this.primaryKey("id");
-                                    this.foreignKey("p_id", "items", {key:"id", "null":false, onDelete:"cascade"});
+                                    this.foreignKey("p_id", "items", {key:"id", "null":false, onUpdate : "cascade", onDelete:"cascade"});
                                 });
                                 var sqls = db.sqls.slice(0);
                                 db.dropTable("items");
@@ -746,7 +746,7 @@ p1.both(function () {
                     },
 
                     'sqls should equal["CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT, p_id integer NOT NULL, FOREIGN KEY (p_id) REFERENCES items(id) ON DELETE CASCADE)"]':function (sqls) {
-                        assert.deepEqual(sqls, ["CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT, p_id integer NOT NULL, FOREIGN KEY (p_id) REFERENCES items(id) ON DELETE CASCADE)"]);
+                        assert.deepEqual(sqls, ["CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT, p_id integer NOT NULL, FOREIGN KEY (p_id) REFERENCES items(id) ON DELETE CASCADE ON UPDATE CASCADE)"]);
                     },
 
                     "should correctly format ALTER TABLE statements with foreign keys":{
