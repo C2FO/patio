@@ -17,24 +17,24 @@ var disconnectError = function(err){
 var User =   patio.addModel("user", {
     pre:{
         "save":function(next){
-            console.log("pre save!!!")
+            console.log("pre save!!!");
             next();
         },
 
         "remove":function(next){
-            console.log("pre remove!!!")
+            console.log("pre remove!!!");
             next();
         }
     },
 
     post:{
         "save":function(next){
-            console.log("post save!!!")
+            console.log("post save!!!");
             next();
         },
 
         "remove":function(next){
-            console.log("post remove!!!")
+            console.log("post remove!!!");
             next();
         }
     },

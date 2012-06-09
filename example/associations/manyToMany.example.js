@@ -1,86 +1,95 @@
 var patio = require("../../index"), sql = patio.sql, comb = require("comb"), format = comb.string.format;
 
+
 patio.camelize = true;
+
+patio.configureLogging({patio:{level:"ERROR"}});
+var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
 
 var disconnect = comb.hitch(patio, "disconnect");
 var disconnectError = function (err) {
     patio.logError(err);
     patio.disconnect();
 };
+
+var Class = patio.addModel("class", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("students",
+                {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]});
+            this.manyToMany("aboveAverageStudents", {model:"student"}, function (ds) {
+                return ds.filter({gpa:{gte:3.5}});
+            });
+            this.manyToMany("averageStudents", {model:"student"}, function (ds) {
+                return ds.filter({gpa:{between:[2.5, 3.5]}});
+            });
+            this.manyToMany("belowAverageStudents", {model:"student"}, function (ds) {
+                return ds.filter({gpa:{lt:2.5}});
+            });
+        }
+    }
+});
+var Student = patio.addModel("student", {
+
+    instance:{
+        enroll:function (clas) {
+            if (comb.isArray(clas)) {
+                return this.addClasses(clas);
+            } else {
+                return this.addClass(clas);
+            }
+        }
+    },
+
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
+        }
+    }
+});
+
 var createTables = function () {
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox", function (db, patio) {
-        db.forceDropTable("classesStudents", "studentsClasses", "class", "student");
-        db.createTable("class", function () {
-            this.primaryKey("id");
-            this.semester("char", {size:10});
-            this.name(String);
-            this.subject(String);
-            this.description("text");
-            this.graded(Boolean, {"default":true});
-        });
-        db.createTable("student", function () {
-            this.primaryKey("id");
-            this.firstName(String);
-            this.lastName(String);
-            //GPA
-            this.gpa(sql.Decimal, {size:[1, 3], "default":0.0});
-            //Honors Program?
-            this.isHonors(Boolean, {"default":false});
-            //freshman, sophmore, junior, or senior
-            this.classYear("char");
-        });
-        db.createTable("classes_students", function () {
-            this.foreignKey("studentId", "student", {key:"id"});
-            this.foreignKey("classId", "class", {key:"id"});
-        });
-    });
-};
-
-var createModels = function () {
-    var classModelPromise = patio.addModel("class", {
-        static:{
-            init:function () {
-                this._super(arguments);
-                this.manyToMany("students",
-                    {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]});
-                this.manyToMany("aboveAverageStudents", {model:"student"}, function (ds) {
-                    return ds.filter({gpa:{gte:3.5}});
-                });
-                this.manyToMany("averageStudents", {model:"student"}, function (ds) {
-                    return ds.filter({gpa:{between:[2.5, 3.5]}});
-                });
-                this.manyToMany("belowAverageStudents", {model:"student"}, function (ds) {
-                    return ds.filter({gpa:{lt:2.5}});
-                });
-            }
-        }
-    });
-    var studentModelPromise = patio.addModel("student", {
-
-        instance:{
-            enroll:function (clas) {
-                if (comb.isArray(clas)) {
-                    return this.addClasses(clas);
-                } else {
-                    return this.addClass(clas);
-                }
-            }
+    return comb.serial([
+        function () {
+            return DB.forceDropTable("classesStudents", "studentsClasses", "class", "student");
         },
-
-        static:{
-            init:function () {
-                this._super(arguments);
-                this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
-            }
-        }
-    });
-    return comb.when(classModelPromise, studentModelPromise);
+        function () {
+            return comb.when(
+                DB.createTable("class", function () {
+                    this.primaryKey("id");
+                    this.semester("char", {size:10});
+                    this.name(String);
+                    this.subject(String);
+                    this.description("text");
+                    this.graded(Boolean, {"default":true});
+                }),
+                DB.createTable("student", function () {
+                    this.primaryKey("id");
+                    this.firstName(String);
+                    this.lastName(String);
+                    //GPA
+                    this.gpa(sql.Decimal, {size:[1, 3], "default":0.0});
+                    //Honors Program?
+                    this.isHonors(Boolean, {"default":false});
+                    //freshman, sophmore, junior, or senior
+                    this.classYear("char");
+                })
+            );
+        },
+        function () {
+            return DB.createTable("classes_students", function () {
+                this.foreignKey("studentId", "student", {key:"id"});
+                this.foreignKey("classId", "class", {key:"id"});
+            });
+        },
+        comb.hitch(patio, "syncModels")
+    ]);
 };
+
 
 var createData = function () {
-    var DB = patio.defaultDatabase;
-    var Class = patio.getModel("class");
-    var Student = patio.getModel("student");
     var classInsertPromise = Class.save([
         {
             semester:"FALL",
@@ -174,9 +183,9 @@ var printResults = function (studentDs, classDs) {
             }).join("\n\t-")));
         return comb.when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents, function (res) {
             var aboveAverage = res[0].map(
-                function (student) {
-                    return format("%s %s", student.firstName, student.lastName);
-                }).join("\n\t-"),
+                    function (student) {
+                        return format("%s %s", student.firstName, student.lastName);
+                    }).join("\n\t-"),
                 average = res[1].map(
                     function (student) {
                         return format("%s %s", student.firstName, student.lastName);
@@ -194,9 +203,7 @@ var printResults = function (studentDs, classDs) {
 };
 
 
-createTables().chain(createModels, disconnectError).chain(createData, disconnectError).then(function (res) {
-    //Get our models
-    var Class = patio.getModel("class"), Student = patio.getModel("student");
+createTables().chain(createData, disconnectError).then(function (res) {
 
     var classDs = Class.order("name"), studentDs = Student.order("firstName", "lastName");
 

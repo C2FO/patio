@@ -4,44 +4,64 @@ var patio = require("../../index"),
     format = comb.string.format;
 
 patio.camelize = true;
+patio.configureLogging();
+patio.LOGGER.level = "ERROR";
+var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
 
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+var disconnect = comb.hitch(patio, "disconnect");
+var disconnectError = function (err) {
+    patio.logError(err);
+    patio.disconnect();
+};
 
-patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
-    function (db, patio) {
-        db.forceDropTable(["capital", "state"]);
-        db.createTable("state", function () {
-            this.primaryKey("id");
-            this.name(String)
-            this.population("integer");
-            this.founded(Date);
-            this.climate(String);
-            this.description("text");
-        });
-        db.createTable("capital", function () {
-            this.primaryKey("id");
-            this.population("integer");
-            this.name(String);
-            this.founded(Date);
-            this.foreignKey("stateId", "state", {key:"id"});
-        });
-        patio.addModel("state", {
-            static:{
-                init:function () {
-                    this._super(arguments);
-                    this.oneToOne("capital");
-                }
-            }
-        });
-        patio.addModel("capital", {
-            static:{
-                init:function () {
-                    this._super(arguments);
-                    this.manyToOne("state");
-                }
-            }
-        });
-        patio.getModel("state").save({
+var State = patio.addModel("state", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.oneToOne("capital");
+        }
+    }
+});
+var Capital = patio.addModel("capital", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("state");
+        }
+    }
+});
+
+var createTables = function () {
+    return comb.serial([
+        function () {
+            return DB.forceDropTable(["capital", "state"]);
+        },
+        function () {
+            return DB.createTable("state", function () {
+                this.primaryKey("id");
+                this.name(String)
+                this.population("integer");
+                this.founded(Date);
+                this.climate(String);
+                this.description("text");
+            });
+        },
+        function () {
+            return DB.createTable("capital", function () {
+                this.primaryKey("id");
+                this.population("integer");
+                this.name(String);
+                this.founded(Date);
+                this.foreignKey("stateId", "state", {key:"id"});
+            });
+        },
+        comb.hitch(patio, "syncModels")
+    ]);
+};
+
+var createData = function () {
+    return comb.when(
+        State.save({
             name:"Nebraska",
             population:1796619,
             founded:new Date(1867, 2, 4),
@@ -52,8 +72,8 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
                 population:258379
 
             }
-        });
-        patio.getModel("capital").save({
+        }),
+        Capital.save({
             name:"Austin",
             founded:new Date(1835, 0, 1),
             population:790390,
@@ -62,23 +82,32 @@ patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
                 population:25674681,
                 founded:new Date(1845, 11, 29)
             }
-        });
-        var State = patio.getModel("state"), Capital = patio.getModel("capital");
-        State.order("name").forEach(function (state) {
-            //if you return a promise here it will prevent the foreach from
-            //resolving until all inner processing has finished.
-            return state.capital.then(function (capital) {
-                console.log(comb.string.format("%s's capital is %s.", state.name, capital.name));
-            })
-        });
+        })
+    );
+};
 
-        Capital.order("name").forEach(function (capital) {
-            //if you return a promise here it will prevent the foreach from
-            //resolving until all inner processing has finished.
-            return capital.state.then(function (state) {
-                console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
-            })
-        });
 
-    }).both(comb.hitch(patio, "disconnect"));
+createTables().chain(createData, disconnectError).then(function () {
+    comb.serial([
+        function () {
+            return State.order("name").forEach(function (state) {
+                //if you return a promise here it will prevent the foreach from
+                //resolving until all inner processing has finished.
+                return state.capital.then(function (capital) {
+                    console.log(comb.string.format("%s's capital is %s.", state.name, capital.name));
+                });
+            });
+        },
+        function () {
+            return Capital.order("name").forEach(function (capital) {
+                //if you return a promise here it will prevent the foreach from
+                //resolving until all inner processing has finished.
+                return capital.state.then(function (state) {
+                    console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
+                });
+            });
+        }
+    ]).then(disconnect, disconnectError);
+});
+
 
