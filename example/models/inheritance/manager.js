@@ -1,5 +1,5 @@
-var patio = require("../../../index");
-var Employee = require("./employee");
+var patio = require("../../../index"),
+    Employee = require("./employee");
 
 
 patio.addModel("manager", Employee, {
