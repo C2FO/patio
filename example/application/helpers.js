@@ -1,11 +1,9 @@
 var patio = require("../../index"),
     data = require("./data"),
     helper = require("./schemas"),
-    comb = require("comb"),
-    models = require("./models");
-
-
+    comb = require("comb");
 exports.loadData = function () {
+    models = require("./models");
     patio.camelize = true;
     var ret = new comb.Promise();
     helper.createTables().then(function () {

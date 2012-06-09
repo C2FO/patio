@@ -5,15 +5,14 @@ var patio = require("index"),
 
 exports.loadModels = function () {
     var ret = new comb.Promise();
-    return comb.executeInOrder(helper, patio, function (helper, patio) {
-        helper.createTables(true);
+    helper.createTables(true).then(function () {
         var Employee = patio.addModel("employee", {
-            plugins : [ClassTableInheritance],
+            plugins:[ClassTableInheritance],
             static:{
 
                 init:function () {
                     this._super(arguments);
-                    this.configure({key : "kind"});
+                    this.configure({key:"kind"});
                 }
             }
         });
@@ -23,23 +22,23 @@ exports.loadModels = function () {
 
                 init:function () {
                     this._super(arguments);
-                    this.manyToOne("manager", {key : "managerId", fetchType : this.fetchType.EAGER});
+                    this.manyToOne("manager", {key:"managerId", fetchType:this.fetchType.EAGER});
                 }
             }
         });
         var Manager = patio.addModel("manager", Employee, {
             static:{
-
                 init:function () {
                     this._super(arguments);
-                    this.oneToMany("staff", {key : "managerId", fetchType : this.fetchType.EAGER});
+                    this.oneToMany("staff", {key:"managerId", fetchType:this.fetchType.EAGER});
                 }
             }
         });
 
-        patio.addModel("executive",  Manager);
-        patio.syncModels();
-    });
+        patio.addModel("executive", Manager);
+        patio.syncModels().then(ret);
+    }, ret);
+    return ret;
 };
 
 
