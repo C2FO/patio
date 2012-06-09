@@ -16,7 +16,7 @@ helper.loadModels().then(function() {
     suite.addBatch({
         "A model" : {
             topic : function() {
-                return Employee
+                return Employee;
             },
 
             "should have associations" : function() {
