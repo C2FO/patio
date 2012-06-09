@@ -6,7 +6,7 @@ exports.createTables = function () {
     var db = patio.defaultDatabase;
     return comb.serial([
         function () {
-            return db.forceDropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"])
+            return db.forceDropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"]);
         },
         function () {
             return db.createTable("airport", {engine:"innodb"}, function () {

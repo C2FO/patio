@@ -1,15 +1,14 @@
 var patio = require("../../index"),
     helpers = require("./helpers"),
-    express = require("express");
+    express = require("express"),
+    models = require("./models"),
+    Flight = models.Flight,
+    Airport = models.Airport;
 //connect
 patio.camelize = true;
 patio.connect("mysql://test:testpass@localhost:3306/sandbox?maxConnections=50&minConnections=10");
 patio.configureLogging();
-patio.LOGGER.level = "ERROR";
-
-var models = require("./models"),
-    Flight = models.Flight,
-    Airport = models.Airport;
+//patio.LOGGER.level = "ERROR";
 
 helpers.loadData().then(function () {
     var app = express.createServer();
