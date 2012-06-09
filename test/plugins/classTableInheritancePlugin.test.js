@@ -11,7 +11,7 @@ helper.loadModels().then(function () {
     var Employee = patio.getModel("employee"),
         Staff = patio.getModel("staff"),
         Manager = patio.getModel("manager"),
-        Executive = patio.getModel("executive")
+        Executive = patio.getModel("executive");
     var suite = vows.describe("ClassTableInheritance custom columns");
 
     suite.addBatch({

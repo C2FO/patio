@@ -22,7 +22,7 @@ exports.loadModels = function () {
                 }
             }
         });
-
+        patio.syncModels();
     });
 };
 

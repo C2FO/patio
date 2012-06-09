@@ -43,6 +43,7 @@ exports.loadModels = function() {
                 }
             }
         });
+        patio.syncModels();
         return [DB1, DB2];
     });
 };

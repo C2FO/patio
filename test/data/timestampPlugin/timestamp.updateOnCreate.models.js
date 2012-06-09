@@ -10,6 +10,7 @@ exports.loadModels = function () {
             plugins:[patio.plugins.TimeStampPlugin]
         });
         Employee.timestamp({updateOnCreate : true});
+        patio.syncModels();
     });
 };
 

@@ -46,12 +46,12 @@ var dropTableAndDisconnectErr = function (err) {
 };
 
 createTables().then(function () {
-    patio.import(__dirname + "/models/inheritance").then(function () {
-        var Employee = patio.getModel("employee"),
-            Staff = patio.getModel("staff"),
-            Manager = patio.getModel("manager"),
-            Executive = patio.getModel("executive");
-
+    var models = require("./models/inheritance"),
+        Employee = patio.getModel("employee"),
+        Staff = patio.getModel("staff"),
+        Manager = patio.getModel("manager"),
+        Executive = patio.getModel("executive");
+    patio.syncModels().then(function () {
         comb.when(
             new Employee({name:"Bob"}).save(),
             new Staff({name:"Greg"}).save(),

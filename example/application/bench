@@ -6,7 +6,7 @@ BASE_URL=http://127.0.0.1:8080
 
 
 bench() {
-  ab -n $NUM -c $CONCURRENT -k -q $BASE_URL$1 | grep "Requests per" | cut -d ' ' -f 7,1,2,3 | xargs echo "$2:"
+  ab -r -n $NUM -c $CONCURRENT -q $BASE_URL$1 | grep "Requests per" | cut -d ' ' -f 7,1,2,3 | xargs echo "$2:"
 }
 
 sleep .5

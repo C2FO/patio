@@ -38,7 +38,7 @@ exports.loadModels = function () {
         });
 
         patio.addModel("executive",  Manager);
-
+        patio.syncModels();
     });
 };
 

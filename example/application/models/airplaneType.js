@@ -8,5 +8,5 @@ patio.addModel("airplaneType", {
                 .oneToMany("airplanes");
         }
     }
-});
+}).as(module);
 

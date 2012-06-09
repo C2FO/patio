@@ -1,7 +1,8 @@
 var patio = require("../../../index"),
     sql = patio.sql,
     comb = require("comb"),
-    expressPlugin = require("../plugins/ExpressPlugin");
+    expressPlugin = require("../plugins/ExpressPlugin"),
+    FlightLeg = require("./flightleg");
 
 
 patio.addModel("flight", {
@@ -66,21 +67,13 @@ patio.addModel("flight", {
         },
 
         arrivesAt:function (airportCode) {
-            return this.join(this.flightLeg.select("flightId").filter({arrivalCode:airportCode}).distinct(), {flightId:sql.id}).all();
+            return this.join(FlightLeg.select("flightId").filter({arrivalCode:airportCode}).distinct(), {flightId:sql.id}).all();
         },
 
         departsFrom:function (airportCode) {
-            return this.join(this.flightLeg.select("flightId").filter({departureCode:airportCode}).distinct(), {flightId:sql.id}).all();
+            return this.join(FlightLeg.select("flightId").filter({departureCode:airportCode}).distinct(), {flightId:sql.id}).all();
         },
 
-        getters:{
-            flightLeg:function () {
-                if (!this.__flightLeg) {
-                    this.__flightLeg = this.patio.getModel("flightLeg");
-                }
-                return this.__flightLeg;
-            }
-        }
     }
-});
+}).as(module);
 

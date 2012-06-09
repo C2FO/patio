@@ -67,7 +67,7 @@ helper.loadModels().then(function () {
                         assert.lengthOf(emps, 2);
                         comb.executeInOrder(assert, Employee,
                             function (assert, Employee) {
-                                var emps = Employee.all()
+                                var emps = Employee.all();
                                 assert.lengthOf(emps, 2);
                                 return {companies1:emps[0].companies, companies2:emps[1].companies};
                             }).then(hitch(this, "callback", null), hitch(this, "callback"));

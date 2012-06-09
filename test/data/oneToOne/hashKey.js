@@ -22,7 +22,8 @@ exports.loadModels = function() {
                 }
             }
         });
-        //define associations
+
+        patio.syncModels();
     });
 };
 
