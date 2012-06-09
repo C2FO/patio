@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToMany/lazy.models"),
+    helper = require("../../data/manyToMany.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
@@ -8,8 +8,25 @@ var vows = require('vows'),
 var ret = module.exports = exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Company = patio.getModel("company"), Employee = patio.getModel("employee");
+
+var Company = patio.addModel("company", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("employees");
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("companies");
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
 
     var suite = vows.describe("Many to many Lazy association ");
 

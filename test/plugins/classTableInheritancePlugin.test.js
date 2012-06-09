@@ -1,17 +1,46 @@
 var vows = require('vows'),
     assert = require('assert'),
     patio = require("index"),
+    ClassTableInheritance = patio.plugins.ClassTableInheritancePlugin,
     comb = require("comb"),
     hitch = comb.hitch,
-    helper = require("../data/ctiPlugin/classTableInheritance.models");
+    helper = require("../data/classTableInheritance.helper.js");
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 patio.quoteIdentifiers = false;
-helper.loadModels().then(function () {
-    var Employee = patio.getModel("employee"),
-        Staff = patio.getModel("staff"),
-        Manager = patio.getModel("manager"),
-        Executive = patio.getModel("executive");
+
+var Employee = patio.addModel("employee", {
+    plugins:[ClassTableInheritance],
+    "static":{
+
+        init:function () {
+            this._super(arguments);
+            this.configure({key:"kind"});
+        }
+    }
+});
+var Staff = patio.addModel("staff", Employee, {
+
+    "static":{
+
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("manager", {key:"managerId", fetchType:this.fetchType.EAGER});
+        }
+    }
+});
+var Manager = patio.addModel("manager", Employee, {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToMany("staff", {key:"managerId", fetchType:this.fetchType.EAGER});
+        }
+    }
+});
+
+var Executive = patio.addModel("executive", Manager);
+
+helper.createSchemaAndSync().then(function () {
     var suite = vows.describe("ClassTableInheritance custom columns");
 
     suite.addBatch({
@@ -104,7 +133,7 @@ helper.loadModels().then(function () {
                     assert.lengthOf(executives, 1);
                     executives.forEach(function (model) {
                         assert.instanceOf(model, Executive);
-                    })
+                    });
                 }
             }
         }
@@ -119,7 +148,7 @@ helper.loadModels().then(function () {
                     var ret = new comb.Promise(), i = 0;
                     Manager.order('kind').forEach(
                         function (manager) {
-                            return manager.addStaff(new Staff({name:"Staff" + i++}))
+                            return manager.addStaff(new Staff({name:"Staff" + i++}));
 
                         }).then(function () {
                             Employee.order('kind', "id").all().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
@@ -129,7 +158,7 @@ helper.loadModels().then(function () {
 
                 "and should maintin type":function (res) {
                     assert.lengthOf(res, 6);
-                    var employee = res[0], executive = res[1], manager = res[2], staff1 = res[3], staff2 = res[4], staff3 = res[5]
+                    var employee = res[0], executive = res[1], manager = res[2], staff1 = res[3], staff2 = res[4], staff3 = res[5];
                     assert.isFalse(employee.hasAssociations);
                     assert.isTrue(executive.hasAssociations);
                     assert.lengthOf(executive.staff, 1);
@@ -177,7 +206,7 @@ helper.loadModels().then(function () {
                        if(manager instanceof Executive){
                            assert.equal(manager.numManagers, 0);
                        }
-                   })
+                   });
                 }
             }
         }

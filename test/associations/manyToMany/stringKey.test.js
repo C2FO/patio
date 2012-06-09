@@ -1,15 +1,30 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToMany/stringKey.models"),
+    helper = require("../../data/manyToMany.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Company = patio.getModel("company"), Employee = patio.getModel("employee");
+var Company = patio.addModel("company", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("employees", {leftKey:"companyId", rightKey:"employeeId"});
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("companies", {leftKey:"employeeId", rightKey:"companyId"});
+        }
+    }
+});
+helper.createSchemaAndSync().then(function () {
 
     var suite = vows.describe("Many to many Lazy association using a string for the right and left key ");
 
@@ -71,7 +86,7 @@ helper.loadModels().then(function () {
                         }, this);
                         comb.executeInOrder(assert, Employee,
                             function (assert, Employee) {
-                                var emps = Employee.all()
+                                var emps = Employee.all();
                                 assert.lengthOf(emps, 2);
                                 assert.equal(1, emps[0].id);
                                 assert.equal(2, emps[1].id);
@@ -82,10 +97,10 @@ helper.loadModels().then(function () {
 
                     "the employees company should be loaded":function (ret) {
                         assert.isTrue(ret.companies1.every(function (c) {
-                            return c.companyName == "Google"
+                            return c.companyName === "Google";
                         }));
                         assert.isTrue(ret.companies2.every(function (c) {
-                            return c.companyName == "Google"
+                            return c.companyName === "Google";
                         }));
                     }
                 }

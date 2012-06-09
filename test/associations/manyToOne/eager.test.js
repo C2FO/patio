@@ -1,22 +1,39 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToOne/eager.models"),
+    helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Company = patio.getModel("company"), Employee = patio.getModel("employee");
+
+var Company = patio.addModel("company", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToMany("employees", {fetchType : this.fetchType.EAGER});
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("company", {fetchType : this.fetchType.EAGER});
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
 
     var suite = vows.describe("Many to one eager association ");
 
     suite.addBatch({
         "A model":{
             topic:function () {
-                return Employee
+                return Employee;
             },
 
             "should have associations":function () {
@@ -273,7 +290,7 @@ helper.loadModels().then(function () {
                 comb.executeInOrder(Company, Employee, console,
                     function (Company, Employee, console) {
                         var emps = Employee.all();
-                        var company = Company.one()
+                        var company = Company.one();
                         company.employees = emps;
                         return company.save();
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));

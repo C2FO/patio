@@ -2,7 +2,7 @@ var patio = require("index"),
     comb = require("comb");
 
 var DB;
-exports.createTables = function (underscore) {
+var createTables = function (underscore) {
     underscore = underscore === true;
     if (underscore) {
         patio.camelize = underscore;
@@ -35,10 +35,21 @@ exports.createTables = function (underscore) {
 };
 
 
-exports.dropTableAndDisconnect = function () {
+var dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
         db.forceDropTable(["staff", "executive", "manager", "employee"]);
         patio.disconnect();
         patio.resetIdentifierMethods();
     });
+};
+
+exports.createSchemaAndSync = function (underscore) {
+    var ret = new comb.Promise();
+    createTables(underscore).chain(comb.hitch(patio, "syncModels"), ret).then(ret);
+    return ret;
+};
+
+
+exports.dropModels = function () {
+    return dropTableAndDisconnect();
 };

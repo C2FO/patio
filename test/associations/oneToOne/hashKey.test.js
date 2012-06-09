@@ -1,22 +1,39 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/oneToOne/hashKey"),
+    helper = require("../../data/oneToOne.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Works = patio.getModel("works"), Employee = patio.getModel("employee");
+
+var Works = patio.addModel("works", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("employee", {key : {employeeId : "id"}});
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToOne("works", {key : {id : "employeeId"}});
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
     var suite = vows.describe("One to One hash key association ");
 
     suite.addBatch({
         "A model":{
             topic:function () {
-                return Employee
+                return Employee;
             },
 
             "should have associations":function () {
@@ -237,7 +254,6 @@ helper.loadModels().then(function () {
                                         var nullWorks = newEmp.works;
                                         return {emp:emp, employee:newEmp, nullWorks:nullWorks };
                                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
-                                ;
                             },
 
                             "employee should be null but employee should still exists but not work anywhere":function (res) {

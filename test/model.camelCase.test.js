@@ -1,18 +1,27 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("./data/model.camelCase.model"),
+    helper = require("./data/model.helper.js"),
     patio = require("index"),
     sql = patio.SQL,
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 var suite = vows.describe("model object");
 
 var gender = ["M", "F"];
-helper.loadModels().then(function() {
-    var Employee = patio.getModel("employee");
-    var DB = patio.defaultDatabase;
+
+var Employee = patio.addModel("employee", {
+    "static" : {
+        camelize : true,
+        //class methods
+        findByGender : function(gender, callback, errback) {
+            return this.filter({gender : gender}).all();
+        }
+    }
+});
+
+helper.createSchemaAndSync(true).then(function() {
     suite.addBatch({
         "should save an employee" : {
             topic : function() {
@@ -138,7 +147,7 @@ helper.loadModels().then(function() {
                     comb.executeInOrder(Employee,
                         function(Employee) {
                             var ret = {};
-                            ret.query1 = Employee.filter({id : [1,2,3,4,5,6]}).all()
+                            ret.query1 = Employee.filter({id : [1,2,3,4,5,6]}).all();
                             ret.query2 = Employee.filter(id.gt(5), id.lt(11)).order("id").last();
                             ret.query3 = Employee.filter(
                                 function() {
@@ -151,7 +160,7 @@ helper.loadModels().then(function() {
                                     return this.id.gt(15);
                                 }).forEach(
                                 function(emp) {
-                                    ret.query5.push(emp)
+                                    ret.query5.push(emp);
                                 });
                             return ret;
 
@@ -246,7 +255,7 @@ helper.loadModels().then(function() {
                     assert.lengthOf(topic.query2, 20);
                     topic.query2.forEach(function(name, i) {
                         assert.equal(name, "first" + i + " last" + i);
-                    })
+                    });
 
                 }
             },

@@ -1,23 +1,47 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToOne/customFilter.eager.models"),
+    helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
+    sql = patio.sql,
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
 var cities = ["Omaha", "Lincoln", "Kearney"];
-helper.loadModels().then(function () {
-    var Company = patio.getModel("company"), Employee = patio.getModel("employee");
+
+var Company = patio.addModel("company", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToMany("employees", {fetchType:this.fetchType.EAGER});
+            this.oneToMany("omahaEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
+                return ds.filter(sql.identifier("city").ilike("omaha"));
+            });
+            this.oneToMany("lincolnEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
+                return ds.filter(sql.identifier("city").ilike("lincoln"));
+            });
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("company", {fetchType:this.fetchType.EAGER});
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
 
     var suite = vows.describe("Many to one Eager association with a customFilter ");
 
     suite.addBatch({
         "A model":{
             topic:function () {
-                return Employee
+                return Employee;
             },
 
             "should have associations":function () {
@@ -60,9 +84,9 @@ helper.loadModels().then(function () {
                     lincolnEmployees = company.lincolnEmployees;
                 assert.lengthOf(employees, 3);
                 assert.lengthOf(lincolnEmployees, 1);
-                assert.equal(lincolnEmployees[0].city, "Lincoln")
+                assert.equal(lincolnEmployees[0].city, "Lincoln");
                 assert.lengthOf(omahaEmployees, 1);
-                assert.equal(omahaEmployees[0].city, "Omaha")
+                assert.equal(omahaEmployees[0].city, "Omaha");
                 employees.forEach(function (emp, i) {
                     assert.equal(emp.id, i + 1);
                 }, this);
@@ -133,11 +157,11 @@ helper.loadModels().then(function () {
                         assert.lengthOf(ret.employees, 4);
                         assert.lengthOf(ret.omahaEmployees, 2);
                         assert.isTrue(ret.omahaEmployees.every(function (emp) {
-                            return emp.city.match(/omaha/i) != null;
+                            return emp.city.match(/omaha/i) !== null;
                         }));
                         assert.lengthOf(ret.lincolnEmployees, 1);
                         assert.isTrue(ret.lincolnEmployees.every(function (emp) {
-                            return emp.city.match(/lincoln/i) != null;
+                            return emp.city.match(/lincoln/i) !== null;
                         }));
                         var ids = [1, 2, 3, 4];
                         emps.forEach(function (emp, i) {
@@ -251,11 +275,11 @@ helper.loadModels().then(function () {
                 assert.lengthOf(ret.employees, 3);
                 assert.lengthOf(ret.omahaEmployees, 1);
                 assert.isTrue(ret.omahaEmployees.every(function (emp) {
-                    return emp.city.match(/omaha/i) != null;
+                    return emp.city.match(/omaha/i) !== null;
                 }));
                 assert.lengthOf(ret.lincolnEmployees, 1);
                 assert.isTrue(ret.lincolnEmployees.every(function (emp) {
-                    return emp.city.match(/lincoln/i) != null;
+                    return emp.city.match(/lincoln/i) !== null;
                 }));
             }
         }

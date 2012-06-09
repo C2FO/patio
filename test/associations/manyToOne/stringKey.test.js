@@ -1,14 +1,34 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToOne/stringKey"),
+    helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function() {
+
+var Company = patio.addModel("company", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToMany("employees", {key:"companyId"});
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("company", {key:"companyId"});
+        }
+    }
+});
+
+
+
+helper.createSchemaAndSync().then(function() {
     var Company = patio.getModel("company"), Employee = patio.getModel("employee");
 
     var suite = vows.describe("Many to one useing string for key association ");
@@ -71,7 +91,7 @@ helper.loadModels().then(function() {
                         }, this);
                         comb.executeInOrder(assert, Employee,
                             function(assert, Employee) {
-                                var emps = Employee.filter({companyId : company.id}).all()
+                                var emps = Employee.filter({companyId : company.id}).all();
                                 assert.lengthOf(emps, 2);
                                 assert.equal(1, emps[0].id);
                                 assert.equal(2, emps[1].id);

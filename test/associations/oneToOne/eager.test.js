@@ -1,21 +1,38 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/oneToOne/eager.models.js"),
+    helper = require("../../data/oneToOne.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Works = patio.getModel("works"), Employee = patio.getModel("employee");
+
+var Works = patio.addModel("works", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("employee", {fetchType:this.fetchType.EAGER});
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+        init:function () {
+            this._super(arguments);
+            this.oneToOne("works", {fetchType:this.fetchType.EAGER});
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
     var suite = vows.describe("One to One Eager association ");
 
     suite.addBatch({
         "A model":{
             topic:function () {
-                return Employee
+                return Employee;
             },
 
             "should have associations":function () {
@@ -188,7 +205,7 @@ helper.loadModels().then(function () {
 
             " the employee should work at google ":{
                 topic:function (employee) {
-                    var works = employee.works
+                    var works = employee.works;
                     assert.equal(works.companyName, "Google");
                     assert.equal(works.salary, 100000);
                     works.employee = null;

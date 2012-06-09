@@ -3,12 +3,16 @@ var vows = require('vows'),
         patio = require("index"),
         comb = require("comb"),
         hitch = comb.hitch,
-        helper = require("../data/timestampPlugin/timestamp.updateOnCreate.models");
+        helper = require("../data/timestampPlugin.helper.js");
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
-helper.loadModels().then(function() {
-    Employee = patio.getModel("employee");
+var Employee = patio.addModel("employee", {
+    plugins:[patio.plugins.TimeStampPlugin]
+});
+Employee.timestamp({updateOnCreate : true});
+
+helper.createSchemaAndSync().then(function() {
     var suite = vows.describe("TimeStampPlugin updateOnCreate");
 
     suite.addBatch({

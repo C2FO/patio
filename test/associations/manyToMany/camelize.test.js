@@ -1,21 +1,48 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("../../data/manyToMany/camelize.models"),
+    helper = require("../../data/manyToMany.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];
-var ret = module.exports = exports = new comb.Promise();
-helper.loadModels().then(function () {
-    var Company = patio.getModel("company"), Employee = patio.getModel("employee");
+
+var Company = patio.addModel("company", {
+    "static":{
+
+        identifierOutputMethod:"camelize",
+
+        identifierInputMethod:"underscore",
+
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("employees");
+        }
+    }
+});
+var Employee = patio.addModel("employee", {
+    "static":{
+
+        identifierOutputMethod:"camelize",
+
+        identifierInputMethod:"underscore",
+
+        init:function () {
+            this._super(arguments);
+            this.manyToMany("companies");
+        }
+    }
+});
+
+var ret = module.exports  = new comb.Promise();
+helper.createSchemaAndSync(true).then(function () {
 
     var suite = vows.describe("Many to many Lazy association ");
 
     suite.addBatch({
         "A model":{
             topic:function () {
-                return Employee
+                return Employee;
             },
 
             "should have associations":function () {
@@ -76,10 +103,10 @@ helper.loadModels().then(function () {
 
                     "the employees company should be loaded":function (ret) {
                         assert.isTrue(ret.companies1.every(function (c) {
-                            return c.companyName == "Google"
+                            return c.companyName === "Google";
                         }));
                         assert.isTrue(ret.companies2.every(function (c) {
-                            return c.companyName == "Google"
+                            return c.companyName === "Google";
                         }));
                     }
                 }

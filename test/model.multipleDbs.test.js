@@ -1,36 +1,91 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("./data/model.multipleDatabase"),
     patio = require("index"),
     events = require("events"),
     sql = patio.SQL,
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
 var suite = vows.describe("Model object with multple databases");
+var DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+var DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
 
 var gender = ["M", "F"];
-helper.loadModels().then(function(dbs) {
-    var Employee = patio.getModel("employee", dbs[0]);
-    //Get employee from other database
-    var Employee2 = patio.getModel("employee", dbs[1]);
 
+var createTablesAndSync = function () {
+    var ret = new comb.Promise();
+    comb.when(
+        DB1.forceCreateTable("employee", function () {
+            this.primaryKey("id");
+            this.firstname("string", {length:20, allowNull:false});
+            this.lastname("string", {length:20, allowNull:false});
+            this.midinitial("char", {length:1});
+            this.position("integer");
+            this.gender("enum", {elements:["M", "F"]});
+            this.street("string", {length:50, allowNull:false});
+            this.city("string", {length:20, allowNull:false});
+        }),
+        DB2.forceCreateTable("employee", function () {
+            this.primaryKey("id");
+            this.firstname("string", {length:20, allowNull:false});
+            this.lastname("string", {length:20, allowNull:false});
+            this.midinitial("char", {length:1});
+            this.position("integer");
+            this.gender("enum", {elements:["M", "F"]});
+            this.street("string", {length:50, allowNull:false});
+            this.city("string", {length:20, allowNull:false});
+        })
+    ).chain(patio.syncModels, ret).then(ret);
+    return ret;
+
+};
+
+var Employee = patio.addModel(DB1.from("employee"), {
+    "static":{
+        //class methods
+        findByGender:function (gender, callback, errback) {
+            return this.filter({gender:gender}).all();
+        }
+    }
+});
+var Employee2 = patio.addModel(DB2.from("employee"), {
+    "static":{
+        //class methods
+        findByGender:function (gender, callback, errback) {
+            return this.filter({gender:gender}).all();
+        }
+    }
+});
+
+createTablesAndSync().then(function (dbs) {
     suite.addBatch({
-        "should save an employee" : {
-            topic : function() {
+
+        "should retrieve models ":{
+
+            topic:{Emp1:patio.getModel("employee", DB1), Emp2:patio.getModel("employee", DB2)},
+
+            "with the same name from different databases":function (topic) {
+                assert.strictEqual(topic.Emp1, Employee);
+                assert.strictEqual(topic.Emp2, Employee2);
+            }
+
+        },
+
+        "should save an employee":{
+            topic:function () {
                 var emp = new Employee({
-                    firstname : "doug",
-                    lastname : "martin",
-                    position : 1,
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"}).save().then(hitch(this, "callback", null), hitch(this, "callback"));
+                    firstname:"doug",
+                    lastname:"martin",
+                    position:1,
+                    midinitial:null,
+                    gender:"M",
+                    street:"1 nowhere st.",
+                    city:"NOWHERE"}).save().then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " and get a list of one employees" : function(emp) {
+            " and get a list of one employees":function (emp) {
                 assert.instanceOf(emp, Employee);
                 assert.equal("doug", emp.firstname);
                 assert.equal("martin", emp.lastname);
@@ -40,22 +95,22 @@ helper.loadModels().then(function(dbs) {
                 assert.equal("NOWHERE", emp.city);
             },
 
-            "should save a batch of employees" : {
-                topic : function() {
+            "should save a batch of employees":{
+                topic:function () {
                     var emps = [];
                     for (var i = 0; i < 20; i++) {
                         emps.push({
-                            lastname : "last" + i,
-                            firstname : "first" + i,
-                            position : i,
-                            midinitial : "m",
-                            gender : gender[i % 2],
-                            street : "Street " + i,
-                            city : "City " + i
+                            lastname:"last" + i,
+                            firstname:"first" + i,
+                            position:i,
+                            midinitial:"m",
+                            gender:gender[i % 2],
+                            street:"Street " + i,
+                            city:"City " + i
                         });
                     }
                     comb.executeInOrder(Employee,
-                        function(emp) {
+                        function (emp) {
                             emp.truncate();
                             var ret = {};
                             ret.employees = emp.save(emps);
@@ -64,10 +119,10 @@ helper.loadModels().then(function(dbs) {
                         }).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                " and get a get a count of 20 and 20 different emplyees" : function(ret) {
+                " and get a get a count of 20 and 20 different emplyees":function (ret) {
                     assert.equal(ret.count, 20);
                     assert.lengthOf(ret.employees, 20);
-                    ret.employees.forEach(function(emp, i) {
+                    ret.employees.forEach(function (emp, i) {
                         assert.equal(emp.lastname, "last" + i);
                         assert.equal(emp.firstname, "first" + i);
                         assert.equal(emp.midinitial, "m");
@@ -85,70 +140,70 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "A Model " : {
+        "A Model ":{
 
-            topic : function() {
+            topic:function () {
                 var emps = [];
                 for (var i = 0; i < 20; i++) {
                     emps.push({
-                        lastname : "last" + i,
-                        firstname : "first" + i,
-                        midinitial : "m",
-                        position : i,
-                        gender : gender[i % 2],
-                        street : "Street " + i,
-                        city : "City " + i
+                        lastname:"last" + i,
+                        firstname:"first" + i,
+                        midinitial:"m",
+                        position:i,
+                        gender:gender[i % 2],
+                        street:"Street " + i,
+                        city:"City " + i
                     });
                 }
                 comb.executeInOrder(Employee,
-                    function(emp) {
+                    function (emp) {
                         emp.truncate();
                         emp.save(emps);
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            "Should findById"  : {
-                topic : function() {
+            "Should findById":{
+                topic:function () {
                     Employee.findById(1).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employees" : function(topic) {
+                "and return employees":function (topic) {
                     assert.instanceOf(topic, Employee);
                     assert.equal(topic.id, 1);
                 }
             },
 
-            "Should filter"  : {
-                topic : function() {
+            "Should filter":{
+                topic:function () {
                     var id = sql.identifier("id");
                     comb.executeInOrder(Employee,
-                        function(Employee) {
+                        function (Employee) {
                             var ret = {};
-                            ret.query1 = Employee.filter({id : [1,2,3,4,5,6]}).all()
+                            ret.query1 = Employee.filter({id:[1, 2, 3, 4, 5, 6]}).all();
                             ret.query2 = Employee.filter(id.gt(5), id.lt(11)).order("id").last();
                             ret.query3 = Employee.filter(
-                                function() {
+                                function () {
                                     return this.firstname.like(/first1[1|2]*$/);
                                 }).order("firstname").all();
-                            ret.query4 = Employee.filter({id : {between : [1,5]}}).order("id").all();
+                            ret.query4 = Employee.filter({id:{between:[1, 5]}}).order("id").all();
                             ret.query5 = [];
                             Employee.filter(
-                                function() {
+                                function () {
                                     return this.id.gt(15);
                                 }).forEach(
-                                function(emp) {
-                                    ret.query5.push(emp)
+                                function (emp) {
+                                    ret.query5.push(emp);
                                 });
                             return ret;
 
                         }).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employees" : function(topic) {
+                "and return employees":function (topic) {
                     var i = 1;
                     var query1 = topic.query1, query2 = topic.query2, query3 = topic.query3, query4 = topic.query4, query5 = topic.query5, query6 = topic.query6;
                     assert.lengthOf(query1, 6);
-                    query1.forEach(function(t) {
+                    query1.forEach(function (t) {
                         assert.instanceOf(t, Employee);
                         assert.equal(i++, t.id);
                     });
@@ -160,63 +215,63 @@ helper.loadModels().then(function(dbs) {
                     assert.equal(query3[1].firstname, "first11");
                     assert.instanceOf(query3[2], Employee);
                     assert.equal(query3[2].firstname, "first12");
-                    assert.deepEqual(query4.map(function(e) {
+                    assert.deepEqual(query4.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
-                    }), [1,2,3,4,5]);
-                    assert.deepEqual(query5.map(function(e) {
+                    }), [1, 2, 3, 4, 5]);
+                    assert.deepEqual(query5.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
-                    }), [16,17,18,19,20]);
+                    }), [16, 17, 18, 19, 20]);
 
 
                 }
             },
 
-            "Should find by gender"  : {
-                topic : function() {
+            "Should find by gender":{
+                topic:function () {
                     var self = this;
                     Employee.findByGender("F").then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return female employees" : function(topic) {
-                    topic.forEach(function(emp) {
+                "and return female employees":function (topic) {
+                    topic.forEach(function (emp) {
                         assert.instanceOf(emp, Employee);
                         assert.equal("F", emp.gender);
                     });
                 }
             },
 
-            "Should count employees"  : {
-                topic : function() {
+            "Should count employees":{
+                topic:function () {
                     Employee.count().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return 20" : function(topic) {
+                "and return 20":function (topic) {
                     assert.equal(20, topic);
                 }
             },
 
-            "Should find all employees"  : {
-                topic : function() {
+            "Should find all employees":{
+                topic:function () {
                     Employee.all().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return 20 employees" : function(topic) {
+                "and return 20 employees":function (topic) {
                     assert.lengthOf(topic, 20);
-                    topic.forEach(function(e) {
+                    topic.forEach(function (e) {
                         assert.instanceOf(e, Employee);
                     });
                 }
             },
 
-            "Should map all employees"  : {
-                topic : function() {
+            "Should map all employees":{
+                topic:function () {
                     comb.executeInOrder(Employee,
-                        function(Employee) {
+                        function (Employee) {
                             var ret = {};
                             ret.query1 = Employee.map("id");
-                            ret.query2 = Employee.order("position").map(function(e) {
+                            ret.query2 = Employee.order("position").map(function (e) {
                                 return e.firstname + " " + e.lastname;
                             });
                             return ret;
@@ -224,69 +279,69 @@ helper.loadModels().then(function(dbs) {
 
                 },
 
-                "and return 20 ids" : function(topic) {
+                "and return 20 ids":function (topic) {
                     assert.lengthOf(topic.query1, 20);
-                    topic.query1.forEach(function(id, i) {
+                    topic.query1.forEach(function (id, i) {
                         assert.equal(id, i + 1);
                     });
                     assert.lengthOf(topic.query2, 20);
-                    topic.query2.forEach(function(name, i) {
+                    topic.query2.forEach(function (name, i) {
                         assert.equal(name, "first" + i + " last" + i);
-                    })
+                    });
 
                 }
             },
 
 
-            "Should loop through all employees"  : {
-                topic : function() {
+            "Should loop through all employees":{
+                topic:function () {
                     var ret = [];
                     var d = Employee.forEach(
-                        function(emp) {
+                        function (emp) {
                             ret.push(emp);
                         }).then(hitch(this, "callback", null, ret), hitch(this, "callback"));
                 },
 
-                "and return 20 employees" : function(topic) {
+                "and return 20 employees":function (topic) {
                     assert.lengthOf(topic, 20);
-                    topic.forEach(function(e) {
+                    topic.forEach(function (e) {
                         assert.instanceOf(e, Employee);
                     });
                 }
             },
 
-            "Should find first employee"  : {
-                topic : function() {
+            "Should find first employee":{
+                topic:function () {
                     var d = Employee.one().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee with id of 1" : function(topic) {
+                "and return employee with id of 1":function (topic) {
                     assert.instanceOf(topic, Employee);
                     assert.equal(1, topic.id);
                 }
             },
 
-            "Should find first employee with query"  : {
-                topic : function() {
+            "Should find first employee with query":{
+                topic:function () {
                     var self = this;
                     this.count = 1;
                     var id = sql.identifier("id");
                     var d = Employee.first(id.gt(5), id.lt(11)).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee with id of 1" : function(topic) {
+                "and return employee with id of 1":function (topic) {
                     assert.instanceOf(topic, Employee);
                     assert.equal(topic.id, 6);
                 }
             },
 
-            "Should find last employee"  : {
-                topic : function() {
+            "Should find last employee":{
+                topic:function () {
                     var self = this;
                     var d = Employee.order("firstname").last().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee a first name of first9" : function(topic) {
+                "and return employee a first name of first9":function (topic) {
                     assert.throws(hitch(Employee, "last"));
                     assert.instanceOf(topic, Employee);
                     assert.equal(topic.firstname, "first9");
@@ -295,57 +350,57 @@ helper.loadModels().then(function(dbs) {
         }
     });
     suite.addBatch({
-        "Should save an employee"  : {
-            topic : function() {
+        "Should save an employee":{
+            topic:function () {
                 Employee.save({
-                    firstname : "doug",
-                    lastname : "martin",
-                    position : 21,
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"
+                    firstname:"doug",
+                    lastname:"martin",
+                    position:21,
+                    midinitial:null,
+                    gender:"M",
+                    street:"1 nowhere st.",
+                    city:"NOWHERE"
                 }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            "and the employee should have an id" : function(emp) {
+            "and the employee should have an id":function (emp) {
                 assert.instanceOf(emp, Employee);
                 assert.isNumber(emp.id);
             },
 
-            "Should be able to update the employee" : {
-                topic : function(emp) {
+            "Should be able to update the employee":{
+                topic:function (emp) {
                     emp.firstname = "douglas";
                     emp.update().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and when querying the employee it should be updated" : {
+                "and when querying the employee it should be updated":{
 
-                    topic : function(e, emp) {
+                    topic:function (e, emp) {
                         assert.instanceOf(e, Employee);
                         assert.equal(e.firstname, "douglas");
-                        Employee.one({id : emp.id}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                        Employee.one({id:emp.id}).then(hitch(this, "callback", null), hitch(this, "callback"));
                     },
 
-                    " with the new name" : function(emp) {
+                    " with the new name":function (emp) {
                         assert.instanceOf(emp, Employee);
                         assert.isNumber(emp.id);
                         assert.equal(emp.firstname, "douglas");
                     },
 
-                    "Should be able to delete the employee" :  {
-                        topic : function(e, emp) {
+                    "Should be able to delete the employee":{
+                        topic:function (e, emp) {
                             emp.remove().then(hitch(this, "callback", null, emp), hitch(this, "callback"));
                         },
 
-                        "and when when querying the deleted employee" : {
+                        "and when when querying the deleted employee":{
 
-                            topic : function(emp) {
+                            topic:function (emp) {
                                 var self = this;
-                                Employee.filter({id : emp.id}).one().then(hitch(this, "callback", null), hitch(this, "callback"));
+                                Employee.filter({id:emp.id}).one().then(hitch(this, "callback", null), hitch(this, "callback"));
                             },
 
-                            "it should be null" : function(topic) {
+                            "it should be null":function (topic) {
                                 assert.isNull(topic);
                             }
                         }
@@ -357,18 +412,18 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "Should do a batch update" : {
-            topic : function() {
+        "Should do a batch update":{
+            topic:function () {
                 comb.executeInOrder(Employee,
-                    function(Employee) {
-                        Employee.update({firstname : "doug"});
+                    function (Employee) {
+                        Employee.update({firstname:"doug"});
                         return Employee.all();
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " all records should be updated" : function(records) {
+            " all records should be updated":function (records) {
                 assert.lengthOf(records, 20);
-                records.forEach(function(r) {
+                records.forEach(function (r) {
                     assert.equal(r.firstname, "doug");
                 });
             }
@@ -376,16 +431,16 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "Should do an update on a single record" : {
-            topic : function() {
+        "Should do an update on a single record":{
+            topic:function () {
                 comb.executeInOrder(Employee,
-                    function(Employee) {
-                        Employee.update({firstname : "dougie"}, {id: 2});
+                    function (Employee) {
+                        Employee.update({firstname:"dougie"}, {id:2});
                         return Employee.filter({id:2}).one();
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " all records should be updated" : function(emp) {
+            " all records should be updated":function (emp) {
                 assert.instanceOf(emp, Employee);
                 assert.equal(emp.firstname, "dougie");
             }
@@ -394,19 +449,19 @@ helper.loadModels().then(function(dbs) {
 
 
     suite.addBatch({
-        "should save an employee to test2" : {
-            topic : function() {
+        "should save an employee to test2":{
+            topic:function () {
                 var emp = new Employee2({
-                    firstname : "doug",
-                    lastname : "martin",
-                    position : 1,
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"}).save().then(hitch(this, "callback", null), hitch(this, "callback"));
+                    firstname:"doug",
+                    lastname:"martin",
+                    position:1,
+                    midinitial:null,
+                    gender:"M",
+                    street:"1 nowhere st.",
+                    city:"NOWHERE"}).save().then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " and get a list of one employees" : function(emp) {
+            " and get a list of one employees":function (emp) {
                 assert.instanceOf(emp, Employee2);
                 assert.equal("doug", emp.firstname);
                 assert.equal("martin", emp.lastname);
@@ -416,23 +471,23 @@ helper.loadModels().then(function(dbs) {
                 assert.equal("NOWHERE", emp.city);
             },
 
-            "should save a batch of employees to test2" : {
-                topic : function() {
+            "should save a batch of employees to test2":{
+                topic:function () {
                     var emps = [];
                     for (var i = 0; i < 20; i++) {
                         emps.push({
-                            lastname : "last" + i,
-                            firstname : "first" + i,
-                            midinitial : "m",
-                            position : i,
-                            gender : gender[i % 2],
-                            street : "Street " + i,
-                            city : "City " + i
+                            lastname:"last" + i,
+                            firstname:"first" + i,
+                            midinitial:"m",
+                            position:i,
+                            gender:gender[i % 2],
+                            street:"Street " + i,
+                            city:"City " + i
                         });
                     }
-                    var promise = new (events.EventEmitter);
+                    var promise = new events.EventEmitter();
                     comb.executeInOrder(Employee2,
-                        function(Employee2) {
+                        function (Employee2) {
                             Employee2.truncate();
                             var ret = {};
                             ret.employees = Employee2.save(emps);
@@ -442,10 +497,10 @@ helper.loadModels().then(function(dbs) {
                     return promise;
                 },
 
-                " and get a get a count of 20 and 20 different emplyees" : function(ret) {
+                " and get a get a count of 20 and 20 different emplyees":function (ret) {
                     assert.equal(ret.count, 20);
                     assert.lengthOf(ret.employees, 20);
-                    ret.employees.forEach(function(emp, i) {
+                    ret.employees.forEach(function (emp, i) {
                         assert.equal(emp.lastname, "last" + i);
                         assert.equal(emp.firstname, "first" + i);
                         assert.equal(emp.midinitial, "m");
@@ -461,70 +516,70 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "A Model from test2" : {
+        "A Model from test2":{
 
-            topic : function() {
+            topic:function () {
                 var emps = [];
                 for (var i = 0; i < 20; i++) {
                     emps.push({
-                        lastname : "last" + i,
-                        firstname : "first" + i,
-                        position : i,
-                        midinitial : "m",
-                        gender : gender[i % 2],
-                        street : "Street " + i,
-                        city : "City " + i
+                        lastname:"last" + i,
+                        firstname:"first" + i,
+                        position:i,
+                        midinitial:"m",
+                        gender:gender[i % 2],
+                        street:"Street " + i,
+                        city:"City " + i
                     });
                 }
                 comb.executeInOrder(Employee2,
-                    function(emp) {
+                    function (emp) {
                         emp.truncate();
                         emp.save(emps);
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            "Should findById"  : {
-                topic : function() {
+            "Should findById":{
+                topic:function () {
                     Employee2.findById(1).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employees" : function(topic) {
+                "and return employees":function (topic) {
                     assert.instanceOf(topic, Employee2);
                     assert.equal(topic.id, 1);
                 }
             },
 
-            "Should filter"  : {
-                topic : function() {
+            "Should filter":{
+                topic:function () {
                     var id = sql.identifier("id");
                     comb.executeInOrder(Employee2,
-                        function(Employee2) {
+                        function (Employee2) {
                             var ret = {};
-                            ret.query1 = Employee2.filter({id : [1,2,3,4,5,6]}).all()
+                            ret.query1 = Employee2.filter({id:[1, 2, 3, 4, 5, 6]}).all();
                             ret.query2 = Employee2.filter(id.gt(5), id.lt(11)).order("id").last();
                             ret.query3 = Employee2.filter(
-                                function() {
+                                function () {
                                     return this.firstname.like(/first1[1|2]*$/);
                                 }).order("firstname").all();
-                            ret.query4 = Employee2.filter({id : {between : [1,5]}}).order("id").all();
+                            ret.query4 = Employee2.filter({id:{between:[1, 5]}}).order("id").all();
                             ret.query5 = [];
                             Employee2.filter(
-                                function() {
+                                function () {
                                     return this.id.gt(15);
                                 }).forEach(
-                                function(emp) {
-                                    ret.query5.push(emp)
+                                function (emp) {
+                                    ret.query5.push(emp);
                                 });
                             return ret;
 
                         }).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employees" : function(topic) {
+                "and return employees":function (topic) {
                     var i = 1;
                     var query1 = topic.query1, query2 = topic.query2, query3 = topic.query3, query4 = topic.query4, query5 = topic.query5, query6 = topic.query6;
                     assert.lengthOf(query1, 6);
-                    query1.forEach(function(t) {
+                    query1.forEach(function (t) {
                         assert.instanceOf(t, Employee2);
                         assert.equal(i++, t.id);
                     });
@@ -536,63 +591,63 @@ helper.loadModels().then(function(dbs) {
                     assert.equal(query3[1].firstname, "first11");
                     assert.instanceOf(query3[2], Employee2);
                     assert.equal(query3[2].firstname, "first12");
-                    assert.deepEqual(query4.map(function(e) {
+                    assert.deepEqual(query4.map(function (e) {
                         assert.instanceOf(e, Employee2);
                         return e.id;
-                    }), [1,2,3,4,5]);
-                    assert.deepEqual(query5.map(function(e) {
+                    }), [1, 2, 3, 4, 5]);
+                    assert.deepEqual(query5.map(function (e) {
                         assert.instanceOf(e, Employee2);
                         return e.id;
-                    }), [16,17,18,19,20]);
+                    }), [16, 17, 18, 19, 20]);
 
 
                 }
             },
 
-            "Should find by gender"  : {
-                topic : function() {
+            "Should find by gender":{
+                topic:function () {
                     var self = this;
                     Employee2.findByGender("F").then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return female employees" : function(topic) {
-                    topic.forEach(function(emp) {
+                "and return female employees":function (topic) {
+                    topic.forEach(function (emp) {
                         assert.instanceOf(emp, Employee2);
                         assert.equal("F", emp.gender);
                     });
                 }
             },
 
-            "Should count employees"  : {
-                topic : function() {
+            "Should count employees":{
+                topic:function () {
                     Employee2.count().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return 20" : function(topic) {
+                "and return 20":function (topic) {
                     assert.equal(20, topic);
                 }
             },
 
-            "Should find all employees"  : {
-                topic : function() {
+            "Should find all employees":{
+                topic:function () {
                     Employee2.all().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return 20 employees" : function(topic) {
+                "and return 20 employees":function (topic) {
                     assert.lengthOf(topic, 20);
-                    topic.forEach(function(e) {
+                    topic.forEach(function (e) {
                         assert.instanceOf(e, Employee2);
                     });
                 }
             },
 
-            "Should map all employees"  : {
-                topic : function() {
+            "Should map all employees":{
+                topic:function () {
                     comb.executeInOrder(Employee2,
-                        function(Employee2) {
+                        function (Employee2) {
                             var ret = {};
                             ret.query1 = Employee2.map("id");
-                            ret.query2 = Employee2.order("position").map(function(e) {
+                            ret.query2 = Employee2.order("position").map(function (e) {
                                 return e.firstname + " " + e.lastname;
                             });
                             return ret;
@@ -600,69 +655,69 @@ helper.loadModels().then(function(dbs) {
 
                 },
 
-                "and return 20 ids" : function(topic) {
+                "and return 20 ids":function (topic) {
                     assert.lengthOf(topic.query1, 20);
-                    topic.query1.forEach(function(id, i) {
+                    topic.query1.forEach(function (id, i) {
                         assert.equal(id, i + 1);
                     });
                     assert.lengthOf(topic.query2, 20);
-                    topic.query2.forEach(function(name, i) {
+                    topic.query2.forEach(function (name, i) {
                         assert.equal(name, "first" + i + " last" + i);
-                    })
+                    });
 
                 }
             },
 
 
-            "Should loop through all employees"  : {
-                topic : function() {
+            "Should loop through all employees":{
+                topic:function () {
                     var ret = [];
                     var d = Employee2.forEach(
-                        function(emp) {
+                        function (emp) {
                             ret.push(emp);
                         }).then(hitch(this, "callback", null, ret), hitch(this, "callback"));
                 },
 
-                "and return 20 employees" : function(topic) {
+                "and return 20 employees":function (topic) {
                     assert.lengthOf(topic, 20);
-                    topic.forEach(function(e) {
+                    topic.forEach(function (e) {
                         assert.instanceOf(e, Employee2);
                     });
                 }
             },
 
-            "Should find first employee"  : {
-                topic : function() {
+            "Should find first employee":{
+                topic:function () {
                     var d = Employee2.one().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee with id of 1" : function(topic) {
+                "and return employee with id of 1":function (topic) {
                     assert.instanceOf(topic, Employee2);
                     assert.equal(1, topic.id);
                 }
             },
 
-            "Should find first employee with query"  : {
-                topic : function() {
+            "Should find first employee with query":{
+                topic:function () {
                     var self = this;
                     this.count = 1;
                     var id = sql.identifier("id");
                     var d = Employee2.first(id.gt(5), id.lt(11)).then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee with id of 1" : function(topic) {
+                "and return employee with id of 1":function (topic) {
                     assert.instanceOf(topic, Employee2);
                     assert.equal(topic.id, 6);
                 }
             },
 
-            "Should find last employee"  : {
-                topic : function() {
+            "Should find last employee":{
+                topic:function () {
                     var self = this;
                     var d = Employee2.order("firstname").last().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and return employee a first name of first9" : function(topic) {
+                "and return employee a first name of first9":function (topic) {
                     assert.throws(hitch(Employee2, "last"));
                     assert.instanceOf(topic, Employee2);
                     assert.equal(topic.firstname, "first9");
@@ -671,56 +726,56 @@ helper.loadModels().then(function(dbs) {
         }
     });
     suite.addBatch({
-        "Should save an employee to test2"  : {
-            topic : function() {
+        "Should save an employee to test2":{
+            topic:function () {
                 Employee2.save({
-                    firstname : "doug",
-                    lastname : "martin",
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"
+                    firstname:"doug",
+                    lastname:"martin",
+                    midinitial:null,
+                    gender:"M",
+                    street:"1 nowhere st.",
+                    city:"NOWHERE"
                 }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            "and the employee should have an id" : function(emp) {
+            "and the employee should have an id":function (emp) {
                 assert.instanceOf(emp, Employee2);
                 assert.isNumber(emp.id);
             },
 
-            "Should be able to update the employee" : {
-                topic : function(emp) {
+            "Should be able to update the employee":{
+                topic:function (emp) {
                     emp.firstname = "douglas";
                     emp.update().then(hitch(this, "callback", null), hitch(this, "callback"));
                 },
 
-                "and when querying the employee it should be updated" : {
+                "and when querying the employee it should be updated":{
 
-                    topic : function(e, emp) {
+                    topic:function (e, emp) {
                         assert.instanceOf(e, Employee2);
                         assert.equal(e.firstname, "douglas");
-                        Employee2.one({id : emp.id}).then(hitch(this, "callback", null), hitch(this, "callback"));
+                        Employee2.one({id:emp.id}).then(hitch(this, "callback", null), hitch(this, "callback"));
                     },
 
-                    " with the new name" : function(emp) {
+                    " with the new name":function (emp) {
                         assert.instanceOf(emp, Employee2);
                         assert.isNumber(emp.id);
                         assert.equal(emp.firstname, "douglas");
                     },
 
-                    "Should be able to delete the employee" :  {
-                        topic : function(e, emp) {
+                    "Should be able to delete the employee":{
+                        topic:function (e, emp) {
                             emp.remove().then(hitch(this, "callback", null, emp), hitch(this, "callback"));
                         },
 
-                        "and when when querying the deleted employee" : {
+                        "and when when querying the deleted employee":{
 
-                            topic : function(emp) {
+                            topic:function (emp) {
                                 var self = this;
-                                Employee2.filter({id : emp.id}).one().then(hitch(this, "callback", null), hitch(this, "callback"));
+                                Employee2.filter({id:emp.id}).one().then(hitch(this, "callback", null), hitch(this, "callback"));
                             },
 
-                            "it should be null" : function(topic) {
+                            "it should be null":function (topic) {
                                 assert.isNull(topic);
                             }
                         }
@@ -732,19 +787,19 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "Should do a batch update to test2" : {
-            topic : function() {
+        "Should do a batch update to test2":{
+            topic:function () {
                 comb.executeInOrder(Employee2,
-                    function(Employee2) {
-                        Employee2.update({firstname : "doug"});
+                    function (Employee2) {
+                        Employee2.update({firstname:"doug"});
                         return Employee2.all();
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " all records should be updated" : function(records) {
+            " all records should be updated":function (records) {
 
                 assert.lengthOf(records, 20);
-                records.forEach(function(r) {
+                records.forEach(function (r) {
                     assert.equal(r.firstname, "doug");
                 });
             }
@@ -752,26 +807,30 @@ helper.loadModels().then(function(dbs) {
     });
 
     suite.addBatch({
-        "Should do an update a single record in test2" : {
-            topic : function() {
+        "Should do an update a single record in test2":{
+            topic:function () {
                 comb.executeInOrder(Employee2,
-                    function(Employee2) {
-                        Employee2.update({firstname : "dougie"}, {id: 2});
+                    function (Employee2) {
+                        Employee2.update({firstname:"dougie"}, {id:2});
                         return Employee2.filter({id:2}).one();
                     }).then(hitch(this, "callback", null), hitch(this, "callback"));
             },
 
-            " all records should be updated" : function(emp) {
+            " all records should be updated":function (emp) {
                 assert.instanceOf(emp, Employee2);
                 assert.equal(emp.firstname, "dougie");
             }
         }
     });
 
-    suite.run({reporter : require("vows").reporter.spec}, function() {
-        helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+    suite.run({reporter:require("vows").reporter.spec}, function () {
+        patio.resetIdentifierMethods();
+        comb.when(
+            DB1.forceDropTable("employee"),
+            DB2.forceDropTable("employee")
+        ).chain(hitch(patio, "disconnect"), ret).then(ret);
     });
-}, function(err) {
+}, function (err) {
     throw err;
 });
 

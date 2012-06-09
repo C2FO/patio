@@ -1,17 +1,24 @@
 var vows = require('vows'),
     assert = require('assert'),
-    helper = require("./data/model.models"),
+    helper = require("./data/model.helper.js"),
     patio = require("index"),
     sql = patio.SQL,
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 var suite = vows.describe("model object");
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Employee = patio.getModel("employee");
-    var DB = patio.defaultDatabase;
+var Employee = patio.addModel("employee", {
+    static:{
+        //class methods
+        findByGender:function (gender, callback, errback) {
+            return this.filter({gender:gender}).all();
+        }
+    }
+});
+
+helper.createSchemaAndSync().then(function () {
 
     suite.addBatch({
         "An Employee ":{

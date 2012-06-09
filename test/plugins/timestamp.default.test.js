@@ -3,11 +3,16 @@ var vows = require('vows'),
         patio = require("index"),
         comb = require("comb"),
         hitch = comb.hitch,
-        helper = require("../data/timestampPlugin/timestamp.default.models");
+        helper = require("../data/timestampPlugin.helper.js");
 
-var ret = module.exports = exports = new comb.Promise();
+var ret = module.exports = new comb.Promise();
 
-helper.loadModels().then(function() {
+var Employee = patio.addModel("employee", {
+    plugins:[patio.plugins.TimeStampPlugin]
+});
+Employee.timestamp();
+
+helper.createSchemaAndSync().then(function() {
     var Employee = patio.getModel("employee");
     var suite = vows.describe("TimeStampPlugin default");
     suite.addBatch({
