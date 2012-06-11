@@ -1,6 +1,6 @@
 ##[Patio](http://pollenware.github.com/patio/index.html)
            
-Patio-query is a [Sequel](http://sequel.rubyforge.org/" target="patioapi") inspired query engine and [ORM](http://en.wikipedia.org/wiki/Object-relational_mapping).
+Patio is a [Sequel](http://sequel.rubyforge.org/" target="patioapi") inspired query engine and [ORM](http://en.wikipedia.org/wiki/Object-relational_mapping).
 
 ## Installation
 While it is not mandatory it is recommened that you install comb first, as it will make working with the comb API easier.
