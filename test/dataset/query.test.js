@@ -669,7 +669,7 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.literal("items__name"), "items.name");
         });
 
-        it.should("call sql_literal with dataset on type if not natively supported and the object responds to it", function () {
+        it.should("call sqlLiteral with dataset on type if not natively supported and the object responds to it", function () {
             var a = function () {
             };
             a.prototype.sqlLiteral = function (ds) {
@@ -678,7 +678,7 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.literal(new a()), "called ");
         });
 
-        it.should("raise an error for unsupported types with no sql_literal method", function () {
+        it.should("raise an error for unsupported types with no sqlLiteral method", function () {
             assert.throws(function () {
                 dataset.literal(function () {
                 });
@@ -705,6 +705,38 @@ it.describe("Dataset queries", function (it) {
         it.should("not modify literal strings", function () {
             assert.equal(dataset.literal(sql['col1 + 2']), 'col1 + 2');
             assert.equal(dataset.updateSql({a:sql['a + 2']}), 'UPDATE test SET a = a + 2');
+        });
+
+        it.should("convert literals properly", function () {
+            assert.equal(dataset.literal(sql.literal("(hello, world)")), "(hello, world)");
+            assert.equal(dataset.literal("('hello', 'world')"), "'(''hello'', ''world'')'");
+            assert.equal(dataset.literal("(hello, world)"), "'(hello, world)'");
+            assert.equal(dataset.literal("hello, world"), "'hello, world'");
+            assert.equal(dataset.literal('("hello", "world")'), "'(\"hello\", \"world\")'");
+            assert.equal(dataset.literal("(\hello\, \world\)'"), "'(hello, world)'''");
+            assert.equal(dataset.literal("\\'\\'"), "'\\\\''\\\\'''");
+            assert.strictEqual(dataset.literal(1), "1");
+            assert.strictEqual(dataset.literal(1.0), "1");
+            assert.strictEqual(dataset.literal(1.01), "1.01");
+            assert.equal(dataset.literal(sql.hello.lt(1)), '(hello < 1)');
+            assert.equal(dataset.literal(sql.hello.gt(1)), '(hello > 1)');
+            assert.equal(dataset.literal(sql.hello.lte(1)), '(hello <= 1)');
+            assert.equal(dataset.literal(sql.hello.gte(1)), '(hello >= 1)');
+            assert.equal(dataset.literal(sql.hello.like("test")), "(hello LIKE 'test')");
+            assert.equal(dataset.literal(dataset.from("test").order("name")), "(SELECT * FROM test ORDER BY name)");
+            assert.equal(dataset.literal([1, 2, 3]), "(1, 2, 3)");
+            assert.equal(dataset.literal([1, "2", 3]), "(1, '2', 3)");
+            assert.equal(dataset.literal([1, "\\'\\'", 3]), "(1, '\\\\''\\\\''', 3)");
+            assert.equal(dataset.literal(new sql.Year(2009)), '2009')
+            assert.equal(dataset.literal(new sql.TimeStamp(2009, 10, 10, 10, 10)), "'2009-11-10 10:10:00'");
+            assert.equal(dataset.literal(new sql.DateTime(2009, 10, 10, 10, 10)), "'2009-11-10 10:10:00'");
+            assert.equal(dataset.literal(new Date(2009, 10, 10)), "'2009-11-10'");
+            assert.equal(dataset.literal(new sql.Time(11, 10, 10)), "'11:10:10'");
+            assert.equal(dataset.literal(null), "NULL");
+            assert.equal(dataset.literal(true), "'t'");
+            assert.equal(dataset.literal(false), "'f'");
+            assert.equal(dataset.literal({a:"b"}), "(a = 'b')");
+            assert.throws(comb.hitch(dataset, "literal", /a/));
         });
     });
 
