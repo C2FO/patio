@@ -20,7 +20,7 @@ var disconnectError = function (err) {
 
 
 var User1 = patio.addModel(DB1.from("user"));
-var User2 = patio.addModel(DB2.from("user"))
+var User2 = patio.addModel(DB2.from("user"));
 
 
 var connectAndCreateSchema = function () {
@@ -57,7 +57,7 @@ var connectAndCreateSchema = function () {
 
 //connect and create schema
 connectAndCreateSchema()
-    .then(function (userModels) {
+    .then(function () {
         var myUser1 = new User1({
             firstName:"Bob1",
             lastName:"Yukon1",
