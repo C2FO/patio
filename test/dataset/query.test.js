@@ -713,7 +713,7 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.literal("(hello, world)"), "'(hello, world)'");
             assert.equal(dataset.literal("hello, world"), "'hello, world'");
             assert.equal(dataset.literal('("hello", "world")'), "'(\"hello\", \"world\")'");
-            assert.equal(dataset.literal("(\hello\, \world\)'"), "'(hello, world)'''");
+            assert.equal(dataset.literal("(hello, world)'"), "'(hello, world)'''");
             assert.equal(dataset.literal("\\'\\'"), "'\\\\''\\\\'''");
             assert.strictEqual(dataset.literal(1), "1");
             assert.strictEqual(dataset.literal(1.0), "1");
@@ -727,7 +727,7 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.literal([1, 2, 3]), "(1, 2, 3)");
             assert.equal(dataset.literal([1, "2", 3]), "(1, '2', 3)");
             assert.equal(dataset.literal([1, "\\'\\'", 3]), "(1, '\\\\''\\\\''', 3)");
-            assert.equal(dataset.literal(new sql.Year(2009)), '2009')
+            assert.equal(dataset.literal(new sql.Year(2009)), '2009');
             assert.equal(dataset.literal(new sql.TimeStamp(2009, 10, 10, 10, 10)), "'2009-11-10 10:10:00'");
             assert.equal(dataset.literal(new sql.DateTime(2009, 10, 10, 10, 10)), "'2009-11-10 10:10:00'");
             assert.equal(dataset.literal(new Date(2009, 10, 10)), "'2009-11-10'");
