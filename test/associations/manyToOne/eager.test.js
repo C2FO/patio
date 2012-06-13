@@ -1,4 +1,4 @@
-var vows = require('vows'),
+var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
@@ -13,7 +13,7 @@ var Company = patio.addModel("company", {
     "static":{
         init:function () {
             this._super(arguments);
-            this.oneToMany("employees", {fetchType : this.fetchType.EAGER});
+            this.oneToMany("employees", {fetchType:this.fetchType.EAGER});
         }
     }
 });
@@ -21,311 +21,300 @@ var Employee = patio.addModel("employee", {
     "static":{
         init:function () {
             this._super(arguments);
-            this.manyToOne("company", {fetchType : this.fetchType.EAGER});
+            this.manyToOne("company", {fetchType:this.fetchType.EAGER});
         }
     }
 });
 
-helper.createSchemaAndSync().then(function () {
+it.describe("Many to one lazy", function (it) {
 
-    var suite = vows.describe("Many to one eager association ");
 
-    suite.addBatch({
-        "A model":{
-            topic:function () {
-                return Employee;
-            },
-
-            "should have associations":function () {
-                assert.deepEqual(Employee.associations, ["company"]);
-                assert.deepEqual(Company.associations, ["employees"]);
-                var emp = new Employee();
-                var company = new Company();
-                assert.deepEqual(emp.associations, ["company"]);
-                assert.deepEqual(company.associations, ["employees"]);
-            }
-        }
+    it.beforeAll(function () {
+        return helper.createSchemaAndSync(true);
     });
 
-    suite.addBatch({
 
-        "When creating a company with employees":{
-            topic:function () {
-                var c1 = new Company({
-                    companyName:"Google",
-                    employees:[
-                        {
-                            lastname:"last" + 1,
-                            firstname:"first" + 1,
-                            midinitial:"m",
-                            gender:gender[1 % 2],
-                            street:"Street " + 1,
-                            city:"City " + 1
-                        },
-                        {
-                            lastname:"last" + 2,
-                            firstname:"first" + 2,
-                            midinitial:"m",
-                            gender:gender[2 % 2],
-                            street:"Street " + 2,
-                            city:"City " + 2
-                        }
-                    ]
-                });
-                c1.save().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
+    it.should("have associations", function () {
+        assert.deepEqual(Employee.associations, ["company"]);
+        assert.deepEqual(Company.associations, ["employees"]);
+        var emp = new Employee();
+        var company = new Company();
+        assert.deepEqual(emp.associations, ["company"]);
+        assert.deepEqual(company.associations, ["employees"]);
+    });
 
-            " the company should have employees ":{
-                topic:function (company) {
-                    var emps = company.employees;
-                    assert.lengthOf(emps, 2);
-                    emps.forEach(function (emp, i) {
-                        assert.equal(emp.id, i + 1);
-                    }, this);
-                    return emps;
-                },
 
-                " when querying the employees ":{
-                    topic:function (emps, company) {
-                        Employee.filter({companyId:company.id}).all().then(hitch(this, "callback", null), hitch(this, "callback"));
+    it.describe("saving a model with one to many", function (it) {
+
+        it.beforeAll(function () {
+            return comb.when(
+                Company.remove(),
+                Employee.remove()
+            );
+        });
+
+        it.should("it should save the associations", function (next) {
+            var c1 = new Company({
+                companyName:"Google",
+                employees:[
+                    {
+                        lastName:"last" + 1,
+                        firstName:"first" + 1,
+                        midInitial:"m",
+                        gender:gender[1 % 2],
+                        street:"Street " + 1,
+                        city:"City " + 1
                     },
-
-                    "the employees company should be loaded":function (emps) {
-                        assert.lengthOf(emps, 2);
-                        assert.equal(emps[0].company.companyName, "Google");
-                        assert.equal(emps[1].company.companyName, "Google");
+                    {
+                        lastName:"last" + 2,
+                        firstName:"first" + 2,
+                        midInitial:"m",
+                        gender:gender[2 % 2],
+                        street:"Street " + 2,
+                        city:"City " + 2
                     }
-                }
-            }
-        }
-
-    });
-
-    suite.addBatch({
-
-        "When finding a company":{
-            topic:function () {
-                Company.one().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            " the companys employees should be loaded ":{
-                topic:function (company) {
-                    var emps = company.employees;
-                    assert.lengthOf(emps, 2);
-                    var ids = [1, 2];
-                    emps.forEach(function (emp, i) {
-                        assert.equal(ids[i], emp.id);
-                    });
-
-                }
-            }
-        }
-    });
-
-    suite.addBatch({
-        "When finding a company and adding an employee":{
-            topic:function () {
-                var emp = new Employee({
-                    lastname:"last" + 3,
-                    firstname:"first" + 3,
-                    midinitial:"m",
-                    gender:gender[1 % 3],
-                    street:"Street " + 3,
-                    city:"City " + 3
-                });
-                comb.executeInOrder(Company,
-                    function (Company) {
-                        var company = Company.one();
-                        company.addEmployee(emp);
-                        return company;
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-
-            },
-
-            "the company should have three employees ":function (company) {
-                var emps = company.employees;
-                assert.lengthOf(emps, 3);
-                var ids = [1, 2, 3];
-                emps.forEach(function (emp, i) {
-                    assert.equal(emp.id, ids[i]);
-                });
-            }
-        }
-    });
-
-    suite.addBatch({
-
-        "When finding a company and removing an employee and deleting the employee":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee,
-                    function (Company, Employee) {
-                        var company = Company.one();
-                        var emps = company.employees;
-                        company.removeEmployee(emps[0], true);
-                        return {company:company, empCount:Employee.count()};
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            "the company should have two employees but still three in the db":function (ret) {
-                var emps = ret.company.employees;
+                ]
+            });
+            c1.save().then(function () {
+                var emps = c1.employees;
                 assert.lengthOf(emps, 2);
-                var ids = [2, 3];
+                next();
+
+            }, next);
+        });
+
+        it.should("have child associations when queried", function (next) {
+            Company.one().then(function (company) {
+                var emps = company.employees
+                assert.lengthOf(emps, 2);
+                var ids = [1, 2];
                 emps.forEach(function (emp, i) {
                     assert.equal(ids[i], emp.id);
                 });
-                assert.equal(ret.empCount, 2);
-            }
-        }
+                next();
+
+            }, next);
+        });
+
+        it.should("the child associations should also be associated to the parent ", function (next) {
+            comb.executeInOrder(assert, Employee,
+                function (assert, Employee) {
+                    var emps = Employee.all();
+                    assert.lengthOf(emps, 2);
+                    return {company1:emps[0].company, company2:emps[1].company};
+                }).then(function (ret) {
+                    assert.equal(ret.company1.companyName, "Google");
+                    assert.equal(ret.company2.companyName, "Google");
+                    next();
+                }, next);
+        });
 
     });
 
-    suite.addBatch({
+    it.describe("saving a model with many to one", function (it) {
 
-        "When finding a company and removing multiple employees and deleting the employees":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee,
-                    function (Company, Employee) {
-                        var company = Company.one();
-                        var emps = company.employees;
-                        company.removeEmployees(emps, true);
-                        return {company:company, empCount:Employee.count()};
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
+        it.beforeAll(function () {
+            return comb.when(
+                Company.remove(),
+                Employee.remove()
+            );
+        });
 
-
-            "the company should have no employees ":function (ret) {
-                assert.lengthOf(ret.company.employees, 0);
-                assert.equal(ret.empCount, 0);
-            }
-        }
-
-    });
-
-    suite.addBatch({
-
-        "When finding a company and adding employees":{
-            topic:function () {
-                var employees = [];
-                for (var i = 0; i < 3; i++) {
-                    employees.push({
-                        lastname:"last" + i,
-                        firstname:"first" + i,
-                        midinitial:"m",
-                        gender:gender[i % 2],
-                        street:"Street " + i,
-                        city:"City " + i
-                    });
+        it.should("it should save the associations", function (next) {
+            var emp = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1,
+                company:{
+                    companyName:"Google"
                 }
-                comb.executeInOrder(Company,
-                    function (Company) {
-                        var company = Company.one();
-                        company.addEmployees(employees);
-                        return company;
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
+            });
+            emp.save().then(function () {
+                assert.equal(emp.company.companyName, "Google");
+                next();
+            }, next);
+        });
 
-            " the company should have three employees":function (company) {
+        it.should("have child associations when queried", function (next) {
+            Company.one().then(function (company) {
                 var emps = company.employees;
-                assert.lengthOf(emps, 3);
-                emps.forEach(function (emp) {
-                    assert.instanceOf(emp, Employee);
+                assert.lengthOf(emps, 1);
+                next();
+            }, next);
+        });
+
+        it.should("the child associations should also be associated to the parent ", function (next) {
+            comb.executeInOrder(assert, Employee,
+                function (assert, Employee) {
+                    var emps = Employee.all();
+                    assert.lengthOf(emps, 1);
+                    return {company1:emps[0].company};
+                }).then(function (ret) {
+                    assert.equal(ret.company1.companyName, "Google");
+                    next();
+                }, next);
+        });
+
+    });
+
+    it.describe("add methods", function (it) {
+
+        it.beforeEach(function () {
+            return comb.executeInOrder(Company, function (Company) {
+                Company.remove();
+                new Company({companyName:"Google"}).save();
+            });
+        });
+
+        it.should("have an add method", function (next) {
+            Company.one().then(function (company) {
+                var emp = new Employee({
+                    lastName:"last",
+                    firstName:"first",
+                    midInitial:"m",
+                    gender:gender[0],
+                    street:"Street",
+                    city:"City"
+                });
+                comb.executeInOrder(company,function (company) {
+                    company.addEmployee(emp);
+                    return company;
+                }).then(function (company) {
+                        assert.lengthOf(company.employees, 1);
+                        next();
+                    });
+            }, next);
+        });
+        it.should("have a add multiple method", function (next) {
+            var employees = [];
+            for (var i = 0; i < 3; i++) {
+                employees.push({
+                    lastName:"last" + i,
+                    firstName:"first" + i,
+                    midInitial:"m",
+                    gender:gender[i % 2],
+                    street:"Street " + i,
+                    city:"City " + i
                 });
             }
-
-
-        }
-
-    });
-
-    suite.addBatch({
-
-        "When finding a company and removing an employee and not deleting the employee":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee,
-                    function (Company, Employee) {
-                        var company = Company.one();
-                        var emps = company.employees;
-                        company.removeEmployee(emps[0]);
-                        return {company:company, empCount:Employee.count()};
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-
-            },
-
-            "the company should have two employees ":function (ret) {
-                var emps = ret.company.employees;
-                assert.lengthOf(emps, 2);
-                assert.equal(ret.empCount, 3);
-            }
-
-        }
+            comb.executeInOrder(Company,
+                function (Company) {
+                    var company = Company.one();
+                    company.addEmployees(employees);
+                    return company;
+                }).then(function (company) {
+                    var emps = company.employees;
+                    assert.lengthOf(emps, 3);
+                    emps.forEach(function (emp) {
+                        assert.instanceOf(emp, Employee);
+                    });
+                    next();
+                }, next);
+        });
 
     });
 
-    suite.addBatch({
-
-        "When finding a company and removing multiple employees and deloting the employees":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee,
-                    function (Company, Employee) {
-                        var company = Company.one();
-                        var emps = company.employees;
-                        company.removeEmployees(emps);
-                        return {company:company, empCount:Employee.count()};
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            "the company should have no employees ":function (ret) {
-                assert.lengthOf(ret.company.employees, 0);
-                assert.equal(ret.empCount, 3);
-            }
-
+    it.describe("remove methods", function (it) {
+        var employees = [];
+        for (var i = 0; i < 3; i++) {
+            employees.push({
+                lastName:"last" + i,
+                firstName:"first" + i,
+                midInitial:"m",
+                gender:gender[i % 2],
+                street:"Street " + i,
+                city:"City " + i
+            });
         }
+        it.beforeEach(function () {
+            return comb.executeInOrder(Company, Employee, function (Company, Employee) {
+                Company.remove();
+                Employee.remove();
+                new Company({companyName:"Google", employees:employees}).save();
+            });
+        });
 
+        it.should("the removing of associations and deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,
+                function (Company, Employee) {
+                    var company = Company.one();
+                    var emps = company.employees;
+                    company.removeEmployee(emps[0], true);
+                    return {company:company, empCount:Employee.count()};
+                }).then(function (ret) {
+                    var company = ret.company, emps = company.employees;
+                    assert.lengthOf(emps, 2);
+                    assert.equal(ret.empCount, 2);
+                    next();
+                }, next);
+        });
+
+        it.should("allow the removing of associations without deleting", function (next) {
+            comb.executeInOrder(Company, Employee,
+                function (Company, Employee) {
+                    var company = Company.one();
+                    var emps = company.employees;
+                    company.removeEmployee(emps[0]);
+                    return {company:company, empCount:Employee.count()};
+                }).then(function (ret) {
+                    var company = ret.company, emps = company.employees;
+                    assert.lengthOf(emps, 2);
+                    assert.equal(ret.empCount, 3);
+                    next();
+                }, next);
+        });
+
+        it.should("allow the removal of multiple associations and deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,
+                function (Company, Employee) {
+                    var company = Company.one();
+                    var emps = company.employees;
+                    company.removeEmployees(emps, true);
+                    return {company:company, empCount:Employee.count()};
+                }).then(function (ret) {
+                    var company = ret.company, emps = company.employees;
+                    assert.lengthOf(emps, 0);
+                    assert.equal(ret.empCount, 0);
+                    next();
+                }, next);
+        });
+
+        it.should("allow the removal of multiple associations and not deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,
+                function (Company, Employee) {
+                    var company = Company.one();
+                    var emps = company.employees;
+                    company.removeEmployees(emps);
+                    return {company:company, empCount:Employee.count()};
+                }).then(function (ret) {
+                    var company = ret.company, emps = company.employees;
+                    assert.lengthOf(emps, 0);
+                    assert.equal(ret.empCount, 3);
+                    next();
+                }, next);
+        });
     });
 
-    suite.addBatch({
-
-        "When finding setting the employees on a company":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee, console,
-                    function (Company, Employee, console) {
-                        var emps = Employee.all();
-                        var company = Company.one();
-                        company.employees = emps;
-                        return company.save();
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            "the company should have all of the employees ":function (company) {
-                assert.lengthOf(company.employees, 3);
-            }
-
-        }
-
-    });
-
-
-    suite.addBatch({
-        "When deleting a company":{
-            topic:function () {
-                comb.executeInOrder(Company, Employee,
-                    function (Company, Employee) {
-                        var company = Company.one();
-                        company.remove();
-                        return Employee.count();
-                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            " the employees should still exist ":function (count) {
+    it.should("should not delete associations when deleting", function (next) {
+        comb.executeInOrder(Company, Employee,
+            function (Company, Employee) {
+                var company = Company.one();
+                company.remove();
+                return Employee.count();
+            }).then(function (count) {
                 assert.equal(count, 3);
-            }
-        }
+                next();
+            }, next);
     });
 
 
-    suite.run({reporter:require("vows").reporter.spec}, function () {
-        helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+    it.afterAll(function () {
+        return helper.dropModels();
     });
+
+    it.run();
 
 });
-
