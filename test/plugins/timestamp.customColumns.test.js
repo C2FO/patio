@@ -1,73 +1,68 @@
-var vows = require('vows'),
-        assert = require('assert'),
-        patio = require("index"),
-        comb = require("comb"),
-        hitch = comb.hitch,
-        helper = require("../data/timestampPlugin.helper.js");
+var it = require('it'),
+    assert = require('assert'),
+    patio = require("index"),
+    comb = require("comb"),
+    hitch = comb.hitch,
+    helper = require("../data/timestampPlugin.helper.js");
 
 var ret = module.exports = new comb.Promise();
 
 var Employee = patio.addModel("employee", {
     plugins:[patio.plugins.TimeStampPlugin],
 
-    "static" : {
-        init : function(){
-            this.timestamp({updated : "updatedAt", created : "createdAt"});
+    "static":{
+        init:function () {
+            this.timestamp({updated:"updatedAt", created:"createdAt"});
         }
     }
 });
 
-helper.createSchemaAndSync(true).then(function() {
-    var suite = vows.describe("TimeStampPlugin custom columns");
+it.describe("Timestamp custom columns", function (it) {
 
-    suite.addBatch({
-
-        "when creating an employee" : {
-            topic : function() {
-                Employee.save({
-                    firstname : "doug",
-                    lastname : "martin",
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"
-                }).then(hitch(this, function(e) {
-                    //force reload
-                    e.reload().then(hitch(this, "callback", null), hitch(this, "callback"));
-                }), hitch(this, "callback"));
-            },
-
-            "the updatedAt time stamp should not be set" : function(topic) {
-                assert.isNull(topic.updatedAt);
-            },
-
-            "the createdAt time stamp should be set" : function(topic) {
-                assert.isNotNull(topic.createdAt);
-                assert.instanceOf(topic.createdAt, patio.SQL.DateTime);
-            },
-
-            "when updating an employee" : {
-                topic : function(e) {
-                    //setTimeout to ensure new timeout
-                    setTimeout(hitch(this, function() {
-                        e.firstname = "dave";
-                        e.save().then(hitch(this, function(e) {
-                            //force reload
-                            e.reload().then(hitch(this, "callback", null));
-                        }));
-                    }), 1000);
-                },
-
-                "the updated time stamp should be set" : function(topic) {
-                    assert.isNotNull(topic.updatedAt);
-                    assert.instanceOf(topic.updatedAt, patio.SQL.DateTime);
-                    assert.notDeepEqual(topic.updatedAt, topic.createdAt);
-                }
-            }
-        }
+    var emp;
+    it.beforeAll(function () {
+        return helper.createSchemaAndSync(true);
     });
 
-    suite.run({reporter : require("vows").reporter.spec}, function() {
-        helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+    it.beforeEach(function (next) {
+        Employee.remove().then(function () {
+            Employee.save({
+                firstname:"doug",
+                lastname:"martin",
+                midinitial:null,
+                gender:"M",
+                street:"1 nowhere st.",
+                city:"NOWHERE"
+            }).then(function (e) {
+                    emp = e;
+                    next();
+                }, next);
+        }, next);
     });
+
+    it.should("set created column", function () {
+        assert.isNull(emp.updatedAt);
+        assert.isNotNull(emp.createdAt);
+        assert.instanceOf(emp.createdAt, patio.SQL.DateTime);
+    });
+
+    it.should("set updated column", function (next) {
+        setTimeout(function () {
+            emp.firstname = "dave";
+            emp.save().then(function () {
+                //force reload
+                assert.isNotNull(emp.updatedAt);
+                assert.instanceOf(emp.updatedAt, patio.SQL.DateTime);
+                assert.notDeepEqual(emp.updatedAt, emp.createdAt);
+                next();
+            });
+        }, 1000);
+    });
+
+    it.afterAll(function () {
+        return helper.dropModels();
+    });
+
+    it.run();
+
 });
