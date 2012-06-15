@@ -364,6 +364,7 @@ it.describe("patio", function (it) {
 
     it.should("set underscore values when using #underscore", function () {
         patio.underscore = true;
+        assert.isTrue(patio.underscore);
         assert.isTrue(Model.underscore);
         assert.equal(patio.identifierOutputMethod, "underscore");
         assert.equal(patio.identifierInputMethod, "camelize");
@@ -371,6 +372,7 @@ it.describe("patio", function (it) {
 
     it.should("set camelize values when using #camelize", function () {
         patio.camelize = true;
+        assert.isTrue(patio.camelize);
         assert.isTrue(Model.camelize);
         assert.equal(patio.identifierOutputMethod, "camelize");
         assert.equal(patio.identifierInputMethod, "underscore");

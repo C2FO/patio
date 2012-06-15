@@ -292,6 +292,28 @@ it.describe("Many to one lazy", function (it) {
                     next();
                 }, next);
         });
+
+        it.should("allow the removal of all associations and deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one().removeAllEmployees(true).reload();
+                return {employees:company.employees, empCount:Employee.count()};
+            }).then(function (ret) {
+                    assert.lengthOf(ret.employees, 0);
+                    assert.equal(ret.empCount, 0);
+                    next();
+                }, next);
+        });
+
+        it.should("allow the removal of all associations and not deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one().removeAllEmployees().reload();
+                return {employees:company.employees, empCount:Employee.count()};
+            }).then(function (ret) {
+                    assert.lengthOf(ret.employees, 0);
+                    assert.equal(ret.empCount, 3);
+                    next();
+                }, next);
+        });
     });
 
     it.should("should not delete associations when deleting", function (next) {

@@ -294,6 +294,28 @@ it.describe("Many to one eager", function (it) {
                     next();
                 }, next);
         });
+
+        it.should("allow the removal of all associations and deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one().removeAllEmployees(true).reload();
+                return {company:company, empCount:Employee.count()};
+            }).then(function (ret) {
+                    assert.lengthOf(ret.company.employees, 0);
+                    assert.equal(ret.empCount, 0);
+                    next();
+                }, next);
+        });
+
+        it.should("allow the removal of all associations and not deleting them", function (next) {
+            comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one().removeAllEmployees().reload();
+                return {company:company, empCount:Employee.count()};
+            }).then(function (ret) {
+                    assert.lengthOf(ret.company.employees, 0);
+                    assert.equal(ret.empCount, 3);
+                    next();
+                }, next);
+        });
     });
 
     it.should("should not delete associations when deleting", function (next) {

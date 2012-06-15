@@ -568,6 +568,7 @@ it.describe("Database", function (it) {
                 table.setColumnDefault("hhh", 'abcd');
                 table.addIndex("fff", {unique:true});
                 table.dropIndex("ggg");
+                table.addForeignKey(["aaa"], "table");
             });
 
             assert.deepEqual(db.sqls, [
@@ -576,9 +577,9 @@ it.describe("Database", function (it) {
                 'ALTER TABLE xyz RENAME COLUMN ccc TO ddd',
                 'ALTER TABLE xyz ALTER COLUMN eee TYPE integer',
                 "ALTER TABLE xyz ALTER COLUMN hhh SET DEFAULT 'abcd'",
-
                 'CREATE UNIQUE INDEX xyz_fff_index ON xyz (fff)',
-                'DROP INDEX xyz_ggg_index'
+                'DROP INDEX xyz_ggg_index',
+                "ALTER TABLE xyz ADD FOREIGN KEY (aaa) REFERENCES table"
             ]);
         });
     });
@@ -1319,6 +1320,76 @@ it.describe("Database", function (it) {
         });
     });
 
+    it.describe("logging features", function (it) {
+
+        var mockAppender = new (comb.define(comb.logging.appenders.Appender, {
+            instance:{
+
+                messages:null,
+
+                constructor:function () {
+                    this.messages = [];
+                },
+
+                append:function (message) {
+                    this.messages.push(message);
+                },
+
+                reset:function () {
+                    this.messages.length = 0;
+                }
+            }
+        }))();
+        var logger, db;
+        it.beforeAll(function () {
+            db = new MockDatabase();
+            logger = db.logger;
+            logger.addAppender(mockAppender);
+
+        });
+
+        it.beforeEach(function(){
+            mockAppender.reset();
+        })
+
+        it.should("have a logger on an instance", function () {
+            assert.isNotNull(db.logger);
+        });
+
+        it.should("have a logger on the constructor", function () {
+            assert.isNotNull(MockDatabase.logger);
+        });
+
+        ["logError", "logFatal", "logWarn", "logTrace", "logDebug", "logInfo"].forEach(function(type){
+               it.describe("#" + type, function(it){
+
+                   it.should("log on class", function(){
+                       MockDatabase[type](type);
+                       var messages = mockAppender.messages;
+                       assert.lengthOf(messages, 1);
+                       assert.isNotNull(messages[0].message.match(type));
+                       assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
+                   });
+
+                   it.should("log on instance", function () {
+                       db[type](type);
+                       var messages = mockAppender.messages;
+                       assert.lengthOf(messages, 1);
+                       assert.isNotNull(messages[0].message.match(type));
+                       assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
+                   });
+               });
+        });
+
+
+
+        it.afterAll(function () {
+            logger.removeAppender(mockAppender);
+        });
+
+    });
+
     it.afterAll(comb.hitch(patio, "disconnect"));
+
 
 });
