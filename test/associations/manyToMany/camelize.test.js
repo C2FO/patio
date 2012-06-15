@@ -253,7 +253,7 @@ it.describe("Many to Many camelize properties", function (it) {
         });
     });
 
-    it.should("should not delete associations when deleting", function (next) {
+    it.should("not delete associations when deleting", function (next) {
         comb.executeInOrder(Company, Employee,
             function (Company, Employee) {
                 var company = Company.one();

@@ -15,7 +15,7 @@ it.describe("Many to Many camelize properties", function (it) {
     var Company, Employee;
     it.beforeAll(function () {
         Company = patio.addModel("company", {
-            static:{
+            "static":{
                 init:function () {
                     this._super(arguments);
                     this.manyToMany("employees");
@@ -23,7 +23,7 @@ it.describe("Many to Many camelize properties", function (it) {
             }
         });
         Employee = patio.addModel("employee", {
-            static:{
+            "static":{
                 init:function () {
                     this._super(arguments);
                     this.manyToMany("companies");

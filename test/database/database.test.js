@@ -268,75 +268,6 @@ it.describe("Database", function (it) {
         });
     });
 
-    it.describe("#logInfo", function (it) {
-        var db = new Database();
-
-        it.should("log message at info ", function () {
-            var orig = console.log;
-            console.log = function (str) {
-                assert.isTrue(str.match(/blah$/) !== null);
-            };
-            db.logInfo("blah");
-            console.log = orig;
-
-        });
-    });
-
-    it.describe("#logDebug", function (it) {
-        var db = new Database();
-
-        it.should("log message at debug ", function () {
-            var orig = console.log;
-            console.log = function (str) {
-                assert.isTrue(str.match(/blah$/) !== null);
-            };
-            db.logDebug("blah");
-            console.log = orig;
-
-        });
-    });
-
-    it.describe("#logWarn", function (it) {
-        var db = new Database();
-
-        it.should("log message at warn ", function () {
-            var orig = console.log;
-            console.log = function (str) {
-                assert.isTrue(str.match(/blah/) !== null);
-            };
-            db.logWarn("blah");
-            console.log = orig;
-        });
-    });
-
-    it.describe("#logError", function (it) {
-        var db = new Database();
-
-        it.should("log message at error ", function () {
-            var orig = console.log;
-            var messages = [];
-            console.log = function (str) {
-                assert.isTrue(str.match(/blah/) !== null);
-            };
-            db.logError("blah");
-            console.log = orig;
-        });
-    });
-
-    it.describe("#logFatal", function (it) {
-        var db = new Database();
-
-        it.should("log message at fatal ", function () {
-            var orig = console.log;
-            var messages = [];
-            console.log = function (str) {
-                assert.isTrue(str.match(/blah/) !== null);
-            };
-            db.logFatal("blah");
-            console.log = orig;
-        });
-    });
-
     it.describe("#__logAndExecute", function (it) {
         var db = new Database();
 
@@ -499,11 +430,12 @@ it.describe("Database", function (it) {
             db.createTable("test", function (table) {
                 table.primaryKey("id", "integer", {"null":false});
                 table.column("name", "text");
+                table.column("image", Buffer, {"null" : false});
                 table.index("name", {unique:true});
             });
 
             assert.deepEqual(db.sqls, [
-                'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text)',
+                'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL)',
                 'CREATE UNIQUE INDEX test_name_index ON test (name)'
             ]);
             patio.quoteIdentifiers = true;
@@ -1186,7 +1118,9 @@ it.describe("Database", function (it) {
     it.describe("#typecastValue", function (it) {
         var db = new Database();
 
-        it.should("type cast propery", function () {
+        it.should("type cast properly", function () {
+            assert.deepEqual(db.typecastValue("blob", "some blob string"), new Buffer("some blob string"));
+            assert.deepEqual(db.typecastValue("blob", [1, 2, 3]), new Buffer([1, 2, 3]));
             assert.equal(db.typecastValue("boolean", "true"), true);
             assert.equal(db.typecastValue("boolean", "false"), false);
             assert.equal(db.typecastValue("integer", "5"), 5);
@@ -1201,6 +1135,8 @@ it.describe("Database", function (it) {
         });
 
         it.should("throw an InvalidValue when given an invalid value", function () {
+            assert.throws(hitch(db, "typecastValue", "blob", 1));
+            assert.throws(hitch(db, "typecastValue", "blob", true));
             assert.throws(hitch(db, "typecastValue", "integer", "a"));
             assert.throws(hitch(db, "typecastValue", "float", "a.a2"));
             assert.throws(hitch(db, "typecastValue", "decimal", "invalidValue"));
@@ -1209,6 +1145,67 @@ it.describe("Database", function (it) {
             assert.throws(hitch(db, "typecastValue", "time", "v"));
             assert.throws(hitch(db, "typecastValue", "dateTime", "z"));
         });
+
+    });
+
+    it.describe("#typeLiteral", function (it) {
+
+        var db = new Database();
+        var typeLiteral = function (type, opts) {
+            return db.typeLiteral(comb.merge({type:type}, opts));
+        };
+
+        it.should("convert Object constructors to types", function () {
+            assert.equal(typeLiteral(String), "varchar(255)");
+            assert.equal(typeLiteral(String, {size:25}), "varchar(25)");
+            assert.equal(typeLiteral(Buffer), "blob");
+            assert.equal(typeLiteral(Number), "numeric");
+            assert.equal(typeLiteral(Number, {size:2 }), "numeric(2)");
+            assert.equal(typeLiteral(Number, {isInt:true}), "integer");
+            assert.equal(typeLiteral(Number, {isDouble:true }), "double precision");
+            assert.equal(typeLiteral(sql.Float, {isDouble:true }), "double precision");
+            assert.equal(typeLiteral(sql.Decimal, {isDouble:true }), "double precision");
+            assert.equal(typeLiteral(Date), "date");
+            assert.equal(typeLiteral(sql.Time), "time");
+            assert.equal(typeLiteral(Date, {onlyTime:true}), "time");
+            assert.equal(typeLiteral(sql.TimeStamp), "timestamp");
+            assert.equal(typeLiteral(Date, {timeStamp:true}), "timestamp");
+            assert.equal(typeLiteral(sql.DateTime), "datetime");
+            assert.equal(typeLiteral(Date, {dateTime:true}), "datetime");
+            assert.equal(typeLiteral(sql.Year), "year");
+            assert.equal(typeLiteral(Date, {yearOnly:true}), "year");
+            assert.equal(typeLiteral(Boolean), "boolean");
+
+        });
+
+        it.should("convert strings", function () {
+            assert.equal(typeLiteral("string"), "varchar(255)");
+            assert.equal(typeLiteral("buffer"), "blob");
+            assert.equal(typeLiteral("number"), "numeric");
+            assert.equal(typeLiteral("number", {size:2 }), "numeric(2)");
+            assert.equal(typeLiteral("number", {isInt:true}), "integer");
+            assert.equal(typeLiteral("number", {isDouble:true }), "double precision");
+            assert.equal(typeLiteral("float", {isDouble:true }), "double precision");
+            assert.equal(typeLiteral("decimal", {isDouble:true }), "double precision");
+            assert.equal(typeLiteral("date"), "date");
+            assert.equal(typeLiteral("time"), "time");
+            assert.equal(typeLiteral("date", {onlyTime:true}), "time");
+            assert.equal(typeLiteral("timestamp"), "timestamp");
+            assert.equal(typeLiteral("date", {timeStamp:true}), "timestamp");
+            assert.equal(typeLiteral("datetime"), "datetime");
+            assert.equal(typeLiteral("date", {dateTime:true}), "datetime");
+            assert.equal(typeLiteral("year"), "year");
+            assert.equal(typeLiteral("date", {yearOnly:true}), "year");
+            assert.equal(typeLiteral("boolean"), "boolean");
+        });
+
+        it.should("support user defined types", function () {
+            assert.equal(typeLiteral("double"), "double precision");
+            assert.equal(typeLiteral("varchar"), "varchar(255)");
+            assert.equal(typeLiteral("varchar", {size:255}), "varchar(255)");
+            assert.equal(typeLiteral("tiny blob"), "tiny blob");
+        });
+
     });
 
     it.describe("#__columnSchemaToJsDefault", function (it) {
@@ -1241,6 +1238,8 @@ it.describe("Database", function (it) {
             assert.deepEqual(m("'2009-10-29 10:20:30'", "timestamp"), new sql.TimeStamp(comb.date.parse('2009-10-29 10:20:30', 'yyyy-MM-dd HH:mm:ss')));
             assert.deepEqual(m("'10:20:30'", "time"), new sql.Time(comb.date.parse("10:20:30", "HH:mm:ss")));
             assert.deepEqual(m("'2002'", "year"), new sql.Year(comb.date.parse("2002", "yyyy")));
+
+            assert.deepEqual(m("'hello this is a binary string'", "blob"), new Buffer("hello this is a binary string"));
             assert.isNull(m("NaN", "float"));
 
             db.type = "postgres";
@@ -1348,7 +1347,7 @@ it.describe("Database", function (it) {
 
         });
 
-        it.beforeEach(function(){
+        it.beforeEach(function () {
             mockAppender.reset();
         })
 
@@ -1360,27 +1359,26 @@ it.describe("Database", function (it) {
             assert.isNotNull(MockDatabase.logger);
         });
 
-        ["logError", "logFatal", "logWarn", "logTrace", "logDebug", "logInfo"].forEach(function(type){
-               it.describe("#" + type, function(it){
+        ["logError", "logFatal", "logWarn", "logTrace", "logDebug", "logInfo"].forEach(function (type) {
+            it.describe("#" + type, function (it) {
 
-                   it.should("log on class", function(){
-                       MockDatabase[type](type);
-                       var messages = mockAppender.messages;
-                       assert.lengthOf(messages, 1);
-                       assert.isNotNull(messages[0].message.match(type));
-                       assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
-                   });
+                it.should("log on class", function () {
+                    MockDatabase[type](type);
+                    var messages = mockAppender.messages;
+                    assert.lengthOf(messages, 1);
+                    assert.isNotNull(messages[0].message.match(type));
+                    assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
+                });
 
-                   it.should("log on instance", function () {
-                       db[type](type);
-                       var messages = mockAppender.messages;
-                       assert.lengthOf(messages, 1);
-                       assert.isNotNull(messages[0].message.match(type));
-                       assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
-                   });
-               });
+                it.should("log on instance", function () {
+                    db[type](type);
+                    var messages = mockAppender.messages;
+                    assert.lengthOf(messages, 1);
+                    assert.isNotNull(messages[0].message.match(type));
+                    assert.equal(messages[0].levelName, type.replace("log", "").toUpperCase());
+                });
+            });
         });
-
 
 
         it.afterAll(function () {
@@ -1390,6 +1388,8 @@ it.describe("Database", function (it) {
     });
 
     it.afterAll(comb.hitch(patio, "disconnect"));
+
+    it.run();
 
 
 });

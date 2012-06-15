@@ -11,7 +11,7 @@ var gender = ["M", "F"];
 it.describe("Many to Many camelize properties", function (it) {
 
 
-    var Company, Eager;
+    var Company, Employee;
     it.beforeAll(function () {
         Company = patio.addModel("company", {
             "static":{
@@ -274,4 +274,5 @@ it.describe("Many to Many camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
 });
