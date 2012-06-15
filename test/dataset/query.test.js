@@ -2229,8 +2229,5 @@ it.describe("Dataset queries", function (it) {
 
 
     it.afterAll(comb.hitch(patio, "disconnect"));
-
-    it.run();
-
 });
 

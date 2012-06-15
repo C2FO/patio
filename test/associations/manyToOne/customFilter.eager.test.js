@@ -6,38 +6,37 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
 var cities = ["Omaha", "Lincoln", "Kearney"];
 
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToMany("employees", {fetchType:this.fetchType.EAGER});
-            this.oneToMany("omahaEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
-                return ds.filter(sql.identifier("city").ilike("omaha"));
-            });
-            this.oneToMany("lincolnEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
-                return ds.filter(sql.identifier("city").ilike("lincoln"));
-            });
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("company", {fetchType:this.fetchType.EAGER});
-        }
-    }
-});
 
 it.describe("Many to one eager with custom filter", function (it) {
 
-
+    var Company, Employee;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToMany("employees", {fetchType:this.fetchType.EAGER});
+                    this.oneToMany("omahaEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
+                        return ds.filter(sql.identifier("city").ilike("omaha"));
+                    });
+                    this.oneToMany("lincolnEmployees", {model:"employee", fetchType:this.fetchType.EAGER}, function (ds) {
+                        return ds.filter(sql.identifier("city").ilike("lincoln"));
+                    });
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("company", {fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -333,7 +332,5 @@ it.describe("Many to one eager with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
 });
 

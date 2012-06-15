@@ -6,30 +6,29 @@ var it = require('it'),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
+
 
 var gender = ["M", "F"];
-
-var Works = patio.addModel("works", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("employee", {key : {employeeId : "id"}});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToOne("works", {key : {id : "employeeId"}});
-        }
-    }
-});
-
 it.describe("One To One with a hash as the key", function (it) {
 
+    var Works, Employee;
     it.beforeAll(function () {
+        Works = patio.addModel("works", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("employee", {key : {employeeId : "id"}});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToOne("works", {key : {id : "employeeId"}});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -198,7 +197,4 @@ it.describe("One To One with a hash as the key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

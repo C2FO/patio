@@ -6,13 +6,14 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
-var DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
-
 var gender = ["M", "F"];
 
+var DB1, DB2;
 var createTablesAndSync = function () {
     var ret = new comb.Promise();
+    DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+    DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
+
     comb.when(
         DB1.forceCreateTable("employee", function () {
             this.primaryKey("id");
@@ -48,27 +49,29 @@ var dropTableAndDisconnect = function () {
     });
 };
 
-var Employee = patio.addModel(DB1.from("employee"), {
-    "static":{
-        //class methods
-        findByGender:function (gender, callback, errback) {
-            return this.filter({gender:gender}).all();
-        }
-    }
-});
-var Employee2 = patio.addModel(DB2.from("employee"), {
-    "static":{
-        //class methods
-        findByGender:function (gender, callback, errback) {
-            return this.filter({gender:gender}).all();
-        }
-    }
-});
-
 
 it.describe("Models from mutliple databases", function (it) {
 
-    it.beforeAll(createTablesAndSync);
+    var Employee, Employee2;
+    it.beforeAll(function () {
+        Employee = patio.addModel(DB1.from("employee"), {
+            "static":{
+                //class methods
+                findByGender:function (gender, callback, errback) {
+                    return this.filter({gender:gender}).all();
+                }
+            }
+        });
+        Employee2 = patio.addModel(DB2.from("employee"), {
+            "static":{
+                //class methods
+                findByGender:function (gender, callback, errback) {
+                    return this.filter({gender:gender}).all();
+                }
+            }
+        });
+        return createTablesAndSync();
+    });
 
     var emp1, emp2;
     it.beforeEach(function () {
@@ -163,8 +166,6 @@ it.describe("Models from mutliple databases", function (it) {
     });
 
     it.afterAll(dropTableAndDisconnect);
-
-    it.run();
 });
 
 

@@ -499,8 +499,4 @@ it.describe("Dataset graphing", function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
-
-    it.run();
-
-
 });

@@ -5,28 +5,26 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 var gender = ["M", "F"];
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToMany("employees", {key:{id:"companyId"}});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("company", {key:{companyId:"id"}});
-        }
-    }
-});
-
-
 it.describe("Many to one a hash for key", function (it) {
 
-
+    var Company, Employee;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToMany("employees", {key:{id:"companyId"}});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("company", {key:{companyId:"id"}});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -311,7 +309,4 @@ it.describe("Many to one a hash for key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

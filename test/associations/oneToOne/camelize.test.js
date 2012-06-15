@@ -8,33 +8,31 @@ var it = require('it'),
 
 
 var gender = ["M", "F"];
-
-var Works = patio.addModel("works", {
-    "static":{
-
-        camelize:true,
-
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("employee");
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-
-        camelize:true,
-
-        init:function () {
-            this._super(arguments);
-            this.oneToOne("works");
-        }
-    }
-});
-
 it.describe("One To One with camelize option", function (it) {
-
+    var Works, Employee;
     it.beforeAll(function () {
+        Works = patio.addModel("works", {
+            "static":{
+
+                camelize:true,
+
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("employee");
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+
+                camelize:true,
+
+                init:function () {
+                    this._super(arguments);
+                    this.oneToOne("works");
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -203,8 +201,5 @@ it.describe("One To One with camelize option", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });
 

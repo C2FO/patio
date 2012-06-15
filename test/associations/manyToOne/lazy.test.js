@@ -7,28 +7,25 @@ var it = require('it'),
 
 
 var gender = ["M", "F"];
-
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToMany("employees");
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("company");
-        }
-    }
-});
-
 it.describe("Many to one lazy", function (it) {
-
-
+    var Company, Employee;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToMany("employees");
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("company");
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -313,7 +310,4 @@ it.describe("Many to one lazy", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

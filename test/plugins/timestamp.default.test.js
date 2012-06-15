@@ -1,21 +1,24 @@
 var it = require('it'),
-        assert = require('assert'),
-        patio = require("index"),
-        comb = require("comb"),
-        hitch = comb.hitch,
-        helper = require("../data/timestampPlugin.helper.js");
+    assert = require('assert'),
+    patio = require("index"),
+    comb = require("comb"),
+    hitch = comb.hitch,
+    helper = require("../data/timestampPlugin.helper.js");
 
-var ret = module.exports = new comb.Promise();
 
-var Employee = patio.addModel("employee", {
-    plugins:[patio.plugins.TimeStampPlugin]
-});
-Employee.timestamp();
+it.describe("Timestamp default columns", function (it) {
 
-it.describe("Timestamp custom columns", function (it) {
-
-    var emp;
+    var emp, Employee;
     it.beforeAll(function () {
+        Employee = patio.addModel("employee", {
+            plugins:[patio.plugins.TimeStampPlugin],
+
+            "static":{
+                init:function () {
+                    this.timestamp();
+                }
+            }
+        });
         return helper.createSchemaAndSync();
     });
 
@@ -57,7 +60,4 @@ it.describe("Timestamp custom columns", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

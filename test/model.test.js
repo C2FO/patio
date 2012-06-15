@@ -7,18 +7,20 @@ var it = require('it'),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];
-var Employee = patio.addModel("employee", {
-    static:{
-        //class methods
-        findByGender:function (gender, callback, errback) {
-            return this.filter({gender:gender}).all();
-        }
-    }
-});
+
 
 it.describe("A model with properites", function (it) {
 
+    var Employee;
     it.beforeAll(function () {
+        Employee = patio.addModel("employee", {
+            static:{
+                //class methods
+                findByGender:function (gender, callback, errback) {
+                    return this.filter({gender:gender}).all();
+                }
+            }
+        });
         return helper.createSchemaAndSync();
     });
 
@@ -339,9 +341,6 @@ it.describe("A model with properites", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });
 
 

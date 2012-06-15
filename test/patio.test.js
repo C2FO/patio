@@ -26,83 +26,86 @@ var getTimeZoneOffset = function (date) {
     return tz.join("");
 };
 
-var DummyDataset = comb.define(patio.Dataset, {
-    instance:{
-        first:function () {
-            var ret = new comb.Promise();
-            if (this.__opts.from[0] === "a") {
-                ret.errback();
-            } else {
-                ret.callback();
-            }
-            return ret;
-        }
-    }
-});
-var DummyDatabase = comb.define(patio.Database, {
-    instance:{
-        constructor:function () {
-            this._super(arguments);
-            this.sqls = [];
-            this.identifierInputMethod = null;
-            this.identifierOutputMethod = null;
-        },
-
-        createConnection:function (options) {
-            this.connected = true;
-            return new comb.Promise().callback({});
-        },
-
-        closeConnection:function (conn) {
-            this.connected = false;
-            return new comb.Promise().callback();
-        },
-
-        validate:function (conn) {
-            return new Promise().callback(true);
-        },
-
-        execute:function (sql, opts) {
-            this.pool.getConnection();
-            var ret = new comb.Promise();
-            this.sqls.push(sql);
-            ret.callback();
-            return ret;
-        },
-
-        executeError:function () {
-            var ret = new comb.Promise();
-            this.execute.apply(this, arguments).then(comb.hitch(ret, 'errback'), comb.hitch(ret, 'errback'));
-            return ret;
-        },
-
-        reset:function () {
-            this.sqls = [];
-        },
-
-        transaction:function (opts, cb) {
-            var ret = new comb.Promise();
-            cb();
-            ret.callback();
-            return ret;
-        },
-
-        getters:{
-            dataset:function () {
-                return new DummyDataset(this);
-            }
-        }
-    },
-
-    "static":{
-        init:function () {
-            this.setAdapterType("dummydb");
-        }
-    }
-});
 
 it.describe("patio", function (it) {
 
+    var DummyDataset, DummyDatabase;
+    it.beforeAll(function () {
+        DummyDataset = comb.define(patio.Dataset, {
+            instance:{
+                first:function () {
+                    var ret = new comb.Promise();
+                    if (this.__opts.from[0] === "a") {
+                        ret.errback();
+                    } else {
+                        ret.callback();
+                    }
+                    return ret;
+                }
+            }
+        });
+        DummyDatabase = comb.define(patio.Database, {
+            instance:{
+                constructor:function () {
+                    this._super(arguments);
+                    this.sqls = [];
+                    this.identifierInputMethod = null;
+                    this.identifierOutputMethod = null;
+                },
+
+                createConnection:function (options) {
+                    this.connected = true;
+                    return new comb.Promise().callback({});
+                },
+
+                closeConnection:function (conn) {
+                    this.connected = false;
+                    return new comb.Promise().callback();
+                },
+
+                validate:function (conn) {
+                    return new Promise().callback(true);
+                },
+
+                execute:function (sql, opts) {
+                    this.pool.getConnection();
+                    var ret = new comb.Promise();
+                    this.sqls.push(sql);
+                    ret.callback();
+                    return ret;
+                },
+
+                executeError:function () {
+                    var ret = new comb.Promise();
+                    this.execute.apply(this, arguments).then(comb.hitch(ret, 'errback'), comb.hitch(ret, 'errback'));
+                    return ret;
+                },
+
+                reset:function () {
+                    this.sqls = [];
+                },
+
+                transaction:function (opts, cb) {
+                    var ret = new comb.Promise();
+                    cb();
+                    ret.callback();
+                    return ret;
+                },
+
+                getters:{
+                    dataset:function () {
+                        return new DummyDataset(this);
+                    }
+                }
+            },
+
+            "static":{
+                init:function () {
+                    this.setAdapterType("dummydb");
+                }
+            }
+        });
+    });
 
     it.should("have constants", function () {
         assert.deepEqual(patio.CURRENT_DATE, new Constant("CURRENT_DATE"));
@@ -357,8 +360,7 @@ it.describe("patio", function (it) {
         assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2"));
         assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2THHMM"));
     });
-
-
-    it.run();
-
+    it.afterAll(function(){
+        return patio.disconnect();
+    });
 });

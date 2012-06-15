@@ -6,10 +6,10 @@ BENCHMARKS = `find benchmark -name *benchmark.js `
 DOC_COMMAND=java -jar ./support/jsdoc/jsrun.jar ./support/jsdoc/app/run.js -t=./support/jsdoc/templates/CoolTemplate -d=./docs/api  -D="github:pollenware/patio"
 
 test:
-	export NODE_PATH=$NODE_PATH:lib && node test/runner.js
+	export NODE_PATH=$NODE_PATH:lib && ./node_modules/it/bin/it -r dotmatrix
 
 test-coverage:
-	export NODE_PATH=$NODE_PATH:lib-cov && node test/runner.js true $(SHOW_SOURCE)
+	rm -rf ./lib-cov && node-jscoverage ./lib ./lib-cov && export NODE_PATH=$NODE_PATH:lib-cov && ./node_modules/it/bin/it -r dotmatrix
 
 docs: docclean
 	$(DOC_COMMAND) $(JS_FILES)

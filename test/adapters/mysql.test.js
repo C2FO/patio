@@ -8,32 +8,28 @@ var it = require('it'),
 
 it.describe("patio.adapters.Mysql", function (it) {
 
-
-    patio.quoteIdentifiers = false;
-
-    var MYSQL_DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
-
-    var INTEGRATION_DB = MYSQL_DB;
-
-    MYSQL_DB.__defineGetter__("sqls", function () {
-        return (comb.isArray(this.__sqls) ? this.__sqls : (this.__sqls = []));
-    });
-
-    MYSQL_DB.__defineSetter__("sqls", function (sql) {
-        return this.__sqls = sql;
-    });
-
-    var origExecute = MYSQL_DB.__logAndExecute;
-    MYSQL_DB.__logAndExecute = function (sql) {
-        this.sqls.push(sql.trim());
-        return origExecute.apply(this, arguments);
-    };
-
     var SQL_BEGIN = 'BEGIN';
     var SQL_ROLLBACK = 'ROLLBACK';
-    var SQL_COMMIT = 'COMMIT';
+    var SQL_COMMIT = 'COMMIT',
+        MYSQL_DB;
 
     it.beforeAll(function (next) {
+        patio.quoteIdentifiers = false;
+        MYSQL_DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+
+        MYSQL_DB.__defineGetter__("sqls", function () {
+            return (comb.isArray(this.__sqls) ? this.__sqls : (this.__sqls = []));
+        });
+
+        MYSQL_DB.__defineSetter__("sqls", function (sql) {
+            return this.__sqls = sql;
+        });
+
+        var origExecute = MYSQL_DB.__logAndExecute;
+        MYSQL_DB.__logAndExecute = function (sql) {
+            this.sqls.push(sql.trim());
+            return origExecute.apply(this, arguments);
+        };
         MYSQL_DB.forceCreateTable("test2",function () {
             this.name("text");
             this.value("integer");
@@ -287,7 +283,8 @@ it.describe("patio.adapters.Mysql", function (it) {
     });
 
     it.describe("MySQL join expressions", function (it) {
-        var ds = MYSQL_DB.from("nodes");
+        var ds;
+        it.beforeAll(function(){ds = MYSQL_DB.from("nodes");});
 
         it.should("raise error for :full_outer join requests.", function () {
             assert.throws(hitch(ds, "joinTable", "fullOuter", "nodes"));
@@ -863,7 +860,8 @@ it.describe("patio.adapters.Mysql", function (it) {
     });
     it.context(function (it) {
 
-        var d = MYSQL_DB.from("items");
+        var d;
+        it.beforeAll(function(){d = MYSQL_DB.from("items");});
         it.beforeEach(function () {
             return comb.executeInOrder(MYSQL_DB, function (db) {
                 db.forceDropTable("items");
@@ -1217,7 +1215,8 @@ it.describe("patio.adapters.Mysql", function (it) {
     });
 
     it.describe("#complexExpressionSql", function (it) {
-        var d = MYSQL_DB.dataset;
+        var d;
+        it.beforeAll(function(){d = MYSQL_DB.dataset;});
         it.should("handle pattern matches correctly", function () {
             assert.equal(d.literal(sql.identifier("x").like('a')), "(x LIKE BINARY 'a')");
             assert.equal(d.literal(sql.identifier("x").like("a").not()), "(x NOT LIKE BINARY 'a')");
@@ -1307,9 +1306,10 @@ it.describe("patio.adapters.Mysql", function (it) {
         });
     });
 
-    it.afterAll(hitch(patio, "disconnect"));
+    it.afterAll(function(){
+        return patio.disconnect();
+    });
 
-    it.run();
 });
 
 

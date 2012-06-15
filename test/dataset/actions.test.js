@@ -2303,6 +2303,4 @@ it.describe("Dataset actions", function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
-
-    it.run();
 });

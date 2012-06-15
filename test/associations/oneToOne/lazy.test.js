@@ -6,30 +6,28 @@ var it = require('it'),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-
-var Works = patio.addModel("works", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("employee");
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToOne("works");
-        }
-    }
-});
-
 it.describe("One To One lazy", function (it) {
 
+    var Works, Employee;
     it.beforeAll(function () {
+        Works = patio.addModel("works", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("employee");
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToOne("works");
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -135,7 +133,7 @@ it.describe("One To One lazy", function (it) {
 
     });
 
-    it.context(function(){
+    it.context(function () {
         it.beforeEach(function () {
             return comb.when(
                 Works.remove(),
@@ -169,7 +167,7 @@ it.describe("One To One lazy", function (it) {
             }, next);
         });
 
-        it.should("not delete association when deleting the reciprocal side", function(next){
+        it.should("not delete association when deleting the reciprocal side", function (next) {
             var e = new Employee({
                 lastName:"last" + 1,
                 firstName:"first" + 1,
@@ -182,9 +180,9 @@ it.describe("One To One lazy", function (it) {
                     salary:100000
                 }
             });
-            e.save().then(function(){
-                e.remove().then(function(){
-                    comb.when(Employee.all(), Works.all()).then(function(res){
+            e.save().then(function () {
+                e.remove().then(function () {
+                    comb.when(Employee.all(), Works.all()).then(function (res) {
                         assert.lengthOf(res[0], 0);
                         assert.lengthOf(res[1], 1);
                         next();
@@ -198,7 +196,4 @@ it.describe("One To One lazy", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

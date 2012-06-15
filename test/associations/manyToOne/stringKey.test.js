@@ -5,33 +5,30 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
+
 
 var gender = ["M", "F"];
 
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToMany("employees", {key:"companyId"});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("company", {key:"companyId"});
-        }
-    }
-});
-
-
-
 it.describe("Many to one with a string for key", function (it) {
 
-
+    var Company, Employee;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToMany("employees", {key:"companyId"});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("company", {key:"companyId"});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -316,7 +313,4 @@ it.describe("Many to one with a string for key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

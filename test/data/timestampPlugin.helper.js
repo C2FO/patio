@@ -30,8 +30,7 @@ var dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
         db.forceDropTable("employee");
         patio.disconnect();
-        patio.identifierInputMethod = null;
-        patio.identifierOutputMethod = null;
+        patio.resetIdentifierMethods();
     });
 };
 

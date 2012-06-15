@@ -5,34 +5,33 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
+
 
 var gender = ["M", "F"];
 
-var Works = patio.addModel("works", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("employee", {fetchType:this.fetchType.EAGER});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToOne("works", {fetchType:this.fetchType.EAGER}, function (ds) {
-                return ds.filter(function () {
-                    return this.salary.gte(100000.00);
-                });
-            });
-        }
-    }
-});
-
 it.describe("One To One eager with custom filter", function (it) {
-
+    var Works, Employee;
     it.beforeAll(function () {
+        Works = patio.addModel("works", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("employee", {fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToOne("works", {fetchType:this.fetchType.EAGER}, function (ds) {
+                        return ds.filter(function () {
+                            return this.salary.gte(100000.00);
+                        });
+                    });
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -198,7 +197,4 @@ it.describe("One To One eager with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-    it.run();
-
 });

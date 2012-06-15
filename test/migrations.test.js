@@ -16,153 +16,157 @@ var sortMigrationFiles = function () {
     });
 };
 
-var MockDS = comb.define(patio.Dataset, {
-    instance:{
-
-        fetchRows:function (sql, cb) {
-            var from = this.__opts.from[0], ret = new comb.Promise();
-            ret.callback(cb({version:patioMigrationVersion}));
-            return ret;
-        },
-
-        insert:function (values) {
-            var from = this.__opts.from[0], ret = new comb.Promise().callback(0);
-            if (from.toString() == "schema_info") {
-                patioMigrationVersion = values[Object.keys(values)[0]];
-            }
-            return ret;
-        },
-
-        update:function (values) {
-            var from = this.__opts.from[0], ret = new comb.Promise().callback(1);
-            if (from.toString() == "schema_info") {
-                patioMigrationVersion = values[Object.keys(values)[0]];
-            }
-            return ret;
-        },
-
-        count:function () {
-            return new comb.Promise().callback(1);
-        },
-
-        getters:{
-            columns:function () {
-                var from = this.__opts.from[0], ret = new comb.Promise();
-                ret.callback(this.db.columnsCreated);
-                return ret;
-            }
-        }
-    }
-});
-
-var MockDB = comb.define(patio.Database, {
-
-    instance:{
-
-        constructor:function () {
-            this._super(arguments);
-            this.type = this._static.type;
-            this.quoteIdentifiers = false;
-            this.identifierInputMethod = null;
-            this.identifierOutputMethod = null;
-            this.connectionExecuteMethod = "query";
-            this.sqls = [];
-            this.tables = {};
-            this.alteredTables = {};
-            this.closedCount = 0;
-            this.createdCount = 0;
-            this.columnsCreated = [];
-            this.columnsAltered = {};
-            this.droppedTables = [];
-        },
-
-        createConnection:function () {
-            this.createdCount++;
-            return {
-                query:function (sql) {
-                    DB.sqls.push(sql);
-                    return new comb.Promise().callback(sql);
-                }
-            }
-        },
-
-        closeConnection:function () {
-            this.closedCount++;
-            return new comb.Promise().callback();
-        },
-
-        validate:function () {
-            return new comb.Promise().callback(true);
-        },
-
-        execute:function (sql, opts) {
-            var ret = new comb.Promise();
-            this.sqls.push(sql);
-            ret.callback();
-            return ret;
-        },
-
-        createTable:function (name, args) {
-            this.tables[name] = true;
-            this._super(arguments);
-            var match = this.sqls[this.sqls.length - 1].match(/ \(?(\w+) integer.*\)?$/);
-            if (match != null) {
-                this.columnsCreated.push(match[1]);
-            }
-            return new comb.Promise().callback();
-        },
-
-        dropTable:function (name) {
-            comb.argsToArray(arguments).forEach(function (name) {
-                this.droppedTables.push(name);
-                this.tables[name] = null;
-            }, this);
-            return new comb.Promise().callback();
-        },
-
-        tableExists:function (name) {
-            return new comb.Promise().callback(!comb.isUndefinedOrNull(this.tables[name]));
-        },
-
-        alterTable:function (name) {
-            this.alteredTables[name] = true;
-            this._super(arguments);
-            var sql = this.sqls[this.sqls.length - 1]
-            var match = sql.match(/ \(?(\w+) integer.*\)?$/);
-            var alterMatch = sql.match(/(\w+) TO (\w+)$/);
-            if (match != null) {
-                this.columnsCreated.push(match[1]);
-            }
-            if (alterMatch != null) {
-                this.columnsAltered[alterMatch[1]] = alterMatch[2];
-            }
-            return new comb.Promise().callback(1);
-        },
-
-
-        reset:function () {
-            this.sqls = [];
-            this.columnsCreated = [];
-            this.droppedTables = [];
-            this.columnsAltered = {};
-            this.tables = {};
-            this.alteredTables = {};
-            patioMigrationVersion = -1;
-            patioMigrationFiles = [];
-        },
-
-        getters:{
-            dataset:function () {
-                return new MockDS(this);
-            }
-        }
-    }
-
-});
-
-var DB = new MockDB();
 
 it.describe("Migrators", function (it) {
+
+    var DB, MockDB, MockDS;
+    it.beforeAll(function () {
+        MockDS = comb.define(patio.Dataset, {
+            instance:{
+
+                fetchRows:function (sql, cb) {
+                    var from = this.__opts.from[0], ret = new comb.Promise();
+                    ret.callback(cb({version:patioMigrationVersion}));
+                    return ret;
+                },
+
+                insert:function (values) {
+                    var from = this.__opts.from[0], ret = new comb.Promise().callback(0);
+                    if (from.toString() == "schema_info") {
+                        patioMigrationVersion = values[Object.keys(values)[0]];
+                    }
+                    return ret;
+                },
+
+                update:function (values) {
+                    var from = this.__opts.from[0], ret = new comb.Promise().callback(1);
+                    if (from.toString() == "schema_info") {
+                        patioMigrationVersion = values[Object.keys(values)[0]];
+                    }
+                    return ret;
+                },
+
+                count:function () {
+                    return new comb.Promise().callback(1);
+                },
+
+                getters:{
+                    columns:function () {
+                        var from = this.__opts.from[0], ret = new comb.Promise();
+                        ret.callback(this.db.columnsCreated);
+                        return ret;
+                    }
+                }
+            }
+        });
+
+        MockDB = comb.define(patio.Database, {
+
+            instance:{
+
+                constructor:function () {
+                    this._super(arguments);
+                    this.type = this._static.type;
+                    this.quoteIdentifiers = false;
+                    this.identifierInputMethod = null;
+                    this.identifierOutputMethod = null;
+                    this.connectionExecuteMethod = "query";
+                    this.sqls = [];
+                    this.tables = {};
+                    this.alteredTables = {};
+                    this.closedCount = 0;
+                    this.createdCount = 0;
+                    this.columnsCreated = [];
+                    this.columnsAltered = {};
+                    this.droppedTables = [];
+                },
+
+                createConnection:function () {
+                    this.createdCount++;
+                    return {
+                        query:function (sql) {
+                            DB.sqls.push(sql);
+                            return new comb.Promise().callback(sql);
+                        }
+                    }
+                },
+
+                closeConnection:function () {
+                    this.closedCount++;
+                    return new comb.Promise().callback();
+                },
+
+                validate:function () {
+                    return new comb.Promise().callback(true);
+                },
+
+                execute:function (sql, opts) {
+                    var ret = new comb.Promise();
+                    this.sqls.push(sql);
+                    ret.callback();
+                    return ret;
+                },
+
+                createTable:function (name, args) {
+                    this.tables[name] = true;
+                    this._super(arguments);
+                    var match = this.sqls[this.sqls.length - 1].match(/ \(?(\w+) integer.*\)?$/);
+                    if (match != null) {
+                        this.columnsCreated.push(match[1]);
+                    }
+                    return new comb.Promise().callback();
+                },
+
+                dropTable:function (name) {
+                    comb.argsToArray(arguments).forEach(function (name) {
+                        this.droppedTables.push(name);
+                        this.tables[name] = null;
+                    }, this);
+                    return new comb.Promise().callback();
+                },
+
+                tableExists:function (name) {
+                    return new comb.Promise().callback(!comb.isUndefinedOrNull(this.tables[name]));
+                },
+
+                alterTable:function (name) {
+                    this.alteredTables[name] = true;
+                    this._super(arguments);
+                    var sql = this.sqls[this.sqls.length - 1]
+                    var match = sql.match(/ \(?(\w+) integer.*\)?$/);
+                    var alterMatch = sql.match(/(\w+) TO (\w+)$/);
+                    if (match != null) {
+                        this.columnsCreated.push(match[1]);
+                    }
+                    if (alterMatch != null) {
+                        this.columnsAltered[alterMatch[1]] = alterMatch[2];
+                    }
+                    return new comb.Promise().callback(1);
+                },
+
+
+                reset:function () {
+                    this.sqls = [];
+                    this.columnsCreated = [];
+                    this.droppedTables = [];
+                    this.columnsAltered = {};
+                    this.tables = {};
+                    this.alteredTables = {};
+                    patioMigrationVersion = -1;
+                    patioMigrationFiles = [];
+                },
+
+                getters:{
+                    dataset:function () {
+                        return new MockDS(this);
+                    }
+                }
+            }
+
+        });
+
+        DB = new MockDB();
+    });
 
     it.describe("Integer Migrator", function (it) {
 
@@ -294,76 +298,80 @@ it.describe("Migrators", function (it) {
         });
     });
 
-    var MockTimestampDs = comb.define(MockDS, {
-        instance:{
 
-            fetchRows:function (sql, cb) {
-                var from = this.__opts.from[0], ret = new comb.Promise();
-                if (from.toString() === "schema_info") {
-                    ret.callback(cb({version:patioMigrationVersion}));
-                } else if (from.toString() === "schema_migrations") {
-                    sortMigrationFiles();
-                    ret.callback(patioMigrationFiles.forEach(function (f) {
-                        cb({filename:f});
-                    }));
-                } else if (from.toString() === "sm") {
-                    ret.callback(patioMigrationFiles.forEach(function (f) {
-                        cb({fn:f});
-                    }));
-                }
-                return ret;
-            },
-
-            insert:function (values) {
-                var from = this.__opts.from[0].toString(), ret = new comb.Promise().callback(0);
-                if (from == "schema_info") {
-                    patioMigrationVersion = values[Object.keys(values)[0]];
-                } else if (from == "schema_migrations" || from === "sm") {
-                    patioMigrationFiles.push(values[Object.keys(values)[0]])
-                }
-                return ret;
-            },
-
-            remove:function () {
-                var from = this.__opts.from[0].toString(), ret = new comb.Promise().callback(1);
-                if (from == "schema_migrations" || from === "sm") {
-                    var where = this.__opts.where.args, index = patioMigrationFiles.indexOf(where[where.length - 1]);
-                    if (index > -1) {
-                        patioMigrationFiles.splice(index, 1);
-                    }
-                }
-                return ret;
-            },
-
-            getters:{
-                columns:function () {
-                    var from = this.__opts.from[0].toString(), ret = new comb.Promise();
-                    if (from === "schema_info") {
-                        ret.callback(["version"]);
-                    } else if (from === "schema_migrations") {
-                        ret.callback(["filename"]);
-                    } else if (from === "sm") {
-                        ret.callback(["fn"]);
-                    }
-                    return ret;
-                }
-            }
-        }
-    });
 
     it.describe("Timestamp migrator", function (it) {
 
-        var MockTimestampDB = comb.define(MockDB, {
-            instance:{
-                getters:{
-                    dataset:function () {
-                        return new MockTimestampDs(this);
+        var MockTimestampDB, MockTimestampDs, TSDB;
+        it.beforeAll(function(){
+            MockTimestampDs = comb.define(MockDS, {
+                instance:{
+
+                    fetchRows:function (sql, cb) {
+                        var from = this.__opts.from[0], ret = new comb.Promise();
+                        if (from.toString() === "schema_info") {
+                            ret.callback(cb({version:patioMigrationVersion}));
+                        } else if (from.toString() === "schema_migrations") {
+                            sortMigrationFiles();
+                            ret.callback(patioMigrationFiles.forEach(function (f) {
+                                cb({filename:f});
+                            }));
+                        } else if (from.toString() === "sm") {
+                            ret.callback(patioMigrationFiles.forEach(function (f) {
+                                cb({fn:f});
+                            }));
+                        }
+                        return ret;
+                    },
+
+                    insert:function (values) {
+                        var from = this.__opts.from[0].toString(), ret = new comb.Promise().callback(0);
+                        if (from == "schema_info") {
+                            patioMigrationVersion = values[Object.keys(values)[0]];
+                        } else if (from == "schema_migrations" || from === "sm") {
+                            patioMigrationFiles.push(values[Object.keys(values)[0]])
+                        }
+                        return ret;
+                    },
+
+                    remove:function () {
+                        var from = this.__opts.from[0].toString(), ret = new comb.Promise().callback(1);
+                        if (from == "schema_migrations" || from === "sm") {
+                            var where = this.__opts.where.args, index = patioMigrationFiles.indexOf(where[where.length - 1]);
+                            if (index > -1) {
+                                patioMigrationFiles.splice(index, 1);
+                            }
+                        }
+                        return ret;
+                    },
+
+                    getters:{
+                        columns:function () {
+                            var from = this.__opts.from[0].toString(), ret = new comb.Promise();
+                            if (from === "schema_info") {
+                                ret.callback(["version"]);
+                            } else if (from === "schema_migrations") {
+                                ret.callback(["filename"]);
+                            } else if (from === "sm") {
+                                ret.callback(["fn"]);
+                            }
+                            return ret;
+                        }
                     }
                 }
-            }
-        });
+            });
+            MockTimestampDB = comb.define(MockDB, {
+                instance:{
+                    getters:{
+                        dataset:function () {
+                            return new MockTimestampDs(this);
+                        }
+                    }
+                }
+            });
 
-        var TSDB = new MockTimestampDB();
+            TSDB = new MockTimestampDB();
+        });
 
         it.beforeEach(function () {
             TSDB.reset();
@@ -594,7 +602,11 @@ it.describe("Migrators", function (it) {
             }, next);
         });
     });
-    it.run();
+
+    it.afterAll(function(){
+        return patio.disconnect();
+    });
+
 });
 
 

@@ -5,29 +5,29 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-var ret = module.exports = new comb.Promise();
 
 var gender = ["M", "F"];
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToMany("employees", {leftKey:"companyId", rightKey:"employeeId"});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToMany("companies", {leftKey:"employeeId", rightKey:"companyId"});
-        }
-    }
-});
+
 it.describe("Many to Many camelize properties", function (it) {
 
-
+    var Company, Employee;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToMany("employees", {leftKey:"companyId", rightKey:"employeeId"});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToMany("companies", {leftKey:"employeeId", rightKey:"companyId"});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -257,8 +257,4 @@ it.describe("Many to Many camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-
-    it.run();
-
 });

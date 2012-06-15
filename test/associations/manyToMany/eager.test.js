@@ -7,27 +7,28 @@ var it = require('it'),
 
 var gender = ["M", "F"];
 
-var Company = patio.addModel("company", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToMany("employees", {fetchType:this.fetchType.EAGER});
-        }
-    }
-});
-var Employee = patio.addModel("employee", {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.manyToMany("companies", {fetchType:this.fetchType.EAGER});
-        }
-    }
-});
 
 it.describe("Many to Many camelize properties", function (it) {
 
 
+    var Company, Eager;
     it.beforeAll(function () {
+        Company = patio.addModel("company", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToMany("employees", {fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToMany("companies", {fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
         return helper.createSchemaAndSync(true);
     });
 
@@ -253,8 +254,4 @@ it.describe("Many to Many camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-
-    it.run();
-
 });

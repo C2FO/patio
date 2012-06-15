@@ -4,46 +4,47 @@ var it = require('it'),
     ClassTableInheritance = patio.plugins.ClassTableInheritancePlugin,
     comb = require("comb"),
     hitch = comb.hitch,
-    helper = require("../data/classTableInheritance.helper.js");
+    helper = require("../data/classTableInheritance.helper.js"),
+    Employee, Staff, Manager, Executive;
 
 
 patio.quoteIdentifiers = false;
-
-var Employee = patio.addModel("employee", {
-    plugins:[ClassTableInheritance],
-    "static":{
-
-        init:function () {
-            this._super(arguments);
-            this.configure({key:"kind"});
-        }
-    }
-});
-var Staff = patio.addModel("staff", Employee, {
-
-    "static":{
-
-        init:function () {
-            this._super(arguments);
-            this.manyToOne("manager", {key:"managerId", fetchType:this.fetchType.EAGER});
-        }
-    }
-});
-var Manager = patio.addModel("manager", Employee, {
-    "static":{
-        init:function () {
-            this._super(arguments);
-            this.oneToMany("staff", {key:"managerId", fetchType:this.fetchType.EAGER});
-        }
-    }
-});
-
-var Executive = patio.addModel("executive", Manager);
 
 it.describe("ClassTableInheritancePlugin", function (it) {
 
 
     it.beforeAll(function () {
+        Employee = patio.addModel("employee", {
+            plugins:[ClassTableInheritance],
+            "static":{
+
+                init:function () {
+                    this._super(arguments);
+                    this.configure({key:"kind"});
+                }
+            }
+        });
+        Staff = patio.addModel("staff", Employee, {
+
+            "static":{
+
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("manager", {key:"managerId", fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
+        Manager = patio.addModel("manager", Employee, {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToMany("staff", {key:"managerId", fetchType:this.fetchType.EAGER});
+                }
+            }
+        });
+
+        Executive = patio.addModel("executive", Manager);
+
         return helper.createSchemaAndSync();
     });
 
@@ -185,5 +186,4 @@ it.describe("ClassTableInheritancePlugin", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-    it.run();
 });
