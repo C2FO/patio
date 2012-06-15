@@ -44,8 +44,9 @@ it.describe("patio.adapters.Mysql", function (it) {
 
     it.describe("#createTable", function (it) {
 
-        var db = MYSQL_DB;
+        var db;
         it.beforeEach(function () {
+            db = MYSQL_DB;
             db.sqls.length = 0;
         });
 
@@ -514,8 +515,9 @@ it.describe("patio.adapters.Mysql", function (it) {
     });
 
     it.context(function (it) {
-        var db = MYSQL_DB;
+        var db;
         it.beforeAll(function () {
+            db =MYSQL_DB;
             db.sqls.length = 0;
         });
 

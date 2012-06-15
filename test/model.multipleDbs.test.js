@@ -11,9 +11,6 @@ var gender = ["M", "F"];
 var DB1, DB2;
 var createTablesAndSync = function () {
     var ret = new comb.Promise();
-    DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
-    DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
-
     comb.when(
         DB1.forceCreateTable("employee", function () {
             this.primaryKey("id");
@@ -54,6 +51,9 @@ it.describe("Models from mutliple databases", function (it) {
 
     var Employee, Employee2;
     it.beforeAll(function () {
+        DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+        DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
+
         Employee = patio.addModel(DB1.from("employee"), {
             "static":{
                 //class methods
@@ -166,6 +166,7 @@ it.describe("Models from mutliple databases", function (it) {
     });
 
     it.afterAll(dropTableAndDisconnect);
+
 });
 
 
