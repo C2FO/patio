@@ -12,6 +12,7 @@ var it = require('it'),
     LiteralString = sql.LiteralString,
     comb = require("comb"),
     Promise = comb.Promise,
+    Model = require("model").Model,
     hitch = comb.hitch;
 patio.DATABASES.length = 0;
 patio.quoteIdentifiers = false;
@@ -360,7 +361,25 @@ it.describe("patio", function (it) {
         assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2"));
         assert.throws(comb.hitch(patio, "stringToTimeStamp", "2004-25-2THHMM"));
     });
-    it.afterAll(function(){
+
+    it.should("set underscore values when using #underscore", function () {
+        patio.underscore = true;
+        assert.isTrue(Model.underscore);
+        assert.equal(patio.identifierOutputMethod, "underscore");
+        assert.equal(patio.identifierInputMethod, "camelize");
+    });
+
+    it.should("set camelize values when using #camelize", function () {
+        patio.camelize = true;
+        assert.isTrue(Model.camelize);
+        assert.equal(patio.identifierOutputMethod, "camelize");
+        assert.equal(patio.identifierInputMethod, "underscore");
+    });
+
+
+    it.afterAll(function () {
+        patio.resetIdentifierMethods();
         return patio.disconnect();
     });
+
 });

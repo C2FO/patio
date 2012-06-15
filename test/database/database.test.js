@@ -1185,7 +1185,21 @@ it.describe("Database", function (it) {
     it.describe("#typecastValue", function (it) {
         var db = new Database();
 
-        it.should("raise an InvalidValue when given an invalid value", function () {
+        it.should("type cast propery", function () {
+            assert.equal(db.typecastValue("boolean", "true"), true);
+            assert.equal(db.typecastValue("boolean", "false"), false);
+            assert.equal(db.typecastValue("integer", "5"), 5);
+            assert.equal(db.typecastValue("float", "5.5"), 5.5);
+            assert.equal(db.typecastValue("decimal", "5.5"), 5.5);
+            assert.deepEqual(db.typecastValue("date", "2011-10-5"), new Date(2011, 9, 5));
+            assert.deepEqual(db.typecastValue("time", "10:10:10"), new sql.Time(10, 10, 10));
+            assert.deepEqual(db.typecastValue("datetime", "2011-10-5 10:10:10"), new sql.DateTime(2011, 9, 5, 10, 10, 10));
+            assert.deepEqual(db.typecastValue("timestamp", "2011-10-5 10:10:10"), new sql.DateTime(2011, 9, 5, 10, 10, 10));
+            assert.deepEqual(db.typecastValue("year", "2011"), new sql.Year(2011));
+
+        });
+
+        it.should("throw an InvalidValue when given an invalid value", function () {
             assert.throws(hitch(db, "typecastValue", "integer", "a"));
             assert.throws(hitch(db, "typecastValue", "float", "a.a2"));
             assert.throws(hitch(db, "typecastValue", "decimal", "invalidValue"));
@@ -1306,4 +1320,5 @@ it.describe("Database", function (it) {
     });
 
     it.afterAll(comb.hitch(patio, "disconnect"));
+
 });
