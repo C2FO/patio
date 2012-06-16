@@ -24,7 +24,7 @@ it.describe("A model with properites", function (it) {
         return helper.createSchemaAndSync();
     });
 
-    it.should("type cast properties", function(){
+    it.should("type cast properties", function () {
         var emp = new Employee({
             firstname:"doug",
             lastname:"martin",
@@ -33,8 +33,8 @@ it.describe("A model with properites", function (it) {
             gender:"M",
             street:"1 nowhere st.",
             city:"NOWHERE",
-            bufferType : "buffer data",
-            blobType : "blob data"
+            bufferType:"buffer data",
+            blobType:"blob data"
         });
         assert.isString(emp.firstname);
         assert.isString(emp.lastname);
@@ -57,23 +57,23 @@ it.describe("A model with properites", function (it) {
             gender:"M",
             street:"1 nowhere st.",
             city:"NOWHERE",
-            bufferType : "buffer data",
-            textType : "text data",
-            blobType : "blob data"
+            bufferType:"buffer data",
+            textType:"text data",
+            blobType:"blob data"
         });
         emp.save().then(function () {
             assert.instanceOf(emp, Employee);
             assert.equal(emp.firstname, "doug");
-            assert.equal( emp.lastname, "martin");
+            assert.equal(emp.lastname, "martin");
             assert.isNull(emp.midinitial);
             assert.equal(emp.gender, "M");
             assert.equal(emp.street, "1 nowhere st.");
             assert.equal(emp.city, "NOWHERE");
-            assert.deepEqual(emp.bufferType,  new Buffer("buffer data"));
-            assert.deepEqual(emp.blobType,  new Buffer("blob data"));
+            assert.deepEqual(emp.bufferType, new Buffer("buffer data"));
+            assert.deepEqual(emp.textType, new Buffer("text data"));
+            assert.deepEqual(emp.blobType, new Buffer("blob data"));
             next();
         }, next);
-
     });
 
     it.should("save multiple models", function (next) {
@@ -371,7 +371,6 @@ it.describe("A model with properites", function (it) {
         return helper.dropModels();
     });
 
-    it.run();
 });
 
 
