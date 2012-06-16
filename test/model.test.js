@@ -24,24 +24,53 @@ it.describe("A model with properites", function (it) {
         return helper.createSchemaAndSync();
     });
 
+    it.should("type cast properties", function(){
+        var emp = new Employee({
+            firstname:"doug",
+            lastname:"martin",
+            position:1,
+            midinitial:null,
+            gender:"M",
+            street:"1 nowhere st.",
+            city:"NOWHERE",
+            bufferType : "buffer data",
+            blobType : "blob data"
+        });
+        assert.isString(emp.firstname);
+        assert.isString(emp.lastname);
+        assert.isNumber(emp.position);
+        assert.isNull(emp.midinitial);
+        assert.isString(emp.gender);
+        assert.isString(emp.street);
+        assert.isString(emp.city);
+        assert.isTrue(Buffer.isBuffer(emp.bufferType));
+        assert.isTrue(Buffer.isBuffer(emp.blobType));
+    });
+
 
     it.should("save properly", function (next) {
         var emp = new Employee({
-            firstName:"doug",
-            lastName:"martin",
+            firstname:"doug",
+            lastname:"martin",
             position:1,
-            midInitial:null,
+            midinitial:null,
             gender:"M",
             street:"1 nowhere st.",
-            city:"NOWHERE"});
+            city:"NOWHERE",
+            bufferType : "buffer data",
+            textType : "text data",
+            blobType : "blob data"
+        });
         emp.save().then(function () {
             assert.instanceOf(emp, Employee);
-            assert.equal("doug", emp.firstName);
-            assert.equal("martin", emp.lastName);
-            assert.isNull(emp.midInitial);
-            assert.equal("M", emp.gender);
-            assert.equal("1 nowhere st.", emp.street);
-            assert.equal("NOWHERE", emp.city);
+            assert.equal(emp.firstname, "doug");
+            assert.equal( emp.lastname, "martin");
+            assert.isNull(emp.midinitial);
+            assert.equal(emp.gender, "M");
+            assert.equal(emp.street, "1 nowhere st.");
+            assert.equal(emp.city, "NOWHERE");
+            assert.deepEqual(emp.bufferType,  new Buffer("buffer data"));
+            assert.deepEqual(emp.blobType,  new Buffer("blob data"));
             next();
         }, next);
 
@@ -51,10 +80,10 @@ it.describe("A model with properites", function (it) {
         var emps = [];
         for (var i = 0; i < 20; i++) {
             emps.push({
-                lastName:"last" + i,
+                lastname:"last" + i,
                 position:i,
-                firstName:"first" + i,
-                midInitial:"m",
+                firstname:"first" + i,
+                midinitial:"m",
                 gender:gender[i % 2],
                 street:"Street " + i,
                 city:"City " + i
@@ -71,9 +100,9 @@ it.describe("A model with properites", function (it) {
                 assert.equal(ret.count, 20);
                 assert.lengthOf(ret.employees, 20);
                 ret.employees.forEach(function (emp, i) {
-                    assert.equal(emp.lastName, "last" + i);
-                    assert.equal(emp.firstName, "first" + i);
-                    assert.equal(emp.midInitial, "m");
+                    assert.equal(emp.lastname, "last" + i);
+                    assert.equal(emp.firstname, "first" + i);
+                    assert.equal(emp.midinitial, "m");
                     assert.equal(emp.gender, gender[i % 2]);
                     assert.equal(emp.street, "Street " + i);
                     assert.equal(emp.city, "City " + i);
@@ -93,7 +122,7 @@ it.describe("A model with properites", function (it) {
                     position:i,
                     midInitial:"m",
                     gender:gender[i % 2],
-                    street:"Street " + i,
+                    street:"Street s" + i,
                     city:"City " + i
                 });
             }
@@ -341,6 +370,8 @@ it.describe("A model with properites", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
+    it.run();
 });
 
 

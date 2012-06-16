@@ -15,6 +15,9 @@ var createTables = function (underscore) {
         this.gender("enum", {elements:["M", "F"]});
         this.street("string", {size:50, allowNull:false});
         this.city("string", {size:20, allowNull:false});
+        this.bufferType(Buffer);
+        this.textType("text");
+        this.blobType("blob");
     });
 };
 
