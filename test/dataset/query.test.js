@@ -78,6 +78,10 @@ it.describe("Dataset queries", function (it) {
             assert.equal(ds.insertSql(sql.day.sqlSubscript(1).eq("d")), "INSERT INTO test (day[1]) VALUES ('d')");
         });
 
+        it.should("accept buffers", function () {
+            assert.equal(ds.insertSql(new Buffer("this is a test")), "INSERT INTO test VALUES (X'7468697320697320612074657374')");
+        });
+
         it.should("raise an Error if the dataset has no sources", function () {
             assert.throws(hitch(new Dataset(), "insertSql"));
         });
@@ -112,6 +116,7 @@ it.describe("Dataset queries", function (it) {
         it.should("accept a single LiteralString", function () {
             assert.equal(ds.insertSql(sql.literal('VALUES (1, 2, 3)')), "INSERT INTO test VALUES (1, 2, 3)");
         });
+
 
         it.should("accept an array of columns and an LiteralString", function () {
             assert.equal(ds.insertSql(["a", "b", "c"], sql.literal('VALUES (1, 2, 3)')), "INSERT INTO test (a, b, c) VALUES (1, 2, 3)");
@@ -2229,5 +2234,6 @@ it.describe("Dataset queries", function (it) {
 
 
     it.afterAll(comb.hitch(patio, "disconnect"));
+
 });
 
