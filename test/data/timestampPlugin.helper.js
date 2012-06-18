@@ -2,7 +2,7 @@ var patio = require("index"),
     comb = require("comb");
 
 var DB;
-exports.createTables = function (useAt) {
+var createTables = function (useAt) {
     useAt = comb.isBoolean(useAt) ? useAt : false;
     patio.resetIdentifierMethods();
     return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
@@ -26,11 +26,21 @@ exports.createTables = function (useAt) {
 };
 
 
-exports.dropTableAndDisconnect = function () {
+var dropTableAndDisconnect = function () {
     return comb.executeInOrder(patio, DB, function (patio, db) {
         db.forceDropTable("employee");
         patio.disconnect();
-        patio.identifierInputMethod = null;
-        patio.identifierOutputMethod = null;
+        patio.resetIdentifierMethods();
     });
+};
+
+exports.createSchemaAndSync = function (useAt) {
+    var ret = new comb.Promise();
+    createTables(useAt).chain(comb.hitch(patio, "syncModels"), ret).then(ret);
+    return ret;
+};
+
+
+exports.dropModels = function () {
+    return dropTableAndDisconnect();
 };

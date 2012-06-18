@@ -4,8 +4,7 @@ var DB1, DB2;
 
 exports.loadModels = function() {
     patio.resetIdentifierMethods();
-    DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
-    DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
+
     return comb.executeInOrder(DB1, DB2, patio, function(db1, db2, patio) {
         db1.forceCreateTable("employee", function() {
             this.primaryKey("id");
@@ -27,22 +26,8 @@ exports.loadModels = function() {
             this.street("string", {length : 50, allowNull : false});
             this.city("string", {length : 20, allowNull : false});
         });
-        patio.addModel(db1.from("employee"), {
-            static : {
-                //class methods
-                findByGender : function(gender, callback, errback) {
-                    return this.filter({gender : gender}).all();
-                }
-            }
-        });
-        patio.addModel(db2.from("employee"), {
-            static : {
-                //class methods
-                findByGender : function(gender, callback, errback) {
-                    return this.filter({gender : gender}).all();
-                }
-            }
-        });
+
+        patio.syncModels();
         return [DB1, DB2];
     });
 };

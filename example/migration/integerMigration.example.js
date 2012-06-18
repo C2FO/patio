@@ -1,6 +1,7 @@
 var patio = require("../../index"), comb = require("comb");
 patio.camelize = true;
 
+patio.configureLogging();
 var DB = patio.createConnection("mysql://test:testpass@localhost:3306/sandbox");
 
 var disconnectErr = function(err){
