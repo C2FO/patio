@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "0.0.7",
+    "version": "0.0.8",
 	"keywords" : ["ORM", "object relation mapper", "relational", "mapper", "moose","mysql", "MySQL", "MySql",
         "SQL", "sql", "query", "database", "dataset", "transactions", "DDl", "Sequel", "migrations"],
     "repository": {
@@ -13,7 +13,7 @@
     "main": "index.js",
     "dependencies" :
     {
-        "mysql" : "0.9.5",
+        "mysql" : "mysql@2.0.0-alpha2",
         "comb" : ">=0.1.1",
         "comb-proxy" : ">=0.0.1",
         "hive-cache" : "0.0.2",

@@ -1,57 +1,65 @@
 var patio = require("../index"),
-    comb = require("comb");
+    comb = require("comb"),
+    models = require("./models/inheritance"),
+    Employee = models.Employee,
+    Staff = models.Staff,
+    Manager = models.Manager,
+    Executive = models.Executive;
 
-var DB;
+var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
 patio.configureLogging();
+patio.LOGGER.level = "error";
+
 var createTables = function () {
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
-        function (db) {
-            db.forceDropTable(["staff", "executive", "manager", "employee"]);
-            db.createTable("employee", function () {
-                this.primaryKey("id")
+    return comb.serial([
+        function () {
+            return DB.forceDropTable(["staff", "executive", "manager", "employee"]);
+        },
+        function () {
+            return DB.createTable("employee", function () {
+                this.primaryKey("id");
                 this.name(String);
                 this.kind(String);
             });
-            db.createTable("manager", function () {
+        },
+        function () {
+            return DB.createTable("manager", function () {
                 this.foreignKey("id", "employee", {key:"id"});
                 this.numStaff("integer");
             });
-            db.createTable("executive", function () {
+        },
+        function () {
+            return DB.createTable("executive", function () {
                 this.foreignKey("id", "manager", {key:"id"});
                 this.numManagers("integer");
             });
-            db.createTable("staff", function () {
+        },
+        function () {
+            return DB.createTable("staff", function () {
                 this.foreignKey("id", "employee", {key:"id"});
                 this.foreignKey("managerId", "manager", {key:"id"});
             });
-        }).addCallback(function (db) {
-            DB = db;
-        });
+        }
+    ]);
 };
 
 
 var dropTableAndDisconnect = function () {
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable(["staff", "executive", "manager", "employee"]);
-        patio.disconnect();
-    });
+    return comb.serial([
+        function () {
+            return DB.forceDropTable(["staff", "executive", "manager", "employee"]);
+        },
+        comb.hitch(patio, "disconnect")
+    ]);
 };
 
 var dropTableAndDisconnectErr = function (err) {
     patio.logError(err);
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable(["staff", "executive", "manager", "employee"]);
-        patio.disconnect();
-    });
+    return dropTableAndDisconnect();
 };
 
 createTables().then(function () {
-    patio.import(__dirname + "/models/inheritance").then(function () {
-        var Employee = patio.getModel("employee"),
-            Staff = patio.getModel("staff"),
-            Manager = patio.getModel("manager"),
-            Executive = patio.getModel("executive");
-
+    patio.syncModels().then(function () {
         comb.when(
             new Employee({name:"Bob"}).save(),
             new Staff({name:"Greg"}).save(),

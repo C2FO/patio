@@ -3,7 +3,7 @@ var comb = require("comb"),
     Dataset = patio.Dataset,
     Database = patio.Database;
 
-patio.quoteIdentifiers = false
+patio.quoteIdentifiers = false;
 
 var MockDataset = comb.define(Dataset, {
     instance : {
@@ -15,7 +15,7 @@ var MockDataset = comb.define(Dataset, {
             return this.db.execute(this.updateSql.apply(this, arguments));
         },
 
-        fetchRows : function(sql) {
+        fetchRows : function(sql, cb) {
             var ret = new comb.Promise();
             this.db.execute(sql);
             ret.callback({id : 1, x : 1});

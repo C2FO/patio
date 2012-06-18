@@ -1,13 +1,19 @@
 var patio = require("../../index"),
     helpers = require("./helpers"),
-    express = require("express");
-
+    express = require("express"),
+    models = require("./models"),
+    Flight = models.Flight,
+    Airport = models.Airport;
+//connect
+patio.camelize = true;
+patio.connect("mysql://test:testpass@localhost:3306/sandbox?maxConnections=50&minConnections=10");
 patio.configureLogging();
-patio.LOGGER.level = "ERROR";
+//patio.LOGGER.level = "ERROR";
+
 helpers.loadData().then(function () {
     var app = express.createServer();
-    patio.getModel("flight").route(app);
-    patio.getModel("airport").route(app);
+    Flight.route(app);
+    Airport.route(app);
     app.listen(8080, "127.0.0.1");
     console.log("Ready for connections...");
 }, function (err) {

@@ -9,7 +9,7 @@ patio.addModel("legInstance", {
                 .manyToOne("flightLeg", {fetchType:eager, key:"flightLegId"});
         }
     }
-});
+}).as("module");
 
 
 

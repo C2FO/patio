@@ -13,7 +13,7 @@ patio.addModel("flightLeg", {
                 .manyToOne("arrives", {model:"airport", key:{arrivalCode:"airportCode"}});
         }
     }
-});
+}).as(module);
 
 
 

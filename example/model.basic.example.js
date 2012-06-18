@@ -5,9 +5,7 @@ var patio = require("../index"),
     format = comb.string.format;
 
 patio.camelize = true;
-
-//comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
-
+var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
 //disconnect and error callback helpers
 patio.configureLogging();
 var disconnect = comb.hitch(patio, "disconnect");
@@ -15,6 +13,42 @@ var disconnectError = function(err){
     patio.logError(err);
     patio.disconnect();
 };
+
+var User =   patio.addModel("user", {
+    pre:{
+        "save":function(next){
+            console.log("pre save!!!");
+            next();
+        },
+
+        "remove":function(next){
+            console.log("pre remove!!!");
+            next();
+        }
+    },
+
+    post:{
+        "save":function(next){
+            console.log("post save!!!");
+            next();
+        },
+
+        "remove":function(next){
+            console.log("post remove!!!");
+            next();
+        }
+    },
+    instance:{
+        _setFirstName:function(firstName){
+            return firstName.charAt(0).toUpperCase() + firstName.substr(1);
+        },
+
+        _setLastName:function(lastName){
+            return lastName.charAt(0).toUpperCase() + lastName.substr(1);
+        }
+    }
+});
+
 
 var connectAndCreateSchema = function(){
     //This assumes new tables each time you could just connect to the database
@@ -32,51 +66,15 @@ var connectAndCreateSchema = function(){
                 this.created(sql.TimeStamp);
                 this.updated(sql.DateTime);
             });
+            //sync the model
+            patio.syncModels();
         });
 };
 
-var defineModel = function(){
-    return patio.addModel("user", {
-        pre:{
-            "save":function(next){
-                console.log("pre save!!!")
-                next();
-            },
-
-            "remove":function(next){
-                console.log("pre remove!!!")
-                next();
-            }
-        },
-
-        post:{
-            "save":function(next){
-                console.log("post save!!!")
-                next();
-            },
-
-            "remove":function(next){
-                console.log("post remove!!!")
-                next();
-            }
-        },
-        instance:{
-            _setFirstName:function(firstName){
-                return firstName.charAt(0).toUpperCase() + firstName.substr(1);
-            },
-
-            _setLastName:function(lastName){
-                return lastName.charAt(0).toUpperCase() + lastName.substr(1);
-            }
-        }
-    });
-};
 
 //connect and create schema
 connectAndCreateSchema()
-    .chain(defineModel, disconnectError)
     .then(function(){
-        var User = patio.getModel("user");
         var myUser = new User({
             firstName:"bob",
             lastName:"yukon",

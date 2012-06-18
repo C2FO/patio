@@ -8,4 +8,4 @@ patio.addModel("employee", {
             this.configure({key : "kind"});
         }
     }
-});
+}).as(module);

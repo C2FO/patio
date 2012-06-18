@@ -1,5 +1,6 @@
 var patio = require("../index"), comb = require("comb");
 var DB;
+
 exports.createTableAndModel = function (connect) {
     DB = patio.connect(connect);
     var ret = new comb.Promise();
@@ -9,23 +10,22 @@ exports.createTableAndModel = function (connect) {
             this.column("number", "integer");
             this.column("string", String);
         }).then(function () {
-            patio.addModel("patioEntry").then(function (entry) {
-                entry.useTransactions = false;
-                entry.reloadOnSave = false;
-                entry.reloadOnUpdate = false;
-                entry.typecastOnAssignment = false;
-                entry.typecastOnLoad = false;
-                ret.callback(entry);
-            });
-        });
+            var PatioEntry = patio.addModel("patioEntry");
+            PatioEntry.useTransactions = false;
+            PatioEntry.reloadOnSave = false;
+            PatioEntry.reloadOnUpdate = false;
+            PatioEntry.typecastOnAssignment = false;
+            PatioEntry.typecastOnLoad = false;
+            patio.syncModels().then(ret);
+        }, ret);
     return ret;
 };
 
-exports.disconnect = function(){
+exports.disconnect = function () {
     patio.disconnect();
 }
 
-exports.disconnectErr = function(err){
+exports.disconnectErr = function (err) {
     console.error(err);
     patio.disconnect();
 }
