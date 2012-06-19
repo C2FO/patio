@@ -351,7 +351,6 @@ it.describe("Many to one camelize properties", function (it) {
         return helper.dropModels();
     });
 
-
 });
 
 
