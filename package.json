@@ -13,7 +13,7 @@
     "main": "index.js",
     "dependencies" :
     {
-        "mysql" : "mysql@2.0.0-alpha2",
+        "mysql" : "2.0.0-alpha2",
         "comb" : ">=0.1.1",
         "comb-proxy" : ">=0.0.1",
         "hive-cache" : "0.0.2",
@@ -21,7 +21,7 @@
     },
     "devDependencies" :
     {
-        "it" : "0.0.2"
+        "it" : "0.0.3"
     },
     "directories": {
         "lib": "lib"

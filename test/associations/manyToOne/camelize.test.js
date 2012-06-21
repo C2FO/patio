@@ -169,6 +169,34 @@ it.describe("Many to one camelize properties", function (it) {
                 }, next);
         });
 
+        it.should("save associations when set after save", function (next) {
+            var company = new Company({
+                companyName:"Google"
+            });
+            var emp = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1
+            });
+            emp.save().then(function () {
+                emp.company.then(function (comp) {
+                    assert.isNull(comp);
+                    emp.company = company;
+                    emp.save().then(function () {
+                        emp.company.then(function (company) {
+                            assert.equal(company.companyName, "Google");
+                            next();
+                        }, next);
+                    }, next);
+                }, next);
+            }, next);
+        });
+
+
+
     });
 
     it.describe("add methods", function (it) {
@@ -322,6 +350,7 @@ it.describe("Many to one camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
 });
 
 

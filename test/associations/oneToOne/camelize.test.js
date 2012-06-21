@@ -201,5 +201,6 @@ it.describe("One To One with camelize option", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
 });
 
