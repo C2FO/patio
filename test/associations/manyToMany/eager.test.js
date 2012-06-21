@@ -2,7 +2,7 @@ var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToMany.helper.js"),
     patio = require("index"),
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];

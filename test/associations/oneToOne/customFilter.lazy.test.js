@@ -8,7 +8,7 @@ var it = require('it'),
 
 
 var gender = ["M", "F"];
-it.describe("One To One eager with custom filter", function (it) {
+it.describe("One To One lazy with custom filter", function (it) {
     var Works, Employee;
     it.beforeAll(function () {
         Works = patio.addModel("works", {
@@ -105,8 +105,8 @@ it.describe("One To One eager with custom filter", function (it) {
             comb.when(Employee.one(), Works.one()).then(function (res) {
                 var emp = res[0], work = res[1];
                 var empWorks = emp.works, worksEmp = work.employee;
-                assert.instanceOf(empWorks, comb.Promise);
-                assert.instanceOf(worksEmp, comb.Promise);
+                assert.isPromiseLike(empWorks);
+                assert.isPromiseLike(worksEmp);
                 comb.when(empWorks, worksEmp).then(function (res) {
                     assert.instanceOf(res[1], Employee);
                     assert.instanceOf(res[0], Works);

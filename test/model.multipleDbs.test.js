@@ -3,7 +3,7 @@ var it = require('it'),
     patio = require("index"),
     events = require("events"),
     sql = patio.SQL,
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];

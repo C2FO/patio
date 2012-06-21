@@ -3,7 +3,7 @@ var it = require('it'),
     helper = require("./data/model.helper.js"),
     patio = require("index"),
     sql = patio.SQL,
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];
