@@ -101,8 +101,8 @@ it.describe("One To One lazy", function (it) {
             comb.when(Employee.one(), Works.one()).then(function (res) {
                 var emp = res[0], work = res[1];
                 var workPromise = emp.works, empPromise = work.employee;
-                assert.instanceOf(workPromise, comb.Promise);
-                assert.instanceOf(empPromise, comb.Promise);
+                assert.isPromiseLike(workPromise);
+                assert.isPromiseLike(empPromise);
                 comb.when(empPromise, workPromise).then(function (res) {
                     var emp = res[0], work = res[1];
                     assert.instanceOf(emp, Employee);

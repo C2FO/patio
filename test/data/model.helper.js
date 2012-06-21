@@ -1,5 +1,5 @@
 var patio = require("index"),
-    comb = require("comb");
+    comb = require("comb-proxy");
 
 var DB;
 var createTables = function (underscore) {
