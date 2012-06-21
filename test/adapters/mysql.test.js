@@ -2,7 +2,7 @@ var it = require('it'),
     assert = require('assert'),
     patio = require("index"),
     sql = patio.SQL,
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     format = comb.string.format,
     hitch = comb.hitch;
 

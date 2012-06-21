@@ -3,7 +3,7 @@ var it = require('it'),
     helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
     sql = patio.sql,
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     hitch = comb.hitch;
 
 

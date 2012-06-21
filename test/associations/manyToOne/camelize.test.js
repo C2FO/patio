@@ -2,7 +2,7 @@ var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToOne.helper.js"),
     patio = require("index"),
-    comb = require("comb"),
+    comb = require("comb-proxy"),
     hitch = comb.hitch;
 
 
