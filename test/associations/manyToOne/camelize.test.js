@@ -350,7 +350,6 @@ it.describe("Many to one camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-
 });
 
 
