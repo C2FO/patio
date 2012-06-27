@@ -4,6 +4,7 @@ var it = require('it'),
     patio = require("index"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
+    EventEmitter = require("events").EventEmitter,
     hitch = comb.hitch;
 
 var gender = ["M", "F"];
@@ -76,6 +77,43 @@ it.describe("A model with properites", function (it) {
             assert.deepEqual(emp.blobType, new Buffer("blob data"));
             next();
         }, next);
+    });
+
+    it.should("emit events", function (next) {
+        var emp = new Employee({
+            firstname:"doug",
+            lastname:"martin",
+            position:1,
+            midinitial:null,
+            gender:"M",
+            street:"1 nowhere st.",
+            city:"NOWHERE",
+            bufferType:"buffer data",
+            textType:"text data",
+            blobType:"blob data"
+        });
+        var emitCount = 0;
+        var callback = function () {
+            emitCount++;
+        };
+        var events = ["save", "update", "remove"];
+        events.forEach(function(e){
+            emp.on(e, callback);
+            Employee.on(e, callback);
+        });
+        comb.serial([
+            emp.save.bind(emp),
+            emp.update.bind(emp, {firstname:"ben"}),
+            emp.remove.bind(emp)
+        ]).then(function () {
+                assert.equal(emitCount, 6);
+                events.forEach(function(e){
+                    emp.removeListener(e, callback);
+                    Employee.removeListener(e, callback);
+                });
+                next();
+            }, next);
+
     });
 
     it.should("save multiple models", function (next) {
@@ -216,7 +254,7 @@ it.describe("A model with properites", function (it) {
         });
 
 
-        it.describe("dataset methods", function () {
+        it.describe("dataset methods", function (it) {
 
             it.should("support count", function (next) {
                 Employee.count().then(function (count) {
