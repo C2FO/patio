@@ -14,6 +14,7 @@
     "dependencies" :
     {
         "mysql" : "2.0.0-alpha2",
+        "pg" : "0.7.2",
         "comb" : ">=0.1.1",
         "comb-proxy" : ">=0.0.1",
         "hive-cache" : "0.0.2",
