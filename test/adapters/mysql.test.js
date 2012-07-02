@@ -1337,7 +1337,7 @@ it.describe("patio.adapters.Mysql", function (it) {
         return patio.disconnect();
     });
 
-
+    it.run();
 });
 
 
