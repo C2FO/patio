@@ -186,4 +186,6 @@ it.describe("ClassTableInheritancePlugin", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
+    it.run();
 });
