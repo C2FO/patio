@@ -1,4 +1,5 @@
 var patio = require("index"),
+    config = require("../test.config.js"),
     comb = require("comb-proxy");
 
 var DB;
@@ -9,7 +10,7 @@ var createTables = function (underscore) {
     }else{
         patio.resetIdentifierMethods();
     }
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
+    return patio.connectAndExecute(config.DB_URI + "/sandbox",
         function (db) {
             db.forceDropTable(["companiesEmployees", "employee", "company"]);
             db.createTable("company", function (table) {
@@ -22,7 +23,7 @@ var createTables = function (underscore) {
                 this[underscore ? "last_name" : "lastname"]("string", {size:20, allowNull:false});
                 this[underscore ? "mid_initial" : "midinitial"]("char", {size:1});
                 this.position("integer");
-                this.gender("enum", {elements:["M", "F"]});
+                this.gender("char", {size : 1});
                 this.street("string", {size:50, allowNull:false});
                 this.city("string", {size:20, allowNull:false});
             });

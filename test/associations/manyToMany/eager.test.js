@@ -13,6 +13,7 @@ it.describe("Many to Many camelize properties", function (it) {
 
     var Company, Employee;
     it.beforeAll(function () {
+
         Company = patio.addModel("company", {
             "static":{
                 init:function () {

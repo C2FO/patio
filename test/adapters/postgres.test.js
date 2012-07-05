@@ -3,6 +3,7 @@ var it = require('it'),
     patio = require("index"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
+    config = require("../test.config.js"),
     when = comb.when,
     serial = comb.serial,
     format = comb.string.format,
@@ -10,10 +11,7 @@ var it = require('it'),
 
 it.describe("patio.adapters.Postgres", function (it) {
 
-    var SQL_BEGIN = 'BEGIN';
-    var SQL_ROLLBACK = 'ROLLBACK';
-    var SQL_COMMIT = 'COMMIT',
-        PG_DB;
+    var PG_DB;
 
     var resetDb = function () {
         PG_DB.sqls = [];
@@ -22,7 +20,7 @@ it.describe("patio.adapters.Postgres", function (it) {
     it.beforeAll(function (next) {
         patio.quoteIdentifiers = false;
         //patio.configureLogging();
-        PG_DB = patio.connect("pg://test:testpass@localhost:5432/sandbox");
+        PG_DB = patio.connect(config.PG_URI + "/sandbox");
 
         PG_DB.__defineGetter__("sqls", function () {
             return (comb.isArray(this.__sqls) ? this.__sqls : (this.__sqls = []));
@@ -172,7 +170,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                 }).then(function () {
                         assert.deepEqual(PG_DB.sqls, [ "BEGIN",
                             "LOCK TABLE  test IN EXCLUSIVE MODE",
-                            "INSERT INTO test (name) VALUES ('a')",
+                            "INSERT INTO test (name) VALUES ('a') RETURNING *",
                             "COMMIT" ]);
                     }).classic(next);
             });
@@ -186,7 +184,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                 }).then(function () {
                         assert.deepEqual(PG_DB.sqls, [ "BEGIN",
                             "LOCK TABLE  test IN EXCLUSIVE MODE",
-                            "INSERT INTO test (name) VALUES ('a')",
+                            "INSERT INTO test (name) VALUES ('a') RETURNING *",
                             "COMMIT" ]);
                     }).classic(next);
             });
@@ -197,7 +195,7 @@ it.describe("patio.adapters.Postgres", function (it) {
             it.beforeEach(function (next) {
                 db = PG_DB;
                 ds = db.from("a");
-                db.createTable("a",function () {
+                db.forceCreateTable("a",function () {
                     this.a("integer");
                     this.b("integer");
                 }).classic(next);
@@ -573,6 +571,7 @@ it.describe("patio.adapters.Postgres", function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
+
 
 });
 

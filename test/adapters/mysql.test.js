@@ -3,6 +3,7 @@ var it = require('it'),
     patio = require("index"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
+    config = require("../test.config.js"),
     format = comb.string.format,
     hitch = comb.hitch;
 
@@ -15,7 +16,7 @@ it.describe("patio.adapters.Mysql", function (it) {
 
     it.beforeAll(function (next) {
         patio.quoteIdentifiers = false;
-        MYSQL_DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+        MYSQL_DB = patio.connect(config.MYSQL_URI + "/sandbox");
 
         MYSQL_DB.__defineGetter__("sqls", function () {
             return (comb.isArray(this.__sqls) ? this.__sqls : (this.__sqls = []));
@@ -1337,7 +1338,6 @@ it.describe("patio.adapters.Mysql", function (it) {
         return patio.disconnect();
     });
 
-    it.run();
 });
 
 

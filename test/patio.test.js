@@ -120,7 +120,7 @@ it.describe("patio", function (it) {
         assert.deepEqual(patio.NOTNULL, new NegativeBooleanConstant(null));
         assert.equal(patio.identifierInputMethod, null);
         assert.equal(patio.identifierOutputMethod, null);
-        assert.equal(patio.quoteIdentifiers, false);
+        assert.equal(patio.quoteIdentifiers, true);
     });
 
     it.should("connect to a database ", function () {
@@ -142,7 +142,7 @@ it.describe("patio", function (it) {
                 DB3 = db;
                 assert.instanceOf(db, DummyDatabase);
                 assert.isTrue(db.connected);
-                assert.deepEqual(db.sqls, [ 'DROP TABLE test', 'CREATE TABLE test (id integer PRIMARY KEY AUTOINCREMENT, name varchar(255), age numeric)' ]);
+                assert.deepEqual(db.sqls, [ 'DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)' ]);
             });
         assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
     });

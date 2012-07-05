@@ -1,4 +1,5 @@
 var patio = require("index"),
+    config = require("../test.config.js"),
     comb = require("comb-proxy");
 var DB1, DB2;
 
@@ -22,7 +23,7 @@ exports.loadModels = function() {
             this.lastname("string", {length : 20, allowNull : false});
             this.midinitial("char", {length : 1});
             this.position("integer");
-            this.gender("enum", {elements : ["M", "F"]});
+            this.gender("char", {size : 1});
             this.street("string", {length : 50, allowNull : false});
             this.city("string", {length : 20, allowNull : false});
         });
