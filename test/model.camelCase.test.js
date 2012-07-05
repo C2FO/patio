@@ -25,6 +25,32 @@ it.describe("A model with camelized properites", function (it) {
     });
 
 
+    it.should("type cast properties", function () {
+        var emp = new Employee({
+            firstName:"doug",
+            lastName:"martin",
+            position:1,
+            midInitial:null,
+            gender:"M",
+            street:"1 nowhere st.",
+            city:"NOWHERE",
+            bufferType:"buffer data",
+            textType:"text data",
+            blobType:"blob data"
+        });
+        assert.isString(emp.firstName);
+        assert.isString(emp.lastName);
+        assert.isNumber(emp.position);
+        assert.isNull(emp.midInitial);
+        assert.isString(emp.gender);
+        assert.isString(emp.street);
+        assert.isString(emp.city);
+        assert.isTrue(Buffer.isBuffer(emp.bufferType));
+        assert.isString(emp.textType);
+        assert.isTrue(Buffer.isBuffer(emp.blobType));
+    });
+
+
     it.should("save properly", function (next) {
         var emp = new Employee({
             firstName:"doug",
@@ -33,17 +59,60 @@ it.describe("A model with camelized properites", function (it) {
             midInitial:null,
             gender:"M",
             street:"1 nowhere st.",
-            city:"NOWHERE"});
+            city:"NOWHERE",
+            bufferType:"buffer data",
+            textType:"text data",
+            blobType:"blob data"
+        });
         emp.save().then(function () {
             assert.instanceOf(emp, Employee);
-            assert.equal("doug", emp.firstName);
-            assert.equal("martin", emp.lastName);
+            assert.equal(emp.firstName, "doug");
+            assert.equal(emp.lastName, "martin");
             assert.isNull(emp.midInitial);
-            assert.equal("M", emp.gender);
-            assert.equal("1 nowhere st.", emp.street);
-            assert.equal("NOWHERE", emp.city);
+            assert.equal(emp.gender, "M");
+            assert.equal(emp.street, "1 nowhere st.");
+            assert.equal(emp.city, "NOWHERE");
+            assert.deepEqual(emp.bufferType, new Buffer("buffer data"));
+            assert.deepEqual(emp.textType, "text data");
+            assert.deepEqual(emp.blobType, new Buffer("blob data"));
             next();
         }, next);
+    });
+
+    it.should("emit events", function (next) {
+        var emp = new Employee({
+            firstName:"doug",
+            lastName:"martin",
+            position:1,
+            midInitial:null,
+            gender:"M",
+            street:"1 nowhere st.",
+            city:"NOWHERE",
+            bufferType:"buffer data",
+            textType:"text data",
+            blobType:"blob data"
+        });
+        var emitCount = 0;
+        var callback = function () {
+            emitCount++;
+        };
+        var events = ["save", "update", "remove"];
+        events.forEach(function (e) {
+            emp.on(e, callback);
+            Employee.on(e, callback);
+        });
+        comb.serial([
+            emp.save.bind(emp),
+            emp.update.bind(emp, {firstName:"ben"}),
+            emp.remove.bind(emp)
+        ]).then(function () {
+                assert.equal(emitCount, 6);
+                events.forEach(function (e) {
+                    emp.removeListener(e, callback);
+                    Employee.removeListener(e, callback);
+                });
+                next();
+            }, next);
 
     });
 
@@ -84,18 +153,19 @@ it.describe("A model with camelized properites", function (it) {
 
     it.context(function (it) {
 
+        var emps;
         it.beforeEach(function () {
-            var emps = [];
+            emps = [];
             for (var i = 0; i < 20; i++) {
-                emps.push({
+                emps.push(new Employee({
                     lastName:"last" + i,
                     firstName:"first" + i,
                     position:i,
                     midInitial:"m",
                     gender:gender[i % 2],
-                    street:"Street " + i,
+                    street:"Street s" + i,
                     city:"City " + i
-                });
+                }));
             }
             return comb.executeInOrder(Employee, function (emp) {
                 emp.truncate();
@@ -104,57 +174,53 @@ it.describe("A model with camelized properites", function (it) {
         });
 
         it.should("should reload models", function (next) {
-            comb.executeInOrder(Employee,function (Employee) {
-                var emp = Employee.findById(1);
+            Employee.first().then(function (emp) {
+                var orig = emp.lastName;
                 emp.lastName = "martin";
-                return emp.reload();
-            }).then(function (emp) {
+                emp.reload().then(function () {
                     assert.instanceOf(emp, Employee);
-                    assert.equal(emp.id, 1);
-                    assert.equal(emp.lastName, "last0");
+                    assert.equal(emp.lastName, orig);
                     next();
-                }, next)
+                }).classic(next);
+            }, next);
         });
 
         it.should("find models by id", function (next) {
-            Employee.findById(1).then(function (emp) {
+            Employee.findById(emps[0].id).then(function (emp) {
                 assert.instanceOf(emp, Employee);
-                assert.equal(emp.id, 1);
+                assert.equal(emp.id, emps[0].id);
                 next();
             }, next);
         });
 
         it.should("support the filtering of models", function (next) {
-            var id = sql.identifier("id");
+            var id = sql.identifier("id"), ids = emps.map(function(emp){return emp.id;});
             comb.executeInOrder(Employee,
                 function (Employee) {
                     var ret = {};
-                    ret.query1 = Employee.filter({id:[1, 2, 3, 4, 5, 6]}).all();
-                    ret.query2 = Employee.filter(id.gt(5), id.lt(11)).order("id").last();
-                    ret.query3 = Employee.filter(
-                        function () {
-                            return this.firstName.like(/first1[1|2]*$/);
-                        }).order("firstName").all();
-                    ret.query4 = Employee.filter({id:{between:[1, 5]}}).order("id").all();
+                    ret.query1 = Employee.filter({id:ids.slice(0,6)}).all();
+                    ret.query2 = Employee.filter(id.gt(ids[0]), id.lt(ids[5])).order("id").last();
+                    ret.query3 = Employee.filter(function () {
+                        return this.firstName.like(/first1[1|2]*$/);
+                    }).order("firstName").all();
+                    ret.query4 = Employee.filter({id:{between:[ids[0], ids[5]]}}).order("id").all();
                     ret.query5 = [];
-                    Employee.filter(
-                        function () {
-                            return this.id.gt(15);
-                        }).forEach(
-                        function (emp) {
+                    Employee.filter(function () {
+                        return this.id.gt(ids[5]);
+                    }).forEach(function (emp) {
                             ret.query5.push(emp);
                         });
                     return ret;
 
                 }).then(function (ret) {
-                    var i = 1;
+                    var i = 0;
                     var query1 = ret.query1, query2 = ret.query2, query3 = ret.query3, query4 = ret.query4, query5 = ret.query5, query6 = ret.query6;
                     assert.lengthOf(query1, 6);
                     query1.forEach(function (t) {
                         assert.instanceOf(t, Employee);
-                        assert.equal(i++, t.id);
+                        assert.equal(ids[i++], t.id);
                     });
-                    assert.equal(query2.id, 10);
+                    assert.equal(query2.id, ids[4]);
                     assert.lengthOf(query3, 3);
                     assert.instanceOf(query3[0], Employee);
                     assert.equal(query3[0].firstName, "first1");
@@ -165,11 +231,11 @@ it.describe("A model with camelized properites", function (it) {
                     assert.deepEqual(query4.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
-                    }), [1, 2, 3, 4, 5]);
+                    }), ids.slice(0,6));
                     assert.deepEqual(query5.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
-                    }), [16, 17, 18, 19, 20]);
+                    }), ids.slice(6));
                     next();
                 }, next);
         });
@@ -185,7 +251,7 @@ it.describe("A model with camelized properites", function (it) {
         });
 
 
-        it.describe("dataset methods", function () {
+        it.describe("dataset methods", function (it) {
 
             it.should("support count", function (next) {
                 Employee.count().then(function (count) {
@@ -206,6 +272,7 @@ it.describe("A model with camelized properites", function (it) {
 
 
             it.should("support map", function (next) {
+                var ids = emps.map(function(emp){return emp.id;});
                 comb.executeInOrder(Employee,
                     function (Employee) {
                         var ret = {};
@@ -217,7 +284,7 @@ it.describe("A model with camelized properites", function (it) {
                     }).then(function (res) {
                         assert.lengthOf(res.query1, 20);
                         res.query1.forEach(function (id, i) {
-                            assert.equal(id, i + 1);
+                            assert.equal(id, ids[i]);
                         });
                         assert.lengthOf(res.query2, 20);
                         res.query2.forEach(function (name, i) {
@@ -243,16 +310,15 @@ it.describe("A model with camelized properites", function (it) {
             it.should("support one", function (next) {
                 Employee.one().then(function (emp) {
                     assert.instanceOf(emp, Employee);
-                    assert.equal(emp.id, 1);
                     next();
                 }, next);
             });
 
             it.should("support first", function (next) {
-                var id = sql.identifier("id");
-                Employee.first(id.gt(5), id.lt(11)).then(function (emp) {
+                var id = sql.identifier("id"),ids = emps.map(function(emp){return emp.id;});
+                Employee.first(id.gt(ids[5]), id.lt(ids[11])).then(function (emp) {
                     assert.instanceOf(emp, Employee);
-                    assert.equal(emp.id, 6);
+                    assert.equal(emp.id, ids[6])
                     next();
                 });
             });
@@ -326,8 +392,8 @@ it.describe("A model with camelized properites", function (it) {
 
         it.should("support filters on batch updates", function (next) {
             comb.executeInOrder(Employee,function (Employee) {
-                Employee.update({firstName:"dougie"}, {id:24});
-                return Employee.filter({id:24}).one();
+                Employee.update({firstName:"dougie"}, {id:emp.id});
+                return Employee.filter({id:emp.id}).one();
             }).then(function (emp) {
                     assert.instanceOf(emp, Employee);
                     assert.equal(emp.firstName, "dougie");
@@ -338,9 +404,6 @@ it.describe("A model with camelized properites", function (it) {
 
     });
 
-    it.afterAll(function () {
-        return helper.dropModels();
-    });
 });
 
 

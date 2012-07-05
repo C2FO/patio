@@ -30,7 +30,7 @@ it.describe("ClassTableInheritancePlugin", function (it) {
 
                 init:function () {
                     this._super(arguments);
-                    this.manyToOne("manager", {key:"managerId", fetchType:this.fetchType.EAGER});
+                    this.manyToOne("manager", {key:"managerid", fetchType:this.fetchType.EAGER});
                 }
             }
         });
@@ -38,7 +38,7 @@ it.describe("ClassTableInheritancePlugin", function (it) {
             "static":{
                 init:function () {
                     this._super(arguments);
-                    this.oneToMany("staff", {key:"managerId", fetchType:this.fetchType.EAGER});
+                    this.oneToMany("staff", {key:"managerid", fetchType:this.fetchType.EAGER});
                 }
             }
         });
@@ -143,9 +143,9 @@ it.describe("ClassTableInheritancePlugin", function (it) {
         var i = 0;
         Manager.order('kind', "id").forEach(function (emp) {
             emp.name = "Manager " + i++;
-            emp.numStaff = emp.staff.length;
+            emp.numstaff = emp.staff.length;
             if (emp instanceof Executive) {
-                emp.numManagers = 0;
+                emp.nummanagers = 0;
             }
             return emp.update();
         }).then(function () {
@@ -153,9 +153,9 @@ it.describe("ClassTableInheritancePlugin", function (it) {
                     assert.lengthOf(res, 2);
                     res.forEach(function (manager, i) {
                         assert.equal(manager.name, "Manager " + i);
-                        assert.equal(manager.numStaff, manager.staff.length);
+                        assert.equal(manager.numstaff, manager.staff.length);
                         if (manager instanceof Executive) {
-                            assert.equal(manager.numManagers, 0);
+                            assert.equal(manager.nummanagers, 0);
                         }
                     });
                     next();

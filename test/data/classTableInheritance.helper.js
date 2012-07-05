@@ -1,4 +1,5 @@
 var patio = require("index"),
+    config = require("../test.config.js"),
     comb = require("comb-proxy");
 
 var DB;
@@ -8,8 +9,9 @@ var createTables = function (underscore) {
         patio.camelize = underscore;
     } else {
         patio.resetIdentifierMethods();
+        patio.quoteIdentifiers = false;
     }
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
+    return patio.connectAndExecute(config.DB_URI + "/sandbox",
         function (db) {
             db.forceDropTable(["staff", "executive", "manager", "employee"]);
             db.createTable("employee", function () {
@@ -18,16 +20,19 @@ var createTables = function (underscore) {
                 this.kind(String);
             });
             db.createTable("manager", function () {
-                this.foreignKey("id", "employee", {key:"id"});
-                this.numStaff("integer");
+                this.primaryKey("id");
+                this.foreignKey(["id"], "employee", {key:"id"});
+                this.numstaff("integer");
             });
             db.createTable("executive", function () {
-                this.foreignKey("id", "manager", {key:"id"});
-                this.numManagers("integer");
+                this.primaryKey("id");
+                this.foreignKey(["id"], "manager", {key:"id"});
+                this.nummanagers("integer");
             });
             db.createTable("staff", function () {
-                this.foreignKey("id", "employee", {key:"id"});
-                this.foreignKey("managerId", "manager", {key:"id"});
+                this.primaryKey("id");
+                this.foreignKey(["id"], "employee", {key:"id"});
+                this.foreignKey("managerid", "manager", {key:"id"});
             });
         }).addCallback(function (db) {
             DB = db;
@@ -44,9 +49,8 @@ var dropTableAndDisconnect = function () {
 };
 
 exports.createSchemaAndSync = function (underscore) {
-    var ret = new comb.Promise();
-    createTables(underscore).chain(comb.hitch(patio, "syncModels"), ret).then(ret);
-    return ret;
+    return comb.serial([createTables.bind(this, underscore), patio.syncModels.bind(patio)]);
+
 };
 
 

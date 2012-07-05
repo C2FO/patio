@@ -60,4 +60,5 @@ it.describe("Timestamp custom columns", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
 });

@@ -65,9 +65,9 @@ it.describe("Many to one eager with custom filter", function (it) {
             var employees = [];
             for (var i = 0; i < 3; i++) {
                 employees.push({
-                    lastname:"last" + i,
-                    firstname:"first" + i,
-                    midinitial:"m",
+                    lastName:"last" + i,
+                    firstName:"first" + i,
+                    midInitial:"m",
                     gender:gender[i % 2],
                     street:"Street " + i,
                     city:cities[i % 3]
@@ -133,9 +133,9 @@ it.describe("Many to one eager with custom filter", function (it) {
 
         it.should("it should save the associations", function (next) {
             var emp = new Employee({
-                lastname:"last",
-                firstname:"first",
-                midinitial:"m",
+                lastName:"last",
+                firstName:"first",
+                midInitial:"m",
                 gender:"M",
                 street:"Street",
                 city:"Omaha",
@@ -332,5 +332,6 @@ it.describe("Many to one eager with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
+
 });
 
