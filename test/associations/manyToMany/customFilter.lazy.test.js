@@ -38,7 +38,7 @@ it.describe("Many to Many lazy with filter", function (it) {
                 }
             }
         });
-        return helper.createSchemaAndSync(true);
+        return helper.createSchemaAndSync();
     });
 
 
@@ -134,16 +134,16 @@ it.describe("Many to Many lazy with filter", function (it) {
         it.should("have an add method for filtered datasets", function (next) {
             Company.one().then(function (company) {
                 var lincolnEmp = new Employee({
-                    lastName:"last",
-                    firstName:"first",
+                    lastname:"last",
+                    firstname:"first",
                     midInitial:"m",
                     gender:gender[0],
                     street:"Street",
                     city:"Lincoln"
                 });
                 var omahaEmp = new Employee({
-                    lastName:"last",
-                    firstName:"first",
+                    lastname:"last",
+                    firstname:"first",
                     midInitial:"m",
                     gender:gender[0],
                     street:"Street",
@@ -165,8 +165,8 @@ it.describe("Many to Many lazy with filter", function (it) {
             var omahaEmployees = [], lincolnEmployees = [];
             for (var i = 0; i < 3; i++) {
                 omahaEmployees.push({
-                    lastName:"last" + i,
-                    firstName:"first" + i,
+                    lastname:"last" + i,
+                    firstname:"first" + i,
                     midInitial:"m",
                     gender:gender[i % 2],
                     street:"Street " + i,
@@ -175,8 +175,8 @@ it.describe("Many to Many lazy with filter", function (it) {
             }
             for (i = 0; i < 3; i++) {
                 lincolnEmployees.push({
-                    lastName:"last" + i,
-                    firstName:"first" + i,
+                    lastname:"last" + i,
+                    firstname:"first" + i,
                     midInitial:"m",
                     gender:gender[i % 2],
                     street:"Street " + i,
@@ -202,8 +202,8 @@ it.describe("Many to Many lazy with filter", function (it) {
         var employees = [];
         for (var i = 0; i < 3; i++) {
             employees.push({
-                lastName:"last" + i,
-                firstName:"first" + i,
+                lastname:"last" + i,
+                firstname:"first" + i,
                 midInitial:"m",
                 gender:gender[i % 2],
                 street:"Street " + i,

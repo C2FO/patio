@@ -3,6 +3,7 @@ var it = require('it'),
     patio = require("index"),
     events = require("events"),
     sql = patio.SQL,
+    config = require("./test.config.js"),
     comb = require("comb-proxy"),
     hitch = comb.hitch;
 
@@ -18,7 +19,7 @@ var createTablesAndSync = function () {
             this.lastname("string", {length:20, allowNull:false});
             this.midinitial("char", {length:1});
             this.position("integer");
-            this.gender("enum", {elements:["M", "F"]});
+            this.gender("char", {size : 1});
             this.street("string", {length:50, allowNull:false});
             this.city("string", {length:20, allowNull:false});
         }),
@@ -28,7 +29,7 @@ var createTablesAndSync = function () {
             this.lastname("string", {length:20, allowNull:false});
             this.midinitial("char", {length:1});
             this.position("integer");
-            this.gender("enum", {elements:["M", "F"]});
+            this.gender("char", {size : 1});
             this.street("string", {length:50, allowNull:false});
             this.city("string", {length:20, allowNull:false});
         })
@@ -37,7 +38,8 @@ var createTablesAndSync = function () {
 
 };
 
-var dropTableAndDisconnect = function () {
+var dropTableAndDisconnect
+    = function () {
     return comb.executeInOrder(patio, DB1, DB2, function (patio, db1, db2) {
         db1.forceDropTable("employee");
         db2.forceDropTable("employee");
@@ -51,8 +53,8 @@ it.describe("Models from mutliple databases", function (it) {
 
     var Employee, Employee2;
     it.beforeAll(function () {
-        DB1 = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
-        DB2 = patio.connect("mysql://test:testpass@localhost:3306/sandbox2");
+        DB1 = patio.connect(config.DB_URI + "/sandbox");
+        DB2 = patio.connect(config.DB_URI + "/sandbox2");
 
         Employee = patio.addModel(DB1.from("employee"), {
             "static":{
