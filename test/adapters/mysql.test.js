@@ -908,7 +908,7 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:null, value:null, image : null}
+                            {id:null, name:null, value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             "INSERT INTO items () VALUES ()"
@@ -924,7 +924,7 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:null, value:null, image : null}
+                            {id:null, name:null, value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             "INSERT INTO items () VALUES ()"
@@ -940,7 +940,7 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:null, value:null, image : null}
+                            {id:null, name:null, value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             "INSERT INTO items () VALUES ()"
@@ -963,8 +963,8 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'abc', value:6, image : null},
-                            {id:null, name:'def', value:2, image : null}
+                            {id:null, name:'abc', value:6, image:null},
+                            {id:null, name:'def', value:2, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             "INSERT INTO items (name, value) VALUES ('abc', 1)",
@@ -984,8 +984,8 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'abc', value:1, image : null},
-                            {id:null, name:'def', value:2, image : null}
+                            {id:null, name:'abc', value:1, image:null},
+                            {id:null, name:'def', value:2, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1007,8 +1007,8 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'abc', value:null, image : null},
-                            {id:null, name:'def', value:null, image : null}
+                            {id:null, name:'abc', value:null, image:null},
+                            {id:null, name:'def', value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1031,10 +1031,10 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:null, value:1, image : null},
-                            {id:null, name:null, value:2, image : null},
-                            {id:null, name:null, value:3, image : null},
-                            {id:null, name:null, value:4, image : null}
+                            {id:null, name:null, value:1, image:null},
+                            {id:null, name:null, value:2, image:null},
+                            {id:null, name:null, value:3, image:null},
+                            {id:null, name:null, value:4, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1061,10 +1061,10 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:null, value:1, image : null},
-                            {id:null, name:null, value:2, image : null},
-                            {id:null, name:null, value:3, image : null},
-                            {id:null, name:null, value:4, image : null}
+                            {id:null, name:null, value:1, image:null},
+                            {id:null, name:null, value:2, image:null},
+                            {id:null, name:null, value:3, image:null},
+                            {id:null, name:null, value:4, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1090,8 +1090,8 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'abc', value:1, image : null},
-                            {id:null, name:"def", value:2, image : null}
+                            {id:null, name:'abc', value:1, image:null},
+                            {id:null, name:"def", value:2, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1114,8 +1114,8 @@ it.describe("patio.adapters.Mysql", function (it) {
                     return {sql:db.sqls.slice(0), all:d.all()};
                 }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'abc', value:null, image : null},
-                            {id:null, name:"def", value:null, image : null}
+                            {id:null, name:'abc', value:null, image:null},
+                            {id:null, name:"def", value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, [
                             SQL_BEGIN,
@@ -1134,7 +1134,7 @@ it.describe("patio.adapters.Mysql", function (it) {
                         return {sql:db.sqls.slice(0), all:d.all()};
                     }).then(function (ret) {
                         assert.deepEqual(ret.all, [
-                            {id:null, name:'ghi', value:null, image : null}
+                            {id:null, name:'ghi', value:null, image:null}
                         ]);
                         assert.deepEqual(ret.sql, ["INSERT IGNORE INTO items (name) VALUES ('ghi')"]);
                         next();
@@ -1161,13 +1161,13 @@ it.describe("patio.adapters.Mysql", function (it) {
                 }).then(function (ret) {
                         assert.deepEqual(ret, [
                             [
-                                {id:1, name:null, value:2, image : null}
+                                {id:1, name:null, value:2, image:null}
                             ],
                             [
-                                {id:1, name:null, value:2, image : null}
+                                {id:1, name:null, value:2, image:null}
                             ],
                             [
-                                {id:1, name:null, value:2, image : null}
+                                {id:1, name:null, value:2, image:null}
                             ]
                         ]);
                         next();
@@ -1188,13 +1188,13 @@ it.describe("patio.adapters.Mysql", function (it) {
                 }).then(function (ret) {
                         assert.deepEqual(ret, [
                             [
-                                {id:1, name:"hello", value:2, image : new Buffer("test")}
+                                {id:1, name:"hello", value:2, image:new Buffer("test")}
                             ],
                             [
-                                {id:1, name:'hello', value:2, image : new Buffer("test")}
+                                {id:1, name:'hello', value:2, image:new Buffer("test")}
                             ],
                             [
-                                {id:1, name:"hello", value:2, image : new Buffer("test")}
+                                {id:1, name:"hello", value:2, image:new Buffer("test")}
                             ]
                         ]);
                         next();
@@ -1205,11 +1205,11 @@ it.describe("patio.adapters.Mysql", function (it) {
             it.should("create a record if the condition is not met", function (next) {
                 comb.executeInOrder(MYSQL_DB, d,
                     function (db, d) {
-                        d.replace({id:111, value:333, image : null});
+                        d.replace({id:111, value:333, image:null});
                         return d.all();
                     }).then(function (ret) {
                         assert.deepEqual(ret, [
-                            {id:111, name:null, value:333, image : null}
+                            {id:111, name:null, value:333, image:null}
                         ]);
                         next();
                     }, next);
@@ -1227,10 +1227,10 @@ it.describe("patio.adapters.Mysql", function (it) {
                 }).then(function (ret) {
                         assert.deepEqual(ret, [
                             [
-                                {id:111, name:null, value:null, image : null}
+                                {id:111, name:null, value:null, image:null}
                             ],
                             [
-                                {id:111, name:null, value:333, image : null}
+                                {id:111, name:null, value:333, image:null}
                             ]
                         ]);
                         next();
@@ -1308,25 +1308,35 @@ it.describe("patio.adapters.Mysql", function (it) {
 
 
         it.should("not use a null value bad date/time is used and convertInvalidDateTime is string || String", function (next) {
-
-            comb.executeInOrder(MYSQL_DB, patio,
-                function (db, patio) {
+            var db = MYSQL_DB;
+            comb.serial([
+                function () {
                     patio.mysql.convertInvalidDateTime = String;
-                    var ret = [];
-                    ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
+                    return comb.when(
+                        db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue(),
+                        db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue(),
+                        db.fetch("SELECT CAST('25:00:00' AS time)").singleValue()
+                    );
+                },
+                function () {
                     patio.mysql.convertInvalidDateTime = "string";
-                    ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
+                    return comb.when(
+                        db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue(),
+                        db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue(),
+                        db.fetch("SELECT CAST('25:00:00' AS time)").singleValue()
+                    );
+                },
+                function () {
                     patio.mysql.convertInvalidDateTime = "String";
-                    ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
-                    ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
+                    return comb.when(
+                        db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue(),
+                        db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue(),
+                        db.fetch("SELECT CAST('25:00:00' AS time)").singleValue()
+                    );
+                }
+            ]).then(function (res) {
                     patio.mysql.convertInvalidDateTime = false;
-                    return ret;
-                }).then(function (res) {
+                    res = comb.array.flatten(res);
                     assert.deepEqual(res, ['0000-00-00', '0000-00-00 00:00:00', '25:00:00', '0000-00-00', '0000-00-00 00:00:00', '25:00:00', '0000-00-00', '0000-00-00 00:00:00', '25:00:00']);
                     next();
                 }, next);

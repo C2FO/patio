@@ -176,14 +176,14 @@ it.describe("Migrators", function (it) {
 
         it.should("raise and error if there is a missing integer migration version", function (next) {
             patio.migrate(DB, __dirname + "/migrations/files/missing_migration_file").then(next, function (err) {
-                assert.deepEqual(err[0].message, "Migration error : Missing migration for 1");
+                assert.deepEqual(err.message, "Migration error : Missing migration for 1");
                 next();
             });
         });
 
         it.should("raise and error if there is a duplicate integer migration version", function (next) {
             patio.migrate(DB, __dirname + "/migrations/files/duplicate_migration_file").then(next, function (err) {
-                assert.deepEqual(err[0].message, "Migration error : Duplicate migration number 0");
+                assert.deepEqual(err.message, "Migration error : Duplicate migration number 0");
                 next();
             });
         });
