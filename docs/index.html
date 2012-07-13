@@ -133,6 +133,8 @@
                  
                  <li><a href="./model-inheritance.html">Model Inheritance</a></li>
                  
+                 <li><a href="./plugins.html">Model Plugins</a></li>
+                 
                  <li><a href="./querying.html">Querying</a></li>
                  
                  <li><a href="./DDL.html">DDL</a></li>
@@ -326,10 +328,22 @@
 
 
 
-  Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query
-engine.
+  Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
 
-<h2 class="classTitle">Installation</h2>
+<h3>Why Use Patio?</h3>
+
+<p>
+Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.
+</p>
+<p>
+If you want to use <a href="./models.html">ORM</a> functionality you can. If you dont you can just use the
+<a href="./DDL.html">Database</a> and <a href="./querying.html">Datasets</a> as a querying API, and if you need to
+you can <a href="./patio_Database.html#run">write plain SQL</a>.
+</p>
+
+
+
+<h3>Installation</h3>
 To install patio run
 
 <pre class='prettyprint linenums lang-js'>
@@ -342,6 +356,52 @@ If you want to use the patio executable for migrations
  npm install -g patio
 </pre>
 
+<h3>Features</h3>
+
+<ul>
+ <li>Comprehensive documentation with examples.</li>
+ <li> &gt; 80% test coverage</li>
+ <li>Support for connection URIs</li>
+ <li>Supported Databases
+     <ul>
+         <li>MySQL</li>
+         <li>Postgres</li>
+     </ul>
+ </li>
+ <li><a href="./models.html">Models</a>
+     <ul>
+         <li><a href="./associations.html">Associations</a></li>
+         <li><a href="./model-inheritance.html">Inheritance</a></li>
+     </ul>
+ </li>
+ <li>Simple adapter extensions</li>
+ <li><a href="./migrations.html">Migrations</a>
+     <ul>Integer and Timestamp based.</ul>
+ </li>
+ <li>Powerful <a href="./querying.html">query</a> API</li>
+ <li><a href="./patio_Database.html#transaction">Transactions</a> with
+     <ul>
+         <li>Savepoints</li>
+         <li>Isolation Levels</li>
+         <li>Two phase commits</li>
+     </ul>
+ </li>
+ <li>SQL Datatype casting</li>
+ <li>Full database CRUD operations
+     <ul>
+         <li><a href="./patio_Database.html#createTable">createTable</a></li>
+         <li><a href="./patio_Database.html#alterTable">alterTable</a></li>
+         <li><a href="./patio_Database.html#dropTable">dropTable</a></li>
+         <li><a href="./patio_Dataset.html#insert">insert</a></li>
+         <li><a href="./patio_Dataset.html#multiInsert">multiInsert</a></li>
+         <li><a href="./patio_Dataset.html#update">update</a></li>
+         <li><a href="./patio.Dataset.html#remove">remove</a></li>
+         <li><a href="./patio_Dataset.html#filter">query</a></li>
+     </ul>
+</li>
+</ul>
+
+<h3>Example</h3>
 <pre class='prettyprint linenums lang-js'>
 
 var patio = require("../index.js"),
@@ -354,7 +414,7 @@ var patio = require("../index.js"),
  patio.camelize = true;
  patio.configureLogging();
  //connect to the db
- var DB = patio.connect("pg://test:testpass@localhost:5432/airports");
+ var DB = patio.connect(&lt;CONNECTION_URI&gt;);
 
  var errorHandler = function (error) {
      console.log(error);
@@ -441,51 +501,6 @@ var patio = require("../index.js"),
 }, errorHandler);
 
 </pre>
-
-<h2>Features</h2>
-
-<ul class="featureList">
- <li>Comprehensive documentation with examples.</li>
- <li> &gt; 80% test coverage</li>
- <li>Support for connection URIs</li>
- <li>Supported Databases
-     <ul>
-         <li>MySQL</li>
-         <li>Postgres</li>
-     </ul>
- </li>
- <li><a href="./models.html">Models</a>
-     <ul>
-         <li><a href="./associtaions.html">Associations</a></li>
-         <li><a href="./model-inheritance.html">Inheritance</a></li>
-     </ul>
- </li>
- <li>Simple adapter extensions</li>
- <li><a href="./migrations.html">Migrations</a>
-     <ul>Integer and Timestamp based.</ul>
- </li>
- <li>Powerful <a href="./querying.html">query</a> API</li>
- <li><a href="./api/symbols/patio.Database.html#transaction" target="patioapi">Transactions</a> with
-     <ul>
-         <li>Savepoints</li>
-         <li>Isolation Levels</li>
-         <li>Two phase commits</li>
-     </ul>
- </li>
- <li>SQL Datatype casting</li>
- <li>Full database CRUD operations
-     <ul>
-         <li><a href="./api/symbols/patio.Database.html#createTable" target="patioapi">createTable</a></li>
-         <li><a href="./api/symbols/patio.Database.html#alterTable" target="patioapi">alterTable</a></li>
-         <li><a href="./api/symbols/patio.Database.html#dropTable" target="patioapi">dropTable</a></li>
-         <li><a href="./api/symbols/patio.Dataset.html#insert" target="patioapi">insert</a></li>
-         <li><a href="./api/symbols/patio.Dataset.html#multiInsert" target="patioapi">multiInsert</a></li>
-         <li><a href="./api/symbols/patio.Dataset.html#update" target="patioapi">update</a></li>
-         <li><a href="./api/symbols/patio.Dataset.html#remove" target="patioapi">remove</a></li>
-         <li><a href="./api/symbols/patio.Dataset.html#filter" target="patioapi">query</a></li>
-     </ul>
-</li>
-</ul>
 
 
 

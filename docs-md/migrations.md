@@ -195,7 +195,7 @@ First we wait for both the rename and createTable action to complete, and then w
 
 In order to run a migraton there are two options:
 
-###(patio.migrate)(./patio.html#migrate)
+###[patio.migrate](./patio.html#migrate)
 
 **Available options**
                      

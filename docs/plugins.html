@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./plugins.html">Model Plugins</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+<h1>Plugins</h1>
+<p>One of the powerful features of the <code>patio</code> <a href="./models.html">Model</a> api is plugins. Plugins allow developers to easily extend models to do extra functionality.
+
+</p>
+<h2>Built In Plugins</h2>
+<h3><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></h3>
+<p>This plugin adds timestamp functionality to models. (i.e updated and created).
+
+</p>
+<p><strong>Options</strong>
+
+
+</p>
+<ul>
+<li><code>updated</code> : defaults to <code>updated</code>. the name of the column to set the updated timestamp on.</li>
+<li><code>created</code> defaults to <code>created</code> the name of the column to set the created timestamp on </li>
+<li><code>updateOnCreate</code> : defaults to <code>false</code> Set to true to set the updated column on creation  </li>
+</ul>
+<p>Default timestamp functionality                                                                      
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp();                                                                                     
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<p>With custom <code>updated </code>column   
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp({updated : &quot;myUpdatedColumn&quot;});                                                        
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<p>Custom <code>created</code> column    
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp({created : &quot;customCreatedColumn&quot;});                                                    
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<p>Set both custom columns                                                                                                                                                                                                           
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp({created : &quot;customCreatedColumn&quot;, updated : &quot;myUpdatedColumn&quot;});                       
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<p>Set to update the <code>updated</code> column when row is created                                                            
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp({updateOnCreate : true});                                                              
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<p>Set all three options    
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var MyModel = patio.addModel(&quot;testTable&quot;, {                                                                       
+    plugins : [patio.plugins.TimeStampPlugin],                                                                    
+
+    static : {                                                                                                    
+        init : function(){                                                                                        
+            this._super(&quot;arguments&quot;);                                                                             
+            this.timestamp({created : &quot;customCreatedColumn&quot;, updated : &quot;myUpdatedColumn&quot;, updateOnCreate : true});
+        }                                                                                                         
+    }                                                                                                             
+});</code></pre>
+<h3><a href="./patio_plugins_ClassTableInhertiance.html">patio.plugins.ClassTableInhertiance</a></h3>
+<p>See <a href="./model-inheritance.html">inheritance</a> page.
+
+</p>
+<h2>Writing your own plugins</h2>
+<p>Writing your own custom plugin easy!
+
+
+</p>
+<h3>Example Express plugin</h3>
+<p>The following is a simple express plugin to expose routes for models.
+
+</p>
+<ol>
+<li>Define your plugin</li>
+</ol>
+<p>First use <a href="https://github.com/Pollenware/comb">comb</a> to define a class.
+
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var patio = require(&quot;patio&quot;), 
+    comb = require(&quot;comb&quot;);
+
+//create an empty class and expose it as the module
+module.exports = comb.define(null, {});</code></pre>
+<ol>
+<li>Add Some methods to the plugin</li>
+</ol>
+<p>Any method on a plugin will also be added to the model. So lets add a <code>static</code> route method that takes an express app as an argument.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>module.exports = comb.define(null, {
+    static:{      
+
+        /**
+         *Helper method to find a model by id and handle any errors
+         */
+        findByIdRoute:function (params) {
+            var ret = new comb.Promise();
+            this.findById(params.id).then(function (model) {
+                ret.callback(model ? model.toObject() : {error:&quot;Could not find a model with id &quot; + id});
+            }, ret);
+            return ret;
+        },
+
+
+        route:function (app) {
+            app.get()&quot;get&quot;, &quot;/&quot; + this.tableName + &quot;/:id&quot;, this.findByIdRoute.bind(this));
+        }
+    }
+});</code></pre>
+<p>So we added a get route but thats not very flexible or useful. So lets add the ability to do dynamic routing.
+
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var patio = require(&quot;patio&quot;), 
+    comb = require(&quot;comb&quot;);
+
+module.exports = comb.define(null, {
+    static:{
+
+        /**
+         * Adds a &quot;get&quot; route to our routes array.
+         */
+        addRoute:function (route, cb) {
+            this.routes.push([&quot;get&quot;, route, cb]);
+        },
+
+        /**
+         *Helper method to find a model by id and handle any errors
+         */
+        findByIdRoute:function (params) {
+            var ret = new comb.Promise();
+            this.findById(params.id).then(function (model) {
+                ret.callback(model ? model.toObject() : {error:&quot;Could not find a model with id &quot; + id});
+            }, comb.hitch(ret, &quot;errback&quot;));
+            return ret;
+        },
+
+        /**
+        * Helper method to remove a model by id
+        */
+        removeByIdRoute:function (params) {
+            return this.removeById(params.id);
+        },
+
+        /**
+        *Wrapper for a route to handle any async operations
+        */
+        __routeProxy:function (cb) {
+            return function (req, res) {
+                comb.when(cb(req.params)).then(res.send.bind(res), function (err) {
+                    res.send({error:err.message});
+                });
+            }
+        },
+
+        /**
+         * Main method to call when routing a model. Call with the express server
+         */
+        route:function (app) {
+            var routes = this.routes;
+            for (var i in routes) {
+                var route = routes[i];
+                app[route[0]](route[1], this.__routeProxy(route[2]));
+            }
+        },
+
+        getters:{
+            /**
+             * Getter for the routes that are on this model
+             */
+            routes:function () {
+                if (comb.isUndefined(this.__routes)) {
+                    var routes = this.__routes = [
+                        [&quot;get&quot;, &quot;/&quot; + this.tableName + &quot;/:id&quot;, comb.hitch(this, &quot;findByIdRoute&quot;)],
+                        [&quot;delete&quot;, &quot;/&quot; + this.tableName + &quot;/:id&quot;, comb.hitch(this, &quot;removeByIdRoute&quot;)]
+                    ];
+                }
+                return this.__routes;
+            }
+
+        }
+    }
+});</code></pre>
+<p>So with the above definition we can now add more routes from within a model.
+
+</p>
+<ol>
+<li>Add it to a model</li>
+</ol>
+<p>Below assume we have a database with a flight and a previously defined <code>FlightLeg</code> model.
+
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var ExpressPlugin = require(&quot;./expressPlugin.js&quot;);
+module.exports = patio.addModel(&quot;flight&quot;, {
+    plugins:[ExpressPlugin],
+    static:{
+
+        init:function () {
+            //call the super&#39;s init method
+            this._super(arguments);
+            //add new routes using the addRoute method on the Express Plugin
+            this.addRoute(&quot;/flights/:airline&quot;, comb.hitch(this, function (params) {
+                var ret = new comb.Promise();
+                this.byAirline(params.airline).then(function (flights) {
+                    ret.callback(flights.map(function (flight) {
+                        return flight.toObject();
+                    }));
+                }, ret);
+                return  ret;
+            }));
+            this.addRoute(&quot;/flights/departs/:airportCode&quot;, comb.hitch(this, function (params) {
+                var ret = new comb.Promise();
+                this.departsFrom(params.airportCode).then(function (flights) {
+                    ret.callback(flights.map(function (flight) {
+                        return flight.toObject();
+                    }));
+                }, ret);
+                return  ret;
+            }));
+            this.addRoute(&quot;/flights/arrives/:airportCode&quot;, comb.hitch(this, function (params) {
+                var ret = new comb.Promise();
+                this.arrivesAt(params.airportCode).then(function (flights) {
+                    ret.callback(flights.map(function (flight) {
+                        return flight.toObject();
+                    }));
+                }, ret);
+                return  ret;
+            }));
+        },
+
+        byAirline:function (airline) {
+            return this.filter({airline:airline}).all();
+        },
+
+        arrivesAt:function (airportCode) {
+            return this.join(FlightLeg.select(&quot;flightId&quot;).filter({arrivalCode:airportCode}).distinct(), {flightId:sql.id}).all();
+        },
+
+        departsFrom:function (airportCode) {
+            return this.join(FlightLeg.select(&quot;flightId&quot;).filter({departureCode:airportCode}).distinct(), {flightId:sql.id}).all();
+        },
+
+    }
+});</code></pre>
+<p>Now route the model.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var app = express.createServer();
+Flight.route(app);</code></pre>
+<h3>Example Logging Plugin</h3>
+<p>The folowing plugin adds a logger to each model that uses the plugin. And adds convenience methods for logging.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>
+var comb = require(&quot;comb&quot;), 
+    logging = comb.logging, 
+    Level = logging.Level, 
+    Logger = logging.Logger;
+
+comb.define(null, {
+
+    instance:{
+
+        constructor:function () {
+            this.LOGGER = this._static.LOGGER;
+            this._super(arguments);
+        },
+
+        /**
+         * Logs an INFO level message to the &quot;patio&quot; logger.
+         */
+        logInfo:function(){
+            if (this.LOGGER.isInfo) {
+                this.LOGGER.info.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a DEBUG level message to the &quot;patio&quot; logger.
+         */
+        logDebug:function(){
+            if (this.LOGGER.isDebug) {
+                this.LOGGER.debug.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs an ERROR level message to the &quot;patio&quot; logger.
+         */
+        logError:function(){
+            if (this.LOGGER.isError) {
+                this.LOGGER.error.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a WARN level message to the &quot;patio&quot; logger.
+         */
+        logWarn:function(){
+            if (this.LOGGER.isWarn) {
+                this.LOGGER.warn.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a TRACE level message to the &quot;patio&quot; logger.
+         */
+        logTrace:function(){
+            if (this.LOGGER.isTrace) {
+                this.LOGGER.trace.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a FATAL level message to the &quot;patio&quot; logger.
+         */
+        logFatal:function(){
+            if (this.LOGGER.isFatal) {
+                this.LOGGER.fatal.apply(this.LOGGER, arguments);
+            }
+        }
+
+
+    },
+
+    static:{
+
+        LOGGER:null,
+
+        __level:Level.ERROR,
+
+        init:function () {
+            this._super(arguments);
+            var logger = Logger.getLogger(&quot;model.&quot; + this.tableName || this.LOGGER_NAME);
+            this.LOGGER = logger;
+        },
+
+        /**
+         * Logs an INFO level message to the &quot;patio&quot; logger.
+         */
+        logInfo:function(){
+            if (this.LOGGER.isInfo) {
+                this.LOGGER.info.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a DEBUG level message to the &quot;patio&quot; logger.
+         */
+        logDebug:function(){
+            if (this.LOGGER.isDebug) {
+                this.LOGGER.debug.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs an ERROR level message to the &quot;patio&quot; logger.
+         */
+        logError:function(){
+            if (this.LOGGER.isError) {
+                this.LOGGER.error.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a WARN level message to the &quot;patio&quot; logger.
+         */
+        logWarn:function(){
+            if (this.LOGGER.isWarn) {
+                this.LOGGER.warn.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a TRACE level message to the &quot;patio&quot; logger.
+         */
+        logTrace:function(){
+            if (this.LOGGER.isTrace) {
+                this.LOGGER.trace.apply(this.LOGGER, arguments);
+            }
+        },
+
+        /**
+         * Logs a FATAL level message to the &quot;patio&quot; logger.
+         */
+        logFatal:function(){
+            if (this.LOGGER.isFatal) {
+                this.LOGGER.fatal.apply(this.LOGGER, arguments);
+            }
+        },
+
+        setters:{
+            level:function (level) {
+                this.__level = level;
+                this.LOGGER.level = level;
+            }
+        },
+
+        getters:{
+            level:function () {
+                return this.__level;
+            }
+        }
+    }
+
+//the .as method is method that is a short cut to module.exports =
+//you could also to .as(exports, &quot;LoggingPlugin&quot;) which is the same as exports.LoggingPlugin = 
+}).as(module);</code></pre>
+<p>Use it just like you would any other plugin
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;flight&quot;, {
+    plugins : [LoggingPlugin],
+
+    &quot;static&quot; : {
+        findById : function(){
+            this.logInfo(&quot;Find flight by id!&quot;);
+            //call our super method
+            return this._super(arguments);
+        }
+    }
+
+}).as(module);</code></pre>
+
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>
