@@ -1,4 +1,4 @@
-#[Patio](https://pollenware.github.com/patio)
+#[Patio](http://pollenware.github.com/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.                                                        
                                                                                                                                                              
@@ -6,7 +6,7 @@ Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> i
                                                                                                                                                              
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
 
-If you want to use [ORM](https://pollenware.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](https://pollenware.github.com/patio/DDL.html] and [Datasets](https://pollenware.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](https://pollenware.github.com/patio/patio_Database.html#run)                                                                                                                                                                                                                                                                                           
+If you want to use [ORM](http://pollenware.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](http://pollenware.github.com/patio/DDL.html] and [Datasets](http://pollenware.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](http://pollenware.github.com/patio/patio_Database.html#run)
                                                                                                                                                                                                                                                                                                                          
 ###Installation
 To install patio run                                                                                                                                         
@@ -25,28 +25,28 @@ If you want to use the patio executable for migrations
 * Supported Databases                                                                                                                                        
   * MySQL
   * Postgres
-* [Models](https://pollenware.github.com/patio/models.html)
-  * [Associations](https://pollenware.github.com/patio/associations.html)
-  * [Inheritance](https://pollenware.github.com/patio/model-inheritance.html)
-  * [Plugins](https://pollenware.github.com/patio/plugins.html)
+* [Models](http://pollenware.github.com/patio/models.html)
+  * [Associations](http://pollenware.github.com/patio/associations.html)
+  * [Inheritance](http://pollenware.github.com/patio/model-inheritance.html)
+  * [Plugins](http://pollenware.github.com/patio/plugins.html)
 * Simple adapter extensions
-* [Migrations](https://pollenware.github.com/patio/migrations.htmls)
+* [Migrations](http://pollenware.github.com/patio/migrations.htmls)
   * Integer and Timestamp based.
-* Powerful [Querying](https://pollenware.github.com/patio/querying.html)
-* [Transactions](https://pollenware.github.com/patio/patio_Database.html#transactions) with                                                                                       
+* Powerful [Querying](http://pollenware.github.com/patio/querying.html)
+* [Transactions](http://pollenware.github.com/patio/patio_Database.html#transactions) with
   * Savepoints
   * Isolation Levels
   * Two phase commits
 * SQL Datatype casting
 * Full database CRUD operations                                                                                                                           
-  * [createTable](https://pollenware.github.com/patio/patio_Database.html#createTable)
-  * [alterTable](https://pollenware.github.com/patio/patio_Database.html#alterTable)
-  * [dropTable](https://pollenware.github.com/patio/patio_Database.html#dropTable) 
-  * [insert](https://pollenware.github.com/patio/patio_Dataset.html#insert)
-  * [multiInsert](https://pollenware.github.com/patio/patio_Dataset.html#multiInsert)
-  * [update](https://pollenware.github.com/patio/patio_Dataset.html#update)
-  * [remove](https://pollenware.github.com/patio/patio_Dataset.html#remove)
-  * [query](https://pollenware.github.com/patio/patio_Dataset.html#query)
+  * [createTable](http://pollenware.github.com/patio/patio_Database.html#createTable)
+  * [alterTable](http://pollenware.github.com/patio/patio_Database.html#alterTable)
+  * [dropTable](http://pollenware.github.com/patio/patio_Database.html#dropTable)
+  * [insert](http://pollenware.github.com/patio/patio_Dataset.html#insert)
+  * [multiInsert](http://pollenware.github.com/patio/patio_Dataset.html#multiInsert)
+  * [update](http://pollenware.github.com/patio/patio_Dataset.html#update)
+  * [remove](http://pollenware.github.com/patio/patio_Dataset.html#remove)
+  * [query](http://pollenware.github.com/patio/patio_Dataset.html#query)
                                                                                        
                                                                                                                                                              
 ###Example
