@@ -121,9 +121,9 @@
       
           <a href="./index.html" class="brand">patio</a>
       
-      
-           <div class="nav-collapse">
+      <div class="nav-collapse">
       <ul class="nav nav-pills">
+      
       
                  <li><a href="./connecting.html">Connecting</a></li>
                  
@@ -150,13 +150,9 @@
            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
            <ul class="dropdown-menu">
              
-                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+                         <li><a href="patio_sql.html">patio.sql</a></li>
                
-                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
-               
-                         <li><a href="./patio.html#.sql">patio.sql</a></li>
-               
-                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
                
            </ul>
            </li>
@@ -274,6 +270,8 @@
                
                          <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
                
+                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+               
                          <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
                
                          <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
@@ -285,8 +283,6 @@
                          <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
                
                          <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
-               
-                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
                
                          <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
                
@@ -349,6 +345,8 @@
             <ul class="nav pull-right">
              <li><a href="#constructor">Constructor</a></li>
                         
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
                         
                         
                         
@@ -382,26 +380,25 @@
 
 
     <p>
-Subclass of <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a> where the expression results
-in a numeric value in SQL.</p>
+Represents an SQL function call.
+
+</p>
     
 
     
         <em>Extends</em>
         <ul>
             
-                <li> <a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
-            
-                <li> <a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
-            
-                <li> <a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
-            
-                <li> <a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+                <li> <a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
             
         </ul>
     
 
     
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>args</td><td>Array</td><td></td><td><b>READ ONLY</b> args  arguments will be literalized through <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a> and placed into the SQL function call.</td><tr><tr><td>f</td><td>String</td><td></td><td><b>READ ONLY</b> the SQL function to call.</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -414,7 +411,13 @@ in a numeric value in SQL.</p>
         
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
-comb.define([ComplexExpression, BitWiseMethods, NumericMethods, InequalityMethods]).as(sql, &quot;NumericExpression&quot;)
+function (f){
+   var args = comb.argsToArray(arguments).slice(1);
+   this.__f = comb.isInstanceOf(f, Identifier) ? f.value : f, this.__args = args.map(function (a) {
+       return comb.isString(a) ? sql.stringToIdentifier(a) : a;
+   });
+           
+}
             </pre>
       
     
@@ -476,6 +479,10 @@ function (ds){
 
 
   
+<hr>
+
+Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+
 
 </div>
 </div>
