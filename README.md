@@ -6,7 +6,7 @@ Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> i
                                                                                                                                                              
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
 
-If you want to use [ORM](http://pollenware.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](http://pollenware.github.com/patio/DDL.html] and [Datasets](http://pollenware.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](http://pollenware.github.com/patio/patio_Database.html#run)
+If you want to use [ORM](http://pollenware.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](http://pollenware.github.com/patio/DDL.html) and [Datasets](http://pollenware.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](http://pollenware.github.com/patio/patio_Database.html#run)
                                                                                                                                                                                                                                                                                                                          
 ###Installation
 To install patio run                                                                                                                                         
@@ -30,10 +30,10 @@ If you want to use the patio executable for migrations
   * [Inheritance](http://pollenware.github.com/patio/model-inheritance.html)
   * [Plugins](http://pollenware.github.com/patio/plugins.html)
 * Simple adapter extensions
-* [Migrations](http://pollenware.github.com/patio/migrations.htmls)
+* [Migrations](http://pollenware.github.com/patio/migrations.html)
   * Integer and Timestamp based.
 * Powerful [Querying](http://pollenware.github.com/patio/querying.html)
-* [Transactions](http://pollenware.github.com/patio/patio_Database.html#transactions) with
+* [Transactions](http://pollenware.github.com/patio/patio_Database.html#transaction) with
   * Savepoints
   * Isolation Levels
   * Two phase commits
@@ -46,7 +46,7 @@ If you want to use the patio executable for migrations
   * [multiInsert](http://pollenware.github.com/patio/patio_Dataset.html#multiInsert)
   * [update](http://pollenware.github.com/patio/patio_Dataset.html#update)
   * [remove](http://pollenware.github.com/patio/patio_Dataset.html#remove)
-  * [query](http://pollenware.github.com/patio/patio_Dataset.html#query)
+  * [query](http://pollenware.github.com/patio/patio_Dataset.html#filter)
                                                                                        
                                                                                                                                                              
 ###Example
