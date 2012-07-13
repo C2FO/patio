@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.associations.Association
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
+                        
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_associations_Association.html#_filter">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _filter
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_getter">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _getter
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_postLoad">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _postLoad
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_postRemove">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _postRemove
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_postSave">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _postSave
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_postUpdate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _postUpdate
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_preLoad">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _preLoad
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_preRemove">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _preRemove
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_preSave">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _preSave
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_preUpdate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _preUpdate
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#_setter">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _setter
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#inject">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                inject
+
+                                </a></li>
+                                
+                                <li><a href="./patio_associations_Association.html#isEager">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                isEager
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+Base class for all associations.
+
+</br>
+<b>NOT to be instantiated directly</b>
+Its just documented for reference.</p>
+    
+
+    
+
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>_fetchMethod</td><td>property</td><td><code>"all"</code></td><td>
+
+Method to call to look up association,
+called after the model has been filtered
+</td><tr><tr><td>fetchType</td><td>property</td><td><code>fetch.LAZY</code></td><td>
+Fetch type
+         </td><tr><tr><td>filter</td><td>property</td><td><code>null</code></td><td>Our filter method</td><tr><tr><td>model</td><td>Model</td><td></td><td>the model associatied with this association.</td><tr><tr><td>orderBy</td><td>property</td><td><code>null</code></td><td>how to order our association</td><tr></table>
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined associations/_Association.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+exports = define(comb.plugins.Middleware, {
+            </pre>
+      
+    
+
+  
+  
+    <a name="_filter"></a>
+    <h3>
+        _filter
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Filters our associated dataset to load our association.
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>parent</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Dataset</code> the dataset with all filters applied.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (parent){
+   var options = this.__opts || {};
+   var ds;
+   if (!isUndefined((ds = options.dataset)) &amp;&amp; isFunction(ds)) {
+       ds = ds.apply(parent, [parent]);
+   }
+   if (!ds) {
+       var q = {};
+       this._setAssociationKeys(parent, q);
+       ds = this.model.dataset.naked().filter(q);
+       var recip = this.model._findAssociation(this);
+       recip &amp;&amp; (recip = recip[1]);
+       ds.rowCb = hitch(this, function (item) {
+           var ret = new Promise();
+           var model = this._toModel(item, true);
+           recip &amp;&amp; recip.__setValue(model, parent);
+           //call hook to finish other model associations
+           model._hook(&quot;post&quot;, &quot;load&quot;).then(hitch(this, function () {
+               ret.callback(model);
+           }), hitch(ret, &quot;errback&quot;));
+           return ret;
+       });
+   }
+   return this._setDatasetOptions(ds);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_getter"></a>
+    <h3>
+        _getter
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Alias used to explicitly get an association on a model.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (model){
+   //if we have them return them;
+   if (this.associationLoaded(model)) {
+       var assoc = this.getAssociation(model);
+       return this.isEager() ? assoc : new Promise().callback(assoc);
+   } else if (model.isNew) {
+       return null;
+   } else {
+       return this.fetch(model);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_postLoad"></a>
+    <h3>
+        _postLoad
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called after a model is loaded.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_postRemove"></a>
+    <h3>
+        _postRemove
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called aft era model is removed.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_postSave"></a>
+    <h3>
+        _postSave
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called after a model is saved.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_postUpdate"></a>
+    <h3>
+        _postUpdate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called before a model is updated.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_preLoad"></a>
+    <h3>
+        _preLoad
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called before a model is loaded.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_preRemove"></a>
+    <h3>
+        _preRemove
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called before a model is removed.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being acted up.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   if (this.isOwner &amp;&amp; !this.isCascading) {
+       var q = {};
+       this._setAssociationKeys(model, q, null);
+       model[this.associatedDatasetName].update(q).then(next, function (e) {
+           throw e;
+       });
+   } else {
+       next();
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_preSave"></a>
+    <h3>
+        _preSave
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called before a model is saved.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_preUpdate"></a>
+    <h3>
+        _preUpdate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Middleware called before a model is updated.
+</br>
+<b> This is called in the scope of the model</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (next,model){
+   next();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_setter"></a>
+    <h3>
+        _setter
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Alias used to explicitly set an association on a model.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>val</em>  : the value to set the association to</li>
+    
+        <li> <em>model</em>  : </li>
+    
+        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (val,model){
+   model.__associations[this.name] = val;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="inject"></a>
+    <h3>
+        inject
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+Method to inject functionality into a model. This method alters the model
+to prepare it for associations, and initializes all required middleware calls
+to fulfill requirements needed to loaded the associations.
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>parent</em>  : the model that is having an associtaion set on it.</li>
+    
+        <li> <em>name</em>  : the name of the association.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (parent,name){
+   this.name = name;
+   var self = this;
+   this.parent = parent;
+   parent.prototype.__defineGetter__(name, function () {
+       return  self._getter(this);
+   });
+   parent.prototype.__defineGetter__(this.associatedDatasetName, function () {
+       return  self._filter(this);
+   });
+   if (!this.readOnly &amp;&amp; this.createSetter) {
+       //define a setter because we arent read only
+       parent.prototype.__defineSetter__(name, function (vals) {
+           self._setter(vals, this);
+       });
+   }
+   //set up all callbacks
+   [&quot;pre&quot;, &quot;post&quot;].forEach(function (op) {
+       [&quot;save&quot;, &quot;update&quot;, &quot;remove&quot;, &quot;load&quot;].forEach(function (type) {
+           parent[op](type, function (next) {
+               return self[&quot;_&quot; + op + type.charAt(0).toUpperCase() + type.slice(1)](next, this);
+           });
+       }, this);
+   }, this);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="isEager"></a>
+    <h3>
+        isEager
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined associations/_Association.js</em>
+
+<p>
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Boolean</code> true if the association is eager.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.fetchType == fetch.EAGER;
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

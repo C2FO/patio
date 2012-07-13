@@ -1,9 +1,8 @@
 PREFIX ?= /usr/local
 PWD = `pwd`
 JSCOV = support/jscoverage/node-jscoverage
-JS_FILES = $(shell find ./lib | grep index.js && find lib | awk '!/index.js/ && /.js/' )
 BENCHMARKS = `find benchmark -name *benchmark.js `
-DOC_COMMAND=java -jar ./support/jsdoc/jsrun.jar ./support/jsdoc/app/run.js -t=./support/jsdoc/templates/CoolTemplate -d=./docs/api  -D="github:pollenware/patio"
+DOC_COMMAND=coddoc -f multi-html -d /Users/doug/git/patio/lib --dir /Users/doug/git/patio/docs
 
 test:
 	export NODE_PATH=$NODE_PATH:lib && ./node_modules/it/bin/it
@@ -12,10 +11,10 @@ test-coverage:
 	rm -rf ./lib-cov && node-jscoverage ./lib ./lib-cov && export NODE_PATH=$NODE_PATH:lib-cov && ./node_modules/it/bin/it
 
 docs: docclean
-	$(DOC_COMMAND) $(JS_FILES)
+	$(DOC_COMMAND)
 
 docclean :
-	rm -rf docs/api
+	rm -rf docs/*
 
 benchmarks:
 	for file in $(BENCHMARKS) ; do \

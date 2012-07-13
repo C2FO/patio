@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=".sql"></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+                  <div class="container">
+                    <a href="#" class="brand">
+                                
+                                
+                                
+                                        
+                                 <span class="label label-success">Public</span>
+                                        
+                                
+                    </a>
+                   <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                            </a>
+
+                            <div class="nav-collapse">
+            
+            </div>
+            </div>
+     </div>
+</div>
+<em>Defined sql.js</em>
+
+<p>
+Collection of SQL related types, and expressions.
+
+<p>
+ The <a href='./patio.html#.sql'> patio.sql</a> object
+ can be used directly to create <a href='./patio_sql_Expression.html#'> patio.sql.Expression</a>s, <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>s, <a href='./patio_sql_SQLFunction.html#'> patio.sql.SQLFunction</a>s,
+ and <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>s.
+<pre class='code'>
+ var sql = patio.sql;
+ //creating an identifier
+ sql.a; //=> a;
+
+ //creating a qualified identifier
+ sql.table__column; //table.column;
+
+ //BooleanExpression
+ sql.a.lt(sql.b); //=> a < 'b';
+
+ //SQL Functions
+ sql.sum(sql.a); //=> sum(a)
+ sql.avg(sql.b); //=> avg(b)
+ sql.a("b", 1); //=> a(b, 1)
+ sql.myDatabasesObjectFunction(sql.a, sql.b, sql.c); //=> myDatabasesObjectFunction(a, b, c);
+
+ //combined
+ sql.a.cast("boolean"); //=> 'CAST(a AS boolean)'
+ sql.a.plus(sql.b).lt(sql.c.minus(3) //=> ((a + b) < (c - 3))
+
+</pre>
+
+This is useful when combined with dataset filtering
+
+<pre class="code">
+ var ds = DB.from("t");
+
+ ds.filter({a:[sql.b, sql.c]}).sql;
+     //=> SELECT * FROM t WHERE (a IN (b, c))
+
+ ds.select(sql["case"]({b:{c:1}}, false)).sql;
+     //=> SELECT (CASE WHEN b THEN (c = 1) ELSE 'f' END) FROM t
+
+ ds.select(sql.a).qualifyToFirstSource().sql;
+     //=>  SELECT a FROM t
+
+ ds.order(sql.a.desc(), sql.b.asc()).sql;
+     //=>  SELECT * FROM t ORDER BY a DESC, b ASC
+
+ ds.select(sql.a.as("b")).sql;
+     //=> SELECT a AS b FROM t
+
+ ds.filter(sql["case"]({a:sql.b}, sql.c, sql.d)).sql
+     //=> SELECT * FROM t WHERE (CASE d WHEN a THEN b ELSE c END)
+
+ ds.filter(sql.a.cast("boolean")).sql;
+     //=> SELECT * FROM t WHERE CAST(a AS boolean)
+
+ ds.filter(sql.a("b", 1)).sql
+     //=> SELECT * FROM t WHERE a(b, 1)
+ ds.filter(sql.a.plus(sql.b).lt(sql.c.minus(3)).sql;
+     //=> SELECT * FROM t WHERE ((a + b) < (c - 3))
+
+ ds.filter(sql.a.sqlSubscript(sql.b, 3)).sql;
+     //=> SELECT * FROM t WHERE a[b, 3]
+
+ ds.filter('? > ?', sql.a, 1).sql;
+    //=> SELECT * FROM t WHERE (a > 1);
+
+ ds.filter('{a} > {b}', {a:sql.c, b:1}).sql;
+     //=>SELECT * FROM t WHERE (c > 1)
+
+ ds.select(sql.literal("'a'"))
+    .filter(sql.a(3))
+    .filter('blah')
+    .order(sql.literal(true))
+    .group(sql.literal('a > ?', [1]))
+    .having(false).sql;
+     //=>"SELECT 'a' FROM t WHERE (a(3) AND (blah)) GROUP BY a > 1 HAVING 'f' ORDER BY true");
+ </pre>
+
+</p></p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+{
+    /**@lends patio.sql*/
+    /**
+     * Returns a {@link patio.sql.Identifier}, {@link patio.sql.QualifiedIdentifier},
+     * or {@link patio.sql.ALiasedExpression} depending on the format of the string
+     * passed in.
+     *
+     * &lt;ul&gt;
+     *      &lt;li&gt;For columns : table__column___alias.&lt;/li&gt;
+     *      &lt;li&gt;For tables : schema__table___alias.&lt;/li&gt;
+     * &lt;/ul&gt;
+     * each portion of the identifier is optional. See example below
+     *
+     * @example
+     *
+     * patio.sql.identifier(&quot;a&quot;) //= &gt; new patio.sql.Identifier(&quot;a&quot;);
+     * patio.sql.identifier(&quot;table__column&quot;); //=&gt; new patio.sql.QualifiedIdentifier(table, column);
+     * patio.sql.identifier(&quot;table__column___alias&quot;);
+     *      //=&gt; new patio.sql.AliasedExpression(new patio.sql.QualifiedIdentifier(table, column), alias);
+     *
+     * @param {String} name the name to covert to an an {@link patio.sql.Identifier}, {@link patio.sql.QualifiedIdentifier},
+     * or {@link patio.sql.AliasedExpression}.
+     *
+     * @return  {patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} an identifier generated based on the name string.
+     */
+    identifier:function (s) {
+        return sql.stringToIdentifier(s);
+    },
+    /**
+     * @see patio.sql.identifier
+     */
+    stringToIdentifier:function (name) {
+        !Dataset &amp;&amp; (Dataset = require(&quot;./dataset&quot;));
+        return new Dataset().stringToIdentifier(name);
+    },
+    /**
+     * Creates a {@link patio.sql.LiteralString} or {@link patio.sql.PlaceHolderLiteralString}
+     * depending on the arguments passed in. If a single string is passed in then
+     * it is assumed to be a {@link patio.sql.LiteralString}. If more than one argument is
+     * passed in then it is assumed to be a {@link patio.sql.PlaceHolderLiteralString}.
+     *
+     * @example
+     *
+     * //a literal string that will be placed in an SQL query with out quoting.
+     * patio.sql.literal(&quot;a&quot;); //=&gt; new patio.sql.LiteralString(&#x27;a&#x27;);
+     *
+     * //a placeholder string that will have ? replaced with the {@link patio.Dataset#literal} version of
+     * //the arugment and replaced in the string.
+     * patio.sql.literal(&quot;a = ?&quot;, 1)  //=&gt; a = 1
+     * patio.sql.literal(&quot;a = ?&quot;, &quot;b&quot;); //=&gt; a = &#x27;b&#x27;
+     * patio.sql.literal(&quot;a = {a} AND b = {b}&quot;, {a : 1, b : 2}); //=&gt; a = 1 AND b = 2
+     *
+     * @param {String ...} s variable number of arguments where the first argument
+     * is a string. If multiple arguments are passed it is a assumed to be a {@link patio.sql.PlaceHolderLiteralString}
+     *
+     * @return {patio.sql.LiteralString|patio.sql.PlaceHolderLiteralString} an expression that can be used as an argument
+     * for {@link patio.Dataset} query methods.
+     */
+    literal:function (s) {
+        var args = comb.argsToArray(arguments);
+        return args.length &gt; 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);
+    },
+    /**
+     * Returns a {@link patio.sql.CaseExpression}. See {@link patio.sql.CaseExpression} for argument types.
+     *
+     * @example
+     *
+     * sql[&quot;case&quot;]({a:sql.b}, sql.c, sql.d); //=&gt; (CASE t.d WHEN t.a THEN t.b ELSE t.c END)
+     *
+     */
+    &quot;case&quot;:function (hash, /*args**/opts) {
+        var args = comb.argsToArray(arguments).slice(1);
+        return CaseExpression.fromArgs([hashToArray(hash)].concat(args));
+    },
+    /**
+     * Creates a {@link patio.sql.StringExpression}
+     *
+     * Return a {@link patio.sql.StringExpression} representing an SQL string made up of the
+     * concatenation of this array&#x27;s elements.  If an joiner is passed
+     * it is used in between each element of the array in the SQL
+     * concatenation.
+     *
+     * @example
+     *   patio.sql.sqlStringJoin([&quot;a&quot;]); //=&gt; a
+     *   //you can use sql.* as a shortcut to get an identifier
+     *   patio.sql.sqlStringJoin([sql.identifier(&quot;a&quot;), sql.b]);//=&gt; a || b
+     *   patio.sql.sqlStringJoin([sql.a, &#x27;b&#x27;]) # SQL: a || &#x27;b&#x27;
+     *   patio.sql.sqlStringJoin([&#x27;a&#x27;, sql.b], &#x27; &#x27;); //=&gt; &#x27;a&#x27; || &#x27; &#x27; || b
+     */
+    sqlStringJoin:function (arr, joiner) {
+        joiner = joiner || null;
+        var args;
+        arr = arr.map(function (a) {
+            return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : sql.stringToIdentifier(a)
+        });
+        if (joiner) {
+            var newJoiner = [];
+            for (var i = 0; i &lt; arr.length; i++) {
+                newJoiner.push(joiner);
+            }
+            args = array.flatten(array.zip(arr, newJoiner));
+            args.pop();
+        } else {
+            args = arr;
+        }
+        args = args.map(function (a) {
+            return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : &quot;&quot; + a;
+        });
+        return StringExpression.fromArgs([&quot;||&quot;].concat(args));
+    },
+    Year:Year,
+    TimeStamp:TimeStamp,
+    Time:Time,
+    DateTime:DateTime,
+    Float:Float,
+    Decimal:Decimal
+}
+    </pre>
+    
+
+    <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>NegativeBooleanConstant</td><td>declaration</td><td><code>comb.define(BooleanConstant, {</code></td><td>
+Represents inverse boolean constants (currently only NOTNULL). A
+special class to allow for special behavior.
+
+</td><tr></table>
+    
+        <a name=".case"></a>
+    <h3>
+        case
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p>
+Returns a <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>. See <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a> for argument types.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+sql[&quot;case&quot;]({a:sql.b}, sql.c, sql.d); //=&gt; (CASE t.d WHEN t.a THEN t.b ELSE t.c END)
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>hash</em>  : </li>
+    
+        <li> <em>/*args**/opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (hash,/*args**/opts){
+   var args = comb.argsToArray(arguments).slice(1);
+   return CaseExpression.fromArgs([hashToArray(hash)].concat(args));
+       
+}
+    </pre>
+    
+
+
+    
+        <a name=".identifier"></a>
+    <h3>
+        identifier
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p>
+Returns a <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>,
+or <a href='./patio_sql_ALiasedExpression.html#'> patio.sql.ALiasedExpression</a> depending on the format of the string
+passed in.
+
+<ul>
+     <li>For columns : table__column___alias.</li>
+     <li>For tables : schema__table___alias.</li>
+</ul>
+each portion of the identifier is optional. See example below
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+patio.sql.identifier(&quot;a&quot;) //= &gt; new patio.sql.Identifier(&quot;a&quot;);
+patio.sql.identifier(&quot;table__column&quot;); //=&gt; new patio.sql.QualifiedIdentifier(table, column);
+patio.sql.identifier(&quot;table__column___alias&quot;);
+     //=&gt; new patio.sql.AliasedExpression(new patio.sql.QualifiedIdentifier(table, column), alias);
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>s</em>  : </li>
+    
+        <li> <em>name</em> <code>String</code> : the name to covert to an an <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>, or <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression</code> an identifier generated based on the name string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (s){
+   return sql.stringToIdentifier(s);
+       
+}
+    </pre>
+    
+
+
+    
+        <a name=".literal"></a>
+    <h3>
+        literal
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p>
+Creates a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a> or <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>
+depending on the arguments passed in. If a single string is passed in then
+it is assumed to be a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a>. If more than one argument is
+passed in then it is assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//a literal string that will be placed in an SQL query with out quoting.
+patio.sql.literal(&quot;a&quot;); //=&gt; new patio.sql.LiteralString(&#x27;a&#x27;);
+
+//a placeholder string that will have ? replaced with the {@link patio.Dataset#literal} version of
+//the arugment and replaced in the string.
+patio.sql.literal(&quot;a = ?&quot;, 1)  //=&gt; a = 1
+patio.sql.literal(&quot;a = ?&quot;, &quot;b&quot;); //=&gt; a = &#x27;b&#x27;
+patio.sql.literal(&quot;a = {a} AND b = {b}&quot;, {a : 1, b : 2}); //=&gt; a = 1 AND b = 2
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>s</em>  : variable number of arguments where the first argument is a string. If multiple arguments are passed it is a assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a></li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.LiteralString|patio.sql.PlaceHolderLiteralString</code> an expression that can be used as an argument
+for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (s){
+   var args = comb.argsToArray(arguments);
+   return args.length &gt; 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);
+       
+}
+    </pre>
+    
+
+
+    
+        <a name=".sqlStringJoin"></a>
+    <h3>
+        sqlStringJoin
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p>
+Creates a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a>
+
+Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representing an SQL string made up of the
+concatenation of this array's elements.  If an joiner is passed
+it is used in between each element of the array in the SQL
+concatenation.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+patio.sql.sqlStringJoin([&quot;a&quot;]); //=&gt; a
+  //you can use sql.* as a shortcut to get an identifier
+  patio.sql.sqlStringJoin([sql.identifier(&quot;a&quot;), sql.b]);//=&gt; a || b
+  patio.sql.sqlStringJoin([sql.a, &#x27;b&#x27;]) # SQL: a || &#x27;b&#x27;
+  patio.sql.sqlStringJoin([&#x27;a&#x27;, sql.b], &#x27; &#x27;); //=&gt; &#x27;a&#x27; || &#x27; &#x27; || b
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>arr</em>  : </li>
+    
+        <li> <em>joiner</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (arr,joiner){
+   joiner = joiner || null;
+   var args;
+   arr = arr.map(function (a) {
+       return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : sql.stringToIdentifier(a)
+   });
+   if (joiner) {
+       var newJoiner = [];
+       for (var i = 0; i &lt; arr.length; i++) {
+           newJoiner.push(joiner);
+       }
+       args = array.flatten(array.zip(arr, newJoiner));
+       args.pop();
+   } else {
+       args = arr;
+   }
+   args = args.map(function (a) {
+       return comb.isInstanceOf(a, Expression, LiteralString, Boolean) || comb.isNull(a) ? a : &quot;&quot; + a;
+   });
+   return StringExpression.fromArgs([&quot;||&quot;].concat(args));
+       
+}
+    </pre>
+    
+
+
+    
+        <a name=".stringToIdentifier"></a>
+    <h3>
+        stringToIdentifier
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   !Dataset &amp;&amp; (Dataset = require(&quot;./dataset&quot;));
+   return new Dataset().stringToIdentifier(name);
+       
+}
+    </pre>
+    
+
+
+    
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>
+

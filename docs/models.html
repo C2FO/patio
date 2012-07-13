@@ -1,458 +1,573 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
 
-    <title>Patio - Models</title>
-    <meta name="generator" content="JsDoc Toolkit"/>
-    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script type="text/javascript" src="./api/js/doc.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
-    <!--[if gte IE 9]>
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
     <style type="text/css">
-        * {
-            filter: none !important;
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
         }
     </style>
-    <![endif]-->
-    <style type="text/css">
-        .featureList li {
-            margin: 10px;
-        }
-    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
 </head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
 
-<body>
-
-<a href="http://github.com/pollenware/patio" target="patioapi">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
-         alt="Fork me on GitHub">
-</a>
-
-
-<div class="menuContainer">
-    <div class="menuContainerContent">
-        <ul>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./index.html" class="">
-                        <span>Patio</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./connecting.html" class="">
-                        <span>Connecting to a database</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./DDL.html" class="">
-                        <span>Schema CRUD</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./migrations.html" class="">
-                        <span>Migrations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./querying.html" class="">
-                        <span>Querying</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="#" class="">
-                        <span>Models</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./model-inheritance.html" class="">
-                        <span>Model Inheritance</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./associations.html" class="">
-                        <span>Model Associations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./logging.html" class="">
-                        <span>Logging</span>
-                    </a>
-                </span>
-            </li>
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
         </ul>
+        
+      </div>
     </div>
+  </div>
 </div>
-<div class="contentContainer">
-    <div id="content">
-        <div class="section">
-            <h1 class="classTitle"><a href="./api/symbols/patio.Model.html" target="patioapi">Models</a></h1>
-
-            <div class="methodDetail">
-                <h2 class="classTitle">Basics</h2>
-                Models are an optional feature in patio that can be extended to encapsulate, query, and associate
-                tables.
-                <div>
-                    When defining a model it is assumed that the database table already exists. So before defining a
-                    model you must create the table/s that the model requires to function including associations. To
-                    create a model you must <a href="./connecting.html" target="patioapi">connect</a> to a database.
-                </div>
 
 
-                An example model definition flow.
-                    <pre class="code">
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+<h1>Models</h1>
+<p>Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.
+
+</p>
+<p>When defining a model it is assumed that the database table already exists. So before defining a model you must create the table/s that the model requires to function including associations. To create a model you must <a href="./patio.html#connect">connect</a> to a database.
+
+</p>
+<p>An example model definition flow.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
+    format = comb.string.format,
+    patio = require(&quot;patio&quot;);
 patio.camelize = true;
 
-comb.logging.Logger.getRootLogger().level = comb.logging.Level.ERROR;
+//if you want logging
+patio.configureLogging();
 
 //disconnect and error callback helpers
-var disconnect = comb.hitch(patio, "disconnect");
+var disconnect = patio.disconnect.bind(patio);
 var disconnectError = function(err) {
     patio.logError(err);
     patio.disconnect();
 };
 
-var connectAndCreateSchema = function(){
-    //This assumes new tables each time you could just connect to the database
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
-        function(db, patio){
-            //drop and recreate the user
-            db.forceCreateTable("user", function(){
-                this.primaryKey("id");
+//create your DB
+var DB = patio.connect(&quot;mysql://test:testpass@localhost:3306/sandbox&quot;);
+
+//create an initial model. It cannot be used until it is synced. 
+//To sync call User.sync or patio.syncModels is called
+var User = patio.addModel(&quot;user&quot;);
+
+var createSchema = function(){
+    return DB.forceCreateTable(&quot;user&quot;, function(){
+                this.primaryKey(&quot;id&quot;);
                 this.firstName(String)
                 this.lastName(String);
                 this.password(String);
                 this.dateOfBirth(Date);
                 this.created(sql.TimeStamp);
                 this.updated(sql.DateTime);
-            });
-        });
-};
-
-var defineModel = function(){
-    return patio.addModel("user");
+    });
 };
 
 //connect and create schema
 connectAndCreateSchema()
-    .chain(defineModel, disconnectError)
     .then(function(){
-         var User = patio.getModel("user");
-         var myUser = new User({
-             firstName : "Bob",
-             lastName : "Yukon",
-             password : "password",
-             dateOfBirth : new Date(1980, 8, 29)
-         });
-        //save the user
-        myUser.save().then(function(user){
-            console.log(format("%s %s's id is %d", user.firstName, user.lastName, user.id));
-            disconnect();
+        //sync the model so it can be used
+        patio.syncModels().then(function(){
+             var myUser = new User({
+                 firstName : &quot;Bob&quot;,
+                 lastName : &quot;Yukon&quot;,
+                 password : &quot;password&quot;,
+                 dateOfBirth : new Date(1980, 8, 29)
+             });
+            //save the user
+            myUser.save().then(function(user){
+                console.log(format(&quot;%s %s&#39;s id is %d&quot;, user.firstName, user.lastName, user.id));
+                disconnect();
+            }, disconnectError);
         }, disconnectError);
-    }, disconnectError);
-                    </pre>
-                The above example:
-                <ul>
-                    <li>Connects to a database and creates the "user" table.</li>
-                    <li>Defines a User model, remember addModel returns a promise.</li>
-                    <li>Create a new User
-                        <ul>
-                            <li>Save the user</li>
-                            <li>Print out some user details, at this point the user is saved in the database</li>
-                            <li>disconnect from the database</li>
-                        </ul>
-                    </li>
-                </ul>
-                The final output should be "BobYukon's id is 1".
+}, disconnectError);</code></pre>
+<p>The flow for the above example is as follows:
 
-            </div>
-            <div class="methodDetail">
-                <h2 class="classTitle">Options</h2>
-                Models some options that allow for the customization of the way a model be haves when interacting
-                with the database.
+</p>
+<ul>
+<li>Connects to a database and creates the &quot;user&quot; table.</li></li>
+<li>Sync the models. This gets the relevant table information from the &quot;user&quot; table</li>
+<li>Create a new User<ul>
+<li>Save the user</li>
+<li>Print out some user details, at this point the user is saved in the database</li>
+<li>disconnect from the database</li>
+</ul>
+</li>
+<li>The final output should be &quot;BobYukon&#39;s id is 1&quot;.</li>
+</ul>
+<h2>Options</h2>
+<p>Models some options that allow for the customization of the way a model be haves when interacting
+with the database.
 
-                Options.
-                <ul>
-                    <li>
-                        <span style="font-weight: bold;">typecastOnLoad</span> Defaults to true. Set to false to prevent
-                        properties
-                        from being type
-                        casted when loaded from the database. See
-                        <a href="api/symbols/patio.Database.html#typecastValue" target="patioapi">patio.Database
-                            typecastValue
-                        </a>
-                          <pre class="code">
-patio.addModel("user", {
+</p>
+<ul>
+<li><strong>typecastOnLoad</strong> : Defaults to true. Set to false to prevent properties from being type casted when loaded from the database. See <a href="./patio_Database.html#typecastValue">patio.Database.typecastValue</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         typecastOnLoad : false
     }
-});
-                          </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">typecastOnAssignment</span> Defaults to true. Set to false to
-                        prevent
-                        properties from being
-                        type casted when set by something other than the return values from the database. See
-                        <a href="api/symbols/patio.Database.html#typecastValue" target="patioapi">
-                            patio.Database typecastValue
-                        </a>
-
-                          <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>typecastOnAssignment</strong> : Defaults to true. Set to false to prevent properties from being type casted when set by something other than the return values from the database. See <a href="./patio_Database.html#typecastValue">patio.Database.typecastValue</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         typecastOnAssignment : false
     }
-});
-                          </pre>
-                        So the following would not be typecasted.
-                        <pre class='code'>
-var User = patio.getModel("user");
-var myUser = new User();
+});</code></pre>
+<p>So the following would not be typecasted.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var myUser = new User();
 myUser.updated = new Date(2004, 1, 1, 12, 12, 12); //would not be auto converted to a patio.sql.DateTime
-myUser.updated = "2004-02-01 12:12:12" //would not be auto converted to a patio.sql.DateTime
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">typecastEmptyStringToNull</span> Defaults to true. Set to false
-                        to prevent
-                        empty strings from
-                        being typecasted to null.
-                        <pre class="code">
-patio.addModel("user", {
+myUser.updated = &quot;2004-02-01 12:12:12&quot; //would not be auto converted to a patio.sql.DateTime</code></pre>
+<ul>
+<li><strong>typecastEmptyStringToNull</strong> : Defaults to true. Set to false to prevent empty strings from being typecasted to null.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         typecastEmptyStringToNull : false
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">raiseOnTypecastError</span> Defaults to true. Set to false to
-                        prevent
-                        errors thrown while
-                        type casting a value from being propogated.
-                        <span style="font-weight: bold;">USE WITH CARE</span>
-                                                <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>raiseOnTypecastError</strong> : Defaults to true. Set to false to prevent errors thrown while type casting a value from being propogated. <strong>USE WITH CARE</strong></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         raiseOnTypecastError : false
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">useTransactions</span> Defaults to true. Set to false to
-                        prevent models
-                        from using transactions
-                        when saving, deleting, or updating. This applies to the model associations also.
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>useTransactions</strong> :  Defaults to true. Set to false to prevent models from using transactions when saving, deleting, or updating. This applies to the model associations also.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         useTransactions : false
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">identifierOutputMethod</span> Defaults to null. Set this to
-                        override the
-                        Dataset default method
-                        of converting identifiers returned from the database.
-                        <a href="api/symbols/patio.Dataset.html#identifierOutputMethod" target="patioapi">patio.Database
-                            identifierOutputMethod
-                        </a>
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>identifierOutputMethod</strong> : Defaults to null. Set this to override the Dataset default method of converting identifiers returned from the database. See <a href="./patio_Dataset.html#.identifierOutputMethod">patio.Dataset.identifierOutputMethod</a> </li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
-        identifierOutputMethod : "camelize"
+        identifierOutputMethod : &quot;camelize&quot;
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">identifierInputMethod</span> Defaults to null. Set this to
-                        override the
-                        Dataset default method
-                        of converting identifiers when sending them to the database
-                        <a href="api/symbols/patio.Dataset.html#identifierInputMethod" target="patioapi">patio.Database
-                            identifierInputMethod
-                        </a>
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>identifierInputMethod</strong> : Defaults to null. Set this to override the Dataset default method of converting identifiers when sending them to the database. See <a href="./patio_Dataset.html#.identifierInputMethod">patio.Dataset.identifierInputMethod</a>.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
-        identifierInputMethod : "underscore"
+        identifierInputMethod : &quot;underscore&quot;
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">camelize</span> Defaults to null. Set this to force this
-                        particular models
-                        identifiers to be underscored
-                        when sent to the database and camelized when returned. This <span style="font-weight: bold;">WILL</span>
-                        override patio.camelize. <span style="font-weight: bold;">Use
-            with care</span>
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>camelize</strong> : Defaults to null. Set this to true force this particular model&#39;s identifiers to be underscored when sent to the database and camelized when returned. This <strong>WILL</strong> override <code>patio.camelize</code>. <strong>USE WITH CARE</strong></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         camelize : true
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">underscore</span> Defaults to null. Set this to force this
-                        particular
-                        models identifiers to be camelized
-                        when sent to the database and underscored when returned. This <span style="font-weight: bold;">WILL</span>
-                        override patio.underscore. <span style="font-weight: bold;">Use
-            with care</span>
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>underscore</strong> : Defaults to null. Set this to force this particular model&#39;s identifiers to be camelized when sent to the database and underscored when returned. This <strong>WILL</strong> override <code>patio.underscore</code>. <strong>USE WITH CARE</strong></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         underscore : true
     }
-});
-                        </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">reloadOnSave</span> Defaults to true. Set this to false to
-                        prevent the
-                        models properties from
-                        being reloaded from the database after a save operation.
-                        <span style="font-weight: bold;">Note:</span> If
-                        you set this to false and
-                        you have columns that have default values in the database and they are not explictly set they
-                        will
-                        <span style="font-weight: bold;">NOT</span> be loaded
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>reloadOnSave</strong> : Defaults to true. Set this to false to prevent the models properties from being reloaded from the database after a save operation. <strong>Note</strong>: If you set this to false and you have columns that have default values in the database and they are not explictly set they will <strong>NOT</strong> be loaded</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         reloadOnSave : false
     }
-});
-                    </pre>
-                    </li>
-                    <li>
-                        <span style="font-weight: bold;">reloadOnUpdate</span> Defaults to true. Set this to false to
-                        prevent the
-                        models properties from
-                        being reloaded from the database when a model is updated.
-                        <span style="font-weight: bold;">Note:</span> If
-                        you set this to false and
-                        you have columns that have default values in the database and they are not explictly set they
-                        will
-                        <span style="font-weight: bold;">NOT</span> be refreshed.
-                    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<ul>
+<li><strong>reloadOnUpdate</strong> : Defaults to true. Set this to false to prevent the model&#39;s properties from being reloaded from the database when a model is updated. <strong>Note</strong>: If you set this to false and you have columns that have default values in the database and they are not explictly set they will <strong>NOT</strong> be refreshed.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;user&quot;, {
     static : {
         //override default
         reloadOnUpdate : false
     }
-});
-                    </pre>
-                    </li>
-                </ul>
-            </div>
-            <div class="methodDetail">
-                <h2 class="classTitle">Creating a model</h2>
-                To create a Model class to use within your code you use the
-                <a href="api/symbols/patio.html#addModel" target="patioapi">patio
-                    .addModel</a> method. When adding a model you will receive a promise this will resolve once the
-                Model is
-                available
-                to use. <span style="font-weight: bold;">Note:</span> if the table does not exist the promise will
-                errback.
-    <pre class="code">
-patio.addModel("user").then(function(User){
+});</code></pre>
+<h2>Creating a model</h2>
+<p>To create a Model class to use within your code you use the <a href=".patio.html#addModel">patio.addModel</a> method. 
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;)
+
+//you must sync the model before using it 
+User.sync().then(function(User){
     var myUser = new User({
-        firstName : "Bob",
-        lastName : "Yukon",
-        password : "password",
+        firstName : &quot;Bob&quot;,
+        lastName : &quot;Yukon&quot;,
+        password : &quot;password&quot;,
         dateOfBirth : new Date(1980, 8, 29)
     });
     myUser.save().then(function(){
-        console.log(format("%s %s was created at %s", myUser.firstName, myUser.lastName, myUser.created.toString()));
-        console.log(format("%s %s's id is %d", myUser.firstName, myUser.lastName, myUser.id));
+        console.log(format(&quot;%s %s was created at %s&quot;, myUser.firstName, myUser.lastName, myUser.created.toString()));
+        console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser.firstName, myUser.lastName, myUser.id));
     }, disconnectError);
-});
-    </pre>
-                You may also use a dataset when adding a model. You might use this if you are using multiple databases.
-                Or want to
-                use a custom query for a particular model.
-    <pre class="code">
-var DB1 = patio.createConnection("my://connection/string");
-var DB2 = patio.createConnection("my://connection/string2");
+});</code></pre>
+<p>You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to use a custom query as the base for a particular model.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
+var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
 //user table in db1
-var user1Promise = patio.addModel(DB1.from("user"));
+var User1 = patio.addModel(DB1.from(&quot;user&quot;));
 //user table in db2
-var user2Promise = patio.addModel(DB2.from("user"));
-comb.when(user1Promise, user2Promise, function(User1,User2){
+var User2 = patio.addModel(DB2.from(&quot;user&quot;));
+patio.syncModels().then(function(User1,User2){
     var myUser1 = new User1({
-        firstName : "Bob1",
-        lastName : "Yukon1",
-        password : "password",
+        firstName : &quot;Bob1&quot;,
+        lastName : &quot;Yukon1&quot;,
+        password : &quot;password&quot;,
         dateOfBirth : new Date(1980, 8, 29)
     });
     var myUser2 = new User2({
-        firstName : "Bob2",
-        lastName : "Yukon2",
-        password : "password",
+        firstName : &quot;Bob2&quot;,
+        lastName : &quot;Yukon2&quot;,
+        password : &quot;password&quot;,
         dateOfBirth : new Date(1980, 8, 29)
     });
     comb.when(myUser1.save(), myUser2.save(), function(saved){
-         console.log(format("%s %s was created at %s", myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
-         console.log(format("%s %s's id is %d", myUser1.firstName, myUser1.lastName, myUser1.id));
+         console.log(format(&quot;%s %s was created at %s&quot;, myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
+         console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser1.firstName, myUser1.lastName, myUser1.id));
 
-         console.log(format("%s %s was created at %s", myUser2.firstName, myUser2.lastName,myUser2.created.toString()));
-         console.log(format("%s %s's id is %d", myUser2.firstName, myUser2.lastName, myUser2.id));
+         console.log(format(&quot;%s %s was created at %s&quot;, myUser2.firstName, myUser2.lastName,myUser2.created.toString()));
+         console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser2.firstName, myUser2.lastName, myUser2.id));
     });
-});
-    </pre>
+});</code></pre>
+<h2>Custom setters</h2>
+<p>patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.
 
-                <h2 class="classTitle">Custom setters</h2>
-                patio creates setters and getters for each column in the database if you want alter the value of a
-                particular
-                property before its set on the model you can use a custom setter.
-                <br/>
-                <br/>
-                For example if you wanted to ensure proper case and first and last name of a user:
-    <pre class="code">
-var addUserPromise = patio.addModel("user", {
+</p>
+<p>For example if you wanted to ensure proper case and first and last name of a user:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
     instance : {
         _setFirstName : function(firstName){
             return firstName.charAt(0).toUpperCase() + firstName.substr(1);
@@ -464,57 +579,55 @@ var addUserPromise = patio.addModel("user", {
     }
 });
 
-addUserPromise.then(function(User){
+patio.syncModels().then(function(User){
     var myUser = new User({
-        firstName : "bob",
-        lastName : "yukon"
+        firstName : &quot;bob&quot;,
+        lastName : &quot;yukon&quot;
     });
     console.log(myUser.firstName); //Bob
     console.log(myUser.lastName);  //Yukon
-});
-    </pre>
-                <h2 class="classTitle">Model hooks</h2>
-                Each model has the following hooks
-                <ul>
-                    <li>pre
-                        <ul>
-                            <li><b>save</b> : called right before the model is saved to the database</li>
-                            <li><b>update</b> : called right before the model is updated</li>
-                            <li><b>remove</b> : called right before a model is deleted</li>
-                            <li><b>load</b>< : called right before a model is loaded with values from the database</li>
-                        </ul>
-                    </li>
-                    <li>post
-                        <ul>
-                            <li><b>save</b> : called right after the model is saved to the database</li>
-                            <li><b>update</b> : called right after the model is updated</li>
-                            <li><b>remove</b> : called right after a model is deleted</li>
-                            <li><b>load</b>< : called right after a model is loaded with values from the database</li>
-                        </ul>
-                    </li>
-                </ul>
-    <pre class="code">
-patio.addModel("user", {
+});</code></pre>
+<h2>Model hooks</h2>
+<p>Each model has the following hooks
+
+</p>
+<ul>
+<li>pre<ul>
+<li><strong>save&lt;</strong> : called right before the model is saved to the database</li>
+<li><strong>update</strong> : called right before the model is updated</li>
+<li><strong>remove</strong> : called right before a model is deleted</li>
+<li><strong>load</strong> : called right before a model is loaded with values from the database</li>
+</ul>
+</li>
+<li>post<ul>
+<li><strong>save&lt;</strong> : called right after the model is saved to the database</li>
+<li><strong>update</strong> : called right after the model is updated</li>
+<li><strong>remove</strong> : called right after a model is deleted</li>
+<li><strong>load</strong> : called right after a model is loaded with values from the database</li>
+</ul>
+</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
     pre:{
-        "save":function(next){
-            console.log("pre save!!!")
+        &quot;save&quot;:function(next){
+            console.log(&quot;pre save!!!&quot;)
             next();
         },
 
-        "remove" : function(next){
-            console.log("pre remove!!!")
+        &quot;remove&quot; : function(next){
+            console.log(&quot;pre remove!!!&quot;)
             next();
         }
     },
 
     post:{
-        "save":function(next){
-            console.log("post save!!!")
+        &quot;save&quot;:function(next){
+            console.log(&quot;post save!!!&quot;)
             next();
         },
 
-        "remove" : function(next){
-            console.log("post remove!!!")
+        &quot;remove&quot; : function(next){
+            console.log(&quot;post remove!!!&quot;)
             next();
         }
     },
@@ -527,355 +640,329 @@ patio.addModel("user", {
             return lastName.charAt(0).toUpperCase() + lastName.substr(1);
         }
     }
- });
-    </pre>
-                <h2 class="classTitle">Retrieving a model</h2>
-                If you define a model you can either use the result from the
-                <a href="api/symbols/patio.html#addModel" target="patioapi">patio
-                    .addModel</a> promise method, or you can use the
-                <a href="api/symbols/patio.html#getModel" target="patioapi">patio
-                    .getModel</a> method. If the model does not exist it will return <span style="font-weight: bold;">null</span>.
-    <pre class="code">
-patio.addModel("user").then(function(User){
-        //...use the User value
-});
-        
-//OR 
+ });</code></pre>
+<h2>Using a model</h2>
+<p>If you define a model you can either use the Models constructor directly.
 
-patio.addModel("user").then(function(){
-    var User = patio.getModel("user");
-});
-     
-    </pre>
-                If you are working with multiple databases and your model's table is not in the
-                <a href="api/symbols/patio.html#defaultDatabase" target="patioapi">patio.defaultDatabase</a>
-                (the first database you connected to) then you will need to pass in the database the model's table is
-                in.
-    <pre class="code">
-var DB1 = patio.createConnection("my://connection/string");
-var DB2 = patio.createConnection("my://connection/string2");
+</p>
+<pre class='prettyprint linenums lang-js'><code>//define the model
+var User = patio.addModel(&quot;user&quot;);
+
+patio.syncModels(function(err){
+   if(err){
+       console.log(err.stack);
+   }else{
+       var user = new User();
+   }
+})</code></pre>
+<p>or you can use <code>patio.getModel</code>
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>
+patio.addModel(&quot;user&quot;);
+
+patio.syncModels(function(err){
+   if(err){
+       console.log(err.stack);
+   }else{       
+       var User = patio.getModel(&quot;user&quot;);
+       var user = new User();
+   }
+})</code></pre>
+<h3>Mutli Database Models</h3>
+<p>If you are working with multiple databases and your model&#39;s table is not in the <a href="&quot;./patio.html#defaultDatabase&quot;">patio.defaultDatabase</a> (the first database you connected to) then you will need to pass in the database the model&#39;s table is in.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
+var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
 //user table in db1
-var user1Promise = patio.addModel(DB1.from("user"));
+var User1 = patio.addModel(DB1.from(&quot;user&quot;));
 //user table in db2
-var user2Promise = patio.addModel(DB2.from("user"));
-comb.when(user1Promise, user2Promise, function(){
-    var User1 = patio.getModel("user", DB1), User2 = patio.getModel("user", DB2);
-});
-    </pre>
+var User2 = patio.addModel(DB2.from(&quot;user&quot;));
+patio.syncModels(function(err){
+   if(err){
+      console.log(err.stack);
+   }else{
+       var user1 = new User1(), 
+           user2 = new User2();
+   }
+});</code></pre>
+<h3>Creating</h3>
+<p>The static <a href="./patio_Model.html#.save">save</a> can be used for saving a group of models at once. <strong>Note</strong> this method is not any more efficient than creating a model using new, just less verbose.
 
-            </div>
-            <div class="methodDetail">
-                <h2 class="classTitle">Model Actions</h2>
-
-                <div>
-                    The Model contains static methods for all of the datasets methods listed in
-                    <a href="./api/symbols/patio.Dataset.html#.ACTION_METHODS" target="patioapi">patio.Dataset.ACTION_METHODS</a>
-                    as well as all the methods listed in
-                    <a href="./api/symbols/patio.Dataset.html#.QUERY_METHODS" target="patioapi">patio.Dataset.QUERY_METHODS</a>.
-                    Some of the most
-                    commonly used methods are:
-                    <ul>
-                        <li><a href="api/symbols/patio.Dataset.html#forEach" target="patioapi">forEach</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#map" target="patioapi">map</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#all" target="patioapi">all</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#filter" target="patioapi">filter</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#one" target="patioapi">one</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#first" target="patioapi">first</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#last" target="patioapi">last</a></li>
-                        <li><a href="api/symbols/patio.Dataset.html#isEmpty" target="patioapi">isEmpty</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="classTitle">Saving</h3>
-
-
-                    The static <a href="api/symbols/patio.Model.html#.save" target="patioapi">save</a> can be used for
-                    saving
-                    a group of models at once.
-            <pre class="code">
-var Student = patio.getModel("student");
+</p>
+<pre class='prettyprint linenums lang-js'><code>var Student = patio.getModel(&quot;student&quot;);
 Student.save([
       {
-          firstName:"Bob",
-          lastName:"Yukon",
+          firstName:&quot;Bob&quot;,
+          lastName:&quot;Yukon&quot;,
           gpa:3.689,
-          classYear:"Senior"
+          classYear:&quot;Senior&quot;
       },
       {
-          firstName:"Greg",
-          lastName:"Horn",
+          firstName:&quot;Greg&quot;,
+          lastName:&quot;Horn&quot;,
           gpa:3.689,
-          classYear:"Sophomore"
+          classYear:&quot;Sophomore&quot;
       },
       {
-          firstName:"Sara",
-          lastName:"Malloc",
+          firstName:&quot;Sara&quot;,
+          lastName:&quot;Malloc&quot;,
           gpa:4.0,
-          classYear:"Junior"
+          classYear:&quot;Junior&quot;
       },
       {
-          firstName:"John",
-          lastName:"Favre",
+          firstName:&quot;John&quot;,
+          lastName:&quot;Favre&quot;,
           gpa:2.867,
-          classYear:"Junior"
+          classYear:&quot;Junior&quot;
       },
       {
-          firstName:"Kim",
-          lastName:"Bim",
+          firstName:&quot;Kim&quot;,
+          lastName:&quot;Bim&quot;,
           gpa:2.24,
-          classYear:"Senior"
+          classYear:&quot;Senior&quot;
       },
       {
-          firstName:"Alex",
-          lastName:"Young",
+          firstName:&quot;Alex&quot;,
+          lastName:&quot;Young&quot;,
           gpa:1.9,
-          classYear:"Freshman"
+          classYear:&quot;Freshman&quot;
       }
  ]).then(function(users){
-     //work with the users
- });
-            </pre>
-                    When saving a group of models the save method will use a transaction unless the
-                    <a href="api/symbols/patio.Model.html#.useTransactions" target="patioapi">useTransactions</a>
-                    property is
-                    set to false. You can manually override the useTransactions property by passing in an additional
-                    options
-                    parameter with a transaction value set to false.
-                        <pre class="code">
-var Student = patio.getModel("student");
+   //All users have been saved
+ }, disconnectError);</code></pre>
+<p>When saving a group of models the save method will use a transaction unless the <code>useTransactions</code> property is set to false. You can manually override the useTransactions property by passing in an additional options parameter with a transaction value set to false.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var Student = patio.getModel(&quot;student&quot;);
 Student.save([
       {
-          firstName:"Bob",
-          lastName:"Yukon",
+          firstName:&quot;Bob&quot;,
+          lastName:&quot;Yukon&quot;,
           gpa:3.689,
-          classYear:"Senior"
+          classYear:&quot;Senior&quot;
       },
       {
-          firstName:"Greg",
-          lastName:"Horn",
+          firstName:&quot;Greg&quot;,
+          lastName:&quot;Horn&quot;,
           gpa:3.689,
-          classYear:"Sophomore"
+          classYear:&quot;Sophomore&quot;
       }
  ], {transaction : false}).then(function(users){
      //work with the users
- });
-            </pre>
+ });</code></pre>
+<p>If you have an instance of a model then you can use the <a href="./patio_Model.html#save">save</a> method on the instance of the model.
 
-                    If you have an instance of a model then you can use the
-                    <a href="api/symbols/patio.Model.html#save" target="patioapi">save</a> method on the instance of the
-                    model.
-            <pre class="code">
- var User = patio.getModel("user");
- var myUser = new User({
-     firstName : "Bob",
-     lastName : "Yukon",
-     password : "password",
+</p>
+<pre class='prettyprint linenums lang-js'><code>var myUser = new User({
+     firstName : &quot;Bob&quot;,
+     lastName : &quot;Yukon&quot;,
+     password : &quot;password&quot;,
      dateOfBirth : new Date(1980, 8, 29)
- });
+});
 //save the user
 myUser.save().then(function(user){
     //the save is complete
-});
-            </pre>
-                    You can also pass in values into the save method to set before saving.
-            <pre class="code">
-  var User = patio.getModel("user");
- var myUser = new User();
+}, disconnectError);</code></pre>
+<p>You can also pass in values into the save method to set before saving.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var myUser = new User();
 //save the user
 myUser.save({
-     firstName : "Bob",
-     lastName : "Yukon",
-     password : "password",
+     firstName : &quot;Bob&quot;,
+     lastName : &quot;Yukon&quot;,
+     password : &quot;password&quot;,
      dateOfBirth : new Date(1980, 8, 29)
  }).then(function(user){
     //the save is complete
+}, disconnectError);</code></pre>
+<p>You can also pass in an options object to override options such as using a transaction.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var myUser = new User();
+//save the user
+myUser.save({
+     firstName : &quot;Bob&quot;,
+     lastName : &quot;Yukon&quot;,
+     password : &quot;password&quot;,
+     dateOfBirth : new Date(1980, 8, 29)
+ }, {transaction : false}).then(function(user){
+    //the save is complete
+}, disconnectError);</code></pre>
+<h3>Reading</h3>
+<p>The Model contains static methods for all of the datasets methods listed in <a href="./patio_Dataset.html#.ACTION_METHODS">patio.Dataset.ACTION_METHODS</a> as well as all the methods listed in <a href="./patio_Dataset.html#.QUERY_METHODS">patio.Dataset.QUERY_METHODS</a>.
+
+</p>
+<p>Some of the most commonly used methods are:
+
+</p>
+<ul>
+<li><a href="./patio_Dataset.html#forEach">forEach</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
+   console.log(user.firstName);
 });
-   </pre>
-                    You can also pass in an options object to override options such as using a transaction.
-   <pre class="code">
- //set new values and save the model and DO NOT use a transaction
- myUser.save(null, {transaction : false}).then(function(){
-          //do something
- });
 
- </pre>
+//you may also return the result of another query(or any promise) from a forEach block, 
+//this will prevent the forEach&#39;s promise from resolving until all actions that occured in the block have 
+//resolved.
+var Blog = patio.addModel(&quot;blog&quot;);
+User.forEach(funciton(user){
+   //create a blog for each user
+   return new Blog({userId : user.id}).save();
 
+}).then(function(users){
+   //all users and blogs have been saved
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#map">map</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>User.map(function(user){
+   return user.firstName;
+}).then(function(names){
+    console.log(&quot;User names are %s&quot;, names);
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#all">all</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>User.all().then(function(users){
+   console.log(users.length);
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#filter">filter</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//find all users where first names begin with bo case insensitive
+User.filter({firstName : /^bo/i}).all().then(function(){
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#one">one</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>User.filter({id : 1}).one().then(function(user){
+   console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patioDataset.html#first">first</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user WHERE first_name = &#39;bob&#39; ORDER BY last_name LIMIT 1
+User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).first().then(function(user){
+   console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#last">last</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user WHERE first_name = &#39;bob&#39; ORDER BY last_name DESC LIMIT 1
+User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).last().then(function(user){
+   console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
+}, disconnectError);</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#isEmpty">isEmpty</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>
+User.isEmpty().then(function(isEmpty){
+   if(isEmpty){
+      console.log(&quot;user table is empty&quot;);
+   }else{
+      console.log(&quot;user table is not empty&quot;);
+   }
+}, disconnectError);</code></pre>
+<h3>Updating</h3>
+<p>The static <a href="./patio_Model.html#.update">update</a> can be used for updating a batch of models.
 
-                    <h3 class="classTitle">Updating</h3>
-
-
-                    The static <a href="api/symbols/patio.Model.html#.update" target="patioapi">update</a> can be used
-                    for
-                    updating a batch of models.
-            <pre class="code">
-var User = patio.getModel("user");
- //BEGIN
+</p>
+<pre class='prettyprint linenums lang-js'><code> //BEGIN
  //UPDATE `user` SET `password` = NULL
  //COMMIT
- User.update({password : null});
-        </pre>
-                    You can also pass in a query to limit the models that are updated. The filter can be anything that
-                    <a href="api/symbols/patio.Dataset.html#filter">patio.Dataset#filter</a> accepts.
-        <pre class="code">
-//BEGIN
-//UPDATE `user` SET `password` = NULL WHERE (`last_accessed` <= '2011-01-27')
-//COMMIT
-User.update({password : null}, function(){
-    return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
+ User.update({password : null});</code></pre>
+<p>You can also pass in a query to limit the models that are updated. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>User.update({password : null}, function(){
+    return this.lastAccessed.lte(comb.yearsAgo(1));
  });
- //same as
 
-//BEGIN
-//UPDATE `user` SET `password` = NULL WHERE (`last_accessed` <= '2011-01-27')
-//COMMIT
- User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), "year", -1)}});
-</pre>
-                    To prevent default transaction behavior you can pass in an additional transaction option
-        <pre class="code">
- //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` <= '2011-01-27')
- User.update({password : null}, function(){
-    return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));
- }, {transaction : false});
-     </pre>
+//same as
+User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}});</code></pre>
+<p>To prevent default transaction behavior you can pass in an additional transaction option
 
+</p>
+<pre class='prettyprint linenums lang-js'><code>User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}}, {transaction : false});</code></pre>
+<p>If you have an instance of a model and you want to update it you can use the <a href="./patio_Model.html#update">update</a> instance method.
 
-                    If you have an instance of a model and you want to update it you can use the
-                    <a href="api/symbols/patio.Model.html#update" target="patioapi">update</a> instance method.
-            <pre class="code">
-var updateUsers = User.forEach(function(user){
+</p>
+<pre class='prettyprint linenums lang-js'><code>var updateUsers = User.forEach(function(user){
     //returning the promise from update will cause the forEach not to resolve
     //until all updates have completed
-    return user.update({fullName : user.firstName + " " + user.lastName});
+    return user.update({fullName : user.firstName + &quot; &quot; + user.lastName});
 });
 updateUsers.then(function(){
     //updates finished
-});
-            </pre>
-                    as with save you can pass in an options object to prevent default behavior such as transactions.
-                    <pre class="code">
-var updateUsers = User.forEach(function(user){
+});</code></pre>
+<p>as with save you can pass in an options object to prevent default behavior such as transactions.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var updateUsers = User.forEach(function(user){
     //returning the promise from update will cause the forEach not to resolve
     //until all updates have completed
-    return user.update({fullName : user.firstName + " " + user.lastName}, {transaction : false});
+    return user.update({fullName : user.firstName + &quot; &quot; + user.lastName}, {transaction : false});
 });
 updateUsers.then(function(){
     //updates finished
-});
-            </pre>
+});</code></pre>
+<h3>Deleting</h3>
+<p>The static <a href="./patio_Model.html#.remove">remove</a> can be used for removing a batch of models. <strong>Note</strong> this method is not anymore efficient just a convenience.
 
+</p>
+<pre class='prettyprint linenums lang-js'><code>//remove all models
+User.remove();</code></pre>
+<p>To limit the models removed you can pass in a query. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.
 
-                    <h3 class="classTitle">Deleting</h3>
+</p>
+<pre class='prettyprint linenums lang-js'><code>//remove models that start with m
+User.remove({lastName : {like : &quot;m%&quot;}});`</code></pre>
+<p>The default behavior of remove is to load each model and call remove on it. If you wish to just do a mass delete and not load each model you can pass in an additional options object with a key called <code>load</code> set to false.
+<strong>Note</strong> If you do this then the pre/post remove hooks will not be called.
 
+</p>
+<pre class='prettyprint linenums lang-js'><code>//mass remove models without loading them
+User.remove(null, {load : false});</code></pre>
+<p>To prevent the default transaction behavior pass in the transaction option.
 
-                    The static <a href="api/symbols/patio.Model.html#.remove" target="patioapi">remove</a> can be used
-                    for
-                    updating a batch of models.
-        <pre class="code">
-//remove all models
-User.remove();
-        </pre>
-                    To limit the models removed you can pass in a query. The filter can be anything that
-                    <a href="api/symbols/patio.Dataset.html#filter">patio.Dataset#filter</a> accepts.
-       <pre class="code">
-//remove models that start with m
-User.remove({lastName : /m%/i});
-        </pre>
-                    The default behavior of remove is to load each model and call remove on it. If you wish to just do
-                    a mass delete and not load each model you can pass in an additional options object with a key called
-                    load set to
-                    false.
-                    <strong>Note</strong> If you do this then the pre/post remove hooks will not be called.
-               <pre class="code">
-//mass remove models without loading them
-User.remove(null, {load : false});
-        </pre>
-                    The default transaction behavior pass in the transaction option.
-               <pre class="code">
-//removing models, preventing default transaction behaviour
-User.remove(null, {transaction : false});
-        </pre>
-                    If you have an instance of a model and you want to remove it you can use the
-                    <a href="api/symbols/patio.Model.html#remove" target="patioapi">remove</a> instance method.
-<pre class="code">
-User.forEach(function(user){
+</p>
+<pre class='prettyprint linenums lang-js'><code>//removing models, not using a transaction
+User.remove(null, {transaction : false});</code></pre>
+<p>If you have an instance of a model and you want to remove it you can use the <a href="./patio_Model.remove">remove</a> instance method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove();
 }).then(function(){
     //removed
-});
+});</code></pre>
+<p>To prevent the default transaction behavior pass in the transaction option
 
-</pre>
-                    To prevent the default transaction behavior pass in the transaction option
- <pre class="code">
-User.forEach(function(user){
+</p>
+<pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove({transaction : false});
 }).then(function(){
     //removed
-});
+});</code></pre>
 
-</pre>
-                    <h3 class="classTitle">Querying</h3>
-                    Models can be queried just like any other dataset the only difference is that the result will be an
-                    instance of
-                    the
-                    model.
-                    <h3><a href="api/symbols/patio.Dataset.html#forEach" target="patioapi">forEach</a></h3>
-<pre class="code">
-User.forEach(function(user){
-    console.log(user.firstName);
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#map" target="patioapi">map</a></h3>
-<pre class="code">
-User.map(function(user){
-    return user.firstName + " " + user.id;
-}).then(function(userFirstNameIdList){
 
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#all" target="patioapi">all</a></h3>
-<pre class="code">
-User.all().then(function(allUsers){
-    allUsers.forEach(function(user){
-        console.log(user.firstName);
-    });
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#filter" target="patioapi">filter</a></h3>
-<pre class="code">
-var sql = patio.sql;
-var filteredUsers = User.filter({id : {gt : 1}}, sql.firstName.ilike("bob"), function(){
-    return this.lastName.eq("Yukon");
-});
-//perform an action
-filteredUsers.all().then(function(filteredUsersList){
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
 
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#one" target="patioapi">one</a></h3>
-<pre class="code">
-User.one().then(function(user){
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#first" target="patioapi">first</a></h3>
-<pre class="code">
-User.first({id : {gt : 1}}, sql.firstName.ilike("bob")).then(function(user){
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#last" target="patioapi">last</a></h3>
-<pre class="code">
-User.order("id").last().then(function(user){
-});
-</pre>
-                    <h3><a href="api/symbols/patio.Dataset.html#isEmpty" target="patioapi">isEmpty</a></h3>
-<pre class="code">
-User.isEmpty().then(function(isUserTableEmpty){
-    //true if the user table is empty.
-});
-</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

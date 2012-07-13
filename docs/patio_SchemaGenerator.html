@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.SchemaGenerator
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_SchemaGenerator.html#__compositeForeignKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __compositeForeignKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#__compositePrimaryKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __compositePrimaryKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#check">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                check
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#column">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                column
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#constraint">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                constraint
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#foreignKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                foreignKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#fullTextIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                fullTextIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#hasColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                hasColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#index">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                index
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#primaryKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                primaryKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#spatialIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                spatialIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_SchemaGenerator.html#unique">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                unique
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+An internal class that the user is not expected to instantiate directly.
+Instances are created by <a href='./patio_Database.html#createTable'> patio.Database#createTable</a>.
+It is used to specify table creation parameters.  It takes a Database
+object and a block of column/index/constraint specifications, and
+gives the Database a table description, which the database uses to
+create a table.
+
+<a href='./patio_SchemaGenerator.html#'> patio.SchemaGenerator</a> has some methods but also includes method_missing,
+allowing users to specify column type as a method instead of using
+the column method, which makes for a cleaner code.
+</p>
+    
+        <em>Example</em>
+            <pre class="prettyprint linenums lang-js">
+comb.executeInOrder(DB, function(DB){
+      DB.createTable(&quot;airplane_type&quot;, function () {
+         this.primaryKey(&quot;id&quot;);
+         this.name(String, {allowNull:false});
+         this.max_seats(Number, {size:3, allowNull:false});
+         this.company(String, {allowNull:false});
+      });
+     DB.createTable(&quot;airplane&quot;, function () {
+         this.primaryKey(&quot;id&quot;);
+         this.total_no_of_seats(Number, {size:3, allowNull:false});
+         this.foreignKey(&quot;typeId&quot;, &quot;airplane_type&quot;, {key:&quot;id&quot;});
+     });
+     DB.createTable(&quot;flight_leg&quot;, function () {
+         this.primaryKey(&quot;id&quot;);
+         this.scheduled_departure_time(&quot;time&quot;);
+         this.scheduled_arrival_time(&quot;time&quot;);
+         this.foreignKey(&quot;departure_code&quot;, &quot;airport&quot;, {key:&quot;airport_code&quot;, type : String, size : 4});
+         this.foreignKey(&quot;arrival_code&quot;, &quot;airport&quot;, {key:&quot;airport_code&quot;, type : String, size : 4});
+         this.foreignKey(&quot;flight_id&quot;, &quot;flight&quot;, {key:&quot;id&quot;});
+     });
+     DB.createTable(&quot;leg_instance&quot;, function () {
+         this.primaryKey(&quot;id&quot;);
+         this.date(&quot;date&quot;);
+         this.arr_time(&quot;datetime&quot;);
+         this.dep_time(&quot;datetime&quot;);
+         this.foreignKey(&quot;airplane_id&quot;, &quot;airplane&quot;, {key:&quot;id&quot;});
+         this.foreignKey(&quot;flight_leg_id&quot;, &quot;flight_leg&quot;, {key:&quot;id&quot;});
+     });
+});
+            </pre>
+    
+
+    
+
+    
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined database/schemaGenerators.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+function (db){
+   this.db = db;
+   this.columns = [];
+   this.indexes = [];
+   this.constraints = [];
+   this.__primaryKey = null;
+           
+}
+            </pre>
+      
+    
+
+  
+  
+    <a name="__compositeForeignKey"></a>
+    <h3>
+        __compositeForeignKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   this.constraints.push(comb.merge({type:&quot;foreignKey&quot;, columns:columns}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__compositePrimaryKey"></a>
+    <h3>
+        __compositePrimaryKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns){
+   var args = comb.argsToArray(arguments).slice(1);
+   var opts = args.pop() || {};
+   this.constraints.push(comb.merge({type:&quot;primaryKey&quot;, columns:columns}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="check"></a>
+    <h3>
+        check
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add an unnamed constraint to the DDL, specified by the given block
+or args:
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+db.createTable(&quot;test&quot;, function(){
+  this.check({num : {between : [1,5]}})
+     //=&gt; CHECK num &gt;= 1 AND num &lt;= 5
+  this.check(function(){return this.num.gt(5);});
+     //=&gt; CHECK num &gt; 5
+});
+        </pre>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.constraint.apply(this, [null].concat(comb.argsToArray(arguments)));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="column"></a>
+    <h3>
+        column
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a column with the given name, type, and opts to the DDL.
+
+<pre class="code">
+ DB.createTable("test", function(){
+     this.column("num", "integer");
+         //=> num INTEGER
+     this.column('name", String, {allowNull : false, "default" : "a");
+         //=> name varchar(255) NOT NULL DEFAULT 'a'
+     this.column("ip", "inet");
+         //=> ip inet
+  });
+</pre>
+
+You can also create columns via method missing, so the following are
+equivalent:
+<pre class="code">
+DB.createTable("test", function(){
+  this.column("number", "integer");
+  this.number("integer");
+});
+</pre>
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the column</li>
+    
+        <li> <em>type</em>  : the datatype of the column.</li>
+    
+        <li> <em>opts?</em>  : additional options</li>
+    
+        <li> <em>opts.default?</em>  : The default value for the column.</li>
+    
+        <li> <em>opts.deferrable?</em>  : This ensure Referential Integrity will work even if
+               reference table will use for its foreign key a value that does not
+               exists(yet) on referenced table. Basically it adds
+               DEFERRABLE INITIALLY DEFERRED on key creation.</li>
+    
+        <li> <em>opts.index?</em> <code>Boolean</code> : Create an index on this column.</li>
+    
+        <li> <em>key?</em> <code>String|patio.sql.Identifier</code> : For foreign key columns, the column in the associated table
+        that this column references.  Unnecessary if this column references the primary key of the
+        associated table.</li>
+    
+        <li> <em>opts.allowNull?</em> <code>Boolean</code> : Mark the column as allowing NULL values (if true),
+         or not allowing NULL values (if false).  If unspecified, will default
+         to whatever the database default is.</li>
+    
+        <li> <em>opts.onDelete?</em> <code>String</code> : Specify the behavior of this column when being deleted
+              ("restrict", "cascade", "setNull", "setDefault", "noAction").</li>
+    
+        <li> <em>opts.onUpdate?</em> <code>String</code> : Specify the behavior of this column when being updated
+              Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").</li>
+    
+        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : Make the column as a single primary key column.  This should only
+                be used if you have a single, non-autoincrementing primary key column.</li>
+    
+        <li> <em>opts.size?</em> <code>Number</code> : The size of the column, generally used with string
+         columns to specify the maximum number of characters the column will hold.
+         An array of two integers can be provided to set the size and the
+         precision, respectively, of decimal columns.</li>
+    
+        <li> <em>opts.unique?</em> <code>String</code> : Mark the column as unique, generally has the same effect as
+           creating a unique index on the column.</li>
+    
+        <li> <em>opts.unsigned?</em> <code>String</code> : Make the column type unsigned, only useful for integer
+             columns.</li>
+    
+        <li> <em>opts.elements?</em> <code>Array</code> : Available items used for set and enum columns.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,type,opts){
+   opts = opts || {};
+   this.columns.push(comb.merge({name:name, type:type}, opts));
+   if (opts.index) {
+       this.index(name);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="constraint"></a>
+    <h3>
+        constraint
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Adds a named constraint (or unnamed if name is nil) to the DDL,
+with the given block or args.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createTable(&quot;test&quot;, function(){
+     this.constraint(&quot;blah&quot;, {num : {between : [1,5])
+             //=&gt; CONSTRAINT blah CHECK num &gt;= 1 AND num &lt;= 5
+     this.check(&quot;foo&quot;, function(){
+         return this.num.gt(5);
+     }); # CONSTRAINT foo CHECK num &gt; 5
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the constraint</li>
+    
+        <li> <em>args</em>  : variable number of arguments to create the constraint filter.              See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for valid filter arguments.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,args){
+   args = comb.argsToArray(arguments).slice(1);
+   var block = comb.isFunction(args[args.length - 1]) ? args.pop : null;
+   this.constraints.push({name:name, type:&quot;check&quot;, check:block || args});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="foreignKey"></a>
+    <h3>
+        foreignKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+ Add a foreign key in the table that references another table to the DDL. See {@link patio.SchemaGenerator#column{
+for options.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createTable(&quot;flight_leg&quot;, function () {
+     this.primaryKey(&quot;id&quot;);
+     this.scheduled_departure_time(&quot;time&quot;);
+     this.scheduled_arrival_time(&quot;time&quot;);
+     this.foreignKey(&quot;departure_code&quot;, &quot;airport&quot;, {key:&quot;airport_code&quot;, type : String, size : 4});
+     this.foreignKey(&quot;arrival_code&quot;, &quot;airport&quot;, {key:&quot;airport_code&quot;, type : String, size : 4});
+     this.foreignKey(&quot;flight_id&quot;, &quot;flight&quot;, {key:&quot;id&quot;});
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,table,opts){
+   opts = opts || {};
+   opts = comb.isHash(table) ? comb.merge({}, table, opts) : comb.isString(table) ? comb.merge({table:table}, opts) : opts;
+   if (comb.isArray(name)) {
+       return this.__compositeForeignKey(name, opts);
+   } else {
+       return this.column(name, &quot;integer&quot;, opts);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="fullTextIndex"></a>
+    <h3>
+        fullTextIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a full text index on the given columns to the DDL.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createTable(&quot;posts&quot;, function () {
+     this.title(&quot;text&quot;);
+     this.body(&quot;text&quot;);
+     this.fullTextIndex(&quot;title&quot;);
+     this.fullTextIndex([&quot;title&quot;, &quot;body&quot;]);
+ });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   return this.index(columns, comb.merge({type:&quot;fullText&quot;}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="hasColumn"></a>
+    <h3>
+        hasColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+
+Check if the DDL includes the creation of a column with the given name.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Boolean</code> true if the DDL includes the creation of a column with the given name.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   return this.columns.some(function (c) {
+       return c.name == name
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="index"></a>
+    <h3>
+        index
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add an index on the given column(s) with the given options to the DDL.
+The available options are:
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createTable(&quot;test&quot;, function(table) {
+      table.primaryKey(&quot;id&quot;, &quot;integer&quot;, {null : false});
+      table.column(&quot;name&quot;, &quot;text&quot;);
+      table.index(&quot;name&quot;, {unique : true});
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : the column/n to create the index from.</li>
+    
+        <li> <em>opts?</em>  : Additional options</li>
+    
+        <li> <em>opts.type?</em> <code>String</code> : The type of index to use (only supported by some databases)</li>
+    
+        <li> <em>opts.unique?</em> <code>Boolean</code> : :: Make the index unique, so duplicate values are not allowed.</li>
+    
+        <li> <em>opts.where?</em>  : :: Create a partial index (only supported by some databases)</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   this.indexes.push(comb.merge({columns:comb.array.toArray(columns)}, opts || {}));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="primaryKey"></a>
+    <h3>
+        primaryKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Adds an auto-incrementing primary key column or a primary key constraint to the DDL.
+To create a constraint, the first argument should be an array of columns
+specifying the primary key columns. To create an auto-incrementing primary key
+column, a single column can be used. In both cases, an options hash can be used
+as the second argument.
+
+If you want to create a primary key column that is not auto-incrementing, you
+should not use this method.  Instead, you should use the regular <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
+method with a {primaryKey : true} option.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+db.createTable(&quot;airplane_type&quot;, function () {
+     this.primaryKey(&quot;id&quot;);
+         //=&gt; id integer NOT NULL PRIMARY KEY AUTOINCREMENT
+     this.name(String, {allowNull:false});
+     this.max_seats(Number, {size:3, allowNull:false});
+     this.company(String, {allowNull:false});
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   if (comb.isArray(name)) {
+       return this.__compositePrimaryKey.apply(this, arguments);
+   } else {
+       var args = comb.argsToArray(arguments).slice(1), type;
+       var opts = args.pop();
+       this.__primaryKey = comb.merge({}, this.db.serialPrimaryKeyOptions, {name:name}, opts);
+       if ((type = args.pop()) != null) {
+           comb.merge(opts, {type:type});
+       }
+       comb.merge(this.__primaryKey, opts);
+       return this.__primaryKey;
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="spatialIndex"></a>
+    <h3>
+        spatialIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a spatial index on the given columns to the DDL.
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   return this.index(columns, comb.merge({type:&quot;spatial&quot;}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="unique"></a>
+    <h3>
+        unique
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a unique constraint on the given columns to the DDL. See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>
+for argument types.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createTable(&quot;test&quot;, function(){
+  this.unique(&quot;name&quot;);
+         //=&gt; UNIQUE (name)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   this.constraints.push(comb.merge({type:&quot;unique&quot;, columns:comb.array.toArray(columns)}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

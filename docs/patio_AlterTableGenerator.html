@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.AlterTableGenerator
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#__addCompositeForeignKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __addCompositeForeignKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#__addCompositePrimaryKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __addCompositePrimaryKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addConstraint">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addConstraint
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addForeignKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addForeignKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addFullTextIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addFullTextIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addPrimaryKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addPrimaryKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addSpatialIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addSpatialIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#addUniqueConstraint">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addUniqueConstraint
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#dropColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#dropConstraint">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropConstraint
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#dropIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#renameColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                renameColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#setAllowNull">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setAllowNull
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#setColumnDefault">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setColumnDefault
+
+                                </a></li>
+                                
+                                <li><a href="./patio_AlterTableGenerator.html#setColumnType">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setColumnType
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+An internal class that the user is not expected to instantiate directly.
+Instances are created by <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a>.
+It is used to specify table alteration parameters.  It takes a Database
+object and a function which is called in the scope of the <a href='./patio_AlterTableGenerator.html#'> patio.AlterTableGenerator</a>
+to perform on the table, and gives the Database an array of table altering operations,
+which the database uses to alter a table's description.
+
+</p>
+    
+        <em>Example</em>
+            <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;xyz&quot;, function() {
+     this.addColumn(&quot;aaa&quot;, &quot;text&quot;, {null : false, unique : true});
+     this.dropColumn(&quot;bbb&quot;);
+     this.renameColumn(&quot;ccc&quot;, &quot;ddd&quot;);
+     this.setColumnType(&quot;eee&quot;, &quot;integer&quot;);
+     this.setColumnDefault(&quot;hhh&quot;, &#x27;abcd&#x27;);
+     this.addIndex(&quot;fff&quot;, {unique : true});
+     this.dropIndex(&quot;ggg&quot;);
+});
+
+//or using the passed in generator
+ DB.alterTable(&quot;xyz&quot;, function(table) {
+     table.addColumn(&quot;aaa&quot;, &quot;text&quot;, {null : false, unique : true});
+     table.dropColumn(&quot;bbb&quot;);
+     table.renameColumn(&quot;ccc&quot;, &quot;ddd&quot;);
+     table.setColumnType(&quot;eee&quot;, &quot;integer&quot;);
+     table.setColumnDefault(&quot;hhh&quot;, &#x27;abcd&#x27;);
+     table.addIndex(&quot;fff&quot;, {unique : true});
+     table.dropIndex(&quot;ggg&quot;);
+});
+            </pre>
+    
+
+    
+
+    
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined database/schemaGenerators.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+function (db,block){
+   this.db = db;
+   this.operations = [];
+   block.apply(this, [this]);
+           
+}
+            </pre>
+      
+    
+
+  
+  
+    <a name="__addCompositeForeignKey"></a>
+    <h3>
+        __addCompositeForeignKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,table,opts){
+   this.operations.push(comb.merge({op:&quot;addConstraint&quot;, type:&quot;foreignKey&quot;, columns:columns, table:table}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__addCompositePrimaryKey"></a>
+    <h3>
+        __addCompositePrimaryKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   this.operations.push(comb.merge({op:&quot;addConstraint&quot;, type:&quot;primaryKey&quot;, columns:columns}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addColumn"></a>
+    <h3>
+        addColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a column with the given name, type, and opts to the DDL for the table.
+See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a> for the available options.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;test&quot;, function(){
+  this.addColumn(&quot;name&quot;, String);
+    //=&gt; ADD COLUMN name varchar(255)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>type</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,type,opts){
+   opts = opts || {};
+   this.operations.push(comb.merge({op:&quot;addColumn&quot;, name:name, type:type}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addConstraint"></a>
+    <h3>
+        addConstraint
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a constraint with the given name and args to the DDL for the table.
+See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var sql = patio.sql;
+DB.alterTable(&quot;test&quot;, function(){
+     this.addConstraint(&quot;valid_name&quot;, sql.name.like(&#x27;A%&#x27;));
+         //=&gt;ADD CONSTRAINT valid_name CHECK (name LIKE &#x27;A%&#x27;)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   var args = comb.argsToArray(arguments);
+   var block = comb.isFunction(args[args.length - 1]) ? args.pop() : null;
+   this.operations.push({op:&quot;addConstraint&quot;, name:name, type:&quot;check&quot;, check:block || args});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addForeignKey"></a>
+    <h3>
+        addForeignKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a foreign key with the given name and referencing the given table
+to the DDL for the table.  See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
+for the available options.
+
+You can also pass an array of column names for creating composite foreign
+keys. In this case, it will assume the columns exists and will only add
+the constraint.
+
+NOTE: If you need to add a foreign key constraint to a single existing column
+use the composite key syntax even if it is only one column.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;albums&quot;, function(){
+  this.addForeignKey(&quot;artist_id&quot;, &quot;table&quot;);
+         //=&gt;ADD COLUMN artist_id integer REFERENCES table
+  this.addForeignKey([&quot;name&quot;], &quot;table&quot;)
+         //=&gt;ADD FOREIGN KEY (name) REFERENCES table
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,table,opts){
+   opts = opts;
+   if (comb.isArray(name)) {
+       return this.__addCompositeForeignKey(name, table, opts);
+   } else {
+       return this.addColumn(name, &quot;integer&quot;, comb.merge({table:table}, opts));
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addFullTextIndex"></a>
+    <h3>
+        addFullTextIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a full text index on the given columns to the DDL for the table.
+See @{link patio.SchemaGenerator#index} for available options.
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   return this.addIndex(columns, comb.merge({type:&quot;fullText&quot;}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addIndex"></a>
+    <h3>
+        addIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add an index on the given columns to the DDL for the table.  See
+<a href='./patio_SchemaGenerator.html#index'> patio.SchemaGenerator#index</a> for available options.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;table&quot;, function(){
+  this.addIndex(&quot;artist_id&quot;);
+         //=&gt; CREATE INDEX table_artist_id_index ON table (artist_id)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   this.operations.push(comb.merge({op:&quot;addIndex&quot;, columns:comb.array.toArray(columns)}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addPrimaryKey"></a>
+    <h3>
+        addPrimaryKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a primary key to the DDL for the table.  See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
+for the available options.  Like <a href='./patio_ALterTableGenerator.html#addForeignKey'> patio.ALterTableGenerator#addForeignKey</a>, if you specify
+the column name as an array, it just creates a constraint:
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;albums&quot;, function(){
+     this.addPrimaryKey(&quot;id&quot;);
+          //=&gt; ADD COLUMN id serial PRIMARY KEY
+     this.addPrimaryKey([&quot;artist_id&quot;, &quot;name&quot;])
+         //=&gt;ADD PRIMARY KEY (artist_id, name)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,opts){
+   opts = opts || {};
+   if (comb.isArray(name)) {
+       return this.__addCompositePrimaryKey(name, opts);
+   } else {
+       opts = comb.merge({}, this.db.serialPrimaryKeyOptions, opts);
+       delete opts.type;
+       return this.addColumn(name, &quot;integer&quot;, opts);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addSpatialIndex"></a>
+    <h3>
+        addSpatialIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a spatial index on the given columns to the DDL for the table.
+See <a href='./patio_SchemaGenerator.html#index'> patio.SchemaGenerator#index</a> for available options.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   this.addIndex(columns, comb.merge({}, {type:&quot;spatial&quot;}, opts))
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addUniqueConstraint"></a>
+    <h3>
+        addUniqueConstraint
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Add a unique constraint to the given column(s).
+See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;test&quot;, function(){
+  this.addUniqueConstraint(&quot;name&quot;);
+     //=&gt; ADD UNIQUE (name)
+  this.addUniqueConstraint(&quot;name&quot;, {name : &quot;uniqueName});
+     //=&gt; ADD CONSTRAINT uniqueName UNIQUE (name)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   this.operations.push(comb.merge({op:&quot;addConstraint&quot;, type:&quot;unique&quot;, columns:comb.array.toArray(columns)}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropColumn"></a>
+    <h3>
+        dropColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Remove a column from the DDL for the table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;albums&quot;, function(){
+  this.dropColumn(&quot;artist_id&quot;);
+     //=&gt;DROP COLUMN artist_id
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the column to drop.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   this.operations.push({op:&quot;dropColumn&quot;, name:name});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropConstraint"></a>
+    <h3>
+        dropConstraint
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Remove a constraint from the DDL for the table.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;test&quot;, function(){
+     this.dropConstraint(&quot;constraint_name&quot;);
+         //=&gt;DROP CONSTRAINT constraint_name
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the constraint to drop.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   this.operations.push({op:&quot;dropConstraint&quot;, name:name});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropIndex"></a>
+    <h3>
+        dropIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Remove an index from the DDL for the table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;albums&quot;, function(){
+  this.dropIndex(&quot;artist_id&quot;)
+     //=&gt;DROP INDEX table_artist_id_index
+  this.dropIndex([&quot;a&quot;, &quot;b&quot;])
+     //=&gt;DROP INDEX table_a_b_index
+  this.dropIndex([&quot;a&quot;, &quot;b&quot;], {name : &quot;foo&quot;})
+         //=&gt;DROP INDEX foo
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columns,opts){
+   opts = opts || {};
+   this.operations.push(comb.merge({op:&quot;dropIndex&quot;, columns:comb.array.toArray(columns)}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="renameColumn"></a>
+    <h3>
+        renameColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Modify a column's name in the DDL for the table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;artist&quot;, function(){
+     this.renameColumn(&quot;name&quot;, &quot;artistName&quot;);
+         //=&gt; RENAME COLUMN name TO artist_name
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>newName</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,newName,opts){
+   opts = opts || {};
+   this.operations.push(comb.merge({op:&quot;renameColumn&quot;, name:name, newName:newName}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setAllowNull"></a>
+    <h3>
+        setAllowNull
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Modify a column's NOT NULL constraint.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;artist&quot;, function(){
+  this.setColumnAllowNull(&quot;artist_name&quot;, false);
+     //=&gt; ALTER COLUMN artist_name SET NOT NULL
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>allowNull</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,allowNull){
+   this.operations.push({op:&quot;setColumnNull&quot;, name:name, &quot;null&quot;:allowNull});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setColumnDefault"></a>
+    <h3>
+        setColumnDefault
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Modify a column's default value in the DDL for the table.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;artist&quot;, function(){
+     //=&gt;this.setColumnDefault(&quot;artist_name&quot;, &quot;a&quot;);
+         //=&gt; ALTER COLUMN artist_name SET DEFAULT &#x27;a&#x27;
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>def</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,def){
+   this.operations.push({op:&quot;setColumnDefault&quot;, name:name, &quot;default&quot;:def});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setColumnType"></a>
+    <h3>
+        setColumnType
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p>
+Modify a column's type in the DDL for the table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;artist&quot;, function(){
+  this.setColumnType(&quot;artist_name&quot;, &#x27;char(10)&#x27;);
+     //=&gt; ALTER COLUMN artist_name TYPE char(10)
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>type</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,type,opts){
+   opts = opts || {}
+   this.operations.push(comb.merge({op:&quot;setColumnType&quot;, name:name, type:type}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

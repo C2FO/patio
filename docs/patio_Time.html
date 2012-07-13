@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.Time
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
+                        
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_Time.html#dateTimeToString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dateTimeToString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#dateToString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dateToString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#stringToDate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                stringToDate
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#stringToDateTime">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                stringToDateTime
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#stringToTime">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                stringToTime
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#stringToTimeStamp">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                stringToTimeStamp
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#stringToYear">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                stringToYear
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#timeStampToString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                timeStampToString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#timeToString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                timeToString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Time.html#yearToString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                yearToString
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+Mixin that provides time formatting/coversion functions.
+
+</p>
+    
+
+    
+
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>DATETIME_FORMAT_TZ</td><td>String</td><td><code>
+yyyy-MM-dd HH:mm:ssZ
+     </code></td><td>
+Datetime format used if the default fails. This format includes timezone info.</td><tr><tr><td>DATETIME_TWO_YEAR_FORMAT</td><td>String</td><td><code>
+yy-MM-dd HH:mm:ss
+
+     </code></td><td>
+Two year datetime format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.</td><tr><tr><td>DEFAULT_DATETIME_FORMAT</td><td>String</td><td><code>
+yyyy-MM-dd HH:mm:ss
+</code></td><td>
+Default datetime format</td><tr><tr><td>DEFAULT_DATE_FORMAT</td><td>String</td><td><code>
+yyyy-MM-dd
+</code></td><td>
+
+default date format.</td><tr><tr><td>DEFAULT_TIMESTAMP_FORMAT</td><td>String</td><td><code>
+yyyy-MM-dd HH:mm:ss
+</code></td><td>
+Default timestamp format</td><tr><tr><td>DEFAULT_TIME_FORMAT</td><td>String</td><td><code>
+HH:mm:ss
+</code></td><td>
+Default time format</td><tr><tr><td>DEFAULT_YEAR_FORMAT</td><td>String</td><td><code>
+yyyy
+</code></td><td>
+Default year format</td><tr><tr><td>ISO_8601</td><td>String</td><td><code>
+yyyy-MM-ddTHH:mm:ssZ
+     </code></td><td>
+ISO-8601 format</td><tr><tr><td>ISO_8601_TWO_YEAR</td><td>String</td><td><code>
+yy-MM-ddTHH:mm:ssZ
+     </code></td><td>
+Two year ISO-8601 format</td><tr><tr><td>TIMESTAMP_FORMAT_TZ</td><td>String</td><td><code>
+yyyy-MM-dd HH:mm:ssZ
+     </code></td><td>
+Timestamp format used if the default fails. This format includes timezone info.</td><tr><tr><td>TIMESTAMP_TWO_YEAR_FORMAT</td><td>String</td><td><code>
+yy-MM-dd HH:mm:ss
+
+     </code></td><td>
+Two year timestamp format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.</td><tr><tr><td>TWO_YEAR_DATE_FORMAT</td><td>String</td><td><code>
+yy-MM-dd
+</code></td><td>
+Two year date format
+This is used in date coversions when convertTwoDigitYears is used.
+
+If this format fails then dateFormat|DEFAULT_DATE_FORMAT is used.</td><tr><tr><td>convertTwoDigitYears</td><td>Boolean</td><td><code>
+true
+</code></td><td>
+By default patio will try to covert all two digit years.
+To turn this off:</td><tr><tr><td>dateFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATE_FORMAT'> patio.Time#DEFAULT_DATE_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>dateTimeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>timeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>timeStampFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>yearFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr></table>
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined time.js</em>
+    
+    
+    
+
+  
+  
+    <a name="dateTimeToString"></a>
+    <h3>
+        dateTimeToString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a @link{patio.sql.DateTime} to a string.
+The format used is <a href='./patio_Time.html#dateTimeFormat'> patio.Time#dateTimeFormat</a>,
+which defaults to <a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date = new Date(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+offset = &quot;-0600&quot;;
+patio.dateTimeToString(date); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+patio.dateTimeToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.dateTimeToString(date); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+patio.dateTimeToString(dateTime); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.dateTimeToString(date); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+patio.dateTimeToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+
+patio.dateTimeFormat = patio.ISO_8601;
+patio.dateTimeToString(date); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+patio.dateTimeToString(dateTime); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateTimeToString(date); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+patio.dateTimeToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the datetime to covert to to a string.</li>
+    
+        <li> <em>format</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the date string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   return date.format(comb.isInstanceOf(dt, SQL.DateTime) ? dt.date : dt, format || this.dateTimeFormat);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="dateToString"></a>
+    <h3>
+        dateToString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a date to a string.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date = new Date(2004, 1, 1),
+timeStamp = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+year = new sql.Year(2004),
+time = new sql.Time(12,12,12),
+
+//convert years
+patio.dateToString(year); //=&gt; &#x27;2004&#x27;
+patio.yearFormat = &quot;yy&quot;;
+patio.dateToString(year); //=&gt; &#x27;04&#x27;
+patio.yearFormat = patio.DEFAULT_YEAR_FORMAT;
+patio.dateToString(year); //=&gt; &#x27;2004&#x27;
+
+//convert times
+patio.dateToString(time); //=&gt; &#x27;12:12:12&#x27;
+
+//convert dates
+patio.dateToString(date); //=&gt; &#x27;2004-02-01&#x27;
+patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+patio.dateToString(date); //=&gt; &#x27;04-02-01&#x27;
+patio.dateFormat = patio.DEFAULT_DATE_FORMAT;
+patio.dateToString(date); //=&gt; &#x27;2004-02-01&#x27;
+
+//convert dateTime
+patio.dateToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.dateToString(dateTime); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.dateToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+patio.dateTimeFormat = patio.ISO_8601;
+patio.dateToString(dateTime); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+patio.dateTimeFormat = patio.DEFAULT_DATETIME_FORMAT;
+patio.dateToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+
+//convert timestamps
+patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.dateToString(timeStamp); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+patio.timeStampFormat = patio.ISO_8601;
+patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+patio.dateToString(timeStamp); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+patio.timeStampFormat = patio.DEFAULT_TIMESTAMP_FORMAT;
+patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the date to covert to to a string.</li>
+    
+        <li> <em>format</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the date string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   var ret = &quot;&quot;;
+   if (comb.isInstanceOf(dt, SQL.Time)) {
+     ret = this.timeToString(dt, format);
+   } else if (comb.isInstanceOf(dt, SQL.Year)) {
+     ret = this.yearToString(dt, format);
+   } else if (comb.isInstanceOf(dt, SQL.DateTime)) {
+     ret = this.dateTimeToString(dt, format);
+   } else if (comb.isInstanceOf(dt, SQL.TimeStamp)) {
+     ret = this.timeStampToString(dt, format);
+   } else if (comb.isDate(dt)) {
+     ret = date.format(dt, format || this.dateFormat);
+   }
+   return ret;
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="stringToDate"></a>
+    <h3>
+        stringToDate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a date string to a Date
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date = new Date(2004, 1,1,0,0,0);
+patio.stringToDate(&#x27;2004-02-01&#x27;); //=&gt; date
+
+patio.dateFormat = patio.TWO_YEAR_DATE_FORMAT;
+patio.stringToDate(&#x27;04-02-01&#x27;); //=&gt; date
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the string to convert to a Date</li>
+    
+        <li> <em>[format= <code>patio.Time#dateFormat</code>]</em>  : the format to use when converting the date.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Date</code> the <a href='./Date.html#'> Date</a></li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   var ret;
+   if (this.convertTwoDigitYears) {
+     ret = date.parse(dt, this.TWO_YEAR_DATE_FORMAT);
+   }
+   if (!ret) {
+     ret = date.parse(dt, format || this.dateFormat);
+   }
+   if (!ret) {
+     throw new PatioError(&quot;Unable to convert date: &quot; + dt);
+   }
+   return ret;
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="stringToDateTime"></a>
+    <h3>
+        stringToDateTime
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a datetime date string to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var dateTime = new sql.DateTime(2004, 1, 1, 12, 12, 12),
+offset = getTimeZoneOffset();
+patio.stringToDateTime(&#x27;2004-02-01 12:12:12&#x27;); //=&gt; dateTime
+
+patio.dateTimeFormat = patio.DATETIME_TWO_YEAR_FORMAT;
+patio.stringToDateTime(&#x27;04-02-01 12:12:12-0600&#x27;); //=&gt; dateTime
+
+patio.dateTimeFormat = patio.DATETIME_FORMAT_TZ;
+patio.stringToDateTime(&#x27;2004-02-01 12:12:12-0600&#x27;); //=&gt; dateTime
+
+patio.dateTimeFormat = patio.ISO_8601;
+patio.stringToDateTime(&#x27;2004-02-01T12:12:12-0600&#x27;); //=&gt; dateTime
+
+patio.dateTimeFormat = patio.ISO_8601_TWO_YEAR;
+patio.stringToDateTime(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; dateTime
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a></li>
+    
+        <li> <em>fmt</em>  : </li>
+    
+        <li> <em>[format= <code>patio.Time#dateTimeFormat</code>]</em> <code>String</code> : the format to use when converting the date.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.DateTime</code> the <a href='./patio_sql_DateTime.html#'>patio.sql.DateTime</a></li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,fmt){
+   var useT = dt.indexOf(&quot;T&quot;) != -1;
+   //test if there is a T in the string so we can try to properly convert it
+   var format = fmt ? fmt : useT ? this.ISO_8601 : this.DEFAULT_DATETIME_FORMAT;
+   var ret = date.parse(dt, format);
+   //if the coversion failed try it with a time zone
+   !ret &amp;&amp; (ret = date.parse(dt, this.DATETIME_FORMAT_TZ));
+   if (!ret &amp;&amp; this.convertTwoDigitYears) {
+     //if we still fail and we need to convert two digit years try the twoYearFormat
+     var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.DATETIME_TWO_YEAR_FORMAT;
+     ret = date.parse(dt, twoYearFormat);
+     //try with time zone
+     !ret &amp;&amp; (ret = date.parse(dt, twoYearFormat + &quot;Z&quot;));
+   }
+   if (!ret) {
+     throw new PatioError(&quot;Unable to convert datetime: &quot; + dt);
+   }
+   return new SQL.DateTime(ret);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="stringToTime"></a>
+    <h3>
+        stringToTime
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a time date string to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var time = new sql.Time(12,12,12);
+patio.stringToTime(&quot;12:12:12&quot;); //=&gt; time
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a></li>
+    
+        <li> <em>[format= <code>patio.Time#timeFormat</code>]</em>  : the format to use when converting the date.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.Time</code> the <a href='./patio_sql_Time.html#'> patio.sql.Time</a></li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   var ret = date.parse(dt, format || this.timeFormat);
+   if (!ret) {
+     throw new PatioError(&quot;Unable to convert time: &quot; + dt);
+   }
+   return new SQL.Time(ret);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="stringToTimeStamp"></a>
+    <h3>
+        stringToTimeStamp
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a timestamp date string to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var timeStamp = new sql.TimeStamp(2004, 1, 1, 12, 12, 12);
+patio.stringToTimeStamp(&#x27;2004-02-01 12:12:12&#x27;); //=&gt; timeStamp
+
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.stringToTimeStamp(&#x27;04-02-01 12:12:12-0600&#x27;); //=&gt; timeStamp
+
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.stringToTimeStamp(&#x27;2004-02-01 12:12:12-0600&#x27;); //=&gt; timeStamp
+
+patio.timeStampFormat = patio.ISO_8601;
+patio.stringToTimeStamp(&#x27;2004-02-01T12:12:12-0600&#x27;); //=&gt; timeStamp
+
+patio.timeStampFormat = patio.ISO_8601_TWO_YEAR;
+patio.stringToTimeStamp(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; timeStamp
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></li>
+    
+        <li> <em>fmt</em>  : </li>
+    
+        <li> <em>[format= <code>patio.Time#timeStampFormat</code>]</em> <code>String</code> : the format to use when converting the date.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.TimeStamp</code> the <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,fmt){
+   var useT = dt.indexOf(&quot;T&quot;) != -1;
+   //test if there is a T in the string so we can try to properly convert it
+   var format = fmt ? fmt : useT ? this.ISO_8601 : this.DEFAULT_TIMESTAMP_FORMAT;
+   var ret = date.parse(dt, format);
+   //if the coversion failed try it with a time zone
+   !ret &amp;&amp; (ret = date.parse(dt, this.TIMESTAMP_FORMAT_TZ));
+   if (!ret &amp;&amp; this.convertTwoDigitYears) {
+     //if we still fail and we need to convert two digit years try the twoYearFormat
+     var twoYearFormat = fmt ? fmt : useT ? this.ISO_8601_TWO_YEAR : this.TIMESTAMP_TWO_YEAR_FORMAT;
+     ret = date.parse(dt, twoYearFormat);
+     //try with time zone
+     !ret &amp;&amp; (ret = date.parse(dt, twoYearFormat + &quot;Z&quot;));
+   }
+   if (!ret) {
+     throw new PatioError(&quot;Unable to convert timestamp: &quot; + dt);
+   }
+   return new SQL.TimeStamp(ret);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="stringToYear"></a>
+    <h3>
+        stringToYear
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a year date string to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var year = new sql.Year(2004);
+patio.stringToYear(&quot;2004&quot;); //=&gt; year
+patio.yearFormat = &quot;yy&quot;;
+patio.stringToYear(&quot;04&quot;); //=&gt; year
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the string to covert to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a></li>
+    
+        <li> <em>[format= <code>patio.Time#yearFormat</code>]</em>  : the format to use when converting the date.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.Year</code> the <a href='./patio_sql_Year.html#'> patio.sql.Year</a></li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   var ret = date.parse(dt, format || this.yearFormat);
+   if (!ret) {
+     throw new PatioError(&quot;Unable to convert year: &quot; + dt);
+   }
+   return new SQL.Year(ret);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="timeStampToString"></a>
+    <h3>
+        timeStampToString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a> to a string.
+The format used is <a href='./patio_Time.html#timeStampFormat'> patio.Time#timeStampFormat</a>,
+which defaults to <a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date = new Date(2004, 1, 1, 12, 12, 12),
+dateTime = new sql.TimeStamp(2004, 1, 1, 12, 12, 12),
+offset = &quot;-0600&quot;;
+patio.timeStampToString(date); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+patio.timeStampToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
+
+patio.timeStampFormat = patio.TIMESTAMP_TWO_YEAR_FORMAT;
+patio.timeStampToString(date); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+patio.timeStampToString(dateTime); //=&gt; &#x27;04-02-01 12:12:12&#x27;
+
+patio.timeStampFormat = patio.TIMESTAMP_FORMAT_TZ;
+patio.timeStampToString(date); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+patio.timeStampToString(dateTime); //=&gt; &#x27;2004-02-01 12:12:12-0600&#x27;
+
+patio.timeStamp = patio.ISO_8601;
+patio.timeStampToString(date); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+patio.timeStampToString(dateTime); //=&gt; &#x27;2004-02-01T12:12:12-0600&#x27;
+
+patio.timeStamp = patio.ISO_8601_TWO_YEAR;
+patio.timeStampToString(date); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+patio.timeStampToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the timestamp to convert to to a string.</li>
+    
+        <li> <em>format</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the date string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   return date.format(comb.isInstanceOf(dt, SQL.TimeStamp) ? dt.date : dt, format || this.timeStampFormat);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="timeToString"></a>
+    <h3>
+        timeToString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a <a href='./sql_Time.html#'> sql.Time</a> to a string.
+The format used is <a href='./patio_Time.html#timeFormat'> patio.Time#timeFormat</a>,
+which defaults to <a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date =  new Date(null, null, null, 13, 12, 12),
+    time = new sql.Time(13,12,12);
+patio.timeToString(date); //=&gt; &#x27;13:12:12&#x27;
+patio.timeToString(time); //=&gt; &#x27;13:12:12&#x27;
+patio.timeFormat = &quot;hh:mm:ss&quot;;
+patio.timeToString(date); //=&gt; &#x27;01:12:12&#x27;
+patio.timeToString(time); //=&gt; &#x27;01:12:12&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the time to covert to to a string.</li>
+    
+        <li> <em>format</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the date string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   return date.format(comb.isInstanceOf(dt, SQL.Time) ? dt.date : dt, format || this.timeFormat);
+       
+}
+    </pre>
+    
+
+
+  
+    <a name="yearToString"></a>
+    <h3>
+        yearToString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined time.js</em>
+
+<p>
+Converts a <a href='./patio_sql_Year.html#'> patio.sql.Year</a> to a string.
+The format used is <a href='./patio_Time.html#yearFormat'> patio.Time#yearFormat</a>,
+which defaults to <a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var date = new Date(2004, 1, 1, 1, 1, 1),
+    year = new sql.Year(2004);
+patio.yearToString(date); //=&gt; &#x27;2004&#x27;
+patio.yearToString(year); //=&gt; &#x27;2004&#x27;
+patio.yearFormat = &quot;yy&quot;;
+patio.yearToString(date); //=&gt; &#x27;04&#x27;
+patio.yearToString(year); //=&gt; &#x27;04&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dt</em>  : the year to covert to to a string.</li>
+    
+        <li> <em>format</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the date string.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dt,format){
+   return date.format(comb.isInstanceOf(dt, SQL.Year) ? dt.date : dt, format || this.yearFormat);
+       
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
+                        
+                        <li><a href="#staticProperties">Static Properties</a></li>
+                        
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio.html#addModel">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addModel
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#configureLogging">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                configureLogging
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#connect">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                connect
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#connectAndExecute">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                connectAndExecute
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#createConnection">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createConnection
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#disconnect">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                disconnect
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#getModel">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                getModel
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#import">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                import
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logDebug">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logDebug
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logError">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logError
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logFatal">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logFatal
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logInfo">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logInfo
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logTrace">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logTrace
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#logWarn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logWarn
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#migrate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                migrate
+
+                                </a></li>
+                                
+                                <li><a href="./patio.html#syncModels">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                syncModels
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+A singleton class that acts as the entry point for all actions performed in patio.
+
+</p>
+    
+        <em>Example</em>
+            <pre class="prettyprint linenums lang-js">
+var patio = require(&quot;patio&quot;);
+
+patio.createConnection(....);
+
+patio.camelize = true;
+patio.quoteIdentifiers=false;
+
+patio.createModel(&quot;my_table&quot;);
+
+
+ //CHANGING IDENTIFIER INPUT METHOD
+
+
+ //use whatever is passed in
+  patio.identifierInputMethod = null;
+ //convert to uppercase
+ patio.identifierInputMethod = &quot;toUpperCase&quot;;
+ //convert to camelCase
+ patio.identifierInputMethod = &quot;camelize&quot;;
+ //convert to underscore
+ patio.identifierInputMethod = &quot;underscore&quot;;
+
+
+ //CHANGING IDENTIFIER OUTPUT METHOD
+
+ //use whatever the db returns
+  patio.identifierOutputMethod = null;
+ //convert to uppercase
+ patio.identifierOutputMethod = &quot;toUpperCase&quot;;
+ //convert to camelCase
+ patio.identifierOutputMethod = &quot;camelize&quot;;
+ //convert to underscore
+ patio.identifierOutputMethod = &quot;underscore&quot;;
+
+ //TURN QUOTING OFF
+  patio.quoteIdentifiers = false
+            </pre>
+    
+
+    
+        <em>Extends</em>
+        <ul>
+            
+                <li> <a href="./patio_Time.html">patio.Time</a></li>
+            
+        </ul>
+    
+
+    
+        <a name="staticProperties"></a>
+        <em>Static Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>patio.Time</td><td></td><td></td><td>
+Mixin that provides time formatting/coversion functions.
+
+</td><tr></table>
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>DATABASES</td><td>patio.Database[]</td><td><code>
+[]
+             </code></td><td>
+An array of databases that are currently connected.
+</td><tr><tr><td>LOGGER</td><td>Logger</td><td><code>
+comb.logging.Logger.getLogger("patio")
+             </code></td><td>
+Returns the root comb logger using this logger you
+can set the levels add appenders etc.
+
+</td><tr><tr><td>camelize</td><td>function</td><td></td><td>
+Sets the whether or not to camelize identifiers coming from the database and to underscore
+identifiers when sending identifiers to the database. Setting this property to true has the same effect
+as:
+<pre class="code">
+    patio.identifierOutputMethod = "camelize";
+    patio.identifierInputMethod = "underscore";
+</pre>
+
+</td><tr><tr><td>defaultDatabase</td><td>patio.Database</td><td><code>
+null
+             </code></td><td>
+Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.
+</td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td>
+Set the method to call on identifiers going into the database.  This affects
+how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
+use camelize. The method can include
+<ul>
+    <li>toUpperCase</li>
+    <li>toLowerCase</li>
+    <li>camelize</li>
+    <li>underscore</li>
+    <li>Other String instance method names.</li>
+</ul>
+
+patio uses toUpperCase identifiers in all SQL strings for most databases.
+
+</td><tr><tr><td>identifierOutputMethod</td><td>String</td><td></td><td>
+Set the method to call on identifiers coming out of the database.  This affects
+the how identifiers are represented by calling the method on them.
+The method can include
+<ul>
+    <li>toUpperCase</li>
+    <li>toLowerCase</li>
+    <li>camelize</li>
+    <li>underscore</li>
+    <li>Other String instance method names.</li>
+</ul>
+most database implementations in patio use toLowerCase
+</td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td></td><td>
+Set whether to quote identifiers for all databases by default. By default,
+patio quotes identifiers in all SQL strings.
+
+</td><tr><tr><td>underscore</td><td>function</td><td></td><td>
+Sets the whether or not to underscore identifiers coming from the database and to camelize
+identifiers when sending identifiers to the database. Setting this property to true has the same effect
+as:
+<pre class="code">
+    patio.identifierOutputMethod = "underscore";
+    patio.identifierInputMethod = "camelize";
+</pre>
+
+
+</td><tr></table>
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined index.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+function (){
+   this._super(arguments);
+   var constants = SQL.Constants;
+   for (var i in constants) {
+       this[i] = constants[i];
+   }
+           
+}
+            </pre>
+      
+    
+
+  
+  
+    <a name="addModel"></a>
+    <h3>
+        addModel
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+This method is used to create a <a href='./patio_Model.html#'> patio.Model</a> object.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var Flight = patio.addModel(&quot;flight&quot;, {
+     instance:{
+             toObject:function () {
+                 var obj = this._super(arguments);
+                 obj.weekdays = this.weekdaysArray;
+                 obj.legs = this.legs.map(function (l) {
+                     return l.toObject();
+                 });
+                 return obj;
+             },
+
+             _setWeekdays:function (weekdays) {
+                 this.weekdaysArray = weekdays.split(&quot;,&quot;);
+                 return weekdays;
+             }
+     },
+
+     static:{
+
+         init:function () {
+             this.oneToMany(&quot;legs&quot;, {
+                 model:&quot;flightLeg&quot;,
+                 orderBy:&quot;scheduledDepartureTime&quot;,
+                 fetchType:this.fetchType.EAGER
+             });
+         },
+
+         byAirline:function (airline) {
+             return this.filter({airline:airline}).all();
+         },
+
+         arrivesAt:function (airportCode) {
+             return this.join(this.flightLeg.select(&quot;flightId&quot;).filter({arrivalCode:airportCode}).distinct(), {flightId:&quot;id&quot;}).all();
+         },
+
+         departsFrom:function (airportCode) {
+             return this.join(this.flightLeg.select(&quot;flightId&quot;).filter({departureCode:airportCode}).distinct(), {flightId:&quot;id&quot;}).all();
+         },
+
+         getters:{
+             flightLeg:function () {
+                 if (!this.__flightLeg) {
+                     this.__flightLeg = this.patio.getModel(&quot;flightLeg&quot;);
+                 }
+                 return this.__flightLeg;
+             }
+         }
+     }
+ });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to use as the base for the model.</li>
+    
+        <li> <em>supers</em>  : </li>
+    
+        <li> <em>proto?</em>  : an object to be used as the prototype for the model. See
+<a href="http://pollenware.github.com/comb/symbols/comb.html#.define">comb.define</a>.</li>
+    
+        <li> <em>Parent</em> <code>patio.Model|patio.Model[]</code> : models of this model.                  See <a href='./patio_plugins_ClassTableInheritancePlugin.html#'> patio.plugins.ClassTableInheritancePlugin</a>.</li>
+    
+        <li> <em>Object[]?</em>  : [proto.plugins] this can be used to specify additional plugins to use such as.
+<ul>
+    <li>{@link patio.plugins.TimeStampPlugin</li>
+    <li>{@link patio.plugins.CachePlugin</li>
+</ul></li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,supers,proto){
+   return model.create.apply(model, arguments)
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="configureLogging"></a>
+    <h3>
+        configureLogging
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+This can be used to configure logging. If a options
+hash is passed in then it will passed to the comb.logging.PropertyConfigurator.
+If the options are omitted then a ConsoleAppender will be added and the level will
+be set to info.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var config = {
+    &quot;patio&quot; : {
+        level : &quot;INFO&quot;,
+        appenders : [
+            {
+                type : &quot;RollingFileAppender&quot;,
+                file : &quot;/var/log/patio.log&quot;,
+            },
+            {
+                type : &quot;RollingFileAppender&quot;,
+                file : &quot;/var/log/patio-error.log&quot;,
+                name : &quot;errorFileAppender&quot;,
+                level : &quot;ERROR&quot;
+            }
+        ]
+};
+
+patio.configureLogging(config);
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (opts){
+   if (comb.isHash(opts)) {
+       new comb.logging.PropertyConfigurator().configure(opts);
+   } else {
+       new comb.logging.BasicConfigurator().configure();
+       LOGGER.level = &quot;info&quot;;
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="connect"></a>
+    <h3>
+        connect
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+ </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.createConnection.apply(this, arguments);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="connectAndExecute"></a>
+    <h3>
+        connectAndExecute
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+This method allows one to connect to a database and immediately execute code.
+For connection options </p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var DB;
+var CONNECT_STRING = &quot;dummyDB://test:testpass@localhost/dummySchema&quot;;
+var connectPromise = patio.connectAndExecute(CONNECT_STRING, function (db) {
+     db.dropTable(&quot;test&quot;);
+     db.createTable(&quot;test&quot;, function () {
+         this.primaryKey(&quot;id&quot;);
+         this.name(String);
+         this.age(Number);
+     });
+});
+
+connectPromise.then(function (db) {
+     DB = db;
+     //do more stuff!
+ });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>cb</em>  : the function to callback once connected.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> a promise that is resolved once the database execution has finished.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (options,cb){
+   if (!comb.isFunction(cb)) {
+       throw new PatioError(&quot;callback must be a function&quot;);
+   }
+   var db = this.createConnection.apply(this, arguments);
+   return comb.executeInOrder(db, patio, function (db, patio) {
+       cb(db, patio);
+       return db;
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createConnection"></a>
+    <h3>
+        createConnection
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Returns a <a href='./patio_Database.html#'> patio.Database</a> object that can be used to for querying.
+
+<p>This method is the entry point for all interactions with a database including getting
+<a href='./patio_Dataset.html#'> patio.Dataset</a>s for creating queries(see <a href='./patio_Database.html#from'> patio.Database#from</a>).
+</p>
+
+<p>The <a href='./patio_Database.html#'> patio.Database</a> returned can also be used to create(<a href='./patio_Database.html#createTable'> patio.Database#createTable</a>),
+alter(@link patio.Database#alterTable}), rename(<a href='./patio_Database.html#renameTable'> patio.Database#renameTable</a>), and
+drop(<a href='./patio_Database.html#dropTable'> patio.Database#dropTable</a>) as well as many other <a href='./patio_Database.html#'> patio.Database</a> actions.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//connect using an object
+var DB = patio.createConnection({
+             host : &quot;127.0.0.1&quot;,
+             port : 3306,
+             type : &quot;mysql&quot;,
+             maxConnections : 1,
+             minConnections : 1,
+             user : &quot;test&quot;,
+             password : &quot;testpass&quot;,
+             database : &#x27;test&#x27;
+});
+//connect using a connection string
+var CONNECT_STRING = &quot;mysql://test:testpass@localhost:3306/test?maxConnections=1&amp;minConnections=1&quot;;
+var DB = patio.createConnection(CONNECT_STRING);
+
+//...do something
+DB.createTable(&quot;myTable&quot;, function(){
+   this.name(&quot;text&quot;);
+   this.value(&quot;integer&quot;);
+}).then(function(){
+    //tables created!!!
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options</em>  : the options used to initialize the database connection.                        This may be a database connetion string or object.</li>
+    
+        <li> <em>[options.maxConnections = <code> 10</code>]</em> <code>Number</code> : the number of connections to pool.</li>
+    
+        <li> <em>[options.minConnections = <code> 3</code>]</em> <code>Number</code> : the number of connections to pool.</li>
+    
+        <li> <em>[options.type = <code> "mysql"</code>]</em> <code>String</code> : the type of database to communicate with.</li>
+    
+        <li> <em>options.user</em> <code>String</code> : the user to authenticate as.</li>
+    
+        <li> <em>options.password</em> <code>String</code> : the password of the user.</li>
+    
+        <li> <em>options.database</em> <code>String</code> : the name of the database to use, the database                                   specified here is the default database for all connections.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (options){
+   var ret = Database.connect(options);
+   this.emit(&quot;connect&quot;, ret);
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="disconnect"></a>
+    <h3>
+        disconnect
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Disconnects all databases in use.
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>[cb= <code>null</code>]</em>  : a callback to call when disconnect has completed</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> a promise that is resolved once all databases have disconnected.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (cb){
+   var ret = Database.disconnect(cb);
+   ret.classic(hitch(this, function (err) {
+       if (err) {
+           this.emit(&quot;error&quot;, err);
+       } else {
+           this.emit(&quot;disconnect&quot;);
+       }
+   }));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="getModel"></a>
+    <h3>
+        getModel
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Returns a model from the name of the table for which the model was created.
+
+<pre class='prettyprint linenums lang-js'>
+
+var TestModel = patio.addModel("test_model").sync(function(err){
+     if(err){
+        console.log(err.stack);
+     }else{
+           var TestModel = patio.getModel("test_model");
+     }
+});
+
+</pre>
+
+If you have two tables with the same name in different databases then you can use the db parameter also.
+
+<pre class='prettyprint linenums lang-js'>
+
+
+var DB1 = patio.createConnection("mysql://test:testpass@localhost:3306/test_1");
+var DB2 = patio.createConnection("mysql://test:testpass@localhost:3306/test_2");
+var Test1 = patio.addModel(DB1.from("test");
+var Test2 = patio.addModel(DB2.from("test");
+
+//sync the models
+patio.syncModels().then(function(){
+     //now you can use them
+     var test1Model = new Test1();
+     var test2Model = new Test2();
+});
+
+</pre>
+
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the table that the model represents.</li>
+    
+        <li> <em>db?</em>  : optional database in case you have two models with the same table names in
+                              different databases.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,db){
+   return model.getModel(name, db);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="import"></a>
+    <h3>
+        import
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Allows for the importing of multiple models so you do not have to worry about the promise that is returned from create model,
+or a directory if an index.js file is used.
+
+<p>
+    To import a group of model files you can do the following:
+<pre class='prettyprint linenums lang-js'>
+
+patio.import(__dirname + "/models/Flight.js",
+             __dirname + "/models/Airport.js",
+             __dirname + "/models/Airplane.js").then(function(Flight, Airport, Airplane){
+                 //...
+             });
+
+patio.import(__dirname + "/models/Flight.js",
+             __dirname + "/models/Airport.js",
+             __dirname + "/models/Airplane.js").then(function(){
+                 var Flight = patio.getModel("flight"),
+                     Airport = patio.getModel("airport"),
+                     Airplane = patio.getModel("airplane");
+             });
+     </pre>
+    Another approach is to create an index.js file inside of a directory that requires all of the models needed.
+    then use <a href='./patio.html#import'> patio#import</a> on that file.
+    <pre class="code">
+patio.import(__dirname + "/models").then(function(){
+     var Flight = patio.getModel("flight"),
+         Airport = patio.getModel("airport"),
+         Airplane = patio.getModel("airplane");
+});
+
+</pre>
+</p>
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>files</em>  : a single or list of files to import.</li>
+    
+        <li> <em>cb?</em>  : an optional callback to call when importing is complete</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> returns a promise that will be resolved when all models in the imported files
+have been loaded.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (files,cb){
+   files = comb.argsToArray(arguments);
+   if (comb.isFunction(files[files.length])) {
+       cb = files.pop();
+   } else {
+       cb = null;
+   }
+   files.map(function (file) {
+       require(file);
+   });
+   return model.syncModels(cb);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logDebug"></a>
+    <h3>
+        logDebug
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs a DEBUG level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isDebug) {
+       LOGGER.debug.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logError"></a>
+    <h3>
+        logError
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs an ERROR level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isError) {
+       LOGGER.error.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logFatal"></a>
+    <h3>
+        logFatal
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs a FATAL level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isFatal) {
+       LOGGER.fatal.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logInfo"></a>
+    <h3>
+        logInfo
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs an INFO level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isInfo) {
+       LOGGER.info.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logTrace"></a>
+    <h3>
+        logTrace
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs a TRACE level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isTrace) {
+       LOGGER.trace.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logWarn"></a>
+    <h3>
+        logWarn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Logs a WARN level message to the "patio" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isWarn) {
+       LOGGER.warn.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="migrate"></a>
+    <h3>
+        migrate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Migrates the database using migration files found in the supplied directory.
+<br/>
+<br/>
+<div>
+    <h3>Integer Migrations</h3>
+     Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations.
+     In order for patio to determine which versions to use the file names must end in <versionNumber>.js where
+     versionNumber is a integer value representing the version number. <b>NOTE:</b>With integer migrations
+     missing versions are not allowed.
+     <br/>
+     <br/>
+     An example directory structure might look like the following:
+
+     <pre class="code">
+-migrations
+     - createFirstTables.0.js
+     - shortDescription.1.js
+     - another.2.js
+     .
+     .
+     .
+     -lastMigration.n.js
+     </pre>
+     In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
+     but meaningful migration name.
+     <pre class="code">
+         createEmployee.0.js
+         alterEmployeeNameColumn.1.js
+     </pre>
+</div>
+
+<div>
+    <h3>Timestamp Migrations</h3>
+     Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially
+     with development teams. This is because Timestamp migrations do not require consecutive version numbers,
+     ,allow for duplicate version numbers(but this should be avoided), keeps track of all currently applied migrations,
+     and it will merge missing migrations. In order for patio to determine the order of the migration files
+     the file names must end in <timestamp>.js where the timestamp can be any form of a time stamp.
+     <pre class="code">
+//yyyyMMdd
+20110131
+//yyyyMMddHHmmss
+20110131123940
+//unix epoch timestamp
+1328035161
+     </pre>
+     as long as it is greater than 20000101 other wise it will be assumed to be part of an integer migration.
+     <br/>
+     <br/>
+     An example directory structure might look like the following:
+
+     <pre class="code">
+-migrations
+     - createFirstTables.1328035161.js
+     - shortDescription.1328035360.js
+     - another.1328035376.js
+     .
+     .
+     .
+     -lastMigration.n.js
+     </pre>
+     In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief
+     but meaningful migration name.
+     <pre class="code">
+         createEmployee.1328035161.js
+         alterEmployeeNameColumn.1328035360.js
+     </pre>
+</div>
+
+<b>NOTE:</b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
+patio will attempt the migrate the current schema to the timestamp based migration schema.
+
+<div>
+In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
+
+<pre class="code">
+ var DB = patio.connect("my://connection/string");
+ patio.migrate(DB, __dirname + "/migrations").then(function(){
+     console.log("migrations finished");
+ });
+</pre>
+
+<b>Example migration file</b>
+<pre class="code">
+
+//Up function used to migrate up a version
+exports.up = function(db) {
+  //create a new table
+  db.createTable("company", function() {
+      this.primaryKey("id");
+      this.companyName(String, {size : 20, allowNull : false});
+  });
+  db.createTable("employee", function(table) {
+      this.primaryKey("id");
+      this.firstName(String);
+      this.lastName(String);
+      this.middleInitial("char", {size : 1});
+  });
+};
+
+//Down function used to migrate down version
+exports.down = function(db) {
+   db.dropTable("employee", "company");
+};
+</pre>
+
+</div>
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>db</em>  : the database or connection string to a database to migrate.</li>
+    
+        <li> <em>directory</em> <code>String</code> : directory that the migration files reside in</li>
+    
+        <li> <em>[opts= <code>{}</code>]</em> <code>Object</code> : optional parameters.</li>
+    
+        <li> <em>opts.column?</em> <code>String</code> : the column in the table that version information should be stored.</li>
+    
+        <li> <em>opts.table?</em> <code>String</code> : the table that version information should be stored.</li>
+    
+        <li> <em>opts.target?</em> <code>Number</code> : the target migration(i.e the migration to migrate up/down to).</li>
+    
+        <li> <em>opts.current?</em> <code>String</code> : the version that the database is currently at if the current version
+is not provided it is retrieved from the database.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the migration is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (db){
+   db = comb.isString(db) ? this.connect(db) : db;
+   var args = comb.argsToArray(arguments);
+   args.splice(0, 1);
+   return migrate.run.apply(migrate, [db].concat(args));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="syncModels"></a>
+    <h3>
+        syncModels
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined index.js</em>
+
+<p>
+Helper method to sync all models at once.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var User = patio.addModel(&quot;user&quot;);
+var Blog = patio.addModel(&quot;blog&quot;);
+
+//using promise api
+patio.syncModels().then(function(){
+    var user = new User();
+}, function(error){
+   console.log(err);
+});
+
+//using a callback
+
+ patio.syncModels(function(err){
+     if(err){
+         console.log(err);
+     }else{
+         var user = new User();
+     }
+ });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>cb?</em>  : an optional callback to be invoked when all models have been synced</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> a promise that will be resolved when the models have been synced.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (cb){
+   return model.syncModels(cb);
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

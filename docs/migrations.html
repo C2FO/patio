@@ -1,368 +1,562 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
 
-    <title>Patio-migration</title>
-    <meta name="generator" content="JsDoc Toolkit"/>
-    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script type="text/javascript" src="./api/js/doc.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
-    <!--[if gte IE 9]>
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
     <style type="text/css">
-        * {
-            filter: none !important;
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
         }
     </style>
-    <![endif]-->
-    <style type="text/css">
-        .featureList li {
-            margin: 10px;
-        }
-    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
 </head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
 
-<body>
-
-<a href="http://github.com/pollenware/patio">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
-         alt="Fork me on GitHub">
-</a>
-
-
-<div class="menuContainer">
-    <div class="menuContainerContent">
-        <ul>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./index.html" class="">
-                        <span>Patio</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./connecting.html" class="">
-                        <span>Connecting to a database</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./DDL.html" class="">
-                        <span>Schema CRUD</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="#" class="">
-                        <span>Migrations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./querying.html" class="">
-                        <span>Querying</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./models.html" class="">
-                        <span>Models</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./model-inheritance.html" class="">
-                        <span>Model Inheritance</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./associations.html" class="">
-                        <span>Model Associations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./logging.html" class="">
-                        <span>Logging</span>
-                    </a>
-                </span>
-            </li>
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
         </ul>
+        
+      </div>
     </div>
+  </div>
 </div>
-<div class="contentContainer">
-    <div id="content">
-        <div class="section">
-            <h1 class="classTitle">Migrations</h1>
 
-            <div class="methodDetail">
 
-                Migrates the database using migration files found in the supplied directory.
-                <br>
-                <br>
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
 
-                <div>
-                    <h3>Integer Migrations</h3>
-                    Integer migrations are the simpler of the two migrations but are less flexible than timestamp
-                    based migrations. In order for patio to determine which versions the file must have the naming
-                    format
-                    "{versionnumber}.someFileName.js" where versionNumber is a integer <b>starting at 0</b> representing
-                    the version number.
-                    <br>
-                    <b>NOTE:</b> The reason the version number comes first is that most file viewers and IDE's sort
-                    files
-                    alphabetically and this makes for quicker migration lookup.
-                    <b>NOTE:</b> With integer migrations missing versions are not allowed.
-                    <br>
-                    <br>
-                    An example directory structure might look like the following:
-                             <pre class="code">
--migrations
+
+
+<h1>Migrations</h1>
+<p>Migrates the database using migration files found in the supplied directory.
+
+</p>
+<h2>Integer Migrations</h2>
+<p>Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations. In order for patio to determine which versions the file must have the naming format &quot;{versionnumber}.someFileName.js&quot; where versionNumber is a integer <strong>starting at 0</strong> representing the version number.
+
+</p>
+<p><strong>NOTE:</strong> The reason the version number comes first is that most file viewers and IDE&#39;s sort files alphabetically and this makes for quicker migration lookup.
+
+</p>
+<p><strong>NOTE:</strong> With integer migrations missing versions are not allowed.
+
+</p>
+<p>An example directory structure might look like the following:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>-migrations
      - 0.createFirstTables.js
      - 1.shortDescription.js
      - 2.another.js
      .
      .
      .
-     -n.lastMigration.js
-                            </pre>
-                    In order to easily identify where certain schema alterations have taken place it is a good idea
-                    to provide a brief but meaningful migration name.
-                              <pre class="code">
-0.createEmployee.js
-1.alterEmployeeNameColumn.js
-                              </pre>
-                </div>
-                <div>
-                    <h3>Timestamp Migrations</h3>
-                    Timestamp migrations are the more complex of the two migrations but offer greater flexibility
-                    especially with development teams. This is because Timestamp migrations:
-                    <ul>
-                        <li>Do not require consecutive version numbers</li>
-                        <li>Allow for duplicate version numbers(but this should be avoided)</li>
-                        <li>Keep track of all currently applied migrations</li>
-                        <li>Will merge missing migrations.</li>
-                    </ul>
-                    In order for patio to determine the order of the migration files must follow the naming format of
-                    {timestamp}.someFileName.js where the timestamp can be any form of a time stamp.
-                              <pre class="code">
- //yyyyMMdd
+     -n.lastMigration.js</code></pre>
+<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>0.createEmployee.js
+1.alterEmployeeNameColumn.js</code></pre>
+<h2>Timestamp Migrations</h2>
+<p>Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially with development teams. This is because Timestamp migrations:
+
+</p>
+<ul>
+<li>Do not require consecutive version numbers</li>
+<li>Allow for duplicate version numbers(but this should be avoided)</li>
+<li>Keep track of all currently applied migrations</li>
+<li>Will merge missing migrations.</li>
+</ul>
+<p>In order for patio to determine the order of the migration files must follow the naming format of {timestamp}.someFileName.js where the timestamp can be any form of a time stamp.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> //yyyyMMdd
  20110131
  //yyyyMMddHHmmss
  20110131123940
  //unix epoch timestamp
- 1328035161
-      </pre>
-                    <br/>
-                    <br/>
-                    An example directory structure might look like the following:
+ 1328035161</code></pre>
+<p>An example directory structure might look like the following:
 
-                        <pre class="code">
--migrations
+</p>
+<pre class='prettyprint linenums lang-js'><code>-migrations
      - 1328035161.createFirstTables.js
      - 1328035360.shortDescription.js
      - 1328035376.another.js
      .
      .
      .
-     -n.lastMigration.js
-                        </pre>
-                    In order to easily identify where certain schema alterations have taken place it is a good idea
-                    to provide a brief but meaningful migration name.
-                        <pre class="code">
- 1328035161.createEmployee.js
- 1328035360.alterEmployeeNameColumn.js
-                         </pre>
+     -n.lastMigration.js</code></pre>
+<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.
 
-                </div>
+</p>
+<pre class='prettyprint linenums lang-js'><code> 1328035161.createEmployee.js
+ 1328035360.alterEmployeeNameColumn.js</code></pre>
+<h2>Mixed Migrations</h2>
+<p>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the patio will attempt to merge the two migrations. It does this by ordering the files based off of the versionNumber order. So Integerbase migrations will come first. If the version number in any file with a version number lower than or equal to the current verion will be inserted into the schema_migration table and and file with a version greater will be applied up the the supplied target, or greatest version number and will be inserted into the database.
 
-                <h3 class="classTitle">Mixed Migrations</h3>
+</p>
+<h2>Migration Files</h2>
+<p>Migration files are files with an up and down method.
 
-                If you start with IntegerBased migrations and decide to transition to Timestamp
-                migrations the patio will attempt to merge the two migrations. It does this by ordering the files
-                based off of the versionNumber order. So Integerbase migrations will come first. If the version number
-                in
-                any file with a version number lower than or equal to the current verion will be inserted into the
-                schema_migration table and and file with a version greater will be applied up the the supplied target,
-                or greatest version number and will be inserted into the database.
+</p>
+<h3>exports.up</h3>
+<p>The up function is called when applying the migration. The up function typically contains create and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.
 
-                <h2 class="classTitle">Migration Files</h2>
-                Migration files are files with an up and down method.
-                <h3 class="classTitle">exports.up</h3>
-                The up function is called when applying the migration. The up function typically
-                contains create and alter table statements. See <a href="./DDL.html">Schema CRUD</a> for
-                more examples and operations that are available.
-                <br>
 
-                <h3 class="classTitle">exports.down</h3>
-                The down function is called when rolling back the migration. The down function typically
-                contains drop and alter table statements. See <a href="./DDL.html">Schema CRUD</a> for
-                more examples and operations that are available.
-                <br>
-                <br>
-                <b>Example migration file</b>
-                        <pre class="code">
-  var comb = require("comb").
+</p>
+<h3>exports.down</h3>
+<p>The down function is called when rolling back the migration. The down function typically contains drop and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.
+
+</p>
+<h2>Example migration file</h2>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
+      when = comb.when;
+
  //Up function used to migrate up a version
  exports.up = function(db) {
-   //create a new table
+   //return a proiomise to ensure that the migration knows when the actions are done.
    return comb.when(
-        db.createTable("company", function() {
-            this.primaryKey("id");
+      //create a company table
+        db.createTable(&quot;company&quot;, function() {
+            this.primaryKey(&quot;id&quot;);
             this.companyName(String, {size : 20, allowNull : false});
         }),
-        db.createTable("employee", function(table) {
-            this.primaryKey("id");
+        //create employee table
+        db.createTable(&quot;employee&quot;, function(table) {
+            this.primaryKey(&quot;id&quot;);
             this.firstName(String);
             this.lastName(String);
-            this.middleInitial("char", {size : 1});
+            this.middleInitial(&quot;char&quot;, {size : 1});
         })
     );
 };
 
- //Down function used to migrate down version
+//Down function used to migrate down version
 exports.down = function(db) {
-    return db.dropTable("employee", "company");
-};
-                        </pre>
-                While it will not break any thing you should always return a promise from the up and down functions.
-                If you perform a single database altering action (i.e. create/alter/drop table) you can just return that
-                action. If you perform multiple then you can wrap it in a comb.when call.
-                <pre class="code">
-  var comb = require("comb").
- //Up function used to migrate up a version
+    return db.dropTable(&quot;employee&quot;, &quot;company&quot;);
+};</code></pre>
+<p>While it will not break any thing you should always return a promise from the up and down functions. If you perform a single database altering action (i.e. create/alter/drop table) you can just return that action. If you perform multiple then you can wrap it in a <code>comb.when</code> call.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
+    when = comb.when;
+
+//Up function used to migrate up a version
  exports.up = function(db) {
    //create a new table
    return comb.when(
-        db.createTable("company", function() {
-            this.primaryKey("id");
+        db.createTable(&quot;company&quot;, function() {
+            this.primaryKey(&quot;id&quot;);
             this.companyName(String, {size : 20, allowNull : false});
         }),
-        db.createTable("employee", function(table) {
-            this.primaryKey("id");
+        db.createTable(&quot;employee&quot;, function(table) {
+            this.primaryKey(&quot;id&quot;);
             this.firstName(String);
             this.lastName(String);
-            this.middleInitial("char", {size : 1});
+            this.middleInitial(&quot;char&quot;, {size : 1});
         }),
-        db.alterTable("works", function(){
-            this.addForeignKey("employeeId", "employee", {key : "id"});
+        db.alterTable(&quot;works&quot;, function(){
+            this.addForeignKey(&quot;employeeId&quot;, &quot;employee&quot;, {key : &quot;id&quot;});
         });
     );
-};
-                </pre>
-                comb.when will return a Promise that will resolve once all three database actions have completed.
-                <br>
-                <br>
-                If you perform more complex actions you may need to should use the Promise api. Consider the following
-                example.
-                        <pre class="code">
- //Up function used to migrate up a version
+};</code></pre>
+<p><code>comb.when</code> will return a Promise that will resolve once all three database actions have completed.
+
+</p>
+<p>If you perform more complex actions you may need to should use the Promise api. Consider the following example.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> //Up function used to migrate up a version
 exports.up = function(db) {
     //create a new table
     var ret = new comb.Promise();
     comb.when(
-        db.renameTable("employees", "employeesOld"),
-        db.createTable("employees", function(table){
-            this.primaryKey("id");
+        db.renameTable(&quot;employees&quot;, &quot;employeesOld&quot;),
+        db.createTable(&quot;employees&quot;, function(table){
+            this.primaryKey(&quot;id&quot;);
             this.firstName(String);
             this.lastName(String);
             this.hireDate(Date);
-            this.middleInitial("char", {size:1});
+            this.middleInitial(&quot;char&quot;, {size:1});
         })
     ).then(function(){
-        db.from("employeesOld").map(function(employee){
+        db.from(&quot;employeesOld&quot;).map(function(employee){
                 return comb.merge(employee, {hireDate:new Date()});
         }).then(function(employees){
-                db.from("employees").multiInsert(employees)
-                    .then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
-            }, comb.hitch(ret, "errback"));
-    }, comb.hitch(ret, "errback"));
+                db.from(&quot;employees&quot;).multiInsert(employees)
+                    .then(ret);
+            }, ret);
+    }, ret);
     return ret;
 };
 
  //Down function used to migrate down version
 exports.down = function(db) {
-    db.alterTable("employee", function(){
-        this.dropColumn("hireDate");
+    db.alterTable(&quot;employee&quot;, function(){
+        this.dropColumn(&quot;hireDate&quot;);
     });
-};
-                        </pre>
-                First we wait for both the rename and createTable action to complete, and then we perform some database
-                actions and finally resolve.
-                <h2 class="classTitle">Running migrations</h2>
+};</code></pre>
+<p>First we wait for both the rename and createTable action to complete, and then we perform some database actions and finally resolve.
 
-                <div>
-                    In order to run a migraton there are two options:
-                    <ul>
-                        <li>programatically:
-                            <a href="api/symbols/patio.html#migrate" target="patioapi">patio#migrate</a>
+</p>
+<h2>Running migrations</h2>
+<p>In order to run a migraton there are two options:
 
-                            <h3 class="classTitle">Available options</h3>
-                            <ul>
-                                <li><b>column</b> : the column in the table that version information should be stored.
-                                </li>
-                                <li><b>table</b> : the table that version information should be stored.</li>
-                                <li><b>target</b> : the target migration(i.e the migration to migrate up/down to).
-                                    <b>NOTE:</b> If you are using integer based migrations you must specify your target to 
-                                <b>-1</b> in order to roll all the way back.</li>
-                            </ul>
-                            <h3 class="classTitle">Integer migrator options</h3>
-                            <ul>
-                                <li><b>current</b> : the version that the database is currently at if the current
-                                    version is not provided it is retrieved from the database.
-                                </li>
-                            </ul>
+</p>
+<h3>(patio.migrate)(./patio.html#migrate)</h3>
+<p><strong>Available options</strong>
+
+</p>
+<ul>
+<li><strong>column</strong> : the column in the table that version information should be stored.</li>
+<li><strong>table</strong> : the table that version information should be stored.</li></li>
+<li><strong>target</strong> : the target migration(i.e the migration to migrate up/down to). <strong>NOTE:</strong> If you are using integer based migrations you must specify your target to <code>-1</code> in order to roll all the way back.</li>
+</ul>
+<p><strong>Integer migrator options</strong>
+
+</p>
+<ul>
+<li><strong>current</strong> : the version that the database is currently at if the current version is not provided it is retrieved from the database.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>  var DB = patio.connect(&quot;my://connection/string&quot;);
+  patio.migrate(DB, __dirname + &quot;/migrations&quot;).then(function(){
+      console.log(&quot;migrations finished&quot;);
+  }, errorHandler);</code></pre>
+<h3>Patio Executable</h3>
+<p>patio comes with an executable script that can be used to run the migrations
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio -u some://connection/string -d ./migrations/</code></pre>
+<p><strong>script options</strong>
+
+</p>
+<ul>
+<li><strong>-d, --directory</strong> : Directory of migrations</li>
+<li><strong>-u, --uri</strong> : connection uri</li>
+<li><strong>-t, --target</strong> : target migration version</li>
+<li><strong>-c, --current</strong> : current migration version</li>
+<li><strong>-tb, --table</strong> : table to store schema information in</li>
+<li><strong>-C, --column</strong> : column to store schema information in.</li>
+<li><strong>-v, --verbose</strong> : set logging to debug</li>
+<li><strong>-q, --quiet</strong> : turn all logging off.</li>
+<li><strong>-r, --rollback</strong> : roll all migrations back</li>
+<li><strong>--camelize</strong> : force camel casing</li>
+<li><strong>-us, --underscore</strong> : force underscore</li>
+</ul>
 
 
-                        <pre class="code">
-  var DB = patio.connect("my://connection/string");
-  patio.migrate(DB, __dirname + "/migrations").then(function(){
-      console.log("migrations finished");
-  });
-                        </pre>
-                        </li>
-                        <li>command line: patio comes with an executable script that can be used to run the migrations
-                        </li>
-                        <pre class="code">
-patio -u some://connection/string -d ./migrations/
-                        </pre>
-                        script options
-                        <ul>
-                            <li><b>-d, --directory</b> : Directory of migrations</li>
-                            <li><b>-u, --uri</b> : connection uri</li>
-                            <li><b>-t, --target</b> : target migration version</li>
-                            <li><b>-c, --current</b> : current migration version</li>
-                            <li><b>-tb, --table</b> : table to store schema information in</li>
-                            <li><b>-C, --column</b> : column to store schema information in.</li>
-                            <li><b>-v, --verbose</b> : set logging to debug</li>
-                            <li><b>-q, --quiet</b> : turn all logging off.</li>
-                            <li><b>-r, --rollback</b> : roll all migrations back</li>
-                            <li><b>--camelize</b> : force camel casing</li>
-                            <li><b>-us, --underscore</b> : force underscore</li>
-
-                        </ul>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
 </body>
 </html>

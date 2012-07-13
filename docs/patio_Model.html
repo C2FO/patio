@@ -1,0 +1,2781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.Model
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
+                        
+                        <li><a href="#staticProperties">Static Properties</a></li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_Model.html#.associate">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                associate
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.create">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                create
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.find">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                find
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.findById">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                findById
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.findOrCreate">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                findOrCreate
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.inherits">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                inherits
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.manyToMany">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                manyToMany
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.manyToOne">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                manyToOne
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.oneToMany">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                oneToMany
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.oneToOne">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                oneToOne
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.remove">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                remove
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.removeById">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                removeById
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.save">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                save
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.update">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                update
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#.useTransaction">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                useTransaction
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_Model.html#__reload">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __reload
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#_saveReload">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _saveReload
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#_updateReload">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _updateReload
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#remove">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                remove
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#save">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                save
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#setValues">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setValues
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#toJSON">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                toJSON
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#toObject">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                toObject
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#toString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                toString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#update">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                update
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Model.html#valueOf">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                valueOf
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+Base class for all models.
+<p>This is used through <a href='./patio.html#.addModel'> patio.addModel</a>, <b>NOT directly.</b></p>
+
+</p>
+    
+
+    
+        <em>Extends</em>
+        <ul>
+            
+                <li> <a href="./comb_plugins_Middleware.html">comb.plugins.Middleware</a></li>
+            
+        </ul>
+    
+
+    
+        <a name="staticProperties"></a>
+        <em>Static Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>MANY_TO_MANY</em></td><td>property</td><td><code>"manyToMany"</code></td><td>
+String for to signify an association as many to many.
+</td><tr><tr><td><em>MANY_TO_ONE</em></td><td>property</td><td><code>"manyToOne"</code></td><td>
+String for to signify an association as many to one.
+</td><tr><tr><td><em>ONE_TO_MANY</em></td><td>property</td><td><code>"oneToMany"</code></td><td>
+String for to signify an association as one to many.
+</td><tr><tr><td><em>ONE_TO_ONE</em></td><td>property</td><td><code>"oneToOne"</code></td><td>
+String for to signify an association as one to one.
+</td><tr><tr><td><em>camelize</em></td><td>{Boolean}</td><td><code>
+false</code></td><td>
+Set to true if this models column names should be use the "underscore" method when sending
+keys to the database and to "camelize" method on columns returned from the database. If set to false see
+<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.
+</td><tr><tr><td><em>columns</em></td><td>String[]</td><td></td><td>
+A list of columns this models table contains.
+</td><tr><tr><td><em>dataset</em></td><td>patio.Dataset</td><td></td><td>
+A dataset to use to retrieve instances of this {@link patio.Model{ from the database. The dataset
+has the {@link patio.Dataset#rowCb} set to create instances of this model.
+</td><tr><tr><td><em>db</em></td><td>patio.Database</td><td></td><td>
+The database all instances of this <a href='./patio_Model.html#'> patio.Model</a> use.
+</td><tr><tr><td><em>emitOnAssociationAdd</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent an event from being emitted when an association is added to the model
+</td><tr><tr><td><em>emitOnColumnSet</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the emitting of an event on the setting of a column value
+</td><tr><tr><td><em>emitOnLoad</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the emitting of an event on load
+</td><tr><tr><td><em>emitOnRemove</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the emitting on an event when a model is removed.
+</td><tr><tr><td><em>emitOnSave</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the emitting on an event when a model is saved.
+</td><tr><tr><td><em>emitOnUpdate</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the emitting on an event when a model is updated.
+</td><tr><tr><td><em>fetchType</em></td><td>property</td><td><code>fetch</code></td><td>
+</td><tr><tr><td><em>identifierInputMethod</em></td><td>property</td><td><code>null
+         </code></td><td>
+See <a href='./patio_Dataset.html#identifierInputMethod'> patio.Dataset#identifierInputMethod</a>
+</td><tr><tr><td><em>identifierOutputMethod</em></td><td>property</td><td><code>null
+         </code></td><td>
+See <a href='./patio_Dataset.html#identifierOutputMethod'> patio.Dataset#identifierOutputMethod</a>
+</td><tr><tr><td><em>isRestrictedPrimaryKey</em></td><td>property</td><td><code>false
+         </code></td><td>
+Set to false to allow the setting of primary keys.
+</td><tr><tr><td><em>patio</em></td><td>function</td><td></td><td>
+A reference to the global <a href='./patio.html#'> patio</a>.
+</td><tr><tr><td><em>patio</em></td><td>patio</td><td><code>null</code></td><td>
+patio  - read only
+
+</td><tr><tr><td><em>primaryKey</em></td><td>function</td><td></td><td>
+The primaryKey column/s of this <a href='./patio_Model.html#'> patio.Model</a>
+</td><tr><tr><td><em>raiseOnTypecastError</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent errors thrown while type casting a value from being propogated.
+</td><tr><tr><td><em>reloadOnSave</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the reload of a model after saving.
+</td><tr><tr><td><em>reloadOnUpdate</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent the reload of a model after updating.
+</td><tr><tr><td><em>restrictedColumns</em></td><td>property</td><td><code>null</code></td><td>
+Columns that should be restriced when setting values through the <a href='./patio_Model.html#set'> patio.Model#set</a> method.
+
+         </td><tr><tr><td><em>schema</em></td><td>Object</td><td></td><td>
+The schema of this <a href='./patio_Model.html#'> patio.Model</a>'s table. See <a href='./patio_Database.html#schema'> patio.Database#schema</a> for details
+on the schema object.
+</td><tr><tr><td><em>table</em></td><td>property</td><td><code>null</code></td><td>
+The table that this Model represents.
+<b>READ ONLY</b>
+         </td><tr><tr><td><em>tableName</em></td><td>String</td><td></td><td>
+The name of the table all instances of the this <a href='./patio_Model.html#'> patio.Model</a> use.
+</td><tr><tr><td><em>typecastEmptyStringToNull</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent empty strings from being type casted to null
+</td><tr><tr><td><em>typecastOnAssignment</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent properties from being type casted when manually set.
+See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a>
+</td><tr><tr><td><em>typecastOnLoad</em></td><td>property</td><td><code>true
+         </code></td><td>
+Set to false to prevent properties from being type casted when loaded from the database.
+See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a>
+</td><tr><tr><td><em>underscore</em></td><td>{Boolean}</td><td><code>
+false</code></td><td>
+Set to true if this models column names should be use the "camelize" method when sending
+keys to the database and to "underscore" method on columns returned from the database. If set to false see
+<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.
+</td><tr><tr><td><em>useTransactions</em></td><td>property</td><td><code>true</code></td><td>
+Set to false to prevent models from using transactions when saving, deleting, or updating.
+This applies to the model associations also.
+         </td><tr></table>
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>__isChanged</td><td>property</td><td><code>false</code></td><td>
+Signifies if the model has changed
+</td><tr><tr><td>__isNew</td><td>property</td><td><code>true</code></td><td>
+Whether or not this model is new
+</td><tr><tr><td>associations</td><td>function</td><td></td><td>
+List of associations on the <a href='./patio_Model.html#'> patio.Model</a>
+</td><tr><tr><td>columns</td><td>String[]</td><td></td><td>a list of columns this models table contains.</td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td>a dataset to use to retrieve models from the database. The dataset                          has the <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a> set to create instances of this model.</td><tr><tr><td>hasAssociations</td><td>function</td><td></td><td>
+Returns true if this <a href='./patio_Model.html#'> patio.Model</a> has associations.
+</td><tr><tr><td>isChanged</td><td>Boolean</td><td></td><td>true if the model has been changed and not saved.</td><tr><tr><td>isNew</td><td>Boolean</td><td></td><td>true if this model is new and does not exist in the database.</td><tr><tr><td>patio</td><td>patio</td><td><code>null</code></td><td>
+patio  - read only
+
+</td><tr><tr><td>primaryKeyValue</td><td>*</td><td></td><td>the value of this models primaryKey</td><tr><tr><td>schema</td><td>Object</td><td></td><td>the schema of this models table.</td><tr><tr><td>tableName</td><td>String</td><td></td><td>the table name of this models table.</td><tr><tr><td>type</td><td>String</td><td><code>null</code></td><td>
+The database type such as mysql
+
+</td><tr></table>
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined model.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+function (options,fromDb){
+   if (this.synced) {
+       this.__emitter = new EventEmitter();
+       this._super(arguments);
+       this.patio = patio || require(&quot;./index&quot;);
+       fromDb = comb.isBoolean(fromDb) ? fromDb : false;
+       this.__changed = {};
+       this.__values = {};
+       if (fromDb) {
+           this._hook(&quot;pre&quot;, &quot;load&quot;);
+           this.__isNew = false;
+           this.__set(options, true);
+           if (this._static.emitOnLoad) {
+               this.emit(&quot;load&quot;, this);
+               this._static.emit(&quot;load&quot;, this);
+           }
+       } else {
+           this.__isNew = true;
+           this.__set(options);
+       }
+   } else {
+       throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
+   }
+           
+}
+            </pre>
+      
+    
+
+  
+    <a name=".associate"></a>
+    <h3>
+        associate
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/association.js</em>
+
+<p>
+Associates a related model with the current model. The following types are
+supported:
+
+<ul>
+    <li><b>oneToMany</b> - Foreign key in associated model's table points to this
+        model's primary key.   Each current model object can be associated with
+        more than one associated model objects.  Each associated model object
+        can be associated with only one current model object.</li>
+    <li><b>manyToOne</b> - Foreign key in current model's table points to
+        associated model's primary key.  Each associated model object can
+        be associated with more than one current model objects.  Each current
+        model object can be associated with only one associated model object.</li>
+    <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
+        only one object is associated to the current object through the
+        association.  The methods created are similar to many_to_one, except
+        that the one_to_one setter method saves the passed object./li>
+    <li><b>manyToMany</b> - A join table is used that has a foreign key that points
+        to this model's primary key and a foreign key that points to the
+        associated model's primary key.  Each current model object can be
+        associated with many associated model objects, and each associated
+        model object can be associated with many current model objects.</li>
+</ul>
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>type</em>  : the          type of association that is to be created.</li>
+    
+        <li> <em>name</em>  : the name of the association, the name specified will be exposed as a property on instances of the model.</li>
+    
+        <li> <em>options?</em>  : additional options.
+The following options can be supplied:
+<ul>
+  <li><b>model</b> - The associated class or its name. If not  given, uses the association's name,
+   which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE</li>
+  <li><b>query</b> - The conditions to use to filter the association, can be any argument passed
+  to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</li>
+  <li><b>dataset</b> - A function that is called in the scope of the model and called with the model as the
+    first argument. The function must return a dataset that can be used as the base for all dataset
+    operations.<b>NOTE:</b>The dataset returned will have all options applied to it.</li>
+  <li><b>distinct</b> Use the DISTINCT clause when selecting associated objects.
+  See <a href='./patio_Dataset.html#distinct'> patio.Dataset#distinct</a>.</li>
+  <li><b>limit</b> : Limit the number of records to the provided value.  Use
+    an array with two elements for the value to specify a limit (first element) and an
+    offset (second element). See <a href='./patio_Dataset.html#limit'> patio.Dataset#limit</a>.</li>
+  <li><b>order</b> : the column/s order the association dataset by.  Can be a
+    one or more columns.
+    See <a href='./patio_Dataset.html#order'> patio.Dataset#order</a>.</li>
+  <li><b>readOnly</b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
+    or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).</li>
+  <li><b>select</b> : the columns to select.  Defaults to the associated class's
+    tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
+    join table.  If you want to include the join table attributes, you can
+    use this option, but beware that the join table attributes can clash with
+    attributes from the model table, so you should alias any attributes that have
+    the same name in both the join table and the associated table.</li>
+  </ul>
+  ManyToOne additional options:
+  <ul>
+     <li><b>key</b> : foreignKey in current model's table that references
+         associated model's primary key.  Defaults to : "{tableName}Id".  Can use an
+         array of strings for a composite key association.</li>
+      <li><b>primaryKey</b> : column in the associated table that the <b>key</b> option references.
+             Defaults to the primary key of the associated table. Can use an
+             array of strings for a composite key association.</li>
+  </ul>
+OneToMany and OneToOne additional options:
+<ul>
+     <li><b>key</b> : foreign key in associated model's table that references
+            current model's primary key, as a string.  Defaults to
+            "{thisTableName}Id".  Can use an array of columns for a composite key association.</li>
+     <li><b>primaryKey</b> : column in the current table that <b>key</b> option references.
+            Defaults to primary key of the current table. Can use an array of strings for a
+            composite key association.</li>
+</ul>
+
+ManyToMany additional options:
+  <ul>
+     <li><b>joinTable</b> : name of table that includes the foreign keys to both
+         the current model and the associated model.  Defaults to the name
+         of current model and name of associated model, pluralized,
+         sorted, and joined with '' and camelized.
+     <li><b>leftKey</b> : foreign key in join table that points to current model's
+         primary key. Defaults to :"{tableName}Id".
+         Can use an array of strings for a composite key association.
+     <li><b>leftPrimaryKey</b> - column in current table that <b>leftKey</b> points to.
+         Defaults to primary key of current table.  Can use an array of strings for a
+         composite key association.
+     <li><b>rightKey</b> : foreign key in join table that points to associated
+         model's primary key.  Defaults to Defaults to :"{associatedTableName}Id".
+         Can use an array of strings for a composite key association.
+     <li><b>rightPrimaryKey</b> : column in associated table that <b>rightKey</b> points to.
+         Defaults to primary key of the associated table.  Can use an
+         array of strings for a composite key association.
+ </ul></li>
+    
+        <li> <em>filter?</em>  : optional function to filter the dataset after all other options have been applied.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (type,name,options,filter){
+   if (comb.isFunction(options)) {
+       filter = options;
+       options = {};
+   }
+   this.__associations = this.__associations || {manyToMany:{}, oneToMany:{}, manyToOne:{}, oneToOne:{}};
+   var assoc = new associations[type](comb.merge({model:name}, options), this.patio, filter);
+   assoc.inject(this, name);
+   this.__associations[type][name] = assoc;
+   this.emit(&quot;associate&quot;, type, this);
+   return this;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".create"></a>
+    <h3>
+        create
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Create a new model initialized with the specified values.
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>values</em>  : the values to initialize the model with.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Model</code> instantiated model initialized with the values passed in.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (values){
+   //load an object from an object
+   return new this(values, false);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".find"></a>
+    <h3>
+        find
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Finds a single model according to the supplied filter.
+See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for filter options.
+
+
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>id</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (id){
+   return this.filter.apply(this, arguments).first();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".findById"></a>
+    <h3>
+        findById
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Retrieves a record by the primaryKey/s of a table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var User = patio.getModel(&quot;user&quot;);
+
+User.findById(1).then(function(userOne){
+
+});
+
+//assume the primary key is a compostie of first_name and last_name
+User.findById([&quot;greg&quot;, &quot;yukon&quot;]).then(function(userOne){
+
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>id</em>  : the primary key of the record to find.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> called back with the record or null if one is not found.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (id){
+   var pk = this.primaryKey;
+   pk = pk.length == 1 ? pk[0] : pk;
+   var q = {};
+   if (comb.isArray(id) &amp;&amp; comb.isArray(pk)) {
+       if (id.length === pk.length) {
+           pk.forEach(function (k, i) {
+               q[k] = id[i];
+           });
+       } else {
+           throw new ModelError(&quot;findById : ids length does not equal the primaryKeys length.&quot;);
+       }
+   } else {
+       q[pk] = id;
+   }
+   return this.filter(q).one();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".findOrCreate"></a>
+    <h3>
+        findOrCreate
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Finds a single model according to the supplied filter.
+See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for filter options. If the model
+does not exist then a new one is created as passed back.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>q</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (q){
+   var ret = new comb.Promise();
+   this.find(q).then(hitch(this, function (res) {
+       ret.callback(res || this.create());
+   }), hitch(ret, &quot;errback&quot;));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".inherits"></a>
+    <h3>
+        inherits
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Stub for plugins to notified of model inheritance
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>model</em>  : a model class to inherit from</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (model){
+   
+}
+    </pre>
+    
+
+
+  
+    <a name=".manyToMany"></a>
+    <h3>
+        manyToMany
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/association.js</em>
+
+<p>
+Creates a MANY_TO_MANY relationship between models.
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+patio.addModel(&quot;class&quot;, {
+     static:{
+         init:function(){
+             this._super(&quot;arguments&quot;);
+             this.manyToMany(&quot;students&quot;, {fetchType:this.fetchType.EAGER, order : [sql.firstName.desc(), sql.lastName.desc()]});
+         }
+     }
+});
+patio.addModel(&quot;student&quot;, {
+     instance:{
+         enroll:function(clas){
+             if (comb.isArray(clas)) {
+                 return this.addClasses(clas);
+             } else {
+                 return this.addClass(clas);
+             }
+         }
+     },
+     static:{
+         init:function(){
+             this._super(&quot;arguments&quot;);
+             this.manyToMany(&quot;classes&quot;, {fetchType:this.fetchType.EAGER, order : sql.name.desc()});
+         }
+     }
+         });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>filter</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,filter){
+   return this.associate(this.MANY_TO_MANY, name, options, filter);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".manyToOne"></a>
+    <h3>
+        manyToOne
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/association.js</em>
+
+<p>
+Creates a MANY_TO_ONE association.
+See <a href='./patio_plugins_AssociationPlugin.html#.oneToMany'> patio.plugins.AssociationPlugin.oneToMany</a>.
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a>
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>filter</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,filter){
+   return this.associate(this.MANY_TO_ONE, name, options, filter);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".oneToMany"></a>
+    <h3>
+        oneToMany
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/association.js</em>
+
+<p>
+Creates a ONE_TO_MANY association.
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//define the BiologicalFather model
+ patio.addModel(&quot;biologicalFather&quot;, {
+     static:{
+         init:function () {
+             this._super(&quot;arguments&quot;);
+             this.oneToMany(&quot;children&quot;);
+         }
+     }
+});
+
+
+//define Child  model
+patio.addModel(&quot;child&quot;, {
+     static:{
+         init:function () {
+             this._super(&quot;arguments&quot;);
+             this.manyToOne(&quot;biologicalFather&quot;);
+         }
+    }
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>filter</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,filter){
+   return this.associate(this.ONE_TO_MANY, name, options, filter);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".oneToOne"></a>
+    <h3>
+        oneToOne
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/association.js</em>
+
+<p>
+Creates a ONE_TO_ONE relationship between models.
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+patio.addModel(&quot;state&quot;, {
+     static:{
+         init:function () {
+             this._super(&quot;arguments&quot;);
+             this.oneToOne(&quot;capital&quot;);
+         }
+    }
+});
+
+patio.addModel(&quot;capital&quot;, {
+     static:{
+       init:function () {
+         this._super(&quot;arguments&quot;);
+         this.manyToOne(&quot;state&quot;);
+       }
+     }
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>filter</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,filter){
+   return this.associate(this.ONE_TO_ONE, name, options, filter);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".remove"></a>
+    <h3>
+        remove
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Remove(delete) models. This can be used to do a mass delete of models.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var User = patio.getModel(&quot;user&quot;);
+
+//remove all users
+User.remove();
+
+//remove all users who&#x27;s names start with a.
+User.remove({name : /A%/i});
+
+//remove all users who&#x27;s names start with a, without a transaction.
+User.remove({name : /A%/i}, {transaction : false});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>q?</em>  : query to filter the rows to remove. See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+removing the models.</li>
+    
+        <li> <em>[options.load= <code>true</code>]</em> <code>Boolean</code> : boolean set to prevent the loading of each model. This is more efficient
+but the pre/post remove hooks not be notified of the deletion.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> called back when the removal completes.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (q,options){
+   options = options || {};
+   var loadEach = comb.isBoolean(options.load) ? options.load : true;
+   //first find all records so we call alert the middleware for each model
+   return this._checkTransaction(options, hitch(this, function () {
+       var ds = this.dataset;
+       ds = ds.filter.call(ds, q);
+       if (loadEach) {
+           return ds.map(function (r) {
+               //todo this sucks find a better way!
+               return r.remove(options);
+           });
+       } else {
+           return ds.remove();
+       }
+   }));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".removeById"></a>
+    <h3>
+        removeById
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Similar to remove but takes an id or an array for a composite key.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+User.removeById(1);
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>id</em>  : id or an array for a composite key, to find the model by</li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+removing the model.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> called back when the removal completes.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (id,options){
+   return this._checkTransaction(options, hitch(this, function () {
+       var p = new Promise();
+       this.findById(id).then(function (model) {
+           if (model) {
+               model.remove(options).then(hitch(p, &quot;callback&quot;), hitch(p, &quot;errback&quot;));
+           } else {
+               p.callback(0);
+           }
+       }, hitch(p, &quot;errback&quot;));
+       return p;
+   }));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".save"></a>
+    <h3>
+        save
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Save either a new model or list of models to the database.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var Student = patio.getModel(&quot;student&quot;);
+Student.save([
+     {
+         firstName:&quot;Bob&quot;,
+         lastName:&quot;Yukon&quot;,
+         gpa:3.689,
+         classYear:&quot;Senior&quot;
+     },
+     {
+         firstName:&quot;Greg&quot;,
+         lastName:&quot;Horn&quot;,
+         gpa:3.689,
+         classYear:&quot;Sohpmore&quot;
+     },
+     {
+         firstName:&quot;Sara&quot;,
+         lastName:&quot;Malloc&quot;,
+         gpa:4.0,
+         classYear:&quot;Junior&quot;
+     },
+     {
+         firstName:&quot;John&quot;,
+         lastName:&quot;Favre&quot;,
+         gpa:2.867,
+         classYear:&quot;Junior&quot;
+     },
+     {
+         firstName:&quot;Kim&quot;,
+         lastName:&quot;Bim&quot;,
+         gpa:2.24,
+         classYear:&quot;Senior&quot;
+     },
+     {
+         firstName:&quot;Alex&quot;,
+         lastName:&quot;Young&quot;,
+         gpa:1.9,
+         classYear:&quot;Freshman&quot;
+     }
+]).then(function(users){
+    //work with the users
+});
+
+Save a single record
+MyModel.save(m1);
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>items</em>  : </li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>record</em> <code>patio.Model|Object|patio.Model[]|Object[]</code> : the record/s to save.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+saving the models.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> called back with the saved record/s.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (items,options){
+   options = options || {};
+   return this._checkTransaction(options, hitch(this, function () {
+       var ps;
+       if (comb.isArray(items)) {
+           ps = items.map(function (o) {
+               if (!comb.isInstanceOf(o, this)) {
+                   o = new this(o);
+               }
+               return o.save(null, options);
+           }, this);
+           var ret = new comb.Promise();
+           return new PromiseList(ps, true).then(ret);
+       } else {
+           var ret = new comb.Promise();
+           try {
+               if (!comb.isInstanceOf(items, this)) {
+                   items = new this(items);
+               }
+               ret = items.save(null, options);
+           } catch (e) {
+               ret.errback(e);
+           }
+           return ret;
+       }
+   }));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".update"></a>
+    <h3>
+        update
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Update multiple rows with a set of values.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var User = patio.getModel(&quot;user&quot;);
+
+//BEGIN
+//UPDATE &#x60;user&#x60; SET &#x60;password&#x60; = NULL WHERE (&#x60;last_accessed&#x60; &lt;= &#x27;2011-01-27&#x27;)
+//COMMIT
+User.update({password : null}, function(){
+ return this.lastAccessed.lte(comb.date.add(new Date(), &quot;year&quot;, -1));
+});
+//same as
+User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), &quot;year&quot;, -1)}});
+
+//UPDATE &#x60;user&#x60; SET &#x60;password&#x60; = NULL WHERE (&#x60;last_accessed&#x60; &lt;= &#x27;2011-01-27&#x27;)
+User.update({password : null}, function(){
+ return this.lastAccessed.lte(comb.date.add(new Date(), &quot;year&quot;, -1));
+}, {transaction : false});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>vals</em>  : a hash of values to update. See <a href='./patio_Dataset.html#update'> patio.Dataset#update</a>.</li>
+    
+        <li> <em>/*?object*/query</em>  : </li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>query</em>  : a filter to apply to the UPDATE.  See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+updating the models.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the update statement has completed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (vals,/*?object*/query,options){
+   options = options || {};
+   var args = comb.argsToArray(arguments);
+   return this._checkTransaction(options, hitch(this, function () {
+       var dataset = this.dataset;
+       if (!comb.isUndefined(query)) {
+           dataset = dataset.filter(query);
+       }
+       return dataset.update(vals);
+   }));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".useTransaction"></a>
+    <h3>
+        useTransaction
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>opts?</em>  : set a transaction property to override the <a href='./patio_Model.html#useTransaction'> patio.Model#useTransaction</a>.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (opts){
+   opts = opts || {};
+   return comb.isBoolean(opts.transaction) ? opts.transaction === true : this.useTransactions === true;
+           
+}
+    </pre>
+    
+
+
+  
+  
+    <a name="__reload"></a>
+    <h3>
+        __reload
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the
+model.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+myModel.reload().then(function(model){
+   //model === myModel
+});
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> resolved with the model instance.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var ret = new Promise();
+   if (!this.__isNew) {
+       this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().then(hitch(this, function (values) {
+           this.__set(values, true);
+           ret.callback(this);
+       }), hitch(ret, &quot;errback&quot;));
+   } else {
+       ret.callback(this);
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_saveReload"></a>
+    <h3>
+        _saveReload
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+</p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this._static.reloadOnSave ? this.__reload() : new comb.Promise().callback(this);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_updateReload"></a>
+    <h3>
+        _updateReload
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+</p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this._static.reloadOnUpdate ? this.__reload() : new comb.Promise().callback(this);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="remove"></a>
+    <h3>
+        remove
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+This method removes the instance of the model. If the model <a href='./patio_Model.html#isNew'> patio.Model#isNew</a> then the promise is
+resolved with a 0 indicating no rows were affected. Otherwise the model is removed, primary keys are cleared
+and the model's isNew flag is set to true.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+myModel.remove().then(function(){
+    //model is deleted
+    assert.isTrue(myModel.isNew);
+});
+
+//dont use a transaction to remove this model
+myModel.remove({transaction : false}).then(function(){
+    //model is deleted
+    assert.isTrue(myModel.isNew);
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+removing the model.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> called back after the deletion is successful.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (options){
+   if (this.synced) {
+       if (!this.__isNew) {
+           return this._checkTransaction(options, hitch(this, function () {
+               var ret = new Promise();
+               this._hook(&quot;pre&quot;, &quot;remove&quot;).then(hitch(this, function () {
+                   this._remove().then(hitch(this, function () {
+                       this._hook(&quot;post&quot;, &quot;remove&quot;).then(hitch(this, function () {
+                           this._clearPrimaryKeys();
+                           this.__isNew = true;
+                           if (this._static.emitOnRemove) {
+                               this.emit(&quot;remove&quot;, this);
+                               this._static.emit(&quot;remove&quot;, this);
+                           }
+                           ret.callback(this);
+                       }), ret);
+                   }), ret);
+               }), ret);
+               return ret;
+           }));
+       } else {
+           return new comb.Promise().callback(0);
+       }
+   } else {
+       throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="save"></a>
+    <h3>
+        save
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Updates a model. This action checks if the model is new and values have changed.
+If the model is not new then the <a href='./patio_Model.html#update'> patio.Model#update</a> action is called.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//set new values and save the model
+someModel.save({
+     myVal1 : &quot;newValue1&quot;,
+     myVal2 : &quot;newValue2&quot;,
+     myVal3 : &quot;newValue3&quot;
+     }).then(function(){
+         //do something
+     });
+
+//or
+
+//set new values and save the model and DO NOT use a transaction
+someModel.save({
+     myVal1 : &quot;newValue1&quot;,
+     myVal2 : &quot;newValue2&quot;,
+     myVal3 : &quot;newValue3&quot;
+     }, {transaction : false}).then(function(){
+         //do something
+     });
+
+//or
+someModel.myVal1 = &quot;newValue1&quot;;
+someModel.myVal2 = &quot;newValue2&quot;;
+someModel.myVal3 = &quot;newValue3&quot;;
+
+someModel.save().then(function(){
+    //do something
+});
+
+//or
+
+//dont use a transaction
+someModel.save(null, {transaction : false}).then(function(){
+    //do something
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>vals?</em>  : optional values hash to set on the model before saving.</li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+saving the model.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> resolved when the save action has completed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (vals,options){
+   if (this.synced) {
+       if (this.__isNew) {
+           return this._checkTransaction(options, hitch(this, function () {
+               comb.isHash(vals) &amp;&amp; this.__set(vals);
+               var ret = new comb.Promise();
+               this._hook(&quot;pre&quot;, &quot;save&quot;)
+                   .chain(hitch(this, &quot;_save&quot;), ret)
+                   .then(hitch(this, function () {
+                   this._hook(&quot;post&quot;, &quot;save&quot;).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
+               }), ret);
+               return ret;
+           }));
+       } else {
+           return this.update(vals, options);
+       }
+   } else {
+       throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setValues"></a>
+    <h3>
+        setValues
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Set multiple values at once. Useful if you have a hash of properties that you want to set.
+
+<b>NOTE:</b> This method will use the static restrictedColumns property of the model.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+myModel.setValues({firstName : &quot;Bob&quot;, lastName : &quot;yukon&quot;});
+
+//this will throw an error by default, assuming id is a pk.
+myModel.setValues({id : 1, firstName : &quot;Bob&quot;, lastName : &quot;yukon&quot;});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>values</em>  : value to set on the model.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Model</code> return this for chaining.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (values){
+   this.__set(values, false);
+   return this;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="toJSON"></a>
+    <h3>
+        toJSON
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Convert this model to JSON, containing column, value pairs.
+
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>JSON</code> the JSON version of this model.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.toObject();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="toObject"></a>
+    <h3>
+        toObject
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Convert this model to an object, containing column, value pairs.
+
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Object</code> the object version of this model.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this._toObject(false);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="toString"></a>
+    <h3>
+        toString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Convert this model to a string, containing column, value pairs.
+
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the string version of this model.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return JSON.stringify(this.toObject(), null, 4);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="update"></a>
+    <h3>
+        update
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/query.js</em>
+
+<p>
+Updates a model. This action checks if the model is not new and values have changed.
+If the model is new then the <a href='./patio_Model.html#save'> patio.Model#save</a> action is called.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//set values before saving
+someModel.update({
+     myVal1 : &quot;newValue1&quot;,
+     myVal2 : &quot;newValue2&quot;,
+     myVal3 : &quot;newValue3&quot;
+     }).then(function(){
+    //do something
+});
+
+//set vals before saving and don&#x27;t use a transaction
+someModel.update({
+     myVal1 : &quot;newValue1&quot;,
+     myVal2 : &quot;newValue2&quot;,
+     myVal3 : &quot;newValue3&quot;
+     }, {transaction : false}).then(function(){
+    //do something
+});
+
+//or
+
+someModel.myVal1 = &quot;newValue1&quot;;
+someModel.myVal2 = &quot;newValue2&quot;;
+someModel.myVal3 = &quot;newValue3&quot;;
+
+//update model with current values
+someModel.update().then(function(){
+    //do something
+});
+
+
+//don&#x27;t use a transaction
+someModel.update(null, {transaction : false});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>vals?</em>  : optional values hash to set on the model before saving.</li>
+    
+        <li> <em>options?</em>  : additional options.</li>
+    
+        <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
+updating the model.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>comb.Promise</code> resolved when the update action has completed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (vals,options){
+   if (this.synced) {
+       if (!this.__isNew) {
+           return this._checkTransaction(options, hitch(this, function () {
+               comb.isHash(vals) &amp;&amp; this.__set(vals);
+               var saveChange = !comb.isEmpty(this.__changed);
+               var ret = new Promise();
+               this._hook(&quot;pre&quot;, &quot;update&quot;).then(hitch(this, function () {
+                   (saveChange ? this._update() : new Promise().callback()).then(hitch(this, function () {
+                       this._hook(&quot;post&quot;, &quot;update&quot;).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
+                   }), ret);
+               }), ret);
+               return ret;
+           }));
+       } else if (this.__isNew &amp;&amp; this.__isChanged) {
+           return this.save(vals, options);
+       } else {
+           return new comb.Promise().callback(this);
+       }
+   } else {
+       throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="valueOf"></a>
+    <h3>
+        valueOf
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined model.js</em>
+
+<p>
+Convert this model to a string, containing column, value pairs.
+
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the string version of this model.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.toObject();
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>

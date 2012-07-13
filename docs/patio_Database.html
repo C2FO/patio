@@ -1,0 +1,7089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
+
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
+</head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      
+           <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
+
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+               
+                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
+               
+                         <li><a href="./patio.html#.sql">patio.sql</a></li>
+               
+                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+    <a name=""></a>
+    <div class="navbar subnav">
+    <div class="navbar-inner  subnav-inner">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.Database
+            
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        <li><a href="#instanceProperties">Instance Properties</a></li>
+                        
+                        
+                        <li><a href="#staticProperties">Static Properties</a></li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_Database.html#.connect">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                connect
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logDebug">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logDebug
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logError">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logError
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logFatal">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logFatal
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logInfo">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logInfo
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logTrace">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logTrace
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#.logWarn">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logWarn
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_Database.html#__alterTableSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __alterTableSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__alterTableSqlList">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __alterTableSqlList
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__columnDefinitionSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __columnDefinitionSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__columnListSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __columnListSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__columnReferencesColumnConstraintSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __columnReferencesColumnConstraintSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__columnReferencesSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __columnReferencesSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__columnReferencesTableConstraintSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __columnReferencesTableConstraintSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__constraintDefinitionSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __constraintDefinitionSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__createTableFromGenerator">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __createTableFromGenerator
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__createTableIndexesFromGenerator">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __createTableIndexesFromGenerator
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__createTableSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __createTableSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__defaultIndexName">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __defaultIndexName
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__dropIndexSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __dropIndexSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__dropTableSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __dropTableSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__filterExpr">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __filterExpr
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__indexDefinitionSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __indexDefinitionSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__indexSqlList">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __indexSqlList
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__onDeleteClause">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __onDeleteClause
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__onUpdateClause">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __onUpdateClause
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__quoteIdentifier">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __quoteIdentifier
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__quoteSchemaTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __quoteSchemaTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__renameTableSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __renameTableSql
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__resetSchemaUtilityDataset">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __resetSchemaUtilityDataset
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__schemaAndTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __schemaAndTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGeneric">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGeneric
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericBlob">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericBlob
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericBoolean">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericBoolean
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericDate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericDate
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericDateTime">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericDateTime
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericDecimal">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericDecimal
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericFloat">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericFloat
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericNumeric">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericNumeric
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericString">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericString
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericTime">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericTime
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericTimestamp">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericTimestamp
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralGenericYear">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericYear
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#__typeLiteralSpecific">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralSpecific
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#_schemaAutoincrementingPrimaryKey">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _schemaAutoincrementingPrimaryKey
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#addColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#addIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                addIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#alreadyInTransaction">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                alreadyInTransaction
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#alterTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                alterTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#castTypeLiteral">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                castTypeLiteral
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#closeConnection">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                closeConnection
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#createConnection">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createConnection
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#createOrReplaceView">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createOrReplaceView
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#createTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#createTableUnlessExists">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createTableUnlessExists
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#createView">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                createView
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#disconnect">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                disconnect
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#dropColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#dropIndex">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropIndex
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#dropTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#dropView">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                dropView
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#execute">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                execute
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#executeDdl">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                executeDdl
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#executeDui">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                executeDui
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#executeInsert">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                executeInsert
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#fetch">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                fetch
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#forceCreateTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                forceCreateTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#forceDropTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                forceDropTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#from">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                from
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#get">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                get
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#indexes">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                indexes
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#literal">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                literal
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logDebug">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logDebug
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logError">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logError
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logFatal">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logFatal
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logInfo">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logInfo
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logTrace">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logTrace
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#logWarn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                logWarn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#removeCachedSchema">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                removeCachedSchema
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#renameColumn">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                renameColumn
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#renameTable">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                renameTable
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#run">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                run
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#schema">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                schema
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#schemaColumnType">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                schemaColumnType
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#select">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                select
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#setColumnDefault">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setColumnDefault
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#setColumnType">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                setColumnType
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#tableExists">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                tableExists
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#tables">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                tables
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#transaction">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                transaction
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#typeLiteral">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                typeLiteral
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#typecastValue">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                typecastValue
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Database.html#validate">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                validate
+
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+            </ul>
+            </div>
+            </div>
+     </div>
+</div>
+
+
+
+    <p>
+A Database object represents a virtual connection to a database.
+The Database class is meant to be subclassed by database adapters in order
+to provide the functionality needed for executing queries.
+
+</p>
+    
+
+    
+
+    
+        <a name="staticProperties"></a>
+        <em>Static Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>AUTOINCREMENT</em></td><td>property</td><td><code>'AUTOINCREMENT'</code></td><td>
+Default  AUTO INCREMENT SQL
+         </td><tr><tr><td><em>CASCADE</em></td><td>property</td><td><code>'CASCADE'</code></td><td>
+Default  CASCACDE SQL
+         </td><tr><tr><td><em>COMMA_SEPARATOR</em></td><td>property</td><td><code>'</code></td><td>
+Default comma
+         </td><tr><tr><td><em>DATABASES</em></td><td>patio.Database[]</td><td><code>DATABASES</code></td><td>
+A list of currently connected Databases.
+</td><tr><tr><td><em>NOT_NULL</em></td><td>property</td><td><code>' NOT NULL'</code></td><td>
+Default  NOT NULL SQL
+         </td><tr><tr><td><em>NO_ACTION</em></td><td>property</td><td><code>'NO ACTION'</code></td><td>
+Default  NO ACTION SQL
+         </td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>' NULL'</code></td><td>
+Default NULL SQL
+         </td><tr><tr><td><em>PRIMARY_KEY</em></td><td>property</td><td><code>' PRIMARY KEY'</code></td><td>
+Default  PRIMARY KEY SQL
+         </td><tr><tr><td><em>RESTRICT</em></td><td>property</td><td><code>'RESTRICT'</code></td><td>
+Default  RESTRICT SQL
+         </td><tr><tr><td><em>SET_DEFAULT</em></td><td>property</td><td><code>'SET DEFAULT'</code></td><td>
+Default  SET DEFAULT SQL
+         </td><tr><tr><td><em>SET_NULL</em></td><td>property</td><td><code>'SET NULL'</code></td><td>
+Default  SET NULL SQL
+         </td><tr><tr><td><em>TEMPORARY</em></td><td>property</td><td><code>'TEMPORARY '</code></td><td>
+Default  TEMPORARY SQL
+         </td><tr><tr><td><em>UNDERSCORE</em></td><td>property</td><td><code>'_'</code></td><td>
+Default  UNDERSCORE SQL, used in index creation.
+         </td><tr><tr><td><em>UNIQUE</em></td><td>property</td><td><code>' UNIQUE'</code></td><td>
+Default  UNIQUE SQL
+         </td><tr><tr><td><em>UNSIGNED</em></td><td>property</td><td><code>' UNSIGNED'</code></td><td>
+Default  UNSIGNED SQL
+         </td><tr><tr><td><em>identifierInputMethod</em></td><td>String</td><td><code>function (){
+   return this.__identifierInputMethod;
+               
+}</code></td><td>
+The String or comb method to use transform identifiers with when
+they are sent to database. See <a href='./patio.html#identifierInputMethod'> patio#identifierInputMethod</a>
+
+</td><tr><tr><td><em>identifierOutputMethod</em></td><td>String</td><td><code>function (){
+   return this.__identifierOutputMethod;
+               
+}</code></td><td>
+The String or comb method to use transform identifiers with when
+they are retrieved from database. See <a href='./patio.html#identifierOutputMethod'> patio#identifierOutputMethod</a>
+
+</td><tr><tr><td><em>logger</em></td><td>function</td><td><code>function (){
+   return LOGGER;
+               
+}</code></td><td>
+The "patio.Database" logger.
+</td><tr><tr><td><em>quoteIdentifiers</em></td><td>Boolean</td><td><code>function (){
+   return this.__quoteIdentifiers;
+               
+}</code></td><td>
+Boolean of whether or not to quote identifiers before sending
+then to the database. See <a href='./patio.html#quoteIdentifiers'> patio#quoteIdentifiers</a>
+
+</td><tr></table>
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>SQL_BEGIN</td><td>property</td><td><code>'BEGIN'</code></td><td>
+The <b>BEGIN</b> SQL fragment used to signify the start of a transaciton.
+         </td><tr><tr><td>SQL_COMMIT</td><td>property</td><td><code>'COMMIT'</code></td><td>
+The <b>COMMIT</b> SQL fragment used to signify the end of a transaction and the final commit.
+         </td><tr><tr><td>SQL_RELEASE_SAVEPOINT</td><td>property</td><td><code>'RELEASE SAVEPOINT autopoint_%d'</code></td><td>
+The <b>RELEASE SAVEPOINT</b> SQL fragment used by trasactions when using save points.
+The adapter should override this SQL fragment if the adapters SQL is different.
+<p>
+     <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
+</p>
+         </td><tr><tr><td>SQL_ROLLBACK</td><td>property</td><td><code>'ROLLBACK'</code></td><td>
+The <b>ROLLBACK</b> SQL fragment used to rollback a database transaction.
+This should be overrode by adapters if the SQL for the adapters
+database is different.
+         </td><tr><tr><td>SQL_ROLLBACK_TO_SAVEPOINT</td><td>property</td><td><code>'ROLLBACK TO SAVEPOINT autopoint_%d'</code></td><td>
+The <b>ROLLBACK TO SAVEPOINT</b> SQL fragment used to rollback a database transaction
+to a particular save point.
+This should be overrode by adapters if the SQL for the adapters
+database is different.
+
+<p>
+     <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
+</p>
+         </td><tr><tr><td>SQL_SAVEPOINT</td><td>property</td><td><code>'SAVEPOINT autopoint_%d'</code></td><td>
+The <b>SAVEPOINT</b> SQL fragment used for creating a save point in a
+database transaction.
+<p>
+     <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
+</p>
+         </td><tr><tr><td>TRANSACTION_ISOLATION_LEVELS</td><td>property</td><td><code>{
+            uncommitted:'READ UNCOMMITTED',
+            committed:'READ COMMITTED',
+            repeatable:'REPEATABLE READ',
+            serializable:'SERIALIZABLE'
+        }</code></td><td>
+Object containing different database transaction isolation levels.
+This object is used to look up the proper SQL when starting a new transaction
+and setting the isolation level in the options.
+</td><tr><tr><td>__schemaUtiltyDataset</td><td>function</td><td><code>function (){
+   this.__schemaUtiltyDs = this.__schemaUtiltyDs || this.dataset;
+   return this.__schemaUtiltyDs;
+               
+}</code></td><td>
+</td><tr><tr><td>autoIncrementSql</td><td>function</td><td><code>function (){
+   return this._static.AUTOINCREMENT;
+               
+}</code></td><td>
+</td><tr><tr><td>beginTransactionSql</td><td>String</td><td><code>function (){
+   return this.SQL_BEGIN;
+               
+}</code></td><td>
+SQL to BEGIN a transaction.
+See <a href='./patio_Database.html#SQL_BEGIN'> patio.Database#SQL_BEGIN</a> for default,
+</td><tr><tr><td>commitTransactionSql</td><td>String</td><td><code>function (){
+   return this.SQL_COMMIT;
+               
+}</code></td><td>
+SQL to COMMIT a transaction.
+See <a href='./patio_Database.html#SQL_COMMIT'> patio.Database#SQL_COMMIT</a> for default,
+</td><tr><tr><td>connectionExecuteMethod</td><td>property</td><td><code>"execute"</code></td><td>
+The method name to invoke on a connection. The method name
+should be overrode by an adapter if the method to execute
+a query is different for the adapter specific connection class.
+         </td><tr><tr><td>connectionPoolDefaultOptions</td><td>Object</td><td><code>function (){
+   return {};
+               
+}</code></td><td>
+The default options for the connection pool.
+</td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td>returns an empty adapter specific <a href='./patio_Dataset.html#'> patio.Dataset</a> that can be used to query the <a href='./patio_Database.html#'> patio.Database</a> with.</td><tr><tr><td>defaultSchemaDefault</td><td>{String|patio.sql.Identifier}</td><td><code>function (){
+   return null;
+               
+}</code></td><td>
+Default schema to use. This is generally null but may be overridden by an adapter.
+</td><tr><tr><td>identifierInputMethod</td><td>String</td><td><code>function (){
+   return this.__identifierInputMethod;
+               
+}</code></td><td>
+The String or comb method to use transform identifiers with when
+sending identifiers to the database. If this property is undefined then
+<a href='./patio_Database.html#identifierInputMethodDefault'> patio.Database#identifierInputMethodDefault</a> will be used.
+
+</td><tr><tr><td>identifierInputMethodDefault</td><td>String</td><td><code>
+toUpperCase
+             </code></td><td>
+The default String or comb method to use transform identifiers with when
+sending identifiers to the database.
+</td><tr><tr><td>identifierOutputMethod</td><td>String</td><td><code>function (){
+   return this.__identifierOutputMethod;
+               
+}</code></td><td>
+The String or comb method to use transform identifiers with when
+they are retrieved from database. If this property is undefined then
+<a href='./patio_Database.html#identifierOutputMethodDefault'> patio.Database#identifierOutputMethodDefault</a> will be used.
+
+</td><tr><tr><td>identifierOutputMethodDefault</td><td>String</td><td><code>
+toLowerCase
+             </code></td><td>
+The default String or comb method to use transform identifiers with when
+they are retrieved from the database.
+</td><tr><tr><td>inputIdentifierFunc</td><td>Function</td><td><code>function (){
+   return hitch(this.dataset, this.dataset.inputIdentifier);
+               
+}</code></td><td>
+Return a function for the dataset's <a href='./patio_Dataset.html#inputIdentifierMethod'> patio.Dataset#inputIdentifierMethod</a>.
+Used in metadata parsing to make sure the returned information is in the
+correct format.
+
+</td><tr><tr><td>logger</td><td>function</td><td><code>function (){
+   return LOGGER;
+               
+}</code></td><td>
+The "patio.Database" logger.
+</td><tr><tr><td>metadataDataset</td><td>patio.Dataset</td><td><code>function (){
+   if (this.__metadataDataset) {
+       return this.__metadataDataset;
+   }
+   var ds = this.dataset;
+   ds.identifierInputMethod = this.identifierInputMethod;
+   ds.identifierOutputMethod = this.identifierOutputMethod;
+   this.__metadataDataset = ds;
+   return ds;
+               
+}</code></td><td>
+Return a dataset that uses the default identifier input and output methods
+for this database.  Used when parsing metadata so that column are
+returned as expected.
+
+</td><tr><tr><td>outputIdentifierFunc</td><td>Function</td><td><code>function (){
+   return hitch(this.dataset, this.dataset.outputIdentifier);
+               
+}</code></td><td>
+Return a function for the dataset's <a href='./patio_Dataset.html#outputIdentifierMethod'> patio.Dataset#outputIdentifierMethod</a>.
+Used in metadata parsing to make sure the returned information is in the
+correct format.
+
+</td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td><code>
+true
+             </code></td><td>
+Boolean of whether or not to quote identifiers before sending
+then to the database. If this property is undefined then
+then <a href='./patio_Database.html#quoteIdentifiersDefault'> patio.Database#quoteIdentifiersDefault</a> will be used.
+
+</td><tr><tr><td>quoteIdentifiersDefault</td><td>Boolean</td><td><code>
+true
+             </code></td><td>
+Default boolean of whether or not to quote identifiers before sending
+then to the database.
+</td><tr><tr><td>rollbackTransactionSql</td><td>String</td><td><code>function (){
+   return this.SQL_ROLLBACK;
+               
+}</code></td><td>
+SQL to ROLLBACK a transaction.
+See <a href='./patio_Database.html#SQL_ROLLBACK'> patio.Database#SQL_ROLLBACK</a> for default,
+</td><tr><tr><td>serialPrimaryKeyOptions</td><td>Object</td><td><code>
+{primaryKey : true, type : "integer", autoIncrement : true}
+</code></td><td>
+Default serial primary key options, used by the table creation
+code.
+</td><tr><tr><td>supportsPreparedTransactions</td><td>Boolean</td><td><code>
+false
+             </code></td><td>
+Whether the database and adapter support prepared transactions
+(two-phase commit)
+</td><tr><tr><td>supportsSavepoints</td><td>Boolean</td><td><code>
+false
+             </code></td><td>
+Whether the database and adapter support savepoints.
+</td><tr><tr><td>supportsTransactionIsolationLevels</td><td>Boolean</td><td><code>
+false
+</code></td><td>
+Whether the database and adapter support transaction isolation levels.
+
+</td><tr><tr><td>temporaryTableSql</td><td>function</td><td><code>function (){
+   return this._static.TEMPORARY;
+               
+}</code></td><td>
+</td><tr><tr><td>uri</td><td>String</td><td></td><td>A database URI used to create the database connection. This property is available even if an object was used to create the database connection.</td><tr></table>
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined database/index.js</em>
+    
+    
+    
+        
+            <em>Source</em>
+            <pre class="prettyprint linenums lang-js">
+function (opts){
+   opts = opts || {};
+   if (!patio) {
+       patio = require(&quot;../index&quot;);
+   }
+   this.patio = patio;
+   this._super(arguments, [opts]);
+   opts = merge(this.connectionPoolDefaultOptions, opts);
+   this.schemas = {};
+   this.type = opts.type;
+   this.defaultSchema = opts.defaultSchema || this.defaultSchemaDefault;
+   this.preparedStatements = {};
+   this.opts = opts;
+   this.pool = ConnectionPool.getPool(opts, this.createConnection.bind(this), this.closeConnection.bind(this), this.validate.bind(this));
+           
+}
+            </pre>
+      
+    
+
+  
+    <a name=".connect"></a>
+    <h3>
+        connect
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/connect.js</em>
+
+<p>
+Creates a connection to a Database see <a href='./patio.html#createConnection'> patio#createConnection</a>.
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>connectionString</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (connectionString,opts){
+   opts = opts || {};
+   if (isString(connectionString)) {
+       var url = URL.parse(connectionString, true);
+       if (url.auth) {
+           var parts = url.auth.split(&quot;:&quot;);
+           if (!opts.user) {
+               opts.user = parts[0];
+           }
+           if (!opts.password) {
+               opts.password = parts[1];
+           }
+       }
+       opts.type = url.protocol.replace(&quot;:&quot;, &quot;&quot;);
+       opts.host = url.hostname;
+       if (url.pathname) {
+           var path = url.pathname;
+           var pathParts = path.split(&quot;/&quot;).slice(1);
+           if (pathParts.length &gt;= 1) {
+               opts.database = pathParts[0];
+           }
+       }
+       opts = merge(opts, url.query, {uri:connectionString});
+   } else {
+       opts = merge({}, connectionString, opts);
+   }
+   if (opts &amp;&amp; isHash(opts) &amp;&amp; (opts.adapter || opts.type)) {
+       var type = (opts.type = opts.adapter || opts.type);
+       var Adapter = ADAPTERS[type];
+       if (Adapter) {
+           var adapter = new Adapter(opts);
+           this.DATABASES.push(adapter);
+           return adapter;
+       } else {
+           throw DatabaseError(type + &quot; adapter was not found&quot;);
+       }
+   } else {
+       throw new DatabaseError(&quot;Options required when connecting.&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logDebug"></a>
+    <h3>
+        logDebug
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a DEBUG level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isDebug) {
+       LOGGER.debug.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logError"></a>
+    <h3>
+        logError
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a ERROR level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isError) {
+       LOGGER.error.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logFatal"></a>
+    <h3>
+        logFatal
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a FATAL level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isFatal) {
+       LOGGER.fatal.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logInfo"></a>
+    <h3>
+        logInfo
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs an INFO level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isInfo) {
+       LOGGER.info.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logTrace"></a>
+    <h3>
+        logTrace
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a TRACE level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isTrace) {
+       LOGGER.trace.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name=".logWarn"></a>
+    <h3>
+        logWarn
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a WARN level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isWarn) {
+       LOGGER.warn.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+  
+    <a name="__alterTableSql"></a>
+    <h3>
+        __alterTableSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>op</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,op){
+   var ret = new comb.Promise();
+   var quotedName = op.name ? this.__quoteIdentifier(op.name) : null;
+   var alterTableOp = null;
+   switch (op.op) {
+       case &quot;addColumn&quot;:
+           alterTableOp = format(&quot;ADD COLUMN %s&quot;, this.__columnDefinitionSql(op));
+           break;
+       case &quot;dropColumn&quot;:
+           alterTableOp = format(&quot;DROP COLUMN %s&quot;, quotedName);
+           break;
+       case &quot;renameColumn&quot;:
+           alterTableOp = format(&quot;RENAME COLUMN %s TO %s&quot;, quotedName, this.__quoteIdentifier(op.newName));
+           break;
+       case &quot;setColumnType&quot;:
+           alterTableOp = format(&quot;ALTER COLUMN %s TYPE %s&quot;, quotedName, this.typeLiteral(op));
+           break;
+       case &quot;setColumnDefault&quot;:
+           alterTableOp = format(&quot;ALTER COLUMN %s SET DEFAULT %s&quot;, quotedName, this.literal(op[&quot;default&quot;]));
+           break;
+       case &quot;setColumnNull&quot;:
+           alterTableOp = format(&quot;ALTER COLUMN %s %s NOT NULL&quot;, quotedName, op.null ? &quot;DROP&quot; : &quot;SET&quot;);
+           break;
+       case &quot;addIndex&quot;:
+           return ret.callback(this.__indexDefinitionSql(table, op));
+           break;
+       case &quot;dropIndex&quot;:
+           return ret.callback(this.__dropIndexSql(table, op));
+           break;
+       case &quot;addConstraint&quot;:
+           alterTableOp = format(&quot;ADD %s&quot;, this.__constraintDefinitionSql(op));
+           break;
+       case &quot;dropConstraint&quot;:
+           alterTableOp = format(&quot;DROP CONSTRAINT %s&quot;, quotedName);
+           break;
+       default :
+           throw new DatabaseError(&quot;Invalid altertable operator&quot;);
+   }
+   return ret.callback(format(&quot;ALTER TABLE %s %s&quot;, this.__quoteSchemaTable(table), alterTableOp));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__alterTableSqlList"></a>
+    <h3>
+        __alterTableSqlList
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>operations</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,operations){
+   return new PromiseList(operations.map(hitch(this, &quot;__alterTableSql&quot;, table)));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__columnDefinitionSql"></a>
+    <h3>
+        __columnDefinitionSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   var sql = format(&quot;%s %s&quot;, this.__quoteIdentifier(column.name), this.typeLiteral(column));
+   column.unique &amp;&amp; (sql += this._static.UNIQUE);
+   (column.allowNull === false || column.null == false) &amp;&amp; (sql += this._static.NOT_NULL);
+   (column.allowNull === true || column.null == true) &amp;&amp; (sql += this._static.NULL);
+   !comb.isUndefined(column[&quot;default&quot;]) &amp;&amp; (sql += format(&quot; DEFAULT %s&quot;, this.literal(column[&quot;default&quot;])));
+   column.primaryKey &amp;&amp; (sql += this._static.PRIMARY_KEY);
+   column.autoIncrement &amp;&amp; (sql += &quot; &quot; + this.autoIncrementSql);
+   column.table &amp;&amp; (sql += this.__columnReferencesColumnConstraintSql(column));
+   return sql;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__columnListSql"></a>
+    <h3>
+        __columnListSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>generator</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (generator){
+   return generator.columns.map(hitch(this, &quot;__columnDefinitionSql&quot;)).concat(generator.constraints.map(hitch(this, &quot;__constraintDefinitionSql&quot;))).join(this._static.COMMA_SEPARATOR);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__columnReferencesColumnConstraintSql"></a>
+    <h3>
+        __columnReferencesColumnConstraintSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return this.__columnReferencesSql(column);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__columnReferencesSql"></a>
+    <h3>
+        __columnReferencesSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   var sql = format(&quot; REFERENCES %s&quot;, this.__quoteSchemaTable(column.table));
+   column.key &amp;&amp; (sql += format(&quot;(%s)&quot;, array.toArray(column.key).map(this.__quoteIdentifier, this).join(this._static.COMMA_SEPARATOR)));
+   column.onDelete &amp;&amp; (sql += format(&quot; ON DELETE %s&quot;, this.__onDeleteClause(column.onDelete)));
+   column.onUpdate &amp;&amp; (sql += format(&quot; ON UPDATE %s&quot;, this.__onUpdateClause(column.onUpdate)));
+   column.deferrable &amp;&amp; (sql += &quot; DEFERRABLE INITIALLY DEFERRED&quot;);
+   return sql;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__columnReferencesTableConstraintSql"></a>
+    <h3>
+        __columnReferencesTableConstraintSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>constraint</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (constraint){
+   return format(&quot;FOREIGN KEY %s%s&quot;, this.literal(constraint.columns.map(function (c) {
+       return comb.isString(c) ? sql.stringToIdentifier(c) : c;
+   })), this.__columnReferencesSql(constraint));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__constraintDefinitionSql"></a>
+    <h3>
+        __constraintDefinitionSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>constraint</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (constraint){
+   var ret = constraint.name ? format(&quot;CONSTRAINT %s &quot;, this.__quoteIdentifier(constraint.name)) : &quot;&quot;;
+   switch (constraint.type) {
+       case &quot;check&quot;:
+           var check = constraint.check;
+           ret += format(&quot;CHECK %s&quot;, this.__filterExpr(comb.isArray(check) &amp;&amp; check.length == 1 ? check[0] : check));
+           break;
+       case &quot;primaryKey&quot;:
+           ret += format(&quot;PRIMARY KEY %s&quot;, this.literal(constraint.columns.map(function (c) {
+               return comb.isString(c) ? sql.stringToIdentifier(c) : c;
+           })));
+           break;
+       case &quot;foreignKey&quot;:
+           ret += this.__columnReferencesTableConstraintSql(constraint);
+           break;
+       case &quot;unique&quot;:
+           ret += format(&quot;UNIQUE %s&quot;, this.literal(constraint.columns.map(function (c) {
+               return comb.isString(c) ? sql.stringToIdentifier(c) : c;
+           })));
+           break;
+       default:
+           throw new DatabaseError(format(&quot;Invalid constriant type %s, should be &#x27;check&#x27;, &#x27;primaryKey&#x27;, foreignKey&#x27;, or &#x27;unique&#x27;&quot;, constraint.type));
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__createTableFromGenerator"></a>
+    <h3>
+        __createTableFromGenerator
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>generator</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,generator,options){
+   return this.executeDdl(this.__createTableSql(name, generator, options));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__createTableIndexesFromGenerator"></a>
+    <h3>
+        __createTableIndexesFromGenerator
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>generator</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,generator,options){
+   var e = options.ignoreIndexErrors;
+   var ret = new Promise();
+   var promises = generator.indexes.map(function (index) {
+       var ps = this.__indexSqlList(name, [index]).map(this.executeDdl, this);
+       return new PromiseList(ps);
+   }, this);
+   if (promises.length) {
+       new PromiseList(promises).then(hitch(ret, &quot;callback&quot;), hitch(ret, e ? &quot;callback&quot; : &quot;errback&quot;));
+   } else {
+       ret.callback();
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__createTableSql"></a>
+    <h3>
+        __createTableSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>generator</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,generator,options){
+   return format(&quot;CREATE %sTABLE %s (%s)&quot;, options.temp ? this.temporaryTableSql : &quot;&quot;, this.__quoteSchemaTable(name), this.__columnListSql(generator));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__defaultIndexName"></a>
+    <h3>
+        __defaultIndexName
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>tableName</em>  : </li>
+    
+        <li> <em>columns</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (tableName,columns){
+   var parts = this.__schemaAndTable(tableName);
+   var schema = parts[0], table = parts[1];
+   var index = [];
+   if (schema &amp;&amp; schema != this.defaultSchema) {
+       index.push(schema);
+   }
+   index.push(table);
+   index = index.concat(columns.map(function (c) {
+       return comb.isString(c) ? c : this.literal(c).replace(/\W/g, &quot;_&quot;)
+   }, this));
+   index.push(&quot;index&quot;);
+   return index.join(this._static.UNDERSCORE);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__dropIndexSql"></a>
+    <h3>
+        __dropIndexSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>op</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,op){
+   return format(&quot;DROP INDEX %s&quot;, this.__quoteIdentifier(op.name || this.__defaultIndexName(table, op.columns)));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__dropTableSql"></a>
+    <h3>
+        __dropTableSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   return format(&quot;DROP TABLE %s&quot;, this.__quoteSchemaTable(name));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__filterExpr"></a>
+    <h3>
+        __filterExpr
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>args</em>  : </li>
+    
+        <li> <em>block</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (args,block){
+   var ds = this.__schemaUtiltyDataset;
+   return ds.literal(ds._filterExpr.apply(ds, arguments));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__indexDefinitionSql"></a>
+    <h3>
+        __indexDefinitionSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>tableName</em>  : </li>
+    
+        <li> <em>index</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (tableName,index){
+   var indexName = index.name || this.__defaultIndexName(tableName, index.columns);
+   if (index.type) {
+       throw new DatabaseError(&quot;Index types are not supported for this database&quot;);
+   } else if (index.where) {
+       throw new DatabaseError(&quot;Partial indexes are not supported for this database&quot;);
+   } else {
+       return format(&quot;CREATE %sINDEX %s ON %s %s&quot;, index.unique ? &quot;UNIQUE &quot; : &quot;&quot;, this.__quoteIdentifier(indexName), this.__quoteSchemaTable(tableName), this.literal(index.columns.map(function (c) {
+           return comb.isString(c) ? new Identifier(c) : c;
+       })));
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__indexSqlList"></a>
+    <h3>
+        __indexSqlList
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Array of SQL DDL statements, one for each index specification,
+for the given table.
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>tableName</em>  : </li>
+    
+        <li> <em>indexes</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (tableName,indexes){
+   return indexes.map(hitch(this, this.__indexDefinitionSql, tableName));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__onDeleteClause"></a>
+    <h3>
+        __onDeleteClause
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>action</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (action){
+   return this._static[action.toUpperCase()] || this._static.NO_ACTION;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__onUpdateClause"></a>
+    <h3>
+        __onUpdateClause
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>action</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (action){
+   return this._static[action.toUpperCase()] || this._static.NO_ACTION;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__quoteIdentifier"></a>
+    <h3>
+        __quoteIdentifier
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>v</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (v){
+   return this.__schemaUtiltyDataset.quoteIdentifier(v);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__quoteSchemaTable"></a>
+    <h3>
+        __quoteSchemaTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table){
+   return this.__schemaUtiltyDataset.quoteSchemaTable(table);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__renameTableSql"></a>
+    <h3>
+        __renameTableSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>newName</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,newName){
+   return format(&quot;ALTER TABLE %s RENAME TO %s&quot;, this.__quoteSchemaTable(name), this.__quoteSchemaTable(newName));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__resetSchemaUtilityDataset"></a>
+    <h3>
+        __resetSchemaUtilityDataset
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   this.__schemaUtiltyDs = null;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__schemaAndTable"></a>
+    <h3>
+        __schemaAndTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>tableName</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (tableName){
+   return  this.__schemaUtiltyDataset.schemaAndTable(tableName);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGeneric"></a>
+    <h3>
+        __typeLiteralGeneric
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   var type = column.type;
+   var meth = &quot;__typeLiteralGeneric&quot;;
+   var isString = comb.isString(type);
+   var proper = isString ? type.charAt(0).toUpperCase() + type.substr(1) : null;
+   if (type === String || (isString &amp;&amp; type.match(/string/i))) {
+       meth += &quot;String&quot;;
+   } else if (type === Number || (isString &amp;&amp; type.match(/number/i))) {
+       meth += &quot;Numeric&quot;;
+   } else if (type === DateTime || (isString &amp;&amp; type.match(/datetime/i))) {
+       meth += &quot;DateTime&quot;;
+   } else if (type === Date || (isString &amp;&amp; type.match(/date/i))) {
+       meth += &quot;Date&quot;;
+   } else if (type === Year || (isString &amp;&amp; type.match(/year/i))) {
+       meth += &quot;Year&quot;;
+   } else if (type === TimeStamp || (isString &amp;&amp; type.match(/timestamp/i))) {
+       meth += &quot;Timestamp&quot;;
+   } else if (type === Time || (isString &amp;&amp; type.match(/time/i))) {
+       meth += &quot;Time&quot;;
+   } else if (type === Decimal || (isString &amp;&amp; type.match(/decimal/i))) {
+       meth += &quot;Decimal&quot;;
+   } else if (type === Float || (isString &amp;&amp; type.match(/float/i))) {
+       meth += &quot;Float&quot;;
+   } else if (type === Boolean || (isString &amp;&amp; type.match(/boolean/i))) {
+       meth += &quot;Boolean&quot;;
+   } else if (type === Buffer || (isString &amp;&amp; type.match(/buffer/i))) {
+       meth += &quot;Blob&quot;;
+   } else if(isString &amp;&amp; comb.isFunction(this[meth + proper])){
+       meth += proper;
+   } else {
+       return this.__typeLiteralSpecific(column);
+   }
+   return this[meth](column);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericBlob"></a>
+    <h3>
+        __typeLiteralGenericBlob
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;blob&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericBoolean"></a>
+    <h3>
+        __typeLiteralGenericBoolean
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;boolean&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericDate"></a>
+    <h3>
+        __typeLiteralGenericDate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   var type = column.type, ret = &quot;date&quot;;
+   if (column.onlyTime) {
+       ret = &quot;time&quot;;
+   } else if (column.timeStamp) {
+       ret = &quot;timestamp&quot;;
+   } else if (column.dateTime) {
+       ret = &quot;datetime&quot;;
+   } else if (column.yearOnly) {
+       ret = &quot;year&quot;;
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericDateTime"></a>
+    <h3>
+        __typeLiteralGenericDateTime
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;datetime&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericDecimal"></a>
+    <h3>
+        __typeLiteralGenericDecimal
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;double precision&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericFloat"></a>
+    <h3>
+        __typeLiteralGenericFloat
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;double precision&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericNumeric"></a>
+    <h3>
+        __typeLiteralGenericNumeric
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return column.size ? format(&quot;numeric(%s)&quot;, array.toArray(column.size).join(&#x27;, &#x27;)) : column.isInt ? &quot;integer&quot; : column.isDouble ? &quot;double precision&quot; : &quot;numeric&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericString"></a>
+    <h3>
+        __typeLiteralGenericString
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return column.text ? &quot;text&quot; : format(&quot;%s(%s)&quot;, column.fixed ? &quot;char&quot; : &quot;varchar&quot;, column.size || 255);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericTime"></a>
+    <h3>
+        __typeLiteralGenericTime
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;time&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericTimestamp"></a>
+    <h3>
+        __typeLiteralGenericTimestamp
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;timestamp&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericYear"></a>
+    <h3>
+        __typeLiteralGenericYear
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;year&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralSpecific"></a>
+    <h3>
+        __typeLiteralSpecific
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   var type = column.type;
+   type = type === &quot;double&quot; ? &quot;double precision&quot; : type;
+   if (type === &quot;varchar&quot;) {
+       column.size = comb.isNumber(column.size) ? column.size : 255;
+   }
+   var elements = column.size || column.elements;
+   return format(&quot;%s%s%s&quot;, type, elements ? this.literal(array.toArray(elements)) : &quot;&quot;, column.unsigned ? &quot; UNSIGNED&quot; : &quot;&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="_schemaAutoincrementingPrimaryKey"></a>
+    <h3>
+        _schemaAutoincrementingPrimaryKey
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>schema</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (schema){
+   return !!schema.primaryKey;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addColumn"></a>
+    <h3>
+        addColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Adds a column to the specified table. This method expects a column name,
+a datatype and optionally a hash with additional constraints and options:
+
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    addColumn call.
+</p>
+
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//Outside of a table
+//ALTER TABLE test ADD COLUMN name text UNIQUE&#x27;
+DB.addColumn(&quot;test&quot;, &quot;name&quot;, &quot;text&quot;, {unique : true});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to add the column to.</li>
+    
+        <li> <em>column</em>  : the name of the column to add.</li>
+    
+        <li> <em>type</em>  : datatype of the column</li>
+    
+        <li> <em>opts?</em>  : additional options that can be used when adding a column.</li>
+    
+        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : set to true if this column is a primary key.</li>
+    
+        <li> <em>opts.allowNull?</em> <code>Boolean</code> : whether or not this column should allow null.</li>
+    
+        <li> <em>opts.unique?</em> <code>Boolean</code> : set to true to add a UNIQUE constraint to a column,</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved when the ADD COLUMN action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,column,type,opts){
+   var args = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.addColumn.apply(this, args)
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="addIndex"></a>
+    <h3>
+        addIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Adds an index to a table for the given columns
+
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    addIndex call.
+</p>
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.addIndex(&quot;test&quot;, &quot;name&quot;, {unique : true});
+     //=&gt; &#x27;CREATE UNIQUE INDEX test_name_index ON test (name)&#x27;
+DB.addIndex(&quot;test&quot;, [&quot;one&quot;, &quot;two&quot;]);
+     //=&gt; &#x27;&#x27;CREATE INDEX test_one_two_index ON test (one, two)&#x27;&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to add the index to.</li>
+    
+        <li> <em>columns</em>  : the name of the column/s to create an index for.</li>
+    
+        <li> <em>options?</em>  : additional options that can be used when adding an index.</li>
+    
+        <li> <em>options.unique?</em> <code>Boolean</code> : set to true if this this index should have a UNIQUE constraint.</li>
+    
+        <li> <em>options.ignoreErrors?</em> <code>Boolean</code> : set to true to ignore errors.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved when the CREATE INDEX action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,columns,options){
+   options = options || {};
+   var ignoreErrors = options.ignoreErrors === true;
+   var ret = new Promise();
+   this.alterTable(table,
+       function () {
+           this.addIndex(columns, options)
+       }).then(hitch(ret, &quot;callback&quot;), function (err) {
+           if (!ignoreErrors) {
+               ret.errback(err);
+           } else {
+               ret.callback();
+           }
+       });
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="alreadyInTransaction"></a>
+    <h3>
+        alreadyInTransaction
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Returns true if this DATABASE is currently in a transaction.
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>conn</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Boolean</code> true if this dabase is currently in a transaction.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (conn,opts){
+   opts = opts || {};
+   return this.__transactions.indexOf(conn) !== -1 &amp;&amp; (!this.supportsSavepoints || !opts.savepoint);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="alterTable"></a>
+    <h3>
+        alterTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Alters the given table with the specified block.
+ <p>
+     <b>NOTE:</b> The block is invoked in the scope of the table that is being altered. The block
+     is also called with the table as the first argument. Within the block you must use
+     <b>this</b>(If the block has not been bound to a different scope), or the table object
+     that is passed in for all alter table operations. See <a href='./patio_AlterTableGenerator.html#'> patio.AlterTableGenerator</a> for
+     avaiable operations.
+ </p>
+
+ <p>
+     <b>Note</b> that addColumn accepts all the options available for column
+     definitions using createTable, and addIndex accepts all the options
+     available for index definition.
+ </p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//using the table object
+  DB.alterTable(&quot;items&quot;, function(table){
+     //you must use the passed in table object.
+    table.addColumn(&quot;category&quot;, &quot;text&quot;, {default : &#x27;javascript&#x27;});
+    table.dropColumn(&quot;category&quot;);
+    table.renameColumn(&quot;cntr&quot;, &quot;counter&quot;);
+    table.setColumnType(&quot;value&quot;, &quot;float&quot;);
+    table.setColumnDefault(&quot;value&quot;, &quot;float&quot;);
+    table.addIndex([&quot;group&quot;, &quot;category&quot;]);
+    table.dropIndex [:group, :category]
+  });
+
+  //using this
+   DB.alterTable(&quot;items&quot;, function(){
+    this.addColumn(&quot;category&quot;, &quot;text&quot;, {default : &#x27;javascript&#x27;});
+    this.dropColumn(&quot;category&quot;);
+    this.renameColumn(&quot;cntr&quot;, &quot;counter&quot;);
+    this.setColumnType(&quot;value&quot;, &quot;float&quot;);
+    this.setColumnDefault(&quot;value&quot;, &quot;float&quot;);
+    this.addIndex([&quot;group&quot;, &quot;category&quot;]);
+    this.dropIndex [:group, :category]
+  });
+
+  //This will not work
+  DB.alterTable(&quot;items&quot;, comb.hitch(someObject, function(){
+   //This is called in the scope of someObject so this
+   //will not work and will throw an error
+    this.addColumn(&quot;category&quot;, &quot;text&quot;, {default : &#x27;javascript&#x27;});
+  }));
+
+   //This will work
+  DB.alterTable(&quot;items&quot;, comb.hitch(someObject, function(table){
+   //This is called in the scope of someObject so you must
+   //use the table argument
+    table.category(&quot;text&quot;, {default : &#x27;javascript&#x27;});
+  }));
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>generator</em>  : </li>
+    
+        <li> <em>block</em>  : the block to invoke for the ALTER TABLE operations</li>
+    
+        <li> <em>table</em> <code>String|patio.sql.Identifier</code> : to the table to perform the ALTER TABLE operations on.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once all ALTER TABLE operations have completed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,generator,block){
+   if (comb.isFunction(generator)) {
+       block = generator;
+       generator = new AlterTableGenerator(this, block);
+   }
+   var ret = new Promise();
+   this.__alterTableSqlList(name, generator.operations).then(hitch(this, function (res) {
+       var sqls = array.flatten(res.map(function (r) {
+           return r[1]
+       }));
+       var l = sqls.length;
+       var drop = hitch(this, function (i) {
+           if (i &lt; l) {
+               var sql = sqls[i++];
+               this.executeDdl(sql).then(hitch(this, drop, i), hitch(ret, &quot;errback&quot;));
+           } else {
+               this.removeCachedSchema(name);
+               ret.callback();
+           }
+       });
+       drop(0);
+   }));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="castTypeLiteral"></a>
+    <h3>
+        castTypeLiteral
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/index.js</em>
+
+<p>
+Casts the given type to a SQL type.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.castTypeLiteral(Number) //=&gt; numeric
+  DB.castTypeLiteral(&quot;foo&quot;) //=&gt; foo
+  DB.castTypeLiteral(String) //=&gt; varchar(255)
+  DB.castTypeLiteral(Boolean) //=&gt; boolean
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>type</em>  : the javascript type to cast to a SQL type.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>String</code> the SQL data type.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (type){
+   return this.typeLiteral({type:type});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="closeConnection"></a>
+    <h3>
+        closeConnection
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/connect.js</em>
+
+<p>
+This is an abstract method that should be implemented by adapters to close
+a connection to the database.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>conn</em>  : the database connection to close.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (conn){
+   throw new NotImplemented(&quot;Close connection must be implemented by the adapter&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createConnection"></a>
+    <h3>
+        createConnection
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/connect.js</em>
+
+<p>
+This is an abstract method that should be implemented by adapters to create
+a connection to the database.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options</em>  : options that are adapter specific.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (options){
+   throw new NotImplemented(&quot;Create connection must be implemented by the adapter&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createOrReplaceView"></a>
+    <h3>
+        createOrReplaceView
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Creates a view, replacing it if it already exists:
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
+     //=&gt; CREATE OR REPLACE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
+  DB.createOrReplaceView(&quot;miscItems&quot;, DB[:items].filter({category : &#x27;misc&#x27;}));
+    //=&gt; CREATE OR REPLACE VIEW miscItems AS SELECT * FROM items WHERE category = &#x27;misc&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the view to create.</li>
+    
+        <li> <em>source</em>  : the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved when the CREATE OR REPLACE VIEW action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,source){
+   if (comb.isInstanceOf(source, Dataset)) {
+       source = source.sql;
+   }
+   var ret = new Promise();
+   this.executeDdl(format(&quot;CREATE OR REPLACE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source)).then(hitch(this, function () {
+       this.removeCachedSchema(name);
+       ret.callback();
+   }), hitch(ret, &quot;callback&quot;));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createTable"></a>
+    <h3>
+        createTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Creates a table with the columns given in the provided block:
+
+<p>
+     <b>NOTE:</b> The block is invoked in the scope of the table that is being created. The block
+     is also called with the table as the first argument. Within the block you must use
+     <b>this</b>(If the block has not been bound to a different scope), or the table object
+     that is passed in for all create table operations. See <a href='./patio_SchemaGenerator.html#'> patio.SchemaGenerator</a> for
+     available operations.
+ </p>
+
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//using the table to create the table
+  DB.createTable(&quot;posts&quot;, function(table){
+    table.primaryKey(&quot;id&quot;);
+    table.column(&#x27;title&quot;, &quot;text&quot;);
+    //you may also invoke the column name as
+    //function on the table
+    table.content(String);
+    table.index(title);
+  });
+
+  //using this to create the table
+  DB.createTable(&quot;posts&quot;, function(){
+    this.primaryKey(&quot;id&quot;);
+    this.column(&#x27;title&quot;, &quot;text&quot;);
+    //you may also invoke the column name as
+    //function on the table
+    this.content(String);
+    this.index(title);
+  });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the table to create.</li>
+    
+        <li> <em>options?</em>  : an optional options object</li>
+    
+        <li> <em>block</em>  : the block to invoke when creating the table.</li>
+    
+        <li> <em>options.temp?</em> <code>Boolean</code> : set to true if this table is a TEMPORARY table.</li>
+    
+        <li> <em>options.ignoreIndexErrors?</em> <code>Boolean</code> : Ignore any errors when creating indexes.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved when the CREATE TABLE action is completed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,block){
+   if (comb.isFunction(options)) {
+       block = options;
+       options = {};
+   }
+   this.removeCachedSchema(name);
+   if (comb.isInstanceOf(options, SchemaGenerator)) {
+       options = {generator:options};
+   }
+   var generator = options.generator || new SchemaGenerator(this, block);
+   var ret = new Promise();
+   this.__createTableFromGenerator(name, generator, options).chain(hitch(this, &quot;__createTableIndexesFromGenerator&quot;, name, generator, options), hitch(ret, &quot;errback&quot;)).then(hitch(ret, &quot;callback&quot;), hitch(ret, &quot;errback&quot;));
+   return  ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createTableUnlessExists"></a>
+    <h3>
+        createTableUnlessExists
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Creates the table unless the table already exists.
+<p>
+     See <a href='./patio_Database.html#createTable'> patio.Database#createTable</a> for parameter types.
+</p>
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>block</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,block){
+   var ret = new Promise();
+   this.tableExists(name).then(hitch(this, function (exists) {
+       if (!exists) {
+           this.createTable(name, options, block).then(hitch(ret, &quot;callback&quot;), hitch(ret, &quot;callback&quot;));
+       } else {
+           ret.callback();
+       }
+   }));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="createView"></a>
+    <h3>
+        createView
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Creates a view based on a dataset or an SQL string:
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
+     //=&gt; CREATE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
+  DB.createView(&quot;miscItems&quot;, DB[:items].filter({category : &#x27;misc&#x27;}));
+    //=&gt; CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = &#x27;misc&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the view to create.</li>
+    
+        <li> <em>source</em>  : the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,source){
+   if (comb.isInstanceOf(source, Dataset)) {
+       source = source.sql;
+   }
+   return this.executeDdl(format(&quot;CREATE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="disconnect"></a>
+    <h3>
+        disconnect
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/connect.js</em>
+
+<p>
+Disconnects the database closing all connections.
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li>  Promise a promise that is resolved once all the connections have been closed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.pool.endAll().then(this.onDisconnect.bind(this, this));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropColumn"></a>
+    <h3>
+        dropColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Removes a column from the specified table.
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    dropColumn call.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.dropColumn(&quot;items&quot;, &quot;category&quot;);
+         //=&gt; &#x27;ALTER TABLE items DROP COLUMN category&#x27;,
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to alter.</li>
+    
+        <li> <em>column</em>  : the column to drop.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the DROP COLUMN action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,column){
+   column = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.dropColumn.apply(this, column)
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropIndex"></a>
+    <h3>
+        dropIndex
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Removes an index for the given table and column/s.
+
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    dropIndex call.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.dropIndex(&quot;posts&quot;, &quot;title&quot;);
+     //=&gt;&#x27;DROP INDEX posts_title_index
+  DB.dropIndex(&quot;posts&quot;, [&quot;author&quot;, &quot;title&quot;]);
+     //&#x27;DROP INDEX posts_author_title_index&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to alter.</li>
+    
+        <li> <em>columns</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>column</em> <code>String|patio.sql.Identifier</code> : the name of the column/s the index was created from.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the DROP INDEX action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,columns,options){
+   var args = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.dropIndex.apply(this, args)
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropTable"></a>
+    <h3>
+        dropTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Drops one or more tables corresponding to the given names.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.dropTable(&quot;test&quot;);
+     //=&gt;&#x27;DROP TABLE test&#x27;
+DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
+     //=&gt;&#x27;DROP TABLE a&#x27;,
+     //=&gt;&#x27;DROP TABLE bb&#x27;,
+     //=&gt;&#x27;DROP TABLE ccc&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>names</em>  : the names of the tables to drop.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once all tables have been dropped.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (names){
+   var ret = new Promise(), l = names.length;
+   if (comb.isArray(names)) {
+       var drop = hitch(this, function (i) {
+           if (i &lt; l) {
+               var name = names[i++];
+               this.executeDdl(this.__dropTableSql(name)).then(hitch(this, function () {
+                   this.removeCachedSchema(name);
+                   drop(i);
+               }), hitch(ret, &quot;errback&quot;));
+           } else {
+               ret.callback();
+           }
+       });
+       drop(0);
+       return ret;
+   } else {
+       return this.dropTable(argsToArray(arguments).filter(function (t) {
+           return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+       }));
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="dropView"></a>
+    <h3>
+        dropView
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Drops one or more views corresponding to the given names.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.dropView(&quot;test_view&quot;);
+     //=&gt;&#x27;DROP VIEW test_view&#x27;
+DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3&quot;);
+     //=&gt;&#x27;DROP VIEW test_view_1&#x27;,
+     //=&gt;&#x27;DROP VIEW test_view_2&#x27;,
+     //=&gt;&#x27;DROP VIEW test_view_3&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>names</em>  : the names of the views to drop.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the view/s have been dropped.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (names){
+   var ret = new Promise(), l = names.length;
+   if (comb.isArray(names)) {
+       var drop = hitch(this, function (i) {
+           if (i &lt; l) {
+               var name = names[i++];
+               this.executeDdl(format(&quot;DROP VIEW %s&quot;, this.__quoteSchemaTable(name))).then(hitch(this, function () {
+                   this.removeCachedSchema(name);
+                   drop(i);
+               }), hitch(ret, &quot;errback&quot;));
+           } else {
+               ret.callback();
+           }
+       });
+       drop(0);
+       return ret;
+   } else {
+       return this.dropView(argsToArray(arguments).filter(function (t) {
+           return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+       }));
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="execute"></a>
+    <h3>
+        execute
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Executes the given SQL on the database. This method should be implemented by adapters.
+<b>This method should not be called directly by user code.</b>
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>sql</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>cb</em>  : </li>
+    
+        <li> <em>conn</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (sql,options,cb,conn){
+   throw new NotImplemented(&quot;execute should be implemented by adapter&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="executeDdl"></a>
+    <h3>
+        executeDdl
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Method that should be used when submitting any DDL (Data DefinitionLanguage) SQL,
+such as <a href='./patio_Database.html#createTable'> patio.Database#createTable</a>. By default, calls <a href='./patio_Database.html#executeDui'> patio.Database#executeDui</a>.
+<b>This method should not be called directly by user code.</b>
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>sql</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+        <li> <em>cb</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (sql,opts,cb){
+   opts = opts || {};
+   return this.executeDui(sql, opts, cb);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="executeDui"></a>
+    <h3>
+        executeDui
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Method that should be used when issuing a DELETE, UPDATE, or INSERT
+statement.  By default, calls <a href='./patio_Database.html#execute'> patio.Database#execute</a>.
+<b>This method should not be called directly by user code.</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>sql</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+        <li> <em>block</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (sql,opts,block){
+   opts = opts || {};
+   return this.execute(sql, opts, block);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="executeInsert"></a>
+    <h3>
+        executeInsert
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Method that should be used when issuing a INSERT
+statement.  By default, calls <a href='./patio_Database.html#executeDui'> patio.Database#executeDui</a>.
+<b>This method should not be called directly by user code.</b>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>sql</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+        <li> <em>cb</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (sql,opts,cb){
+   opts = opts || {};
+   return this.executeDui(sql, opts, cb);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="fetch"></a>
+    <h3>
+        fetch
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/dataset.js</em>
+
+<p>
+Fetches records for an arbitrary SQL statement. If a block is given,
+it is used to iterate over the records:
+<pre class="code">
+  DB.fetch('SELECT * FROM items', function(r){
+     //do something with row
+  });
+</pre>
+If a block is not given then <a href='./patio_Database.html#fetch'> patio.Database#fetch</a> method returns a <a href='./patio_Dataset.html#'> patio.Dataset</a> instance:
+<pre class="code">
+  DB.fetch('SELECT * FROM items').all().then(function(records){
+     //do something with the records.
+  });
+</pre>
+
+<a href='./patio_Database.html#fetch'> patio.Database#fetch</a> can also perform parameterized queries for protection against SQL
+injection:
+<pre class="code">
+  DB.fetch('SELECT * FROM items WHERE name = ?', myName).all().then(function(records){
+     //do something with the records.
+  });
+</pre>
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>args</em>  : variable number of args where the first argument is a String. If more than one argument is given then the SQL will be treated as a place holder string. See <a href='./patio_Dataset.html#withSql'> patio.Dataset#withSql</a>.</li>
+    
+        <li> <em>[block= <code>null</code>]</em>  : if the last argument given is a function then <a href='./patio_Dataset.html#forEach'> patio.Dataset#forEach</a> will be
+invoked on the dataset with the block called for each row.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise|patio.Dataset</code> if no block is given then a <a href='./patio_Dataset.html#'> patio.Dataset</a> will be returned. If a block
+is given then the return value will be a Promise that will be invoked after all records have been returned
+and processed through the block.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (args,block){
+   var ret = new comb.Promise();
+   args = argsToArray(arguments);
+   block = isFunction(args[args.length - 1]) ? args.pop() : null;
+   var ds = this.dataset.withSql.apply(this.dataset, args);
+   if (block) {
+       ds.forEach(block).then(function () {
+           ret.callback(ds);
+       }, hitch(ret, &quot;errback&quot;));
+       return ret;
+   } else {
+       return ds;
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="forceCreateTable"></a>
+    <h3>
+        forceCreateTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it.
+<p>
+     See <a href='./patio_Database.html#createTable'> patio.Database#createTable</a> for parameter types.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+// DROP TABLE a
+ // CREATE TABLE a (a integer)
+  DB.forceCreateTable(&quot;a&quot;, function(){
+     this.a(&quot;integer&quot;);
+  });
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>options</em>  : </li>
+    
+        <li> <em>block</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,options,block){
+   var ret = new Promise();
+   this.dropTable(name).chainBoth(hitch(this, this.createTable, name, options, block)).then(hitch(ret, &quot;callback&quot;), hitch(ret, &quot;errback&quot;));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="forceDropTable"></a>
+    <h3>
+        forceDropTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Forcible drops one or more tables corresponding to the given names, ignoring errors.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.dropTable(&quot;test&quot;);
+     //=&gt;&#x27;DROP TABLE test&#x27;
+DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
+     //=&gt;&#x27;DROP TABLE a&#x27;,
+     //=&gt;&#x27;DROP TABLE bb&#x27;,
+     //=&gt;&#x27;DROP TABLE ccc&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>names</em>  : the names of the tables to drop.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once all tables have been dropped.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (names){
+   var ret = new Promise(), l = names.length;
+   if (comb.isArray(names)) {
+       var drop = hitch(this, function (i) {
+           if (i &lt; l) {
+               var name = names[i++];
+               this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function () {
+                   this.removeCachedSchema(name);
+                   drop(i);
+               }));
+           } else {
+               ret.callback();
+           }
+       });
+       drop(0);
+   } else {
+       this.forceDropTable(argsToArray(arguments).filter(function (t) {
+           return comb.isString(t) || comb.isInstanceOf(t, Identifier, QualifiedIdentifier);
+       })).both(hitch(ret, &quot;callback&quot;));
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="from"></a>
+    <h3>
+        from
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/dataset.js</em>
+
+<p>
+Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the [@link patio.Dataset#from} method invoked. If a block is given,
+it is used as a filter(see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> on the dataset.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).sql //=&gt; SELECT * FROM items
+  DB.from(&quot;items&quot;, function(){
+         return this.id.gt(2)
+  }).sql; //=&gt; SELECT * FROM items WHERE (id &gt; 2)
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>args</em>  : table/s to pass to <a href='./patio_Dataset.html#from'> patio.Dataset#from</a> with.</li>
+    
+        <li> <em>block?</em>  : an option block to pass to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> with.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> a dataset to use for querying the <a href='./patio_Database.html#'> patio.Database</a> with.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (args,block){
+   args = argsToArray(arguments);
+   block = isFunction(args[args.length - 1]) ? args.pop() : null;
+   var ds = this.dataset;
+   ds = ds.from.apply(ds, args);
+   return block ? ds.filter(block) : ds;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="get"></a>
+    <h3>
+        get
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Proxy for <a href='./patio_Dataset.html#get'> patio.Dataset#get</a>.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.dataset.get.apply(this.dataset, arguments);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="indexes"></a>
+    <h3>
+        indexes
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Return a Promise that is resolved with an object containing index information.
+<p>
+    The keys are index names. Values are objects with two keys, columns and unique.  The value of columns
+    is an array of column names.  The value of unique is true or false
+    depending on if the index is unique.
+</p>
+
+<b>Should not include the primary key index, functional indexes, or partial indexes.</b>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.indexes(&quot;artists&quot;).then(function(indexes){
+    //e.g. indexes === {artists_name_ukey : {columns : [name], unique : true}};
+  })
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,opts){
+   throw new NotImplemented(&quot;indexes should be overridden by adapters&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="literal"></a>
+    <h3>
+        literal
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/index.js</em>
+
+<p>
+This function acts as a proxy to <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
+
+See <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>v</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (v){
+   return this.dataset.literal(v);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logDebug"></a>
+    <h3>
+        logDebug
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a DEBUG level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isDebug) {
+       LOGGER.debug.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logError"></a>
+    <h3>
+        logError
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs an ERROR level message to the "patio.Database" logger.
+         </p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>error</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (error){
+   if (LOGGER.isError) {
+       LOGGER.error.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logFatal"></a>
+    <h3>
+        logFatal
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a FATAL level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isFatal) {
+       LOGGER.fatal.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logInfo"></a>
+    <h3>
+        logInfo
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs an INFO level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isInfo) {
+       LOGGER.info.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logTrace"></a>
+    <h3>
+        logTrace
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a TRACE level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isTrace) {
+       LOGGER.trace.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="logWarn"></a>
+    <h3>
+        logWarn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/logging.js</em>
+
+<p>
+Logs a WARN level message to the "patio.Database" logger.
+         </p>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   if (LOGGER.isWarn) {
+       LOGGER.warn.apply(LOGGER, arguments);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="removeCachedSchema"></a>
+    <h3>
+        removeCachedSchema
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Remove the cached schema for the given table name
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.schema(&quot;artists&quot;).then(function(){
+     DB.removeCachedSchema(&quot;artists&quot;);
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : table to remove from this databases cached schemas.</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table){
+   if (this.schemas &amp;&amp; !isEmpty(this.schemas)) {
+       delete this.schemas[this.__quoteSchemaTable(table)];
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="renameColumn"></a>
+    <h3>
+        renameColumn
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Renames a column in the specified table.
+
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    renameColumn call.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.renameColumn(&quot;items&quot;, &quot;cntr&quot;, &quot;counter&quot;);
+     //=&gt; ALTER TABLE items RENAME COLUMN cntr TO counter
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to alter.</li>
+    
+        <li> <em>column</em>  : the name of the column to rename.</li>
+    
+        <li> <em>newColumn</em>  : the new name of the column.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the RENAME COLUMN action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,column,newColumn){
+   var args = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.renameColumn.apply(this, args)
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="renameTable"></a>
+    <h3>
+        renameTable
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Renames a table.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+comb.executeInOrder(DB, function(DB){
+  DB.tables(); //=&gt; [&quot;items&quot;]
+  DB.renameTable(&quot;items&quot;, &quot;old_items&quot;);
+         //=&gt;&#x27;ALTER TABLE items RENAME TO old_items&#x27;
+  DB.tables; //=&gt; [&quot;old_items&quot;]
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name of the table to rename</li>
+    
+        <li> <em>newName</em>  : the new name of the table</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the table is renamed.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,newName){
+   var ret = new Promise();
+   this.executeDdl(this.__renameTableSql(name, newName)).then(hitch(this, function () {
+       this.removeCachedSchema(name);
+       ret.callback();
+   }), hitch(ret, &quot;errback&quot;));
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="run"></a>
+    <h3>
+        run
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Runs the supplied SQL statement string on the database server..
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.run(&quot;SET some_server_variable = 42&quot;)
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>sql</em>  : the SQL to run.</li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved with the result of the query.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (sql,opts){
+   opts = opts || {};
+   return this.executeDdl(sql, opts);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="schema"></a>
+    <h3>
+        schema
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Parse the schema from the database.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.schema(&quot;artists&quot;).then(function(schema){
+    //example schema
+    {
+     id :  {
+         type : &quot;integer&quot;,
+         primaryKey : true,
+         &quot;default&quot; : &quot;nextval(&#x27;artist_id_seq&#x27;::regclass)&quot;,
+         jsDefault : null,
+         dbType : &quot;integer&quot;,
+         allowNull : false
+      },
+     name : {
+         type : &quot;string&quot;,
+         primaryKey : false,
+         &quot;default&quot; : null,
+         jsDefault  : null,
+         dbType : &quot;text&quot;,
+         allowNull : false
+      }
+    }
+  })
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to get the schema for.</li>
+    
+        <li> <em>[opts= <code>null</code>]</em>  : Additinal options.</li>
+    
+        <li> <em>[opts.reload= <code>false</code>]</em> <code>boolean</code> : Set to true to ignore any cached results.</li>
+    
+        <li> <em>opts.schema?</em> <code>String|patio.sql.Identifier</code> : An explicit schema to use.  It may also be implicitly provided
+           via the table name.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> Returns a Promise that is resolved with the schema for the given table as an object
+where the key is the column name and the value is and object containg column information. The default
+column information returned.
+<ul>
+    <li>allowNull : Whether NULL is an allowed value for the column.</li>
+    <li>dbType : The database type for the column, as a database specific string.</li>
+    <li>"default" : The database default for the column, as a database specific string.</li>
+    <li>primaryKey : Whether the columns is a primary key column.  If this column is not present,
+                it means that primary key information is unavailable, not that the column
+                is not a primary key.</li>
+    <li>jsDefault : The database default for the column, as a javascript object.  In many cases, complex
+                 database defaults cannot be parsed into javascript objects.</li>
+    <li>type : A string specifying the type, such as "integer" or "string".</li>
+<ul></li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,opts){
+   if (!isFunction(this.schemaParseTable)) {
+       throw new Error(&quot;Schema parsing is not implemented on this database&quot;);
+   }
+   var ret = new Promise();
+   opts = opts || {};
+   var schemaParts = this.__schemaAndTable(table);
+   var sch = schemaParts[0], tableName = schemaParts[1];
+   var quotedName = this.__quoteSchemaTable(table);
+   opts = sch &amp;&amp; !opts.schema ? merge({schema:sch}, opts) : opts;
+   if (opts.reload) {
+       delete this.schemas[quotedName];
+   }
+   if (this.schemas[quotedName]) {
+       ret.callback(this.schemas[quotedName]);
+       return ret;
+   } else {
+       this.schemaParseTable(tableName, opts).then(hitch(this, function (cols) {
+           var schema = {};
+           if (!cols || cols.length === 0) {
+               ret.errback(&quot;Error parsing schema, no columns returns, table probably doesnt exist&quot;);
+           } else {
+               cols.forEach(function (c) {
+                   var name = c[0];
+                   c = c[1];
+                   c.jsDefault = this.__columnSchemaToJsDefault(c[&quot;default&quot;], c.type);
+                   schema[name] = c;
+               }, this);
+               this.schemas[quotedName] = schema;
+               ret.callback(schema);
+           }
+       }), ret);
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="schemaColumnType"></a>
+    <h3>
+        schemaColumnType
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Match the database's column type to a javascript type via a
+regular expression, and return the javascript type as a string
+such as "integer" or "string".
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>dbType</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (dbType){
+   var ret = null, m;
+   if (dbType.match(/^interval$/i)) {
+       ret = &quot;interval&quot;;
+   } else if (dbType.match(/^(character( varying)?|n?(var)?char)/i)) {
+       ret = &quot;string&quot;;
+   } else if (dbType.match(/^int(eger)?|(big|small|tiny)int/i)) {
+       ret = &quot;integer&quot;;
+   } else if (dbType.match(/^date$/i)) {
+       ret = &quot;date&quot;;
+   } else if (dbType.match(/^year/i)) {
+       ret = &quot;year&quot;;
+   } else if (dbType.match(/^((small)?datetime|timestamp( with(out)? time zone)?)$/i)) {
+       ret = &quot;datetime&quot;;
+   } else if (dbType.match(/^time( with(out)? timezone)?$/i)) {
+       ret = &quot;time&quot;;
+   } else if (dbType.match(/^(bit|boolean)$/i)) {
+       ret = &quot;boolean&quot;;
+   } else if (dbType.match(/^(real|float|double( precision)?)$/i)) {
+       ret = &quot;float&quot;;
+   } else if ((m = dbType.match(/^(?:(?:(?:num(?:ber|eric)?|decimal|double)(?:\(\d+,\s*(\d+)\))?)|(?:small)?money)/i))) {
+       ret = m[1] &amp;&amp; m[1] === &#x27;0&#x27; ? &quot;integer&quot; : &quot;decimal&quot;;
+   } else if (dbType.match(/n?text/i)) {
+       ret = &quot;text&quot;;
+   } else if (dbType.match(/bytea|[bc]lob|image|(var)?binary/i)) {
+       ret = &quot;blob&quot;;
+   } else if (dbType.match(/^enum/i)) {
+       ret = &quot;enum&quot;;
+   } else if (dbType.match(/^set/i)) {
+       ret = &quot;set&quot;;
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="select"></a>
+    <h3>
+        select
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/dataset.js</em>
+
+<p>
+Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> method invoked.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.select(1) //=&gt; SELECT 1
+  DB.select(function(){
+     return this.server_version();
+  }).sql; //=&gt; SELECT server_version()
+  DB.select(&quot;id&quot;).from(&quot;items&quot;).sql; //=&gt; SELECT id FROM items
+@link {patio.Dataset} a dataset to query the {@link patio.Database} with.
+        </pre>
+
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var ds = this.dataset;
+   return ds.select.apply(ds, arguments);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setColumnDefault"></a>
+    <h3>
+        setColumnDefault
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+Sets the default value for the given column in the given table:
+
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    setColumnDefault call.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.setColumnDefault(&quot;items&quot;, &quot;category&quot;, &quot;misc&quot;);
+     //=&gt; ALTER TABLE items ALTER COLUMN category SET DEFAULT &#x27;misc&#x27;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to alter.</li>
+    
+        <li> <em>column</em>  : the name of the column to set the DEFAULT on.</li>
+    
+        <li> <em>def</em>  : the new default value of the column.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the SET DEFAULT action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,column,def){
+   var args = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.setColumnDefault.apply(this, args);
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="setColumnType"></a>
+    <h3>
+        setColumnType
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+ Set the data type for the given column in the given table:
+<p>
+    This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
+    setColumnType call.
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.setColumnType(&quot;items&quot;, &quot;category&quot;, String);
+     //=&gt; ALTER TABLE items ALTER COLUMN category TYPE varchar(255)
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : the table to alter.</li>
+    
+        <li> <em>column</em>  : the name of the column to set the TYPE on.</li>
+    
+        <li> <em>type</em>  : the datatype of the column.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the SET TYPE action is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,column,type){
+   var args = argsToArray(arguments).slice(1);
+   return this.alterTable(table, function () {
+       this.setColumnType.apply(this, args)
+   });
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="tableExists"></a>
+    <h3>
+        tableExists
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Determine if a table exists.
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+comb.executeInOrder(DB, function(DB){
+   return {
+         table1Exists : DB.tableExists(&quot;table1&quot;),
+         table2Exists : DB.tableExists(&quot;table2&quot;)
+   };
+}).then(function(ret){
+     //ret.table1Exists === true
+     //ret.table2Exists === false
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>table</em>  : </li>
+    
+        <li> <em>cb</em>  : </li>
+    
+        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : table to remove from this</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise resolved with a boolean indicating if the table exists.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table,cb){
+   var ret = new Promise().classic(cb);
+   this.from(table).first().then(function () {
+       ret.callback(true);
+   }, function () {
+       ret.callback(false);
+   });
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="tables"></a>
+    <h3>
+        tables
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Returns a promise with a list of tables names in this database. This method
+should be implemented by the adapter.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.tables().then(function(tables){
+   //e.g. tables === [&quot;table1&quot;, &quot;table2&quot;, &quot;table3&quot;];
+});
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved with a list of tablenames.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   throw new NotImplemented(&quot;tables should be implemented by the adapter&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="transaction"></a>
+    <h3>
+        transaction
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/query.js</em>
+
+<p>
+Starts a database transaction.  When a database transaction is used,
+either all statements are successful or none of the statements are
+successful.
+<p>
+     <b>Note</b> that MySQL MyISAM tables do not support transactions.</p>
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//normal transaction
+DB.transaction(function() {
+      this.execute(&#x27;DROP TABLE test;&#x27;);
+      this.execute(&#x27;DROP TABLE test2;&#x27;);
+ });
+
+//transaction with a save point.
+DB.transaction(function() {
+     this.transaction({savepoint : true}, function() {
+         this.execute(&#x27;DROP TABLE test;&#x27;);
+         this.execute(&#x27;DROP TABLE test2;&#x27;);
+     });
+});
+
+//WITH ISOLATION LEVELS
+
+db.supportsTransactionIsolationLevels = true;
+//BEGIN
+//SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+//DROP TABLE test1&#x27;
+//COMMIT
+DB.transaction({isolation:&quot;uncommited&quot;}, function(d) {
+     d.run(&quot;DROP TABLE test1&quot;);
+});
+
+//BEGIN
+//SET TRANSACTION ISOLATION LEVEL READ COMMITTED
+//DROP TABLE test1
+//COMMIT
+ DB.transaction({isolation:&quot;committed&quot;}, function(d) {
+     d.run(&quot;DROP TABLE test1&quot;);
+ });
+
+//BEGIN
+//SET TRANSACTION ISOLATION LEVEL REPEATABLE READ&#x27;
+//DROP TABLE test1
+//COMMIT
+ DB.transaction({isolation:&quot;repeatable&quot;}, function(d) {
+     d.run(&quot;DROP TABLE test1&quot;);
+ });
+
+//BEGIN
+//SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+//DROP TABLE test1
+//COMMIT
+ DB.transaction({isolation:&quot;serializable&quot;}, function(d) {
+     d.run(&quot;DROP TABLE test1&quot;);
+ });
+
+//With an Error
+//BEGIN
+//DROP TABLE test
+//ROLLBACK
+DB.transaction(function(d) {
+     d.execute(&#x27;DROP TABLE test&#x27;);
+     throw &quot;Error&quot;;
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>[opts= <code>{}</code>]</em>  : options to use when performing the transaction.</li>
+    
+        <li> <em>cb</em>  : a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument. If you have complex operations within your transactions you will want to return a promise to ensure proper transaction scope. <pre class="code"> var ds = db.from("user"); db.transaction(function(){      var ret = new comb.Promise();      ds.insert({          firstName:"Jane",          lastName:"Gorgenson",          password:"password",          dateOfBirth:new Date(1956, 1, 3)      }).then(function(){          ds.forEach(function(user){                  return ds.where({id:user.id}).update({firstName:user.firstName + 1});          }).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));      }, comb.hitch(ret, "errback"));     return ret; }); </pre></li>
+    
+        <li> <em>opts.isolation?</em> <code>String</code> : The transaction isolation level to use for this transaction,
+              should be "uncommitted", "committed", "repeatable", or "serializable",
+              used if given and the database/adapter supports customizable
+              transaction isolation levels.</li>
+    
+        <li> <em>opts.prepare?</em> <code>String</code> : A string to use as the transaction identifier for a
+            prepared transaction (two-phase commit), if the database/adapter
+            supports prepared transactions.</li>
+    
+        <li> <em>opts.savepoint?</em> <code>Boolean</code> : Whether to create a new savepoint for this transaction,
+              only respected if the database/adapter supports savepoints.  By
+              default patio will reuse an existing transaction, so if you want to
+              use a savepoint you must use this option.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Promise</code> a promise that is resolved once the transaction is complete.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (opts,cb){
+   if (isFunction(opts)) {
+       cb = opts;
+       opts = {};
+   } else {
+       opts = opts || {};
+   }
+   if (!this.__alreadyInTransaction) {
+       this.__alreadyInTransaction = true;
+       return this.__transaction(null, opts, cb);
+   } else {
+       var ret = new Promise();
+       var transaction = hitch(this, function () {
+           this.__transaction(null, opts, cb).then(ret);
+       });
+       this.__transactionQueue.enqueue(transaction);
+       return ret;
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="typeLiteral"></a>
+    <h3>
+        typeLiteral
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return this.__typeLiteralGeneric(column);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="typecastValue"></a>
+    <h3>
+        typecastValue
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/index.js</em>
+
+<p>
+Typecast the value to the given columnType. Calls
+typecastValue{ColumnType} if the method exists,
+otherwise returns the value.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.typeCastValue(&quot;boolean&quot;, 0) //=&gt; false
+DB.typeCastValue(&quot;boolean&quot;, 1) //=&gt; true
+DB.typeCastValue(&quot;timestamp&quot;,  &#x27;2004-02-01 12:12:12&#x27;)
+     //=&gt; new patio.sql.TimeStamp(2004, 1, 1, 12, 12, 12);
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>columnType</em>  : the SQL datatype of the column</li>
+    
+        <li> <em>value</em>  : the value to typecast.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li>  the typecasted value.</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.DatabaseError</code> if there is an error converting the value to the column type.</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (columnType,value){
+   if (isNull(value) || isUndefined(value)) {
+       return null;
+   }
+   var meth = &quot;__typecastValue&quot; + columnType.charAt(0).toUpperCase() + columnType.substr(1).toLowerCase();
+   try {
+       if (isFunction(this[meth])) {
+           return this[meth](value);
+       } else {
+           return value;
+       }
+   } catch (e) {
+       throw e;
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="validate"></a>
+    <h3>
+        validate
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/connect.js</em>
+
+<p>
+Validates a connection before it is returned to the <a href='./patio_ConnectionPool.html#'> patio.ConnectionPool</a>. This
+method should be implemented by the adapter.
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>conn</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (conn){
+   throw new NotImplemented(&quot;Validate must be implemented by the adapter&quot;);
+           
+}
+    </pre>
+    
+
+
+  
+
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
+</body>
+</html>
