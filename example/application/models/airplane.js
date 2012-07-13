@@ -8,6 +8,6 @@ patio.addModel("airplane", {
                 .oneToMany("legs", {model:"legInstance"});
         }
     }
-});
+}).as(module);
 
 

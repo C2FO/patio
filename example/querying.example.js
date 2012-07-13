@@ -5,27 +5,32 @@ var patio = require("../index"),
     format = comb.string.format;
 
 patio.camelize = true;
-
 patio.configureLogging();
 patio.LOGGER.level = comb.logging.Level.ERROR;
 
-var DB;
+var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
+var User = patio.addModel("user");
+var Blog = patio.addModel("blog");
+
 //disconnect and error callback helpers
-var disconnect = function(){
+var disconnect = function () {
     DB.forceDropTable("blog", "user").both(comb.hitch(patio, "disconnect"));
-}
-var disconnectError = function(err){
+};
+
+var disconnectError = function (err) {
     patio.logError(err);
     DB.forceDropTable("blog", "user").both(comb.hitch(patio, "disconnect"));
 };
 
-var connectAndCreateSchema = function(){
+var connectAndCreateSchema = function () {
     //This assumes new tables each time you could just connect to the database
-    return patio.connectAndExecute("mysql://test:testpass@localhost:3306/sandbox",
-        function(db, patio){
-            db.forceDropTable("blog", "user");
+    return comb.serial([
+        function () {
+            return DB.forceDropTable("blog", "user");
+        },
+        function () {
             //drop and recreate the user
-            db.createTable("user", function(){
+            return DB.createTable("user", function () {
                 this.primaryKey("id");
                 this.name(String);
                 this.password(String);
@@ -35,25 +40,21 @@ var connectAndCreateSchema = function(){
                 this.created(sql.TimeStamp);
                 this.updated(sql.DateTime);
             });
-
-            db.createTable("blog", function(){
+        },
+        function () {
+            return DB.createTable("blog", function () {
                 this.primaryKey("id");
                 this.title(String);
                 this.numPosts("integer");
                 this.numFollowers("integer");
                 this.foreignKey("userId", "user", {key:"id"});
             });
-        }).addCallback(function(db){
-            DB = db;
-        });
+        },
+        comb.hitch(patio, "syncModels")
+    ]);
 };
 
-var defineModel = function(){
-    return comb.when(patio.addModel("user"), patio.addModel("blog"));
-};
-
-var createData = function(){
-    var User = patio.getModel("user"), Blog = patio.getModel("blog");
+var createData = function () {
     var ret = new comb.Promise();
     User.save([
         {
@@ -69,9 +70,9 @@ var createData = function(){
             dateOfBirth:new Date(1982, 9, 2),
             isVerified:true
         }
-    ]).then(function(){
+    ]).then(function () {
             User.forEach(
-                function(user){
+                function (user) {
                     return Blog.save([
                         {
                             title:user.name + "'s Blog " + 1,
@@ -91,128 +92,113 @@ var createData = function(){
     return ret;
 };
 
-var findById = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
+var findById = function () {
     // Find user with primary key (id) 1
     return comb.when(
-        User.findById(1).then(function(user){
+        User.findById(1).then(function (user) {
             console.log("FIND BY ID 1 = %s", user);
         }),
         // Find user with primary key (id) 1
-        User.findById(0).then(function(user){
+        User.findById(0).then(function (user) {
             console.log("FING BY ID 0 = %s", user);
         }));
 };
 
-var first = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
-
+var first = function () {
     return comb.when(
-        User.first().then(function(first){
+        User.first().then(function (first) {
             console.log("FIRST = %s", first);
         }),
 
-        User.first({name:'Bob'}).then(function(bob){
+        User.first({name:'Bob'}).then(function (bob) {
             // SELECT * FROM user WHERE (name = 'Bob') LIMIT 1
             console.log("FIRST = %s", bob);
         }),
-        User.first(sql.name.like('B%')).then(function(user){
+        User.first(sql.name.like('B%')).then(function (user) {
             // SELECT * FROM user WHERE (name LIKE 'B%') LIMIT 1
             console.log("FIRST = %s", user);
         })),
-        User.select("name").first().then(function(user){
+        User.select("name").first().then(function (user) {
             console.log("FIRST SELECT JUST NAME = " + user.id);
         })
 };
 
-var last = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
-    return User.order("name").last().then(function(user){
+var last = function () {
+    return User.order("name").last().then(function (user) {
         // SELECT * FROM user ORDER BY name DESC LIMIT 1
         console.log("LAST = %s", user);
     });
 };
 
-var getMethod = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
+var getMethod = function () {
 
-    return User.get("name").then(function(name){
+    return User.get("name").then(function (name) {
         // SELECT name FROM user LIMIT 1
         console.log("NAME = %s", name)
     });
 };
 
-var all = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
+var all = function () {
 
-    return User.all().then(function(users){
+    return User.all().then(function (users) {
         // SELECT * FROM user
         console.log("USERS = [%s]", users);
     });
 };
 
-var forEach = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
+var forEach = function () {
 
     var forEachPromise;
     var ret = comb.when(
         // SELECT * FROM user
-        User.forEach(function(user){
+        User.forEach(function (user) {
             console.log("FOR EACH name = %s ", user.name);
         }),
         // SELECT * FROM user
-        (forEachPromise = User.forEach(function(user){
+        (forEachPromise = User.forEach(function (user) {
             console.log("FOREACH WITH PROMISE SETTING user with id:%d to isVerified to ", user.id, !user.isVerified);
             return user.update({isVerified:!user.isVerified});
         }))
     );
-    forEachPromise.then(function(){
+    forEachPromise.then(function () {
         console.log("DONE UDPATING EACH RECORD");
     });
 
     return ret;
 };
 
-var map = function(){
+var map = function () {
 
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
     var mapPromise;
     var ret = comb.when(
         // SELECT * FROM user
         User.map(
-            function(user){
+            function (user) {
                 return user.name
-            }).then(function(userNames){
+            }).then(function (userNames) {
                 console.log("MAPPED USER NAMES = [%s]", userNames);
             }),
         // SELECT * FROM user
-        (mapPromise = User.map(function(user){
-            return Blog.filter({userId:user.id}).map(function(blog){
+        (mapPromise = User.map(function (user) {
+            return Blog.filter({userId:user.id}).map(function (blog) {
                 return blog.title;
             });
         })),
 
 
-        User.map("name").then(function(userNames){
+        User.map("name").then(function (userNames) {
             console.log("MAPPED USER NAMES BY COLUMN = [%s]", userNames);
         }),
-        User.selectMap("name").then(function(names){
+        User.selectMap("name").then(function (names) {
             console.log("SELECT MAP USER NAMES BY COLUMN = [%s]", names);
         }),
 
-        User.selectOrderMap("name").then(function(names){
+        User.selectOrderMap("name").then(function (names) {
             console.log("SELECT ORDER MAP USER NAMES BY COLUMN = [%s]", names);
         }));
 
-    mapPromise.then(function(userBlogTitles){
-        userBlogTitles.forEach(function(titles){
+    mapPromise.then(function (userBlogTitles) {
+        userBlogTitles.forEach(function (titles) {
             console.log("MAPPED USER BLOG TITLES = [%s]", titles);
         });
     }, disconnectError);
@@ -220,36 +206,32 @@ var map = function(){
     return ret;
 };
 
-var toHash = function(){
-    var User = patio.getModel("user");
-    var Blog = patio.getModel("blog");
+var toHash = function () {
 
     return comb.when(
-        User.toHash("name", "id").then(function(nameIdMap){
+        User.toHash("name", "id").then(function (nameIdMap) {
             // SELECT * FROM user
             console.log("TO HASH = %j", nameIdMap);
         }),
 
-        User.toHash("id", "name").then(function(idNameMap){
+        User.toHash("id", "name").then(function (idNameMap) {
             // SELECT * FROM user
             console.log("INVERT TO HASH = %j", idNameMap);
         }),
-        User.toHash("name").then(function(idNameMap){
+        User.toHash("name").then(function (idNameMap) {
             // SELECT * FROM user
             console.log("TO HASH ONE COLUMN = %j", idNameMap);
         }),
 
-        User.selectHash("name", "id").then(function(map){
+        User.selectHash("name", "id").then(function (map) {
             // SELECT name, id FROM user
             console.log("SELECT HASH = %j", map);
         }));
 };
-var forUpdate = function(){
-    var User = patio.getModel("user");
-    var DB = patio.defaultDatabase;
-    return DB.transaction(function(){
+var forUpdate = function () {
+    return DB.transaction(function () {
         var ret = new comb.Promise();
-        User.forUpdate().first({id : 1}).then(function(user){
+        User.forUpdate().first({id:1}).then(function (user) {
             // SELECT * FROM user WHERE id = 1 FOR UPDATE
             user.password = null;
             user.save().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
@@ -258,51 +240,45 @@ var forUpdate = function(){
     });
 };
 
-var isEmpty  = function(){
-    var User = patio.getModel("user");
+var isEmpty = function () {
     return comb.when(
-    User.isEmpty().then(function(isEmpty){
-        console.log("IS EMPTY = " + isEmpty);
-    }),
-    User.filter({id : 0}).isEmpty().then(function(isEmpty){
-        console.log("IS EMPTY = " + isEmpty);
-    }),
-    User.filter(sql.name.like('B%')).isEmpty().then(function(isEmpty){
-        console.log("IS EMPTY = " + isEmpty);
-    }));
+        User.isEmpty().then(function (isEmpty) {
+            console.log("IS EMPTY = " + isEmpty);
+        }),
+        User.filter({id:0}).isEmpty().then(function (isEmpty) {
+            console.log("IS EMPTY = " + isEmpty);
+        }),
+        User.filter(sql.name.like('B%')).isEmpty().then(function (isEmpty) {
+            console.log("IS EMPTY = " + isEmpty);
+        }));
 };
 
-var aggregateFunctions = function(){
-    var User = patio.getModel("user");
- return comb.when(
-     User.count().then(function(count){
-         console.log("COUNT = " + count);
-     }),
-     User.sum("id").then(function(count){
-         console.log("SUM = " + count);
-     }),
-     User.avg("id").then(function(count){
-         console.log("AVG = " + count);
-     }),
-     User.min("id").then(function(count){
-         console.log("MIN = " + count);
-     }),
+var aggregateFunctions = function () {
+    return comb.when(
+        User.count().then(function (count) {
+            console.log("COUNT = " + count);
+        }),
+        User.sum("id").then(function (count) {
+            console.log("SUM = " + count);
+        }),
+        User.avg("id").then(function (count) {
+            console.log("AVG = " + count);
+        }),
+        User.min("id").then(function (count) {
+            console.log("MIN = " + count);
+        }),
 
-     User.max("id").then(function(count){
-         console.log("MAX = " + count);
-     })
- )
+        User.max("id").then(function (count) {
+            console.log("MAX = " + count);
+        })
+    )
 }
 
 
 //connect and create schema
 connectAndCreateSchema()
-    .chain(defineModel, disconnectError)
     .chain(createData, disconnectError)
-    .then(function(){
-        var User = patio.getModel("user");
-        var Blog = patio.getModel("blog");
-        var DB = patio.defaultDatabase;
+    .then(function () {
         findById()
             .chain(first, disconnectError)
             .chain(last, disconnectError)
@@ -315,7 +291,7 @@ connectAndCreateSchema()
             .chain(forUpdate, disconnectError)
             .chain(isEmpty, disconnectError)
             .chain(aggregateFunctions, disconnectError)
-            .then(function(){
+            .then(function () {
                 console.log("\n\n=====SQL EXAMPLES=====\n\n")
                 // SELECT * FROM user WHERE id = 1
                 console.log(User.filter({id:1}).sql);
@@ -343,12 +319,12 @@ connectAndCreateSchema()
                 ]).sql);
 
                 console.log(User.filter(
-                    function(){
+                    function () {
                         return this.id.gt(5)
                     }).sql);
 
                 console.log(User.filter({name:{between:['K', 'M']}},
-                    function(){
+                    function () {
                         return this.id.gt(5);
                     }).sql);
 
@@ -360,7 +336,7 @@ connectAndCreateSchema()
                 console.log(User.filter(sql.name.like('B%').and(sql.b.eq(1).or(sql.c.neq(3)))).sql);
 
                 console.log(User.filter(
-                    function(){
+                    function () {
                         return this.a.gt(1).and(this.b("c").and(this.d)).not();
                     }).sql);
 
@@ -381,14 +357,14 @@ connectAndCreateSchema()
                 console.log(User.filter({id:{neq:5}}).sql);
 
                 console.log(User.filter({id:5}).filter(
-                    function(){
+                    function () {
                         return this.name.gt('A');
                     }).invert().sql);
 
                 console.log(User.exclude({id:5}).sql);
 
                 console.log(User.filter({id:5}).exclude(
-                    function(){
+                    function () {
                         return this.name.gt('A')
                     }).sql);
 
@@ -423,54 +399,57 @@ connectAndCreateSchema()
                 console.log(User.groupAndCount("userId").sql);
 
                 console.log(User.groupAndCount("dateOfBirth").having(
-                    function(){
+                    function () {
                         return this.count.gte(10);
                     }).sql);
 
                 console.log(User.groupAndCount("dateOfBirth").having(
-                    function(){
+                    function () {
                         return this.count.gte(10);
                     }).filter(
-                    function(){
+                    function () {
                         return this.count.lt(15);
                     }).sql);
-                 console.log(User.groupAndCount("id").having(function(){
-                     return this.count.gte(10);
-                 }).where(sql.name.like('A%')).sql);
+                console.log(User.groupAndCount("id").having(function () {
+                    return this.count.gte(10);
+                }).where(sql.name.like('A%')).sql);
 
-                console.log(User.groupAndCount("id").having(function(){
+                console.log(User.groupAndCount("id").having(function () {
                     return this.count.gte(10);
                 }).where(sql.name.like('A%')).unfiltered().sql);
 
-                console.log(User.joinTable("inner", "blog", {userId : sql.id}).sql)
+                console.log(User.joinTable("inner", "blog", {userId:sql.id}).sql)
 
-                console.log(User.joinTable("inner", "blog", {userId : sql.id}).sql);
+                console.log(User.joinTable("inner", "blog", {userId:sql.id}).sql);
                 // SELECT * FROM user INNER JOIN blog ON blog.user_id = user.id
 
-                console.log(User.joinTable("inner", "blog", {userId : "id"}).sql);
+                console.log(User.joinTable("inner", "blog", {userId:"id"}).sql);
                 // SELECT * FROM user INNER JOIN blog ON blog.userId = 'id'
 
-                console.log(User.join("blog", {userId : sql.id}).sql);
-                console.log(User.leftJoin("blog", {userId: sql.id}).sql);
+                console.log(User.join("blog", {userId:sql.id}).sql);
+                console.log(User.leftJoin("blog", {userId:sql.id}).sql);
 
-                console.log(User.join(Blog, {userId : sql.id}).sql);
+                console.log(User.join(Blog, {userId:sql.id}).sql);
 
-                console.log(User.join(Blog.filter({title : {lt : 'A'}}), {userId : sql.id}).sql);
+                console.log(User.join(Blog.filter({title:{lt:'A'}}), {userId:sql.id}).sql);
 
-                console.log(User.join("blog", {userId : sql.id}).join("posts", {blogId : sql.id}).sql);
+                console.log(User.join("blog", {userId:sql.id}).join("posts", {blogId:sql.id}).sql);
 
-                console.log(User.join("blog", {userId : sql.id}).join("posts", {userId : sql.id}).sql);
-                console.log(User.join("blog", {userId : sql.id}).join("posts", {userId : sql.id.qualify("user")}).sql);
-                console.log(User.join("blog", {userId : sql.id}).join("posts", {userId : sql.user__id}).sql);
-                console.log(User.join("blog", [[sql.userId, sql.id], [sql.id, {between : [1, 5]}]]).sql);
+                console.log(User.join("blog", {userId:sql.id}).join("posts", {userId:sql.id}).sql);
+                console.log(User.join("blog", {userId:sql.id}).join("posts", {userId:sql.id.qualify("user")}).sql);
+                console.log(User.join("blog", {userId:sql.id}).join("posts", {userId:sql.user__id}).sql);
+                console.log(User.join("blog", [
+                    [sql.userId, sql.id],
+                    [sql.id, {between:[1, 5]}]
+                ]).sql);
 
                 console.log(User.join("blog", [sql.userId]).sql);
                 console.log(User.naturalJoin("blog").sql);
 
-                console.log(User.join("blog", {userId : sql.id}, function(currAlias, lastAlias, previousJoins){
+                console.log(User.join("blog", {userId:sql.id},function (currAlias, lastAlias, previousJoins) {
                     return sql.name.qualify(lastAlias).lt(sql.title.qualify(currAlias));
                 }).sql);
-                console.log(User.join("blog", {userId : sql.id, title : {gt : sql.name.qualify("user")}}).sql);
+                console.log(User.join("blog", {userId:sql.id, title:{gt:sql.name.qualify("user")}}).sql);
 
                 console.log(DB.from("user").sql);
                 console.log(User.from("user", "oldUser").sql);
@@ -483,7 +462,7 @@ connectAndCreateSchema()
                 console.log(DB.from("user").withSql("SELECT * FROM user").sql);
 
                 console.log(DB.fetch("SELECT * FROM user WHERE id = ?", 5).sql);
-                console.log(DB.from("user").withSql("SELECT * FROM user WHERE id = {id}", {id : 5}).sql);
+                console.log(DB.from("user").withSql("SELECT * FROM user WHERE id = {id}", {id:5}).sql);
                 disconnect();
             }, disconnectError);
 

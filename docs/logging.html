@@ -1,245 +1,462 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
 
-    <title>Patio-Logging</title>
-    <meta name="generator" content="JsDoc Toolkit"/>
-    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script type="text/javascript" src="./api/js/doc.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
-    <!--[if gte IE 9]>
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
     <style type="text/css">
-        * {
-            filter: none !important;
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
         }
     </style>
-    <![endif]-->
-    <style type="text/css">
-        .featureList li {
-            margin: 10px;
-        }
-    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
 </head>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./plugins.html">Model Plugins</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
 
-<body>
-
-<a href="http://github.com/pollenware/patio">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
-         alt="Fork me on GitHub">
-</a>
-
-
-<div class="menuContainer">
-    <div class="menuContainerContent">
-        <ul>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./index.html" class="">
-                        <span>Patio</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./connecting.html" class="">
-                        <span>Connecting to a database</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./DDL.html" class="">
-                        <span>Schema CRUD</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./migrations.html" class="">
-                        <span>Migrations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="#" class="">
-                        <span>Querying</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./models.html" class="">
-                        <span>Models</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./associations.html" class="">
-                        <span>Model Associations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./model-inheritance.html" class="">
-                        <span>Model Inheritance</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="#" class="">
-                        <span>Logging</span>
-                    </a>
-                </span>
-            </li>
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="patio_sql.html">patio.sql</a></li>
+               
+                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
         </ul>
+        
+      </div>
     </div>
+  </div>
 </div>
-<div class="contentContainer">
-    <div id="content">
-        <div class="section">
-            <h1 class="classTitle">Logging</h1>
 
-            <div class="methodDetail">
-                Patio uses the
-                <a href="http://pollenware.github.com/comb/symbols/comb.logging.Logger.html" target="patioapi">comb
-                    logging</a>
-                framework for all logging. To set up logging there are two scenarios.
-                <ul>
-                    <li>If you installed comb at the root of your project and then installed patio
-                        <pre class="code">
-npm install comb patio
-                        </pre>
-                        Then patio should be using the same version of comb that your application uses. If that is
-                        the case then you can configure logging through
-                        <ul>
-                            <li>
-                                <a href="http://pollenware.github.com/comb/symbols/comb.logging.BasicConfigurator.html" target="patioapi">
-                                    comb.logging.BasicConfigurator
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://pollenware.github.com/comb/symbols/comb.logging.PropertyConfigurator.html" target="patioapi">
-                                    comb.logging.PropertyConfigurator
-                                </a>
-                            </li>
-                        </ul>
-                        <pre class="code">
-var comb = require("comb"),
+
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+<h1>Logging</h1>
+<p>Patio uses the <a href="http://pollenware.github.com/comb/symbols/comb.logging.Logger.html">comb.logging</a> framework for all logging. To set up logging there are two scenarios.
+
+</p>
+<p>If you installed comb at the root of your project and then installed patio
+
+</p>
+<p><code>npm install comb patio</code>
+
+
+</p>
+<p>Then patio should be using the same version of comb that your application uses. If that is the case then you can configure logging through
+
+</p>
+<ul>
+<li><a href="http://pollenware.github.com/comb/symbols/comb.logging.BasicConfigurator.html">comb.logging.BasicConfigurator</a></li>
+<li><a href="http://pollenware.github.com/comb/symbols/comb.logging.PropertyConfigurator.html">comb.logging.PropertyConfigurator</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     Logger = comb.logging.Logger,
     Level = comb.logging.Level,
-    patio = require("patio");                            
+    patio = require(&quot;patio&quot;);                            
 
 new comb.logging.BasicConfigurator().configure();
-Logger.getLogger("patio").level = Level.INFO;
-                        </pre>
-                        Or
-                        <pre class="code">
-//configure with a JSON file.
-new comb.logging.PropertyConfigurator().configure("/location/of/log/config.json");
+Logger.getLogger(&quot;patio&quot;).level = Level.INFO;</code></pre>
+<p>Or
+</p>
+<pre class='prettyprint linenums lang-js'><code>//configure with a JSON file.
+new comb.logging.PropertyConfigurator().configure(&quot;/location/of/log/config.json&quot;);
 
 //or
 
 var loggingConfig = {
     //set the root patio logger to INFO by setting it on the root patio logger, patio.Dataset, patio.Database will
     //all get set to INFO level.
-    "patio" : {
-        level : "INFO",
+    &quot;patio&quot; : {
+        level : &quot;INFO&quot;,
         appenders : [
             {
-                type : "ConsoleAppender"
+                type : &quot;ConsoleAppender&quot;
             }
         ]
     },
     //set the database logger to DEBUG
-    "patio.Database" : {
-        level : "DEBUG",
+    &quot;patio.Database&quot; : {
+        level : &quot;DEBUG&quot;,
         appenders : [
             {
-                type : "ConsoleAppender"
+                type : &quot;ConsoleAppender&quot;
             }
         ]
     }
 };
-new comb.logging.PropertyConfigurator().configure(loggingConfig);
+new comb.logging.PropertyConfigurator().configure(loggingConfig);</code></pre>
+<p>If you are using a different version of comb or do not want to use comb, then you can use the following method <a href="./patio.html#configureLogging">patio.configureLogging</a>;
 
-
-                        </pre>
-                    </li>
-                    <li>
-                        If you are using a different version of comb or do not want to use comb, then you can use the following method.
-                        <a href="api/symbols/patio.html#configureLogging">patio.configureLogging</a>
-                        <pre class="code">
-var comb = require("comb"),
-    patio = require("patio");
+</p>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
+    patio = require(&quot;patio&quot;);
 //sets up a basic configurator
-patio.configureLogging();
+patio.configureLogging();</code></pre>
+<p>Or with a JSON file
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.configureLogging(&quot;/location/of/log/config.json&quot;);</code></pre>
+<p>Or with an object
 
-//configure with a JSON file.
-patio.configureLogging("/location/of/log/config.json");
-
-//or
-var loggingConfig = {
+</p>
+<pre class='prettyprint linenums lang-js'><code>var loggingConfig = {
     //set the root patio logger to INFO by setting it on the root patio logger, patio.Dataset, patio.Database will
     //all get set to INFO level.
-    "patio" : {
-        level : "INFO",
+    &quot;patio&quot; : {
+        level : &quot;INFO&quot;,
         appenders : [
             {
-                type : "ConsoleAppender"
+                type : &quot;ConsoleAppender&quot;
+            },
+            {
+                type:&quot;RollingFileAppender&quot;,
+                file:&quot;/var/log/patio.log&quot;
             }
         ]
     },
     //set the database logger to DEBUG
-    "patio.Database" : {
-        level : "DEBUG",
+    &quot;patio.Database&quot; : {
+        level : &quot;DEBUG&quot;,
         appenders : [
             {
-                type : "ConsoleAppender"
+                type : &quot;ConsoleAppender&quot;
             }
         ]
     }
 };
-patio.configureLogging(loggingConfig);
-                        </pre>
-                    </li>
-                </ul>
-                The patio logger currently contains the following loggers:
-                <ul>
-                    <li>patio</li>
-                    <li>patio.Dataset</li>
-                    <li>patio.Database</li>
-                </ul>
-                To get access to patios root logger use the <a href="api/symbols/patio.html#LOGGER">patio.LOGGER</a>
-                property.
-                <pre class="code">
-var patioLogger = patio.LOGGER;
-patioLogger.level = "off";
-                </pre>
-                There are also a methods for each logger method on patio.
-                <pre class="code">
-patio.logDebug("DEBUG");
-patio.logInfo("INFO");
-patio.logTrace("TRACE");
-patio.logError("ERROR");
-patio.logWarn("WARN");
-patio.logFatal("FATAL");
-                </pre>
-            </div>
-        </div>
-    </div>
+patio.configureLogging(loggingConfig);</code></pre>
+<p>The patio logger currently contains the following loggers:
+
+</p>
+<ul>
+<li>patio</li>
+<li>patio.Dataset</li>
+<li>patio.Database</li>
+</ul>
+<p>To get access to patios root logger use the <code>patio.LOGGER</code> property.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var patioLogger = patio.LOGGER;
+patioLogger.level = &quot;off&quot;;</code></pre>
+<p>There are also a methods for each logger method on patio.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.logDebug(&quot;DEBUG&quot;);
+patio.logInfo(&quot;INFO&quot;);
+patio.logTrace(&quot;TRACE&quot;);
+patio.logError(&quot;ERROR&quot;);
+patio.logWarn(&quot;WARN&quot;);
+patio.logFatal(&quot;FATAL&quot;);</code></pre>
+
+<hr>
+
+Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+
+
 </div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
 </body>
 </html>
