@@ -4,6 +4,7 @@ var comb = require("comb"),
     Level = comb.logging.Level,
     path = require("path"),
     format = comb.string.format,
+    fs = require("fs"),
     patio = require("../index");
 
 /**
@@ -13,7 +14,10 @@ var comb = require("comb"),
 var program = require('commander');
 
 program
-    .version('0.0.1')
+    .version('0.0.1');
+
+
+program.command("migrate")
     .option('-d, --directory <path>', 'Directory of migrations')
     .option('-u, --uri <uri>', 'connection uri')
     .option('-t, --target [number]', 'target migration version')
@@ -25,44 +29,69 @@ program
     .option('-r, --rollback [boolean]', 'roll all migrations back', false)
     .option('--camelize [boolean]', 'force camel casing', false)
     .option('-us, --underscore [boolean]', 'force underscore', false)
-    .parse(process.argv);
+    .action(function (program) {
+        ["directory", "uri"].forEach(function (arg) {
+            if (comb.isUndefined(program[arg])) {
+                program.missingArgument(arg);
+            }
+        });
 
-["directory", "uri"].forEach(function(arg){
-    if (comb.isUndefined(program[arg])) {
-        program.missingArgument(arg);
-    }
-});
+        if (program.underscore) {
+            patio.underscore = true;
+        } else if (program.camelize) {
+            patio.camelize = true;
+        }
 
-if (program.underscore) {
-    patio.underscore = true;
-} else if (program.camelize) {
-    patio.camelize = true;
-}
+        new comb.logging.BasicConfigurator().configure();
+        patio.LOGGER.level = program.quiet ? Level.ERROR : program.verbose ? Level.DEBUG : Level.INFO;
 
-new comb.logging.BasicConfigurator().configure();
-patio.LOGGER.level = program.quiet ? Level.ERROR : program.verbose ? Level.DEBUG : Level.INFO;
+        var opts = {};
 
-var opts = {};
-
-["target", "current", "table", "column"].forEach(function(arg){
-    if (!comb.isUndefined(program[arg])) {
-        opts[arg] = program[arg];
-    }
-});
-if (program.rollback) {
-    opts.target = -1;
-}
+        ["target", "current", "table", "column"].forEach(function (arg) {
+            if (!comb.isUndefined(program[arg])) {
+                opts[arg] = program[arg];
+            }
+        });
+        if (program.rollback) {
+            opts.target = -1;
+        }
 
 
-var disconnectError = function(err){
-    patio.logError(err);
-    patio.disconnect();
-};
+        var disconnectError = function (err) {
+            patio.logError(err);
+            patio.disconnect();
+        };
 
-var start = new Date();
-patio.logInfo("Starting Migration");
-patio.migrate(program.uri, path.resolve(process.cwd(), program.directory), opts).then(function(){
-    patio.logInfo("Finished Migration");
-    patio.logInfo(format("Duration: % 6dms", new Date() - start));
-    patio.disconnect();
-}, disconnectError);
+        var start = new Date();
+        patio.logInfo("Starting Migration");
+        patio.migrate(program.uri, path.resolve(process.cwd(), program.directory), opts).then(function () {
+            patio.logInfo("Finished Migration");
+            patio.logInfo(format("Duration: % 6dms", new Date() - start));
+            patio.disconnect();
+            process.exit();
+        }, disconnectError);
+
+    });
+
+program.command("migration-file [out]")
+    .description("create a migration file")
+    .option('-n --migrationName [string]', "migration name")
+    .option('-i, --integer [number]', 'create a file with an integer migration')
+    .action(function (out, program) {
+        var stats = fs.statSync(out);
+        if (stats.isDirectory()) {
+            var name;
+            if (program.integer) {
+                name = format("%s.%s.js", program.integer, program.migrationName || "migration");
+            } else {
+                name = format("%s.%s.js", +(new Date()), program.migrationName || "migration");
+            }
+            var contents = fs.readFileSync(path.resolve(__dirname, "./assets/migration-file.js"), 'utf8');
+            fs.writeFileSync(path.resolve(out, name), contents, "utf8");
+            process.exit();
+        } else {
+            throw new Error("out path must be a directory : " + out);
+        }
+    });
+
+program.parse(process.argv);

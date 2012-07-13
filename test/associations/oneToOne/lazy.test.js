@@ -1,265 +1,199 @@
-var vows = require('vows'),
+var it = require('it'),
     assert = require('assert'),
-    helper = require("../../data/oneToOne/lazy.models.js"),
+    helper = require("../../data/oneToOne.helper.js"),
     patio = require("index"),
     comb = require("comb"),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-var ret = module.exports = exports = new comb.Promise();
 
 var gender = ["M", "F"];
-helper.loadModels().then(function () {
-    var Works = patio.getModel("works"), Employee = patio.getModel("employee");
-    var suite = vows.describe("One to One lazy association ");
+it.describe("One To One lazy", function (it) {
 
-    suite.addBatch({
-        "A model":{
-            topic:function () {
-                return Employee
-            },
-
-            "should have associations":function () {
-                assert.deepEqual(Employee.associations, ["works"]);
-                assert.deepEqual(Works.associations, ["employee"]);
-                var emp = new Employee();
-                var work = new Works();
-                assert.deepEqual(emp.associations, ["works"]);
-                assert.deepEqual(work.associations, ["employee"]);
+    var Works, Employee;
+    it.beforeAll(function () {
+        Works = patio.addModel("works", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.manyToOne("employee");
+                }
             }
-        }
+        });
+        Employee = patio.addModel("employee", {
+            "static":{
+                init:function () {
+                    this._super(arguments);
+                    this.oneToOne("works");
+                }
+            }
+        });
+        return helper.createSchemaAndSync(true);
     });
 
-    suite.addBatch({
 
-        "When creating a employee ":{
-            topic:function () {
-                var e1 = new Employee({
-                    lastname:"last" + 1,
-                    firstname:"first" + 1,
-                    midinitial:"m",
-                    gender:gender[1 % 2],
-                    street:"Street " + 1,
-                    city:"City " + 1,
-                    works:{
-                        companyName:"Google",
-                        salary:100000
-                    }
-                }).save().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
+    it.should("have associations", function () {
+        assert.deepEqual(Employee.associations, ["works"]);
+        assert.deepEqual(Works.associations, ["employee"]);
+        var emp = new Employee();
+        var work = new Works();
+        assert.deepEqual(emp.associations, ["works"]);
+        assert.deepEqual(work.associations, ["employee"]);
+    });
 
-            " the employee should work at google ":function (employee) {
-                var works = employee.works.then(function (works) {
+    it.describe("create a new model with association", function (it) {
+
+        it.beforeAll(function () {
+            return comb.when(
+                Employee.remove(),
+                Works.remove()
+            );
+        });
+
+
+        it.should("save nested models when using new", function (next) {
+            var employee = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1,
+                works:{
+                    companyName:"Google",
+                    salary:100000
+                }
+            });
+            employee.save().then(function () {
+                employee.works.then(function (works) {
                     assert.equal(works.companyName, "Google");
                     assert.equal(works.salary, 100000);
+                    next();
                 });
-
-            }
-        }
-
+            }, next);
+        });
     });
 
-    suite.addBatch({
+    it.context(function (it) {
 
-        "When finding an employee":{
-            topic:function () {
-                Employee.one().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-
-            " the employees work should not be loaded yet":{
-                topic:function (employee) {
-                    var works = employee.works;
-                    assert.instanceOf(works, Promise);
-                    works.then(hitch(this, "callback", null), hitch(this, "callback"));
-                },
-
-                " but now it should":function (works) {
-                    assert.equal(works.companyName, "Google");
-                    assert.equal(works.salary, 100000);
+        it.beforeEach(function () {
+            return comb.serial([
+                hitch(Employee, "remove"),
+                hitch(Works, "remove"),
+                function () {
+                    return new Employee({
+                        lastName:"last" + 1,
+                        firstName:"first" + 1,
+                        midInitial:"m",
+                        gender:gender[1 % 2],
+                        street:"Street " + 1,
+                        city:"City " + 1,
+                        works:{
+                            companyName:"Google",
+                            salary:100000
+                        }
+                    }).save();
                 }
-            }
-        }
+            ]);
+        });
+
+        it.should("not load associations when querying", function (next) {
+            comb.when(Employee.one(), Works.one()).then(function (res) {
+                var emp = res[0], work = res[1];
+                var workPromise = emp.works, empPromise = work.employee;
+                assert.isPromiseLike(workPromise);
+                assert.isPromiseLike(empPromise);
+                comb.when(empPromise, workPromise).then(function (res) {
+                    var emp = res[0], work = res[1];
+                    assert.instanceOf(emp, Employee);
+                    assert.instanceOf(work, Works);
+                    next();
+                }, next);
+
+            }, next);
+        });
+
+        it.should("allow the removing of associations", function (next) {
+            Employee.one().then(function (emp) {
+                emp.works = null;
+                emp.save().then(function (emp) {
+                    emp.works.then(function (works) {
+                        assert.isNull(works);
+                        Works.one().then(function (work) {
+                            assert.isNotNull(work);
+                            work.employee.then(function (emp) {
+                                assert.isNull(emp);
+                                next();
+                            }, next);
+                        }, next);
+                    }, next);
+                }, next);
+            }, next);
+        });
 
     });
 
+    it.context(function () {
+        it.beforeEach(function () {
+            return comb.when(
+                Works.remove(),
+                Employee.remove()
+            );
+        });
 
-    suite.addBatch({
-
-        "When finding workers":{
-            topic:function () {
-                Works.one().then(hitch(this, function (worker) {
-                    worker.employee.then(hitch(this, "callback", null), hitch(this, "callback"));
-                }));
-            },
-
-            " the worker should work at google and have an associated employee":function (emp) {
-                assert.equal(emp.lastname, "last" + 1);
-                assert.equal(emp.firstname, "first" + 1);
-                assert.equal(emp.midinitial, "m");
-                assert.equal(emp.gender, gender[1 % 2]);
-                assert.equal(emp.street, "Street " + 1);
-                assert.equal(emp.city, "City " + 1);
-                return emp;
-            }
-        }
-
-    });
-
-    suite.addBatch({
-
-        "When deleting an employee":{
-            topic:function () {
-                Employee.one().chain(
-                    function (e) {
-                        return e.remove();
-                    }).chain(hitch(Works, "count"), hitch(this, "callback")).then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-
-            " the the works count should be 1 ":function (count) {
-                assert.equal(count, 1);
-            }
-        }
-
-    });
-
-    suite.addBatch({
-
-        "When creating a employee ":{
-            topic:function () {
-                var e1 = new Employee({
-                    lastname:"last" + 1,
-                    firstname:"first" + 1,
-                    midinitial:"m",
-                    gender:gender[1 % 2],
-                    street:"Street " + 1,
-                    city:"City " + 1,
-                    works:{
+        it.should("allow the setting of associations", function (next) {
+            var emp = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1
+            });
+            emp.save().then(function () {
+                emp.works.then(function (works) {
+                    assert.isNull(works);
+                    emp.works = {
                         companyName:"Google",
                         salary:100000
-                    }
-                }).save().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            " the employee should work at google ":{
-                topic:function (employee) {
-                    var works = employee.works.then(function (works) {
-                        assert.equal(works.companyName, "Google");
-                        assert.equal(works.salary, 100000);
-                    });
-                    employee.works = null;
-                    Employee.findById(employee.id).then(hitch(this, "callback", null), hitch(this, "callback"));
-                },
-
-                "and when setting works to null and not saving":{
-                    topic:function (employee) {
-                        employee.works.then(hitch(this, "callback", null, employee), hitch(this, "callback"));
-                    },
-
-                    "the employee should still work at google":{
-                        topic:function (employee, works) {
-                            assert.instanceOf(employee, Employee);
+                    };
+                    emp.save().then(function () {
+                        emp.works.then(function (works) {
                             assert.instanceOf(works, Works);
-                            assert.equal(works.companyName, "Google");
-                            assert.equal(works.salary, 100000);
-                            comb.executeInOrder(employee, Employee,
-                                function (employee, Employee) {
-                                    employee.works = null;
-                                    employee.save();
-                                    return Employee.findById(employee.id);
-                                }).then(hitch(this, "callback", null), hitch(this, "callback"));
-                        },
-                        "but when setting works to null and saving":{
-                            topic:function (employee) {
-                                employee.works.then(hitch(this, "callback", null), hitch(this, "callback"));
-                            },
+                            next();
+                        }, next);
+                    }, next);
+                }, next);
+            }, next);
+        });
 
-                            "works should be null":function (works) {
-                                assert.isNull(works);
-                            }
-                        }
-                    }
+        it.should("not delete association when deleting the reciprocal side", function (next) {
+            var e = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1,
+                works:{
+                    companyName:"Google",
+                    salary:100000
                 }
-
-            }
-        }
-    });
-
-    suite.addBatch({
-
-        "When creating a employee ":{
-            topic:function () {
-                var e1 = new Employee({
-                    lastname:"last" + 1,
-                    firstname:"first" + 1,
-                    midinitial:"m",
-                    gender:gender[1 % 2],
-                    street:"Street " + 1,
-                    city:"City " + 1,
-                    works:{
-                        companyName:"Google",
-                        salary:100000
-                    }
-                }).save().then(hitch(this, "callback", null), hitch(this, "callback"));
-            },
-
-            " the employee should work at google ":{
-                topic:function (employee) {
-                    var works = employee.works.then(hitch(this, function (works) {
-                        assert.equal(works.companyName, "Google");
-                        assert.equal(works.salary, 100000);
-                        works.employee = null;
-                        Works.findById(works.id).then(hitch(this, "callback", null), hitch(this, "callback"));
-                    }));
-                },
-
-                "and when setting employee to null on works and not saving":{
-                    topic:function (works) {
-                        works.employee.then(hitch(this, "callback", null, works), hitch(this, "callback"));
-                    },
-
-                    "works should still have an employee":{
-                        topic:function (works, employee) {
-                            assert.instanceOf(employee, Employee);
-                            assert.instanceOf(works, Works);
-                            assert.equal(works.companyName, "Google");
-                            assert.equal(works.salary, 100000);
-                            works.employee = null;
-                            works.save().chain(hitch(Works, "findById", works.id), hitch(this, "callback")).then(hitch(this, "callback", null, employee), hitch(this, "callback"));
-                        },
-                        "but when setting employee to null and saving":{
-                            topic:function (employee, works) {
-                                comb.executeInOrder(employee, works, Employee,
-                                    function (employee, works, Employee) {
-                                        var emp = works.employee;
-                                        var newEmp = Employee.findById(employee.id);
-                                        var nullWorks = newEmp.works;
-                                        return {emp:emp, employee:newEmp, nullWorks:nullWorks };
-                                    }).then(hitch(this, "callback", null), hitch(this, "callback"));
-                                ;
-                            },
-
-                            "employee should be null but employee should still exists but not work anywhere":function (res) {
-                                assert.isNull(res.emp);
-                                assert.instanceOf(res.employee, Employee);
-                                assert.isNull(res.nullWorks);
-                            }
-                        }
-                    }
-                }
-
-            }
-        }
+            });
+            e.save().then(function () {
+                e.remove().then(function () {
+                    comb.when(Employee.all(), Works.all()).then(function (res) {
+                        assert.lengthOf(res[0], 0);
+                        assert.lengthOf(res[1], 1);
+                        next();
+                    }, next);
+                }, next);
+            }, next);
+        });
 
     });
 
-
-    suite.run({reporter:require("vows").reporter.spec}, function () {
-        helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+    it.afterAll(function () {
+        return helper.dropModels();
     });
-
-}, function (err) {
-    console.log(err);
 });
-

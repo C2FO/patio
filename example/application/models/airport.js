@@ -14,5 +14,5 @@ patio.addModel("airport", {
             });
         }
     }
-});
+}).as(module);
 

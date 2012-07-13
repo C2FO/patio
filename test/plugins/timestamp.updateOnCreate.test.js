@@ -1,44 +1,60 @@
-var vows = require('vows'),
-        assert = require('assert'),
-        patio = require("index"),
-        comb = require("comb"),
-        hitch = comb.hitch,
-        helper = require("../data/timestampPlugin/timestamp.updateOnCreate.models");
+var it = require('it'),
+    assert = require('assert'),
+    patio = require("index"),
+    comb = require("comb"),
+    hitch = comb.hitch,
+    helper = require("../data/timestampPlugin.helper.js");
 
-var ret = module.exports = exports = new comb.Promise();
 
-helper.loadModels().then(function() {
-    Employee = patio.getModel("employee");
-    var suite = vows.describe("TimeStampPlugin updateOnCreate");
 
-    suite.addBatch({
 
-        "when creating an employee" : {
-            topic : function() {
-                Employee.save({
-                    firstname : "doug",
-                    lastname : "martin",
-                    midinitial : null,
-                    gender : "M",
-                    street : "1 nowhere st.",
-                    city : "NOWHERE"
-                }).then(hitch(this, function(e) {
-                    //force reload
-                    e.reload().then(hitch(this, "callback", null));
-                }));
-            },
 
-            "the updated time stamp should be set" : function(topic) {
-                assert.isNotNull(topic.updated);
-                assert.isNotNull(topic.created);
-                assert.deepEqual(topic.updated, topic.created);
-                assert.instanceOf(topic.updated, patio.SQL.DateTime);
-                assert.instanceOf(topic.created, patio.SQL.DateTime);
-            }
-        }
+it.describe("Timestamp updateOnCreate", function (it) {
+
+    var emp, Employee;
+    it.beforeAll(function () {
+        Employee = patio.addModel("employee", {
+            plugins:[patio.plugins.TimeStampPlugin]
+        });
+        Employee.timestamp({updateOnCreate:true});
+        return helper.createSchemaAndSync();
     });
 
-    suite.run({reporter : require("vows").reporter.spec}, function() {
-        helper.dropModels().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+    it.beforeEach(function (next) {
+        Employee.remove().then(function () {
+            Employee.save({
+                firstname:"doug",
+                lastname:"martin",
+                midinitial:null,
+                gender:"M",
+                street:"1 nowhere st.",
+                city:"NOWHERE"
+            }).then(function (e) {
+                    emp = e;
+                    next();
+                }, next);
+        }, next);
+    });
+
+    it.should("set created column", function () {
+        assert.instanceOf(emp.created, patio.SQL.DateTime);
+        assert.instanceOf(emp.updated, patio.SQL.DateTime);
+    });
+
+    it.should("set updated column", function (next) {
+        setTimeout(function () {
+            emp.firstname = "dave";
+            emp.save().then(function () {
+                //force reload
+                assert.isNotNull(emp.updated);
+                assert.instanceOf(emp.updated, patio.SQL.DateTime);
+                assert.notDeepEqual(emp.updated, emp.created);
+                next();
+            });
+        }, 1000);
+    });
+
+    it.afterAll(function () {
+        return helper.dropModels();
     });
 });

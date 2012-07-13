@@ -9,10 +9,9 @@ exports.createTableAndModel = function (connect) {
             this.column("number", "integer");
             this.column("string", String);
         }).then(function () {
-            patio.addModel("patioEntry").then(function (entry) {
-                ret.callback(entry);
-            });
-        });
+            patio.addModel("patioEntry");
+            patio.syncModels().then(ret);
+        }, ret);
     return ret;
 };
 
