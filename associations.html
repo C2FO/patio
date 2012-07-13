@@ -1,894 +1,1003 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>patio</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <style type="text/css">
+        
 
-    <title>Patio - Associations</title>
-    <meta name="generator" content="JsDoc Toolkit"/>
-    <link type="text/css" href="./api/css/default.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"
-            charset="utf-8"></script>
-    <script type="text/javascript" src="./api/js/doc.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/jquery.chili-2.2.js"></script>
-    <script type="text/javaScript" src="./api/js/chili/recipes.js"></script>
+.subnav-inner {
+    width: 100%;
+    height: 36px;
+    background-color: #EEE;
+    background-repeat: repeat-x;
+    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
+    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
+    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.subnav .nav > li > a:hover {
+    color: black !important;
+}
+
+.subnav .nav li.dropdown .dropdown-toggle .caret,
+.subnav .nav li.dropdown.open .caret {
+    border-top-color: #999 !important;
+    border-bottom-color: #999 !important;
+}
+
+.subnav-fixed {
+    position: fixed;
+    width : 90%;
+    margin-right: auto;
+    margin-left: auto;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1020;
+    border-color: #D5D5D5;
+    border-width: 0 0 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.navbar .nav  .dropdown-menu {
+    max-height: 500px;
+    overflow: auto;
+}​
+
+    </style>
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <script type="text/javascript">
+        var init = (function () {
+            "use strict";
+
+            var processScroll = (function () {
+                var curr = null, prev = null;
+                return function (nav) {
+                    var $win = $(window);
+                    $('.subnav').each(function () {
+                        var nav = $(this);
+                        var navTop = nav.offset().top - 40;
+                        var scrollTop = $win.scrollTop();
+                        if (scrollTop >= navTop && curr != nav) {
+                            if(curr){
+                                curr.removeClass('subnav-fixed')
+                                prev = curr;
+                            }
+                            curr = nav;
+                            curr.addClass('subnav-fixed')
+                        } else if (curr == nav && scrollTop <= navTop) {
+                            curr.removeClass('subnav-fixed');
+                            prev.addClass('subnav-fixed');
+                            curr = prev;
+                        }else{
+                            nav.removeClass('subnav-fixed');
+                        }
+                    });
+                };
+            })();
+
+            return function () {
+                window.prettyPrint && prettyPrint();
+                $(".collapse").collapse();
+                // fix sub nav on scroll
+                processScroll();
+                $(window).on('scroll', processScroll)
+            }
+        })();
+    </script>
 </head>
-<!--[if gte IE 9]>
-<style type="text/css">
-    * {
-        filter: none !important;
-    }
-</style>
-<![endif]-->
-<style type="text/css">
-    .featureList li {
-        margin: 10px;
-    }
-</style>
-<body>
+<body onload="init()">
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+      
+          <a href="./index.html" class="brand">patio</a>
+      
+      <div class="nav-collapse">
+      <ul class="nav nav-pills">
+      
+      
+                 <li><a href="./connecting.html">Connecting</a></li>
+                 
+                 <li><a href="./models.html">Models</a></li>
+                 
+                 <li><a href="./associations.html">Associations</a></li>
+                 
+                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./plugins.html">Model Plugins</a></li>
+                 
+                 <li><a href="./querying.html">Querying</a></li>
+                 
+                 <li><a href="./DDL.html">DDL</a></li>
+                 
+                 <li><a href="./migrations.html">Migrations</a></li>
+                 
+                 <li><a href="./logging.html">Logging</a></li>
+                 
+            
 
-<a href="http://github.com/pollenware/patio" target="patioapi">
-    <img style="position: absolute; top: 0; right: 0; border: 0;"
-         src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67"
-         alt="Fork me on GitHub">
-</a>
-
-
-<div class="menuContainer">
-    <div class="menuContainerContent">
-        <ul>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./index.html" class="">
-                        <span>Patio</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'><a href="./api/index.html" class="" target="patioapi"><span>API</span></a></span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./connecting.html" class="">
-                        <span>Connecting to a database</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./DDL.html" class="">
-                        <span>Schema CRUD</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./migrations.html" class="">
-                        <span>Migrations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./querying.html" class="">
-                        <span>Querying</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./models.html" class="">
-                        <span>Models</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./model-inheritance.html" class="">
-                        <span>Model Inheritance</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="#" class="">
-                        <span>Model Associations</span>
-                    </a>
-                </span>
-            </li>
-            <li>
-                <span class='nodeContainer'>
-                    <a href="./logging.html" class="">
-                        <span>Logging</span>
-                    </a>
-                </span>
-            </li>
+      
+        <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="patio_sql.html">patio.sql</a></li>
+               
+                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
+               
+           </ul>
+           </li>
+        
+        
+           <li class="dropdown">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+           <ul class="dropdown-menu">
+             
+                         <li><a href="./patio.html">patio</a></li>
+               
+                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+               
+                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+               
+                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+               
+                         <li><a href="./patio_Database.html">patio.Database</a></li>
+               
+                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+               
+                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+               
+                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+               
+                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+               
+                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+               
+                         <li><a href="./patio_Model.html">patio.Model</a></li>
+               
+                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+               
+                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+               
+                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+               
+                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+               
+                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+               
+                         <li><a href="./patio_Time.html">patio.Time</a></li>
+               
+                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+               
+                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+               
+                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+               
+                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+               
+                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+               
+                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+               
+                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+               
+                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+               
+                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+               
+                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+               
+                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+               
+                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+               
+                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+               
+                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+               
+                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+               
+                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+               
+                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+               
+                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+               
+                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+               
+                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+               
+                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+               
+                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+               
+                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+               
+                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+               
+                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+               
+                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+               
+                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+               
+                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+               
+                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+               
+                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+               
+                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+               
+                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+               
+                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+               
+                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+               
+                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+               
+                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+               
+                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+               
+                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+               
+                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+               
+                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+               
+                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+               
+                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+               
+                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+               
+                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+               
+                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+               
+                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+               
+                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+               
+                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+               
+           </ul>
+        </li>
+       
+      </ul>
+      
+      <ul class="nav pull-right">
+                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
         </ul>
+        
+      </div>
     </div>
+  </div>
 </div>
-<div class="contentContainer">
-<div id="content">
-<div class="section">
-<h1 class="classTitle">Associations</h1>
 
-<div class="methodDetail">
-<b>The following types are supported:</b>
 
+<div class="container-fluid">
+    <a name="top"></a>
+    <div class="container">
+
+
+
+<h1>Associations</h1>
+<h2>Supported Association types</h2>
 <ul>
-    <li><b>oneToMany</b> - Foreign key in associated model's table points to this
-        model's primary key. Each current model object can be associated with
-        more than one associated model objects. Each associated model object
-        can be associated with only one current model object.
-    </li>
-    <li><b>manyToOne</b> - Foreign key in current model's table points to
-        associated model's primary key. Each associated model object can
-        be associated with more than one current model objects. Each current
-        model object can be associated with only one associated model object.
-    </li>
-    <li><b>oneToOne</b> - Similar to one_to_many in terms of foreign keys, but
-        only one object is associated to the current object through the
-        association. The methods created are similar to many_to_one, except
-        that the one_to_one setter method saves the passed object.</li>
-    <li><b>manyToMany</b> - A join table is used that has a foreign key that points
-        to this model's primary key and a foreign key that points to the
-        associated model's primary key. Each current model object can be
-        associated with many associated model objects, and each associated
-        model object can be associated with many current model objects.</li>
+<li><p><strong>oneToMany</strong> : Foreign key in associated model&#39;s table points to this model&#39;s primary key. Each current model object can be associated with more than one associated model objects. Each associated model object can be associated with only one current model object.</p>
+</li>
+<li><p><strong>manyToOne</strong> : Foreign key in current model&#39;s table points to associated model&#39;s primary key. Each associated model object can be associated with more than one current model objects. Each current model object can be associated with only one associated model object.</p>
+</li>
+<li><p><strong>oneToOne</strong> : Similar to one_to_many in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to many_to_one, except that the one_to_one setter method saves the passed object.</p>
+</li>
+<li><p><strong>manyToMany</strong> : A join table is used that has a foreign key that points to this model&#39;s primary key and a foreign key that points to the associated model&#39;s primary key. Each current model object can be associated with many associated model objects, and each associated model object can be associated with many current model objects.</li></p>
+</li>
 </ul>
-
-<b>The following options can be supplied:</b>
-
-
+<h2>Options</h2>
 <ul>
-    <li><b>model</b> - The associated class or its name. If not given, uses the association's name,
-        which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE
-        <br/>
-        For example, suppose we have the tables father and child, father being oneToMany with children. You
-        would not need to specify the model for the following.
-                <pre class="code">
-//you would not need to specify model for this
-this.oneToMany("children");
-this.manyToOne("father");
-                </pre>
-        You would for the following;
-                                <pre class="code">
-//it would default to the model myChild
-this.oneToMany("myChildren", {model : "child"});
+<li><strong>model</strong> : The associated class or its name. If not given, uses the association&#39;s name, which is singularized unless the type is <code>MANY_TO_ONE</code>  or <code>ONE_TO_ONE</code> . For example, suppose we have the tables father and child, father being oneToMany with children. Yo would not need to specify the model for the following.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//you would not need to specify model for this
+this.oneToMany(&quot;children&quot;);
+this.manyToOne(&quot;father&quot;);</code></pre>
+<p>You would for the following;
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//it would default to the model myChild
+this.oneToMany(&quot;myChildren&quot;, {model : &quot;child&quot;});
 //it would default to the model myBiologicalFather
-this.manyToOne("myBiologicalFather", {model : "father"});
-                </pre>
-    </li>
-    <li><b>query</b> - The conditions to use to filter the association, can be any argument passed
-        to <a href="api/symbols/patio.Dataset.html#filter" class="">patio.Dataset#filter</a>.
-                <pre class="code">
-//WHERE age > 10
-this.oneToMany("children", {query : {age : {gt : 10}}});
-this.oneToMany("femaleChildren", {query : {gender : "female"}});
-this.oneToMany("maleChildren", {query : {gender : "male"}});
-                </pre>
-    </li>
-    <li><b>dataset</b> - A function that is called in the scope of the model and called with the model as the
-        first argument. The function must return a dataset that can be used as the base for all dataset
-        operations.<b>NOTE:</b>The dataset returned will have all options applied to it.
-                <pre class="code">
-this.oneToMany("letterBChildren", {model : "child", dataset : function(){
+this.manyToOne(&quot;myBiologicalFather&quot;, {model : &quot;father&quot;});</code></pre>
+<ul>
+<li><strong>query</strong> : The conditions to use to filter the association, can be any argument passed to <a href="./patio_Dataset.html#filter">filter</a>.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//WHERE age &gt; 10
+this.oneToMany(&quot;children&quot;, {query : {age : {gt : 10}}});
+this.oneToMany(&quot;femaleChildren&quot;, {query : {gender : &quot;female&quot;}});
+this.oneToMany(&quot;maleChildren&quot;, {query : {gender : &quot;male&quot;}});</code></pre>
+<ul>
+<li><strong>dataset</strong> : A function that is called in the scope of the model and called with the model as the first argument. The function must return a dataset that can be used as the base for all dataset operations.<strong>NOTE:</strong> The dataset returned will have all options applied to it.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>this.oneToMany(&quot;letterBChildren&quot;, {model : &quot;child&quot;, dataset : function(){
             //called in the scope of the model instance
-            return this.db.from("child").filter({fatherId : this.id, name : {like : "B%"}});
-}});
-                </pre>
-    </li>
-    <li><b>distinct</b> Use the DISTINCT clause when selecting associated objects.
-        See <a href="api/symbols/patio.Dataset.html#distinct" class="">patio.Dataset#distinct</a>.
-                <pre class="code">
-this.manyToMany("students", {distinct : "gpa"});
-                </pre>
-    </li>
-    <li><b>limit</b> : Limit the number of records to the provided value. Use
-        an array with two elements for the value to specify a limit (first element) and an
-        offset (second element). See <a href="api/symbols/patio.Dataset.html#limit"
-                                        class="">patio.Dataset#limit</a>.
-                <pre class="code">
-this.manyToMany("students", {limit : 10});
-
-this.manyToMany("classes", {limit : [10, 20]});
-                </pre>
-
-    </li>
-    <li><b>order</b> : the column/s order the association dataset by. Can be a
-        one or more columns. See <a href="api/symbols/patio.Dataset.html#order" class="">patio
-            .Dataset#order</a>.
-                                <pre class="code">
-this.manyToMany("students", {order : "gpa"});
-
-this.manyToMany("classes", {order : ["firstName", sql.lastName.desc()]});
-                </pre>
-    </li>
-    <li><b>readOnly</b> : Do not add a setter method (for MANY_TO_ONE or ONE_TO_ONE associations),
-        or add/remove/removeAll methods (for ONE_TO_MANY and MANY_TO_MANY associations).
-            <pre class="code">
-//Make students read only.
-this.manyToMany("students", {readOnly : true});
-                </pre>
-    </li>
-    <li><b>select</b> : the columns to select. Defaults to the associated class's
-        tableName.* in a MANY_TO_MANY association, which means it doesn't include the attributes from the
-        join table. If you want to include the join table attributes, you can
-        use this option, but beware that the join table attributes can clash with
-        attributes from the model table, so you should alias any attributes that have
-        the same name in both the join table and the associated table.
-            <pre class="code">
-this.manyToMany("students", {select : ["firstName", "lastName"]});
-                </pre>
-    </li>
-</ul>
-ManyToOne additional options:
+            return this.db.from(&quot;child&quot;).filter({fatherId : this.id, name : {like : &quot;B%&quot;}});
+}});</code></pre>
 <ul>
-    <li><b>key</b> : foreignKey in current model's table that references
-        associated model's primary key. Defaults to : "{tableName}Id". Can use an
-        array of strings for a composite key association.
-                <pre class='code'>
-patio.addModel("biologicalFather", {
+<li><strong>distinct</strong> : Use the DISTINCT clause when selecting associated objects. See <a href="./patio_Dataset.html#distinct">discinct</a></li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {distinct : &quot;gpa&quot;});</code></pre>
+<ul>
+<li><strong>limit</strong> : Limit the number of records to the provided value. Use an array with two elements for the value to specify a limit (first element) and an offset (second element). See <a href="./patio_Dataset.html#limit">limit</a>.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {limit : 10});
+
+this.manyToMany(&quot;classes&quot;, {limit : [10, 20]});</code></pre>
+<ul>
+<li><strong>order</strong> : the column/s order the association dataset by. Can be a one or more columns. See <a href="./patio_Dataset.html#order">order</a>.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {order : &quot;gpa&quot;});
+
+this.manyToMany(&quot;classes&quot;, {order : [&quot;firstName&quot;, sql.lastName.desc()]});</code></pre>
+<ul>
+<li>readOnly : Do not add a setter method (for <code>MANY_TO_ONE</code>  or <code>ONE_TO_ONE</code>  associations), or add/remove/removeAll methods (for <code>ONE_TO_MANY</code>  and <code>MANY_TO_MANY</code>  associations).</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>//Make students read only.
+this.manyToMany(&quot;students&quot;, {readOnly : true});</code></pre>
+<ul>
+<li><strong>select</strong> : the columns to select. Defaults to the associated class&#39;s tableName.* in a <code>MANY_TO_MANY</code>  association, which means it doesn&#39;t include the attributes from the join table. If you want to include the join table attributes, you can use this option, but beware that the join table attributes can clash with attributes from the model table, so you should alias any attributes that have the same name in both the join table and the associated table.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {select : [&quot;firstName&quot;, &quot;lastName&quot;]});</code></pre>
+<h3>ManyToOne additional options:</h3>
+<ul>
+<li><strong>key</strong> : foreignKey in current model&#39;s table that references associated model&#39;s primary key. Defaults to : &quot;{tableName}Id&quot;. Can use an array of strings for a composite key association.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
+            this._super(&quot;arguments&quot;);
             //assumes biologicalFatherId
-            this.oneToMany("children");
+            this.oneToMany(&quot;children&quot;);
         }
     }
 });
 
-patio.addModel("child", {
+patio.addModel(&quot;child&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
+            this._super(&quot;arguments&quot;);
             //assumes biologicalFatherId
-            this.manyToOne("biologicalFather");
+            this.manyToOne(&quot;biologicalFather&quot;);
         }
     }
-});
-                </pre>
-        However this table structure would not work.
-                <pre class="code">
-biological_father       child
-|--id <--------|        |--id
+});</code></pre>
+<p>However this table structure would not work.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>biological_father       child
+|--id &lt;--------|        |--id
 |--name        |        |--name
-               |------> |--biological_father_key
+               |------&gt; |--biological_father_key</code></pre>
+<p>So you would need to define your models like this.
 
-                </pre>
-        So you would need to define your models like this.
-                                <pre class='code'>
-patio.addModel("biologicalFather", {
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
+            this._super(&quot;arguments&quot;);
             //override default biologicalFatherId with biologicalFatherKey
-            this.oneToMany("children", {key : "biologicalFatherKey"});
+            this.oneToMany(&quot;children&quot;, {key : &quot;biologicalFatherKey&quot;});
         }
     }
 });
 
-patio.addModel("child", {
+patio.addModel(&quot;child&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
+            this._super(&quot;arguments&quot;);
             //override default biologicalFatherId with biologicalFatherKey
-            this.manyToOne("biologicalFather", {key : "biologicalFatherKey"});
+            this.manyToOne(&quot;biologicalFather&quot;, {key : &quot;biologicalFatherKey&quot;});
         }
     }
-});
-                </pre>
-    </li>
-    <li><b>primaryKey</b> : column in the associated table that the <b>key</b> option references.
-        Defaults to the primary key of the associated table. Can use an
-        array of strings for a composite key association.
-        <p>
-            So, for the following table structure
-                <pre class="code">
-biological_father       child
+});</code></pre>
+<ul>
+<li><strong>primaryKey</strong> : column in the associated table that the <strong>key</strong> option references. Defaults to the primary key of the associated table. Can use an array of strings for a composite key association.</li>
+</ul>
+<p>So, for the following table structure
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>biological_father       child
 |--id                   |--id
-|--name <------|        |--name
-               |------> |--step_father_key
-                </pre>
-        You would set up the models as the following
-                <pre class="code">
+|--name &lt;------|        |--name
+               |------&gt; |--step_father_key</code></pre>
+<p>You would set up the models as the following
 
-patio.addModel("stepFather", {
+</p>
+<pre class='prettyprint linenums lang-js'><code>
+patio.addModel(&quot;stepFather&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.oneToMany("children", {key : "stepFatherKey", primaryKey : "name"});
+            this._super(&quot;arguments&quot;);
+            this.oneToMany(&quot;children&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
         }
     }
 });
 
-patio.addModel("child", {
+patio.addModel(&quot;child&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToOne("stepFather", {key : "stepFatherKey", primaryKey : "name"});
+            this._super(&quot;arguments&quot;);
+            this.manyToOne(&quot;stepFather&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
         }
     }
-});
-                </pre>
-        </p>
-    </li>
-</ul>
-OneToMany and OneToOne additional options:
+});</code></pre>
+<h3>OneToMany and OneToOne additional options:</h3>
 <ul>
-    <li><b>key</b> : foreign key in associated model's table that references
-        current model's primary key, as a symbol. Defaults to
-        "{thisTableName}Id". Can use an array of columns for a composite key association.
-        <p>
-            For examples see the ManyToOne examples above.
-        </p>
-    </li>
-    <li><b>primaryKey</b> : column in the current table that <b>key</b> option references.
-        Defaults to primary key of the current table. Can use an array of strings for a
-        composite key association.
-        <p>
-            For examples see the ManyToOne examples above.
-        </p>
-    </li>
+<li><strong>key</strong> : foreign key in associated model&#39;s table that references current model&#39;s primary key, as a symbol. Defaults to &quot;{thisTableName}Id&quot;. Can use an array of columns for a composite key association. <strong>For examples see the ManyToOne examples above</strong>.</li>
 </ul>
-
-ManyToMany additional options:
 <ul>
-    <li><b>joinTable</b> : name of table that includes the foreign keys to both
-        the current model and the associated model. Defaults to the name
-        of current model and name of associated model, pluralized,
-        sorted, and camelized.
-        <p>
-            For example if you had a joinTable names students_classes you would have to define your models like this:
-        <pre class="code">
-patio.camelize = true;
-patio.addModel("class", {
+<li>primaryKey : column in the current table that <strong>key</strong> option references. Defaults to primary key of the current table. Can use an array of strings for a composite key association. <strong>For examples see the ManyToOne examples above</strong>.</li>
+</ul>
+<h3>ManyToMany additional options:</h3>
+<ul>
+<li><strong>joinTable</strong> : name of table that includes the foreign keys to both the current model and the associated model. Defaults to the name of current model and name of associated model, pluralized, sorted, and camelized.</li>
+</ul>
+<p>For example if you had a joinTable names students_classes you would have to define your models like this:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
+patio.addModel(&quot;class&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToMany("students", {joinTable:"studentsClasses"});
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;students&quot;, {joinTable:&quot;studentsClasses&quot;});
         }
     }
 });
-patio.addModel("student", {
+patio.addModel(&quot;student&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToMany("classes", {joinTable:"studentsClasses"});
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;classes&quot;, {joinTable:&quot;studentsClasses&quot;});
         }
     }
-});
-        </pre>
-        </p>
-    </li>
-    <li><b>leftKey/rightKey</b>
-        <ul>
-            <li><b>leftKey</b> : foreign key in join table that points to current model's
-                primary key. Defaults to :"{tableName}Id".
-                Can use an array of symbols for a composite key association.
-            </li>
-            <li><b>rightKey</b> : foreign key in join table that points to associated
-                model's primary key. Defaults to Defaults to :"{associatedTableName}Id".
-                Can use an array of strings for a composite key association.
-        </ul>
-        <p>
-            Suppose you had a table structure like the following:
-        <pre class="code">
-class              classes_students       students
-|--id <----------> |--class_key       |-> |--id
-|--semester        |--student_key <---|   |--first_name
+});</code></pre>
+<ul>
+<li><p><strong>leftKey/rightKey</strong></p>
+<ul>
+<li><p><strong>leftKey</strong> : foreign key in join table that points to current model&#39;s primary key. Defaults to :&quot;{tableName}Id&quot;. Can use an array of strings for a composite key association.</p>
+</li>
+<li><p><strong>rightKey</strong> : foreign key in join table that points to associated model&#39;s primary key. Defaults to Defaults to :&quot;{associatedTableName}Id&quot;. Can use an array of strings for a composite key association.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Suppose you had a table structure like the following:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>class              classes_students       students
+|--id &lt;----------&gt; |--class_key       |-&gt; |--id
+|--semester        |--student_key &lt;---|   |--first_name
 |--name                                   |--last_name
 |--subject                                |--gpa
 |--description                            |--is_honors
-|--graded                                 |--classYear
-        </pre>
-        You would set up you models like the following:
-            <pre class="code">
-patio.camelize = true;
-patio.addModel("class", {
-    static:{
-        init:function(){
-            this._super("arguments");
-            this.manyToMany("students", {leftKey:"classKey", rightKey:"studentKey"});
-        }
-    }
-});
-patio.addModel("student", {
-    static:{
-        init:function(){
-            this._super("arguments");
-            this.manyToMany("classes", {leftKey:"studentKey", rightKey:"classKey"});
-        }
-    }
-});
-        </pre>
-        </p>
-    </li>
-    <li>
-        <b>leftPrimaryKey/rightPrimaryKey</b>
-        <ul>
-            <li><b>leftPrimaryKey</b> - column in current table that <b>leftKey</b> points to.
-                Defaults to primary key of current table. Can use an array of strings for a
-                composite key association.
-            </li>
-            <li><b>rightPrimaryKey</b> : column in associated table that <b>rightKey</b> points to.
-                Defaults to primary key of the associated table. Can use an
-                array of strings for a composite key association.
-        </ul>
-        <p>
-            Suppose you had a table structure like the following:
-        <pre class="code">
-class              classes_students       students
-|--id              |--first_name_key <--> |--first_name
-|--semester        |--last_name_key <---> |--last_name
-|--name <--------> |--name_key            |--id
-|--subject <-----> |--subject_key         |--gpa
-|--description                            |--is_honors
-|--graded                                 |--classYear
-        </pre>
-        You would set up you models like the following:
-            <pre class="code">
-patio.camelize = true;
-patio.addModel("class", {
-    static:{
-        init:function(){
-            this._super("arguments");
-            this.manyToMany("students", {
-                //use the composite key of name and subject
-                leftPrimaryKey:["name", "subject"],
-                leftKey:["nameKey", "subjectKey"],
-                rightPrimaryKey:["firstName", "lastName"],
-                rightKey:["firstNameKey", "lastNameKey"]
-            });
-        }
-    }
-});
-patio.addModel("student", {
-    static:{
-        init:function(){
-            this._super("arguments");
-            this.manyToMany("classes", {
-                 leftPrimaryKey:["firstName", "lastName"],
-                 leftKey:["firstNameKey", "lastNameKey"],
-                 rightPrimaryKey:["name", "subject"],
-                 rightKey:["nameKey", "subjectKey"],
-            });
-        }
-    }
-});
-        </pre>
-        </p>
-    </li>
+|--graded                                 |--classYear</code></pre>
+<p>You would set up you models like the following:
 
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
+patio.addModel(&quot;class&quot;, {
+    static:{
+        init:function(){
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;students&quot;, {leftKey:&quot;classKey&quot;, rightKey:&quot;studentKey&quot;});
+        }
+    }
+});
+patio.addModel(&quot;student&quot;, {
+    static:{
+        init:function(){
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;classes&quot;, {leftKey:&quot;studentKey&quot;, rightKey:&quot;classKey&quot;});
+        }
+    }
+});</code></pre>
+<ul>
+<li><strong>leftPrimaryKey/rightPrimaryKey</strong><ul>
+<li><strong>leftPrimaryKey</strong> : column in current table that <strong>leftKey</strong> points to. Defaults to primary key of current table. Can use an array of strings for a composite key association.</li>
+<li><strong>rightPrimaryKey</strong> : column in associated table that <strong>rightKey</strong> points to. Defaults to primary key of the associated table. Can use an array of strings for a composite key association.</li>
 </ul>
-</dd>
+</li>
+</ul>
+<p>Suppose you had a table structure like the following:
 
-<p>
-    <b>Filter Block</b>, you may also pass a function to the association to perform additional filtering on the
-    dataset.
+</p>
+<pre class='prettyprint linenums lang-js'><code>class              classes_students       students
+|--id              |--first_name_key &lt;--&gt; |--first_name
+|--semester        |--last_name_key &lt;---&gt; |--last_name
+|--name &lt;--------&gt; |--name_key            |--id
+|--subject &lt;-----&gt; |--subject_key         |--gpa
+|--description                            |--is_honors
+|--graded                                 |--classYear</code></pre>
+<p>You would set up you models like the following:
 
-<p>
-    Assume the student/class relation ship defined above with the conventional keys and jointable
-    <pre class="code">
-patio.addModel("class", {
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
+patio.addModel(&quot;class&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToMany("students");
-            this.manyToMany("aboveAverageStudents", {model:"student"}, function(ds) {
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;students&quot;, {
+                //use the composite key of name and subject
+                leftPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
+                leftKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
+                rightPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
+                rightKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;]
+            });
+        }
+    }
+});
+patio.addModel(&quot;student&quot;, {
+    static:{
+        init:function(){
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;classes&quot;, {
+                 leftPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
+                 leftKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;],
+                 rightPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
+                 rightKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
+            });
+        }
+    }
+});</code></pre>
+<h2>Filter Block</h2>
+<p>You may also pass a function to the association to perform additional filtering on the dataset.
+
+
+</p>
+<p>Assume the student/class relation ship defined above with the conventional keys and jointable
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;, {
+    static:{
+        init:function(){
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;students&quot;);
+            this.manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
                 return ds.filter({gpa:{gte:3.5}});
             });
-            this.manyToMany("averageStudents", {model:"student"}, function(ds) {
+            this.manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
                 return ds.filter({gpa:{between:[2.5, 3.5]}});
             });
-            this.manyToMany("belowAverageStudents", {model:"student"}, function(ds) {
+            this.manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
                 return ds.filter({gpa:{lt:2.5}});
             });
         }
     }
 });
 
-patio.addModel("student", {
+patio.addModel(&quot;student&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToMany("classes");
-            this.manyToMany("fallClasses", {model : "class"}, function(ds){
-                return ds.filter({semester : "FALL"});
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;classes&quot;);
+            this.manyToMany(&quot;fallClasses&quot;, {model : &quot;class&quot;}, function(ds){
+                return ds.filter({semester : &quot;FALL&quot;});
             });
-            this.manyToMany("sprintClasses", {model : "class"}, function(ds){
-                return ds.filter({semester : "SPRING"});
+            this.manyToMany(&quot;sprintClasses&quot;, {model : &quot;class&quot;}, function(ds){
+                return ds.filter({semester : &quot;SPRING&quot;});
             });
         }
     }
-});
-    </pre>
+});</code></pre>
+<h2><a href="./patio_Model.html#.oneToMany">oneToMany</a></h2>
+<p>One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many <a href="./patio_Model.html">Model</a> is the parent, and the many to one model is the child.
+
 </p>
+<p>For example consider a BiologicalFather and his children. The father can have many children, but a child can have only one Biological Father.
+
 </p>
-</div>
+<p>Assuming you have the following table structure:
 
-<div class="methodDetail">
-    <h3><a href="./api/symbols/patio.Model.html#.oneToMany">patio.Model.oneToMany</a>
-    </h3>
-
-    <p>
-        One of the most common forms of associations. One to Many is the inverse of Many to one.
-        One to Many often describes a parent child relationship, where the One To Many
-        <a href="api/symbols/patio.Model.html" target="patioapi">patio.Model</a>
-        is the parent, and the many to one model is the child.
-
-    <p>For example consider a BiologicalFather and his children. The father can have many children,
-        but a child can have only one Biological Father.</p>
-
-    <p>
-        Assuming you have the following table structure:
-    </p>
-<pre class='code'>
-biological_father       child
-|--id <--------|        |--id
-|--name        |        |--name
-               |------> |--biological_father_id
+</p>
+<pre class='prettyprint linenums lang-js'><code>\\biological_father       child
+\\|--id &lt;--------|        |--id
+\\|--name        |        |--name
+\\               |------&gt; |--biological_father_id
 
 //set up camelization so that properties can be camelcase but will be inserted
-//snake case (i.e. 'biologicalFather' becomes 'biological_father').
+//snake case (i.e. &#39;biologicalFather&#39; becomes &#39;biological_father&#39;).
 patio.camelize = true;
-DB.createTable("biologicalFather", function(){
-    this.primaryKey("id");
+DB.createTable(&quot;biologicalFather&quot;, function(){
+    this.primaryKey(&quot;id&quot;);
     this.name(String);
 });
-DB.createTable("child", function(){
-    this.primaryKey("id");
+DB.createTable(&quot;child&quot;, function(){
+    this.primaryKey(&quot;id&quot;);
     this.name(String);
-    this.foreignKey("biologicalFatherId", "biologicalFather", {key : "id"});
-});
-</pre>
-    <p>
-        The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a
-        foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child
-        Brad.
-    </p>
+    this.foreignKey(&quot;biologicalFatherId&quot;, &quot;biologicalFather&quot;, {key : &quot;id&quot;});
+});</code></pre>
+<p>The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child Brad.
 
-    <p>
-        You could represent the OneToMany association as follows:
-    </p>
-<pre class="code">
-comb.executeInOrder(patio, function(patio){
-     //define the BiologicalFather model
-     patio.addModel("biologicalFather", {
+
+</p>
+<p>You could represent the OneToMany association as follows:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>
+ var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;, {
          static : {
              init : function(){
-                 this._super("arguments");
-                 this.oneToMany("children");
+                 this._super(&quot;arguments&quot;);
+                 this.oneToMany(&quot;children&quot;);
              }
          }
      });
 
      //define Child  model
-     patio.addModel("child", {
+var Child = patio.addModel(&quot;child&quot;, {
          static : {
              init : function(){
-                this._super("arguments");
-                this.manyToOne("biologicalFather");
+                this._super(&quot;arguments&quot;);
+                this.manyToOne(&quot;biologicalFather&quot;);
              }
          }
      });
-     //Create data
-     var BiologicalFather = patio.getModel("biologicalFather");
-     BiologicalFather.save([
-           {name:"Fred", children:[
-                   {name:"Bobby"},
-                   {name:"Alice"},
-                   {name:"Susan"}
+
+patio.syncModels().then(function(){
+ BiologicalFather.save([
+           {name:&quot;Fred&quot;, children:[
+                   {name:&quot;Bobby&quot;},
+                   {name:&quot;Alice&quot;},
+                   {name:&quot;Susan&quot;}
            ]},
-           {name:"Ben"},
-           {name:"Bob"},
-           {name:"Scott", children:[
-                   {name:"Brad"}
+           {name:&quot;Ben&quot;},
+           {name:&quot;Bob&quot;},
+           {name:&quot;Scott&quot;, children:[
+                   {name:&quot;Brad&quot;}
            ]}
      ]);
-});
-</pre>
-    <p>
-        Above we created a BiologicalFather and Child model. The BiologicalFather has a static
-        initializer(init) that sets up the oneToMany association with the Child. The Child also has a static
-        initializer that sets up the ManyToOne association with the BiologicalFather. When saving
-        <a href="api/symbols/patio.Model.html" target="patioapi">patio.Model</a>s that have associations in
-        you can nest the associations directly.
-    </p>
 
-    <p>
-        You can query each model by:
-    </p>
-<pre class="code">
-var BiologicalFather = patio.getModel("biologicalFather");
-Child.findById(1).then(function(child){
-    child.biologicalFather.then(function(father){
-         //father.name === "fred"
+}, errorHandler);</code></pre>
+<p>Above we created a BiologicalFather and Child model. The BiologicalFather has a static initializer(init) that sets up the oneToMany association with the Child. The Child also has a static initializer that sets up the ManyToOne association with the BiologicalFather. When saving <a href="./patio_Model.html">Models</a>s that have associations in you can nest the associations directly.
+
+</p>
+<p>You can query each model by:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//syncModels only needs to be performed once
+patio.syncModels().then(function(){
+    Child.findById(1).then(function(child){
+        //lazy association so it returns a promise.
+        child.biologicalFather.then(function(father){
+             //father.name === &quot;fred&quot;
+        }, errorHandler);
     });
-});
 
-BioFather.findById(1).then(function(father){
-    father.children.then(function(children){
-        //children.length === 3
+    BiologicalFather.findById(1).then(function(father){
+        //lazy association so it returns a promise.
+        father.children.then(function(children){
+            //children.length === 3
+        }, errorHandler);
     });
+}, errorHandler);</code></pre>
+<p>Notice the models set up above are <code>LAZY</code> loaded meaning the associations are not loaded until the association is accessed. When working with lazy loaded associations a Promise will <strong>always</strong> be returned,even if the value has already been cached. The promise will be resolved with the association value/s.
+
+</p>
+<p>An <code>EAGER</code> model and query would look like this:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;, {
+    static : {
+        init : function(){
+            this._super(&quot;arguments&quot;);
+            this.oneToMany(&quot;children&quot;, {fetchType : this.fetchType.EAGER});
+        }
+    }
 });
-</pre>
-    <p>
-        Notice the models set up above are <b>"LAZY"</b> loaded meaning the
-        associations are not loaded until the association is accessed. When working with lazy loaded
-        associations a Promise will <b>always</b> be returned,even if the value has already been cached. The
-        promise will be resolved with the association value/s.
-    </p>
 
-    <p>
-        An "EAGER" model and query would look like this:
-    </p>
-<pre class="code">
-comb.executeInOrder(patio, function(patio){
-     //define the biological father model
-     patio.addModel("biologicalFather", {
-         static : {
-             init : function(){
-                this._super("arguments");
-                this.oneToMany("children", {fetchType : this.fetchType.EAGER});
-             }
-         }
-     });
 
-     //define Person  model
-     patio.addModel("child", {
-         static : {
-             init : function(){
-                this._super("arguments");
-                this.manyToOne("biologicalFather", {fetchType : this.fetchType.EAGER});
-             }
-         }
-     });
-     var Child = patio.getModel("child");
-       //now you can use the associations with out a promise.
+var Child = patio.addModel(&quot;child&quot;, {
+    static : {
+        init : function(){
+            this._super(&quot;arguments&quot;);
+            this.manyToOne(&quot;biologicalFather&quot;, {fetchType : this.fetchType.EAGER});
+        }
+    }
+});
+
+//sync the models
+patio.syncModels().then(funciton(){
      Child.findById(1).then(function(child){
          var father = child.biologicalFather;
-         //father.name === "fred"
+         //father.name === &quot;fred&quot;
          //father.children.length === 3
-    });
-});
-</pre>
-<p>
-    When working with eager associations the eagerly loaded association will be fetched on the load of a model.
+    }, errorHandler);
+}, errorHandler);</code></pre>
+<p>When working with eager associations the eagerly loaded association will be fetched on the load of a model.
+
 </p>
-</div>
-<div class="methodDetail">
-    <h3><a href="./api/symbols/patio.Model.html#.oneToOne">patio.Model.oneToOne</a></h3>
+<p><strong>Note:</strong> one should choose wisely when <code>EAGER</code>ly loading associations as it can severly inhibit performance.
 
-    <p>Similar to ONE_TO_MANY in terms of foreign keys, but only one object is associated to the current object
-        through the association. The methods created are similar to MANY_TO_ONE, except that the ONE_TO_ONE setter
-        method saves the passed object.</p>
 
-    <p>The reciprocal association to a ONE TO ONE is a MANY TO ONE. This be because in a one to one relationship
-        the MANY TO ONE model's table contains the foreign key that references the ONE TO ONE (the parent) models
-        table.
-    </p>
 
-    <p>For example consider the following schema for states and their capitals.
-            <pre class="code">
-state               capital
-|--id <--------|    |--id
-|--name        |    |--population
-|--population  |    |--name
-|--founded     |    |--founded
-|--climate     |--->|--state_id
-|--description
+</p>
+<h3><a href="./patio_Model.html#.oneToOne">oneToOne</a></h3>
+<p>Similar to <code>ONE_TO_MANY</code>  in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to <code>MANY_TO_ONE</code> , except that the <code>ONE_TO_ONE</code>  setter method saves the passed object.
 
-db.createTable("state", function(){
-    this.primaryKey("id");
+</p>
+<p>The reciprocal association to a ONE TO ONE is a MANY TO ONE. This be because in a one to one relationship the MANY TO ONE model&#39;s table contains the foreign key that references the ONE TO ONE (the parent) models table.
+
+
+</p>
+<p>For example consider the following schema for states and their capitals.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//state               capital
+//|--id &lt;--------|    |--id
+//|--name        |    |--population
+//|--population  |    |--name
+//|--founded     |    |--founded
+//|--climate     |---&gt;|--state_id
+//|--description
+
+db.createTable(&quot;state&quot;, function(){
+    this.primaryKey(&quot;id&quot;);
     this.name(String)
-    this.population("integer");
+    this.population(&quot;integer&quot;);
     this.founded(Date);
     this.climate(String);
-    this.description("text");
+    this.description(&quot;text&quot;);
 });
-db.createTable("capital", function(){
-    this.primaryKey("id");
-    this.population("integer");
+db.createTable(&quot;capital&quot;, function(){
+    this.primaryKey(&quot;id&quot;);
+    this.population(&quot;integer&quot;);
     this.name(String);
     this.founded(Date);
-    this.foreignKey("stateId", "state", {key:"id"});
-});
-            </pre>
+    this.foreignKey(&quot;stateId&quot;, &quot;state&quot;, {key:&quot;id&quot;});
+});</code></pre>
+<p>In the above state and capital tables the state would contian the <code>ONE_TO_ONE</code>  relationship and captial would contain a MANY TO ONE relationship with state because captial contains a foreign key to state&#39;s id.
 
-    In the above state and capital tables the state would contian the ONE_TO_ONE relationship and captial would
-    contain a MANY TO ONE relationship with state because captial contains a foreign key to state's id.
-    </p>
-    <p>
-        The models for the above schema would be declared as follows:
-        <pre class="code">
-patio.addModel("state", {
+</p>
+<p>The models for the above schema would be declared as follows:
+</p>
+<pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.oneToOne("capital");
+            this._super(&quot;arguments&quot;);
+            this.oneToOne(&quot;capital&quot;);
         }
     }
 });
-patio.addModel("capital", {
+var Capital = patio.addModel(&quot;capital&quot;, {
     static:{
         init:function(){
-            this._super("arguments");
-            this.manyToOne("state");
+            this._super(&quot;arguments&quot;);
+            this.manyToOne(&quot;state&quot;);
         }
     }
+});</code></pre>
+<p>To insert data into state or capital you could create each individually and set the properties manually:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//BE SURE TO SYNC YOUR MODELS BEFORE USING THEM
+var comb = require(&quot;comb&quot;),
+    when = comb.when;
+var nebraska = new State({
+    name:&quot;Nebraska&quot;,
+    population:1796619,
+    founded:new Date(1867, 2, 4)
+    climate:&quot;continental&quot;,
+});
+var texas = new State({
+    name:&quot;Texas&quot;,
+    population:25674681,
+    founded:new Date(1845, 11, 29)
 });    
-        </pre>
-    </p>
-    <p>
-        To insert data into state or capital you could create each individually and set the properties manually:
-        <pre class="code">
-var State = patio.getModel("state"), Capital = patio.getModel("patio");
-var statesSavePromise = State.save([
-    {
-        name:"Nebraska",
-        population:1796619,
-        founded:new Date(1867, 2, 4),
-        climate:"continental",
-    },
-    {
-        name:"Texas",
-        population:25674681,
-        founded:new Date(1845, 11, 29),
-    }
-]);
-var capitalsSavePromise = Capital.save([
-    {
-        name:"Lincoln",
+var lincoln = new Capital({
+    name:&quot;Lincoln&quot;,
+    founded:new Date(1856, 0, 1),
+    population:258379
+});
+var austin = new Capital({
+    name:&quot;Austin&quot;,
+    founded:new Date(1835, 0, 1),
+    population:790390
+});
+when(
+    nebraska.save(),
+    texas.save(),
+    lincoln.save(),
+    austin.save()
+).then(function(){
+    nebraska.capital = lincoln;
+    texas.capital = austin;
+    when(nebraska.save(), texas.save()).then(function(){
+       //states and capitals are now saved
+       Capital.forEach(function(capital){
+           //returning the state promise from here will prevent the forEach from resolving until the 
+           //state hash been fetched
+               return capital.state.then(function(state){
+                   console.log(&quot;%s&#39;s capital is %s, state.name, capital.name);
+               });
+       });
+    }, errorHandler);
+}, errorHandler);</code></pre>
+<p>The above example is pretty verbose, so <code>patio</code> allows you to nest the assignment of assoications on the creation of a model.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//BE SURE TO SYNC YOUR MODELS BEFORE USING THEM
+var comb = require(&quot;comb&quot;),
+    when = comb.when;
+var nebraska = new State({
+    name:&quot;Nebraska&quot;,
+    population:1796619,
+    founded:new Date(1867, 2, 4),
+    climate:&quot;continental&quot;,
+    //capital will be automatically converted to a Capital instance
+    capital : {
+        name:&quot;Lincoln&quot;,
         founded:new Date(1856, 0, 1),
         population:258379
-    },
-    {
-        name:"Austin",
+    }
+});
+var texas = new State({
+    name:&quot;Texas&quot;,
+    population:25674681,
+    founded:new Date(1845, 11, 29),
+   //capital will be automatically converted to a Capital instance
+    capital : {
+        name:&quot;Austin&quot;,
         founded:new Date(1835, 0, 1),
         population:790390
     }
-]);
-comb.when(statesSavePromise,capitalsSavePromise, function(){
-    States.forEach(function(state){
-        var ret = new comb.Promise(), name = state.name;
-        //set the appropriate capital
-        Captial.one({name : name === "Nebraska" ? "Lincoln" : "Austin"}).then(function(captial){
-            //with a ONE TO ONE you can set the property directly then call save
-            state.capital = capital;
-            state.save().then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+});    
+when(
+    nebraska.save(),
+    texas.save(),
+).then(function(){
+    Capital.forEach(function(capital){
+        //returning the state promise from here will prevent the forEach from resolving until the 
+        //state hash been fetched
+        return capital.state.then(function(state){
+            console.log(&quot;%s&#39;s capital is %s, state.name, capital.name);
         });
-        return ret;
-    });
-});
-        </pre>
-    </p>
-    <p>
-        Or you can save it with the nested properties.
-                <pre class="code">
-var State = patio.getModel("state"), Capital = patio.getModel("patio");
-var statesSavePromise = State.save([
-    {
-        name:"Nebraska",
-        population:1796619,
-        founded:new Date(1867, 2, 4),
-        climate:"continental",
-        capital : {
-            name:"Lincoln",
-            founded:new Date(1856, 0, 1),
-            population:258379
-        }
-    }
-]);
-var capitalsSavePromise = Capital.save({
-    name:"Austin",
-    founded:new Date(1835, 0, 1),
-    population:790390,
-    state : {
-        name:"Texas",
-        population:25674681,
-        founded:new Date(1845, 11, 29),
-    }
-});
-        </pre>
-    </p>
-    <p>
-        To query:
-        <pre class="code">
-State.order("name").forEach(function(state){
+    });    
+}, errorHandler);</code></pre>
+<p>To query:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function(state){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
-        
+
     return state.capital.then(function(capital){
-            console.log(comb.string.format("%s's capital is %s.", state.name, capital.name));
+            console.log(comb.string.format(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name));
     })
 });
 
-Capital.order("name").forEach(function(capital){
+Capital.order(&quot;name&quot;).forEach(function(capital){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
     return capital.state.then(function(state){
-            console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
+            console.log(comb.string.format(&quot;%s is the capital of %s.&quot;, capital.name, state.name));
     })
-});
-        </pre>
-    <b>Notice</b> when retrieving the state and captial properties they return a Promise because the properties are
-    lazy loaded. To change this set the <b>fetchType</b> to <b>EAGER</b>.
-    </p>
+});</code></pre>
+<p><strong>Note:</strong> when retrieving the state and captial properties they return a Promise because the properties are
+lazy loaded. To change this set the <strong>fetchType</strong> to <strong>EAGER</strong>.
 
-</div>
-<div class="methodDetail">
-<h3><a href="./api/symbols/patio.Model.html#.manyToMany">patio.Model.manyToMany</a></h3>
 
-<p>
-    A join table is used that has a foreign key that points to this model's primary key and a foreign key that
-    points to the associated model's primary key. Each current model object can be associated with many associated
-    model objects, and each associated model object can be associated with many current model objects.
 </p>
+<h3><a href="./patio_Model.html#.manyToMany">manyToMany</a></h3>
+<p>A join table is used that has a foreign key that points to this model&#39;s primary key and a foreign key that
+points to the associated model&#39;s primary key. Each current model object can be associated with many associated
+model objects, and each associated model object can be associated with many current model objects.
 
-<p>
-    Consider the following table schema
-        <pre class="code">
-class              classes_students       students
-|--id <----------> |--class_id        |-> |--id
-|--semester        |--student_id <----|   |--first_name
-|--name                                   |--last_name
-|--subject                                |--gpa
-|--description                            |--is_honors
-|--graded                                 |--classYear
-    
-db.createTable("class", function() {
-    this.primaryKey("id");
-    this.semester("char", {size:10});
+
+</p>
+<p>Consider the following table schema
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//class              classes_students       students
+//|--id &lt;----------&gt; |--class_id        |-&gt; |--id
+//|--semester        |--student_id &lt;----|   |--first_name
+//|--name                                   |--last_name
+//|--subject                                |--gpa
+//|--description                            |--is_honors
+//|--graded                                 |--classYear
+
+db.createTable(&quot;class&quot;, function() {
+    this.primaryKey(&quot;id&quot;);
+    this.semester(&quot;char&quot;, {size:10});
     this.name(String);
     this.subject(String);
-    this.description("text");
-    this.graded(Boolean, {"default":true});
+    this.description(&quot;text&quot;);
+    this.graded(Boolean, {&quot;default&quot;:true});
 });
-db.createTable("student", function() {
-    this.primaryKey("id");
+db.createTable(&quot;student&quot;, function() {
+    this.primaryKey(&quot;id&quot;);
     this.firstName(String);
     this.lastName(String);
     //GPA
-    this.gpa(sql.Decimal, {size:[1, 3], "default":0.0});
+    this.gpa(sql.Decimal, {size:[1, 3], &quot;default&quot;:0.0});
     //Honors Program?
-    this.isHonors(Boolean, {"default":false});
+    this.isHonors(Boolean, {&quot;default&quot;:false});
     //freshman, sophmore, junior, or senior
-    this.classYear("char");
+    this.classYear(&quot;char&quot;);
 });
 //Join table    
-db.createTable("classes_students", function() {
-    this.foreignKey("studentId", "student", {key:"id"});
-    this.foreignKey("classId", "class", {key:"id"});
-});
-        </pre>
-<b>Notice</b> the join tables name is the plural form of each tables name in alphabetical order. In order for patio
-to correctly guess the join table you must follow this convention. Otherwise you can specify the <b>joinTable</b>
+db.createTable(&quot;classes_students&quot;, function() {
+    this.foreignKey(&quot;studentId&quot;, &quot;student&quot;, {key:&quot;id&quot;});
+    this.foreignKey(&quot;classId&quot;, &quot;class&quot;, {key:&quot;id&quot;});
+});</code></pre>
+<p><strong>Notice</strong> the join tables name is the plural form of each tables name in alphabetical order. In order for patio
+to correctly guess the join table you must follow this convention. Otherwise you can specify the <strong>joinTable</strong>
 option when creating the associations.
+
 </p>
-<p>
-    Standard model definition:
-        <pre class="code">
-patio.addModel("class", {
+<p>Standard model definition:
+</p>
+<pre class='prettyprint linenums lang-js'><code>var Class = patio.addModel(&quot;class&quot;, {
     static:{
       init:function() {
-        this._super("arguments");
-        this.manyToMany("students",
+        this._super(&quot;arguments&quot;);
+        this.manyToMany(&quot;students&quot;,
           {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]});
-    
+
         //custom filters, notice the specification of the model property.
-        this.manyToMany("aboveAverageStudents", {model:"student"}, function(ds) {
+        this.manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
           return ds.filter({gpa:{gte:3.5}});
         });       
-        this.manyToMany("averageStudents", {model:"student"}, function(ds) {
+        this.manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
           return ds.filter({gpa:{between:[2.5, 3.5]}});
         });
-        this.manyToMany("belowAverageStudents", {model:"student"}, function(ds) {
+        this.manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
           return ds.filter({gpa:{lt:2.5}});
         });
       }
     }
-  });
-patio.addModel("student", {
+});
+var Student = patio.addModel(&quot;student&quot;, {
 
     instance:{
       enroll:function(clas) {
@@ -902,168 +1011,184 @@ patio.addModel("student", {
 
     static:{
         init:function() {
-            this._super("arguments");
-            this.manyToMany("classes", {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
+            this._super(&quot;arguments&quot;);
+            this.manyToMany(&quot;classes&quot;, {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
         }
     }
-});    
-        </pre>
-In the above declarations both models fetch the default classes/students EAGERLY meaning that when
-referencing the associations it <b>will not</b> return a Promise.
-<br/>
-<b>Notice</b> The <b>aboveAverageStudents</b>, <b>averageStudents</b>, and <b>belowAverageStudents</b> all use a custom
-filter to create the association.
+});</code></pre>
+<p>In the above declarations both models fetch the default classes/students EAGERLY meaning that when
+referencing the associations it <strong>will not</strong> return a Promise.
+
+
 </p>
-<p>
-    To save items using the associations you can insert items individually
-        <pre class="code">
-Class.save([
+<p><strong>Note:</strong> The <strong>aboveAverageStudents</strong>, <strong>averageStudents</strong>, and <strong>belowAverageStudents</strong> all use a custom
+filter to create the association.
+
+</p>
+<p>To save items using the associations you can insert items individually
+</p>
+<pre class='prettyprint linenums lang-js'><code>Class.save([
     {
-      semester:"FALL",
-      name:"Intro To JavaScript",
-      subject:"Javascript!!!!",
-      description:"This class will teach you about javascript's many uses!!!"
+      semester:&quot;FALL&quot;,
+      name:&quot;Intro To JavaScript&quot;,
+      subject:&quot;Javascript!!!!&quot;,
+      description:&quot;This class will teach you about javascript&#39;s many uses!!!&quot;
     },
     {
-      semester:"FALL",
-      name:"Pricipals Of Programming Languages",
-      subject:"Computer Science",
-      description:"Definition of programming languages. Global properties of algorithmic languages including "
-        + "scope of declaration, storage allocation, grouping of statements, binding time. Subroutines, "
-        + "coroutines and tasks. Comparison of several languages."
+      semester:&quot;FALL&quot;,
+      name:&quot;Pricipals Of Programming Languages&quot;,
+      subject:&quot;Computer Science&quot;,
+      description:&quot;Definition of programming languages. Global properties of algorithmic languages including &quot;
+        + &quot;scope of declaration, storage allocation, grouping of statements, binding time. Subroutines, &quot;
+        + &quot;coroutines and tasks. Comparison of several languages.&quot;
     },
     {
-      semester:"FALL",
-      name:"Theory Of Computation",
-      subject:"Computer Science",
-      description:"The course is intended to introduce the students to the theory of computation in a fashion "
-        + "that emphasizes breadth and away from detailed analysis found in a normal undergraduate automata "
-        + "course. The topics covered in the course include methods of proofs, finite automata, non-determinism,"
-        + " regular expressions, context-free grammars, pushdown automata, no-context free languages, "
-        + "Church-Turing Thesis, decidability, reducibility, and space and time complexity.."
+      semester:&quot;FALL&quot;,
+      name:&quot;Theory Of Computation&quot;,
+      subject:&quot;Computer Science&quot;,
+      description:&quot;The course is intended to introduce the students to the theory of computation in a fashion &quot;
+        + &quot;that emphasizes breadth and away from detailed analysis found in a normal undergraduate automata &quot;
+        + &quot;course. The topics covered in the course include methods of proofs, finite automata, non-determinism,&quot;
+        + &quot; regular expressions, context-free grammars, pushdown automata, no-context free languages, &quot;
+        + &quot;Church-Turing Thesis, decidability, reducibility, and space and time complexity..&quot;
     },
     {
-      semester:"SPRING",
-      name:"Compiler Construction",
-      subject:"Computer Science",
-      description:"Assemblers, interpreters and compilers. Compilation of simple expressions and statements. "
-        + "Analysis of regular expressions. Organization of a compiler, including compile-time and run-time "
-        + "symbol tables, lexical scan, syntax scan, object code generation and error diagnostics."
+      semester:&quot;SPRING&quot;,
+      name:&quot;Compiler Construction&quot;,
+      subject:&quot;Computer Science&quot;,
+      description:&quot;Assemblers, interpreters and compilers. Compilation of simple expressions and statements. &quot;
+        + &quot;Analysis of regular expressions. Organization of a compiler, including compile-time and run-time &quot;
+        + &quot;symbol tables, lexical scan, syntax scan, object code generation and error diagnostics.&quot;
     }
   ]);
  Student.save([
     {
-      firstName:"Bob",
-      lastName:"Yukon",
+      firstName:&quot;Bob&quot;,
+      lastName:&quot;Yukon&quot;,
       gpa:3.689,
-      classYear:"Senior"
+      classYear:&quot;Senior&quot;
     },
     {
-      firstName:"Greg",
-      lastName:"Horn",
+      firstName:&quot;Greg&quot;,
+      lastName:&quot;Horn&quot;,
       gpa:3.689,
-      classYear:"Sohpmore"
+      classYear:&quot;Sohpmore&quot;
     },
 
     {
-      firstName:"Sara",
-      lastName:"Malloc",
+      firstName:&quot;Sara&quot;,
+      lastName:&quot;Malloc&quot;,
       gpa:4.0,
-      classYear:"Junior"
+      classYear:&quot;Junior&quot;
     },
     {
-      firstName:"John",
-      lastName:"Favre",
+      firstName:&quot;John&quot;,
+      lastName:&quot;Favre&quot;,
       gpa:2.867,
-      classYear:"Junior"
+      classYear:&quot;Junior&quot;
     },
     {
-      firstName:"Kim",
-      lastName:"Bim",
+      firstName:&quot;Kim&quot;,
+      lastName:&quot;Bim&quot;,
       gpa:2.24,
-      classYear:"Senior"
+      classYear:&quot;Senior&quot;
     },
     {
-      firstName:"Alex",
-      lastName:"Young",
+      firstName:&quot;Alex&quot;,
+      lastName:&quot;Young&quot;,
       gpa:1.9,
-      classYear:"Freshman"
+      classYear:&quot;Freshman&quot;
     }
- ]);
-        </pre>
-And manually associate them
-    <pre class="code">
-//Retrieve All classes and students
-comb.when(Class.order("name").all(), Student.order("firstName", "lastName").all()).then(function(results) {
+ ]);</code></pre>
+<p>You can manually associate them by assigning the associations.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//Retrieve All classes and students
+comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quot;, &quot;lastName&quot;).all()).then(function(results) {
     var classes = results[0], students = results[1];
     students.map(function(student, i) {
         student.enroll(i === 0 ? classes : classes.slice(1));
     });
-});
-    </pre>
-Or you can save a class or student with students or classes respectively.
-    <pre class="code">
-Student.save({
-    firstName:"Zach",
-    lastName:"Igor",
+});</code></pre>
+<p>Or you can save a class or student with students or classes respectively.
+</p>
+<pre class='prettyprint linenums lang-js'><code>Student.save({
+    firstName:&quot;Zach&quot;,
+    lastName:&quot;Igor&quot;,
     gpa:2.754,
-    classYear:"Sophmore",
+    classYear:&quot;Sophmore&quot;,
+    //each class will be automatically converted to a Class object.
     classes:[
         {
-            semester:"FALL",
-            name:"Compiler Construction 2",
-            subject:"Computer Science"
+            semester:&quot;FALL&quot;,
+            name:&quot;Compiler Construction 2&quot;,
+            subject:&quot;Computer Science&quot;
         },
         {
-            semester:"FALL",
-            name:"Operating Systems",
-            subject:"Computer Science"
+            semester:&quot;FALL&quot;,
+            name:&quot;Operating Systems&quot;,
+            subject:&quot;Computer Science&quot;
         }
     ]
-});
-    </pre>
-</p>
-<p>
-    To query MANY TO MANY associations:
-        <pre class="code">
-var format = comb.string.format;
+});</code></pre>
+<p>To query MANY TO MANY associations:
 
+</p>
+<pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
+    when = comb.when,
+    format = comb.string.format;
+
+//helper function to format a student to a string
 var createStudentArrayString = function(students){
    return students.map(function(student) {
-            return format("%s %s", student.firstName, student.lastName);
-         }).join("\n\t-");
+            return format(&quot;%s %s&quot;, student.firstName, student.lastName);
+         }).join(&quot;\n\t-&quot;);
 };
+
 //print the results
-Students.order("firstName", "lastName").forEach(function(student) {
+Students.order(&quot;firstName&quot;, &quot;lastName&quot;).forEach(function(student) {
     var classes = student.classes;
-    var classStr = !classes.length ? " no classes!" : "\n\t-" + classes.map(function(clas) {
+    var classStr = !classes.length ? &quot; no classes!&quot; : &quot;\n\t-&quot; + classes.map(function(clas) {
                               return clas.name;
-                      }).join("\n\t-");
-    console.log(format("%s %s is enrolled in %s", student.firstName, student.lastName, classStr));
+                      }).join(&quot;\n\t-&quot;);
+    console.log(&quot;%s %s is enrolled in %s&quot;, student.firstName, student.lastName, classStr);
 });
-Class.order("name").forEach(function(cls) {
+Class.order(&quot;name&quot;).forEach(function(cls) {
     //print out the students enrolled
-    console.log(format('"%s" has the following students enrolled: \n\t-%s', cls.name,
-    createStudentArrayString(cls.students)));
+    console.log(&#39;&quot;%s&quot; has the following students enrolled: \n\t-%s&#39;, cls.name, createStudentArrayString(cls.students)));
 
      //Load the LAZY loaded aboveAverageStudents, averageStudents and belowAverageStudents students.
      //The for each will not resolve the final promise until the when promise has
      //resolved.
-    return comb.when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents, function(res) {
-      var aboveAverage = createStudentArrayString(res[0]),
-          average = createStudentArrayString(res[1]);
-          belowAverage = createStudentArrayString(res[2]);
+    return when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents).then(function(res) {
+          var aboveAverage = createStudentArrayString(res[0]),
+            average = createStudentArrayString(res[1]);
+            belowAverage = createStudentArrayString(res[2]);
 
-      console.log(format('"%s" has the following above average students enrolled: \n\t-%s', cls.name, aboveAverage));
-      console.log(format('"%s" has the following average students enrolled: \n\t-%s', cls.name, average));
-      console.log(format('"%s" has the following below average students enrolled: \n\t-%s', cls.name, belowAverage));
-});
-        </pre>
-</p>
+          console.log(&#39;&quot;%s&quot; has the following above average students enrolled: \n\t-%s&#39;, cls.name, aboveAverage);
+          console.log(&#39;&quot;%s&quot; has the following average students enrolled: \n\t-%s&#39;, cls.name, average);
+          console.log(&#39;&quot;%s&quot; has the following below average students enrolled: \n\t-%s&#39;, cls.name, belowAverage);
+    }, errorHandler);  
+});</code></pre>
+
+<hr>
+
+Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+
+
 </div>
 </div>
-</div>
-</div>
+<script type="text/javascript" src="./assets/js/jquery.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
+<script type="text/javascript"
+        src="./assets/js/google-code-prettify/prettify.js"></script>
+
 </body>
 </html>
-
