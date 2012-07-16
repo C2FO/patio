@@ -1,44 +1,39 @@
-var server = "mysql://test:testpass@localhost:3306/sandbox"
-    , patio = require("../index")
-    , TIMES = parseInt(process.env.TIMES || 2)
-    , LIMIT = parseInt(process.env.LIMIT || 5000)
-    , comb = require("comb")
-    , format = comb.string.format
-    , noTransactions = require("./benchmark.noTransacitons")
-    , defaults = require("./benchmark.defaults");
+var server = "mysql://test:testpass@localhost:3306/sandbox",
+    patio = require("../index"),
+    TIMES = parseInt(process.env.TIMES || 2),
+    LIMIT = parseInt(process.env.LIMIT || 1000),
+    comb = require("comb"),
+    format = comb.string.format,
+    noTransactions = require("./benchmark.noTransacitons"),
+    defaults = require("./benchmark.defaults");
 
 patio.camelize = true;
 
 
 var Entry;
 var loop = function (async, cb, limit) {
-    var saves = async ? [] : new comb.Promise().callback();
+    var saves = [];
     limit = limit || LIMIT;
     for (var i = 0; i < limit; i++) {
-        if (async) {
-            saves.push(cb(i));
-        } else {
-            saves = saves.chain(comb.partial(cb, i));
-        }
+        saves.push(async ? cb(i) : comb.partial(cb, i));
     }
     if (async) {
         saves = new comb.PromiseList(saves, true);
     }
-    return saves;
+    return async ? saves : comb.serial(saves);
 };
 
 var testInserts = function (async, limit) {
     var ret = new comb.Promise();
     var start = +new Date();
-    loop(async,
-        function () {
-            return new Entry({
-                number:Math.floor(Math.random() * 99999),
-                string:'asdasd'
-            }).save()
-        }, limit).then(function () {
-            ret.callback((+new Date) - start);
-        }, comb.hitch(ret, "errback"));
+    loop(async,function () {
+        return new Entry({
+            number:Math.floor(Math.random() * 99999),
+            string:'asdasd'
+        }).save();
+    }, limit).then(function () {
+            ret.callback(+(new Date()) - start);
+        }, ret);
     return ret;
 };
 
@@ -46,12 +41,11 @@ var testUpdates = function (async, limit) {
     var ret = new comb.Promise();
     Entry.all().then(function (entries) {
         var start = +new Date;
-        loop(async,
-            function (index) {
-                return entries[index].update({number:Math.floor(Math.random() * 99999)});
-            }, limit).then(function () {
-                ret.callback((+new Date) - start);
-            }, comb.hitch(ret, "errback"));
+        loop(async,function (index) {
+            return entries[index].update({number:Math.floor(Math.random() * 99999)});
+        }, limit).then(function () {
+                ret.callback(+(new Date()) - start);
+            }, ret);
 
     }, comb.hitch(ret, "errback"));
     return ret;
@@ -62,7 +56,7 @@ var testRead = function () {
     var start = +new Date;
     Entry.all().then(function (entries) {
         ret.callback((+new Date) - start);
-    }, comb.hitch(ret, "errback"));
+    }, ret);
     return ret;
 };
 
@@ -70,12 +64,11 @@ var testDelete = function (async, limit) {
     var ret = new comb.Promise();
     Entry.all().then(function (entries) {
         var start = +new Date();
-        loop(async,
-            function (index) {
-                return entries[index].remove();
-            }, limit).then(function () {
-                ret.callback((+new Date) - start);
-            }, comb.hitch(ret, "errback"));
+        loop(async,function (index) {
+            return entries[index].remove();
+        }, limit).then(function () {
+                ret.callback(+(new Date()) - start);
+            }, ret);
     });
     return ret;
 };
@@ -91,27 +84,32 @@ var bench = function (module, header, times, limit) {
         Entry = patio.getModel("patioEntry");
         var res = {};
         var runTestsOnce = function (index) {
-            var ret = new comb.Promise();
             console.log("%s RUN %d...", header, index + 1);
             addResult(res, "total", 1);
-            testInserts(false, limit)
-                .addCallback(comb.partial(addResult, res, "Serial Insert"))
-                .chain(comb.partial(testInserts, true, limit), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Async Insert"))
-                .chain(comb.partial(testUpdates, false, limit), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Serial Update"))
-                .chain(comb.partial(testUpdates, true, limit), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Async Update"))
-                .chain(comb.partial(testRead), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Read"))
-                .chain(comb.partial(testDelete, false, limit), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Serial Delete"))
-                .chain(comb.partial(testDelete, true, limit), comb.hitch(ret, "errback"))
-                .addCallback(comb.partial(addResult, res, "Async Delete"))
-                .then(comb.hitch(ret, "callback", res), comb.hitch(ret, "errback"));
+            var ret = new comb.Promise();
+            comb.serial([
+                testInserts.bind(null, false, limit),
+                testInserts.bind(null, true, limit),
+                testUpdates.bind(null, false, limit),
+                testUpdates.bind(null, true, limit),
+                testRead.bind(null, false, limit),
+                testRead.bind(null, true, limit),
+                testDelete.bind(null, false, limit),
+                testDelete.bind(null, true, limit)
+            ]).then(function (results) {
+                    addResult(res, "Serial Insert", results[0]);
+                    addResult(res, "Async Insert", results[1]);
+                    addResult(res, "Serial Update", results[2]);
+                    addResult(res, "Async Update", results[3]);
+                    addResult(res, "Serial Read", results[4]);
+                    addResult(res, "Async Read", results[5]);
+                    addResult(res, "Serial Delete", results[6]);
+                    addResult(res, "Async Delete", results[7]);
+                    ret.callback();
+                }, ret);
             return ret;
         };
-        loop(false, runTestsOnce, times).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
+        loop(false, runTestsOnce, times).then(ret.callback.bind(ret, res), ret);
     });
     return ret;
 };
@@ -121,7 +119,7 @@ var printDurations = function (header, module, limit, durations) {
     console.log(header);
     var msg = "%-15s (%02s runs): Average duration % 8dms for %d items";
     for (var testName in durations) {
-        if (testName != "total") {
+        if (testName !== "total") {
             console.log(format(msg, testName, durations.total, durations[testName] / durations.total), limit);
         }
     }
