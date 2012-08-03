@@ -218,6 +218,8 @@
                
                          <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
                
+                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+               
                          <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
                
                          <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
@@ -357,7 +359,7 @@
 
 
     <p>
-Class to define a manyToOne association.
+Class to define a many to one association.
 
 </br>
 <b>NOT to be instantiated directly</b>
@@ -368,7 +370,7 @@ Its just documented for reference.</p>
         <em>Extends</em>
         <ul>
             
-                <li> <a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+                <li> <a href="./patio_associations_Association.html">patio.associations.Association</a></li>
             
         </ul>
     
@@ -379,14 +381,14 @@ Its just documented for reference.</p>
     <a name="constructor"></a>
     <h3>Constructor</h3>
 
-    <em>Defined associations/oneToOne.js</em>
+    <em>Defined associations/manyToOne.js</em>
     
     
     
         
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
-exports = comb.define(ManyToOne, {
+exports = define(_Association, {
             </pre>
       
     
