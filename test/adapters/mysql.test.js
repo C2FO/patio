@@ -1342,6 +1342,25 @@ it.describe("patio.adapters.Mysql", function (it) {
                 }, next);
 
         });
+
+        it.should("handle CURRENT_TIMESTAMP as a default value", function(next){
+
+            comb.serial([
+                function(){
+                    return MYSQL_DB.alterTable("items", function(){
+                        this.addColumn("timestamp", sql.TimeStamp, {"default" : sql.CURRENT_TIMESTAMP});
+                    });
+                },
+                function(){
+                    return MYSQL_DB.schema("items").then(function(schema){
+                        assert.equal(schema.timestamp["default"], "CURRENT_TIMESTAMP");
+                        assert.isNull(schema.timestamp.jsDefault);
+                    });
+                }
+            ]).classic(next);
+
+        });
+
     });
 
     it.afterAll(function () {
