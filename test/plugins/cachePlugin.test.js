@@ -132,7 +132,7 @@ it.describe("Model with cache plugin", function (it) {
             var cachedModel = Model.cache.get(res.tableName + res.primaryKeyValue);
             assert.deepEqual(mockDb.sqls, ["SELECT * FROM cache LIMIT 1"]);
             mockDb.reset();
-            res.update({b:false}).then(function (res) {
+            res.update({b:false}).then(function (res, res2) {
                 assert.strictEqual(res, cachedModel);
                 assert.deepEqual(mockDb.sqls, [
                     "UPDATE cache SET b = 'f' WHERE (id = 1)",
@@ -143,7 +143,7 @@ it.describe("Model with cache plugin", function (it) {
         }, next);
     });
 
-    it.should("remove model from cahce on remove", function (next) {
+    it.should("remove model from cache on remove", function (next) {
         Model.one().then(function (res) {
             var cachedModel = Model.cache.get(res.tableName + res.primaryKeyValue);
             assert.deepEqual(mockDb.sqls, ["SELECT * FROM cache LIMIT 1"]);

@@ -1221,6 +1221,7 @@ it.describe("Dataset queries", function (it) {
         });
     });
 
+
     it.describe("#firstSourceAlias", function (it) {
         var ds = new Dataset();
 
@@ -1945,6 +1946,22 @@ it.describe("Dataset queries", function (it) {
         });
     });
 
+    it.describe("#alwaysQualify", function (it) {
+        var dataset = new Dataset().from("test");
+        it.should("qualify to the .firstSourceAlias if a table is not specified", function () {
+            assert.equal(dataset.alwaysQualify().filter({id:1}).sql, "SELECT test.* FROM test WHERE (test.id = 1)");
+        });
+
+        it.should("qualify to the table if a table is specified", function () {
+            assert.equal(dataset.alwaysQualify("someTable").filter({id:1}).sql, "SELECT someTable.* FROM test WHERE (someTable.id = 1)");
+        });
+
+        it.should("not qualify to the given table if withSql is used", function () {
+            assert.equal(dataset.alwaysQualify().withSql("SELECT * FROM test WHERE (a < b)").qualifyTo("e").sql, 'SELECT * FROM test WHERE (a < b)');
+        });
+
+    });
+
     it.describe("#qualifyToFirstSource", function (it) {
         var ds = new MockDatabase().from("t");
 
@@ -2089,11 +2106,12 @@ it.describe("Dataset queries", function (it) {
         });
     });
 
+
     it.describe("moose style queries", function (it) {
         var ds = new Dataset().from("test");
 
         it.should('finding all records with limited fields', function () {
-            assert.equal(ds.select(["a", "b", "c"]).sql, "SELECT ('a', 'b', 'c') FROM test");
+            assert.equal(ds.select(["a", "b", "c"]).sql, "SELECT a, b, c FROM test");
         });
 
         it.should('support logic operators ', function () {
@@ -2234,6 +2252,5 @@ it.describe("Dataset queries", function (it) {
 
 
     it.afterAll(comb.hitch(patio, "disconnect"));
-
 });
 

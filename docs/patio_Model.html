@@ -218,6 +218,8 @@
                
                          <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
                
+                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+               
                          <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
                
                          <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
@@ -2145,14 +2147,23 @@ function (){
 </p>
 
 
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options</em>  : </li>
+    
+     </ul>
+
 
 
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   return this._static.reloadOnSave ? this.__reload() : new comb.Promise().callback(this);
+function (options){
+   options || (options = {});
+   var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnSave;
+   return reload ? this.__reload() : new comb.Promise().callback(this);
            
 }
     </pre>
@@ -2179,14 +2190,24 @@ function (){
 </p>
 
 
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>options</em>  : </li>
+    
+     </ul>
+
 
 
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   return this._static.reloadOnUpdate ? this.__reload() : new comb.Promise().callback(this);
+function (options){
+   options = options || {};
+   options || (options = {});
+   var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnUpdate;
+   return reload ? this.__reload() : new comb.Promise().callback(this);
            
 }
     </pre>
@@ -2261,19 +2282,19 @@ function (options){
        if (!this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
                var ret = new Promise();
-               this._hook(&quot;pre&quot;, &quot;remove&quot;).then(hitch(this, function () {
-                   this._remove().then(hitch(this, function () {
-                       this._hook(&quot;post&quot;, &quot;remove&quot;).then(hitch(this, function () {
-                           this._clearPrimaryKeys();
-                           this.__isNew = true;
-                           if (this._static.emitOnRemove) {
-                               this.emit(&quot;remove&quot;, this);
-                               this._static.emit(&quot;remove&quot;, this);
-                           }
-                           ret.callback(this);
-                       }), ret);
-                   }), ret);
-               }), ret);
+               serial([
+                   this._hook.bind(this, &quot;pre&quot;, &quot;remove&quot;, [options]),
+                   this._remove.bind(this, options),
+                   this._hook.bind(this, &quot;post&quot;, &quot;remove&quot;, [options]),
+                   function () {
+                       this._clearPrimaryKeys();
+                       this.__isNew = true;
+                       if (this._static.emitOnRemove) {
+                           this.emit(&quot;remove&quot;, this);
+                           this._static.emit(&quot;remove&quot;, this);
+                       }
+                   }.bind(this)
+               ]).then(hitchIgnore(ret, &quot;callback&quot;, this))
                return ret;
            }));
        } else {
@@ -2307,49 +2328,61 @@ function (options){
 <em>Defined plugins/query.js</em>
 
 <p>
-Updates a model. This action checks if the model is new and values have changed.
+Saves a model. This action checks if the model is new and values have changed.
 If the model is not new then the <a href='./patio_Model.html#update'> patio.Model#update</a> action is called.
 
-</p>
+When saving a model you can pass values you want set as the first argument.
 
-    <em>Example</em>
-        <pre class="prettyprint linenums lang-js">
-//set new values and save the model
+<pre class='prettyprint linenums lang-js'>
+
+
 someModel.save({
-     myVal1 : &quot;newValue1&quot;,
-     myVal2 : &quot;newValue2&quot;,
-     myVal3 : &quot;newValue3&quot;
-     }).then(function(){
-         //do something
-     });
+     myVal1 : "newValue1",
+     myVal2 : "newValue2",
+     myVal3 : "newValue3"
+}).then(function(){
+     //do something
+}, errorHandler);
 
-//or
 
-//set new values and save the model and DO NOT use a transaction
-someModel.save({
-     myVal1 : &quot;newValue1&quot;,
-     myVal2 : &quot;newValue2&quot;,
-     myVal3 : &quot;newValue3&quot;
-     }, {transaction : false}).then(function(){
-         //do something
-     });
+</pre>
 
-//or
-someModel.myVal1 = &quot;newValue1&quot;;
-someModel.myVal2 = &quot;newValue2&quot;;
-someModel.myVal3 = &quot;newValue3&quot;;
+Or you can set values on the model directly
 
+<pre class='prettyprint linenums lang-js'>
+
+
+someModel.myVal1 = "newValue1";
+someModel.myVal2 = "newValue2";
+someModel.myVal3 = "newValue3";
+
+//update model with current values
 someModel.save().then(function(){
     //do something
 });
 
-//or
 
-//dont use a transaction
-someModel.save(null, {transaction : false}).then(function(){
-    //do something
-});
-        </pre>
+</pre>
+
+Save also accepts an options object as the second argument allowing the overriding of default behavior.
+
+To override <code>useTransactions</code> you can set the <code>transaction</code> option.
+
+<pre class='prettyprint linenums lang-js'>
+
+someModel.save(null, {transaction : false});
+
+</pre>
+
+You can also override the <code>reloadOnSave</code> property by setting the <code>reload</code> option.
+<pre class='prettyprint linenums lang-js'>
+
+someModel.save(null, {reload : false});
+
+</pre>
+
+
+</p>
 
 
     <em>Arguments</em>
@@ -2361,6 +2394,9 @@ someModel.save(null, {transaction : false}).then(function(){
     
         <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
 saving the model.</li>
+    
+        <li> <em>options.reload?</em> <code>Boolean</code> : boolean indicating if the model should be reloaded after the save. This will take
+precedence over <a href='./patio_Model.html#.reloadOnSave'> patio.Model.reloadOnSave</a></li>
     
      </ul>
 
@@ -2383,11 +2419,18 @@ function (vals,options){
            return this._checkTransaction(options, hitch(this, function () {
                comb.isHash(vals) &amp;&amp; this.__set(vals);
                var ret = new comb.Promise();
-               this._hook(&quot;pre&quot;, &quot;save&quot;)
-                   .chain(hitch(this, &quot;_save&quot;), ret)
-                   .then(hitch(this, function () {
-                   this._hook(&quot;post&quot;, &quot;save&quot;).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
-               }), ret);
+               serial([
+                   this._hook.bind(this, &quot;pre&quot;, &quot;save&quot;, [options]),
+                   this._save.bind(this, options),
+                   this._hook.bind(this, &quot;post&quot;, &quot;save&quot;, [options]),
+                   this._saveReload.bind(this, options),
+                   function () {
+                       if (this._static.emitOnSave) {
+                           this.emit(&quot;save&quot;, this);
+                           this._static.emit(&quot;save&quot;, this);
+                       }
+                   }.bind(this)
+               ]).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
                return ret;
            }));
        } else {
@@ -2622,33 +2665,30 @@ function (){
 Updates a model. This action checks if the model is not new and values have changed.
 If the model is new then the <a href='./patio_Model.html#save'> patio.Model#save</a> action is called.
 
-</p>
+When updating a model you can pass values you want set as the first argument.
 
-    <em>Example</em>
-        <pre class="prettyprint linenums lang-js">
-//set values before saving
+<pre class='prettyprint linenums lang-js'>
+
+
 someModel.update({
-     myVal1 : &quot;newValue1&quot;,
-     myVal2 : &quot;newValue2&quot;,
-     myVal3 : &quot;newValue3&quot;
-     }).then(function(){
-    //do something
-});
+     myVal1 : "newValue1",
+     myVal2 : "newValue2",
+     myVal3 : "newValue3"
+}).then(function(){
+     //do something
+}, errorHandler);
 
-//set vals before saving and don&#x27;t use a transaction
-someModel.update({
-     myVal1 : &quot;newValue1&quot;,
-     myVal2 : &quot;newValue2&quot;,
-     myVal3 : &quot;newValue3&quot;
-     }, {transaction : false}).then(function(){
-    //do something
-});
 
-//or
+</pre>
 
-someModel.myVal1 = &quot;newValue1&quot;;
-someModel.myVal2 = &quot;newValue2&quot;;
-someModel.myVal3 = &quot;newValue3&quot;;
+Or you can set values on the model directly
+
+<pre class='prettyprint linenums lang-js'>
+
+
+someModel.myVal1 = "newValue1";
+someModel.myVal2 = "newValue2";
+someModel.myVal3 = "newValue3";
 
 //update model with current values
 someModel.update().then(function(){
@@ -2656,9 +2696,26 @@ someModel.update().then(function(){
 });
 
 
-//don&#x27;t use a transaction
+</pre>
+
+Update also accepts an options object as the second argument allowing the overriding of default behavior.
+
+To override <code>useTransactions</code> you can set the <code>transaction</code> option.
+
+<pre class='prettyprint linenums lang-js'>
+
 someModel.update(null, {transaction : false});
-        </pre>
+
+</pre>
+
+You can also override the <code>reloadOnUpdate</code> property by setting the <code>reload</code> option.
+<pre class='prettyprint linenums lang-js'>
+
+someModel.update(null, {reload : false});
+
+</pre>
+
+</p>
 
 
     <em>Arguments</em>
@@ -2670,6 +2727,9 @@ someModel.update(null, {transaction : false});
     
         <li> <em>options.transaction?</em> <code>Boolean</code> : boolean indicating if a transaction should be used when
 updating the model.</li>
+    
+        <li> <em>options.reload?</em> <code>Boolean</code> : boolean indicating if the model should be reloaded after the update. This will take
+precedence over <a href='./patio_Model.html#.reloadOnUpdate'> patio.Model.reloadOnUpdate</a></li>
     
      </ul>
 
@@ -2693,11 +2753,20 @@ function (vals,options){
                comb.isHash(vals) &amp;&amp; this.__set(vals);
                var saveChange = !comb.isEmpty(this.__changed);
                var ret = new Promise();
-               this._hook(&quot;pre&quot;, &quot;update&quot;).then(hitch(this, function () {
-                   (saveChange ? this._update() : new Promise().callback()).then(hitch(this, function () {
-                       this._hook(&quot;post&quot;, &quot;update&quot;).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
-                   }), ret);
-               }), ret);
+               serial([
+                   this._hook.bind(this, &quot;pre&quot;, &quot;update&quot;, [options]),
+                   function () {
+                       return saveChange ? this._update(options) : null;
+                   }.bind(this),
+                   this._hook.bind(this, &quot;post&quot;, &quot;update&quot;, [options]),
+                   this._updateReload.bind(this, options),
+                   function () {
+                       if (this._static.emitOnUpdate) {
+                           this.emit(&quot;update&quot;, this);
+                           this._static.emit(&quot;update&quot;, this);
+                       }
+                   }.bind(this)
+               ]).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
                return ret;
            }));
        } else if (this.__isNew &amp;&amp; this.__isChanged) {

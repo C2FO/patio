@@ -110,6 +110,68 @@ var MyModel = patio.addModel("testTable", {
 
 See [inheritance](./model-inheritance.html) page.
 
+###[patio.plugins.ColumnMapper](./patio_plugins_ColumnMapper.html)
+
+Add a mapped column from another table. This is useful if there columns on                                                               
+another table but you do not want to load the association every time.                                                                    
+                                                                                                                                         
+                                                                                                                                         
+For example assume we have an employee and works table. Well we might want the salary from the works table,                              
+but do not want to add it to the employee table.                                                                                         
+                                                                                                                                         
+<b>NOTE:</b> mapped columns are READ ONLY.                                                                                               
+                                                                                                                                         
+```
+patio.addModel("employee")                                                                                                               
+   .oneToOne("works")                                                                                                                    
+   .mappedColumn("salary", "works", {employeeId : patio.sql.identifier("id")});                                                          
+```                                                                                                                                    
+                                                                                                                                         
+You can also name the local column something different from the remote column by providing the column option. 
+                                                                                                                                         
+```                                                                                                                                
+ patio.addModel("employee")                                                                                                              
+   .oneToOne("works")                                                                                                                    
+   .mappedColumn("mySalary", "works", {employeeId : patio.sql.identifier("id")}, {                                                       
+         column : "salary"                                                                                                               
+   });                                                                                                                                   
+```        
+
+If you want to prevent the mapped columns from being reloaded after a save or update you can set the `fetchMappedColumnsOnUpdate` or `fetchMappedColumnsOnSave` to false.
+
+```
+var Employee = patio.addModel("employee")                                                                                                              
+   .oneToOne("works")                                                                                                                    
+   .mappedColumn("mySalary", "works", {employeeId : patio.sql.identifier("id")}, {                                                       
+         column : "salary"                                                                                                               
+   }); 
+
+//prevent the mapped columns from being fetched after a save.
+Employee.fetchMappedColumnsOnSave = false;     
+
+//prevent the mapped columns from being re-fetched after an update.
+Employee.fetchMappedColumnsOnUpdate = false;    
+```             
+
+You can also override prevent the properties from being reloaded by setting the `reload` or `reloadMapped` options when saving or updating.
+
+```
+//prevents entire model from being reloaded including mapped columns
+employee.save(null, {reload : false});
+employee.update(null, {reload : false});
+
+//just prevents the mapped columns from being reloaded
+employee.save(null, {reloadMapped : false});
+employee.update(null, {reloadMapped : false});
+```                                                                                                                                                                                                                                                                                                                                                                                                  
+  
+**Additional Options**  
+                                                                                                                                     
+* `joinType` : The join type to use when gathering the properties. Defaults to `left`.
+* `column` : The column on the remote table that should be used. This is useful if you want to mapped column named something differently. Defaults to `null`                               
+as the local copy.                                                                                                                       
+                                                                                                                                                                                                                          
+
 ##Writing your own plugins
 
 Writing your own custom plugin easy!
