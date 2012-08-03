@@ -124,7 +124,8 @@ var printDurations = function (header, module, limit, durations) {
         }
     }
     module.disconnect();
-}
+};
+
 console.log("Starting Benchmark...");
 bench(noTransactions, "NO TRANSACTIONS MODEL", TIMES, LIMIT)
     .then(comb.partial(printDurations, "NO TRANSACTIONS MODEL", noTransactions, LIMIT), noTransactions.disconnectErr)

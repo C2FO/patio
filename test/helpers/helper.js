@@ -74,9 +74,7 @@ var MockDB = comb.define(Database, {
 
         transaction : function(opts, cb) {
             var ret = new comb.Promise();
-            cb();
-            ret.callback();
-            return ret;
+            return comb.when(cb()).then(ret);
         },
 
         getters : {

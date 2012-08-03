@@ -218,6 +218,8 @@
                
                          <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
                
+                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+               
                          <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
                
                          <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
@@ -1125,6 +1127,20 @@
                                         
                                 
                                 all
+
+                                </a></li>
+                                
+                                <li><a href="./patio_Dataset.html#alwaysQualify">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                alwaysQualify
 
                                 </a></li>
                                 
@@ -2986,8 +3002,8 @@ Class that is used for querying/retirving datasets from a database.
 <ul>
     <li>Join methods from <a href='./patio_Dataset.html#'> patio.Dataset.CONDITIONED_JOIN_TYPES</a> and
         <a href='./patio_Dataset.html#'>  patio.Dataset.UNCONDITIONED_JOIN_TYPES</a>, these methods handle the type call
-        to <a href='./patio_dataset_Query.html#joinTable'> patio.dataset.Query#joinTable</a>, so to invoke include all arguments that
-        <a href='./patio_dataset_Query.html#joinTable'> patio.dataset.Query#joinTable</a> requires except the type parameter. The default list includes.
+        to <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>, so to invoke include all arguments that
+        <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a> requires except the type parameter. The default list includes.
         <ul>
             <li>Conditioned join types that accept conditions.
                  <ul>
@@ -6527,6 +6543,70 @@ function (block,cb){
 
 
   
+    <a name="alwaysQualify"></a>
+    <h3>
+        alwaysQualify
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p>
+Same as <a href='./patio_Dataset@qualifyTo.html#'> patio.Dataset@qualifyTo</a> except that it forces qualification on methods called
+after it has been called.
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+//qualfyTo would generate
+DB.from(&quot;items&quot;).qualifyTo(&quot;i&quot;).filter({id : 1});
+     //=&gt; SELECT i.* FROM items WHERE (id = 1)
+
+//alwaysQualify qualifies filter also.
+DB.from(&quot;items&quot;).alwaysQualify(&quot;i&quot;).filter({id : 1});
+     //=&gt; SELECT i.* FROM items WHERE (i.id = 1)
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>[table= <code>this.firstSourceAlias</code>]</em>  : the table to qualify to.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> a cloned dataset that will always qualify.</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (table){
+   return this.mergeOptions({alwaysQualify:table || this.firstSourceAlias});
+           
+}
+    </pre>
+    
+
+
+  
     <a name="and"></a>
     <h3>
         and
@@ -8411,7 +8491,7 @@ as a single hash.
 //CREATE TABLE albums (id INTEGER, name TEXT, artist_id INTEGER);
 
 var DB = patio.defaultDatabase, ds = db.from("artists");
-ds.leftAuterJoin("albums", {artistId : "id"}).first
+ds.leftOuterJoin("albums", {artistId : "id"}).first
   //=> {id : albums.id, name : albums.name, artist_id : albums.artist_id}
 
 var p = comb.executeInOrder(ds, function(ds){
@@ -12781,7 +12861,7 @@ DB.from(&quot;items&quot;).filter({id : 1}).qualify(&quot;i&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Dataset</code> a cloned dataset qualified to the table or @link patio.Dataset#firstSourceAlias}</li>
+        <li> <code>patio.Dataset</code> a cloned dataset qualified to the table or <a href='./patio_Dataset.html#firstSourceAlias'> patio.Dataset#firstSourceAlias</a></li>
     
     </ul>
 
@@ -13509,7 +13589,7 @@ DB.from(&quot;items&quot;).select(&quot;a&quot;);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (args){
-   args = comb.argsToArray(arguments);
+   args = flatten(comb.argsToArray(arguments));
    var columns = [];
    args.forEach(function (c) {
        if (comb.isFunction(c)) {
