@@ -2093,7 +2093,7 @@ it.describe("Dataset queries", function (it) {
         var ds = new Dataset().from("test");
 
         it.should('finding all records with limited fields', function () {
-            assert.equal(ds.select(["a", "b", "c"]).sql, "SELECT ('a', 'b', 'c') FROM test");
+            assert.equal(ds.select(["a", "b", "c"]).sql, "SELECT a, b, c FROM test");
         });
 
         it.should('support logic operators ', function () {
