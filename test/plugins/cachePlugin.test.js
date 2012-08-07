@@ -70,11 +70,16 @@ it.describe("Model with cache plugin", function (it) {
         Model = patio.addModel(mockDb.from("cache"), {
             plugins:[patio.plugins.CachePlugin]
         });
+        
         return patio.syncModels();
     });
 
     it.beforeEach(function () {
         mockDb.reset();
+    });
+    
+    it.afterEach(function() {
+        // Flush after each test to let the hive initialize during the first test
         Model.cache.flushAll();
     });
 
