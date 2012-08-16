@@ -1,3 +1,14 @@
+#0.0.9 / 2012/08/16
+* Fixed bug where default that are buffers were not handle properly (#35)
+* Fixed bug with inheritance loading
+* Updated benchmark
+* Changed `oneToMany` to load models when removing to call hooks
+* New ColumnMapper plugin
+* added alwaysQualify which will qualify a dataset every time sql is generated from it.
+* converted model to use comb.serial instead of the promise chaining api
+* changed reload of save and update to be invoked after post save and update have been called.
+* Merged pull request from @mbenedettini to lazy initialize hive
+
 #0.0.8 / 2012-07-13
 
 * Updated Docs now using [coddoc](http://github.com/doug-martin/coddoc) for doc generation
