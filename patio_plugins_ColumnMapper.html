@@ -121,9 +121,9 @@
       
           <a href="./index.html" class="brand">patio</a>
       
-      
-           <div class="nav-collapse">
+      <div class="nav-collapse">
       <ul class="nav nav-pills">
+      
       
                  <li><a href="./connecting.html">Connecting</a></li>
                  
@@ -132,6 +132,8 @@
                  <li><a href="./associations.html">Associations</a></li>
                  
                  <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                 
+                 <li><a href="./plugins.html">Model Plugins</a></li>
                  
                  <li><a href="./querying.html">Querying</a></li>
                  
@@ -148,13 +150,9 @@
            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
            <ul class="dropdown-menu">
              
-                         <li><a href="./patio.html#.associations">patio.associations</a></li>
+                         <li><a href="patio_sql.html">patio.sql</a></li>
                
-                         <li><a href="./patio.html#.plugins">patio.plugins</a></li>
-               
-                         <li><a href="./patio.html#.sql">patio.sql</a></li>
-               
-                         <li><a href="./patio_sql_Constants.html">patio.sql.Constants</a></li>
+                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
                
            </ul>
            </li>
@@ -220,6 +218,8 @@
                
                          <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
                
+                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+               
                          <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
                
                          <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
@@ -272,6 +272,8 @@
                
                          <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
                
+                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+               
                          <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
                
                          <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
@@ -283,8 +285,6 @@
                          <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
                
                          <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
-               
-                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
                
                          <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
                
@@ -325,42 +325,238 @@
 
 
 
-    <a name=".associations"></a>
+    <a name=""></a>
     <div class="navbar subnav">
     <div class="navbar-inner  subnav-inner">
-                  <div class="container">
-                    <a href="#" class="brand">
-                                
-                                
-                                
-                                        
-                                 <span class="label label-success">Public</span>
-                                        
-                                
-                    </a>
-                   <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                              <span class="icon-bar"></span>
-                              <span class="icon-bar"></span>
-                              <span class="icon-bar"></span>
-                            </a>
-
-                            <div class="nav-collapse">
+          <div class="container">
+            <a href="#" class="brand">
+            patio.plugins.ColumnMapper
             
+                    
+             <span class="label label-success">Public</span>
+                    
+            
+            </a>
+           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <div class="nav-collapse">
+
+            <ul class="nav pull-right">
+             <li><a href="#constructor">Constructor</a></li>
+                        
+                        
+                        <li><a href="#staticProperties">Static Properties</a></li>
+                        
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                <li><a href="./patio_plugins_ColumnMapper.html#.mappedColumn">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                        
+                                 <span class="label label-success">P</span>
+                                        
+                                
+                                mappedColumn
+                                </a></li>
+                                
+                            </ul>
+                        </li>
+                        
+                        
+            </ul>
             </div>
             </div>
      </div>
 </div>
-<em>Defined associations/index.js</em>
+
+
+
+    <p>
+This plugin exposes the ability to map columns on other tables to this Model.
+
+See <a href='./patio_plugins_ColumnMapper.html#.mappedColumn'> patio.plugins.ColumnMapper.mappedColumn</a> for more information.</p>
+    
+
+    
+
+    
+        <a name="staticProperties"></a>
+        <em>Static Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>fetchMappedColumnsOnSave</em></td><td>property</td><td><code>true
+         </code></td><td>
+Boolean flag indicating if mapped columns should be re-fetched on save.
+
+<b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#save'> patio.Model#save</a> method.
+</td><tr><tr><td><em>fetchMappedColumnsOnUpdate</em></td><td>property</td><td><code>true
+         </code></td><td>
+Boolean flag indicating if mapped columns should be re-fetched on update.
+
+<b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#update'> patio.Model#update</a> method.
+</td><tr></table>
+    
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined plugins/columnMapper.js</em>
+    
+    
+    
+
+  
+    <a name=".mappedColumn"></a>
+    <h3>
+        mappedColumn
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/columnMapper.js</em>
 
 <p>
+Add a mapped column from another table. This is useful if there columns on
+another table but you do not want to load the association every time.
+
+
+For example assume we have an employee and works table. Well we might want the salary from the works table,
+but do not want to add it to the employee table.
+
+<b>NOTE:</b> mapped columns are READ ONLY.
+
+<pre class='prettyprint linenums lang-js'>
+
+patio.addModel("employee")
+   .oneToOne("works")
+   .mappedColumn("salary", "works", {employeeId : patio.sql.identifier("id")});
+
+</pre>
+
+You can also change the name of the of the column
+
+<pre class='prettyprint linenums lang-js'>
+
+ patio.addModel("employee")
+   .oneToOne("works")
+   .mappedColumn("mySalary", "works", {employeeId : patio.sql.identifier("id")}, {
+         column : "salary"
+   });
+
+</pre>
+
+If you want to prevent the mapped columns from being reloaded after a save or update you can set the
+<code>fetchMappedColumnsOnUpdate</code> or <code>fetchMappedColumnsOnSave</code> to false.
+
+<pre class='prettyprint linenums lang-js'>
+
+
+var Employee = patio.addModel("employee")
+  .oneToOne("works")
+  .mappedColumn("mySalary", "works", {employeeId : patio.sql.identifier("id")}, {
+         column : "salary"
+  });
+
+//prevent the mapped columns from being fetched after a save.
+Employee.fetchMappedColumnsOnSave = false;
+
+//prevent the mapped columns from being re-fetched after an update.
+Employee.fetchMappedColumnsOnUpdate = false;
+
+</pre>
+
+You can also override prevent the properties from being reloaded by setting the <code>reload</code> or <code>reloadMapped</code> options when saving or updating.
+
+<pre class='prettyprint linenums lang-js'>
+
+//prevents entire model from being reloaded including mapped columns
+employee.save(null, {reload : false});
+employee.update(null, {reload : false});
+
+//just prevents just the mapped columns from being reloaded
+employee.save(null, {reloadMapped : false});
+employee.update(null, {reloadMapped : false});
+
+</pre>
+
 </p>
 
 
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : the name you want the column represented as on the model.</li>
+    
+        <li> <em>table</em>  : the table or model you want the property mapped from</li>
+    
+        <li> <em>condition</em>  : the join condition. See <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>.</li>
+    
+        <li> <em>[opts= <code>{}</code>]</em>  : additional options</li>
+    
+        <li> <em>[opts.joinType= <code>"left"</code>]</em> <code>String</code> : the join type to use when gathering the properties.</li>
+    
+        <li> <em>[opts.column= <code>null</code>]</em> <code>String|patio.sql.Identifer</code> : the column on the remote table that should be used
+as the local copy.</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Model</code> returns the model for chaining.</li>
+    
+    </ul>
 
 
 
     
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,table,condition,opts){
+   opts = opts || {};
+   if (name) {
+       name = sql.stringToIdentifier(name);
+       if (table &amp;&amp; condition) {
+           opts = comb.merge({joinType:&quot;left&quot;, table:table, condition:condition, column:name}, opts);
+           this._mappedColumns[name] = opts;
+       } else {
+           throw new ModelError(&quot;mapped column requires a table and join condition&quot;);
+       }
+   }
+   return this;
+           
+}
+    </pre>
     
+
+
+  
+  
+<hr>
+
+Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+
 
 </div>
 </div>
@@ -378,4 +574,3 @@
 
 </body>
 </html>
-

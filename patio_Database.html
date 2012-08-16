@@ -218,6 +218,8 @@
                
                          <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
                
+                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+               
                          <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
                
                          <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
@@ -2814,7 +2816,7 @@ function (tableName,columns){
    }
    index.push(table);
    index = index.concat(columns.map(function (c) {
-       return comb.isString(c) ? c : this.literal(c).replace(/\W/g, &quot;_&quot;)
+       return comb.isString(c) ? c : this.literal(c).replace(/\W/g, &quot;&quot;)
    }, this));
    index.push(&quot;index&quot;);
    return index.join(this._static.UNDERSCORE);
