@@ -2816,7 +2816,7 @@ function (tableName,columns){
    }
    index.push(table);
    index = index.concat(columns.map(function (c) {
-       return comb.isString(c) ? c : this.literal(c).replace(/\W/g, &quot;_&quot;)
+       return comb.isString(c) ? c : this.literal(c).replace(/\W/g, &quot;&quot;)
    }, this));
    index.push(&quot;index&quot;);
    return index.join(this._static.UNDERSCORE);
