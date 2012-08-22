@@ -240,37 +240,6 @@ it.describe("A model with properites", function (it) {
                 }, next);
         });
         
-        it.should("support custom getters", function(next) {
-            var CustomGettersEmployee = patio.addModel("employee", {
-                instance: {
-                    _getLastname : function(value) {
-                        return value.toUpperCase();
-                    },
-                    _getFirstname : function(value) {
-                        return value.toLowerCase();
-                    },
-                },
-            });
-            comb.serial([
-                helper.createSchemaAndSync,
-                function() {
-                    return new CustomGettersEmployee({
-                        firstname: "Leia",
-                        lastname: "Skywalker"
-                    }).save();
-                },
-                function() {
-                    CustomGettersEmployee.first().then(function (emp) {
-                        assert.equal(emp.firstname, "leia");
-                        assert.equal(emp.lastname, "SKYWALKER");
-                        assert.equal(emp.__values['firstname'], "Leia");
-                        assert.equal(emp.__values['lastname'], "Skywalker");
-                    });
-                },
-                next
-            ]);
-        });
-
         it.should("support custom query methods", function (next) {
             Employee.findByGender("F").then(function (emps) {
                 emps.forEach(function (emp) {
