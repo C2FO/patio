@@ -4,79 +4,87 @@ var it = require('it'),
     patio = require("index"),
     comb = require("comb-proxy");
 
+
 it.describe("A model with custom accessors", function (it) {
 
-    it.should("support custom getters", function(next) {
-        var CustomGettersEmployee = patio.addModel("CustomGettersEmployee", {
-            instance: {
-                _getLastname : function(value) {
-                    return value.toUpperCase();
+    it.beforeAll(function () {
+        return helper.createSchemaAndSync();
+    });
+
+    var CustomSettersEmployee, CustomGettersEmployee;
+
+    it.beforeAll(function () {
+        var db = patio.defaultDatabase;
+        CustomSettersEmployee = patio.addModel(db.from("employee"), {
+            instance:{
+                _setLastname:function (value) {
+                    var arrLastname = value.split("");
+                    return arrLastname.join("#");
                 },
-                _getFirstname : function(value) {
-                    return value.toLowerCase();
-                },
-            },
-            static: {
-                init: function() {
-                    this._super(arguments);
-                    this.__tableName = 'employee';
+                _setFirstname:function (value) {
+                    var arrFirstname = value.split("");
+                    return arrFirstname.join("_");
                 }
             }
         });
+
+        CustomGettersEmployee = patio.addModel(db.from("employee"), {
+            instance:{
+                _getLastname:function (value) {
+                    return value.toUpperCase();
+                },
+                _getFirstname:function (value) {
+                    return value.toLowerCase();
+                }
+            }
+        });
+
+        return patio.syncModels();
+    });
+
+    it.beforeEach(function () {
+        return patio.defaultDatabase.from("employee").remove();
+    });
+
+
+    it.should("support custom getters", function (next) {
+
         comb.serial([
-            helper.createSchemaAndSync,
-            function() {
+            function () {
+                //console.log("HELLO")
                 return new CustomGettersEmployee({
-                    firstname: "Leia",
-                    lastname: "Skywalker"
+                    firstname:"Leia",
+                    lastname:"Skywalker",
+                    street : "Street",
+                    city : "City"
                 }).save();
             },
-            function() {
+            function () {
                 return CustomGettersEmployee.first().then(function (emp) {
                     // Check getters
+                    //console.log(emp);
                     assert.equal(emp.firstname, "leia");
                     assert.equal(emp.lastname, "SKYWALKER");
                     // And the actual (raw) value
                     assert.equal(emp.__values['firstname'], "Leia");
                     assert.equal(emp.__values['lastname'], "Skywalker");
                 });
-            },
-            next
-        ]);
-    });
-    
-    it.afterAll(function () {
-        return helper.dropModels();
-    });
-    
-    it.should("support custom setters", function(next) {
-        var CustomSettersEmployee = patio.addModel("CustomSettersEmployee", {
-            instance: {
-                _setLastname : function(value) {
-                    var arrLastname = value.split("");
-                    return arrLastname.join("#");
-                },
-                _setFirstname : function(value) {
-                    var arrFirstname = value.split("");
-                    return arrFirstname.join("_");
-                }
-            },
-            static: {
-                init: function() {
-                    this._super(arguments);
-                    this.__tableName = 'employee';
-                }
             }
-        });
+        ]).classic(next);
+    });
+
+    it.should("support custom setters", function (next) {
+
         comb.serial([
-            helper.createSchemaAndSync,
-            function() {
+            function () {
                 return new CustomSettersEmployee({
-                    firstname: "Obi-Wan",
-                    lastname: "Kenobi"
+                    firstname:"Obi-Wan",
+                    lastname:"Kenobi",
+                    street : "Street",
+                    city : "City"
                 }).save();
             },
-            function() {
+            function () {
                 return CustomSettersEmployee.first().then(function (emp) {
                     assert.equal(emp.firstname, "O_b_i_-_W_a_n");
                     assert.equal(emp.lastname, "K#e#n#o#b#i");
@@ -84,10 +92,14 @@ it.describe("A model with custom accessors", function (it) {
                     assert.equal(emp.__values['firstname'], "O_b_i_-_W_a_n");
                     assert.equal(emp.__values['lastname'], "K#e#n#o#b#i");
                 });
-            },
-            next
-        ]);
+            }
+        ]).classic(next);
     });
+
+    it.afterAll(function () {
+        return helper.dropModels();
+    });
+
 });
 
 

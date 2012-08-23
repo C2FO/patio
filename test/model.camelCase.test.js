@@ -404,6 +404,10 @@ it.describe("A model with camelized properites", function (it) {
 
     });
 
+    it.afterAll(function(){
+        return helper.dropModels();
+    });
+
 });
 
 

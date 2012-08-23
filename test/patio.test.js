@@ -15,7 +15,7 @@ var it = require('it'),
     Model = require("model").Model,
     hitch = comb.hitch;
 patio.DATABASES.length = 0;
-patio.quoteIdentifiers = false;
+patio.quoteIdentifiers = true;
 
 var getTimeZoneOffset = function (date) {
     var offset = date.getTimezoneOffset();
