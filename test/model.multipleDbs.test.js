@@ -51,12 +51,12 @@ var dropTableAndDisconnect
 
 it.describe("Models from mutliple databases", function (it) {
 
-    var Employee, Employee2;
+    var Employee, Employee2, ds1, ds2;
+
     it.beforeAll(function () {
         DB1 = patio.connect(config.DB_URI + "/sandbox");
         DB2 = patio.connect(config.DB_URI + "/sandbox2");
-
-        Employee = patio.addModel(DB1.from("employee"), {
+        Employee = patio.addModel((ds1 = DB1.from("employee")), {
             "static":{
                 //class methods
                 findByGender:function (gender, callback, errback) {
@@ -64,7 +64,7 @@ it.describe("Models from mutliple databases", function (it) {
                 }
             }
         });
-        Employee2 = patio.addModel(DB2.from("employee"), {
+        Employee2 = patio.addModel((ds2 = DB2.from("employee")), {
             "static":{
                 //class methods
                 findByGender:function (gender, callback, errback) {
@@ -105,8 +105,8 @@ it.describe("Models from mutliple databases", function (it) {
 
     it.describe("patio", function (it) {
         it.should("retrive models by database", function () {
-            assert.strictEqual(patio.getModel("employee", DB1), Employee);
-            assert.strictEqual(patio.getModel("employee", DB2), Employee2);
+            assert.strictEqual(patio.getModel(ds1), Employee);
+            assert.strictEqual(patio.getModel(ds2), Employee2);
         });
     });
 
