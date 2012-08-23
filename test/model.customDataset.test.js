@@ -5,7 +5,7 @@ var it = require('it'),
     comb = require("comb-proxy");
 
 
-it.describe("A model with custom accessors", function (it) {
+it.describe("A model with a custom dataset", function (it) {
 
     it.beforeAll(function () {
         return helper.createSchemaAndSync();
