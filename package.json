@@ -1,34 +1,52 @@
 {
-    "name": "patio",
-    "description": "Patio query engine and ORM",
-    "version": "0.0.9",
-	"keywords" : ["ORM", "object relation mapper", "relational", "mapper", "moose","mysql", "MySQL", "MySql",
-        "SQL", "sql", "query", "database", "dataset", "transactions", "DDl", "Sequel", "migrations"],
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:pollenware/patio.git"
-    },
-    "homepage": "http://pollenware.github.com/patio/index.html",
-    "author": "Pollenware (http://pollenware.github.com)",
-    "main": "index.js",
-    "dependencies" :
-    {
-        "mysql" : "2.0.0-alpha2",
-        "pg" : "0.7.2",
-        "comb" : ">=0.1.3",
-        "comb-proxy" : ">=0.0.2",
-        "hive-cache" : "0.0.2",
-        "commander" : "0.5.1"
-    },
-    "devDependencies" :
-    {
-        "it" : "0.0.3"
-    },
-    "directories": {
-        "lib": "lib"
-    },
-    "bin": { "patio": "./bin/patio" },
-    "engines": {
-        "node": ">= 0.6.0"
-    }
+  "name": "patio",
+  "description": "Patio query engine and ORM",
+  "version": "0.0.9",
+  "keywords": [
+    "ORM",
+    "object relation mapper",
+    "relational",
+    "mapper",
+    "moose",
+    "mysql",
+    "MySQL",
+    "MySql",
+    "SQL",
+    "sql",
+    "query",
+    "database",
+    "dataset",
+    "transactions",
+    "DDl",
+    "Sequel",
+    "migrations"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pollenware/patio.git"
+  },
+  "homepage": "http://pollenware.github.com/patio/index.html",
+  "author": "Pollenware (http://pollenware.github.com)",
+  "main": "index.js",
+  "dependencies": {
+    "mysql": "2.0.0-alpha2",
+    "pg": "0.7.2",
+    "comb": ">=0.1.3",
+    "comb-proxy": ">=0.0.2",
+    "hive-cache": "0.0.2",
+    "commander": "0.5.1",
+    "validator": "~0.4.11"
+  },
+  "devDependencies": {
+    "it": "0.0.3"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "bin": {
+    "patio": "./bin/patio"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  }
 }
