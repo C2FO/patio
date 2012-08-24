@@ -14,6 +14,7 @@ var createTables = function () {
         this.ipAddress(String);
         this.uuid(String);
         this.num(Number);
+        this.num2(Number);
         this.date(Date);
     });
 };
