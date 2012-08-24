@@ -1026,7 +1026,5 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
 
-    it.run();
-
 });
 
