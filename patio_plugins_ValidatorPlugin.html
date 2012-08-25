@@ -356,7 +356,7 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="#" class="brand">
-                patio.sql.SubscriptMethods
+                patio.plugins.ValidatorPlugin
                 
                 
                 <span class="label label-success">Public</span>
@@ -374,7 +374,34 @@
                 <ul class="nav pull-right">
                     <li><a href="#constructor">Constructor</a></li>
                     
+                    <li><a href="#instanceProperties">Instance Properties</a></li>
                     
+                    
+                    <li><a href="#staticProperties">Static Properties</a></li>
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio_plugins_ValidatorPlugin.html#.validate">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                validate
+                            </a></li>
+                            
+                        </ul>
+                    </li>
                     
                     
                 </ul>
@@ -386,36 +413,295 @@
 
 
 
-    <p><p>This mixin provides the ability to access elements within a SQL array.</p>
+    <p><p>A validation plugin for patio models. This plugin adds a <code>validate</code> method to each <a href='./patio_Model.html#'> patio.Model</a>
+class that adds it as a plugin. This plugin does not include most typecast checks as <code>patio</code> already checks
+types upon column assignment.
+
+</p>
+<p>To do single col validation
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+
+var Model = patio.addModel("validator", {
+     plugins:[ValidatorPlugin]
+});
+//this ensures column assignment
+Model.validate("col1").isNotNull().isAlphaNumeric().hasLength(1, 10);
+//col2 does not have to be assigned but if it is it must match /hello/ig.
+Model.validate("col2").like(/hello/ig);
+//Ensures that the emailAddress column is a valid email address.
+Model.validate("emailAddress").isEmailAddress();
+
+</pre>
+
+<p>Or you can do a mass validation through a callback.
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+
+var Model = patio.addModel("validator", {
+     plugins:[ValidatorPlugin]
+});
+Model.validate(function(validate){
+     //this ensures column assignment
+     validate("col1").isNotNull().isAlphaNumeric().hasLength(1, 10);
+     //col2 does not have to be assigned but if it is it must match /hello/ig.
+     validate("col2").isLike(/hello/ig);
+     //Ensures that the emailAddress column is a valid email address.
+     validate("emailAddress").isEmail();
+});
+
+</pre>
+
+<p>To check if a <a href='./patio_Model.html#'> patio.Model</a> is valid you can run the <code>isValid</code> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+var model1 = new Model({col2 : 'grape', emailAddress : "test"}),
+    model2 = new Model({col1 : "grape", col2 : "hello", emailAddress : "test@test.com"});
+
+model1.isValid() //false
+model2.isValid() //true
+
+</pre>
+
+<p>To get the errors associated with an invalid model you can access the errors property
+
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+model1.errors; //{ col1: [ 'col1 must be defined.' ],
+               //  col2: [ 'col2 must be like /hello/gi got grape.' ],
+               //  emailAddress: [ 'emailAddress must be a valid Email Address got test' ] }
+
+</pre>
+
+<p>Validation is also run pre save and pre update. To prevent this you can specify the <code>validate</code> option
+
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+model1.save(null, {validate : false});
+model2.save(null, {validate : false});
+
+</pre>
+
+<p>Or you can specify the class level properties <code>validateOnSave</code> and <code>validateOnUpdate</code>
+to false respectively
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+Model.validateOnSave = false;
+Model.validateOnUpdate = false;
+
+</pre>
+
+<p>Avaiable validation methods are.
+
+</p>
+<ul>
+ <li><code>isAfter</code> : check that a date is after a specified date</li>
+ <li><code>isBefore</code> : check that a date is after before a specified date </li>
+ <li><code>isDefined</code> : ensure that a column is defined</li>
+ <li><code>isNotDefined</code> : ensure that a column is not defined</li>
+ <li><code>isNotNull</code> : ensure that a column is defined and not null</li>
+ <li><code>isNull</code> : ensure that a column is not defined or null</li>
+ <li><code>isEq</code> : ensure that a column equals a value <b>this uses deep equal</b></li>
+ <li><code>isNeq</code> : ensure that a column does not equal a value <b>this uses deep equal</b></li>
+ <li><code>isLike</code> : ensure that a column is like a value, can be a regexp or string</li>
+ <li><code>isNotLike</code> : ensure that a column is not like a value, can be a regexp or string</li>
+ <li><code>isLt</code> : ensure that a column is less than a value</li>
+ <li><code>isGt</code> : ensure that a column is greater than a value</li>
+ <li><code>isLte</code> : ensure that a column is less than or equal to a value</li>
+ <li><code>isGte</code> : ensure that a column is greater than or equal to a value</li>
+ <li><code>isIn</code> : ensure that a column is contained in an array of values</li>
+ <li><code>isNotIn</code> : ensure that a column is not contained in an array of values</li>
+ <li><code>isMacAddress</code> : ensure that a column is a valid MAC address</li>
+ <li><code>isIPAddress</code> : ensure that a column is a valid IPv4 or IPv6 address</li>
+ <li><code>isIPv4Address</code> : ensure that a column is a valid IPv4 address</li>
+ <li><code>isIPv6Address</code> : ensure that a column is a valid IPv6 address</li>
+ <li><code>isUUID</code> : ensure that a column is a valid UUID</li>
+ <li><code>isEmail</code> : ensure that a column is a valid email address</li>
+ <li><code>isUrl</code> : ensure than a column is a valid URL</li>
+ <li><code>isAlpha</code> : ensure than a column is all letters</li>
+ <li><code>isAlphaNumeric</code> : ensure than a column is all letters or numbers</li>
+ <li><code>hasLength</code> : ensure than a column is fits within the specified length accepts a min and optional max value</li>
+ <li><code>isLowercase</code> : ensure than a column is lowercase</li>
+ <li><code>isUppercase</code> : ensure than a column is uppercase</li>
+ <li><code>isEmpty</code> : ensure than a column empty (i.e. a blank string)</li>
+ <li><code>isNotEmpty</code> : ensure than a column not empty (i.e. not a blank string)</li>
+ <li><code>isCreditCard</code> : ensure than a is a valid credit card number</li>
+ <li><code>check</code> : accepts a function to perform validation</li>
+</ul>
+
+<p>All of the validation methods are chainable, and accept an options argument.
+
+</p>
+<p>The options include
+</p>
+<ul>
+    <li><code>message</code> : a message to return if a column fails validation. The message can include <code>{val}</code> and <code>{col}</code>
+    replacements which will insert the invalid value and the column name.
+    </li>
+    <li><code>[onlyDefined=true]</code> : set to false to run the method even if the column value is not defined.</li>
+    <li><code>[onlyNotNull=true]</code> : set to false to run the method even if the column value is null.</li>
+</ul>
+
+
 </p>
     
-        <em>Example</em>
-            <pre class="prettyprint linenums lang-js">
-sql.array.sqlSubscript(1) //=&gt; array[1]
-sql.array.sqlSubscript(1, 2) //=&gt; array[1, 2]
-sql.array.sqlSubscript([1, 2]) //=&gt; array[1, 2]
-            </pre>
-    
 
     
 
     
+        <a name="staticProperties"></a>
+        <em>Static Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>validateOnSave</em></td><td>property</td><td><code>true
+         </code></td><td><p>Set to false to prevent model validation when saving.
+</p>
+</td><tr><tr><td><em>validateOnUpdate</em></td><td>property</td><td><code>true
+         </code></td><td><p>Set to false to prevent model validation when updating.
+</p>
+</td><tr></table>
+    
+    
+        <a name="instanceProperties"></a>
+        <em>Instance Properties</em>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>errors</td><td>Object</td><td><code>{}</code></td><td><p>the validation errors for this model.</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
     <h3>Constructor</h3>
 
-    <em>Defined sql.js</em>
+    <em>Defined plugins/validation.js</em>
     
     
     
         
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
-define(null, {
+function (){
+   this._super(arguments);
+   this.errors = {};
+           
+}
             </pre>
       
     
+
+  
+    <a name=".validate"></a>
+    <h3>
+        validate
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined plugins/validation.js</em>
+
+<p><p>Sets up validation for a model.
+
+</p>
+<p>To do single col validation
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+
+var Model = patio.addModel("validator", {
+     plugins:[ValidatorPlugin]
+});
+//this ensures column assignment
+Model.validate("col1").isDefined().isAlphaNumeric().hasLength(1, 10);
+//col2 does not have to be assigned but if it is it must match /hello/ig.
+Model.validate("col2").like(/hello/ig);
+//Ensures that the emailAddress column is a valid email address.
+Model.validate("emailAddress").isEmailAddress();
+
+</pre>
+
+<p>Or you can do a mass validation through a callback.
+</p>
+<pre class='prettyprint linenums lang-js'>
+
+
+var Model = patio.addModel("validator", {
+     plugins:[ValidatorPlugin]
+});
+Model.validate(function(validate){
+     //this ensures column assignment
+     validate("col1").isDefined().isAlphaNumeric().hasLength(1, 10);
+     //col2 does not have to be assigned but if it is it must match /hello/ig.
+     validate("col2").isLike(/hello/ig);
+     //Ensures that the emailAddress column is a valid email address.
+     validate("emailAddress").isEmail();
+});
+
+</pre>
+
+
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : <p>the name of the column, or a callback that accepts a function to create validators.</p>
+</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Model|Validator</code> <p>returns a validator if name is a string, other wise returns this for chaining.</p>
+</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.ModelError</code> <p>if name is not a function or string.</p>
+</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   this.__initValidation();
+   var ret;
+   if (isFunction(name)) {
+       name.apply(this, [this.__getValidator.bind(this)]);
+       ret = this;
+   } else if (isString(name)) {
+       ret = this.__getValidator(name);
+   } else {
+       throw new ModelError(&quot;name is must be a string or function when validating&quot;);
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
 
   
   
