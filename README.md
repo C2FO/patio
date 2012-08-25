@@ -16,7 +16,140 @@ To install patio run
 If you want to use the patio executable for migrations
                                                                                                                                                              
 `npm install -g patio`
-                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+###Getting Started  
+
+
+Create some tables.
+                                                                                                                      
+```                                                                                                                                    
+var patio = require("patio"),                                                                                                    
+     comb = require("comb"),                                                                                                           
+     when = comb.when,                                                                                                                 
+     serial = comb.serial;                                                                                                             
+                                                                                                                                       
+                                                                                                                                       
+ //set all db name to camelize                                                                                                         
+ patio.camelize = true;                                                                                                                
+ patio.configureLogging();                                                                                                             
+ //connect to the db                                                                                                                   
+ var DB = patio.connect(<CONNECTION_URI>);                                                                                       
+                                                                                                                                       
+function errorHandler(error) {                                                                                                 
+     console.log(error);                                                                                                               
+     patio.disconnect();                                                                                                               
+ };                                                                                                                                    
+                                                                                                                                       
+function createTables() {
+    return comb.serial([
+        function () {
+            return DB.forceDropTable(["capital", "state"]);
+        },
+        function () {
+            return DB.createTable("state", function () {
+                this.primaryKey("id");
+                this.name(String)
+                this.population("integer");
+                this.founded(Date);
+                this.climate(String);
+                this.description("text");
+            });
+        },
+        function () {
+            return DB.createTable("capital", function () {
+                this.primaryKey("id");
+                this.population("integer");
+                this.name(String);
+                this.founded(Date);
+                this.foreignKey("stateId", "state", {key:"id"});
+            });
+        }
+    ]);
+};                                                                                               
+                                                                                                                                       
+ createTables().then(function () {                                                                                                     
+    patio.disconnect();                                                                                                                 
+}, errorHandler);                                                                                                                      
+```   
+
+Next lets create some models for the tables created.
+
+```
+var State = patio.addModel("state", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.oneToOne("capital");
+        }
+    }
+});
+var Capital = patio.addModel("capital", {
+    static:{
+        init:function () {
+            this._super(arguments);
+            this.manyToOne("state");
+        }
+    }
+});
+```
+
+Next you'll need to sync your models
+
+```
+patio.syncModels();
+```
+
+Use your models.
+
+```
+//comb.when waits for the save operta
+return comb.when(
+	State.save({
+        name:"Nebraska",
+        population:1796619,
+        founded:new Date(1867, 2, 4),
+        climate:"continental",
+        capital:{
+            name:"Lincoln",
+            founded:new Date(1856, 0, 1),
+            population:258379
+        }
+    }),
+    Capital.save({
+        name:"Austin",
+        founded:new Date(1835, 0, 1),
+        population:790390,
+        state:{
+            name:"Texas",
+            population:25674681,
+            founded:new Date(1845, 11, 29)
+        }
+    })
+);
+```
+
+Now we can query the states and capitals we created.
+
+```
+State.order("name").forEach(function (state) {
+	//if you return a promise here it will prevent the foreach from
+	//resolving until all inner processing has finished.
+	return state.capital.then(function (capital) {
+    	console.log("%s's capital is %s.", state.name, capital.name);
+	});
+});
+```
+
+```
+Capital.order("name").forEach(function (capital) {
+	//if you return a promise here it will prevent the foreach from
+	//resolving until all inner processing has finished.
+	return capital.state.then(function (state) {
+		console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
+	});
+});
+```
+
 ###Features
                                                                                                                                                                                                                                                                                                           
 * Comprehensive documentation with examples.
@@ -28,11 +161,12 @@ If you want to use the patio executable for migrations
 * [Models](http://pollenware.github.com/patio/models.html)
   * [Associations](http://pollenware.github.com/patio/associations.html)
   * [Inheritance](http://pollenware.github.com/patio/model-inheritance.html)
+  * [Validation](http://pollenware.github.com/patio/validation.html)
   * [Plugins](http://pollenware.github.com/patio/plugins.html)
 * Simple adapter extensions
 * [Migrations](http://pollenware.github.com/patio/migrations.html)
   * Integer and Timestamp based.
-* Powerful [Querying](http://pollenware.github.com/patio/querying.html)
+* Powerful [Querying](http://pollenware.github.com/patio/querying.html) API
 * [Transactions](http://pollenware.github.com/patio/patio_Database.html#transaction) with
   * Savepoints
   * Isolation Levels
@@ -47,104 +181,7 @@ If you want to use the patio executable for migrations
   * [update](http://pollenware.github.com/patio/patio_Dataset.html#update)
   * [remove](http://pollenware.github.com/patio/patio_Dataset.html#remove)
   * [query](http://pollenware.github.com/patio/patio_Dataset.html#filter)
-                                                                                       
-                                                                                                                                                             
-###Example
 
-```javascript                                                                                                                                              
-var patio = require("../index.js"),                                                                                                                          
-     comb = require("comb"),                                                                                                                                 
-     when = comb.when,                                                                                                                                       
-     serial = comb.serial;                                                                                                                                   
-                                                                                                                                                             
-                                                                                                                                                             
- //set all db name to camelize                                                                                                                               
- patio.camelize = true;                                                                                                                                      
- patio.configureLogging();                                                                                                                                   
- //connect to the db                                                                                                                                         
- var DB = patio.connect(&lt;CONNECTION_URI&gt;);                                                                                                             
-                                                                                                                                                             
- var errorHandler = function (error) {                                                                                                                       
-     console.log(error);                                                                                                                                     
-     patio.disconnect();                                                                                                                                     
- };                                                                                                                                                          
-                                                                                                                                                             
- var createSchema = function () {                                                                                                                            
-     return DB.transaction(function () {                                                                                                                     
-         return serial([                                                                                                                                     
-             function () {                                                                                                                                   
-                 return DB.forceDropTable(["legInstance", "flightLeg", "flight", "airplane", "canLand", "airplaneType", "airport"]);                         
-             },                                                                                                                                              
-             function () {                                                                                                                                   
-             //set up our base tables that have no dependencies                                                                                              
-                 return when(                                                                                                                                
-                     DB.createTable("airport", function () {                                                                                                 
-                         this.primaryKey("id");                                                                                                              
-                         this.airportCode(String, {size:4, allowNull:false, unique:true});                                                                   
-                         this.name(String, {allowNull:false});                                                                                               
-                         this.city(String, {allowNull:false});                                                                                               
-                         this.state(String, {size:2, allowNull:false});                                                                                      
-                     }),                                                                                                                                     
-                     DB.createTable("airplaneType", function () {                                                                                            
-                         this.primaryKey("id");                                                                                                              
-                         this.name(String, {allowNull:false});                                                                                               
-                         this.maxSeats(Number, {size:3, allowNull:false});                                                                                   
-                         this.company(String, {allowNull:false});                                                                                            
-                     }),                                                                                                                                     
-                     DB.createTable("flight", function () {                                                                                                  
-                         this.primaryKey("id");                                                                                                              
-                         this.weekdays(String, {size:2, allowNull:false});                                                                                   
-                         this.airline(String, {allowNull:false});                                                                                            
-                     })                                                                                                                                      
-                 );                                                                                                                                          
-             },                                                                                                                                              
-             function () {                                                                                                                                   
-                 //create our join tables                                                                                                                    
-                 return when(                                                                                                                                
-                     DB.createTable("canLand", function () {                                                                                                 
-                         this.foreignKey("airplaneTypeId", "airplaneType", {key:"id"});                                                                      
-                         this.foreignKey("airportId", "airport", {key:"airportCode", type:String, size:4});                                                  
-                     }),                                                                                                                                     
-                     DB.createTable("airplane", function () {                                                                                                
-                         this.primaryKey("id");                                                                                                              
-                         this.totalNoOfSeats(Number, {size:3, allowNull:false});                                                                             
-                         this.foreignKey("typeId", "airplaneType", {key:"id"});                                                                              
-                     }),                                                                                                                                     
-                     DB.createTable("flightLeg", function () {                                                                                               
-                         this.primaryKey("id");                                                                                                              
-                         this.scheduledDepartureTime("time");                                                                                                
-                         this.scheduledArrivalTime("time");                                                                                                  
-                         this.foreignKey("departureCode", "airport", {key:"airportCode", type:String, size:4});                                              
-                         this.foreignKey("arrivalCode", "airport", {key:"airportCode", type:String, size:4});                                                
-                         this.foreignKey("flightId", "flight", {key:"id"});                                                                                  
-                     })                                                                                                                                      
-                 );                                                                                                                                          
-             },                                                                                                                                              
-             function () {                                                                                                                                   
-                 return DB.createTable("legInstance", function () {                                                                                          
-                     this.primaryKey("id");                                                                                                                  
-                     this.date("date");                                                                                                                      
-                     this.arrTime("datetime");                                                                                                               
-                     this.depTime("datetime");                                                                                                               
-                     this.foreignKey("airplaneId", "airplane", {key:"id"});                                                                                  
-                     this.foreignKey("flightLegId", "flightLeg", {key:"id"});                                                                                
-                 });                                                                                                                                         
-             }                                                                                                                                               
-         ]);                                                                                                                                                 
-     });                                                                                                                                                     
- };                                                                                                                                                          
-                                                                                                                                                             
- createSchema().then(function () {                                                                                                                           
-     var ds = DB.from('airport');                                                                                                                            
-                                                                                                                                                             
-     ds.multiInsert([                                                                                                                                        
-         {airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},                                                                              
-         {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},                                                                                  
-         {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}                                                                   
-     ]).then(function () {                                                                                                                                   
-         ds.forEach(function (airport) {                                                                                                                     
-             console.log(airport.airportCode);                                                                                                               
-       }).then(patio.disconnect.bind(patio), errorHandler);                                                                                                  
-     }, errorHandler);                                                                                                                                       
-}, errorHandler);                                                                                                                                            
-```                                                                                                                                                           
+
+
+                                                                                                                                   
