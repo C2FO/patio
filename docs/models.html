@@ -586,7 +586,8 @@ patio.syncModels().then(function(User1,User2){
          console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser2.firstName, myUser2.lastName, myUser2.id));
     });
 });</code></pre>
-<h2>Custom setters</h2>
+<h2>Custom setters and getters</h2>
+<h3>Setters</h3>
 <p>patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.
 
 </p>
@@ -612,6 +613,59 @@ patio.syncModels().then(function(User){
     });
     console.log(myUser.firstName); //Bob
     console.log(myUser.lastName);  //Yukon
+});</code></pre>
+<h3>Getters</h3>
+<p>Custom getters can be used to change values returned from the database but not alter the value when persisting. 
+
+</p>
+<p>For example if you wanted to return a value as an array but persist as a string you could do the following.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
+    instance : {
+        _getRoles : function(roles){
+            return roles.split(&quot;,&quot;);
+        }
+    }
+});
+
+patio.syncModels().then(function(User){
+    var myUser = new User({
+        firstName : &quot;bob&quot;,
+        lastName : &quot;yukon&quot;,
+        roles : &quot;admin,user,groupAdmin&quot;
+    });
+    console.log(myUser.roles); //[&#39;admin&#39;, &#39;user&#39;,&#39;groupAdmin&#39;];
+});</code></pre>
+<p>You can also use the getters/setters in tandem.
+
+</p>
+<p>Lets take the getters example from before but use a setter also
+
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
+    instance : {
+        _setRoles : function(roles){
+            return roles.join(&quot;,&quot;);
+        },
+
+
+        _getRoles : function(roles){
+            return roles.split(&quot;,&quot;);
+        }
+    }
+});
+
+patio.syncModels().then(function(User){
+    var myUser = new User({
+        firstName : &quot;bob&quot;,
+        lastName : &quot;yukon&quot;,
+        roles : [&quot;admin&quot;,&quot;user&quot;,&quot;groupAdmin&quot;];
+    });
+    console.log(myUser.roles); //[&#39;admin&#39;, &#39;user&#39;,&#39;groupAdmin&#39;];
+    //INSERT INTO `user` (`first_name`, `last_name`, `roles`) VALUES (&#39;bob&#39;, &#39;yukon&#39;, &#39;admin,user,groupAdmin&#39;)
+    myUser.save(); 
 });</code></pre>
 <h2>Model hooks</h2>
 <p>Each model has the following hooks
