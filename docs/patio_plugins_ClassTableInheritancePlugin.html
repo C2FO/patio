@@ -151,6 +151,8 @@
                             
                             <li><a href="./model-inheritance.html">Model Inheritance</a></li>
                             
+                            <li><a href="./validation.html">Model Validation</a></li>
+                            
                             <li><a href="./plugins.html">Model Plugins</a></li>
                             
                             <li><a href="./querying.html">Querying</a></li>
@@ -598,6 +600,7 @@ if you are working with other orms that save the keys differently.</p>
     <pre class="prettyprint linenums lang-js">
 function (opts){
    this.__configureOpts = opts;
+   return this;
            
 }
     </pre>

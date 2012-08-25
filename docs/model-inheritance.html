@@ -151,6 +151,8 @@
                             
                             <li><a href="./model-inheritance.html">Model Inheritance</a></li>
                             
+                            <li><a href="./validation.html">Model Validation</a></li>
+                            
                             <li><a href="./plugins.html">Model Plugins</a></li>
                             
                             <li><a href="./querying.html">Querying</a></li>
@@ -382,32 +384,15 @@
 </p>
 <pre class='prettyprint linenums lang-js'><code> var Employee = patio.addModel(&quot;employee&quot;, {
       plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({key : &quot;kind&quot;});
-          }
-      }
-  });</code></pre>
+ }).configure({key : &quot;kind&quot;});</code></pre>
 <p>All sub classes should just inherit their super class
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>  var Staff = patio.addModel(&quot;staff&quot;, Employee, {
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.manyToOne(&quot;manager&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});
-          }
-      }
- });
- var Manager = patio.addModel(&quot;manager&quot;, Employee, {
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.oneToMany(&quot;staff&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});
-          }
-      }
- });</code></pre>
+<pre class='prettyprint linenums lang-js'><code>var Staff = patio.addModel(&quot;staff&quot;, Employee)
+    .manyToOne(&quot;manager&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});;
+
+var Manager = patio.addModel(&quot;manager&quot;, Employee)
+    .oneToMany(&quot;staff&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});;</code></pre>
 <p><code>Executive</code> inherits from <code>Manager</code>, and through inheritance will also receive the <code>oneToMany</code> relationship with staff
 
 </p>
@@ -445,29 +430,17 @@ when(
 <ul>
 <li><strong>key</strong> : The name of the column in the parent table that contains the name of the subclass that the row in the parent table represents.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> var Employee = patio.addModel(&quot;employee&quot;, {
-      plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({key : &quot;kind&quot;});
-          }
-      }
-  });</code></pre>
+<pre class='prettyprint linenums lang-js'><code>var Employee = patio.addModel(&quot;employee&quot;, {
+    plugins : [patio.plugins.ClassTableInheritancePlugin]
+}).configure({key : &quot;kind&quot;});</code></pre>
 <ul>
 <li><strong>keyCb</strong> : A callback to invoke on on the key returned from the database. This is useful if you are working with other orms that save the keys differently.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> var Employee = patio.addModel(&quot;employee&quot;, {
-      plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({keyCb : function(key){
-                      return key.toLowerCase();
-              }});
-          }
-      }
-  });</code></pre>
+<pre class='prettyprint linenums lang-js'><code>var Employee = patio.addModel(&quot;employee&quot;, {
+    plugins : [patio.plugins.ClassTableInheritancePlugin],
+}).configure({keyCb : function(key){
+    return key.toLowerCase();
+}});</code></pre>
 
 <hr>
 
