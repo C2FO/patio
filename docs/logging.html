@@ -368,16 +368,14 @@
 <li><a href="http://pollenware.github.com/comb/symbols/comb.logging.PropertyConfigurator.html">comb.logging.PropertyConfigurator</a></li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
-    Logger = comb.logging.Logger,
-    Level = comb.logging.Level,
     patio = require(&quot;patio&quot;);                            
 
-new comb.logging.BasicConfigurator().configure();
-Logger.getLogger(&quot;patio&quot;).level = Level.INFO;</code></pre>
+comb.logger.configure();
+comb.logger(&quot;patio&quot;).level = &quot;info&quot;;</code></pre>
 <p>Or
 </p>
 <pre class='prettyprint linenums lang-js'><code>//configure with a JSON file.
-new comb.logging.PropertyConfigurator().configure(&quot;/location/of/log/config.json&quot;);
+comb.logger.configure(&quot;/location/of/log/config.json&quot;);
 
 //or
 
@@ -402,7 +400,7 @@ var loggingConfig = {
         ]
     }
 };
-new comb.logging.PropertyConfigurator().configure(loggingConfig);</code></pre>
+comb.logger.configure(loggingConfig);</code></pre>
 <p>If you are using a different version of comb or do not want to use comb, then you can use the following method <a href="./patio.html#configureLogging">patio.configureLogging</a>;
 
 </p>
