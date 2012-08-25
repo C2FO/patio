@@ -35,34 +35,17 @@ To set up you models the base super class should contain the [ClassTableInherita
 ```
  var Employee = patio.addModel("employee", {
       plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({key : "kind"});
-          }
-      }
-  });
+ }).configure({key : "kind"});
 ```
 
 All sub classes should just inherit their super class
 
 ```
-  var Staff = patio.addModel("staff", Employee, {
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.manyToOne("manager", {key : "managerId", fetchType : this.fetchType.EAGER});
-          }
-      }
- });
- var Manager = patio.addModel("manager", Employee, {
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.oneToMany("staff", {key : "managerId", fetchType : this.fetchType.EAGER});
-          }
-      }
- });
+var Staff = patio.addModel("staff", Employee)
+	.manyToOne("manager", {key : "managerId", fetchType : this.fetchType.EAGER});;
+
+var Manager = patio.addModel("manager", Employee)
+	.oneToMany("staff", {key : "managerId", fetchType : this.fetchType.EAGER});;
 
  ```
 
@@ -105,31 +88,19 @@ When setting up the [ClassTableInheritancePlugin](./patio_plugins_ClassTableInhe
 * **key** : The name of the column in the parent table that contains the name of the subclass that the row in the parent table represents.
 
 ```
- var Employee = patio.addModel("employee", {
-      plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({key : "kind"});
-          }
-      }
-  });                        
+var Employee = patio.addModel("employee", {
+	plugins : [patio.plugins.ClassTableInheritancePlugin]
+}).configure({key : "kind"});                       
 ```
 
 * **keyCb** : A callback to invoke on on the key returned from the database. This is useful if you are working with other orms that save the keys differently.
 
 ```
- var Employee = patio.addModel("employee", {
-      plugins : [patio.plugins.ClassTableInheritancePlugin],
-      static:{
-          init:function () {
-              this._super(arguments);
-              this.configure({keyCb : function(key){
-              		return key.toLowerCase();
-              }});
-          }
-      }
-  });                        
+var Employee = patio.addModel("employee", {
+	plugins : [patio.plugins.ClassTableInheritancePlugin],
+}).configure({keyCb : function(key){
+	return key.toLowerCase();
+}});                       
 ```
 
                     

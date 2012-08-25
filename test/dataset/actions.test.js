@@ -263,41 +263,48 @@ it.describe("Dataset actions", function (it) {
         });
 
         it.should("count properly when using UNION, INTERSECT, or EXCEPT", function () {
-            return when(
-                dataset.union(dataset).count().then(function (count) {
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
-                }),
-                dataset.intersect(dataset).count().then(function (count) {
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
-                }),
-
-                dataset.except(dataset).count().then(function (count) {
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
-                }),
-
-
-                //with callback
-                dataset.union(dataset).count(function (err, count) {
-                    assert.isNull(err);
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
-                }),
-
-                dataset.intersect(dataset).count(function (err, count) {
-                    assert.isNull(err);
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
-                }),
-
-                dataset.except(dataset).count(function (err, count) {
-                    assert.isNull(err);
-                    assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
-                })
-            );
+            return serial([
+                function () {
+                    return dataset.union(dataset).count().then(function (count) {
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                },
+                function () {
+                    return dataset.intersect(dataset).count().then(function (count) {
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                },
+                function () {
+                    return dataset.except(dataset).count().then(function (count) {
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                },
+                function () {
+                    //with callback
+                    return dataset.union(dataset).count(function (err, count) {
+                        assert.isNull(err);
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                },
+                function () {
+                    return dataset.intersect(dataset).count(function (err, count) {
+                        assert.isNull(err);
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                },
+                function () {
+                    return dataset.except(dataset).count(function (err, count) {
+                        assert.isNull(err);
+                        assert.equal(count, 1);
+                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
+                    });
+                }
+            ]);
 
         });
 
@@ -371,28 +378,35 @@ it.describe("Dataset actions", function (it) {
 
         it.should("return true if records exist in the dataset", function () {
             var ds = new C().from("test");
-            return when(
-                ds.isEmpty().then(function (res) {
-                    assert.isFalse(res);
-                    assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
-                }),
-                ds.filter(false).isEmpty().then(function (res) {
-                    assert.isTrue(res);
-                    assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
-                }),
-
-                //with callback
-                ds.isEmpty(function (err, res) {
-                    assert.isNull(err);
-                    assert.isFalse(res);
-                    assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
-                }),
-                ds.filter(false).isEmpty(function (err, res) {
-                    assert.isNull(err);
-                    assert.isTrue(res);
-                    assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
-                })
-            );
+            return serial([
+                function () {
+                    return ds.isEmpty().then(function (res) {
+                        assert.isFalse(res);
+                        assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
+                    });
+                },
+                function () {
+                    return ds.filter(false).isEmpty().then(function (res) {
+                        assert.isTrue(res);
+                        assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
+                    });
+                },
+                function () {
+                    //with callback
+                    return ds.isEmpty(function (err, res) {
+                        assert.isNull(err);
+                        assert.isFalse(res);
+                        assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
+                    });
+                },
+                function () {
+                    return ds.filter(false).isEmpty(function (err, res) {
+                        assert.isNull(err);
+                        assert.isTrue(res);
+                        assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
+                    });
+                }
+            ]);
         });
     });
 
@@ -806,64 +820,75 @@ it.describe("Dataset actions", function (it) {
 
         it.should("set the limit and return an array of records if the given number is > 1", function () {
             var i = Math.floor(Math.random() * 10) + 10;
-            return when(
-                d.order("a").first(i).then(function (r) {
-                    assert.lengthOf(r, i);
-                    assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a LIMIT %d", i)]);
-                }),
-                d.order("a").last((i = Math.floor(Math.random() * 10) + 10)).then(function (r) {
-                    assert.lengthOf(r, i);
-                    assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a DESC LIMIT %d", i)]);
-                }),
-
-                //with callback
-                d.order("a").first((i = Math.floor(Math.random() * 10) + 10), function (err, r) {
-                    assert.isNull(err);
-                    assert.lengthOf(r, i);
-                    assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a LIMIT %d", i)]);
-                }),
-                d.order("a").last((i = Math.floor(Math.random() * 10) + 10), function (err, r) {
-                    assert.isNull(err);
-                    assert.lengthOf(r, i);
-                    assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a DESC LIMIT %d", i)]);
-                })
-            );
+            return serial([
+                function () {
+                    return d.order("a").first(i).then(function (r) {
+                        assert.lengthOf(r, i);
+                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a LIMIT %d", i)]);
+                    });
+                },
+                function () {
+                    return d.order("a").last((i = Math.floor(Math.random() * 10) + 10)).then(function (r) {
+                        assert.lengthOf(r, i);
+                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a DESC LIMIT %d", i)]);
+                    });
+                },
+                function () {
+                    //with callback
+                    return d.order("a").first((i = Math.floor(Math.random() * 10) + 10), function (err, r) {
+                        assert.isNull(err);
+                        assert.lengthOf(r, i);
+                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a LIMIT %d", i)]);
+                    });
+                },
+                function () {
+                    return d.order("a").last((i = Math.floor(Math.random() * 10) + 10), function (err, r) {
+                        assert.isNull(err);
+                        assert.lengthOf(r, i);
+                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test ORDER BY a DESC LIMIT %d", i)]);
+                    });
+                }
+            ]);
         });
 
         it.should("return the first matching record if a block is given without an argument", function () {
-            return when(
-                d.first(
-                    function () {
+            return serial([
+                function () {
+                    return d.first(function () {
                         return this.z.sqlNumber.gt(26);
                     }).then(function (r) {
-                        assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) LIMIT 1']);
-                    }),
-                d.order("name").last(
-                    function () {
+                            assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) LIMIT 1']);
+                        });
+                },
+                function () {
+                    return d.order("name").last(function () {
                         return this.z.sqlNumber.gt(26);
                     }).then(function (r) {
-                        assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT 1']);
-                    }),
+                            assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT 1']);
+                        });
+                },
+                function () {
 
-                //with callback
-                d.first(
-                    function () {
-                        return this.z.sqlNumber.gt(26);
-                    },
-                    function (err, r) {
-                        assert.isNull(err);
-                        assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) LIMIT 1']);
-                    }),
-                d.order("name").last(
-                    function () {
-                        return this.z.sqlNumber.gt(26);
-                    },
-                    function (err, r) {
-                        assert.isNull(err);
-                        assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT 1']);
-                    })
-
-            );
+                    //with callback
+                    return d.first(function () {
+                            return this.z.sqlNumber.gt(26);
+                        },
+                        function (err, r) {
+                            assert.isNull(err);
+                            assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) LIMIT 1']);
+                        });
+                },
+                function () {
+                    return d.order("name").last(
+                        function () {
+                            return this.z.sqlNumber.gt(26);
+                        },
+                        function (err, r) {
+                            assert.isNull(err);
+                            assert.deepEqual(r, ["a", 1, "b", 2, 'SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT 1']);
+                        });
+                }
+            ]);
         });
 
         it.should("combine block and standard argument filters if argument is not an Integer", function () {
@@ -902,41 +927,48 @@ it.describe("Dataset actions", function (it) {
 
         it.should("return the first matching record if a block is given without an argument", function () {
             var i = Math.floor(Math.random() * 10) + 10;
-            return when(
-                d.order("a").first(i,
-                    function () {
+            return serial([
+                function () {
+                    return d.order("a").first(i,function () {
                         return this.z.sqlNumber.gt(26);
                     }).then(function (r) {
-                        assert.lengthOf(r, i);
-                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY a LIMIT %d", i)]);
-                    }),
-                d.order("name").last((i = Math.floor(Math.random() * 10) + 10),
-                    function () {
-                        return this.z.sqlNumber.gt(26);
-                    }).then(function (r) {
-                        assert.lengthOf(r, i);
-                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT %d", i)]);
-                    }),
-                //with callback
-                d.order("a").first(i,
-                    function () {
-                        return this.z.sqlNumber.gt(26);
-                    },
-                    function (err, r) {
-                        assert.isNull(err);
-                        assert.lengthOf(r, i);
-                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY a LIMIT %d", i)]);
-                    }),
-                d.order("name").last((i = Math.floor(Math.random() * 10) + 10),
-                    function () {
-                        return this.z.sqlNumber.gt(26);
-                    },
-                    function (err, r) {
-                        assert.isNull(err);
-                        assert.lengthOf(r, i);
-                        assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT %d", i)]);
-                    })
-            );
+                            assert.lengthOf(r, i);
+                            assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY a LIMIT %d", i)]);
+                        });
+                },
+                function () {
+                    return d.order("name").last((i = Math.floor(Math.random() * 10) + 10),
+                        function () {
+                            return this.z.sqlNumber.gt(26);
+                        }).then(function (r) {
+                            assert.lengthOf(r, i);
+                            assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT %d", i)]);
+                        });
+                },
+                function () {
+                    //with callback
+                    return d.order("a").first(i,
+                        function () {
+                            return this.z.sqlNumber.gt(26);
+                        },
+                        function (err, r) {
+                            assert.isNull(err);
+                            assert.lengthOf(r, i);
+                            assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY a LIMIT %d", i)]);
+                        });
+                },
+                function () {
+                    return d.order("name").last((i = Math.floor(Math.random() * 10) + 10),
+                        function () {
+                            return this.z.sqlNumber.gt(26);
+                        },
+                        function (err, r) {
+                            assert.isNull(err);
+                            assert.lengthOf(r, i);
+                            assert.deepEqual(r[0], ["a", 1, "b", 2, comb.string.format("SELECT * FROM test WHERE (z > 26) ORDER BY name DESC LIMIT %d", i)]);
+                        });
+                }
+            ]);
         });
 
         it.should("last should raise an error if no order is given", function () {

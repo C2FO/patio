@@ -15,18 +15,16 @@ Then patio should be using the same version of comb that your application uses. 
 
 ```
 var comb = require("comb"),
-    Logger = comb.logging.Logger,
-    Level = comb.logging.Level,
     patio = require("patio");                            
 
-new comb.logging.BasicConfigurator().configure();
-Logger.getLogger("patio").level = Level.INFO;
+comb.logger.configure();
+comb.logger("patio").level = "info";
 ```
 
 Or
 ```
 //configure with a JSON file.
-new comb.logging.PropertyConfigurator().configure("/location/of/log/config.json");
+comb.logger.configure("/location/of/log/config.json");
 
 //or
 
@@ -51,7 +49,7 @@ var loggingConfig = {
         ]
     }
 };
-new comb.logging.PropertyConfigurator().configure(loggingConfig);
+comb.logger.configure(loggingConfig);
 ```
 
 If you are using a different version of comb or do not want to use comb, then you can use the following method [patio.configureLogging](./patio.html#configureLogging);

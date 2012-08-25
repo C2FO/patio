@@ -14,6 +14,15 @@ var errorHandler = function(err){
 }
 ```
 
+##Getting a dataset
+
+To get a dataset use the [DB.from](./patio_Database.html#from) method.
+
+```
+var DB = patio.connect(<CONNECTION_URI>)
+var User = DB.from("user");
+```
+
 ##Retrieving a Single Object
 
 ###Using a Primary Key

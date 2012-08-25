@@ -571,8 +571,6 @@ it.describe("patio.adapters.Postgres", function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
-
-
 });
 
 
