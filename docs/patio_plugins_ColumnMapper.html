@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -409,10 +409,11 @@
 
 
 
-    <p>
-This plugin exposes the ability to map columns on other tables to this Model.
+    <p><p>This plugin exposes the ability to map columns on other tables to this Model.
 
-See <a href='./patio_plugins_ColumnMapper.html#.mappedColumn'> patio.plugins.ColumnMapper.mappedColumn</a> for more information.</p>
+</p>
+<p>See <a href='./patio_plugins_ColumnMapper.html#.mappedColumn'> patio.plugins.ColumnMapper.mappedColumn</a> for more information.</p>
+</p>
     
 
     
@@ -421,15 +422,17 @@ See <a href='./patio_plugins_ColumnMapper.html#.mappedColumn'> patio.plugins.Col
         <a name="staticProperties"></a>
         <em>Static Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>fetchMappedColumnsOnSave</em></td><td>property</td><td><code>true
-         </code></td><td>
-Boolean flag indicating if mapped columns should be re-fetched on save.
+         </code></td><td><p>Boolean flag indicating if mapped columns should be re-fetched on save.
 
-<b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#save'> patio.Model#save</a> method.
+</p>
+<p><b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#save'> patio.Model#save</a> method.
+</p>
 </td><tr><tr><td><em>fetchMappedColumnsOnUpdate</em></td><td>property</td><td><code>true
-         </code></td><td>
-Boolean flag indicating if mapped columns should be re-fetched on update.
+         </code></td><td><p>Boolean flag indicating if mapped columns should be re-fetched on update.
 
-<b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#update'> patio.Model#update</a> method.
+</p>
+<p><b>NOTE</b> This can be overridden by passing {reload : false} to the <a href='./patio_Model.html#update'> patio.Model#update</a> method.
+</p>
 </td><tr></table>
     
     
@@ -462,16 +465,18 @@ Boolean flag indicating if mapped columns should be re-fetched on update.
 <hr/>
 <em>Defined plugins/columnMapper.js</em>
 
-<p>
-Add a mapped column from another table. This is useful if there columns on
+<p><p>Add a mapped column from another table. This is useful if there columns on
 another table but you do not want to load the association every time.
 
 
-For example assume we have an employee and works table. Well we might want the salary from the works table,
+</p>
+<p>For example assume we have an employee and works table. Well we might want the salary from the works table,
 but do not want to add it to the employee table.
 
-<b>NOTE:</b> mapped columns are READ ONLY.
+</p>
+<p><b>NOTE:</b> mapped columns are READ ONLY.
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 patio.addModel("employee")
@@ -480,8 +485,9 @@ patio.addModel("employee")
 
 </pre>
 
-You can also change the name of the of the column
+<p>You can also change the name of the of the column
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
  patio.addModel("employee")
@@ -492,9 +498,10 @@ You can also change the name of the of the column
 
 </pre>
 
-If you want to prevent the mapped columns from being reloaded after a save or update you can set the
+<p>If you want to prevent the mapped columns from being reloaded after a save or update you can set the
 <code>fetchMappedColumnsOnUpdate</code> or <code>fetchMappedColumnsOnSave</code> to false.
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -512,8 +519,9 @@ Employee.fetchMappedColumnsOnUpdate = false;
 
 </pre>
 
-You can also override prevent the properties from being reloaded by setting the <code>reload</code> or <code>reloadMapped</code> options when saving or updating.
+<p>You can also override prevent the properties from being reloaded by setting the <code>reload</code> or <code>reloadMapped</code> options when saving or updating.
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 //prevents entire model from being reloaded including mapped columns
@@ -532,18 +540,24 @@ employee.update(null, {reloadMapped : false});
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name you want the column represented as on the model.</li>
+        <li> <em>name</em>  : <p>the name you want the column represented as on the model.</p>
+</li>
     
-        <li> <em>table</em>  : the table or model you want the property mapped from</li>
+        <li> <em>table</em>  : <p>the table or model you want the property mapped from</p>
+</li>
     
-        <li> <em>condition</em>  : the join condition. See <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>.</li>
+        <li> <em>condition</em>  : <p>the join condition. See <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>.</p>
+</li>
     
-        <li> <em>[opts= <code>{}</code>]</em>  : additional options</li>
+        <li> <em>[opts= <code>{}</code>]</em>  : <p>additional options</p>
+</li>
     
-        <li> <em>[opts.joinType= <code>"left"</code>]</em> <code>String</code> : the join type to use when gathering the properties.</li>
+        <li> <em>[opts.joinType= <code>"left"</code>]</em> <code>String</code> : <p>the join type to use when gathering the properties.</p>
+</li>
     
-        <li> <em>[opts.column= <code>null</code>]</em> <code>String|patio.sql.Identifer</code> : the column on the remote table that should be used
-as the local copy.</li>
+        <li> <em>[opts.column= <code>null</code>]</em> <code>String|patio.sql.Identifer</code> : <p>the column on the remote table that should be used
+as the local copy.</p>
+</li>
     
      </ul>
 
@@ -551,7 +565,8 @@ as the local copy.</li>
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Model</code> returns the model for chaining.</li>
+        <li> <code>patio.Model</code> <p>returns the model for chaining.</p>
+</li>
     
     </ul>
 

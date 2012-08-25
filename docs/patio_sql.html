@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -460,9 +460,9 @@
 </div>
 <em>Defined sql.js</em>
 
-<p>
-Collection of SQL related types, and expressions.
+<p><p>Collection of SQL related types, and expressions.
 
+</p>
 <p>
  The <a href='./patio.html#.sql'> patio.sql</a> object
  can be used directly to create <a href='./patio_sql_Expression.html#'> patio.sql.Expression</a>s, <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>s, <a href='./patio_sql_SQLFunction.html#'> patio.sql.SQLFunction</a>s,
@@ -470,73 +470,73 @@ Collection of SQL related types, and expressions.
 <pre class='code'>
  var sql = patio.sql;
  //creating an identifier
- sql.a; //=> a;
+ sql.a; //=&gt; a;
 
  //creating a qualified identifier
  sql.table__column; //table.column;
 
  //BooleanExpression
- sql.a.lt(sql.b); //=> a < 'b';
+ sql.a.lt(sql.b); //=&gt; a &lt; &#39;b&#39;;
 
  //SQL Functions
- sql.sum(sql.a); //=> sum(a)
- sql.avg(sql.b); //=> avg(b)
- sql.a("b", 1); //=> a(b, 1)
- sql.myDatabasesObjectFunction(sql.a, sql.b, sql.c); //=> myDatabasesObjectFunction(a, b, c);
+ sql.sum(sql.a); //=&gt; sum(a)
+ sql.avg(sql.b); //=&gt; avg(b)
+ sql.a(&quot;b&quot;, 1); //=&gt; a(b, 1)
+ sql.myDatabasesObjectFunction(sql.a, sql.b, sql.c); //=&gt; myDatabasesObjectFunction(a, b, c);
 
  //combined
- sql.a.cast("boolean"); //=> 'CAST(a AS boolean)'
- sql.a.plus(sql.b).lt(sql.c.minus(3) //=> ((a + b) < (c - 3))
+ sql.a.cast(&quot;boolean&quot;); //=&gt; &#39;CAST(a AS boolean)&#39;
+ sql.a.plus(sql.b).lt(sql.c.minus(3) //=&gt; ((a + b) &lt; (c - 3))
 
 </pre>
 
 This is useful when combined with dataset filtering
 
 <pre class="code">
- var ds = DB.from("t");
+ var ds = DB.from(&quot;t&quot;);
 
  ds.filter({a:[sql.b, sql.c]}).sql;
-     //=> SELECT * FROM t WHERE (a IN (b, c))
+     //=&gt; SELECT <em> FROM t WHERE (a IN (b, c))
 
- ds.select(sql["case"]({b:{c:1}}, false)).sql;
-     //=> SELECT (CASE WHEN b THEN (c = 1) ELSE 'f' END) FROM t
+ ds.select(sql[&quot;case&quot;]({b:{c:1}}, false)).sql;
+     //=&gt; SELECT (CASE WHEN b THEN (c = 1) ELSE &#39;f&#39; END) FROM t
 
  ds.select(sql.a).qualifyToFirstSource().sql;
-     //=>  SELECT a FROM t
+     //=&gt;  SELECT a FROM t
 
  ds.order(sql.a.desc(), sql.b.asc()).sql;
-     //=>  SELECT * FROM t ORDER BY a DESC, b ASC
+     //=&gt;  SELECT </em> FROM t ORDER BY a DESC, b ASC
 
- ds.select(sql.a.as("b")).sql;
-     //=> SELECT a AS b FROM t
+ ds.select(sql.a.as(&quot;b&quot;)).sql;
+     //=&gt; SELECT a AS b FROM t
 
- ds.filter(sql["case"]({a:sql.b}, sql.c, sql.d)).sql
-     //=> SELECT * FROM t WHERE (CASE d WHEN a THEN b ELSE c END)
+ ds.filter(sql[&quot;case&quot;]({a:sql.b}, sql.c, sql.d)).sql
+     //=&gt; SELECT <em> FROM t WHERE (CASE d WHEN a THEN b ELSE c END)
 
- ds.filter(sql.a.cast("boolean")).sql;
-     //=> SELECT * FROM t WHERE CAST(a AS boolean)
+ ds.filter(sql.a.cast(&quot;boolean&quot;)).sql;
+     //=&gt; SELECT </em> FROM t WHERE CAST(a AS boolean)
 
- ds.filter(sql.a("b", 1)).sql
-     //=> SELECT * FROM t WHERE a(b, 1)
+ ds.filter(sql.a(&quot;b&quot;, 1)).sql
+     //=&gt; SELECT <em> FROM t WHERE a(b, 1)
  ds.filter(sql.a.plus(sql.b).lt(sql.c.minus(3)).sql;
-     //=> SELECT * FROM t WHERE ((a + b) < (c - 3))
+     //=&gt; SELECT </em> FROM t WHERE ((a + b) &lt; (c - 3))
 
  ds.filter(sql.a.sqlSubscript(sql.b, 3)).sql;
-     //=> SELECT * FROM t WHERE a[b, 3]
+     //=&gt; SELECT <em> FROM t WHERE a[b, 3]
 
- ds.filter('? > ?', sql.a, 1).sql;
-    //=> SELECT * FROM t WHERE (a > 1);
+ ds.filter(&#39;? &gt; ?&#39;, sql.a, 1).sql;
+    //=&gt; SELECT </em> FROM t WHERE (a &gt; 1);
 
- ds.filter('{a} > {b}', {a:sql.c, b:1}).sql;
-     //=>SELECT * FROM t WHERE (c > 1)
+ ds.filter(&#39;{a} &gt; {b}&#39;, {a:sql.c, b:1}).sql;
+     //=&gt;SELECT * FROM t WHERE (c &gt; 1)
 
- ds.select(sql.literal("'a'"))
+ ds.select(sql.literal(&quot;&#39;a&#39;&quot;))
     .filter(sql.a(3))
-    .filter('blah')
+    .filter(&#39;blah&#39;)
     .order(sql.literal(true))
-    .group(sql.literal('a > ?', [1]))
+    .group(sql.literal(&#39;a &gt; ?&#39;, [1]))
     .having(false).sql;
-     //=>"SELECT 'a' FROM t WHERE (a(3) AND (blah)) GROUP BY a > 1 HAVING 'f' ORDER BY true");
+     //=&gt;&quot;SELECT &#39;a&#39; FROM t WHERE (a(3) AND (blah)) GROUP BY a &gt; 1 HAVING &#39;f&#39; ORDER BY true&quot;);
  </pre>
 
 </p></p>
@@ -668,10 +668,10 @@ This is useful when combined with dataset filtering
     </pre>
     
 
-    <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>NegativeBooleanConstant</td><td>declaration</td><td><code>define(BooleanConstant, {</code></td><td>
-Represents inverse boolean constants (currently only NOTNULL). A
+    <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>NegativeBooleanConstant</td><td>declaration</td><td><code>define(BooleanConstant, {</code></td><td><p>Represents inverse boolean constants (currently only NOTNULL). A
 special class to allow for special behavior.
 
+</p>
 </td><tr></table>
     
         <a name=".case"></a>
@@ -693,9 +693,9 @@ special class to allow for special behavior.
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Returns a <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>. See <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a> for argument types.
+<p><p>Returns a <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>. See <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a> for argument types.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -748,17 +748,18 @@ function (hash,/*args**/opts){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Returns a <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>,
+<p><p>Returns a <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>,
 or <a href='./patio_sql_ALiasedExpression.html#'> patio.sql.ALiasedExpression</a> depending on the format of the string
 passed in.
 
-<ul>
-     <li>For columns : table__column___alias.</li>
-     <li>For tables : schema__table___alias.</li>
+</p>
+<p><ul>
+     <li>For columns : table<strong>column_</strong>alias.</li>
+     <li>For tables : schema<strong>table_</strong>alias.</li>
 </ul>
 each portion of the identifier is optional. See example below
 
+</p>
 </p>
 
     <em>Example</em>
@@ -775,7 +776,8 @@ patio.sql.identifier(&quot;table__column___alias&quot;);
     
         <li> <em>s</em>  : </li>
     
-        <li> <em>name</em> <code>String</code> : the name to covert to an an <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>, or <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>.</li>
+        <li> <em>name</em> <code>String</code> : <p>the name to covert to an an <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>, or <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>.</p>
+</li>
     
      </ul>
 
@@ -783,7 +785,8 @@ patio.sql.identifier(&quot;table__column___alias&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression</code> an identifier generated based on the name string.</li>
+        <li> <code>patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression</code> <p>an identifier generated based on the name string.</p>
+</li>
     
     </ul>
 
@@ -820,12 +823,12 @@ function (s){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Creates a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a> or <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>
+<p><p>Creates a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a> or <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>
 depending on the arguments passed in. If a single string is passed in then
 it is assumed to be a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a>. If more than one argument is
 passed in then it is assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -844,7 +847,8 @@ patio.sql.literal(&quot;a = {a} AND b = {b}&quot;, {a : 1, b : 2}); //=&gt; a = 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>s</em>  : variable number of arguments where the first argument is a string. If multiple arguments are passed it is a assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a></li>
+        <li> <em>s</em>  : <p>variable number of arguments where the first argument is a string. If multiple arguments are passed it is a assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a></p>
+</li>
     
      </ul>
 
@@ -852,8 +856,9 @@ patio.sql.literal(&quot;a = {a} AND b = {b}&quot;, {a : 1, b : 2}); //=&gt; a = 
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.LiteralString|patio.sql.PlaceHolderLiteralString</code> an expression that can be used as an argument
-for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</li>
+        <li> <code>patio.sql.LiteralString|patio.sql.PlaceHolderLiteralString</code> <p>an expression that can be used as an argument
+for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</p>
+</li>
     
     </ul>
 
@@ -891,14 +896,15 @@ function (s){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Creates a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a>
+<p><p>Creates a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a>
 
-Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representing an SQL string made up of the
-concatenation of this array's elements.  If an joiner is passed
+</p>
+<p>Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representing an SQL string made up of the
+concatenation of this array&#39;s elements.  If an joiner is passed
 it is used in between each element of the array in the SQL
 concatenation.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -972,8 +978,7 @@ function (arr,joiner){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>

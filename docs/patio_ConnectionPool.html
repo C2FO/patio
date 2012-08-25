@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -516,8 +516,8 @@
 
 
 
-    <p>
-ConnectionPool object used internall by the <a href='./patio_Database.html#'> patio.Database</a> class;
+    <p><p>ConnectionPool object used internall by the <a href='./patio_Database.html#'> patio.Database</a> class;
+</p>
 </p>
     
 
@@ -575,9 +575,9 @@ function (options){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Checks all deferred connection requests.
-         </p>
+<p><p>Checks all deferred connection requests.
+</p>
+</p>
 
 
 
@@ -623,15 +623,16 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Override to implement close connection functionality;
+<p><p>Override to implement close connection functionality;
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>conn</em>  : the connection to close;</li>
+        <li> <em>conn</em>  : <p>the connection to close;</p>
+</li>
     
      </ul>
 
@@ -639,7 +640,8 @@ Override to implement close connection functionality;
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> called back when the connection is closed.</li>
+        <li> <code>comb.Promise</code> <p>called back when the connection is closed.</p>
+</li>
     
     </ul>
 
@@ -674,9 +676,9 @@ function (conn){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Override to create connections to insert into this ConnectionPool.
-         </p>
+<p><p>Override to create connections to insert into this ConnectionPool.
+</p>
+</p>
 
 
 
@@ -711,9 +713,9 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Override to implement the closing of all connections.
+<p><p>Override to implement the closing of all connections.
 
+</p>
 </p>
 
 
@@ -721,7 +723,8 @@ Override to implement the closing of all connections.
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> called when all connections are closed.</li>
+        <li> <code>comb.Promise</code> <p>called when all connections are closed.</p>
+</li>
     
     </ul>
 
@@ -766,9 +769,9 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Performs a query on one of the connection in this Pool.
+<p><p>Performs a query on one of the connection in this Pool.
 
+</p>
 </p>
 
 
@@ -776,7 +779,8 @@ Performs a query on one of the connection in this Pool.
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> A promise to called back with a connection.</li>
+        <li> <code>comb.Promise</code> <p>A promise to called back with a connection.</p>
+</li>
     
     </ul>
 
@@ -820,8 +824,8 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Removes a connection from the pool.
+<p><p>Removes a connection from the pool.
+</p>
 </p>
 
 
@@ -865,16 +869,17 @@ function (conn){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Return a connection to the pool.
+<p><p>Return a connection to the pool.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>connection</em>  : the connection to return.</li>
+        <li> <em>connection</em>  : <p>the connection to return.</p>
+</li>
     
      </ul>
 
@@ -882,7 +887,8 @@ Return a connection to the pool.
     <em>Returns</em>
     <ul>
     
-        <li> <code>*</code> an adapter specific connection.</li>
+        <li> <code>*</code> <p>an adapter specific connection.</p>
+</li>
     
     </ul>
 
@@ -917,10 +923,10 @@ function (connection){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Override comb.collections.Pool to allow async validation to allow
+<p><p>Override comb.collections.Pool to allow async validation to allow
 pools to do any calls to reset a connection if it needs to be done.
 
+</p>
 </p>
 
 
@@ -929,7 +935,8 @@ pools to do any calls to reset a connection if it needs to be done.
     
         <li> <em>obj</em>  : </li>
     
-        <li> <em>connection</em> <code>*</code> : the connection to return.</li>
+        <li> <em>connection</em> <code>*</code> : <p>the connection to return.</p>
+</li>
     
      </ul>
 
@@ -980,9 +987,9 @@ function (obj){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p>
-Override to provide any additional validation. By default the promise is called back with true.
+<p><p>Override to provide any additional validation. By default the promise is called back with true.
 
+</p>
 </p>
 
 
@@ -991,7 +998,8 @@ Override to provide any additional validation. By default the promise is called 
     
         <li> <em>conn</em>  : </li>
     
-        <li> <em>connection</em> <code>*</code> : the conneciton to validate.</li>
+        <li> <em>connection</em> <code>*</code> : <p>the conneciton to validate.</p>
+</li>
     
      </ul>
 
@@ -999,7 +1007,8 @@ Override to provide any additional validation. By default the promise is called 
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> called back with a valid or invalid state.</li>
+        <li> <code>comb.Promise</code> <p>called back with a valid or invalid state.</p>
+</li>
     
     </ul>
 

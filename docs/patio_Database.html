@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -1633,11 +1633,11 @@
 
 
 
-    <p>
-A Database object represents a virtual connection to a database.
+    <p><p>A Database object represents a virtual connection to a database.
 The Database class is meant to be subclassed by database adapters in order
 to provide the functionality needed for executing queries.
 
+</p>
 </p>
     
 
@@ -1646,179 +1646,178 @@ to provide the functionality needed for executing queries.
     
         <a name="staticProperties"></a>
         <em>Static Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>AUTOINCREMENT</em></td><td>property</td><td><code>'AUTOINCREMENT'</code></td><td>
-Default  AUTO INCREMENT SQL
-         </td><tr><tr><td><em>CASCADE</em></td><td>property</td><td><code>'CASCADE'</code></td><td>
-Default  CASCACDE SQL
-         </td><tr><tr><td><em>COMMA_SEPARATOR</em></td><td>property</td><td><code>'</code></td><td>
-Default comma
-         </td><tr><tr><td><em>DATABASES</em></td><td>patio.Database[]</td><td><code>DATABASES</code></td><td>
-A list of currently connected Databases.
-</td><tr><tr><td><em>NOT_NULL</em></td><td>property</td><td><code>' NOT NULL'</code></td><td>
-Default  NOT NULL SQL
-         </td><tr><tr><td><em>NO_ACTION</em></td><td>property</td><td><code>'NO ACTION'</code></td><td>
-Default  NO ACTION SQL
-         </td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>' NULL'</code></td><td>
-Default NULL SQL
-         </td><tr><tr><td><em>PRIMARY_KEY</em></td><td>property</td><td><code>' PRIMARY KEY'</code></td><td>
-Default  PRIMARY KEY SQL
-         </td><tr><tr><td><em>RESTRICT</em></td><td>property</td><td><code>'RESTRICT'</code></td><td>
-Default  RESTRICT SQL
-         </td><tr><tr><td><em>SET_DEFAULT</em></td><td>property</td><td><code>'SET DEFAULT'</code></td><td>
-Default  SET DEFAULT SQL
-         </td><tr><tr><td><em>SET_NULL</em></td><td>property</td><td><code>'SET NULL'</code></td><td>
-Default  SET NULL SQL
-         </td><tr><tr><td><em>TEMPORARY</em></td><td>property</td><td><code>'TEMPORARY '</code></td><td>
-Default  TEMPORARY SQL
-         </td><tr><tr><td><em>UNDERSCORE</em></td><td>property</td><td><code>'_'</code></td><td>
-Default  UNDERSCORE SQL, used in index creation.
-         </td><tr><tr><td><em>UNIQUE</em></td><td>property</td><td><code>' UNIQUE'</code></td><td>
-Default  UNIQUE SQL
-         </td><tr><tr><td><em>UNSIGNED</em></td><td>property</td><td><code>' UNSIGNED'</code></td><td>
-Default  UNSIGNED SQL
-         </td><tr><tr><td><em>identifierInputMethod</em></td><td>String</td><td><code>function (){
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>AUTOINCREMENT</em></td><td>property</td><td><code>'AUTOINCREMENT'</code></td><td><p>Default  AUTO INCREMENT SQL
+</p>
+</td><tr><tr><td><em>CASCADE</em></td><td>property</td><td><code>'CASCADE'</code></td><td><p>Default  CASCACDE SQL
+</p>
+</td><tr><tr><td><em>COMMA_SEPARATOR</em></td><td>property</td><td><code>'</code></td><td><p>Default comma
+</p>
+</td><tr><tr><td><em>DATABASES</em></td><td>patio.Database[]</td><td><code>DATABASES</code></td><td><p>A list of currently connected Databases.
+</p>
+</td><tr><tr><td><em>NOT_NULL</em></td><td>property</td><td><code>' NOT NULL'</code></td><td><p>Default  NOT NULL SQL
+</p>
+</td><tr><tr><td><em>NO_ACTION</em></td><td>property</td><td><code>'NO ACTION'</code></td><td><p>Default  NO ACTION SQL
+</p>
+</td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>' NULL'</code></td><td><p>Default NULL SQL
+</p>
+</td><tr><tr><td><em>PRIMARY_KEY</em></td><td>property</td><td><code>' PRIMARY KEY'</code></td><td><p>Default  PRIMARY KEY SQL
+</p>
+</td><tr><tr><td><em>RESTRICT</em></td><td>property</td><td><code>'RESTRICT'</code></td><td><p>Default  RESTRICT SQL
+</p>
+</td><tr><tr><td><em>SET_DEFAULT</em></td><td>property</td><td><code>'SET DEFAULT'</code></td><td><p>Default  SET DEFAULT SQL
+</p>
+</td><tr><tr><td><em>SET_NULL</em></td><td>property</td><td><code>'SET NULL'</code></td><td><p>Default  SET NULL SQL
+</p>
+</td><tr><tr><td><em>TEMPORARY</em></td><td>property</td><td><code>'TEMPORARY '</code></td><td><p>Default  TEMPORARY SQL
+</p>
+</td><tr><tr><td><em>UNDERSCORE</em></td><td>property</td><td><code>'_'</code></td><td><p>Default  UNDERSCORE SQL, used in index creation.
+</p>
+</td><tr><tr><td><em>UNIQUE</em></td><td>property</td><td><code>' UNIQUE'</code></td><td><p>Default  UNIQUE SQL
+</p>
+</td><tr><tr><td><em>UNSIGNED</em></td><td>property</td><td><code>' UNSIGNED'</code></td><td><p>Default  UNSIGNED SQL
+</p>
+</td><tr><tr><td><em>identifierInputMethod</em></td><td>String</td><td><code>function (){
    return this.__identifierInputMethod;
                
-}</code></td><td>
-The String or comb method to use transform identifiers with when
+}</code></td><td><p>The String or comb method to use transform identifiers with when
 they are sent to database. See <a href='./patio.html#identifierInputMethod'> patio#identifierInputMethod</a>
 
+</p>
 </td><tr><tr><td><em>identifierOutputMethod</em></td><td>String</td><td><code>function (){
    return this.__identifierOutputMethod;
                
-}</code></td><td>
-The String or comb method to use transform identifiers with when
+}</code></td><td><p>The String or comb method to use transform identifiers with when
 they are retrieved from database. See <a href='./patio.html#identifierOutputMethod'> patio#identifierOutputMethod</a>
 
+</p>
 </td><tr><tr><td><em>logger</em></td><td>function</td><td><code>function (){
    return LOGGER;
                
-}</code></td><td>
-The "patio.Database" logger.
+}</code></td><td><p>The &quot;patio.Database&quot; logger.
+</p>
 </td><tr><tr><td><em>quoteIdentifiers</em></td><td>Boolean</td><td><code>function (){
    return this.__quoteIdentifiers;
                
-}</code></td><td>
-Boolean of whether or not to quote identifiers before sending
+}</code></td><td><p>Boolean of whether or not to quote identifiers before sending
 then to the database. See <a href='./patio.html#quoteIdentifiers'> patio#quoteIdentifiers</a>
 
+</p>
 </td><tr></table>
     
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>SQL_BEGIN</td><td>property</td><td><code>'BEGIN'</code></td><td>
-The <b>BEGIN</b> SQL fragment used to signify the start of a transaciton.
-         </td><tr><tr><td>SQL_COMMIT</td><td>property</td><td><code>'COMMIT'</code></td><td>
-The <b>COMMIT</b> SQL fragment used to signify the end of a transaction and the final commit.
-         </td><tr><tr><td>SQL_RELEASE_SAVEPOINT</td><td>property</td><td><code>'RELEASE SAVEPOINT autopoint_%d'</code></td><td>
-The <b>RELEASE SAVEPOINT</b> SQL fragment used by trasactions when using save points.
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>SQL_BEGIN</td><td>property</td><td><code>'BEGIN'</code></td><td><p>The <b>BEGIN</b> SQL fragment used to signify the start of a transaciton.
+</p>
+</td><tr><tr><td>SQL_COMMIT</td><td>property</td><td><code>'COMMIT'</code></td><td><p>The <b>COMMIT</b> SQL fragment used to signify the end of a transaction and the final commit.
+</p>
+</td><tr><tr><td>SQL_RELEASE_SAVEPOINT</td><td>property</td><td><code>'RELEASE SAVEPOINT autopoint_%d'</code></td><td><p>The <b>RELEASE SAVEPOINT</b> SQL fragment used by trasactions when using save points.
 The adapter should override this SQL fragment if the adapters SQL is different.
+</p>
 <p>
      <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
 </p>
-         </td><tr><tr><td>SQL_ROLLBACK</td><td>property</td><td><code>'ROLLBACK'</code></td><td>
-The <b>ROLLBACK</b> SQL fragment used to rollback a database transaction.
+</td><tr><tr><td>SQL_ROLLBACK</td><td>property</td><td><code>'ROLLBACK'</code></td><td><p>The <b>ROLLBACK</b> SQL fragment used to rollback a database transaction.
 This should be overrode by adapters if the SQL for the adapters
 database is different.
-         </td><tr><tr><td>SQL_ROLLBACK_TO_SAVEPOINT</td><td>property</td><td><code>'ROLLBACK TO SAVEPOINT autopoint_%d'</code></td><td>
-The <b>ROLLBACK TO SAVEPOINT</b> SQL fragment used to rollback a database transaction
+</p>
+</td><tr><tr><td>SQL_ROLLBACK_TO_SAVEPOINT</td><td>property</td><td><code>'ROLLBACK TO SAVEPOINT autopoint_%d'</code></td><td><p>The <b>ROLLBACK TO SAVEPOINT</b> SQL fragment used to rollback a database transaction
 to a particular save point.
 This should be overrode by adapters if the SQL for the adapters
 database is different.
 
+</p>
 <p>
      <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
 </p>
-         </td><tr><tr><td>SQL_SAVEPOINT</td><td>property</td><td><code>'SAVEPOINT autopoint_%d'</code></td><td>
-The <b>SAVEPOINT</b> SQL fragment used for creating a save point in a
+</td><tr><tr><td>SQL_SAVEPOINT</td><td>property</td><td><code>'SAVEPOINT autopoint_%d'</code></td><td><p>The <b>SAVEPOINT</b> SQL fragment used for creating a save point in a
 database transaction.
+</p>
 <p>
      <b>This fragment will not be used if <a href='./patio_Database.html#supportsSavepoints'> patio.Database#supportsSavepoints</a> is false.</b>
 </p>
-         </td><tr><tr><td>TRANSACTION_ISOLATION_LEVELS</td><td>property</td><td><code>{
+</td><tr><tr><td>TRANSACTION_ISOLATION_LEVELS</td><td>property</td><td><code>{
             uncommitted:'READ UNCOMMITTED',
             committed:'READ COMMITTED',
             repeatable:'REPEATABLE READ',
             serializable:'SERIALIZABLE'
-        }</code></td><td>
-Object containing different database transaction isolation levels.
+        }</code></td><td><p>Object containing different database transaction isolation levels.
 This object is used to look up the proper SQL when starting a new transaction
 and setting the isolation level in the options.
+</p>
 </td><tr><tr><td>__schemaUtiltyDataset</td><td>function</td><td><code>function (){
    this.__schemaUtiltyDs = this.__schemaUtiltyDs || this.dataset;
    return this.__schemaUtiltyDs;
                
-}</code></td><td>
-</td><tr><tr><td>autoIncrementSql</td><td>function</td><td><code>function (){
+}</code></td><td></td><tr><tr><td>autoIncrementSql</td><td>function</td><td><code>function (){
    return this._static.AUTOINCREMENT;
                
-}</code></td><td>
-</td><tr><tr><td>beginTransactionSql</td><td>String</td><td><code>function (){
+}</code></td><td></td><tr><tr><td>beginTransactionSql</td><td>String</td><td><code>function (){
    return this.SQL_BEGIN;
                
-}</code></td><td>
-SQL to BEGIN a transaction.
+}</code></td><td><p>SQL to BEGIN a transaction.
 See <a href='./patio_Database.html#SQL_BEGIN'> patio.Database#SQL_BEGIN</a> for default,
+</p>
 </td><tr><tr><td>commitTransactionSql</td><td>String</td><td><code>function (){
    return this.SQL_COMMIT;
                
-}</code></td><td>
-SQL to COMMIT a transaction.
+}</code></td><td><p>SQL to COMMIT a transaction.
 See <a href='./patio_Database.html#SQL_COMMIT'> patio.Database#SQL_COMMIT</a> for default,
-</td><tr><tr><td>connectionExecuteMethod</td><td>property</td><td><code>"execute"</code></td><td>
-The method name to invoke on a connection. The method name
+</p>
+</td><tr><tr><td>connectionExecuteMethod</td><td>property</td><td><code>"execute"</code></td><td><p>The method name to invoke on a connection. The method name
 should be overrode by an adapter if the method to execute
 a query is different for the adapter specific connection class.
-         </td><tr><tr><td>connectionPoolDefaultOptions</td><td>Object</td><td><code>function (){
+</p>
+</td><tr><tr><td>connectionPoolDefaultOptions</td><td>Object</td><td><code>function (){
    return {};
                
-}</code></td><td>
-The default options for the connection pool.
-</td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td>returns an empty adapter specific <a href='./patio_Dataset.html#'> patio.Dataset</a> that can be used to query the <a href='./patio_Database.html#'> patio.Database</a> with.</td><tr><tr><td>defaultSchemaDefault</td><td>{String|patio.sql.Identifier}</td><td><code>function (){
+}</code></td><td><p>The default options for the connection pool.
+</p>
+</td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td><p>returns an empty adapter specific <a href='./patio_Dataset.html#'> patio.Dataset</a> that can be used to query the <a href='./patio_Database.html#'> patio.Database</a> with.</p>
+</td><tr><tr><td>defaultSchemaDefault</td><td>{String|patio.sql.Identifier}</td><td><code>function (){
    return null;
                
-}</code></td><td>
-Default schema to use. This is generally null but may be overridden by an adapter.
+}</code></td><td><p>Default schema to use. This is generally null but may be overridden by an adapter.
+</p>
 </td><tr><tr><td>identifierInputMethod</td><td>String</td><td><code>function (){
    return this.__identifierInputMethod;
                
-}</code></td><td>
-The String or comb method to use transform identifiers with when
+}</code></td><td><p>The String or comb method to use transform identifiers with when
 sending identifiers to the database. If this property is undefined then
 <a href='./patio_Database.html#identifierInputMethodDefault'> patio.Database#identifierInputMethodDefault</a> will be used.
 
+</p>
 </td><tr><tr><td>identifierInputMethodDefault</td><td>String</td><td><code>
 toUpperCase
-             </code></td><td>
-The default String or comb method to use transform identifiers with when
+             </code></td><td><p>The default String or comb method to use transform identifiers with when
 sending identifiers to the database.
+</p>
 </td><tr><tr><td>identifierOutputMethod</td><td>String</td><td><code>function (){
    return this.__identifierOutputMethod;
                
-}</code></td><td>
-The String or comb method to use transform identifiers with when
+}</code></td><td><p>The String or comb method to use transform identifiers with when
 they are retrieved from database. If this property is undefined then
 <a href='./patio_Database.html#identifierOutputMethodDefault'> patio.Database#identifierOutputMethodDefault</a> will be used.
 
+</p>
 </td><tr><tr><td>identifierOutputMethodDefault</td><td>String</td><td><code>
 toLowerCase
-             </code></td><td>
-The default String or comb method to use transform identifiers with when
+             </code></td><td><p>The default String or comb method to use transform identifiers with when
 they are retrieved from the database.
+</p>
 </td><tr><tr><td>inputIdentifierFunc</td><td>Function</td><td><code>function (){
    return hitch(this.dataset, this.dataset.inputIdentifier);
                
-}</code></td><td>
-Return a function for the dataset's <a href='./patio_Dataset.html#inputIdentifierMethod'> patio.Dataset#inputIdentifierMethod</a>.
+}</code></td><td><p>Return a function for the dataset&#39;s <a href='./patio_Dataset.html#inputIdentifierMethod'> patio.Dataset#inputIdentifierMethod</a>.
 Used in metadata parsing to make sure the returned information is in the
 correct format.
 
+</p>
 </td><tr><tr><td>logger</td><td>function</td><td><code>function (){
    return LOGGER;
                
-}</code></td><td>
-The "patio.Database" logger.
+}</code></td><td><p>The &quot;patio.Database&quot; logger.
+</p>
 </td><tr><tr><td>metadataDataset</td><td>patio.Dataset</td><td><code>function (){
    if (this.__metadataDataset) {
        return this.__metadataDataset;
@@ -1829,61 +1828,61 @@ The "patio.Database" logger.
    this.__metadataDataset = ds;
    return ds;
                
-}</code></td><td>
-Return a dataset that uses the default identifier input and output methods
+}</code></td><td><p>Return a dataset that uses the default identifier input and output methods
 for this database.  Used when parsing metadata so that column are
 returned as expected.
 
+</p>
 </td><tr><tr><td>outputIdentifierFunc</td><td>Function</td><td><code>function (){
    return hitch(this.dataset, this.dataset.outputIdentifier);
                
-}</code></td><td>
-Return a function for the dataset's <a href='./patio_Dataset.html#outputIdentifierMethod'> patio.Dataset#outputIdentifierMethod</a>.
+}</code></td><td><p>Return a function for the dataset&#39;s <a href='./patio_Dataset.html#outputIdentifierMethod'> patio.Dataset#outputIdentifierMethod</a>.
 Used in metadata parsing to make sure the returned information is in the
 correct format.
 
+</p>
 </td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td><code>
 true
-             </code></td><td>
-Boolean of whether or not to quote identifiers before sending
+             </code></td><td><p>Boolean of whether or not to quote identifiers before sending
 then to the database. If this property is undefined then
 then <a href='./patio_Database.html#quoteIdentifiersDefault'> patio.Database#quoteIdentifiersDefault</a> will be used.
 
+</p>
 </td><tr><tr><td>quoteIdentifiersDefault</td><td>Boolean</td><td><code>
 true
-             </code></td><td>
-Default boolean of whether or not to quote identifiers before sending
+             </code></td><td><p>Default boolean of whether or not to quote identifiers before sending
 then to the database.
+</p>
 </td><tr><tr><td>rollbackTransactionSql</td><td>String</td><td><code>function (){
    return this.SQL_ROLLBACK;
                
-}</code></td><td>
-SQL to ROLLBACK a transaction.
+}</code></td><td><p>SQL to ROLLBACK a transaction.
 See <a href='./patio_Database.html#SQL_ROLLBACK'> patio.Database#SQL_ROLLBACK</a> for default,
+</p>
 </td><tr><tr><td>serialPrimaryKeyOptions</td><td>Object</td><td><code>
 {primaryKey : true, type : "integer", autoIncrement : true}
-</code></td><td>
-Default serial primary key options, used by the table creation
+</code></td><td><p>Default serial primary key options, used by the table creation
 code.
+</p>
 </td><tr><tr><td>supportsPreparedTransactions</td><td>Boolean</td><td><code>
 false
-             </code></td><td>
-Whether the database and adapter support prepared transactions
+             </code></td><td><p>Whether the database and adapter support prepared transactions
 (two-phase commit)
+</p>
 </td><tr><tr><td>supportsSavepoints</td><td>Boolean</td><td><code>
 false
-             </code></td><td>
-Whether the database and adapter support savepoints.
+             </code></td><td><p>Whether the database and adapter support savepoints.
+</p>
 </td><tr><tr><td>supportsTransactionIsolationLevels</td><td>Boolean</td><td><code>
 false
-</code></td><td>
-Whether the database and adapter support transaction isolation levels.
+</code></td><td><p>Whether the database and adapter support transaction isolation levels.
 
+</p>
 </td><tr><tr><td>temporaryTableSql</td><td>function</td><td><code>function (){
    return this._static.TEMPORARY;
                
-}</code></td><td>
-</td><tr><tr><td>uri</td><td>String</td><td></td><td>A database URI used to create the database connection. This property is available even if an object was used to create the database connection.</td><tr></table>
+}</code></td><td></td><tr><tr><td>uri</td><td>String</td><td></td><td><p>A database URI used to create the database connection. This property is available even if an object was used to create the database connection.</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -1936,9 +1935,9 @@ function (opts){
 <hr/>
 <em>Defined database/connect.js</em>
 
-<p>
-Creates a connection to a Database see <a href='./patio.html#createConnection'> patio#createConnection</a>.
-         </p>
+<p><p>Creates a connection to a Database see <a href='./patio.html#createConnection'> patio#createConnection</a>.
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -2021,9 +2020,9 @@ function (connectionString,opts){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a DEBUG level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a DEBUG level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2062,9 +2061,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a ERROR level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a ERROR level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2103,9 +2102,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a FATAL level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a FATAL level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2144,9 +2143,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs an INFO level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs an INFO level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2185,9 +2184,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a TRACE level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a TRACE level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2226,9 +2225,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a WARN level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a WARN level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -2264,8 +2263,7 @@ function (){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2342,8 +2340,7 @@ function (table,op){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2385,8 +2382,7 @@ function (table,operations){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2434,8 +2430,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2475,8 +2470,7 @@ function (generator){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2516,8 +2510,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2562,8 +2555,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2605,8 +2597,7 @@ function (constraint){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2668,8 +2659,7 @@ function (constraint){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2713,8 +2703,7 @@ function (name,generator,options){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2769,8 +2758,7 @@ function (name,generator,options){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2814,8 +2802,7 @@ function (name,generator,options){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2868,8 +2855,7 @@ function (tableName,columns){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2911,8 +2897,7 @@ function (table,op){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2952,8 +2937,7 @@ function (name){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -2996,8 +2980,7 @@ function (args,block){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3048,10 +3031,10 @@ function (tableName,index){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Array of SQL DDL statements, one for each index specification,
+<p><p>Array of SQL DDL statements, one for each index specification,
 for the given table.
-         </p>
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -3093,8 +3076,7 @@ function (tableName,indexes){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3134,8 +3116,7 @@ function (action){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3175,8 +3156,7 @@ function (action){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3216,8 +3196,7 @@ function (v){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3257,8 +3236,7 @@ function (table){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3300,8 +3278,7 @@ function (name,newName){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
 
@@ -3334,8 +3311,7 @@ function (){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3375,8 +3351,7 @@ function (tableName){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3447,8 +3422,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3488,8 +3462,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3529,8 +3502,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3580,8 +3552,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3621,8 +3592,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3662,8 +3632,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3703,8 +3672,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3744,8 +3712,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3785,8 +3752,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3826,8 +3792,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3867,8 +3832,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3908,8 +3872,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3955,8 +3918,7 @@ function (column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -3998,10 +3960,10 @@ function (schema){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Adds a column to the specified table. This method expects a column name,
+<p><p>Adds a column to the specified table. This method expects a column name,
 a datatype and optionally a hash with additional constraints and options:
 
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     addColumn call.
@@ -4021,19 +3983,26 @@ DB.addColumn(&quot;test&quot;, &quot;name&quot;, &quot;text&quot;, {unique : tru
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to add the column to.</li>
+        <li> <em>table</em>  : <p>the table to add the column to.</p>
+</li>
     
-        <li> <em>column</em>  : the name of the column to add.</li>
+        <li> <em>column</em>  : <p>the name of the column to add.</p>
+</li>
     
-        <li> <em>type</em>  : datatype of the column</li>
+        <li> <em>type</em>  : <p>datatype of the column</p>
+</li>
     
-        <li> <em>opts?</em>  : additional options that can be used when adding a column.</li>
+        <li> <em>opts?</em>  : <p>additional options that can be used when adding a column.</p>
+</li>
     
-        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : set to true if this column is a primary key.</li>
+        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : <p>set to true if this column is a primary key.</p>
+</li>
     
-        <li> <em>opts.allowNull?</em> <code>Boolean</code> : whether or not this column should allow null.</li>
+        <li> <em>opts.allowNull?</em> <code>Boolean</code> : <p>whether or not this column should allow null.</p>
+</li>
     
-        <li> <em>opts.unique?</em> <code>Boolean</code> : set to true to add a UNIQUE constraint to a column,</li>
+        <li> <em>opts.unique?</em> <code>Boolean</code> : <p>set to true to add a UNIQUE constraint to a column,</p>
+</li>
     
      </ul>
 
@@ -4041,7 +4010,8 @@ DB.addColumn(&quot;test&quot;, &quot;name&quot;, &quot;text&quot;, {unique : tru
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved when the ADD COLUMN action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved when the ADD COLUMN action is complete.</p>
+</li>
     
     </ul>
 
@@ -4079,9 +4049,9 @@ function (table,column,type,opts){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Adds an index to a table for the given columns
+<p><p>Adds an index to a table for the given columns
 
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     addIndex call.
@@ -4100,15 +4070,20 @@ DB.addIndex(&quot;test&quot;, [&quot;one&quot;, &quot;two&quot;]);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to add the index to.</li>
+        <li> <em>table</em>  : <p>the table to add the index to.</p>
+</li>
     
-        <li> <em>columns</em>  : the name of the column/s to create an index for.</li>
+        <li> <em>columns</em>  : <p>the name of the column/s to create an index for.</p>
+</li>
     
-        <li> <em>options?</em>  : additional options that can be used when adding an index.</li>
+        <li> <em>options?</em>  : <p>additional options that can be used when adding an index.</p>
+</li>
     
-        <li> <em>options.unique?</em> <code>Boolean</code> : set to true if this this index should have a UNIQUE constraint.</li>
+        <li> <em>options.unique?</em> <code>Boolean</code> : <p>set to true if this this index should have a UNIQUE constraint.</p>
+</li>
     
-        <li> <em>options.ignoreErrors?</em> <code>Boolean</code> : set to true to ignore errors.</li>
+        <li> <em>options.ignoreErrors?</em> <code>Boolean</code> : <p>set to true to ignore errors.</p>
+</li>
     
      </ul>
 
@@ -4116,7 +4091,8 @@ DB.addIndex(&quot;test&quot;, [&quot;one&quot;, &quot;two&quot;]);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved when the CREATE INDEX action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved when the CREATE INDEX action is complete.</p>
+</li>
     
     </ul>
 
@@ -4163,9 +4139,9 @@ function (table,columns,options){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Returns true if this DATABASE is currently in a transaction.
+<p><p>Returns true if this DATABASE is currently in a transaction.
 
+</p>
 </p>
 
 
@@ -4182,7 +4158,8 @@ Returns true if this DATABASE is currently in a transaction.
     <em>Returns</em>
     <ul>
     
-        <li> <code>Boolean</code> true if this dabase is currently in a transaction.</li>
+        <li> <code>Boolean</code> <p>true if this dabase is currently in a transaction.</p>
+</li>
     
     </ul>
 
@@ -4218,8 +4195,7 @@ function (conn,opts){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Alters the given table with the specified block.
+<p><p> Alters the given table with the specified block.
  <p>
      <b>NOTE:</b> The block is invoked in the scope of the table that is being altered. The block
      is also called with the table as the first argument. Within the block you must use
@@ -4228,6 +4204,7 @@ function (conn,opts){
      avaiable operations.
  </p>
 
+</p>
  <p>
      <b>Note</b> that addColumn accepts all the options available for column
      definitions using createTable, and addIndex accepts all the options
@@ -4284,9 +4261,11 @@ function (conn,opts){
     
         <li> <em>generator</em>  : </li>
     
-        <li> <em>block</em>  : the block to invoke for the ALTER TABLE operations</li>
+        <li> <em>block</em>  : <p>the block to invoke for the ALTER TABLE operations</p>
+</li>
     
-        <li> <em>table</em> <code>String|patio.sql.Identifier</code> : to the table to perform the ALTER TABLE operations on.</li>
+        <li> <em>table</em> <code>String|patio.sql.Identifier</code> : <p>to the table to perform the ALTER TABLE operations on.</p>
+</li>
     
      </ul>
 
@@ -4294,7 +4273,8 @@ function (conn,opts){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once all ALTER TABLE operations have completed.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once all ALTER TABLE operations have completed.</p>
+</li>
     
     </ul>
 
@@ -4350,9 +4330,9 @@ function (name,generator,block){
 <hr/>
 <em>Defined database/index.js</em>
 
-<p>
-Casts the given type to a SQL type.
+<p><p>Casts the given type to a SQL type.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -4367,7 +4347,8 @@ DB.castTypeLiteral(Number) //=&gt; numeric
     <em>Arguments</em>
     <ul>
     
-        <li> <em>type</em>  : the javascript type to cast to a SQL type.</li>
+        <li> <em>type</em>  : <p>the javascript type to cast to a SQL type.</p>
+</li>
     
      </ul>
 
@@ -4375,7 +4356,8 @@ DB.castTypeLiteral(Number) //=&gt; numeric
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the SQL data type.</li>
+        <li> <code>String</code> <p>the SQL data type.</p>
+</li>
     
     </ul>
 
@@ -4410,16 +4392,17 @@ function (type){
 <hr/>
 <em>Defined database/connect.js</em>
 
-<p>
-This is an abstract method that should be implemented by adapters to close
+<p><p>This is an abstract method that should be implemented by adapters to close
 a connection to the database.
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>conn</em>  : the database connection to close.</li>
+        <li> <em>conn</em>  : <p>the database connection to close.</p>
+</li>
     
      </ul>
 
@@ -4455,16 +4438,17 @@ function (conn){
 <hr/>
 <em>Defined database/connect.js</em>
 
-<p>
-This is an abstract method that should be implemented by adapters to create
+<p><p>This is an abstract method that should be implemented by adapters to create
 a connection to the database.
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>options</em>  : options that are adapter specific.</li>
+        <li> <em>options</em>  : <p>options that are adapter specific.</p>
+</li>
     
      </ul>
 
@@ -4500,8 +4484,8 @@ function (options){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Creates a view, replacing it if it already exists:
+<p><p>Creates a view, replacing it if it already exists:
+</p>
 </p>
 
     <em>Example</em>
@@ -4516,9 +4500,11 @@ DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE p
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the view to create.</li>
+        <li> <em>name</em>  : <p>the name of the view to create.</p>
+</li>
     
-        <li> <em>source</em>  : the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</li>
+        <li> <em>source</em>  : <p>the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</p>
+</li>
     
      </ul>
 
@@ -4526,7 +4512,8 @@ DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE p
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved when the CREATE OR REPLACE VIEW action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved when the CREATE OR REPLACE VIEW action is complete.</p>
+</li>
     
     </ul>
 
@@ -4569,9 +4556,9 @@ function (name,source){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Creates a table with the columns given in the provided block:
+<p><p>Creates a table with the columns given in the provided block:
 
+</p>
 <p>
      <b>NOTE:</b> The block is invoked in the scope of the table that is being created. The block
      is also called with the table as the first argument. Within the block you must use
@@ -4610,15 +4597,20 @@ Creates a table with the columns given in the provided block:
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the table to create.</li>
+        <li> <em>name</em>  : <p>the name of the table to create.</p>
+</li>
     
-        <li> <em>options?</em>  : an optional options object</li>
+        <li> <em>options?</em>  : <p>an optional options object</p>
+</li>
     
-        <li> <em>block</em>  : the block to invoke when creating the table.</li>
+        <li> <em>block</em>  : <p>the block to invoke when creating the table.</p>
+</li>
     
-        <li> <em>options.temp?</em> <code>Boolean</code> : set to true if this table is a TEMPORARY table.</li>
+        <li> <em>options.temp?</em> <code>Boolean</code> : <p>set to true if this table is a TEMPORARY table.</p>
+</li>
     
-        <li> <em>options.ignoreIndexErrors?</em> <code>Boolean</code> : Ignore any errors when creating indexes.</li>
+        <li> <em>options.ignoreIndexErrors?</em> <code>Boolean</code> : <p>Ignore any errors when creating indexes.</p>
+</li>
     
      </ul>
 
@@ -4626,7 +4618,8 @@ Creates a table with the columns given in the provided block:
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved when the CREATE TABLE action is completed.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved when the CREATE TABLE action is completed.</p>
+</li>
     
     </ul>
 
@@ -4672,12 +4665,12 @@ function (name,options,block){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Creates the table unless the table already exists.
+<p><p>Creates the table unless the table already exists.
+</p>
 <p>
      See <a href='./patio_Database.html#createTable'> patio.Database#createTable</a> for parameter types.
 </p>
-         </p>
+</p>
 
 
     <em>Arguments</em>
@@ -4731,8 +4724,8 @@ function (name,options,block){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Creates a view based on a dataset or an SQL string:
+<p><p>Creates a view based on a dataset or an SQL string:
+</p>
 </p>
 
     <em>Example</em>
@@ -4747,9 +4740,11 @@ DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the view to create.</li>
+        <li> <em>name</em>  : <p>the name of the view to create.</p>
+</li>
     
-        <li> <em>source</em>  : the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</li>
+        <li> <em>source</em>  : <p>the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</p>
+</li>
     
      </ul>
 
@@ -4788,8 +4783,8 @@ function (name,source){
 <hr/>
 <em>Defined database/connect.js</em>
 
-<p>
-Disconnects the database closing all connections.
+<p><p>Disconnects the database closing all connections.
+</p>
 </p>
 
 
@@ -4797,7 +4792,8 @@ Disconnects the database closing all connections.
     <em>Returns</em>
     <ul>
     
-        <li>  Promise a promise that is resolved once all the connections have been closed.</li>
+        <li>  <p>Promise a promise that is resolved once all the connections have been closed.</p>
+</li>
     
     </ul>
 
@@ -4832,8 +4828,8 @@ function (){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Removes a column from the specified table.
+<p><p> Removes a column from the specified table.
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     dropColumn call.
@@ -4851,9 +4847,11 @@ DB.dropColumn(&quot;items&quot;, &quot;category&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to alter.</li>
+        <li> <em>table</em>  : <p>the table to alter.</p>
+</li>
     
-        <li> <em>column</em>  : the column to drop.</li>
+        <li> <em>column</em>  : <p>the column to drop.</p>
+</li>
     
      </ul>
 
@@ -4861,7 +4859,8 @@ DB.dropColumn(&quot;items&quot;, &quot;category&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the DROP COLUMN action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the DROP COLUMN action is complete.</p>
+</li>
     
     </ul>
 
@@ -4899,9 +4898,9 @@ function (table,column){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Removes an index for the given table and column/s.
+<p><p>Removes an index for the given table and column/s.
 
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     dropIndex call.
@@ -4921,13 +4920,15 @@ DB.dropIndex(&quot;posts&quot;, &quot;title&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to alter.</li>
+        <li> <em>table</em>  : <p>the table to alter.</p>
+</li>
     
         <li> <em>columns</em>  : </li>
     
         <li> <em>options</em>  : </li>
     
-        <li> <em>column</em> <code>String|patio.sql.Identifier</code> : the name of the column/s the index was created from.</li>
+        <li> <em>column</em> <code>String|patio.sql.Identifier</code> : <p>the name of the column/s the index was created from.</p>
+</li>
     
      </ul>
 
@@ -4935,7 +4936,8 @@ DB.dropIndex(&quot;posts&quot;, &quot;title&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the DROP INDEX action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the DROP INDEX action is complete.</p>
+</li>
     
     </ul>
 
@@ -4973,9 +4975,9 @@ function (table,columns,options){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Drops one or more tables corresponding to the given names.
+<p><p> Drops one or more tables corresponding to the given names.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -4992,7 +4994,8 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>names</em>  : the names of the tables to drop.</li>
+        <li> <em>names</em>  : <p>the names of the tables to drop.</p>
+</li>
     
      </ul>
 
@@ -5000,7 +5003,8 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once all tables have been dropped.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once all tables have been dropped.</p>
+</li>
     
     </ul>
 
@@ -5054,9 +5058,9 @@ function (names){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Drops one or more views corresponding to the given names.
+<p><p> Drops one or more views corresponding to the given names.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -5073,7 +5077,8 @@ DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3
     <em>Arguments</em>
     <ul>
     
-        <li> <em>names</em>  : the names of the views to drop.</li>
+        <li> <em>names</em>  : <p>the names of the views to drop.</p>
+</li>
     
      </ul>
 
@@ -5081,7 +5086,8 @@ DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the view/s have been dropped.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the view/s have been dropped.</p>
+</li>
     
     </ul>
 
@@ -5135,10 +5141,10 @@ function (names){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Executes the given SQL on the database. This method should be implemented by adapters.
+<p><p>Executes the given SQL on the database. This method should be implemented by adapters.
 <b>This method should not be called directly by user code.</b>
-         </p>
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -5186,11 +5192,11 @@ function (sql,options,cb,conn){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Method that should be used when submitting any DDL (Data DefinitionLanguage) SQL,
+<p><p>Method that should be used when submitting any DDL (Data DefinitionLanguage) SQL,
 such as <a href='./patio_Database.html#createTable'> patio.Database#createTable</a>. By default, calls <a href='./patio_Database.html#executeDui'> patio.Database#executeDui</a>.
 <b>This method should not be called directly by user code.</b>
-         </p>
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -5237,10 +5243,10 @@ function (sql,opts,cb){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Method that should be used when issuing a DELETE, UPDATE, or INSERT
+<p><p>Method that should be used when issuing a DELETE, UPDATE, or INSERT
 statement.  By default, calls <a href='./patio_Database.html#execute'> patio.Database#execute</a>.
 <b>This method should not be called directly by user code.</b>
+</p>
 </p>
 
 
@@ -5288,10 +5294,10 @@ function (sql,opts,block){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Method that should be used when issuing a INSERT
+<p><p>Method that should be used when issuing a INSERT
 statement.  By default, calls <a href='./patio_Database.html#executeDui'> patio.Database#executeDui</a>.
 <b>This method should not be called directly by user code.</b>
+</p>
 </p>
 
 
@@ -5339,9 +5345,9 @@ function (sql,opts,cb){
 <hr/>
 <em>Defined database/dataset.js</em>
 
-<p>
-Fetches records for an arbitrary SQL statement. If a block is given,
+<p><p>Fetches records for an arbitrary SQL statement. If a block is given,
 it is used to iterate over the records:
+</p>
 <pre class="code">
   DB.fetch('SELECT * FROM items', function(r){
      //do something with row
@@ -5354,8 +5360,9 @@ If a block is not given then <a href='./patio_Database.html#fetch'> patio.Databa
   });
 </pre>
 
-<a href='./patio_Database.html#fetch'> patio.Database#fetch</a> can also perform parameterized queries for protection against SQL
+<p><a href='./patio_Database.html#fetch'> patio.Database#fetch</a> can also perform parameterized queries for protection against SQL
 injection:
+</p>
 <pre class="code">
   DB.fetch('SELECT * FROM items WHERE name = ?', myName).all().then(function(records){
      //do something with the records.
@@ -5368,10 +5375,12 @@ injection:
     <em>Arguments</em>
     <ul>
     
-        <li> <em>args</em>  : variable number of args where the first argument is a String. If more than one argument is given then the SQL will be treated as a place holder string. See <a href='./patio_Dataset.html#withSql'> patio.Dataset#withSql</a>.</li>
+        <li> <em>args</em>  : <p>variable number of args where the first argument is a String. If more than one argument is given then the SQL will be treated as a place holder string. See <a href='./patio_Dataset.html#withSql'> patio.Dataset#withSql</a>.</p>
+</li>
     
-        <li> <em>[block= <code>null</code>]</em>  : if the last argument given is a function then <a href='./patio_Dataset.html#forEach'> patio.Dataset#forEach</a> will be
-invoked on the dataset with the block called for each row.</li>
+        <li> <em>[block= <code>null</code>]</em>  : <p>if the last argument given is a function then <a href='./patio_Dataset.html#forEach'> patio.Dataset#forEach</a> will be
+invoked on the dataset with the block called for each row.</p>
+</li>
     
      </ul>
 
@@ -5379,9 +5388,10 @@ invoked on the dataset with the block called for each row.</li>
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise|patio.Dataset</code> if no block is given then a <a href='./patio_Dataset.html#'> patio.Dataset</a> will be returned. If a block
+        <li> <code>Promise|patio.Dataset</code> <p>if no block is given then a <a href='./patio_Dataset.html#'> patio.Dataset</a> will be returned. If a block
 is given then the return value will be a Promise that will be invoked after all records have been returned
-and processed through the block.</li>
+and processed through the block.</p>
+</li>
     
     </ul>
 
@@ -5427,8 +5437,8 @@ function (args,block){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it.
+<p><p>Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it.
+</p>
 <p>
      See <a href='./patio_Database.html#createTable'> patio.Database#createTable</a> for parameter types.
 </p>
@@ -5490,9 +5500,9 @@ function (name,options,block){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Forcible drops one or more tables corresponding to the given names, ignoring errors.
+<p><p> Forcible drops one or more tables corresponding to the given names, ignoring errors.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -5509,7 +5519,8 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>names</em>  : the names of the tables to drop.</li>
+        <li> <em>names</em>  : <p>the names of the tables to drop.</p>
+</li>
     
      </ul>
 
@@ -5517,7 +5528,8 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once all tables have been dropped.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once all tables have been dropped.</p>
+</li>
     
     </ul>
 
@@ -5571,9 +5583,9 @@ function (names){
 <hr/>
 <em>Defined database/dataset.js</em>
 
-<p>
-Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the [@link patio.Dataset#from} method invoked. If a block is given,
+<p><p>Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the [@link patio.Dataset#from} method invoked. If a block is given,
 it is used as a filter(see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> on the dataset.
+</p>
 </p>
 
     <em>Example</em>
@@ -5588,9 +5600,11 @@ DB.from(&quot;items&quot;).sql //=&gt; SELECT * FROM items
     <em>Arguments</em>
     <ul>
     
-        <li> <em>args</em>  : table/s to pass to <a href='./patio_Dataset.html#from'> patio.Dataset#from</a> with.</li>
+        <li> <em>args</em>  : <p>table/s to pass to <a href='./patio_Dataset.html#from'> patio.Dataset#from</a> with.</p>
+</li>
     
-        <li> <em>block?</em>  : an option block to pass to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> with.</li>
+        <li> <em>block?</em>  : <p>an option block to pass to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> with.</p>
+</li>
     
      </ul>
 
@@ -5598,7 +5612,8 @@ DB.from(&quot;items&quot;).sql //=&gt; SELECT * FROM items
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Dataset</code> a dataset to use for querying the <a href='./patio_Database.html#'> patio.Database</a> with.</li>
+        <li> <code>patio.Dataset</code> <p>a dataset to use for querying the <a href='./patio_Database.html#'> patio.Database</a> with.</p>
+</li>
     
     </ul>
 
@@ -5637,9 +5652,9 @@ function (args,block){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Proxy for <a href='./patio_Dataset.html#get'> patio.Dataset#get</a>.
-         </p>
+<p><p>Proxy for <a href='./patio_Dataset.html#get'> patio.Dataset#get</a>.
+</p>
+</p>
 
 
 
@@ -5674,16 +5689,17 @@ function (){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Return a Promise that is resolved with an object containing index information.
+<p><p>Return a Promise that is resolved with an object containing index information.
+</p>
 <p>
     The keys are index names. Values are objects with two keys, columns and unique.  The value of columns
     is an array of column names.  The value of unique is true or false
     depending on if the index is unique.
 </p>
 
-<b>Should not include the primary key index, functional indexes, or partial indexes.</b>
+<p><b>Should not include the primary key index, functional indexes, or partial indexes.</b>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -5735,10 +5751,11 @@ function (table,opts){
 <hr/>
 <em>Defined database/index.js</em>
 
-<p>
-This function acts as a proxy to <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
+<p><p>This function acts as a proxy to <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
 
-See <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
+</p>
+<p>See <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>.
+</p>
 </p>
 
 
@@ -5781,9 +5798,9 @@ function (v){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a DEBUG level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a DEBUG level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -5820,9 +5837,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs an ERROR level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs an ERROR level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -5866,9 +5883,9 @@ function (error){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a FATAL level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a FATAL level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -5905,9 +5922,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs an INFO level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs an INFO level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -5944,9 +5961,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a TRACE level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a TRACE level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -5983,9 +6000,9 @@ function (){
 <hr/>
 <em>Defined database/logging.js</em>
 
-<p>
-Logs a WARN level message to the "patio.Database" logger.
-         </p>
+<p><p>Logs a WARN level message to the &quot;patio.Database&quot; logger.
+</p>
+</p>
 
 
 
@@ -6022,8 +6039,8 @@ function (){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Remove the cached schema for the given table name
+<p><p>Remove the cached schema for the given table name
+</p>
 </p>
 
     <em>Example</em>
@@ -6039,7 +6056,8 @@ DB.schema(&quot;artists&quot;).then(function(){
     
         <li> <em>table</em>  : </li>
     
-        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : table to remove from this databases cached schemas.</li>
+        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : <p>table to remove from this databases cached schemas.</p>
+</li>
     
      </ul>
 
@@ -6077,9 +6095,9 @@ function (table){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Renames a column in the specified table.
+<p><p>Renames a column in the specified table.
 
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     renameColumn call.
@@ -6097,11 +6115,14 @@ DB.renameColumn(&quot;items&quot;, &quot;cntr&quot;, &quot;counter&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to alter.</li>
+        <li> <em>table</em>  : <p>the table to alter.</p>
+</li>
     
-        <li> <em>column</em>  : the name of the column to rename.</li>
+        <li> <em>column</em>  : <p>the name of the column to rename.</p>
+</li>
     
-        <li> <em>newColumn</em>  : the new name of the column.</li>
+        <li> <em>newColumn</em>  : <p>the new name of the column.</p>
+</li>
     
      </ul>
 
@@ -6109,7 +6130,8 @@ DB.renameColumn(&quot;items&quot;, &quot;cntr&quot;, &quot;counter&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the RENAME COLUMN action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the RENAME COLUMN action is complete.</p>
+</li>
     
     </ul>
 
@@ -6147,9 +6169,9 @@ function (table,column,newColumn){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Renames a table.
+<p><p>Renames a table.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -6166,9 +6188,11 @@ comb.executeInOrder(DB, function(DB){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the table to rename</li>
+        <li> <em>name</em>  : <p>the name of the table to rename</p>
+</li>
     
-        <li> <em>newName</em>  : the new name of the table</li>
+        <li> <em>newName</em>  : <p>the new name of the table</p>
+</li>
     
      </ul>
 
@@ -6176,7 +6200,8 @@ comb.executeInOrder(DB, function(DB){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the table is renamed.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the table is renamed.</p>
+</li>
     
     </ul>
 
@@ -6213,9 +6238,9 @@ function (name,newName){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Runs the supplied SQL statement string on the database server..
+<p><p>Runs the supplied SQL statement string on the database server..
 
+</p>
 </p>
 
     <em>Example</em>
@@ -6227,7 +6252,8 @@ DB.run(&quot;SET some_server_variable = 42&quot;)
     <em>Arguments</em>
     <ul>
     
-        <li> <em>sql</em>  : the SQL to run.</li>
+        <li> <em>sql</em>  : <p>the SQL to run.</p>
+</li>
     
         <li> <em>opts</em>  : </li>
     
@@ -6237,7 +6263,8 @@ DB.run(&quot;SET some_server_variable = 42&quot;)
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved with the result of the query.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved with the result of the query.</p>
+</li>
     
     </ul>
 
@@ -6273,9 +6300,9 @@ function (sql,opts){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Parse the schema from the database.
+<p><p>Parse the schema from the database.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -6307,14 +6334,18 @@ DB.schema(&quot;artists&quot;).then(function(schema){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to get the schema for.</li>
+        <li> <em>table</em>  : <p>the table to get the schema for.</p>
+</li>
     
-        <li> <em>[opts= <code>null</code>]</em>  : Additinal options.</li>
+        <li> <em>[opts= <code>null</code>]</em>  : <p>Additinal options.</p>
+</li>
     
-        <li> <em>[opts.reload= <code>false</code>]</em> <code>boolean</code> : Set to true to ignore any cached results.</li>
+        <li> <em>[opts.reload= <code>false</code>]</em> <code>boolean</code> : <p>Set to true to ignore any cached results.</p>
+</li>
     
-        <li> <em>opts.schema?</em> <code>String|patio.sql.Identifier</code> : An explicit schema to use.  It may also be implicitly provided
-           via the table name.</li>
+        <li> <em>opts.schema?</em> <code>String|patio.sql.Identifier</code> : <p>An explicit schema to use.  It may also be implicitly provided
+           via the table name.</p>
+</li>
     
      </ul>
 
@@ -6322,19 +6353,21 @@ DB.schema(&quot;artists&quot;).then(function(schema){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> Returns a Promise that is resolved with the schema for the given table as an object
+        <li> <code>Promise</code> <p>Returns a Promise that is resolved with the schema for the given table as an object
 where the key is the column name and the value is and object containg column information. The default
 column information returned.
-<ul>
+</p>
+<p><ul>
     <li>allowNull : Whether NULL is an allowed value for the column.</li>
     <li>dbType : The database type for the column, as a database specific string.</li>
-    <li>"default" : The database default for the column, as a database specific string.</li>
+    <li>&quot;default&quot; : The database default for the column, as a database specific string.</li>
     <li>primaryKey : Whether the columns is a primary key column.  If this column is not present,
                 it means that primary key information is unavailable, not that the column
                 is not a primary key.</li>
     <li>jsDefault : The database default for the column, as a javascript object.  In many cases, complex
                  database defaults cannot be parsed into javascript objects.</li>
-    <li>type : A string specifying the type, such as "integer" or "string".</li>
+    <li>type : A string specifying the type, such as &quot;integer&quot; or &quot;string&quot;.</li>
+</p>
 <ul></li>
     
     </ul>
@@ -6400,10 +6433,10 @@ function (table,opts){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Match the database's column type to a javascript type via a
+<p><p>Match the database&#39;s column type to a javascript type via a
 regular expression, and return the javascript type as a string
-such as "integer" or "string".
+such as &quot;integer&quot; or &quot;string&quot;.
+</p>
 </p>
 
 
@@ -6476,8 +6509,8 @@ function (dbType){
 <hr/>
 <em>Defined database/dataset.js</em>
 
-<p>
-Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> method invoked.
+<p><p>Returns a new <a href='./patio_Dataset.html#'> patio.Dataset</a> with the <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> method invoked.
+</p>
 </p>
 
     <em>Example</em>
@@ -6524,9 +6557,9 @@ function (){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-Sets the default value for the given column in the given table:
+<p><p>Sets the default value for the given column in the given table:
 
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     setColumnDefault call.
@@ -6544,11 +6577,14 @@ DB.setColumnDefault(&quot;items&quot;, &quot;category&quot;, &quot;misc&quot;);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to alter.</li>
+        <li> <em>table</em>  : <p>the table to alter.</p>
+</li>
     
-        <li> <em>column</em>  : the name of the column to set the DEFAULT on.</li>
+        <li> <em>column</em>  : <p>the name of the column to set the DEFAULT on.</p>
+</li>
     
-        <li> <em>def</em>  : the new default value of the column.</li>
+        <li> <em>def</em>  : <p>the new default value of the column.</p>
+</li>
     
      </ul>
 
@@ -6556,7 +6592,8 @@ DB.setColumnDefault(&quot;items&quot;, &quot;category&quot;, &quot;misc&quot;);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the SET DEFAULT action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the SET DEFAULT action is complete.</p>
+</li>
     
     </ul>
 
@@ -6594,8 +6631,8 @@ function (table,column,def){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
- Set the data type for the given column in the given table:
+<p><p> Set the data type for the given column in the given table:
+</p>
 <p>
     This method is a shortcut to <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a> with an
     setColumnType call.
@@ -6613,11 +6650,14 @@ DB.setColumnType(&quot;items&quot;, &quot;category&quot;, String);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to alter.</li>
+        <li> <em>table</em>  : <p>the table to alter.</p>
+</li>
     
-        <li> <em>column</em>  : the name of the column to set the TYPE on.</li>
+        <li> <em>column</em>  : <p>the name of the column to set the TYPE on.</p>
+</li>
     
-        <li> <em>type</em>  : the datatype of the column.</li>
+        <li> <em>type</em>  : <p>the datatype of the column.</p>
+</li>
     
      </ul>
 
@@ -6625,7 +6665,8 @@ DB.setColumnType(&quot;items&quot;, &quot;category&quot;, String);
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the SET TYPE action is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the SET TYPE action is complete.</p>
+</li>
     
     </ul>
 
@@ -6663,8 +6704,8 @@ function (table,column,type){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Determine if a table exists.
+<p><p>Determine if a table exists.
+</p>
 </p>
 
     <em>Example</em>
@@ -6688,7 +6729,8 @@ comb.executeInOrder(DB, function(DB){
     
         <li> <em>cb</em>  : </li>
     
-        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : table to remove from this</li>
+        <li> <em>the</em> <code>String|patio.sql.Identifier|patio.sql.QualifiedIdentifier</code> : <p>table to remove from this</p>
+</li>
     
      </ul>
 
@@ -6696,7 +6738,8 @@ comb.executeInOrder(DB, function(DB){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise resolved with a boolean indicating if the table exists.</li>
+        <li> <code>Promise</code> <p>a promise resolved with a boolean indicating if the table exists.</p>
+</li>
     
     </ul>
 
@@ -6737,10 +6780,10 @@ function (table,cb){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Returns a promise with a list of tables names in this database. This method
+<p><p>Returns a promise with a list of tables names in this database. This method
 should be implemented by the adapter.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -6755,7 +6798,8 @@ DB.tables().then(function(tables){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved with a list of tablenames.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved with a list of tablenames.</p>
+</li>
     
     </ul>
 
@@ -6790,10 +6834,10 @@ function (){
 <hr/>
 <em>Defined database/query.js</em>
 
-<p>
-Starts a database transaction.  When a database transaction is used,
+<p><p>Starts a database transaction.  When a database transaction is used,
 either all statements are successful or none of the statements are
 successful.
+</p>
 <p>
      <b>Note</b> that MySQL MyISAM tables do not support transactions.</p>
 </p>
@@ -6865,23 +6909,28 @@ DB.transaction(function(d) {
     <em>Arguments</em>
     <ul>
     
-        <li> <em>[opts= <code>{}</code>]</em>  : options to use when performing the transaction.</li>
+        <li> <em>[opts= <code>{}</code>]</em>  : <p>options to use when performing the transaction.</p>
+</li>
     
-        <li> <em>cb</em>  : a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument. If you have complex operations within your transactions you will want to return a promise to ensure proper transaction scope. <pre class="code"> var ds = db.from("user"); db.transaction(function(){      var ret = new comb.Promise();      ds.insert({          firstName:"Jane",          lastName:"Gorgenson",          password:"password",          dateOfBirth:new Date(1956, 1, 3)      }).then(function(){          ds.forEach(function(user){                  return ds.where({id:user.id}).update({firstName:user.firstName + 1});          }).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));      }, comb.hitch(ret, "errback"));     return ret; }); </pre></li>
+        <li> <em>cb</em>  : <p>a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument. If you have complex operations within your transactions you will want to return a promise to ensure proper transaction scope. <pre class="code"> var ds = db.from(&quot;user&quot;); db.transaction(function(){      var ret = new comb.Promise();      ds.insert({          firstName:&quot;Jane&quot;,          lastName:&quot;Gorgenson&quot;,          password:&quot;password&quot;,          dateOfBirth:new Date(1956, 1, 3)      }).then(function(){          ds.forEach(function(user){                  return ds.where({id:user.id}).update({firstName:user.firstName + 1});          }).then(comb.hitch(ret, &quot;callback&quot;), comb.hitch(ret, &quot;errback&quot;));      }, comb.hitch(ret, &quot;errback&quot;));     return ret; }); </pre></p>
+</li>
     
-        <li> <em>opts.isolation?</em> <code>String</code> : The transaction isolation level to use for this transaction,
-              should be "uncommitted", "committed", "repeatable", or "serializable",
+        <li> <em>opts.isolation?</em> <code>String</code> : <p>The transaction isolation level to use for this transaction,
+              should be &quot;uncommitted&quot;, &quot;committed&quot;, &quot;repeatable&quot;, or &quot;serializable&quot;,
               used if given and the database/adapter supports customizable
-              transaction isolation levels.</li>
+              transaction isolation levels.</p>
+</li>
     
-        <li> <em>opts.prepare?</em> <code>String</code> : A string to use as the transaction identifier for a
+        <li> <em>opts.prepare?</em> <code>String</code> : <p>A string to use as the transaction identifier for a
             prepared transaction (two-phase commit), if the database/adapter
-            supports prepared transactions.</li>
+            supports prepared transactions.</p>
+</li>
     
-        <li> <em>opts.savepoint?</em> <code>Boolean</code> : Whether to create a new savepoint for this transaction,
+        <li> <em>opts.savepoint?</em> <code>Boolean</code> : <p>Whether to create a new savepoint for this transaction,
               only respected if the database/adapter supports savepoints.  By
               default patio will reuse an existing transaction, so if you want to
-              use a savepoint you must use this option.</li>
+              use a savepoint you must use this option.</p>
+</li>
     
      </ul>
 
@@ -6889,7 +6938,8 @@ DB.transaction(function(d) {
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the transaction is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the transaction is complete.</p>
+</li>
     
     </ul>
 
@@ -6938,8 +6988,7 @@ function (opts,cb){
 <hr/>
 <em>Defined database/schema.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -6981,11 +7030,11 @@ function (column){
 <hr/>
 <em>Defined database/index.js</em>
 
-<p>
-Typecast the value to the given columnType. Calls
+<p><p>Typecast the value to the given columnType. Calls
 typecastValue{ColumnType} if the method exists,
 otherwise returns the value.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -7000,9 +7049,11 @@ DB.typeCastValue(&quot;timestamp&quot;,  &#x27;2004-02-01 12:12:12&#x27;)
     <em>Arguments</em>
     <ul>
     
-        <li> <em>columnType</em>  : the SQL datatype of the column</li>
+        <li> <em>columnType</em>  : <p>the SQL datatype of the column</p>
+</li>
     
-        <li> <em>value</em>  : the value to typecast.</li>
+        <li> <em>value</em>  : <p>the value to typecast.</p>
+</li>
     
      </ul>
 
@@ -7010,7 +7061,8 @@ DB.typeCastValue(&quot;timestamp&quot;,  &#x27;2004-02-01 12:12:12&#x27;)
     <em>Returns</em>
     <ul>
     
-        <li>  the typecasted value.</li>
+        <li>  <p>the typecasted value.</p>
+</li>
     
     </ul>
 
@@ -7018,7 +7070,8 @@ DB.typeCastValue(&quot;timestamp&quot;,  &#x27;2004-02-01 12:12:12&#x27;)
     <em>Throws</em>
     <ul>
     
-        <li> <code>patio.DatabaseError</code> if there is an error converting the value to the column type.</li>
+        <li> <code>patio.DatabaseError</code> <p>if there is an error converting the value to the column type.</p>
+</li>
     
     </ul>
 
@@ -7064,9 +7117,9 @@ function (columnType,value){
 <hr/>
 <em>Defined database/connect.js</em>
 
-<p>
-Validates a connection before it is returned to the <a href='./patio_ConnectionPool.html#'> patio.ConnectionPool</a>. This
+<p><p>Validates a connection before it is returned to the <a href='./patio_ConnectionPool.html#'> patio.ConnectionPool</a>. This
 method should be implemented by the adapter.
+</p>
 </p>
 
 

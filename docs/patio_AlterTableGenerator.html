@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -626,14 +626,14 @@
 
 
 
-    <p>
-An internal class that the user is not expected to instantiate directly.
+    <p><p>An internal class that the user is not expected to instantiate directly.
 Instances are created by <a href='./patio_Database.html#alterTable'> patio.Database#alterTable</a>.
 It is used to specify table alteration parameters.  It takes a Database
 object and a function which is called in the scope of the <a href='./patio_AlterTableGenerator.html#'> patio.AlterTableGenerator</a>
 to perform on the table, and gives the Database an array of table altering operations,
-which the database uses to alter a table's description.
+which the database uses to alter a table&#39;s description.
 
+</p>
 </p>
     
         <em>Example</em>
@@ -703,8 +703,7 @@ function (db,block){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -748,8 +747,7 @@ function (columns,table,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -793,10 +791,10 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a column with the given name, type, and opts to the DDL for the table.
+<p><p>Add a column with the given name, type, and opts to the DDL for the table.
 See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a> for the available options.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -852,10 +850,10 @@ function (name,type,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a constraint with the given name and args to the DDL for the table.
+<p><p>Add a constraint with the given name and args to the DDL for the table.
 See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -909,17 +907,19 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a foreign key with the given name and referencing the given table
+<p><p>Add a foreign key with the given name and referencing the given table
 to the DDL for the table.  See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
 for the available options.
 
-You can also pass an array of column names for creating composite foreign
+</p>
+<p>You can also pass an array of column names for creating composite foreign
 keys. In this case, it will assume the columns exists and will only add
 the constraint.
 
-NOTE: If you need to add a foreign key constraint to a single existing column
+</p>
+<p>NOTE: If you need to add a foreign key constraint to a single existing column
 use the composite key syntax even if it is only one column.
+</p>
 </p>
 
     <em>Example</em>
@@ -981,10 +981,10 @@ function (name,table,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a full text index on the given columns to the DDL for the table.
+<p><p>Add a full text index on the given columns to the DDL for the table.
 See @{link patio.SchemaGenerator#index} for available options.
-         </p>
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -1029,9 +1029,9 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add an index on the given columns to the DDL for the table.  See
+<p><p>Add an index on the given columns to the DDL for the table.  See
 <a href='./patio_SchemaGenerator.html#index'> patio.SchemaGenerator#index</a> for available options.
+</p>
 </p>
 
     <em>Example</em>
@@ -1085,11 +1085,11 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a primary key to the DDL for the table.  See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
+<p><p>Add a primary key to the DDL for the table.  See <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
 for the available options.  Like <a href='./patio_ALterTableGenerator.html#addForeignKey'> patio.ALterTableGenerator#addForeignKey</a>, if you specify
 the column name as an array, it just creates a constraint:
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1151,9 +1151,9 @@ function (name,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a spatial index on the given columns to the DDL for the table.
+<p><p>Add a spatial index on the given columns to the DDL for the table.
 See <a href='./patio_SchemaGenerator.html#index'> patio.SchemaGenerator#index</a> for available options.
+</p>
 </p>
 
 
@@ -1199,9 +1199,9 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a unique constraint to the given column(s).
+<p><p>Add a unique constraint to the given column(s).
 See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>.
+</p>
 </p>
 
     <em>Example</em>
@@ -1257,9 +1257,9 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Remove a column from the DDL for the table.
+<p><p>Remove a column from the DDL for the table.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1274,7 +1274,8 @@ DB.alterTable(&quot;albums&quot;, function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the column to drop.</li>
+        <li> <em>name</em>  : <p>the name of the column to drop.</p>
+</li>
     
      </ul>
 
@@ -1310,8 +1311,8 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Remove a constraint from the DDL for the table.
+<p><p>Remove a constraint from the DDL for the table.
+</p>
 </p>
 
     <em>Example</em>
@@ -1326,7 +1327,8 @@ DB.alterTable(&quot;test&quot;, function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the constraint to drop.</li>
+        <li> <em>name</em>  : <p>the name of the constraint to drop.</p>
+</li>
     
      </ul>
 
@@ -1362,9 +1364,9 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Remove an index from the DDL for the table.
+<p><p>Remove an index from the DDL for the table.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1422,9 +1424,9 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Modify a column's name in the DDL for the table.
+<p><p>Modify a column&#39;s name in the DDL for the table.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1480,8 +1482,8 @@ function (name,newName,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Modify a column's NOT NULL constraint.
+<p><p>Modify a column&#39;s NOT NULL constraint.
+</p>
 </p>
 
     <em>Example</em>
@@ -1534,8 +1536,8 @@ function (name,allowNull){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Modify a column's default value in the DDL for the table.
+<p><p>Modify a column&#39;s default value in the DDL for the table.
+</p>
 </p>
 
     <em>Example</em>
@@ -1588,9 +1590,9 @@ function (name,def){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Modify a column's type in the DDL for the table.
+<p><p>Modify a column&#39;s type in the DDL for the table.
 
+</p>
 </p>
 
     <em>Example</em>

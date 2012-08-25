@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -361,6 +361,12 @@ method is <a href="./patio_Dataset.html#forEach">forEach</a>, which interates ea
 <pre class='prettyprint linenums lang-js'><code>var errorHandler = function(err){
    console.log(err.stack);
 }</code></pre>
+<h2>Getting a dataset</h2>
+<p>To get a dataset use the <a href="./patio_Database.html#from">DB.from</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var DB = patio.connect(&lt;CONNECTION_URI&gt;)
+var User = DB.from(&quot;user&quot;);</code></pre>
 <h2>Retrieving a Single Object</h2>
 <h3>Using a Primary Key</h3>
 <p>The <a href="./patio_Model.html#.findById">findById</a> is the easiest method to use to find a model instance by its primary key value:

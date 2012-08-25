@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -620,9 +620,9 @@
 
 
 
-    <p>
-A singleton class that acts as the entry point for all actions performed in patio.
+    <p><p>A singleton class that acts as the entry point for all actions performed in patio.
 
+</p>
 </p>
     
         <em>Example</em>
@@ -678,9 +678,9 @@ patio.createModel(&quot;my_table&quot;);
     
         <a name="staticProperties"></a>
         <em>Static Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>patio.Time</td><td></td><td></td><td>
-Mixin that provides time formatting/coversion functions.
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>patio.Time</td><td></td><td></td><td><p>Mixin that provides time formatting/coversion functions.
 
+</p>
 </td><tr></table>
     
     
@@ -688,18 +688,18 @@ Mixin that provides time formatting/coversion functions.
         <em>Instance Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>DATABASES</td><td>patio.Database[]</td><td><code>
 []
-             </code></td><td>
-An array of databases that are currently connected.
+             </code></td><td><p>An array of databases that are currently connected.
+</p>
 </td><tr><tr><td>LOGGER</td><td>Logger</td><td><code>
 comb.logger("patio")
-             </code></td><td>
-Returns the root comb logger using this logger you
+             </code></td><td><p>Returns the root comb logger using this logger you
 can set the levels add appenders etc.
 
-</td><tr><tr><td>camelize</td><td>function</td><td></td><td>
-Sets the whether or not to camelize identifiers coming from the database and to underscore
+</p>
+</td><tr><tr><td>camelize</td><td>function</td><td></td><td><p>Sets the whether or not to camelize identifiers coming from the database and to underscore
 identifiers when sending identifiers to the database. Setting this property to true has the same effect
 as:
+</p>
 <pre class="code">
     patio.identifierOutputMethod = "camelize";
     patio.identifierInputMethod = "underscore";
@@ -707,12 +707,12 @@ as:
 
 </td><tr><tr><td>defaultDatabase</td><td>patio.Database</td><td><code>
 null
-             </code></td><td>
-Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.
-</td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td>
-Set the method to call on identifiers going into the database.  This affects
+             </code></td><td><p>Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.
+</p>
+</td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td><p>Set the method to call on identifiers going into the database.  This affects
 how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
 use camelize. The method can include
+</p>
 <ul>
     <li>toUpperCase</li>
     <li>toLowerCase</li>
@@ -721,13 +721,14 @@ use camelize. The method can include
     <li>Other String instance method names.</li>
 </ul>
 
-patio uses toUpperCase identifiers in all SQL strings for most databases.
+<p>patio uses toUpperCase identifiers in all SQL strings for most databases.
 
-</td><tr><tr><td>identifierOutputMethod</td><td>String</td><td></td><td>
-Set the method to call on identifiers coming out of the database.  This affects
+</p>
+</td><tr><tr><td>identifierOutputMethod</td><td>String</td><td></td><td><p>Set the method to call on identifiers coming out of the database.  This affects
 the how identifiers are represented by calling the method on them.
 The method can include
-<ul>
+</p>
+<p><ul>
     <li>toUpperCase</li>
     <li>toLowerCase</li>
     <li>camelize</li>
@@ -735,14 +736,15 @@ The method can include
     <li>Other String instance method names.</li>
 </ul>
 most database implementations in patio use toLowerCase
-</td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td></td><td>
-Set whether to quote identifiers for all databases by default. By default,
+</p>
+</td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td></td><td><p>Set whether to quote identifiers for all databases by default. By default,
 patio quotes identifiers in all SQL strings.
 
-</td><tr><tr><td>underscore</td><td>function</td><td></td><td>
-Sets the whether or not to underscore identifiers coming from the database and to camelize
+</p>
+</td><tr><tr><td>underscore</td><td>function</td><td></td><td><p>Sets the whether or not to underscore identifiers coming from the database and to camelize
 identifiers when sending identifiers to the database. Setting this property to true has the same effect
 as:
+</p>
 <pre class="code">
     patio.identifierOutputMethod = "underscore";
     patio.identifierInputMethod = "camelize";
@@ -793,9 +795,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-This method is used to create a <a href='./patio_Model.html#'> patio.Model</a> object.
+<p><p>This method is used to create a <a href='./patio_Model.html#'> patio.Model</a> object.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -855,16 +857,20 @@ var Flight = patio.addModel(&quot;flight&quot;, {
     <em>Arguments</em>
     <ul>
     
-        <li> <em>table</em>  : the table to use as the base for the model.</li>
+        <li> <em>table</em>  : <p>the table to use as the base for the model.</p>
+</li>
     
         <li> <em>supers</em>  : </li>
     
-        <li> <em>proto?</em>  : an object to be used as the prototype for the model. See
-<a href="http://pollenware.github.com/comb/symbols/comb.html#.define">comb.define</a>.</li>
+        <li> <em>proto?</em>  : <p>an object to be used as the prototype for the model. See
+<a href="http://pollenware.github.com/comb/symbols/comb.html#.define">comb.define</a>.</p>
+</li>
     
-        <li> <em>Parent</em> <code>patio.Model|patio.Model[]</code> : models of this model.                  See <a href='./patio_plugins_ClassTableInheritancePlugin.html#'> patio.plugins.ClassTableInheritancePlugin</a>.</li>
+        <li> <em>Parent</em> <code>patio.Model|patio.Model[]</code> : <p>models of this model.                  See <a href='./patio_plugins_ClassTableInheritancePlugin.html#'> patio.plugins.ClassTableInheritancePlugin</a>.</p>
+</li>
     
-        <li> <em>Object[]?</em>  : [proto.plugins] this can be used to specify additional plugins to use such as.
+        <li> <em>Object[]?</em>  : <p>[proto.plugins] this can be used to specify additional plugins to use such as.
+</p>
 <ul>
     <li>{@link patio.plugins.TimeStampPlugin</li>
     <li>{@link patio.plugins.CachePlugin</li>
@@ -904,12 +910,12 @@ function (table,supers,proto){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-This can be used to configure logging. If a options
+<p><p>This can be used to configure logging. If a options
 hash is passed in then it will passed to the comb.logging.PropertyConfigurator.
 If the options are omitted then a ConsoleAppender will be added and the level will
 be set to info.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -975,8 +981,7 @@ function (opts){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
- </p>
+<p></p>
 
 
 
@@ -1011,9 +1016,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-This method allows one to connect to a database and immediately execute code.
+<p><p>This method allows one to connect to a database and immediately execute code.
 For connection options </p>
+</p>
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
@@ -1040,7 +1045,8 @@ connectPromise.then(function (db) {
     
         <li> <em>options</em>  : </li>
     
-        <li> <em>cb</em>  : the function to callback once connected.</li>
+        <li> <em>cb</em>  : <p>the function to callback once connected.</p>
+</li>
     
      </ul>
 
@@ -1048,7 +1054,8 @@ connectPromise.then(function (db) {
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> a promise that is resolved once the database execution has finished.</li>
+        <li> <code>comb.Promise</code> <p>a promise that is resolved once the database execution has finished.</p>
+</li>
     
     </ul>
 
@@ -1090,9 +1097,9 @@ function (options,cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Returns a <a href='./patio_Database.html#'> patio.Database</a> object that can be used to for querying.
+<p><p>Returns a <a href='./patio_Database.html#'> patio.Database</a> object that can be used to for querying.
 
+</p>
 <p>This method is the entry point for all interactions with a database including getting
 <a href='./patio_Dataset.html#'> patio.Dataset</a>s for creating queries(see <a href='./patio_Database.html#from'> patio.Database#from</a>).
 </p>
@@ -1134,19 +1141,26 @@ DB.createTable(&quot;myTable&quot;, function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>options</em>  : the options used to initialize the database connection.                        This may be a database connetion string or object.</li>
+        <li> <em>options</em>  : <p>the options used to initialize the database connection.                        This may be a database connetion string or object.</p>
+</li>
     
-        <li> <em>[options.maxConnections = <code> 10</code>]</em> <code>Number</code> : the number of connections to pool.</li>
+        <li> <em>[options.maxConnections = <code> 10</code>]</em> <code>Number</code> : <p>the number of connections to pool.</p>
+</li>
     
-        <li> <em>[options.minConnections = <code> 3</code>]</em> <code>Number</code> : the number of connections to pool.</li>
+        <li> <em>[options.minConnections = <code> 3</code>]</em> <code>Number</code> : <p>the number of connections to pool.</p>
+</li>
     
-        <li> <em>[options.type = <code> "mysql"</code>]</em> <code>String</code> : the type of database to communicate with.</li>
+        <li> <em>[options.type = <code> "mysql"</code>]</em> <code>String</code> : <p>the type of database to communicate with.</p>
+</li>
     
-        <li> <em>options.user</em> <code>String</code> : the user to authenticate as.</li>
+        <li> <em>options.user</em> <code>String</code> : <p>the user to authenticate as.</p>
+</li>
     
-        <li> <em>options.password</em> <code>String</code> : the password of the user.</li>
+        <li> <em>options.password</em> <code>String</code> : <p>the password of the user.</p>
+</li>
     
-        <li> <em>options.database</em> <code>String</code> : the name of the database to use, the database                                   specified here is the default database for all connections.</li>
+        <li> <em>options.database</em> <code>String</code> : <p>the name of the database to use, the database                                   specified here is the default database for all connections.</p>
+</li>
     
      </ul>
 
@@ -1184,16 +1198,17 @@ function (options){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Disconnects all databases in use.
+<p><p>Disconnects all databases in use.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>[cb= <code>null</code>]</em>  : a callback to call when disconnect has completed</li>
+        <li> <em>[cb= <code>null</code>]</em>  : <p>a callback to call when disconnect has completed</p>
+</li>
     
      </ul>
 
@@ -1201,7 +1216,8 @@ Disconnects all databases in use.
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> a promise that is resolved once all databases have disconnected.</li>
+        <li> <code>comb.Promise</code> <p>a promise that is resolved once all databases have disconnected.</p>
+</li>
     
     </ul>
 
@@ -1244,9 +1260,9 @@ function (cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Returns a model from the name of the table for which the model was created.
+<p><p>Returns a model from the name of the table for which the model was created.
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 var TestModel = patio.addModel("test_model").sync(function(err){
@@ -1259,8 +1275,9 @@ var TestModel = patio.addModel("test_model").sync(function(err){
 
 </pre>
 
-If you have two tables with the same name in different databases then you can use the db parameter also.
+<p>If you have two tables with the same name in different databases then you can use the db parameter also.
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -1285,10 +1302,12 @@ patio.syncModels().then(function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the table that the model represents.</li>
+        <li> <em>name</em>  : <p>the name of the table that the model represents.</p>
+</li>
     
-        <li> <em>db?</em>  : optional database in case you have two models with the same table names in
-                              different databases.</li>
+        <li> <em>db?</em>  : <p>optional database in case you have two models with the same table names in
+                              different databases.</p>
+</li>
     
      </ul>
 
@@ -1324,35 +1343,35 @@ function (name,db){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Allows for the importing of multiple models so you do not have to worry about the promise that is returned from create model,
+<p><p>Allows for the importing of multiple models so you do not have to worry about the promise that is returned from create model,
 or a directory if an index.js file is used.
 
+</p>
 <p>
     To import a group of model files you can do the following:
 <pre class='prettyprint linenums lang-js'>
 
-patio.import(__dirname + "/models/Flight.js",
-             __dirname + "/models/Airport.js",
-             __dirname + "/models/Airplane.js").then(function(Flight, Airport, Airplane){
+patio.import(<strong>dirname + &quot;/models/Flight.js&quot;,
+             </strong>dirname + &quot;/models/Airport.js&quot;,
+             <strong>dirname + &quot;/models/Airplane.js&quot;).then(function(Flight, Airport, Airplane){
                  //...
              });
 
-patio.import(__dirname + "/models/Flight.js",
-             __dirname + "/models/Airport.js",
-             __dirname + "/models/Airplane.js").then(function(){
-                 var Flight = patio.getModel("flight"),
-                     Airport = patio.getModel("airport"),
-                     Airplane = patio.getModel("airplane");
+patio.import(</strong>dirname + &quot;/models/Flight.js&quot;,
+             <strong>dirname + &quot;/models/Airport.js&quot;,
+             </strong>dirname + &quot;/models/Airplane.js&quot;).then(function(){
+                 var Flight = patio.getModel(&quot;flight&quot;),
+                     Airport = patio.getModel(&quot;airport&quot;),
+                     Airplane = patio.getModel(&quot;airplane&quot;);
              });
      </pre>
     Another approach is to create an index.js file inside of a directory that requires all of the models needed.
     then use <a href='./patio.html#import'> patio#import</a> on that file.
     <pre class="code">
-patio.import(__dirname + "/models").then(function(){
-     var Flight = patio.getModel("flight"),
-         Airport = patio.getModel("airport"),
-         Airplane = patio.getModel("airplane");
+patio.import(__dirname + &quot;/models&quot;).then(function(){
+     var Flight = patio.getModel(&quot;flight&quot;),
+         Airport = patio.getModel(&quot;airport&quot;),
+         Airplane = patio.getModel(&quot;airplane&quot;);
 });
 
 </pre>
@@ -1364,9 +1383,11 @@ patio.import(__dirname + "/models").then(function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>files</em>  : a single or list of files to import.</li>
+        <li> <em>files</em>  : <p>a single or list of files to import.</p>
+</li>
     
-        <li> <em>cb?</em>  : an optional callback to call when importing is complete</li>
+        <li> <em>cb?</em>  : <p>an optional callback to call when importing is complete</p>
+</li>
     
      </ul>
 
@@ -1374,8 +1395,9 @@ patio.import(__dirname + "/models").then(function(){
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> returns a promise that will be resolved when all models in the imported files
-have been loaded.</li>
+        <li> <code>Promise</code> <p>returns a promise that will be resolved when all models in the imported files
+have been loaded.</p>
+</li>
     
     </ul>
 
@@ -1419,9 +1441,9 @@ function (files,cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs a DEBUG level message to the "patio" logger.
-         </p>
+<p><p>Logs a DEBUG level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1458,9 +1480,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs an ERROR level message to the "patio" logger.
-         </p>
+<p><p>Logs an ERROR level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1497,9 +1519,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs a FATAL level message to the "patio" logger.
-         </p>
+<p><p>Logs a FATAL level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1536,9 +1558,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs an INFO level message to the "patio" logger.
-         </p>
+<p><p>Logs an INFO level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1575,9 +1597,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs a TRACE level message to the "patio" logger.
-         </p>
+<p><p>Logs a TRACE level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1614,9 +1636,9 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Logs a WARN level message to the "patio" logger.
-         </p>
+<p><p>Logs a WARN level message to the &quot;patio&quot; logger.
+</p>
+</p>
 
 
 
@@ -1653,10 +1675,10 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Migrates the database using migration files found in the supplied directory.
+<p><p>Migrates the database using migration files found in the supplied directory.
 <br/>
 <br/>
+</p>
 <div>
     <h3>Integer Migrations</h3>
      Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations.
@@ -1723,16 +1745,17 @@ Migrates the database using migration files found in the supplied directory.
      </pre>
 </div>
 
-<b>NOTE:</b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
+<p><b>NOTE:</b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
 patio will attempt the migrate the current schema to the timestamp based migration schema.
 
+</p>
 <div>
 In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
 
 <pre class="code">
- var DB = patio.connect("my://connection/string");
- patio.migrate(DB, __dirname + "/migrations").then(function(){
-     console.log("migrations finished");
+ var DB = patio.connect(&quot;my://connection/string&quot;);
+ patio.migrate(DB, __dirname + &quot;/migrations&quot;).then(function(){
+     console.log(&quot;migrations finished&quot;);
  });
 </pre>
 
@@ -1742,21 +1765,21 @@ In order to run a migraton all one has to do is call patio.migrate(DB, directory
 //Up function used to migrate up a version
 exports.up = function(db) {
   //create a new table
-  db.createTable("company", function() {
-      this.primaryKey("id");
+  db.createTable(&quot;company&quot;, function() {
+      this.primaryKey(&quot;id&quot;);
       this.companyName(String, {size : 20, allowNull : false});
   });
-  db.createTable("employee", function(table) {
-      this.primaryKey("id");
+  db.createTable(&quot;employee&quot;, function(table) {
+      this.primaryKey(&quot;id&quot;);
       this.firstName(String);
       this.lastName(String);
-      this.middleInitial("char", {size : 1});
+      this.middleInitial(&quot;char&quot;, {size : 1});
   });
 };
 
 //Down function used to migrate down version
 exports.down = function(db) {
-   db.dropTable("employee", "company");
+   db.dropTable(&quot;employee&quot;, &quot;company&quot;);
 };
 </pre>
 
@@ -1768,20 +1791,27 @@ exports.down = function(db) {
     <em>Arguments</em>
     <ul>
     
-        <li> <em>db</em>  : the database or connection string to a database to migrate.</li>
+        <li> <em>db</em>  : <p>the database or connection string to a database to migrate.</p>
+</li>
     
-        <li> <em>directory</em> <code>String</code> : directory that the migration files reside in</li>
+        <li> <em>directory</em> <code>String</code> : <p>directory that the migration files reside in</p>
+</li>
     
-        <li> <em>[opts= <code>{}</code>]</em> <code>Object</code> : optional parameters.</li>
+        <li> <em>[opts= <code>{}</code>]</em> <code>Object</code> : <p>optional parameters.</p>
+</li>
     
-        <li> <em>opts.column?</em> <code>String</code> : the column in the table that version information should be stored.</li>
+        <li> <em>opts.column?</em> <code>String</code> : <p>the column in the table that version information should be stored.</p>
+</li>
     
-        <li> <em>opts.table?</em> <code>String</code> : the table that version information should be stored.</li>
+        <li> <em>opts.table?</em> <code>String</code> : <p>the table that version information should be stored.</p>
+</li>
     
-        <li> <em>opts.target?</em> <code>Number</code> : the target migration(i.e the migration to migrate up/down to).</li>
+        <li> <em>opts.target?</em> <code>Number</code> : <p>the target migration(i.e the migration to migrate up/down to).</p>
+</li>
     
-        <li> <em>opts.current?</em> <code>String</code> : the version that the database is currently at if the current version
-is not provided it is retrieved from the database.</li>
+        <li> <em>opts.current?</em> <code>String</code> : <p>the version that the database is currently at if the current version
+is not provided it is retrieved from the database.</p>
+</li>
     
      </ul>
 
@@ -1789,7 +1819,8 @@ is not provided it is retrieved from the database.</li>
     <em>Returns</em>
     <ul>
     
-        <li> <code>Promise</code> a promise that is resolved once the migration is complete.</li>
+        <li> <code>Promise</code> <p>a promise that is resolved once the migration is complete.</p>
+</li>
     
     </ul>
 
@@ -1827,9 +1858,9 @@ function (db){
 <hr/>
 <em>Defined index.js</em>
 
-<p>
-Helper method to sync all models at once.
+<p><p>Helper method to sync all models at once.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1859,7 +1890,8 @@ patio.syncModels().then(function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>cb?</em>  : an optional callback to be invoked when all models have been synced</li>
+        <li> <em>cb?</em>  : <p>an optional callback to be invoked when all models have been synced</p>
+</li>
     
      </ul>
 
@@ -1867,7 +1899,8 @@ patio.syncModels().then(function(){
     <em>Returns</em>
     <ul>
     
-        <li> <code>comb.Promise</code> a promise that will be resolved when the models have been synced.</li>
+        <li> <code>comb.Promise</code> <p>a promise that will be resolved when the models have been synced.</p>
+</li>
     
     </ul>
 

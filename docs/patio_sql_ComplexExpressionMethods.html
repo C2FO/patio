@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -386,9 +386,9 @@
 
 
 
-    <p>
-Provides methods to assist in assigning a SQL type to
+    <p><p>Provides methods to assist in assigning a SQL type to
 particular types, i.e. Boolean, Function, Number or String.</p>
+</p>
     
 
     
@@ -397,7 +397,11 @@ particular types, i.e. Boolean, Function, Number or String.</p>
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>sqlBoolean</td><td>patio.sql.BooleanExpression</td><td></td><td>Return a <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a> representation of this expression type.</td><tr><tr><td>sqlFunction</td><td>patio.sql.BooleanExpression</td><td></td><td>Return a <a href='./patio_sql_SQLFunction.html#'> patio.sql.SQLFunction</a> representation of this expression type.</td><tr><tr><td>sqlNumber</td><td>patio.sql.BooleanExpression</td><td></td><td>Return a <a href='./patio_sql_NumericExpression.html#'> patio.sql.NumericExpression</a> representation of this expression type. <pre class="code"> sql.a.not("a") //=> NOT "a" sql.a.sqlNumber.not() //=> ~"a" </pre></td><tr><tr><td>sqlString</td><td>patio.sql.BooleanExpression</td><td></td><td>Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representation of this expression type. <pre class="code"> sql.a.plus(sql.b); //=> "a" + "b" sql.a.sqlString.concat(sql.b) //=> "a" || "b" </pre></td><tr></table>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>sqlBoolean</td><td>patio.sql.BooleanExpression</td><td></td><td><p>Return a <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a> representation of this expression type.</p>
+</td><tr><tr><td>sqlFunction</td><td>patio.sql.BooleanExpression</td><td></td><td><p>Return a <a href='./patio_sql_SQLFunction.html#'> patio.sql.SQLFunction</a> representation of this expression type.</p>
+</td><tr><tr><td>sqlNumber</td><td>patio.sql.BooleanExpression</td><td></td><td><p>Return a <a href='./patio_sql_NumericExpression.html#'> patio.sql.NumericExpression</a> representation of this expression type. <pre class="code"> sql.a.not(&quot;a&quot;) //=&gt; NOT &quot;a&quot; sql.a.sqlNumber.not() //=&gt; ~&quot;a&quot; </pre></p>
+</td><tr><tr><td>sqlString</td><td>patio.sql.BooleanExpression</td><td></td><td><p>Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representation of this expression type. <pre class="code"> sql.a.plus(sql.b); //=&gt; &quot;a&quot; + &quot;b&quot; sql.a.sqlString.concat(sql.b) //=&gt; &quot;a&quot; || &quot;b&quot; </pre></p>
+</td><tr></table>
     
 
     <a name="constructor"></a>

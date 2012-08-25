@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -452,8 +452,8 @@
 
 
 
-    <p>
-Represents a column/expression to order the result set by.
+    <p><p>Represents a column/expression to order the result set by.
+</p>
 </p>
     
 
@@ -471,15 +471,18 @@ Represents a column/expression to order the result set by.
         <em>Static Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>INVERT_NULLS</em></td><td>Object</td><td><code>
 {first:"last", last:"first"}
-         </code></td><td>
-Hash that contains the inversions for "first" and "last".
+         </code></td><td><p>Hash that contains the inversions for &quot;first&quot; and &quot;last&quot;.
+</p>
 </td><tr></table>
     
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>descending</td><td>Boolean</td><td><code>true</code></td><td><b>READ ONLY</b> true if decending, false otherwise.</td><tr><tr><td>expression</td><td></td><td></td><td><b>READ ONLY</b> the expression to order.</td><tr><tr><td>nulls</td><td>String</td><td><code>null</code></td><td>if value is "first" the null values will be first, if "last" then null values
-    will be last</td><tr></table>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>descending</td><td>Boolean</td><td><code>true</code></td><td><p><b>READ ONLY</b> true if decending, false otherwise.</p>
+</td><tr><tr><td>expression</td><td></td><td></td><td><p><b>READ ONLY</b> the expression to order.</p>
+</td><tr><tr><td>nulls</td><td>String</td><td><code>null</code></td><td><p>if value is &quot;first&quot; the null values will be first, if &quot;last&quot; then null values
+    will be last</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -524,15 +527,15 @@ function (expression,descending,opts){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-</p>
+<p></p>
 
 
 
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.OrderedExpression</code> a copy that is ordered ASC</li>
+        <li> <code>patio.sql.OrderedExpression</code> <p>a copy that is ordered ASC</p>
+</li>
     
     </ul>
 
@@ -567,15 +570,15 @@ function (){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-</p>
+<p></p>
 
 
 
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.OrderedExpression</code> Return a copy that is ordered DESC</li>
+        <li> <code>patio.sql.OrderedExpression</code> <p>Return a copy that is ordered DESC</p>
+</li>
     
     </ul>
 
@@ -610,15 +613,16 @@ function (){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-* </p>
+<p><p>* </p>
+</p>
 
 
 
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.OrderedExpression</code> an inverted expression, changing ASC to DESC and NULLS FIRST to NULLS LAST.</li>
+        <li> <code>patio.sql.OrderedExpression</code> <p>an inverted expression, changing ASC to DESC and NULLS FIRST to NULLS LAST.</p>
+</li>
     
     </ul>
 
@@ -653,17 +657,18 @@ function (){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Converts the <a href='./patio_sql_OrderedExpression.html#'> patio.sql.OrderedExpression</a> to a string.
+<p><p>Converts the <a href='./patio_sql_OrderedExpression.html#'> patio.sql.OrderedExpression</a> to a string.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>ds?</em>  : dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</li>
+        <li> <em>ds?</em>  : <p>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</p>
+</li>
     
      </ul>
 
@@ -671,7 +676,8 @@ the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.D
     <em>Returns</em>
     <ul>
     
-        <li>  String the SQL version of the <a href='./patio_sql_OrderedExpression.html#'> patio.sql.OrderedExpression</a>.</li>
+        <li>  <p>String the SQL version of the <a href='./patio_sql_OrderedExpression.html#'> patio.sql.OrderedExpression</a>.</p>
+</li>
     
     </ul>
 

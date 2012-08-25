@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -350,8 +350,9 @@
 
 
 
-  Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
+  <p>Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
 
+</p>
 <h3>Why Use Patio?</h3>
 
 <p>
@@ -364,165 +365,124 @@ you can <a href="./patio_Database.html#run">write plain SQL</a>.
 </p>
 
 
+<h3>Getting Started</h3>
+<p>To install patio run
 
-<h3>Installation</h3>
-To install patio run
+</p>
+<p><code>npm install comb patio</code>
 
-<pre class='prettyprint linenums lang-js'>
- npm install comb patio
-</pre>
+</p>
+<p>If you want to use the patio executable for migrations
 
-If you want to use the patio executable for migrations
-
-<pre class='prettyprint linenums lang-js'>
- npm install -g patio
-</pre>
-
-<h3>Features</h3>
-
-<ul>
- <li>Comprehensive documentation with examples.</li>
- <li> &gt; 80% test coverage</li>
- <li>Support for connection URIs</li>
- <li>Supported Databases
-     <ul>
-         <li>MySQL</li>
-         <li>Postgres</li>
-     </ul>
- </li>
- <li><a href="./models.html">Models</a>
-     <ul>
-         <li><a href="./associations.html">Associations</a></li>
-         <li><a href="./model-inheritance.html">Inheritance</a></li>
-     </ul>
- </li>
- <li>Simple adapter extensions</li>
- <li><a href="./migrations.html">Migrations</a>
-     <ul>Integer and Timestamp based.</ul>
- </li>
- <li>Powerful <a href="./querying.html">query</a> API</li>
- <li><a href="./patio_Database.html#transaction">Transactions</a> with
-     <ul>
-         <li>Savepoints</li>
-         <li>Isolation Levels</li>
-         <li>Two phase commits</li>
-     </ul>
- </li>
- <li>SQL Datatype casting</li>
- <li>Full database CRUD operations
-     <ul>
-         <li><a href="./patio_Database.html#createTable">createTable</a></li>
-         <li><a href="./patio_Database.html#alterTable">alterTable</a></li>
-         <li><a href="./patio_Database.html#dropTable">dropTable</a></li>
-         <li><a href="./patio_Dataset.html#insert">insert</a></li>
-         <li><a href="./patio_Dataset.html#multiInsert">multiInsert</a></li>
-         <li><a href="./patio_Dataset.html#update">update</a></li>
-         <li><a href="./patio.Dataset.html#remove">remove</a></li>
-         <li><a href="./patio_Dataset.html#filter">query</a></li>
-     </ul>
-</li>
-</ul>
-
-<h3>Example</h3>
-<pre class='prettyprint linenums lang-js'>
-
-var patio = require("../index.js"),
-     comb = require("comb"),
-     when = comb.when,
-     serial = comb.serial;
+</p>
+<p><code>npm install -g patio</code>
 
 
- //set all db name to camelize
- patio.camelize = true;
- patio.configureLogging();
- //connect to the db
- var DB = patio.connect(&lt;CONNECTION_URI&gt;);
+</p>
+<p>Create some tables.
 
- var errorHandler = function (error) {
+</p>
+<pre class='prettyprint linenums lang-js'><code>var patio = require(&quot;patio&quot;),
+comb = require(&quot;comb&quot;),
+when = comb.when,
+serial = comb.serial;
+
+
+//set all db name to camelize
+patio.camelize = true;
+patio.configureLogging();
+//connect to the db
+var DB = patio.connect(&lt;CONNECTION_URI&gt;);
+
+function errorHandler(error) {
      console.log(error);
      patio.disconnect();
- };
+};
 
- var createSchema = function () {
-     return DB.transaction(function () {
-         return serial([
-             function () {
-                 return DB.forceDropTable(["legInstance", "flightLeg", "flight", "airplane", "canLand", "airplaneType", "airport"]);
-             },
-             function () {
-             //set up our base tables that have no dependencies
-                 return when(
-                     DB.createTable("airport", function () {
-                         this.primaryKey("id");
-                         this.airportCode(String, {size:4, allowNull:false, unique:true});
-                         this.name(String, {allowNull:false});
-                         this.city(String, {allowNull:false});
-                         this.state(String, {size:2, allowNull:false});
-                     }),
-                     DB.createTable("airplaneType", function () {
-                         this.primaryKey("id");
-                         this.name(String, {allowNull:false});
-                         this.maxSeats(Number, {size:3, allowNull:false});
-                         this.company(String, {allowNull:false});
-                     }),
-                     DB.createTable("flight", function () {
-                         this.primaryKey("id");
-                         this.weekdays(String, {size:2, allowNull:false});
-                         this.airline(String, {allowNull:false});
-                     })
-                 );
-             },
-             function () {
-                 //create our join tables
-                 return when(
-                     DB.createTable("canLand", function () {
-                         this.foreignKey("airplaneTypeId", "airplaneType", {key:"id"});
-                         this.foreignKey("airportId", "airport", {key:"airportCode", type:String, size:4});
-                     }),
-                     DB.createTable("airplane", function () {
-                         this.primaryKey("id");
-                         this.totalNoOfSeats(Number, {size:3, allowNull:false});
-                         this.foreignKey("typeId", "airplaneType", {key:"id"});
-                     }),
-                     DB.createTable("flightLeg", function () {
-                         this.primaryKey("id");
-                         this.scheduledDepartureTime("time");
-                         this.scheduledArrivalTime("time");
-                         this.foreignKey("departureCode", "airport", {key:"airportCode", type:String, size:4});
-                         this.foreignKey("arrivalCode", "airport", {key:"airportCode", type:String, size:4});
-                         this.foreignKey("flightId", "flight", {key:"id"});
-                     })
-                 );
-             },
-             function () {
-                 return DB.createTable("legInstance", function () {
-                     this.primaryKey("id");
-                     this.date("date");
-                     this.arrTime("datetime");
-                     this.depTime("datetime");
-                     this.foreignKey("airplaneId", "airplane", {key:"id"});
-                     this.foreignKey("flightLegId", "flightLeg", {key:"id"});
-                 });
-             }
-         ]);
+function createTables() {
+     return comb.serial([
+          function () {
+               return DB.forceDropTable([&quot;capital&quot;, &quot;state&quot;]);
+          },
+          function () {
+               return DB.createTable(&quot;state&quot;, function () {
+                    this.primaryKey(&quot;id&quot;);
+                    this.name(String)
+                    this.population(&quot;integer&quot;);
+                    this.founded(Date);
+                    this.climate(String);
+                    this.description(&quot;text&quot;);
+               });
+          },
+          function () {
+               return DB.createTable(&quot;capital&quot;, function () {
+                    this.primaryKey(&quot;id&quot;);
+                    this.population(&quot;integer&quot;);
+                    this.name(String);
+                    this.founded(Date);
+                    this.foreignKey(&quot;stateId&quot;, &quot;state&quot;, {key:&quot;id&quot;});
+               });
+          }
+     ]);
+};
+
+createTables().then(function () {
+     patio.disconnect();
+}, errorHandler);</code></pre>
+<p>Next lets create some models for the tables created.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
+var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);</code></pre>
+<p>Next you&#39;ll need to sync your models. <strong>Note</strong>: The sync operation returns a promise.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>patio.syncModels();</code></pre>
+<p>Use your models.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//comb.when waits for the save operation to complete
+return comb.when(
+     State.save({
+          name:&quot;Nebraska&quot;,
+          population:1796619,
+          founded:new Date(1867, 2, 4),
+          climate:&quot;continental&quot;,
+          capital:{
+               name:&quot;Lincoln&quot;,
+               founded:new Date(1856, 0, 1),
+               population:258379
+         }
+     }),
+     Capital.save({
+          name:&quot;Austin&quot;,
+          founded:new Date(1835, 0, 1),
+          population:790390,
+          state:{
+               name:&quot;Texas&quot;,
+               population:25674681,
+               founded:new Date(1845, 11, 29)
+          }
+     })
+);</code></pre>
+<p>Now we can query the states and capitals we created.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function (state) {
+     //if you return a promise here it will prevent the foreach from
+     //resolving until all inner processing has finished.
+     return state.capital.then(function (capital) {
+         console.log(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name);
      });
- };
+});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>Capital.order(&quot;name&quot;).forEach(function (capital) {
+     //if you return a promise here it will prevent the foreach from
+     //resolving until all inner processing has finished.
+     return capital.state.then(function (state) {
+         console.log(comb.string.format(&quot;%s is the capital of %s.&quot;, capital.name, state.name));
+     });
+});</code></pre>
 
- createSchema().then(function () {
-     var ds = DB.from('airport');
-
-     ds.multiInsert([
-         {airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},
-         {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},
-         {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}
-     ]).then(function () {
-         ds.forEach(function (airport) {
-             console.log(airport.airportCode);
-       }).then(patio.disconnect.bind(patio), errorHandler);
-     }, errorHandler);
-}, errorHandler);
-
-</pre>
 
 <hr>
 

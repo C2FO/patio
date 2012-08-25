@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -408,12 +408,12 @@
 
 
 
-    <p>
-Create an object with the given conditions and
+    <p><p>Create an object with the given conditions and
 default value.  An expression can be provided to
 test each condition against, instead of having
 all conditions represent their own boolean expression.
 
+</p>
 </p>
     
 
@@ -430,7 +430,12 @@ all conditions represent their own boolean expression.
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>conditions</td><td></td><td></td><td>the conditions of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</td><tr><tr><td>def</td><td></td><td></td><td>the default value of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</td><tr><tr><td>expression</td><td></td><td></td><td>the expression of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</td><tr><tr><td>hasExpression</td><td>Boolean</td><td></td><td>returns true if this case expression has a expression</td><tr><tr><td>noExpression</td><td>Boolean</td><td></td><td>true if this <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>'s expression is undefined.</td><tr></table>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>conditions</td><td></td><td></td><td><p>the conditions of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</p>
+</td><tr><tr><td>def</td><td></td><td></td><td><p>the default value of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</p>
+</td><tr><tr><td>expression</td><td></td><td></td><td><p>the expression of the <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>.</p>
+</td><tr><tr><td>hasExpression</td><td>Boolean</td><td></td><td><p>returns true if this case expression has a expression</p>
+</td><tr><tr><td>noExpression</td><td>Boolean</td><td></td><td><p>true if this <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>&#39;s expression is undefined.</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -475,17 +480,18 @@ function (conditions,def,expression){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Converts the case expression to a string
+<p><p>Converts the case expression to a string
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>ds?</em>  : dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</li>
+        <li> <em>ds?</em>  : <p>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</p>
+</li>
     
      </ul>
 
@@ -493,7 +499,8 @@ the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.D
     <em>Returns</em>
     <ul>
     
-        <li>  String the SQL case expression fragment.</li>
+        <li>  <p>String the SQL case expression fragment.</p>
+</li>
     
     </ul>
 

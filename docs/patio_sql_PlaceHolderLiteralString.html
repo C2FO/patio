@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -408,12 +408,12 @@
 
 
 
-    <p>
-Represents a literal string with placeholders and arguments.
+    <p><p>Represents a literal string with placeholders and arguments.
 This is necessary to ensure delayed literalization of the arguments
 required for the prepared statement support and for database-specific
 literalization.
 
+</p>
 </p>
     
 
@@ -430,7 +430,10 @@ literalization.
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>args</td><td>Array</td><td></td><td><b>READ ONLY</b> array of arguments that will be literalized using <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>, and replaced in the string.</td><tr><tr><td>parens</td><td>String</td><td></td><td><b>READ ONLY</b> set to true to wrap the string in parens.</td><tr><tr><td>str</td><td>String</td><td></td><td><b>READ ONLY</b> the string that contains placeholders.</td><tr></table>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>args</td><td>Array</td><td></td><td><p><b>READ ONLY</b> array of arguments that will be literalized using <a href='./patio_Dataset.html#literal'> patio.Dataset#literal</a>, and replaced in the string.</p>
+</td><tr><tr><td>parens</td><td>String</td><td></td><td><p><b>READ ONLY</b> set to true to wrap the string in parens.</p>
+</td><tr><tr><td>str</td><td>String</td><td></td><td><p><b>READ ONLY</b> the string that contains placeholders.</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -474,17 +477,18 @@ function (str,args,parens){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Converts the <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a> to a string.
+<p><p>Converts the <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a> to a string.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>ds?</em>  : dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</li>
+        <li> <em>ds?</em>  : <p>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</p>
+</li>
     
      </ul>
 
@@ -492,7 +496,8 @@ the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.D
     <em>Returns</em>
     <ul>
     
-        <li>  String the SQL version of the <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.</li>
+        <li>  <p>String the SQL version of the <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.</p>
+</li>
     
     </ul>
 

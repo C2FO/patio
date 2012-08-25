@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -554,12 +554,13 @@
 
 
 
-    <p>
-Base class for all associations.
+    <p><p>Base class for all associations.
 
-</br>
+</p>
+<p></br>
 <b>NOT to be instantiated directly</b>
 Its just documented for reference.</p>
+</p>
     
 
     
@@ -568,13 +569,15 @@ Its just documented for reference.</p>
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>_fetchMethod</td><td>property</td><td><code>"all"</code></td><td>
-
-Method to call to look up association,
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>_fetchMethod</td><td>property</td><td><code>"all"</code></td><td><p>Method to call to look up association,
 called after the model has been filtered
-</td><tr><tr><td>fetchType</td><td>property</td><td><code>fetch.LAZY</code></td><td>
-Fetch type
-         </td><tr><tr><td>filter</td><td>property</td><td><code>null</code></td><td>Our filter method</td><tr><tr><td>model</td><td>Model</td><td></td><td>the model associatied with this association.</td><tr><tr><td>orderBy</td><td>property</td><td><code>null</code></td><td>how to order our association</td><tr></table>
+</p>
+</td><tr><tr><td>fetchType</td><td>property</td><td><code>fetch.LAZY</code></td><td><p>Fetch type
+</p>
+</td><tr><tr><td>filter</td><td>property</td><td><code>null</code></td><td><p>Our filter method</p>
+</td><tr><tr><td>model</td><td>Model</td><td></td><td><p>the model associatied with this association.</p>
+</td><tr><tr><td>orderBy</td><td>property</td><td><code>null</code></td><td><p>how to order our association</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -602,9 +605,9 @@ Fetch type
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Filters our associated dataset to load our association.
+<p><p>Filters our associated dataset to load our association.
 
+</p>
 </p>
 
 
@@ -619,7 +622,8 @@ Filters our associated dataset to load our association.
     <em>Returns</em>
     <ul>
     
-        <li> <code>Dataset</code> the dataset with all filters applied.</li>
+        <li> <code>Dataset</code> <p>the dataset with all filters applied.</p>
+</li>
     
     </ul>
 
@@ -674,8 +678,8 @@ function (parent){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Alias used to explicitly get an association on a model.
+<p><p>Alias used to explicitly get an association on a model.
+</p>
 </p>
 
 
@@ -684,7 +688,8 @@ Alias used to explicitly get an association on a model.
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -726,21 +731,23 @@ function (model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called after a model is loaded.
+<p><p>Middleware called after a model is loaded.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -774,21 +781,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called aft era model is removed.
+<p><p>Middleware called aft era model is removed.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -822,21 +831,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called after a model is saved.
+<p><p>Middleware called after a model is saved.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -870,21 +881,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called before a model is updated.
+<p><p>Middleware called before a model is updated.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -918,21 +931,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called before a model is loaded.
+<p><p>Middleware called before a model is loaded.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -966,21 +981,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called before a model is removed.
+<p><p>Middleware called before a model is removed.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being acted up.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being acted up.</p>
+</li>
     
      </ul>
 
@@ -1020,21 +1037,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called before a model is saved.
+<p><p>Middleware called before a model is saved.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -1068,21 +1087,23 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Middleware called before a model is updated.
+<p><p>Middleware called before a model is updated.
 </br>
 <b> This is called in the scope of the model</b>
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>next</em>  : function to pass control up the middleware stack.</li>
+        <li> <em>next</em>  : <p>function to pass control up the middleware stack.</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -1116,19 +1137,21 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Alias used to explicitly set an association on a model.
+<p><p>Alias used to explicitly set an association on a model.
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>val</em>  : the value to set the association to</li>
+        <li> <em>val</em>  : <p>the value to set the association to</p>
+</li>
     
         <li> <em>model</em>  : </li>
     
-        <li> <em>self</em> <code>_Association</code> : reference to the Association that is being called.</li>
+        <li> <em>self</em> <code>_Association</code> : <p>reference to the Association that is being called.</p>
+</li>
     
      </ul>
 
@@ -1164,20 +1187,22 @@ function (val,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-Method to inject functionality into a model. This method alters the model
+<p><p>Method to inject functionality into a model. This method alters the model
 to prepare it for associations, and initializes all required middleware calls
 to fulfill requirements needed to loaded the associations.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>parent</em>  : the model that is having an associtaion set on it.</li>
+        <li> <em>parent</em>  : <p>the model that is having an associtaion set on it.</p>
+</li>
     
-        <li> <em>name</em>  : the name of the association.</li>
+        <li> <em>name</em>  : <p>the name of the association.</p>
+</li>
     
      </ul>
 
@@ -1235,15 +1260,15 @@ function (parent,name){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p>
-</p>
+<p></p>
 
 
 
     <em>Returns</em>
     <ul>
     
-        <li> <code>Boolean</code> true if the association is eager.</li>
+        <li> <code>Boolean</code> <p>true if the association is eager.</p>
+</li>
     
     </ul>
 

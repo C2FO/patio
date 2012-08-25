@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -444,8 +444,8 @@
 
 
 
-    <p>
-This is the parent of all expressions.</p>
+    <p><p>This is the parent of all expressions.</p>
+</p>
     
 
     
@@ -488,9 +488,9 @@ define(null, {
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-This is a helper method that will take in an array of arguments and return an expression.
+<p><p>This is a helper method that will take in an array of arguments and return an expression.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -502,7 +502,8 @@ QualifiedIdentifier.fromArgs([&quot;table&quot;, &quot;column&quot;]);
     <em>Arguments</em>
     <ul>
     
-        <li> <em>args</em>  : array of arguments to pass into the constructor of the function.</li>
+        <li> <em>args</em>  : <p>array of arguments to pass into the constructor of the function.</p>
+</li>
     
      </ul>
 
@@ -510,7 +511,8 @@ QualifiedIdentifier.fromArgs([&quot;table&quot;, &quot;column&quot;]);
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.Expression</code> an expression.</li>
+        <li> <code>patio.sql.Expression</code> <p>an expression.</p>
+</li>
     
     </ul>
 
@@ -553,10 +555,10 @@ function (args){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Helper to determine if something is a condition specifier. Returns true if the object
+<p><p>Helper to determine if something is a condition specifier. Returns true if the object
 is a Hash or is an array of two element arrays.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -571,7 +573,8 @@ Expression.isConditionSpecifier([[&quot;a&quot;, &quot;b&quot;, &quot;e&quot;], 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>obj</em>  : object to test if it is a condition specifier</li>
+        <li> <em>obj</em>  : <p>object to test if it is a condition specifier</p>
+</li>
     
      </ul>
 
@@ -579,7 +582,8 @@ Expression.isConditionSpecifier([[&quot;a&quot;, &quot;b&quot;, &quot;e&quot;], 
     <em>Returns</em>
     <ul>
     
-        <li> <code>Boolean</code> true if the object is a Hash or is an array of two element arrays.</li>
+        <li> <code>Boolean</code> <p>true if the object is a Hash or is an array of two element arrays.</p>
+</li>
     
     </ul>
 
@@ -617,16 +621,17 @@ function (obj){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Returns the string representation of this expression
+<p><p>Returns the string representation of this expression
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>ds</em>  : the dataset that will be used to SQL-ify this expression.</li>
+        <li> <em>ds</em>  : <p>the dataset that will be used to SQL-ify this expression.</p>
+</li>
     
      </ul>
 
@@ -634,7 +639,8 @@ Returns the string representation of this expression
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> a string literal version of this expression.</li>
+        <li> <code>String</code> <p>a string literal version of this expression.</p>
+</li>
     
     </ul>
 

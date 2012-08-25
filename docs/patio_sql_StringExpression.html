@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -409,9 +409,9 @@
 
 
 
-    <p>
-Subclass of <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a> where the expression results
+    <p><p>Subclass of <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a> where the expression results
 in a text/string/varchar value in SQL.</p>
+</p>
     
 
     
@@ -434,9 +434,9 @@ in a text/string/varchar value in SQL.</p>
     
         <a name="staticProperties"></a>
         <em>Static Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>likeMap</em></td><td>Object</td><td><code>{"truetrue":'~*', "truefalse":"~", "falsetrue":"ILIKE", "falsefalse":"LIKE"}</code></td><td>
-Like map used to by <a href='./patio_sql_StringExpression.html#.like'> patio.sql.StringExpression.like</a> to create the
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>likeMap</em></td><td>Object</td><td><code>{"truetrue":'~*', "truefalse":"~", "falsetrue":"ILIKE", "falsefalse":"LIKE"}</code></td><td><p>Like map used to by <a href='./patio_sql_StringExpression.html#.like'> patio.sql.StringExpression.like</a> to create the
 LIKE expression.
+</p>
 </td><tr></table>
     
     
@@ -476,8 +476,7 @@ define([ComplexExpression, StringMethods, StringConcatenationMethods, Inequality
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-<p>Creates a SQL pattern match expression. left (l) is the SQL string we
+<p><p>Creates a SQL pattern match expression. left (l) is the SQL string we
 are matching against, and ces are the patterns we are matching.
 The match succeeds if any of the patterns match (SQL OR).</p>
 

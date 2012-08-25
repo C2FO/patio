@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -420,8 +420,8 @@
 
 
 
-    <p>
-This mixin provides ordering methods ("asc", "desc") to expression.</p>
+    <p><p>This mixin provides ordering methods (&quot;asc&quot;, &quot;desc&quot;) to expression.</p>
+</p>
     
         <em>Example</em>
             <pre class="prettyprint linenums lang-js">
@@ -471,9 +471,9 @@ define(null, {
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Mark the receiving SQL column as sorting in an ascending fashion (generally a no-op).
+<p><p>Mark the receiving SQL column as sorting in an ascending fashion (generally a no-op).
 
+</p>
 </p>
 
     <em>Example</em>
@@ -486,10 +486,12 @@ sql.name.asc({nulls:&quot;last&quot;}); //=&gt; name ASC NULLS LAST
     <em>Arguments</em>
     <ul>
     
-        <li> <em>options?</em>  : options to use when sorting</li>
+        <li> <em>options?</em>  : <p>options to use when sorting</p>
+</li>
     
-        <li> <em>[options.nulls = <code> null</code>]</em> <code>String</code> : Set to "first" to use NULLS FIRST (so NULL values are ordered
-          before other values), or "last" to use NULLS LAST (so NULL values are ordered after other values).</li>
+        <li> <em>[options.nulls = <code> null</code>]</em> <code>String</code> : <p>Set to &quot;first&quot; to use NULLS FIRST (so NULL values are ordered
+          before other values), or &quot;last&quot; to use NULLS LAST (so NULL values are ordered after other values).</p>
+</li>
     
      </ul>
 
@@ -532,8 +534,8 @@ function (options){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Mark the receiving SQL column as sorting in a descending fashion.
+<p><p>Mark the receiving SQL column as sorting in a descending fashion.
+</p>
 </p>
 
     <em>Example</em>
@@ -546,10 +548,12 @@ sql.price.desc({nulls:&quot;first&quot;}); //=&gt; price DESC NULLS FIRST
     <em>Arguments</em>
     <ul>
     
-        <li> <em>options?</em>  : options to use when sorting</li>
+        <li> <em>options?</em>  : <p>options to use when sorting</p>
+</li>
     
-        <li> <em>[options.nulls = <code> null</code>]</em> <code>String</code> : Set to "first" to use NULLS FIRST (so NULL values are ordered
-          before other values), or "last" to use NULLS LAST (so NULL values are ordered after other values).</li>
+        <li> <em>[options.nulls = <code> null</code>]</em> <code>String</code> : <p>Set to &quot;first&quot; to use NULLS FIRST (so NULL values are ordered
+          before other values), or &quot;last&quot; to use NULLS LAST (so NULL values are ordered after other values).</p>
+</li>
     
      </ul>
 

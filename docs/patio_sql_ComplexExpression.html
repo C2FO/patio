@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -408,16 +408,17 @@
 
 
 
-    <p>
-Represents a complex SQL expression, with a given operator and one
+    <p><p>Represents a complex SQL expression, with a given operator and one
 or more attributes (which may also be ComplexExpressions, forming
 a tree).
 
-This is an abstract class that is not that useful by itself.  The
+</p>
+<p>This is an abstract class that is not that useful by itself.  The
 subclasses @link patio.sql.BooleanExpression},
 <a href='./patio_sql_NumericExpression.html#'> patio.sql.NumericExpression</a> and <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> should
 be used instead of this class directly.
 
+</p>
 </p>
     
 
@@ -443,34 +444,34 @@ be used instead of this class directly.
         <em>Static Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>BITWISE_OPERATORS</em></td><td>Object</td><td><code>
 {bitWiseAnd:"&", bitWiseOr:"|", exclusiveOr:"^", leftShift:"<<", rightShift:">>"}
-         </code></td><td>
-Default bitwise operators.
+         </code></td><td><p>Default bitwise operators.
 
+</p>
 </td><tr><tr><td><em>BOOLEAN_OPERATORS</em></td><td>Object</td><td><code>
 {AND:"AND",OR:"OR"}
-         </code></td><td>
-Default boolean operators.
+         </code></td><td><p>Default boolean operators.
 
+</p>
 </td><tr><tr><td><em>INEQUALITY_OPERATORS</em></td><td>Object</td><td><code>
 {GT:">",GTE:">=",LT:"<",LTE:"<="}
-         </code></td><td>
-Default inequality operators.
+         </code></td><td><p>Default inequality operators.
 
+</p>
 </td><tr><tr><td><em>IN_OPERATORS</em></td><td>Object</td><td><code>
 {IN:"IN",NOTIN:'NOT IN'}
-         </code></td><td>
-Default IN operators.
+         </code></td><td><p>Default IN operators.
 
+</p>
 </td><tr><tr><td><em>IS_OPERATORS</em></td><td>Object</td><td><code>
 {IS:"IS", ISNOT:'IS NOT'}
-         </code></td><td>
-Default IS operators.
+         </code></td><td><p>Default IS operators.
 
+</p>
 </td><tr><tr><td><em>MATHEMATICAL_OPERATORS</em></td><td>Object</td><td><code>
 {PLUS:"+", MINUS:"-", DIVIDE:"/", MULTIPLY:"*"}
-         </code></td><td>
-Default mathematical operators.
+         </code></td><td><p>Default mathematical operators.
 
+</p>
 </td><tr><tr><td><em>N_ARITY_OPERATORS</em></td><td>Object</td><td><code>
 {
      "||":"||",
@@ -480,17 +481,17 @@ Default mathematical operators.
      MINUS:"-",
      DIVIDE:"/", MULTIPLY:"*"
 }
-         </code></td><td>
-Default N(multi) arity operators.
+         </code></td><td><p>Default N(multi) arity operators.
 
+</p>
 </td><tr><tr><td><em>ONE_ARITY_OPERATORS</em></td><td>Object</td><td><code>
 {
      "NOT":"NOT",
      "NOOP":"NOOP"
  }
-         </code></td><td>
-Default ONE operators.
+         </code></td><td><p>Default ONE operators.
 
+</p>
 </td><tr><tr><td><em>OPERATOR_INVERSIONS</em></td><td>Object</td><td><code>
 {
      AND:"OR",
@@ -515,8 +516,8 @@ Default ONE operators.
      ILIKE:'NOT ILIKE',
      NOTILIKE:"ILIKE"
 }
-         </code></td><td>
-Hash of operator inversions
+         </code></td><td><p>Hash of operator inversions
+</p>
 </td><tr><tr><td><em>TWO_ARITY_OPERATORS</em></td><td>Object</td><td><code>
 {
      EQ:'=',
@@ -542,9 +543,9 @@ Hash of operator inversions
      IN:"IN",
      NOTIN:'NOT IN'
  }
-         </code></td><td>
-Default two arity operators.
+         </code></td><td><p>Default two arity operators.
 
+</p>
 </td><tr></table>
     
     
@@ -558,9 +559,11 @@ Default two arity operators.
         <em>Throws</em>
         <ul>
             
-                <li><code>patio.sql.ExpressionError</code> if the operator doesn't allow boolean input and a boolean argument is given.</li>
+                <li><code>patio.sql.ExpressionError</code> <p>if the operator doesn&#39;t allow boolean input and a boolean argument is given.</p>
+</li>
             
-                <li><code>patio.sql.ExpressionError</code> if the wrong number of arguments for a given operator is used.</li>
+                <li><code>patio.sql.ExpressionError</code> <p>if the wrong number of arguments for a given operator is used.</p>
+</li>
             
         </ul>
     
@@ -633,17 +636,18 @@ function (op){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Converts the ComplexExpression to a string.
+<p><p>Converts the ComplexExpression to a string.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>ds?</em>  : dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</li>
+        <li> <em>ds?</em>  : <p>dataset used to created the SQL fragment, if
+the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</p>
+</li>
     
      </ul>
 
@@ -651,7 +655,8 @@ the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.D
     <em>Returns</em>
     <ul>
     
-        <li>  String the SQL version of the <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a>.</li>
+        <li>  <p>String the SQL version of the <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a>.</p>
+</li>
     
     </ul>
 

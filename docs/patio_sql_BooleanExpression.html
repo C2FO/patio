@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -435,9 +435,9 @@
 
 
 
-    <p>
-Subclass of <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a> where the expression results
+    <p><p>Subclass of <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression</a> where the expression results
 in a boolean value in SQL.</p>
+</p>
     
 
     
@@ -487,8 +487,7 @@ define([ComplexExpression, BooleanMethods], {
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-</p>
+<p></p>
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
@@ -506,9 +505,11 @@ Dataset._filterObject({a : 1}) //=&gt; WHERE (a = 1)
     <em>Arguments</em>
     <ul>
     
-        <li> <em>expr</em>  : the expression we need to create an expression out of</li>
+        <li> <em>expr</em>  : <p>the expression we need to create an expression out of</p>
+</li>
     
-        <li> <em>[key= <code>null</code>]</em>  : the key that the hash corresponds to</li>
+        <li> <em>[key= <code>null</code>]</em>  : <p>the key that the hash corresponds to</p>
+</li>
     
      </ul>
 
@@ -516,7 +517,8 @@ Dataset._filterObject({a : 1}) //=&gt; WHERE (a = 1)
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.Expression</code> an expression to use in the filter</li>
+        <li> <code>patio.sql.Expression</code> <p>an expression to use in the filter</p>
+</li>
     
     </ul>
 
@@ -604,20 +606,21 @@ function (expr,key){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Take pairs of values (e.g. a hash or array of two element arrays)
+<p><p>Take pairs of values (e.g. a hash or array of two element arrays)
 and converts it to a <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a>.  The operator and args
 used depends on the case of the right (2nd) argument:
 
+</p>
 <pre class='code'>
 BooleanExpression.fromValuePairs({a : [1,2,3]}) //=> a IN (1,2,3)
 BooleanExpression.fromValuePairs({a : true}); // a IS TRUE;
 BooleanExpression.fromValuePairs({a : /^A/i}); // a *~ '^A'
 </pre>
 
-If multiple arguments are given, they are joined with the op given (AND
+<p>If multiple arguments are given, they are joined with the op given (AND
 by default, OR possible).  If negate is set to true,
 all subexpressions are inverted before used.
+</p>
 <pre class='code'>
 BooleanExpression.fromValuePairs({a : [1,2,3], b : true}) //=> a IN (1,2,3) AND b IS TRUE
 BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR") //=> a IN (1,2,3) OR b IS TRUE
@@ -629,14 +632,17 @@ BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR", true) //=> a NOT
     <em>Arguments</em>
     <ul>
     
-        <li> <em>a</em>  : object to convert to a <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a></li>
+        <li> <em>a</em>  : <p>object to convert to a <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a></p>
+</li>
     
-        <li> <em>[op= <code>"AND"</code>]</em>  : Boolean operator to join each subexpression with.
+        <li> <em>[op= <code>"AND"</code>]</em>  : <p>Boolean operator to join each subexpression with.
+</p>
 <pre class="code">
     BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR") //=> a IN (1,2,3) OR b IS TRUE
 </pre></li>
     
-        <li> <em>[negate= <code>false</code>]</em>  : set to try to invert the <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a>.
+        <li> <em>[negate= <code>false</code>]</em>  : <p>set to try to invert the <a href='./patio_sql_BooleanExpression.html#'> patio.sql.BooleanExpression</a>.
+</p>
 <pre class="code">
 BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR", true) //=> a NOT IN (1,2,3) AND b IS NOT TRUE
 </pre></li>
@@ -647,7 +653,8 @@ BooleanExpression.fromValuePairs({a : [1,2,3], b : true}, "OR", true) //=> a NOT
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.BooleanExpression</code> expression composed of sub expressions built from the hash.</li>
+        <li> <code>patio.sql.BooleanExpression</code> <p>expression composed of sub expressions built from the hash.</p>
+</li>
     
     </ul>
 
@@ -717,12 +724,12 @@ function (a,op,negate){
 <hr/>
 <em>Defined sql.js</em>
 
-<p>
-Invert the expression, if possible.  If the expression cannot
+<p><p>Invert the expression, if possible.  If the expression cannot
 be inverted, it throws an <a href='./patio_error_ExpressionError.html#'> patio.error.ExpressionError</a>.  An inverted expression should match
 everything that the uninverted expression did not match, and vice-versa, except for possible issues with
 SQL NULL (i.e. 1 == NULL is NULL and 1 != NULL is also NULL).
 
+</p>
 </p>
 
     <em>Example</em>
@@ -734,7 +741,8 @@ BooleanExpression.invert(sql.a) //=&gt; NOT &quot;a&quot;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>expression</em>  : the expression to invert.</li>
+        <li> <em>expression</em>  : <p>the expression to invert.</p>
+</li>
     
      </ul>
 
@@ -742,7 +750,8 @@ BooleanExpression.invert(sql.a) //=&gt; NOT &quot;a&quot;
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.BooleanExpression</code> the inverted expression.</li>
+        <li> <code>patio.sql.BooleanExpression</code> <p>the inverted expression.</p>
+</li>
     
     </ul>
 

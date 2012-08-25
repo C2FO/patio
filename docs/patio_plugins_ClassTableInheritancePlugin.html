@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -422,12 +422,12 @@
 
 
 
-    <p>
-This plugin enables
+    <p><p>This plugin enables
 <a href="http://www.martinfowler.com/eaaCatalog/classTableInheritance.html" target="patioapi">
     class table inheritance
 </a>.
 
+</p>
 <div>
     Consider the following table model.
 @code
@@ -450,7 +450,7 @@ staff                        manager
      <li><b>executive</b>: Subclass of manager that also inherits from employee through inhertiance</li>
  </ul>
 <p>
-When setting up you tables the parent table should contain a String column that contains the "kind" of class it is.
+When setting up you tables the parent table should contain a String column that contains the &quot;kind&quot; of class it is.
 (i.e. employee, staff, manager, executive). This allows the plugin to return the proper instance type when querying
 the tables.
 </p>
@@ -462,8 +462,9 @@ the tables.
 </p>
 </div>
 
-To set up you models the base super class should contain the ClassTableInheritancePlugin
+<p>To set up you models the base super class should contain the ClassTableInheritancePlugin
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 var Employee = (exports.Employee = patio.addModel("employee", {
@@ -499,15 +500,17 @@ var Manager = (exports.Manager = patio.addModel("manager", Employee, {
 
 </pre>
 
-Executive inherits from manager, and through inheritance will also receive the oneToMany relationship with staff
+<p>Executive inherits from manager, and through inheritance will also receive the oneToMany relationship with staff
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 var Executive = (exports.Executive = patio.addModel("executive",  Manager));
 
 </pre>
 
-Working with models
+<p>Working with models
 
+</p>
 <pre class='prettyprint linenums lang-js'>
 
 comb.when(
@@ -565,22 +568,25 @@ comb.when(
 <hr/>
 <em>Defined plugins/inheritance.js</em>
 
-<p>
-Configures the plugins with the provided options. <b>Note:</b> This should only be called in the
+<p><p>Configures the plugins with the provided options. <b>Note:</b> This should only be called in the
 initial parent class.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>opts?</em>  : Additional options to configure behavior of the plugin</li>
+        <li> <em>opts?</em>  : <p>Additional options to configure behavior of the plugin</p>
+</li>
     
-        <li> <em>[opts.key= <code>"key"</code>]</em> <code>String</code> : the column in the base table that contains the name of the subclass.</li>
+        <li> <em>[opts.key= <code>"key"</code>]</em> <code>String</code> : <p>the column in the base table that contains the name of the subclass.</p>
+</li>
     
-        <li> <em>opts.keyCb?</em> <code>Funciton</code> : A callback to invoke on on the key returned from the database. This is useful
-if you are working with other orms that save the keys differently.</li>
+        <li> <em>opts.keyCb?</em> <code>Funciton</code> : <p>A callback to invoke on on the key returned from the database. This is useful
+if you are working with other orms that save the keys differently.</p>
+</li>
     
      </ul>
 
@@ -618,16 +624,17 @@ function (opts){
 <hr/>
 <em>Defined plugins/inheritance.js</em>
 
-<p>
-<b>Not typically called by user code</b>. Sets up subclass inheritance.
+<p><p><b>Not typically called by user code</b>. Sets up subclass inheritance.
 
+</p>
 </p>
 
 
     <em>Arguments</em>
     <ul>
     
-        <li> <em>model</em>  : model that this class is inheriting from.</li>
+        <li> <em>model</em>  : <p>model that this class is inheriting from.</p>
+</li>
     
      </ul>
 

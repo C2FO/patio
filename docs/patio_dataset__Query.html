@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -386,12 +386,12 @@
 
 
 
-    <p>
-Dataset mixin that provides functions to the <a href='./patio_dataset_Dataset.html#'> patio.dataset.Dataset</a> to
+    <p><p>Dataset mixin that provides functions to the <a href='./patio_dataset_Dataset.html#'> patio.dataset.Dataset</a> to
 create SELECT, UPDATE, CREATE, and DELETE SQL statements, based off of the the
 methods invoked in the <a href='./patio_dataset.html#._Query'> patio.dataset._Query</a>
 mixin. This class should not be used directly by
 
+</p>
 </p>
     
 
@@ -401,7 +401,12 @@ mixin. This class should not be used directly by
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>deleteSql</td><td>String</td><td></td><td>DELETE SQL query string.  See <a href='./patio_dataset.html#delete'> patio.dataset._Actions#delete</a>.       <pre class="code">       dataset.filter(function(){           return this.price.gte(100);       }).deleteSql;           // => "DELETE FROM items WHERE (price >= 100)"      </pre></td><tr><tr><td>exists</td><td>String</td><td></td><td>Returns an EXISTS clause for the dataset as a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a>.       <pre class="code">        var ds = DB.from("test");       ds.filter(ds.filter(sql.price.lt(100))).exists()).sql;              //=> 'SELECT * FROM test WHERE (EXISTS (SELECT * FROM test WHERE (price < 100)))'       </pre></td><tr><tr><td>selectSql</td><td>String</td><td></td><td>Returns a SELECT SQL query string.       <pre class="code">        DB.from("items").selectSql;              //=> "SELECT * FROM items"      </pre></td><tr><tr><td>sql</td><td>String</td><td></td><td>Readonly property that returns a SELECT statement.</td><tr><tr><td>truncateSql</td><td>String</td><td></td><td>Returns a TRUNCATE SQL query string.  See <a href='./patio_dataset.html#truncate'> patio.dataset._Actions#truncate</a>       <pre class="code">        DB.from("items").truncateSql();              //=> 'TRUNCATE items'      </pre></td><tr></table>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>deleteSql</td><td>String</td><td></td><td><p>DELETE SQL query string.  See <a href='./patio_dataset.html#delete'> patio.dataset._Actions#delete</a>.       <pre class="code">       dataset.filter(function(){           return this.price.gte(100);       }).deleteSql;           // =&gt; &quot;DELETE FROM items WHERE (price &gt;= 100)&quot;      </pre></p>
+</td><tr><tr><td>exists</td><td>String</td><td></td><td><p>Returns an EXISTS clause for the dataset as a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a>.       <pre class="code">        var ds = DB.from(&quot;test&quot;);       ds.filter(ds.filter(sql.price.lt(100))).exists()).sql;              //=&gt; &#39;SELECT <em> FROM test WHERE (EXISTS (SELECT </em> FROM test WHERE (price &lt; 100)))&#39;       </pre></p>
+</td><tr><tr><td>selectSql</td><td>String</td><td></td><td><p>Returns a SELECT SQL query string.       <pre class="code">        DB.from(&quot;items&quot;).selectSql;              //=&gt; &quot;SELECT * FROM items&quot;      </pre></p>
+</td><tr><tr><td>sql</td><td>String</td><td></td><td><p>Readonly property that returns a SELECT statement.</p>
+</td><tr><tr><td>truncateSql</td><td>String</td><td></td><td><p>Returns a TRUNCATE SQL query string.  See <a href='./patio_dataset.html#truncate'> patio.dataset._Actions#truncate</a>       <pre class="code">        DB.from(&quot;items&quot;).truncateSql();              //=&gt; &#39;TRUNCATE items&#39;      </pre></p>
+</td><tr></table>
     
 
     <a name="constructor"></a>

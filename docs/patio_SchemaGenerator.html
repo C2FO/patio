@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -556,17 +556,18 @@
 
 
 
-    <p>
-An internal class that the user is not expected to instantiate directly.
+    <p><p>An internal class that the user is not expected to instantiate directly.
 Instances are created by <a href='./patio_Database.html#createTable'> patio.Database#createTable</a>.
 It is used to specify table creation parameters.  It takes a Database
 object and a block of column/index/constraint specifications, and
 gives the Database a table description, which the database uses to
 create a table.
 
-<a href='./patio_SchemaGenerator.html#'> patio.SchemaGenerator</a> has some methods but also includes method_missing,
+</p>
+<p><a href='./patio_SchemaGenerator.html#'> patio.SchemaGenerator</a> has some methods but also includes method_missing,
 allowing users to specify column type as a method instead of using
 the column method, which makes for a cleaner code.
+</p>
 </p>
     
         <em>Example</em>
@@ -647,8 +648,7 @@ function (db){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -690,8 +690,7 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-</p>
+<p></p>
 
 
     <em>Arguments</em>
@@ -735,10 +734,10 @@ function (columns){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add an unnamed constraint to the DDL, specified by the given block
+<p><p>Add an unnamed constraint to the DDL, specified by the given block
 or args:
 
+</p>
 </p>
 
     <em>Example</em>
@@ -784,9 +783,9 @@ function (){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a column with the given name, type, and opts to the DDL.
+<p><p>Add a column with the given name, type, and opts to the DDL.
 
+</p>
 <pre class="code">
  DB.createTable("test", function(){
      this.column("num", "integer");
@@ -798,8 +797,9 @@ Add a column with the given name, type, and opts to the DDL.
   });
 </pre>
 
-You can also create columns via method missing, so the following are
+<p>You can also create columns via method missing, so the following are
 equivalent:
+</p>
 <pre class="code">
 DB.createTable("test", function(){
   this.column("number", "integer");
@@ -813,50 +813,65 @@ DB.createTable("test", function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the column</li>
+        <li> <em>name</em>  : <p>the name of the column</p>
+</li>
     
-        <li> <em>type</em>  : the datatype of the column.</li>
+        <li> <em>type</em>  : <p>the datatype of the column.</p>
+</li>
     
-        <li> <em>opts?</em>  : additional options</li>
+        <li> <em>opts?</em>  : <p>additional options</p>
+</li>
     
-        <li> <em>opts.default?</em>  : The default value for the column.</li>
+        <li> <em>opts.default?</em>  : <p>The default value for the column.</p>
+</li>
     
-        <li> <em>opts.deferrable?</em>  : This ensure Referential Integrity will work even if
+        <li> <em>opts.deferrable?</em>  : <p>This ensure Referential Integrity will work even if
                reference table will use for its foreign key a value that does not
                exists(yet) on referenced table. Basically it adds
-               DEFERRABLE INITIALLY DEFERRED on key creation.</li>
+               DEFERRABLE INITIALLY DEFERRED on key creation.</p>
+</li>
     
-        <li> <em>opts.index?</em> <code>Boolean</code> : Create an index on this column.</li>
+        <li> <em>opts.index?</em> <code>Boolean</code> : <p>Create an index on this column.</p>
+</li>
     
-        <li> <em>key?</em> <code>String|patio.sql.Identifier</code> : For foreign key columns, the column in the associated table
+        <li> <em>key?</em> <code>String|patio.sql.Identifier</code> : <p>For foreign key columns, the column in the associated table
         that this column references.  Unnecessary if this column references the primary key of the
-        associated table.</li>
+        associated table.</p>
+</li>
     
-        <li> <em>opts.allowNull?</em> <code>Boolean</code> : Mark the column as allowing NULL values (if true),
+        <li> <em>opts.allowNull?</em> <code>Boolean</code> : <p>Mark the column as allowing NULL values (if true),
          or not allowing NULL values (if false).  If unspecified, will default
-         to whatever the database default is.</li>
+         to whatever the database default is.</p>
+</li>
     
-        <li> <em>opts.onDelete?</em> <code>String</code> : Specify the behavior of this column when being deleted
-              ("restrict", "cascade", "setNull", "setDefault", "noAction").</li>
+        <li> <em>opts.onDelete?</em> <code>String</code> : <p>Specify the behavior of this column when being deleted
+              (&quot;restrict&quot;, &quot;cascade&quot;, &quot;setNull&quot;, &quot;setDefault&quot;, &quot;noAction&quot;).</p>
+</li>
     
-        <li> <em>opts.onUpdate?</em> <code>String</code> : Specify the behavior of this column when being updated
-              Valid options ("restrict", "cascade", "setNull", "setDefault", "noAction").</li>
+        <li> <em>opts.onUpdate?</em> <code>String</code> : <p>Specify the behavior of this column when being updated
+              Valid options (&quot;restrict&quot;, &quot;cascade&quot;, &quot;setNull&quot;, &quot;setDefault&quot;, &quot;noAction&quot;).</p>
+</li>
     
-        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : Make the column as a single primary key column.  This should only
-                be used if you have a single, non-autoincrementing primary key column.</li>
+        <li> <em>opts.primaryKey?</em> <code>Boolean</code> : <p>Make the column as a single primary key column.  This should only
+                be used if you have a single, non-autoincrementing primary key column.</p>
+</li>
     
-        <li> <em>opts.size?</em> <code>Number</code> : The size of the column, generally used with string
+        <li> <em>opts.size?</em> <code>Number</code> : <p>The size of the column, generally used with string
          columns to specify the maximum number of characters the column will hold.
          An array of two integers can be provided to set the size and the
-         precision, respectively, of decimal columns.</li>
+         precision, respectively, of decimal columns.</p>
+</li>
     
-        <li> <em>opts.unique?</em> <code>String</code> : Mark the column as unique, generally has the same effect as
-           creating a unique index on the column.</li>
+        <li> <em>opts.unique?</em> <code>String</code> : <p>Mark the column as unique, generally has the same effect as
+           creating a unique index on the column.</p>
+</li>
     
-        <li> <em>opts.unsigned?</em> <code>String</code> : Make the column type unsigned, only useful for integer
-             columns.</li>
+        <li> <em>opts.unsigned?</em> <code>String</code> : <p>Make the column type unsigned, only useful for integer
+             columns.</p>
+</li>
     
-        <li> <em>opts.elements?</em> <code>Array</code> : Available items used for set and enum columns.</li>
+        <li> <em>opts.elements?</em> <code>Array</code> : <p>Available items used for set and enum columns.</p>
+</li>
     
      </ul>
 
@@ -896,9 +911,9 @@ function (name,type,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Adds a named constraint (or unnamed if name is nil) to the DDL,
+<p><p>Adds a named constraint (or unnamed if name is nil) to the DDL,
 with the given block or args.
+</p>
 </p>
 
     <em>Example</em>
@@ -916,9 +931,11 @@ DB.createTable(&quot;test&quot;, function(){
     <em>Arguments</em>
     <ul>
     
-        <li> <em>name</em>  : the name of the constraint</li>
+        <li> <em>name</em>  : <p>the name of the constraint</p>
+</li>
     
-        <li> <em>args</em>  : variable number of arguments to create the constraint filter.              See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for valid filter arguments.</li>
+        <li> <em>args</em>  : <p>variable number of arguments to create the constraint filter.              See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for valid filter arguments.</p>
+</li>
     
      </ul>
 
@@ -956,10 +973,10 @@ function (name,args){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
- Add a foreign key in the table that references another table to the DDL. See {@link patio.SchemaGenerator#column{
+<p><p> Add a foreign key in the table that references another table to the DDL. See {@link patio.SchemaGenerator#column{
 for options.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1024,9 +1041,9 @@ function (name,table,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a full text index on the given columns to the DDL.
+<p><p>Add a full text index on the given columns to the DDL.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1082,9 +1099,8 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-
-Check if the DDL includes the creation of a column with the given name.
+<p><p>Check if the DDL includes the creation of a column with the given name.
+</p>
 </p>
 
 
@@ -1099,7 +1115,8 @@ Check if the DDL includes the creation of a column with the given name.
     <em>Returns</em>
     <ul>
     
-        <li> <code>Boolean</code> true if the DDL includes the creation of a column with the given name.</li>
+        <li> <code>Boolean</code> <p>true if the DDL includes the creation of a column with the given name.</p>
+</li>
     
     </ul>
 
@@ -1136,9 +1153,9 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add an index on the given column(s) with the given options to the DDL.
+<p><p>Add an index on the given column(s) with the given options to the DDL.
 The available options are:
+</p>
 </p>
 
     <em>Example</em>
@@ -1154,15 +1171,20 @@ DB.createTable(&quot;test&quot;, function(table) {
     <em>Arguments</em>
     <ul>
     
-        <li> <em>columns</em>  : the column/n to create the index from.</li>
+        <li> <em>columns</em>  : <p>the column/n to create the index from.</p>
+</li>
     
-        <li> <em>opts?</em>  : Additional options</li>
+        <li> <em>opts?</em>  : <p>Additional options</p>
+</li>
     
-        <li> <em>opts.type?</em> <code>String</code> : The type of index to use (only supported by some databases)</li>
+        <li> <em>opts.type?</em> <code>String</code> : <p>The type of index to use (only supported by some databases)</p>
+</li>
     
-        <li> <em>opts.unique?</em> <code>Boolean</code> : :: Make the index unique, so duplicate values are not allowed.</li>
+        <li> <em>opts.unique?</em> <code>Boolean</code> : <p>:: Make the index unique, so duplicate values are not allowed.</p>
+</li>
     
-        <li> <em>opts.where?</em>  : :: Create a partial index (only supported by some databases)</li>
+        <li> <em>opts.where?</em>  : <p>:: Create a partial index (only supported by some databases)</p>
+</li>
     
      </ul>
 
@@ -1198,17 +1220,18 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Adds an auto-incrementing primary key column or a primary key constraint to the DDL.
+<p><p>Adds an auto-incrementing primary key column or a primary key constraint to the DDL.
 To create a constraint, the first argument should be an array of columns
 specifying the primary key columns. To create an auto-incrementing primary key
 column, a single column can be used. In both cases, an options hash can be used
 as the second argument.
 
-If you want to create a primary key column that is not auto-incrementing, you
+</p>
+<p>If you want to create a primary key column that is not auto-incrementing, you
 should not use this method.  Instead, you should use the regular <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
 method with a {primaryKey : true} option.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1273,9 +1296,9 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a spatial index on the given columns to the DDL.
-         </p>
+<p><p>Add a spatial index on the given columns to the DDL.
+</p>
+</p>
 
 
     <em>Arguments</em>
@@ -1320,9 +1343,9 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p>
-Add a unique constraint on the given columns to the DDL. See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>
+<p><p>Add a unique constraint on the given columns to the DDL. See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>
 for argument types.
+</p>
 </p>
 
     <em>Example</em>

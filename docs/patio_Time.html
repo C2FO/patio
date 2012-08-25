@@ -64,7 +64,7 @@
     </style>
     <style type="text/css">
         body {
-            padding: 60px;
+            padding: 90px;
         }
 
         .subnav{
@@ -534,9 +534,9 @@
 
 
 
-    <p>
-Mixin that provides time formatting/coversion functions.
+    <p><p>Mixin that provides time formatting/coversion functions.
 
+</p>
 </p>
     
 
@@ -548,53 +548,58 @@ Mixin that provides time formatting/coversion functions.
         <em>Instance Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>DATETIME_FORMAT_TZ</td><td>String</td><td><code>
 yyyy-MM-dd HH:mm:ssZ
-         </code></td><td>
-Datetime format used if the default fails. This format includes timezone info.</td><tr><tr><td>DATETIME_TWO_YEAR_FORMAT</td><td>String</td><td><code>
+         </code></td><td><p>Datetime format used if the default fails. This format includes timezone info.</p>
+</td><tr><tr><td>DATETIME_TWO_YEAR_FORMAT</td><td>String</td><td><code>
 yy-MM-dd HH:mm:ss
 
-         </code></td><td>
-Two year datetime format. If convertTwoDigitYear is set to true and the timeStampFormat
-fails this format will be tried.</td><tr><tr><td>DEFAULT_DATETIME_FORMAT</td><td>String</td><td><code>
+         </code></td><td><p>Two year datetime format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.</p>
+</td><tr><tr><td>DEFAULT_DATETIME_FORMAT</td><td>String</td><td><code>
 yyyy-MM-dd HH:mm:ss
-</code></td><td>
-Default datetime format</td><tr><tr><td>DEFAULT_DATE_FORMAT</td><td>String</td><td><code>
+</code></td><td><p>Default datetime format</p>
+</td><tr><tr><td>DEFAULT_DATE_FORMAT</td><td>String</td><td><code>
 yyyy-MM-dd
-</code></td><td>
-
-default date format.</td><tr><tr><td>DEFAULT_TIMESTAMP_FORMAT</td><td>String</td><td><code>
+</code></td><td><p>default date format.</p>
+</td><tr><tr><td>DEFAULT_TIMESTAMP_FORMAT</td><td>String</td><td><code>
 yyyy-MM-dd HH:mm:ss
-</code></td><td>
-Default timestamp format</td><tr><tr><td>DEFAULT_TIME_FORMAT</td><td>String</td><td><code>
+</code></td><td><p>Default timestamp format</p>
+</td><tr><tr><td>DEFAULT_TIME_FORMAT</td><td>String</td><td><code>
 HH:mm:ss
-</code></td><td>
-Default time format</td><tr><tr><td>DEFAULT_YEAR_FORMAT</td><td>String</td><td><code>
+</code></td><td><p>Default time format</p>
+</td><tr><tr><td>DEFAULT_YEAR_FORMAT</td><td>String</td><td><code>
 yyyy
-</code></td><td>
-Default year format</td><tr><tr><td>ISO_8601</td><td>String</td><td><code>
+</code></td><td><p>Default year format</p>
+</td><tr><tr><td>ISO_8601</td><td>String</td><td><code>
 yyyy-MM-ddTHH:mm:ssZ
-         </code></td><td>
-ISO-8601 format</td><tr><tr><td>ISO_8601_TWO_YEAR</td><td>String</td><td><code>
+         </code></td><td><p>ISO-8601 format</p>
+</td><tr><tr><td>ISO_8601_TWO_YEAR</td><td>String</td><td><code>
 yy-MM-ddTHH:mm:ssZ
-         </code></td><td>
-Two year ISO-8601 format</td><tr><tr><td>TIMESTAMP_FORMAT_TZ</td><td>String</td><td><code>
+         </code></td><td><p>Two year ISO-8601 format</p>
+</td><tr><tr><td>TIMESTAMP_FORMAT_TZ</td><td>String</td><td><code>
 yyyy-MM-dd HH:mm:ssZ
-         </code></td><td>
-Timestamp format used if the default fails. This format includes timezone info.</td><tr><tr><td>TIMESTAMP_TWO_YEAR_FORMAT</td><td>String</td><td><code>
+         </code></td><td><p>Timestamp format used if the default fails. This format includes timezone info.</p>
+</td><tr><tr><td>TIMESTAMP_TWO_YEAR_FORMAT</td><td>String</td><td><code>
 yy-MM-dd HH:mm:ss
 
-         </code></td><td>
-Two year timestamp format. If convertTwoDigitYear is set to true and the timeStampFormat
-fails this format will be tried.</td><tr><tr><td>TWO_YEAR_DATE_FORMAT</td><td>String</td><td><code>
+         </code></td><td><p>Two year timestamp format. If convertTwoDigitYear is set to true and the timeStampFormat
+fails this format will be tried.</p>
+</td><tr><tr><td>TWO_YEAR_DATE_FORMAT</td><td>String</td><td><code>
 yy-MM-dd
-</code></td><td>
-Two year date format
+</code></td><td><p>Two year date format
 This is used in date coversions when convertTwoDigitYears is used.
 
-If this format fails then dateFormat|DEFAULT_DATE_FORMAT is used.</td><tr><tr><td>convertTwoDigitYears</td><td>Boolean</td><td><code>
+</p>
+<p>If this format fails then dateFormat|DEFAULT_DATE_FORMAT is used.</p>
+</td><tr><tr><td>convertTwoDigitYears</td><td>Boolean</td><td><code>
 true
-</code></td><td>
-By default patio will try to covert all two digit years.
-To turn this off:</td><tr><tr><td>dateFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATE_FORMAT'> patio.Time#DEFAULT_DATE_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>dateTimeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>timeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>timeStampFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr><tr><td>yearFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a></code></td><td>the format to use to formatting/converting dates.</td><tr></table>
+</code></td><td><p>By default patio will try to covert all two digit years.
+To turn this off:</p>
+</td><tr><tr><td>dateFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATE_FORMAT'> patio.Time#DEFAULT_DATE_FORMAT</a></code></td><td><p>the format to use to formatting/converting dates.</p>
+</td><tr><tr><td>dateTimeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a></code></td><td><p>the format to use to formatting/converting dates.</p>
+</td><tr><tr><td>timeFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a></code></td><td><p>the format to use to formatting/converting dates.</p>
+</td><tr><tr><td>timeStampFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a></code></td><td><p>the format to use to formatting/converting dates.</p>
+</td><tr><tr><td>yearFormat</td><td>String</td><td><code><a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a></code></td><td><p>the format to use to formatting/converting dates.</p>
+</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -624,11 +629,11 @@ To turn this off:</td><tr><tr><td>dateFormat</td><td>String</td><td><code><a hre
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a @link{patio.sql.DateTime} to a string.
+<p><p>Converts a @link{patio.sql.DateTime} to a string.
 The format used is <a href='./patio_Time.html#dateTimeFormat'> patio.Time#dateTimeFormat</a>,
 which defaults to <a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -660,7 +665,8 @@ patio.dateTimeToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the datetime to covert to to a string.</li>
+        <li> <em>dt</em>  : <p>the datetime to covert to to a string.</p>
+</li>
     
         <li> <em>format</em>  : </li>
     
@@ -670,7 +676,8 @@ patio.dateTimeToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the date string.</li>
+        <li> <code>String</code> <p>the date string.</p>
+</li>
     
     </ul>
 
@@ -705,9 +712,9 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a date to a string.
+<p><p>Converts a date to a string.
 
+</p>
 </p>
 
     <em>Example</em>
@@ -766,7 +773,8 @@ patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the date to covert to to a string.</li>
+        <li> <em>dt</em>  : <p>the date to covert to to a string.</p>
+</li>
     
         <li> <em>format</em>  : </li>
     
@@ -776,7 +784,8 @@ patio.dateToString(timeStamp); //=&gt; &#x27;2004-02-01 12:12:12&#x27;
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the date string.</li>
+        <li> <code>String</code> <p>the date string.</p>
+</li>
     
     </ul>
 
@@ -823,9 +832,9 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a date string to a Date
+<p><p>Converts a date string to a Date
 
+</p>
 </p>
 
     <em>Example</em>
@@ -841,9 +850,11 @@ patio.stringToDate(&#x27;04-02-01&#x27;); //=&gt; date
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the string to convert to a Date</li>
+        <li> <em>dt</em>  : <p>the string to convert to a Date</p>
+</li>
     
-        <li> <em>[format= <code>patio.Time#dateFormat</code>]</em>  : the format to use when converting the date.</li>
+        <li> <em>[format= <code>patio.Time#dateFormat</code>]</em>  : <p>the format to use when converting the date.</p>
+</li>
     
      </ul>
 
@@ -851,7 +862,8 @@ patio.stringToDate(&#x27;04-02-01&#x27;); //=&gt; date
     <em>Returns</em>
     <ul>
     
-        <li> <code>Date</code> the <a href='./Date.html#'> Date</a></li>
+        <li> <code>Date</code> <p>the <a href='./Date.html#'> Date</a></p>
+</li>
     
     </ul>
 
@@ -859,7 +871,8 @@ patio.stringToDate(&#x27;04-02-01&#x27;); //=&gt; date
     <em>Throws</em>
     <ul>
     
-        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+        <li> <code>PatioError</code> <p>thrown if the conversion fails.</p>
+</li>
     
     </ul>
 
@@ -903,9 +916,9 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a datetime date string to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a>
+<p><p>Converts a datetime date string to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -931,11 +944,13 @@ patio.stringToDateTime(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; dateTime
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a></li>
+        <li> <em>dt</em>  : <p>the string to convert to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a></p>
+</li>
     
         <li> <em>fmt</em>  : </li>
     
-        <li> <em>[format= <code>patio.Time#dateTimeFormat</code>]</em> <code>String</code> : the format to use when converting the date.</li>
+        <li> <em>[format= <code>patio.Time#dateTimeFormat</code>]</em> <code>String</code> : <p>the format to use when converting the date.</p>
+</li>
     
      </ul>
 
@@ -943,7 +958,8 @@ patio.stringToDateTime(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; dateTime
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.DateTime</code> the <a href='./patio_sql_DateTime.html#'>patio.sql.DateTime</a></li>
+        <li> <code>patio.sql.DateTime</code> <p>the <a href='./patio_sql_DateTime.html#'>patio.sql.DateTime</a></p>
+</li>
     
     </ul>
 
@@ -951,7 +967,8 @@ patio.stringToDateTime(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; dateTime
     <em>Throws</em>
     <ul>
     
-        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+        <li> <code>PatioError</code> <p>thrown if the conversion fails.</p>
+</li>
     
     </ul>
 
@@ -1001,9 +1018,9 @@ function (dt,fmt){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a time date string to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a>
+<p><p>Converts a time date string to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1016,9 +1033,11 @@ patio.stringToTime(&quot;12:12:12&quot;); //=&gt; time
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a></li>
+        <li> <em>dt</em>  : <p>the string to convert to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a></p>
+</li>
     
-        <li> <em>[format= <code>patio.Time#timeFormat</code>]</em>  : the format to use when converting the date.</li>
+        <li> <em>[format= <code>patio.Time#timeFormat</code>]</em>  : <p>the format to use when converting the date.</p>
+</li>
     
      </ul>
 
@@ -1026,7 +1045,8 @@ patio.stringToTime(&quot;12:12:12&quot;); //=&gt; time
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.Time</code> the <a href='./patio_sql_Time.html#'> patio.sql.Time</a></li>
+        <li> <code>patio.sql.Time</code> <p>the <a href='./patio_sql_Time.html#'> patio.sql.Time</a></p>
+</li>
     
     </ul>
 
@@ -1034,7 +1054,8 @@ patio.stringToTime(&quot;12:12:12&quot;); //=&gt; time
     <em>Throws</em>
     <ul>
     
-        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+        <li> <code>PatioError</code> <p>thrown if the conversion fails.</p>
+</li>
     
     </ul>
 
@@ -1072,9 +1093,9 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a timestamp date string to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a>
+<p><p>Converts a timestamp date string to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1099,11 +1120,13 @@ patio.stringToTimeStamp(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; timeStamp
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the string to convert to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></li>
+        <li> <em>dt</em>  : <p>the string to convert to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></p>
+</li>
     
         <li> <em>fmt</em>  : </li>
     
-        <li> <em>[format= <code>patio.Time#timeStampFormat</code>]</em> <code>String</code> : the format to use when converting the date.</li>
+        <li> <em>[format= <code>patio.Time#timeStampFormat</code>]</em> <code>String</code> : <p>the format to use when converting the date.</p>
+</li>
     
      </ul>
 
@@ -1111,7 +1134,8 @@ patio.stringToTimeStamp(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; timeStamp
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.TimeStamp</code> the <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></li>
+        <li> <code>patio.sql.TimeStamp</code> <p>the <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></p>
+</li>
     
     </ul>
 
@@ -1119,7 +1143,8 @@ patio.stringToTimeStamp(&#x27;04-02-01T12:12:12-0600&#x27;); //=&gt; timeStamp
     <em>Throws</em>
     <ul>
     
-        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+        <li> <code>PatioError</code> <p>thrown if the conversion fails.</p>
+</li>
     
     </ul>
 
@@ -1169,9 +1194,9 @@ function (dt,fmt){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a year date string to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a>
+<p><p>Converts a year date string to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1186,9 +1211,11 @@ patio.stringToYear(&quot;04&quot;); //=&gt; year
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the string to covert to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a></li>
+        <li> <em>dt</em>  : <p>the string to covert to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a></p>
+</li>
     
-        <li> <em>[format= <code>patio.Time#yearFormat</code>]</em>  : the format to use when converting the date.</li>
+        <li> <em>[format= <code>patio.Time#yearFormat</code>]</em>  : <p>the format to use when converting the date.</p>
+</li>
     
      </ul>
 
@@ -1196,7 +1223,8 @@ patio.stringToYear(&quot;04&quot;); //=&gt; year
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.sql.Year</code> the <a href='./patio_sql_Year.html#'> patio.sql.Year</a></li>
+        <li> <code>patio.sql.Year</code> <p>the <a href='./patio_sql_Year.html#'> patio.sql.Year</a></p>
+</li>
     
     </ul>
 
@@ -1204,7 +1232,8 @@ patio.stringToYear(&quot;04&quot;); //=&gt; year
     <em>Throws</em>
     <ul>
     
-        <li> <code>PatioError</code> thrown if the conversion fails.</li>
+        <li> <code>PatioError</code> <p>thrown if the conversion fails.</p>
+</li>
     
     </ul>
 
@@ -1242,11 +1271,11 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a> to a string.
+<p><p>Converts a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a> to a string.
 The format used is <a href='./patio_Time.html#timeStampFormat'> patio.Time#timeStampFormat</a>,
 which defaults to <a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1278,7 +1307,8 @@ patio.timeStampToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the timestamp to convert to to a string.</li>
+        <li> <em>dt</em>  : <p>the timestamp to convert to to a string.</p>
+</li>
     
         <li> <em>format</em>  : </li>
     
@@ -1288,7 +1318,8 @@ patio.timeStampToString(dateTime); //=&gt; &#x27;04-02-01T12:12:12-0600&#x27;
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the date string.</li>
+        <li> <code>String</code> <p>the date string.</p>
+</li>
     
     </ul>
 
@@ -1323,11 +1354,11 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a <a href='./sql_Time.html#'> sql.Time</a> to a string.
+<p><p>Converts a <a href='./sql_Time.html#'> sql.Time</a> to a string.
 The format used is <a href='./patio_Time.html#timeFormat'> patio.Time#timeFormat</a>,
 which defaults to <a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1345,7 +1376,8 @@ patio.timeToString(time); //=&gt; &#x27;01:12:12&#x27;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the time to covert to to a string.</li>
+        <li> <em>dt</em>  : <p>the time to covert to to a string.</p>
+</li>
     
         <li> <em>format</em>  : </li>
     
@@ -1355,7 +1387,8 @@ patio.timeToString(time); //=&gt; &#x27;01:12:12&#x27;
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the date string.</li>
+        <li> <code>String</code> <p>the date string.</p>
+</li>
     
     </ul>
 
@@ -1390,11 +1423,11 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p>
-Converts a <a href='./patio_sql_Year.html#'> patio.sql.Year</a> to a string.
+<p><p>Converts a <a href='./patio_sql_Year.html#'> patio.sql.Year</a> to a string.
 The format used is <a href='./patio_Time.html#yearFormat'> patio.Time#yearFormat</a>,
 which defaults to <a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a>
 
+</p>
 </p>
 
     <em>Example</em>
@@ -1412,7 +1445,8 @@ patio.yearToString(year); //=&gt; &#x27;04&#x27;
     <em>Arguments</em>
     <ul>
     
-        <li> <em>dt</em>  : the year to covert to to a string.</li>
+        <li> <em>dt</em>  : <p>the year to covert to to a string.</p>
+</li>
     
         <li> <em>format</em>  : </li>
     
@@ -1422,7 +1456,8 @@ patio.yearToString(year); //=&gt; &#x27;04&#x27;
     <em>Returns</em>
     <ul>
     
-        <li> <code>String</code> the date string.</li>
+        <li> <code>String</code> <p>the date string.</p>
+</li>
     
     </ul>
 
