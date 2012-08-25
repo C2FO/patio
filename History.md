@@ -1,4 +1,23 @@
-#0.0.9 / 2012/08/16
+#0.1.0 / 2012-08-25
+* Added custom getters (mbenedettini)
+* Added Validator plugin for models
+* Change model inheritance configure method to return this for chaining
+* Updated all promise returning methods to return the `.promise()`
+* Updated docs new docs layout
+* Updated docs
+  * Updated logging.md to use new comb logging API
+  * updated associations.md to use chaning api 
+  * Added examples to model.md for new getter functionality and added a setter and getter example
+  * Added Model Validation page and added validation to plugins page.
+  * Updated index.html page
+* New Tests for both custom getters and setters
+* Changed tests to run both mysql and postgres 
+* Bug fixes
+  * Fixed bug where custom datasets for model definition would not work
+  * Changed the storage of model classes so patio.getModel will always work even with datasets.
+   
+
+#0.0.9 / 2012-08-16
 * Fixed bug where default that are buffers were not handle properly (#35)
 * Fixed bug with inheritance loading
 * Updated benchmark

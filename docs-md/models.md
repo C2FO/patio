@@ -254,7 +254,9 @@ patio.syncModels().then(function(User1,User2){
 });
 ```
 
-##Custom setters
+##Custom setters and getters
+
+###Setters
 
 patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.
 
@@ -282,6 +284,63 @@ patio.syncModels().then(function(User){
     console.log(myUser.lastName);  //Yukon
 });
 ```
+
+###Getters
+
+Custom getters can be used to change values returned from the database but not alter the value when persisting. 
+
+For example if you wanted to return a value as an array but persist as a string you could do the following.
+
+```
+var User = patio.addModel("user", {
+	instance : {
+		_getRoles : function(roles){
+			return roles.split(",");
+		}
+	}
+});
+
+patio.syncModels().then(function(User){
+    var myUser = new User({
+        firstName : "bob",
+        lastName : "yukon",
+        roles : "admin,user,groupAdmin"
+    });
+    console.log(myUser.roles); //['admin', 'user','groupAdmin'];
+});
+```
+
+You can also use the getters/setters in tandem.
+
+Lets take the getters example from before but use a setter also
+
+
+```
+var User = patio.addModel("user", {
+	instance : {
+		_setRoles : function(roles){
+			return roles.join(",");
+		},
+
+	
+		_getRoles : function(roles){
+			return roles.split(",");
+		}
+	}
+});
+
+patio.syncModels().then(function(User){
+    var myUser = new User({
+        firstName : "bob",
+        lastName : "yukon",
+        roles : ["admin","user","groupAdmin"];
+    });
+    console.log(myUser.roles); //['admin', 'user','groupAdmin'];
+    //INSERT INTO `user` (`first_name`, `last_name`, `roles`) VALUES ('bob', 'yukon', 'admin,user,groupAdmin')
+    myUser.save(); 
+});
+```
+
 
 ##Model hooks
 

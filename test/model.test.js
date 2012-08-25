@@ -239,7 +239,7 @@ it.describe("A model with properites", function (it) {
                     next();
                 }, next);
         });
-
+        
         it.should("support custom query methods", function (next) {
             Employee.findByGender("F").then(function (emps) {
                 emps.forEach(function (emp) {
