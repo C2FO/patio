@@ -366,77 +366,63 @@
 <li><strong>model</strong> : The associated class or its name. If not given, uses the association&#39;s name, which is singularized unless the type is <code>MANY_TO_ONE</code>  or <code>ONE_TO_ONE</code> . For example, suppose we have the tables father and child, father being oneToMany with children. Yo would not need to specify the model for the following.</li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//you would not need to specify model for this
-this.oneToMany(&quot;children&quot;);
-this.manyToOne(&quot;father&quot;);</code></pre>
+patio.addModel(&quot;father&quot;).oneToMany(&quot;children&quot;);
+patio.addModel(&quot;child&quot;).manyToOne(&quot;father&quot;);</code></pre>
 <p>You would for the following;
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>//it would default to the model myChild
-this.oneToMany(&quot;myChildren&quot;, {model : &quot;child&quot;});
+patio.addModel(&quot;father&quot;).oneToMany(&quot;myChildren&quot;, {model : &quot;child&quot;});
 //it would default to the model myBiologicalFather
-this.manyToOne(&quot;myBiologicalFather&quot;, {model : &quot;father&quot;});</code></pre>
+patio.addModel(&quot;child&quot;).manyToOne(&quot;myBiologicalFather&quot;, {model : &quot;father&quot;});</code></pre>
 <ul>
 <li><strong>query</strong> : The conditions to use to filter the association, can be any argument passed to <a href="./patio_Dataset.html#filter">filter</a>.</li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//WHERE age &gt; 10
-this.oneToMany(&quot;children&quot;, {query : {age : {gt : 10}}});
-this.oneToMany(&quot;femaleChildren&quot;, {query : {gender : &quot;female&quot;}});
-this.oneToMany(&quot;maleChildren&quot;, {query : {gender : &quot;male&quot;}});</code></pre>
+patio.addModel(&quot;father&quot;)
+    .oneToMany(&quot;children&quot;, {query : {age : {gt : 10}}})
+    .oneToMany(&quot;femaleChildren&quot;, {query : {gender : &quot;female&quot;}})
+    .oneToMany(&quot;maleChildren&quot;, {query : {gender : &quot;male&quot;}});</code></pre>
 <ul>
 <li><strong>dataset</strong> : A function that is called in the scope of the model and called with the model as the first argument. The function must return a dataset that can be used as the base for all dataset operations.<strong>NOTE:</strong> The dataset returned will have all options applied to it.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>this.oneToMany(&quot;letterBChildren&quot;, {model : &quot;child&quot;, dataset : function(){
-            //called in the scope of the model instance
-            return this.db.from(&quot;child&quot;).filter({fatherId : this.id, name : {like : &quot;B%&quot;}});
-}});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;father&quot;)
+    .oneToMany(&quot;letterBChildren&quot;, {model : &quot;child&quot;, dataset : function(){
+        //called in the scope of the model instance
+        return this.db.from(&quot;child&quot;).filter({fatherId : this.id, name : {like : &quot;B%&quot;}});
+    }});</code></pre>
 <ul>
 <li><strong>distinct</strong> : Use the DISTINCT clause when selecting associated objects. See <a href="./patio_Dataset.html#distinct">discinct</a></li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {distinct : &quot;gpa&quot;});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {distinct : &quot;gpa&quot;});</code></pre>
 <ul>
 <li><strong>limit</strong> : Limit the number of records to the provided value. Use an array with two elements for the value to specify a limit (first element) and an offset (second element). See <a href="./patio_Dataset.html#limit">limit</a>.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {limit : 10});
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {limit : 10});
 
-this.manyToMany(&quot;classes&quot;, {limit : [10, 20]});</code></pre>
+patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {limit : [10, 20]});</code></pre>
 <ul>
 <li><strong>order</strong> : the column/s order the association dataset by. Can be a one or more columns. See <a href="./patio_Dataset.html#order">order</a>.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {order : &quot;gpa&quot;});
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {order : &quot;gpa&quot;});
 
-this.manyToMany(&quot;classes&quot;, {order : [&quot;firstName&quot;, sql.lastName.desc()]});</code></pre>
+patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {order : [&quot;firstName&quot;, sql.lastName.desc()]});</code></pre>
 <ul>
 <li>readOnly : Do not add a setter method (for <code>MANY_TO_ONE</code>  or <code>ONE_TO_ONE</code>  associations), or add/remove/removeAll methods (for <code>ONE_TO_MANY</code>  and <code>MANY_TO_MANY</code>  associations).</li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//Make students read only.
-this.manyToMany(&quot;students&quot;, {readOnly : true});</code></pre>
+patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {readOnly : true});</code></pre>
 <ul>
 <li><strong>select</strong> : the columns to select. Defaults to the associated class&#39;s tableName.* in a <code>MANY_TO_MANY</code>  association, which means it doesn&#39;t include the attributes from the join table. If you want to include the join table attributes, you can use this option, but beware that the join table attributes can clash with attributes from the model table, so you should alias any attributes that have the same name in both the join table and the associated table.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>this.manyToMany(&quot;students&quot;, {select : [&quot;firstName&quot;, &quot;lastName&quot;]});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {select : [&quot;firstName&quot;, &quot;lastName&quot;]});</code></pre>
 <h3>ManyToOne additional options:</h3>
 <ul>
 <li><strong>key</strong> : foreignKey in current model&#39;s table that references associated model&#39;s primary key. Defaults to : &quot;{tableName}Id&quot;. Can use an array of strings for a composite key association.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            //assumes biologicalFatherId
-            this.oneToMany(&quot;children&quot;);
-        }
-    }
-});
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;);;
 
-patio.addModel(&quot;child&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            //assumes biologicalFatherId
-            this.manyToOne(&quot;biologicalFather&quot;);
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;);</code></pre>
 <p>However this table structure would not work.
 
 </p>
@@ -447,25 +433,9 @@ patio.addModel(&quot;child&quot;, {
 <p>So you would need to define your models like this.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            //override default biologicalFatherId with biologicalFatherKey
-            this.oneToMany(&quot;children&quot;, {key : &quot;biologicalFatherKey&quot;});
-        }
-    }
-});
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;, {key : &quot;biologicalFatherKey&quot;});;
 
-patio.addModel(&quot;child&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            //override default biologicalFatherId with biologicalFatherKey
-            this.manyToOne(&quot;biologicalFather&quot;, {key : &quot;biologicalFatherKey&quot;});
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {key : &quot;biologicalFatherKey&quot;});</code></pre>
 <ul>
 <li><strong>primaryKey</strong> : column in the associated table that the <strong>key</strong> option references. Defaults to the primary key of the associated table. Can use an array of strings for a composite key association.</li>
 </ul>
@@ -480,23 +450,9 @@ patio.addModel(&quot;child&quot;, {
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>
-patio.addModel(&quot;stepFather&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.oneToMany(&quot;children&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
-        }
-    }
-});
+patio.addModel(&quot;stepFather&quot;).oneToMany(&quot;children&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
 
-patio.addModel(&quot;child&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToOne(&quot;stepFather&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;child&quot;).manyToOne(&quot;stepFather&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});</code></pre>
 <h3>OneToMany and OneToOne additional options:</h3>
 <ul>
 <li><strong>key</strong> : foreign key in associated model&#39;s table that references current model&#39;s primary key, as a symbol. Defaults to &quot;{thisTableName}Id&quot;. Can use an array of columns for a composite key association. <strong>For examples see the ManyToOne examples above</strong>.</li>
@@ -512,22 +468,8 @@ patio.addModel(&quot;child&quot;, {
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
-patio.addModel(&quot;class&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;students&quot;, {joinTable:&quot;studentsClasses&quot;});
-        }
-    }
-});
-patio.addModel(&quot;student&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;classes&quot;, {joinTable:&quot;studentsClasses&quot;});
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {joinTable:&quot;studentsClasses&quot;});
+patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {joinTable:&quot;studentsClasses&quot;});</code></pre>
 <ul>
 <li><p><strong>leftKey/rightKey</strong></p>
 <ul>
@@ -552,22 +494,8 @@ patio.addModel(&quot;student&quot;, {
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
-patio.addModel(&quot;class&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;students&quot;, {leftKey:&quot;classKey&quot;, rightKey:&quot;studentKey&quot;});
-        }
-    }
-});
-patio.addModel(&quot;student&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;classes&quot;, {leftKey:&quot;studentKey&quot;, rightKey:&quot;classKey&quot;});
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {leftKey:&quot;classKey&quot;, rightKey:&quot;studentKey&quot;});
+patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {leftKey:&quot;studentKey&quot;, rightKey:&quot;classKey&quot;});</code></pre>
 <ul>
 <li><strong>leftPrimaryKey/rightPrimaryKey</strong><ul>
 <li><strong>leftPrimaryKey</strong> : column in current table that <strong>leftKey</strong> points to. Defaults to primary key of current table. Can use an array of strings for a composite key association.</li>
@@ -589,33 +517,21 @@ patio.addModel(&quot;student&quot;, {
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
-patio.addModel(&quot;class&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;students&quot;, {
-                //use the composite key of name and subject
-                leftPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
-                leftKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
-                rightPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
-                rightKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;]
-            });
-        }
-    }
-});
-patio.addModel(&quot;student&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;classes&quot;, {
-                 leftPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
-                 leftKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;],
-                 rightPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
-                 rightKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
-            });
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;class&quot;)
+    .manyToMany(&quot;students&quot;, {
+        //use the composite key of name and subject
+        leftPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
+        leftKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
+        rightPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
+        rightKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;]
+    });
+patio.addModel(&quot;student&quot;)
+    manyToMany(&quot;classes&quot;, {
+        leftPrimaryKey:[&quot;firstName&quot;, &quot;lastName&quot;],
+        leftKey:[&quot;firstNameKey&quot;, &quot;lastNameKey&quot;],
+        rightPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
+        rightKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
+    });</code></pre>
 <h2>Filter Block</h2>
 <p>You may also pass a function to the association to perform additional filtering on the dataset.
 
@@ -624,38 +540,26 @@ patio.addModel(&quot;student&quot;, {
 <p>Assume the student/class relation ship defined above with the conventional keys and jointable
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;students&quot;);
-            this.manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-                return ds.filter({gpa:{gte:3.5}});
-            });
-            this.manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-                return ds.filter({gpa:{between:[2.5, 3.5]}});
-            });
-            this.manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-                return ds.filter({gpa:{lt:2.5}});
-            });
-        }
-    }
-});
+<pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;)
+    .manyToMany(&quot;students&quot;)
+    .manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+        return ds.filter({gpa:{gte:3.5}});
+    })
+    .manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+        return ds.filter({gpa:{between:[2.5, 3.5]}});
+    })
+    .manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+        return ds.filter({gpa:{lt:2.5}});
+    });
 
-patio.addModel(&quot;student&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;classes&quot;);
-            this.manyToMany(&quot;fallClasses&quot;, {model : &quot;class&quot;}, function(ds){
-                return ds.filter({semester : &quot;FALL&quot;});
-            });
-            this.manyToMany(&quot;sprintClasses&quot;, {model : &quot;class&quot;}, function(ds){
-                return ds.filter({semester : &quot;SPRING&quot;});
-            });
-        }
-    }
-});</code></pre>
+patio.addModel(&quot;student&quot;)
+    .manyToMany(&quot;classes&quot;)
+    .manyToMany(&quot;fallClasses&quot;, {model : &quot;class&quot;}, function(ds){
+        return ds.filter({semester : &quot;FALL&quot;});
+    })
+    .manyToMany(&quot;sprintClasses&quot;, {model : &quot;class&quot;}, function(ds){
+        return ds.filter({semester : &quot;SPRING&quot;});
+    });</code></pre>
 <h2><a href="./patio_Model.html#.oneToMany">oneToMany</a></h2>
 <p>One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many <a href="./patio_Model.html">Model</a> is the parent, and the many to one model is the child.
 
@@ -691,24 +595,10 @@ DB.createTable(&quot;child&quot;, function(){
 
 </p>
 <pre class='prettyprint linenums lang-js'><code>
- var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;, {
-         static : {
-             init : function(){
-                 this._super(&quot;arguments&quot;);
-                 this.oneToMany(&quot;children&quot;);
-             }
-         }
-     });
+ var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;)
 
      //define Child  model
-var Child = patio.addModel(&quot;child&quot;, {
-         static : {
-             init : function(){
-                this._super(&quot;arguments&quot;);
-                this.manyToOne(&quot;biologicalFather&quot;);
-             }
-         }
-     });
+var Child = patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;);
 
 patio.syncModels().then(function(){
  BiologicalFather.save([
@@ -753,24 +643,8 @@ patio.syncModels().then(function(){
 <p>An <code>EAGER</code> model and query would look like this:
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;, {
-    static : {
-        init : function(){
-            this._super(&quot;arguments&quot;);
-            this.oneToMany(&quot;children&quot;, {fetchType : this.fetchType.EAGER});
-        }
-    }
-});
-
-
-var Child = patio.addModel(&quot;child&quot;, {
-    static : {
-        init : function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToOne(&quot;biologicalFather&quot;, {fetchType : this.fetchType.EAGER});
-        }
-    }
-});
+<pre class='prettyprint linenums lang-js'><code>var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;, {fetchType : this.fetchType.EAGER});
+var Child = patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {fetchType : this.fetchType.EAGER});
 
 //sync the models
 patio.syncModels().then(funciton(){
@@ -827,22 +701,8 @@ db.createTable(&quot;capital&quot;, function(){
 </p>
 <p>The models for the above schema would be declared as follows:
 </p>
-<pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.oneToOne(&quot;capital&quot;);
-        }
-    }
-});
-var Capital = patio.addModel(&quot;capital&quot;, {
-    static:{
-        init:function(){
-            this._super(&quot;arguments&quot;);
-            this.manyToOne(&quot;state&quot;);
-        }
-    }
-});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
+var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);</code></pre>
 <p>To insert data into state or capital you could create each individually and set the properties manually:
 
 </p>
@@ -1003,26 +863,18 @@ option when creating the associations.
 </p>
 <p>Standard model definition:
 </p>
-<pre class='prettyprint linenums lang-js'><code>var Class = patio.addModel(&quot;class&quot;, {
-    static:{
-      init:function() {
-        this._super(&quot;arguments&quot;);
-        this.manyToMany(&quot;students&quot;,
-          {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]});
-
-        //custom filters, notice the specification of the model property.
-        this.manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-          return ds.filter({gpa:{gte:3.5}});
-        });       
-        this.manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-          return ds.filter({gpa:{between:[2.5, 3.5]}});
-        });
-        this.manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
-          return ds.filter({gpa:{lt:2.5}});
-        });
-      }
-    }
-});
+<pre class='prettyprint linenums lang-js'><code>var Class = patio.addModel(&quot;class&quot;)
+    .manyToMany(&quot;students&quot;, {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]})
+    //custom filters, notice the specification of the model property.
+    .manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+              return ds.filter({gpa:{gte:3.5}});
+    })
+    .manyToMany(&quot;averageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+        return ds.filter({gpa:{between:[2.5, 3.5]}});
+    })
+    .manyToMany(&quot;belowAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
+        return ds.filter({gpa:{lt:2.5}});
+    });
 var Student = patio.addModel(&quot;student&quot;, {
 
     instance:{
@@ -1033,15 +885,8 @@ var Student = patio.addModel(&quot;student&quot;, {
           return this.addClass(clas);
         }
       }
-    },
-
-    static:{
-        init:function() {
-            this._super(&quot;arguments&quot;);
-            this.manyToMany(&quot;classes&quot;, {fetchType:this.fetchType.EAGER, order:sql.name.desc()});
-        }
     }
-});</code></pre>
+}).manyToMany(&quot;classes&quot;, {fetchType:this.fetchType.EAGER, order:sql.name.desc()});</code></pre>
 <p>In the above declarations both models fetch the default classes/students EAGERLY meaning that when
 referencing the associations it <strong>will not</strong> return a Promise.
 
