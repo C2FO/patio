@@ -22,7 +22,7 @@ If you want to use the patio executable for migrations
 
 Create some tables.
                                                                                                                       
-```                                                                                                                                    
+```javascript                                                                                                                                    
 var patio = require("patio"),                                                                                                    
      comb = require("comb"),                                                                                                           
      when = comb.when,                                                                                                                 
@@ -74,7 +74,7 @@ function createTables() {
 
 Next lets create some models for the tables created.
 
-```
+```javascript
 var State = patio.addModel("state", {
     static:{
         init:function () {
@@ -95,13 +95,13 @@ var Capital = patio.addModel("capital", {
 
 Next you'll need to sync your models
 
-```
+```javascript
 patio.syncModels();
 ```
 
 Use your models.
 
-```
+```javascript
 //comb.when waits for the save operta
 return comb.when(
 	State.save({
@@ -130,7 +130,7 @@ return comb.when(
 
 Now we can query the states and capitals we created.
 
-```
+```javascript
 State.order("name").forEach(function (state) {
 	//if you return a promise here it will prevent the foreach from
 	//resolving until all inner processing has finished.
@@ -140,7 +140,7 @@ State.order("name").forEach(function (state) {
 });
 ```
 
-```
+```javascript
 Capital.order("name").forEach(function (capital) {
 	//if you return a promise here it will prevent the foreach from
 	//resolving until all inner processing has finished.
