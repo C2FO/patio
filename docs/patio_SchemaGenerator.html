@@ -5,70 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
-    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
 
-.subnav-inner {
-    width: 100%;
-    height: 36px;
-    background-color: #EEE;
-    background-repeat: repeat-x;
-    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
-    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
-    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
+/*.subnav-inner {*/
+    /*width: 100%;*/
+    /*height: 36px;*/
+    /*background-color: #EEE;*/
+    /*background-repeat: repeat-x;*/
+    /*background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));*/
+    /*background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);*/
+    /*background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*-webkit-border-radius: 4px;*/
+    /*-moz-border-radius: 4px;*/
+    /*border-radius: 4px;*/
+/*}*/
 
-.subnav .nav > li > a:hover {
-    color: black !important;
-}
+/*.subnav .nav > li > a:hover {*/
+    /*color: black !important;*/
+/*}*/
 
-.subnav .nav li.dropdown .dropdown-toggle .caret,
-.subnav .nav li.dropdown.open .caret {
-    border-top-color: #999 !important;
-    border-bottom-color: #999 !important;
-}
+/*.subnav .nav li.dropdown .dropdown-toggle .caret,*/
+/*.subnav .nav li.dropdown.open .caret {*/
+    /*border-top-color: #999 !important;*/
+    /*border-bottom-color: #999 !important;*/
+/*}*/
 
-.subnav-fixed {
-    position: fixed;
-    width : 90%;
-    margin-right: auto;
-    margin-left: auto;
-    top: 40px;
-    left: 0;
-    right: 0;
-    z-index: 1020;
-    border-color: #D5D5D5;
-    border-width: 0 0 1px;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
+/*.subnav-fixed {*/
+    /*position: fixed;*/
+    /*width : 90%;*/
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
+    /*top: 40px;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*z-index: 1020;*/
+    /*border-color: #D5D5D5;*/
+    /*border-width: 0 0 1px;*/
+    /*-webkit-border-radius: 0;*/
+    /*-moz-border-radius: 0;*/
+    /*border-radius: 0;*/
+    /*-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*-moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);*/
+/*}*/
 
-.navbar .nav  .dropdown-menu {
-    max-height: 500px;
-    overflow: auto;
-}​
+/*.navbar .nav  .dropdown-menu {*/
+    /*max-height: 500px;*/
+    /*overflow: auto;*/
+/*}​*/
 
     </style>
     <style type="text/css">
         body {
-            padding-top: 60px;
-            padding-bottom: 40px;
+            padding: 60px;
+        }
+
+        .subnav{
+            margin-top: 40px;
+            margin-right: auto;
+            margin-left: auto;
+            z-index: 1000;
+        }
+
+        @media (max-width:979px) {
+            .subnav{
+                margin-top: auto;
+            }
         }
     </style>
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -79,7 +91,8 @@
                     var $win = $(window);
                     $('.subnav').each(function () {
                         var nav = $(this);
-                        var navTop = nav.offset().top - 40;
+                        var navTop = $win.width() < 980 ? 0 : nav.offset().top - 40;
+
                         var scrollTop = $win.scrollTop();
                         if (scrollTop >= navTop && curr != nav) {
                             if(curr){
@@ -102,221 +115,232 @@
             return function () {
                 window.prettyPrint && prettyPrint();
                 $(".collapse").collapse();
+                var $window = $(window);
+                //$(".subnav").affix ();
                 // fix sub nav on scroll
-                processScroll();
-                $(window).on('scroll', processScroll)
+//                processScroll();
+//                $(window).on('scroll', processScroll)
             }
         })();
     </script>
 </head>
 <body onload="init()">
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-      
-          <a href="./index.html" class="brand">patio</a>
-      
-      <div class="nav-collapse">
-      <ul class="nav nav-pills">
-      
-      
-                 <li><a href="./connecting.html">Connecting</a></li>
-                 
-                 <li><a href="./models.html">Models</a></li>
-                 
-                 <li><a href="./associations.html">Associations</a></li>
-                 
-                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
-                 
-                 <li><a href="./plugins.html">Model Plugins</a></li>
-                 
-                 <li><a href="./querying.html">Querying</a></li>
-                 
-                 <li><a href="./DDL.html">DDL</a></li>
-                 
-                 <li><a href="./migrations.html">Migrations</a></li>
-                 
-                 <li><a href="./logging.html">Logging</a></li>
-                 
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"> </span>
+            </a>
             
+            <a href="./index.html" class="brand">patio</a>
+            
+            <div class="nav-collapse">
+                <ul class="nav">
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./connecting.html">Connecting</a></li>
+                            
+                            <li><a href="./models.html">Models</a></li>
+                            
+                            <li><a href="./associations.html">Associations</a></li>
+                            
+                            <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                            
+                            <li><a href="./plugins.html">Model Plugins</a></li>
+                            
+                            <li><a href="./querying.html">Querying</a></li>
+                            
+                            <li><a href="./DDL.html">DDL</a></li>
+                            
+                            <li><a href="./migrations.html">Migrations</a></li>
+                            
+                            <li><a href="./logging.html">Logging</a></li>
+                            
+                        </ul>
+                        
 
-      
-        <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
-           <ul class="dropdown-menu">
-             
-                         <li><a href="patio_sql.html">patio.sql</a></li>
-               
-                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
-               
-           </ul>
-           </li>
-        
-        
-           <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
-           <ul class="dropdown-menu">
-             
-                         <li><a href="./patio.html">patio</a></li>
-               
-                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
-               
-                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
-               
-                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
-               
-                         <li><a href="./patio_Database.html">patio.Database</a></li>
-               
-                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
-               
-                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
-               
-                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
-               
-                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
-               
-                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
-               
-                         <li><a href="./patio_Model.html">patio.Model</a></li>
-               
-                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
-               
-                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
-               
-                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
-               
-                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
-               
-                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
-               
-                         <li><a href="./patio_Time.html">patio.Time</a></li>
-               
-                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
-               
-                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
-               
-                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
-               
-                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
-               
-                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
-               
-                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
-               
-                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
-               
-                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
-               
-                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
-               
-                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
-               
-                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
-               
-                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
-               
-                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
-               
-                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
-               
-                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
-               
-                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
-               
-                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
-               
-                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
-               
-                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
-               
-                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
-               
-                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
-               
-                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
-               
-                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
-               
-                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
-               
-                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
-               
-                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
-               
-                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
-               
-                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
-               
-                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
-               
-                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
-               
-                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
-               
-                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
-               
-                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
-               
-                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
-               
-                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
-               
-                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
-               
-                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
-               
-                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
-               
-                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
-               
-                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
-               
-                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
-               
-                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
-               
-                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
-               
-                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
-               
-                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
-               
-                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
-               
-                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
-               
-                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
-               
-                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
-               
-                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
-               
-                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
-               
-                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
-               
-                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
-               
-                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
-               
-           </ul>
-        </li>
-       
-      </ul>
-      
-      <ul class="nav pull-right">
-                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
-        </ul>
-        
-      </div>
+                        
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="patio_sql.html">patio.sql</a></li>
+                            
+                            <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio.html">patio</a></li>
+                            
+                            <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+                            
+                            <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+                            
+                            <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+                            
+                            <li><a href="./patio_Database.html">patio.Database</a></li>
+                            
+                            <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+                            
+                            <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+                            
+                            <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+                            
+                            <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+                            
+                            <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+                            
+                            <li><a href="./patio_Model.html">patio.Model</a></li>
+                            
+                            <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+                            
+                            <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+                            
+                            <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+                            
+                            <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+                            
+                            <li><a href="./patio_Time.html">patio.Time</a></li>
+                            
+                            <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+                            
+                            <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+                            
+                            <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+                            
+                            <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+                            
+                            <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+                            
+                            <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+                            
+                            <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+                            
+                            <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ValidatorPlugin.html">patio.plugins.ValidatorPlugin</a></li>
+                            
+                            <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+                            
+                            <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+                            
+                            <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+                            
+                            <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+                            
+                            <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+                            
+                            <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+                            
+                            <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+                            
+                            <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+                            
+                            <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+                            
+                            <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+                            
+                            <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+                            
+                            <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+                            
+                            <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+                            
+                            <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+                            
+                            <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+                            
+                            <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+                            
+                            <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+                            
+                            <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+                            
+                            <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+                            
+                            <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+                            
+                            <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+                            
+                            <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+                            
+                            <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+                            
+                            <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+                            
+                            <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+                            
+                            <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+                            
+                            <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+                            
+                            <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+                            
+                            <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+                            
+                            <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+                            
+                            <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+                            
+                            <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+                            
+                            <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+                            
+                            <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+                            
+                            <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+                            
+                            <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+                            
+                            <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+                            
+                            <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                </ul>
+                
+                <ul class="nav pull-right">
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                </ul>
+                
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
 
 
 <div class="container-fluid">
@@ -326,35 +350,37 @@
 
 
     <a name=""></a>
-    <div class="navbar subnav">
-    <div class="navbar-inner  subnav-inner">
-          <div class="container">
+    <div class="navbar subnav navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
             <a href="#" class="brand">
-            patio.SchemaGenerator
-            
-                    
-             <span class="label label-success">Public</span>
-                    
-            
+                patio.SchemaGenerator
+                
+                
+                <span class="label label-success">Public</span>
+                
+                
             </a>
-           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                    </a>
-                    <div class="nav-collapse">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".sub-nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
 
-            <ul class="nav pull-right">
-             <li><a href="#constructor">Constructor</a></li>
-                        
-                        
-                        
-                        
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                
-                                <li><a href="./patio_SchemaGenerator.html#__compositeForeignKey">
+            <div class="nav-collapse sub-nav-collapse">
+
+                <ul class="nav pull-right">
+                    <li><a href="#constructor">Constructor</a></li>
+                    
+                    
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio_SchemaGenerator.html#__compositeForeignKey">
                                 
                                 
                                 <span class="label label-label">F</span>
@@ -364,9 +390,9 @@
                                 
                                 __compositeForeignKey
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#__compositePrimaryKey">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#__compositePrimaryKey">
                                 
                                 
                                 <span class="label label-label">F</span>
@@ -376,156 +402,157 @@
                                 
                                 __compositePrimaryKey
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#check">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#check">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 check
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#column">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#column">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 column
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#constraint">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#constraint">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 constraint
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#foreignKey">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#foreignKey">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 foreignKey
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#fullTextIndex">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#fullTextIndex">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 fullTextIndex
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#hasColumn">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#hasColumn">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 hasColumn
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#index">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#index">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 index
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#primaryKey">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#primaryKey">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 primaryKey
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#spatialIndex">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#spatialIndex">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 spatialIndex
 
-                                </a></li>
-                                
-                                <li><a href="./patio_SchemaGenerator.html#unique">
+                            </a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html#unique">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 unique
 
-                                </a></li>
-                                
-                            </ul>
-                        </li>
-                        
-            </ul>
+                            </a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                </ul>
             </div>
-            </div>
-     </div>
+        </div>
+    </div>
 </div>
+
 
 
 
@@ -640,7 +667,7 @@ function (db){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
-   this.constraints.push(comb.merge({type:&quot;foreignKey&quot;, columns:columns}, opts));
+   this.constraints.push(merge({type:&quot;foreignKey&quot;, columns:columns}, opts));
            
 }
     </pre>
@@ -681,9 +708,9 @@ function (columns,opts){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (columns){
-   var args = comb.argsToArray(arguments).slice(1);
+   var args = argsToArray(arguments, 1);
    var opts = args.pop() || {};
-   this.constraints.push(comb.merge({type:&quot;primaryKey&quot;, columns:columns}, opts));
+   this.constraints.push(merge({type:&quot;primaryKey&quot;, columns:columns}, opts));
            
 }
     </pre>
@@ -732,7 +759,7 @@ db.createTable(&quot;test&quot;, function(){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.constraint.apply(this, [null].concat(comb.argsToArray(arguments)));
+   return this.constraint.apply(this, [null].concat(argsToArray(arguments)));
            
 }
     </pre>
@@ -841,7 +868,7 @@ DB.createTable("test", function(){
     <pre class="prettyprint linenums lang-js">
 function (name,type,opts){
    opts = opts || {};
-   this.columns.push(comb.merge({name:name, type:type}, opts));
+   this.columns.push(merge({name:name, type:type}, opts));
    if (opts.index) {
        this.index(name);
    }
@@ -902,8 +929,8 @@ DB.createTable(&quot;test&quot;, function(){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,args){
-   args = comb.argsToArray(arguments).slice(1);
-   var block = comb.isFunction(args[args.length - 1]) ? args.pop : null;
+   args = argsToArray(arguments).slice(1);
+   var block = isFunction(args[args.length - 1]) ? args.pop : null;
    this.constraints.push({name:name, type:&quot;check&quot;, check:block || args});
            
 }
@@ -967,8 +994,8 @@ DB.createTable(&quot;flight_leg&quot;, function () {
     <pre class="prettyprint linenums lang-js">
 function (name,table,opts){
    opts = opts || {};
-   opts = comb.isHash(table) ? comb.merge({}, table, opts) : comb.isString(table) ? comb.merge({table:table}, opts) : opts;
-   if (comb.isArray(name)) {
+   opts = isHash(table) ? merge({}, table, opts) : isString(table) ? merge({table:table}, opts) : opts;
+   if (isArray(name)) {
        return this.__compositeForeignKey(name, opts);
    } else {
        return this.column(name, &quot;integer&quot;, opts);
@@ -1030,7 +1057,7 @@ DB.createTable(&quot;posts&quot;, function () {
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
    opts = opts || {};
-   return this.index(columns, comb.merge({type:&quot;fullText&quot;}, opts));
+   return this.index(columns, merge({type:&quot;fullText&quot;}, opts));
            
 }
     </pre>
@@ -1146,7 +1173,7 @@ DB.createTable(&quot;test&quot;, function(table) {
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
-   this.indexes.push(comb.merge({columns:comb.array.toArray(columns)}, opts || {}));
+   this.indexes.push(merge({columns:toArray(columns)}, opts || {}));
            
 }
     </pre>
@@ -1210,16 +1237,16 @@ db.createTable(&quot;airplane_type&quot;, function () {
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name){
-   if (comb.isArray(name)) {
+   if (isArray(name)) {
        return this.__compositePrimaryKey.apply(this, arguments);
    } else {
-       var args = comb.argsToArray(arguments).slice(1), type;
+       var args = argsToArray(arguments, 1), type;
        var opts = args.pop();
-       this.__primaryKey = comb.merge({}, this.db.serialPrimaryKeyOptions, {name:name}, opts);
-       if ((type = args.pop()) != null) {
-           comb.merge(opts, {type:type});
+       this.__primaryKey = merge({}, this.db.serialPrimaryKeyOptions, {name:name}, opts);
+       if (isDefined((type = args.pop()))) {
+           merge(opts, {type:type});
        }
-       comb.merge(this.__primaryKey, opts);
+       merge(this.__primaryKey, opts);
        return this.__primaryKey;
    }
            
@@ -1268,7 +1295,7 @@ Add a spatial index on the given columns to the DDL.
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
    opts = opts || {};
-   return this.index(columns, comb.merge({type:&quot;spatial&quot;}, opts));
+   return this.index(columns, merge({type:&quot;spatial&quot;}, opts));
            
 }
     </pre>
@@ -1324,7 +1351,7 @@ DB.createTable(&quot;test&quot;, function(){
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
    opts = opts || {};
-   this.constraints.push(comb.merge({type:&quot;unique&quot;, columns:comb.array.toArray(columns)}, opts));
+   this.constraints.push(merge({type:&quot;unique&quot;, columns:toArray(columns)}, opts));
            
 }
     </pre>
@@ -1334,22 +1361,14 @@ function (columns,opts){
   
 <hr>
 
-Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+Documentation generated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
 
 
 </div>
 </div>
 <script type="text/javascript" src="./assets/js/jquery.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
-<script type="text/javascript"
-        src="./assets/js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./assets/js/prettify.js"></script>
 
 </body>
 </html>

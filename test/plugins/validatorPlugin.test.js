@@ -991,7 +991,7 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
 
         it.should("allow adding a check function", function (next) {
-            var m = new Model({num:1});
+            var m = new Model({num:1, num2:2});
             assert.isFalse(m.isValid());
             m.save().then(next, function (err) {
                 assert.equal(err[0].message, "num must be even got 1.");
@@ -1019,12 +1019,67 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
         it.should("not throw an error if valid", function (next) {
             comb.when(
-                new Model({num:null}).save(),
-                new Model({num:2}).save(),
+                new Model({num:null, num2:2}).save(),
+                new Model({num:2, num2:2}).save(),
                 new Model({num2:2}).save()
             ).classic(next);
         });
     });
 
+    it.context(function () {
+        var Model = patio.addModel("validator", {
+            plugins:[ValidatorPlugin]
+        });
+        Model.validate(function (validate) {
+            validate("num").check(function (val) {
+                return val % 2 === 0;
+            }, {message:"{col} must be even got {val}."});
+            validate("num2").isNotNull().check(function (val) {
+                return val % 2 === 0;
+            }, {message:"{col} must be even got {val}."});
+        });
+
+        it.beforeAll(function () {
+            return  Model.sync();
+        });
+
+        it.should("allow mass validation", function (next) {
+            comb.serial([
+                function () {
+                    var m = new Model({num:1, num2:2}), ret = new comb.Promise();
+                    assert.isFalse(m.isValid());
+                    m.save().then(ret.errback.bind(ret), function (err) {
+                        assert.equal(err[0].message, "num must be even got 1.");
+                        ret.callback();
+                    });
+                    return ret;
+                },
+                function () {
+                    var m = new Model({num2:null}), ret = new comb.Promise();
+                    assert.isFalse(m.isValid());
+                    m.save().then(ret.errback.bind(ret), function (err) {
+                        assert.equal(err[0].message, "num2 cannot be null.");
+                        ret.callback();
+                    });
+                },
+                function (next) {
+                    var m = new Model({num2:1}), ret = new comb.Promise();
+                    assert.isFalse(m.isValid());
+                    m.save().then(ret.errback.bind(ret), function (err) {
+                        assert.equal(err[0].message, "num2 must be even got 1.");
+                        ret.callback();
+                    });
+                },
+                function () {
+                    return comb.when(
+                        new Model({num:null, num2:2}).save(),
+                        new Model({num:2, num2:2}).save(),
+                        new Model({num2:2}).save()
+                    );
+                }
+            ]).classic(next);
+        });
+
+    });
 });
 

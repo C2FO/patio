@@ -9,6 +9,9 @@ var createTables = function () {
     return DB.forceCreateTable("validator", function () {
         this.primaryKey("id");
         this.str(String);
+        this.col1(String);
+        this.col2(String);
+        this.emailAddress(String);
         this.str2(String);
         this.macAddress(String);
         this.ipAddress(String);

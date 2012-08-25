@@ -5,70 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
-    <link rel="stylesheet" href="./assets/js/google-code-prettify/prettify.css">
+    <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
 
-.subnav-inner {
-    width: 100%;
-    height: 36px;
-    background-color: #EEE;
-    background-repeat: repeat-x;
-    background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));
-    background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);
-    background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-}
+/*.subnav-inner {*/
+    /*width: 100%;*/
+    /*height: 36px;*/
+    /*background-color: #EEE;*/
+    /*background-repeat: repeat-x;*/
+    /*background-image: -moz-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, whiteSmoke), color-stop(100%, #EEE));*/
+    /*background-image: -webkit-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -ms-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*background-image: -o-linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f5f5f5', endColorstr = '#eeeeee', GradientType = 0);*/
+    /*background-image: linear-gradient(top, whiteSmoke 0%, #EEE 100%);*/
+    /*-webkit-border-radius: 4px;*/
+    /*-moz-border-radius: 4px;*/
+    /*border-radius: 4px;*/
+/*}*/
 
-.subnav .nav > li > a:hover {
-    color: black !important;
-}
+/*.subnav .nav > li > a:hover {*/
+    /*color: black !important;*/
+/*}*/
 
-.subnav .nav li.dropdown .dropdown-toggle .caret,
-.subnav .nav li.dropdown.open .caret {
-    border-top-color: #999 !important;
-    border-bottom-color: #999 !important;
-}
+/*.subnav .nav li.dropdown .dropdown-toggle .caret,*/
+/*.subnav .nav li.dropdown.open .caret {*/
+    /*border-top-color: #999 !important;*/
+    /*border-bottom-color: #999 !important;*/
+/*}*/
 
-.subnav-fixed {
-    position: fixed;
-    width : 90%;
-    margin-right: auto;
-    margin-left: auto;
-    top: 40px;
-    left: 0;
-    right: 0;
-    z-index: 1020;
-    border-color: #D5D5D5;
-    border-width: 0 0 1px;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-}
+/*.subnav-fixed {*/
+    /*position: fixed;*/
+    /*width : 90%;*/
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
+    /*top: 40px;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*z-index: 1020;*/
+    /*border-color: #D5D5D5;*/
+    /*border-width: 0 0 1px;*/
+    /*-webkit-border-radius: 0;*/
+    /*-moz-border-radius: 0;*/
+    /*border-radius: 0;*/
+    /*-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*-moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);*/
+/*}*/
 
-.navbar .nav  .dropdown-menu {
-    max-height: 500px;
-    overflow: auto;
-}​
+/*.navbar .nav  .dropdown-menu {*/
+    /*max-height: 500px;*/
+    /*overflow: auto;*/
+/*}​*/
 
     </style>
     <style type="text/css">
         body {
-            padding-top: 60px;
-            padding-bottom: 40px;
+            padding: 60px;
+        }
+
+        .subnav{
+            margin-top: 40px;
+            margin-right: auto;
+            margin-left: auto;
+            z-index: 1000;
+        }
+
+        @media (max-width:979px) {
+            .subnav{
+                margin-top: auto;
+            }
         }
     </style>
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -79,7 +91,8 @@
                     var $win = $(window);
                     $('.subnav').each(function () {
                         var nav = $(this);
-                        var navTop = nav.offset().top - 40;
+                        var navTop = $win.width() < 980 ? 0 : nav.offset().top - 40;
+
                         var scrollTop = $win.scrollTop();
                         if (scrollTop >= navTop && curr != nav) {
                             if(curr){
@@ -102,221 +115,232 @@
             return function () {
                 window.prettyPrint && prettyPrint();
                 $(".collapse").collapse();
+                var $window = $(window);
+                //$(".subnav").affix ();
                 // fix sub nav on scroll
-                processScroll();
-                $(window).on('scroll', processScroll)
+//                processScroll();
+//                $(window).on('scroll', processScroll)
             }
         })();
     </script>
 </head>
 <body onload="init()">
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-      
-          <a href="./index.html" class="brand">patio</a>
-      
-      <div class="nav-collapse">
-      <ul class="nav nav-pills">
-      
-      
-                 <li><a href="./connecting.html">Connecting</a></li>
-                 
-                 <li><a href="./models.html">Models</a></li>
-                 
-                 <li><a href="./associations.html">Associations</a></li>
-                 
-                 <li><a href="./model-inheritance.html">Model Inheritance</a></li>
-                 
-                 <li><a href="./plugins.html">Model Plugins</a></li>
-                 
-                 <li><a href="./querying.html">Querying</a></li>
-                 
-                 <li><a href="./DDL.html">DDL</a></li>
-                 
-                 <li><a href="./migrations.html">Migrations</a></li>
-                 
-                 <li><a href="./logging.html">Logging</a></li>
-                 
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"> </span>
+            </a>
             
+            <a href="./index.html" class="brand">patio</a>
+            
+            <div class="nav-collapse">
+                <ul class="nav">
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Docs<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./connecting.html">Connecting</a></li>
+                            
+                            <li><a href="./models.html">Models</a></li>
+                            
+                            <li><a href="./associations.html">Associations</a></li>
+                            
+                            <li><a href="./model-inheritance.html">Model Inheritance</a></li>
+                            
+                            <li><a href="./plugins.html">Model Plugins</a></li>
+                            
+                            <li><a href="./querying.html">Querying</a></li>
+                            
+                            <li><a href="./DDL.html">DDL</a></li>
+                            
+                            <li><a href="./migrations.html">Migrations</a></li>
+                            
+                            <li><a href="./logging.html">Logging</a></li>
+                            
+                        </ul>
+                        
 
-      
-        <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
-           <ul class="dropdown-menu">
-             
-                         <li><a href="patio_sql.html">patio.sql</a></li>
-               
-                         <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
-               
-           </ul>
-           </li>
-        
-        
-           <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
-           <ul class="dropdown-menu">
-             
-                         <li><a href="./patio.html">patio</a></li>
-               
-                         <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
-               
-                         <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
-               
-                         <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
-               
-                         <li><a href="./patio_Database.html">patio.Database</a></li>
-               
-                         <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
-               
-                         <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
-               
-                         <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
-               
-                         <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
-               
-                         <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
-               
-                         <li><a href="./patio_Model.html">patio.Model</a></li>
-               
-                         <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
-               
-                         <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
-               
-                         <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
-               
-                         <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
-               
-                         <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
-               
-                         <li><a href="./patio_Time.html">patio.Time</a></li>
-               
-                         <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
-               
-                         <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
-               
-                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
-               
-                         <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
-               
-                         <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
-               
-                         <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
-               
-                         <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
-               
-                         <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
-               
-                         <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
-               
-                         <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
-               
-                         <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
-               
-                         <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
-               
-                         <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
-               
-                         <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
-               
-                         <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
-               
-                         <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
-               
-                         <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
-               
-                         <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
-               
-                         <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
-               
-                         <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
-               
-                         <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
-               
-                         <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
-               
-                         <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
-               
-                         <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
-               
-                         <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
-               
-                         <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
-               
-                         <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
-               
-                         <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
-               
-                         <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
-               
-                         <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
-               
-                         <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
-               
-                         <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
-               
-                         <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
-               
-                         <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
-               
-                         <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
-               
-                         <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
-               
-                         <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
-               
-                         <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
-               
-                         <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
-               
-                         <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
-               
-                         <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
-               
-                         <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
-               
-                         <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
-               
-                         <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
-               
-                         <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
-               
-                         <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
-               
-                         <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
-               
-                         <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
-               
-                         <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
-               
-                         <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
-               
-                         <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
-               
-                         <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
-               
-                         <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
-               
-                         <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
-               
-           </ul>
-        </li>
-       
-      </ul>
-      
-      <ul class="nav pull-right">
-                  <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
-        </ul>
-        
-      </div>
+                        
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="patio_sql.html">patio.sql</a></li>
+                            
+                            <li><a href="patio_sql_Constants.html">patio.sql.Constants</a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio.html">patio</a></li>
+                            
+                            <li><a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a></li>
+                            
+                            <li><a href="./patio_AssociationError.html">patio.AssociationError</a></li>
+                            
+                            <li><a href="./patio_ConnectionPool.html">patio.ConnectionPool</a></li>
+                            
+                            <li><a href="./patio_Database.html">patio.Database</a></li>
+                            
+                            <li><a href="./patio_DatabaseError.html">patio.DatabaseError</a></li>
+                            
+                            <li><a href="./patio_Dataset.html">patio.Dataset</a></li>
+                            
+                            <li><a href="./patio_DatasetError.html">patio.DatasetError</a></li>
+                            
+                            <li><a href="./patio_ExpressionError.html">patio.ExpressionError</a></li>
+                            
+                            <li><a href="./patio_MigrationError.html">patio.MigrationError</a></li>
+                            
+                            <li><a href="./patio_Model.html">patio.Model</a></li>
+                            
+                            <li><a href="./patio_ModelError.html">patio.ModelError</a></li>
+                            
+                            <li><a href="./patio_NotImplemented.html">patio.NotImplemented</a></li>
+                            
+                            <li><a href="./patio_PatioError.html">patio.PatioError</a></li>
+                            
+                            <li><a href="./patio_QueryError.html">patio.QueryError</a></li>
+                            
+                            <li><a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a></li>
+                            
+                            <li><a href="./patio_Time.html">patio.Time</a></li>
+                            
+                            <li><a href="./patio_associations_Association.html">patio.associations.Association</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToMany.html">patio.associations.ManyToMany</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+                            
+                            <li><a href="./patio_associations_ManyToOne.html">patio.associations.ManyToOne</a></li>
+                            
+                            <li><a href="./patio_associations_OneToMany.html">patio.associations.OneToMany</a></li>
+                            
+                            <li><a href="./patio_dataset.html#._Query">patio.dataset._Query</a></li>
+                            
+                            <li><a href="./patio_migrations_IntegerMigrator.html">patio.migrations.IntegerMigrator</a></li>
+                            
+                            <li><a href="./patio_migrations_Migrator.html">patio.migrations.Migrator</a></li>
+                            
+                            <li><a href="./patio_migrations_TimestampMigrator.html">patio.migrations.TimestampMigrator</a></li>
+                            
+                            <li><a href="./patio_plugins_CachePlugin.html">patio.plugins.CachePlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ClassTableInheritancePlugin.html">patio.plugins.ClassTableInheritancePlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></li>
+                            
+                            <li><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></li>
+                            
+                            <li><a href="./patio_plugins_ValidatorPlugin.html">patio.plugins.ValidatorPlugin</a></li>
+                            
+                            <li><a href="./patio_sql_AliasMethods.html">patio.sql.AliasMethods</a></li>
+                            
+                            <li><a href="./patio_sql_AliasedExpression.html">patio.sql.AliasedExpression</a></li>
+                            
+                            <li><a href="./patio_sql_BitWiseMethods.html">patio.sql.BitWiseMethods</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanConstant.html">patio.sql.BooleanConstant</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanExpression.html">patio.sql.BooleanExpression</a></li>
+                            
+                            <li><a href="./patio_sql_BooleanMethods.html">patio.sql.BooleanMethods</a></li>
+                            
+                            <li><a href="./patio_sql_CaseExpression.html">patio.sql.CaseExpression</a></li>
+                            
+                            <li><a href="./patio_sql_Cast.html#.constructor">patio.sql.Cast.constructor</a></li>
+                            
+                            <li><a href="./patio_sql_CastMethods.html">patio.sql.CastMethods</a></li>
+                            
+                            <li><a href="./patio_sql_ColumnAll.html">patio.sql.ColumnAll</a></li>
+                            
+                            <li><a href="./patio_sql_ComplexExpression.html">patio.sql.ComplexExpression</a></li>
+                            
+                            <li><a href="./patio_sql_ComplexExpressionMethods.html">patio.sql.ComplexExpressionMethods</a></li>
+                            
+                            <li><a href="./patio_sql_Constant.html">patio.sql.Constant</a></li>
+                            
+                            <li><a href="./patio_sql_DateTime.html">patio.sql.DateTime</a></li>
+                            
+                            <li><a href="./patio_sql_Decimal.html">patio.sql.Decimal</a></li>
+                            
+                            <li><a href="./patio_sql_Expression.html">patio.sql.Expression</a></li>
+                            
+                            <li><a href="./patio_sql_Float.html">patio.sql.Float</a></li>
+                            
+                            <li><a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
+                            
+                            <li><a href="./patio_sql_Identifier.html">patio.sql.Identifier</a></li>
+                            
+                            <li><a href="./patio_sql_InequalityMethods.html">patio.sql.InequalityMethods</a></li>
+                            
+                            <li><a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a></li>
+                            
+                            <li><a href="./patio_sql_JoinOnClause.html">patio.sql.JoinOnClause</a></li>
+                            
+                            <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
+                            
+                            <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
+                            
+                            <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
+                            
+                            <li><a href="./patio_sql_NumericExpression.html">patio.sql.NumericExpression</a></li>
+                            
+                            <li><a href="./patio_sql_NumericMethods.html">patio.sql.NumericMethods</a></li>
+                            
+                            <li><a href="./patio_sql_OrderedExpression.html">patio.sql.OrderedExpression</a></li>
+                            
+                            <li><a href="./patio_sql_OrderedMethods.html">patio.sql.OrderedMethods</a></li>
+                            
+                            <li><a href="./patio_sql_PlaceHolderLiteralString.html">patio.sql.PlaceHolderLiteralString</a></li>
+                            
+                            <li><a href="./patio_sql_QualifiedIdentifier.html">patio.sql.QualifiedIdentifier</a></li>
+                            
+                            <li><a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
+                            
+                            <li><a href="./patio_sql_SQLFunction.html">patio.sql.SQLFunction</a></li>
+                            
+                            <li><a href="./patio_sql_StringConcatenationMethods.html">patio.sql.StringConcatenationMethods</a></li>
+                            
+                            <li><a href="./patio_sql_StringExpression.html">patio.sql.StringExpression</a></li>
+                            
+                            <li><a href="./patio_sql_StringMethods.html">patio.sql.StringMethods</a></li>
+                            
+                            <li><a href="./patio_sql_SubScript.html">patio.sql.SubScript</a></li>
+                            
+                            <li><a href="./patio_sql_SubscriptMethods.html">patio.sql.SubscriptMethods</a></li>
+                            
+                            <li><a href="./patio_sql_Time.html">patio.sql.Time</a></li>
+                            
+                            <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a></li>
+                            
+                            <li><a href="./patio_sql_Year.html">patio.sql.Year</a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                </ul>
+                
+                <ul class="nav pull-right">
+
+                    <li class="divider-vertical"></li>
+                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                </ul>
+                
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
 
 
 <div class="container-fluid">
@@ -326,38 +350,40 @@
 
 
     <a name=""></a>
-    <div class="navbar subnav">
-    <div class="navbar-inner  subnav-inner">
-          <div class="container">
+    <div class="navbar subnav navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
             <a href="#" class="brand">
-            patio.Model
-            
-                    
-             <span class="label label-success">Public</span>
-                    
-            
+                patio.Model
+                
+                
+                <span class="label label-success">Public</span>
+                
+                
             </a>
-           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                      <span class="icon-bar"></span>
-                    </a>
-                    <div class="nav-collapse">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".sub-nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
 
-            <ul class="nav pull-right">
-             <li><a href="#constructor">Constructor</a></li>
-                        
-                        <li><a href="#instanceProperties">Instance Properties</a></li>
-                        
-                        
-                        <li><a href="#staticProperties">Static Properties</a></li>
-                        
-                        
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                
-                                <li><a href="./patio_Model.html#.associate">
+            <div class="nav-collapse sub-nav-collapse">
+
+                <ul class="nav pull-right">
+                    <li><a href="#constructor">Constructor</a></li>
+                    
+                    <li><a href="#instanceProperties">Instance Properties</a></li>
+                    
+                    
+                    <li><a href="#staticProperties">Static Properties</a></li>
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Static Methods<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio_Model.html#.associate">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -365,14 +391,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 associate
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.create">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.create">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -380,14 +406,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 create
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.find">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.find">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -395,14 +421,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 find
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.findById">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.findById">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -410,14 +436,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 findById
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.findOrCreate">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.findOrCreate">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -425,14 +451,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 findOrCreate
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.inherits">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.inherits">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -440,14 +466,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 inherits
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.manyToMany">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.manyToMany">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -455,14 +481,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 manyToMany
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.manyToOne">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.manyToOne">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -470,14 +496,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 manyToOne
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.oneToMany">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.oneToMany">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -485,14 +511,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 oneToMany
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.oneToOne">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.oneToOne">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -500,14 +526,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 oneToOne
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.remove">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.remove">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -515,14 +541,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 remove
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.removeById">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.removeById">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -530,14 +556,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 removeById
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.save">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.save">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -545,14 +571,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 save
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.update">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.update">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -560,14 +586,14 @@
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 update
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#.useTransaction">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#.useTransaction">
                                 
                                 <span class="label label-info">S</span>
                                 
@@ -578,17 +604,18 @@
                                 <span class="label label-important">P</span>
                                 
                                 useTransaction
-                                </a></li>
-                                
-                            </ul>
-                        </li>
-                        
-                        
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                
-                                <li><a href="./patio_Model.html#__reload">
+                            </a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                    
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b
+                                class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+                            <li><a href="./patio_Model.html#__reload">
                                 
                                 
                                 <span class="label label-label">F</span>
@@ -598,9 +625,9 @@
                                 
                                 __reload
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#_saveReload">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#_saveReload">
                                 
                                 
                                 <span class="label label-label">F</span>
@@ -610,9 +637,9 @@
                                 
                                 _saveReload
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#_updateReload">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#_updateReload">
                                 
                                 
                                 <span class="label label-label">F</span>
@@ -622,128 +649,129 @@
                                 
                                 _updateReload
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#remove">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#remove">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 remove
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#save">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#save">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 save
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#setValues">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#setValues">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 setValues
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#toJSON">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#toJSON">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 toJSON
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#toObject">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#toObject">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 toObject
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#toString">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#toString">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 toString
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#update">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#update">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 update
 
-                                </a></li>
-                                
-                                <li><a href="./patio_Model.html#valueOf">
+                            </a></li>
+                            
+                            <li><a href="./patio_Model.html#valueOf">
                                 
                                 
                                 <span class="label label-label">F</span>
                                 
                                 
-                                        
-                                 <span class="label label-success">P</span>
-                                        
+                                
+                                <span class="label label-success">P</span>
+                                
                                 
                                 valueOf
 
-                                </a></li>
-                                
-                            </ul>
-                        </li>
-                        
-            </ul>
+                            </a></li>
+                            
+                        </ul>
+                    </li>
+                    
+                </ul>
             </div>
-            </div>
-     </div>
+        </div>
+    </div>
 </div>
+
 
 
 
@@ -897,13 +925,13 @@ function (options,fromDb){
        this.__emitter = new EventEmitter();
        this._super(arguments);
        this.patio = patio || require(&quot;./index&quot;);
-       fromDb = comb.isBoolean(fromDb) ? fromDb : false;
+       fromDb = isBoolean(fromDb) ? fromDb : false;
        this.__changed = {};
        this.__values = {};
        if (fromDb) {
            this._hook(&quot;pre&quot;, &quot;load&quot;);
            this.__isNew = false;
-           this.__set(options, true);
+           this.__setFromDb(options, true);
            if (this._static.emitOnLoad) {
                this.emit(&quot;load&quot;, this);
                this._static.emit(&quot;load&quot;, this);
@@ -1296,11 +1324,11 @@ does not exist then a new one is created as passed back.
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (q){
-   var ret = new comb.Promise();
+   var ret = new Promise();
    this.find(q).then(hitch(this, function (res) {
        ret.callback(res || this.create());
-   }), hitch(ret, &quot;errback&quot;));
-   return ret;
+   }), ret);
+   return ret.promise();
            
 }
     </pre>
@@ -1786,12 +1814,12 @@ function (id,options){
        var p = new Promise();
        this.findById(id).then(function (model) {
            if (model) {
-               model.remove(options).then(hitch(p, &quot;callback&quot;), hitch(p, &quot;errback&quot;));
+               model.remove(options).then(p);
            } else {
                p.callback(0);
            }
-       }, hitch(p, &quot;errback&quot;));
-       return p;
+       }, p);
+       return p.promise();
    }));
            
 }
@@ -1903,7 +1931,7 @@ saving the models.</li>
 function (items,options){
    options = options || {};
    return this._checkTransaction(options, hitch(this, function () {
-       var ps;
+       var ps, ret;
        if (comb.isArray(items)) {
            ps = items.map(function (o) {
                if (!comb.isInstanceOf(o, this)) {
@@ -1911,10 +1939,9 @@ function (items,options){
                }
                return o.save(null, options);
            }, this);
-           var ret = new comb.Promise();
-           return new PromiseList(ps, true).then(ret);
+           ret = new PromiseList(ps, true);
        } else {
-           var ret = new comb.Promise();
+           ret = new Promise();
            try {
                if (!comb.isInstanceOf(items, this)) {
                    items = new this(items);
@@ -1923,8 +1950,8 @@ function (items,options){
            } catch (e) {
                ret.errback(e);
            }
-           return ret;
        }
+       return ret.promise();
    }));
            
 }
@@ -2059,7 +2086,7 @@ function (vals,/*?object*/query,options){
     <pre class="prettyprint linenums lang-js">
 function (opts){
    opts = opts || {};
-   return comb.isBoolean(opts.transaction) ? opts.transaction === true : this.useTransactions === true;
+   return isBoolean(opts.transaction) ? opts.transaction === true : this.useTransactions === true;
            
 }
     </pre>
@@ -2114,9 +2141,9 @@ function (){
    var ret = new Promise();
    if (!this.__isNew) {
        this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().then(hitch(this, function (values) {
-           this.__set(values, true);
+           this.__setFromDb(values, true);
            ret.callback(this);
-       }), hitch(ret, &quot;errback&quot;));
+       }), ret);
    } else {
        ret.callback(this);
    }
@@ -2163,7 +2190,7 @@ function (){
 function (options){
    options || (options = {});
    var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnSave;
-   return reload ? this.__reload() : new comb.Promise().callback(this);
+   return reload ? this.__reload() : new Promise().callback(this).promise();
            
 }
     </pre>
@@ -2207,7 +2234,7 @@ function (options){
    options = options || {};
    options || (options = {});
    var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnUpdate;
-   return reload ? this.__reload() : new comb.Promise().callback(this);
+   return reload ? this.__reload() : new Promise().callback(this).promise();
            
 }
     </pre>
@@ -2294,11 +2321,11 @@ function (options){
                            this._static.emit(&quot;remove&quot;, this);
                        }
                    }.bind(this)
-               ]).then(hitchIgnore(ret, &quot;callback&quot;, this))
-               return ret;
+               ]).then(ret);
+               return ret.promise();
            }));
        } else {
-           return new comb.Promise().callback(0);
+           return new Promise().callback(0).promise();
        }
    } else {
        throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
@@ -2418,7 +2445,7 @@ function (vals,options){
        if (this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
                comb.isHash(vals) &amp;&amp; this.__set(vals);
-               var ret = new comb.Promise();
+               var ret = new Promise();
                serial([
                    this._hook.bind(this, &quot;pre&quot;, &quot;save&quot;, [options]),
                    this._save.bind(this, options),
@@ -2431,7 +2458,7 @@ function (vals,options){
                        }
                    }.bind(this)
                ]).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
-               return ret;
+               return ret.promise();
            }));
        } else {
            return this.update(vals, options);
@@ -2772,7 +2799,7 @@ function (vals,options){
        } else if (this.__isNew &amp;&amp; this.__isChanged) {
            return this.save(vals, options);
        } else {
-           return new comb.Promise().callback(this);
+           return new Promise().callback(this).promise();
        }
    } else {
        throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
@@ -2831,22 +2858,14 @@ function (){
   
 <hr>
 
-Documentation gennerated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
+Documentation generated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.
 
 
 </div>
 </div>
 <script type="text/javascript" src="./assets/js/jquery.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-transition.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-tab.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-tooltip.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-popover.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-button.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-collapse.js"></script>
-<script type="text/javascript" src="./assets/js/bootstrap-carousel.js"></script>
-<script type="text/javascript"
-        src="./assets/js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./assets/js/prettify.js"></script>
 
 </body>
 </html>
