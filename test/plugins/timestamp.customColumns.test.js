@@ -61,4 +61,4 @@ it.describe("Timestamp custom columns", function (it) {
         return helper.dropModels();
     });
 
-});
+}).as(module);

@@ -196,4 +196,4 @@ it.describe("One To One lazy", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

@@ -313,4 +313,4 @@ it.describe("Many to one with a string for key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

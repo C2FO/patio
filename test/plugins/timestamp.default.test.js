@@ -60,4 +60,4 @@ it.describe("Timestamp default columns", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

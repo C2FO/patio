@@ -1389,4 +1389,4 @@ it.describe("Database", function (it) {
 
     it.afterAll(comb.hitch(patio, "disconnect"));
 
-});
+}).as(module);

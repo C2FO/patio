@@ -182,4 +182,4 @@ it.describe("One To One eager", function (it) {
     });
 
     //it.run();
-});
+}).as(module);

@@ -197,4 +197,4 @@ it.describe("One To One eager with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

@@ -384,4 +384,4 @@ it.describe("patio", function (it) {
         return patio.disconnect();
     });
 
-});
+}).as(module);
