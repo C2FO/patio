@@ -269,5 +269,5 @@ it.describe("Many to Many camelize properties", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);
 

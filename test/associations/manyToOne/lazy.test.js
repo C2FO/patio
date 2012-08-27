@@ -332,4 +332,4 @@ it.describe("Many to one lazy", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

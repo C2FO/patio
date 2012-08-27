@@ -169,7 +169,7 @@ it.describe("Models from mutliple databases", function (it) {
 
     it.afterAll(dropTableAndDisconnect);
 
-});
+}).as(module);
 
 
 

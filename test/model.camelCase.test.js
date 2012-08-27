@@ -408,6 +408,6 @@ it.describe("A model with camelized properites", function (it) {
         return helper.dropModels();
     });
 
-});
+}).as(module);
 
 

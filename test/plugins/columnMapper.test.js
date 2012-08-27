@@ -363,5 +363,5 @@ it.describe("patio.plugins.ColumnMapper", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);
 

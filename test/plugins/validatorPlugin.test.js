@@ -1081,5 +1081,5 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
 
     });
-});
+}).as(module);
 

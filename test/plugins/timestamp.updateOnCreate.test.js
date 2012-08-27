@@ -57,4 +57,4 @@ it.describe("Timestamp updateOnCreate", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

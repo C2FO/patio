@@ -165,4 +165,4 @@ it.describe("Model with cache plugin", function (it) {
         Model.cache.kill();
     });
 
-});
+}).as(module);
