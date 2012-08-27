@@ -309,4 +309,4 @@ it.describe("Many to one a hash for key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

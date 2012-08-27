@@ -607,6 +607,6 @@ it.describe("Migrators", function (it) {
         return patio.disconnect();
     });
 
-});
+}).as(module);
 
 

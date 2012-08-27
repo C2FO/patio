@@ -213,4 +213,4 @@ it.describe("One To One lazy with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

@@ -294,5 +294,5 @@ it.describe("Many to Many lazy with filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);
 

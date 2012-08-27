@@ -203,5 +203,5 @@ it.describe("One To One with camelize option", function (it) {
     });
 
 
-});
+}).as(module);
 

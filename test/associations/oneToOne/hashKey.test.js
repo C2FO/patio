@@ -197,4 +197,4 @@ it.describe("One To One with a hash as the key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

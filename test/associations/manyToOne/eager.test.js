@@ -334,4 +334,4 @@ it.describe("Many to one eager", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-});
+}).as(module);

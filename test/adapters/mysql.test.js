@@ -1366,6 +1366,6 @@ it.describe("patio.adapters.Mysql", function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
-});
+}).as(module);
 
 

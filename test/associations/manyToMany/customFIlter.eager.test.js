@@ -280,4 +280,4 @@ it.describe("Many to Many eager with filter", function (it) {
         return helper.dropModels();
     });
 
-});
+}).as(module);

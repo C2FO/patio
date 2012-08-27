@@ -333,5 +333,5 @@ it.describe("Many to one eager with custom filter", function (it) {
         return helper.dropModels();
     });
 
-});
+}).as(module);
 

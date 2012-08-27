@@ -11,8 +11,8 @@ test:
 
 test-coverage:
 	rm -rf ./lib-cov && node-jscoverage ./lib ./lib-cov && export NODE_PATH=lib-cov:$(NODE_PATH) && export NODE_ENV=test \
-	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix \
-    && export PATIO_DB=pg && ./node_modules/it/bin/it -r dotmatrix
+	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix --cov-html ./docs-md/coverage.html \
+    && export PATIO_DB=pg && ./node_modules/it/bin/it -r dotmatrix --cov-html ./docs-md/coverage.html
 
 docs: docclean
 	$(DOC_COMMAND)

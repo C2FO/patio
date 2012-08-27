@@ -410,6 +410,6 @@ it.describe("A model with properites", function (it) {
 
 
 
-});
+}).as(module);
 
 

@@ -100,6 +100,6 @@ it.describe("A model with custom accessors", function (it) {
         return helper.dropModels();
     });
 
-});
+}).as(module);
 
 

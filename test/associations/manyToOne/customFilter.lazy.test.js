@@ -343,5 +343,5 @@ it.describe("Many to one lazy with custom filter", function (it) {
     });
 
 
-});
+}).as(module);
 
