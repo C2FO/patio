@@ -10,7 +10,7 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 
-it.describe("A model with properites", function (it) {
+it.describe("A model with properites",function (it) {
 
     var Employee;
     it.beforeAll(function () {
@@ -194,11 +194,13 @@ it.describe("A model with properites", function (it) {
         });
 
         it.should("support the filtering of models", function (next) {
-            var id = sql.identifier("id"), ids = emps.map(function(emp){return emp.id;});
+            var id = sql.identifier("id"), ids = emps.map(function (emp) {
+                return emp.id;
+            });
             comb.executeInOrder(Employee,
                 function (Employee) {
                     var ret = {};
-                    ret.query1 = Employee.filter({id:ids.slice(0,6)}).all();
+                    ret.query1 = Employee.filter({id:ids.slice(0, 6)}).all();
                     ret.query2 = Employee.filter(id.gt(ids[0]), id.lt(ids[5])).order("id").last();
                     ret.query3 = Employee.filter(function () {
                         return this.firstname.like(/first1[1|2]*$/);
@@ -231,7 +233,7 @@ it.describe("A model with properites", function (it) {
                     assert.deepEqual(query4.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
-                    }), ids.slice(0,6));
+                    }), ids.slice(0, 6));
                     assert.deepEqual(query5.map(function (e) {
                         assert.instanceOf(e, Employee);
                         return e.id;
@@ -239,7 +241,7 @@ it.describe("A model with properites", function (it) {
                     next();
                 }, next);
         });
-        
+
         it.should("support custom query methods", function (next) {
             Employee.findByGender("F").then(function (emps) {
                 emps.forEach(function (emp) {
@@ -272,7 +274,9 @@ it.describe("A model with properites", function (it) {
 
 
             it.should("support map", function (next) {
-                var ids = emps.map(function(emp){return emp.id;});
+                var ids = emps.map(function (emp) {
+                    return emp.id;
+                });
                 comb.executeInOrder(Employee,
                     function (Employee) {
                         var ret = {};
@@ -315,7 +319,9 @@ it.describe("A model with properites", function (it) {
             });
 
             it.should("support first", function (next) {
-                var id = sql.identifier("id"),ids = emps.map(function(emp){return emp.id;});
+                var id = sql.identifier("id"), ids = emps.map(function (emp) {
+                    return emp.id;
+                });
                 Employee.first(id.gt(ids[5]), id.lt(ids[11])).then(function (emp) {
                     assert.instanceOf(emp, Employee);
                     assert.equal(emp.id, ids[6])
@@ -401,13 +407,17 @@ it.describe("A model with properites", function (it) {
                 }, next);
         });
 
+    });
 
+    it.should("allow values when initalizing that are not in the schema", function () {
+        var m = new Employee({otherVal:"otherVal", firstname:"dougie"}, true);
+        assert.equal(m.otherVal, "otherVal");
+        assert.equal(m.firstname, "dougie");
     });
 
     it.afterAll(function () {
         return helper.dropModels();
     });
-
 
 
 }).as(module);
