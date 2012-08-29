@@ -959,8 +959,10 @@ patio.configureLogging(config);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (opts){
-   comb.logger.configure();
-   LOGGER.level = &quot;info&quot;;
+   comb.logger.configure(opts);
+   if (!opts) {
+       LOGGER.level = &quot;info&quot;;
+   }
            
 }
     </pre>

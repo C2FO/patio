@@ -265,7 +265,7 @@ If there are multiple arguments in the hash, the filters are `AND`ed together:
 ```
 //SELECT * FROM user WHERE id IN (1, 2, 3) AND name ~ 'Bo$'
  User.filter({id : [1,2,3], name : /Bo$/});
-`` 
+``` 
  
 This works the same as if you used two separate filter calls:
 

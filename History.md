@@ -1,3 +1,11 @@
+#0.1.1 / 2012-08-29
+* new patio.Dataset features
+  * #sourceList - get all sources as identifiers
+  * #joinSourceList - get all join sources
+  * #hasSelectSource - returns true if there are not any select sources (i.e select *)
+  * #seleIfNoSource - add the selects if there is not currently a select
+* Fixed issue with patio.Model#_setFromDb where values not in the models table columns would be in accesible, (i.e a join with a model would not show the join columns)
+* updated docs
 #0.1.0 / 2012-08-25
 * Added custom getters (mbenedettini)
 * Added Validator plugin for models

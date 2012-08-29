@@ -10,7 +10,6 @@ var it = require('it'),
 
 var gender = ["M", "F"];
 
-
 it.describe("patio.plugins.ColumnMapper", function (it) {
     var Works, Employee;
     it.beforeAll(function () {
