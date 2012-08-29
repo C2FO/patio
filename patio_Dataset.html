@@ -2624,6 +2624,20 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#selectIfNoSource">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                selectIfNoSource
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#selectMap">
                                 
                                 
@@ -3298,9 +3312,11 @@ each column (e.g. database type), see {@link patio.Database#schema}.
                
 }</code></td><td></td><tr><tr><td>firstSourceAlias</td><td>String</td><td></td><td><p>The first source (primary table) for this dataset. If the table is aliased, returns the aliased name.                                     throws a {patio.DatasetError} tf the dataset doesn&#39;t have a table. <pre class="code">   DB.from(&quot;table&quot;).firstSourceAlias;   //=&gt; &quot;table&quot;    DB.from(&quot;table___t&quot;).firstSourceAlias;   //=&gt; &quot;t&quot; </pre></p>
 </td><tr><tr><td>firstSourceTable</td><td>String</td><td></td><td><p>The first source (primary table) for this dataset.  If the dataset doesn&#39;t                                      have a table, raises a <a href='./patio_erros_DatasetError.html#'> patio.erros.DatasetError</a>. <pre class="code">   DB.from(&quot;table&quot;).firstSourceTable;         //=&gt; &quot;table&quot;   DB.from(&quot;table___t&quot;).firstSourceTable;         //=&gt; &quot;t&quot; </pre></p>
+</td><tr><tr><td>hasSelectSource</td><td>Boolean</td><td></td><td><p>true if this dataset already has a select sources.</p>
 </td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td><p>this is the method that will be called on each identifier returned from the database.                                          This value will be defaulted to whatever the identifierInputMethod                                          is on the database used in initialization.</p>
 </td><tr><tr><td>identifierOutputMethod</td><td>String</td><td></td><td><p>this is the method that will be called on each identifier sent to the database.                                          This value will be defaulted to whatever the identifierOutputMethod                                          is on the database used in initialization.</p>
 </td><tr><tr><td>isSimpleSelectAll</td><td>Boolean</td><td></td><td><p>Returns true if this dataset is a simple SELECT * FROM {table}, otherwise false. <pre class="code">     DB.from(&quot;items&quot;).isSimpleSelectAll; //=&gt; true     DB.from(&quot;items&quot;).filter({a : 1}).isSimpleSelectAll; //=&gt; false </pre></p>
+</td><tr><tr><td>joinSourceList</td><td>patio.sql.Identifier[]</td><td><code>[]</code></td><td><p>a list of join sources</p>
 </td><tr><tr><td>providesAccurateRowsMatched</td><td>boolean</td><td><code>true</code></td><td><p>Whether this dataset will provide accurate number of rows matched for
   delete and update statements.  Accurate in this case is the number of
   rows matched by the dataset&#39;s filter.</p>
@@ -3308,6 +3324,7 @@ each column (e.g. database type), see {@link patio.Database#schema}.
 </td><tr><tr><td>requiresSqlStandardDate</td><td>boolean</td><td><code>false</code></td><td><p>Whether the dataset requires SQL standard datetimes (false by default,
                                                     as most allow strings with ISO 8601 format).</p>
 </td><tr><tr><td>rowCb</td><td>Function</td><td></td><td><p>callback to be invoked for each row returned from the database.                      the return value will be used as the result of query. The rowCb can also return a promise,                      The resolved value of the promise will be used as result.</p>
+</td><tr><tr><td>sourceList</td><td>patio.sql.Identifier[]</td><td><code>[]</code></td><td><p>a list of sources for this dataset.</p>
 </td><tr><tr><td>supportsCte</td><td>boolean</td><td><code>true</code></td><td><p>Whether the dataset supports common table expressions (the WITH clause).</p>
 </td><tr><tr><td>supportsDistinctOn</td><td>boolean</td><td><code>false</code></td><td><p>Whether the dataset supports the DISTINCT ON clause, false by default.</p>
 </td><tr><tr><td>supportsIntersectExcept</td><td>boolean</td><td><code>true</code></td><td><p>Whether the dataset supports the INTERSECT and EXCEPT compound operations, true by default.</p>
@@ -4297,9 +4314,9 @@ and converts to uppercase/
     <pre class="prettyprint linenums lang-js">
 function (joinType){
    return (joinType || &quot;&quot;).replace(/([a-z]+)|([A-Z][a-z]+)/g,
-       function (m) {
-           return m.toUpperCase() + &quot; &quot;;
-       }
+           function (m) {
+               return m.toUpperCase() + &quot; &quot;;
+           }
    ).trimRight() + &quot; JOIN&quot;;
            
 }
@@ -4886,10 +4903,10 @@ function (v){
    var table = parts[0], column = parts[1], alias = parts[2];
    if (!alias) {
        return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : &quot;&#x27;&quot;
-           + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
+               + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
    } else {
        return this.literal(new AliasedExpression(column
-           &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
+               &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
    }
            
 }
@@ -5151,7 +5168,7 @@ function (e,table){
        return new QualifiedIdentifier(table, e);
    } else if (isInstanceOf(e, OrderedExpression)) {
        return new OrderedExpression(this._qualifiedExpression(e.expression, table), e.descending,
-           {nulls:e.nulls});
+               {nulls:e.nulls});
    } else if (isInstanceOf(e, AliasedExpression)) {
        return new AliasedExpression(this._qualifiedExpression(e.expression, table), e.alias);
    } else if (isInstanceOf(e, CaseExpression)) {
@@ -5829,9 +5846,9 @@ function (source){
        throw new QueryError(&quot;No source specified for the query&quot;);
    }
    return &quot; &quot; + source.map(
-       function (s) {
-           return this.__tableRef(s);
-       }, this).join(this._static.COMMA_SEPARATOR);
+           function (s) {
+               return this.__tableRef(s);
+           }, this).join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -7091,8 +7108,8 @@ function (op,args){
            return this.complexExpressionSql(&quot;EQ&quot;, args);
        } else {
            return this.complexExpressionSql(&quot;OR&quot;,
-               [BooleanExpression.fromArgs([&quot;NEQ&quot;].concat(args)), new BooleanExpression(&quot;IS&quot;, args[0],
-                   null)]);
+                   [BooleanExpression.fromArgs([&quot;NEQ&quot;].concat(args)), new BooleanExpression(&quot;IS&quot;, args[0],
+                           null)]);
        }
    } else if ([&quot;IN&quot;, &quot;NOTIN&quot;].indexOf(op) != -1) {
        var cols = args[0], vals = args[1], colArray = isArray(cols), valArray = false, emptyValArray = false;
@@ -7121,8 +7138,8 @@ function (op,args){
                //literal so that if values is an array of two element arrays, it
                //will be treated as a value list instead of a condition specifier.
                return format(&quot;(%s %s %s)&quot;, isString(cols) ? cols : this.literal(cols),
-                   ComplexExpression.IN_OPERATORS[op],
-                   valArray ? this._arraySql(vals) : this.literal(vals));
+                       ComplexExpression.IN_OPERATORS[op],
+                       valArray ? this._arraySql(vals) : this.literal(vals));
            }
        }
        else {
@@ -7136,13 +7153,13 @@ function (op,args){
                }
            } else {
                return format(&quot;(%s %s %s)&quot;, isString(cols) ? cols : this.literal(cols),
-                   ComplexExpression.IN_OPERATORS[op], this.literal(vals));
+                       ComplexExpression.IN_OPERATORS[op], this.literal(vals));
            }
        }
    } else if ((newOp = this._static.TWO_ARITY_OPERATORS[op]) != null) {
        var l = args[0];
        return format(&quot;(%s %s %s)&quot;, isString(l) ? l : this.literal(l), newOp,
-           this.literal(args[1]));
+               this.literal(args[1]));
    } else if ((newOp = this._static.N_ARITY_OPERATORS[op]) != null) {
        return string.format(&quot;(%s)&quot;, args.map(this.literal, this).join(&quot; &quot; + newOp + &quot; &quot;));
    } else if (op == &quot;NOT&quot;) {
@@ -9529,12 +9546,12 @@ function (v){
    var i = this.__identifierInputMethod;
    v = v.toString(this);
    return !isUndefinedOrNull(i) ?
-       isFunction(v[i]) ?
-           v[i]() :
-           isFunction(comb[i]) ?
-               comb[i](v)
-               : v
-       : v;
+           isFunction(v[i]) ?
+                   v[i]() :
+                   isFunction(comb[i]) ?
+                           comb[i](v)
+                           : v
+           : v;
            
 }
     </pre>
@@ -10750,7 +10767,7 @@ function (jc){
    }
    var tref = this.__tableRef(table);
    return string.format(&quot; %s %s&quot;, this._joinTypeSql(jc.joinType),
-       tableAlias ? this.__asSql(tref, tableAlias) : tref);
+           tableAlias ? this.__asSql(tref, tableAlias) : tref);
            
 }
     </pre>
@@ -12767,12 +12784,12 @@ function (v){
    (v == &#x27;&#x27; &amp;&amp; (v = &#x27;untitled&#x27;));
    var i = this.__identifierOutputMethod;
    return !isUndefinedOrNull(i) ?
-       isFunction(v[i]) ?
-           v[i]() :
-           isFunction(comb[i]) ?
-               comb[i](v)
-               : v
-       : v;
+           isFunction(v[i]) ?
+                   v[i]() :
+                   isFunction(comb[i]) ?
+                           comb[i](v)
+                           : v
+           : v;
            
 }
     </pre>
@@ -13012,11 +13029,11 @@ function (column,table){
     <pre class="prettyprint linenums lang-js">
 function (qcr){
    return [qcr.table, qcr.column].map(
-       function (x) {
-           return [QualifiedIdentifier, Identifier, String].some(function (c) {
-               return x instanceof c
-           }) ? this.literal(x) : this.quoteIdentifier(x)
-       }, this).join(&#x27;.&#x27;);
+           function (x) {
+               return [QualifiedIdentifier, Identifier, String].some(function (c) {
+                   return x instanceof c
+               }) ? this.literal(x) : this.quoteIdentifier(x)
+           }, this).join(&#x27;.&#x27;);
            
 }
     </pre>
@@ -14029,6 +14046,75 @@ function (keyColumn,valueColumn,cb){
        ret.callback(map);
    }, ret);
    return ret.promise();
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="selectIfNoSource"></a>
+    <h3>
+        selectIfNoSource
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Selects the columns if only if there is not already select sources.
+
+</p>
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+var ds = DB.from(&quot;items&quot;); //SELECT * FROM items
+
+ds.select(&quot;a&quot;); //SELECT a FROM items;
+ds.select(&quot;a&quot;).selectIfNoSource(&quot;a&quot;, &quot;b&quot;). //SELECT a FROM items;
+ds.selectIfNoSource(&quot;a&quot;, &quot;b&quot;). //SELECT a, b FROM items;
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>cols</em>  : <p>columns to select if there is not already select sources.</p>
+</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the appropriate select sources.</p>
+</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (cols){
+   var ret;
+   if (!this.hasSelectSource) {
+       ret = this.select.apply(this, arguments);
+   } else {
+       ret = this.mergeOptions();
+   }
+   return ret;
            
 }
     </pre>
