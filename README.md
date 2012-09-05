@@ -1,4 +1,4 @@
-#[Patio](http://pollenware.github.com/patio)
+#[Patio](http://c2fo.github.com/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.                                                        
                                                                                                                                                              
@@ -6,7 +6,7 @@ Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> i
                                                                                                                                                              
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
 
-If you want to use [ORM](http://pollenware.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](http://pollenware.github.com/patio/DDL.html) and [Datasets](http://pollenware.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](http://pollenware.github.com/patio/patio_Database.html#run)
+If you want to use [ORM](http://c2fo.github.com/patio/models.html) functionality you can. If you dont you can just use the [Database](http://c2fo.github.com/patio/DDL.html) and [Datasets](http://c2fo.github.com/patio/querying.html) as a querying API, and if you need toyou can [write plain SQL](http://c2fo.github.com/patio/patio_Database.html#run)
                                                                                                                                                                                                                                                                                                                          
 ###Installation
 To install patio run                                                                                                                                         
@@ -158,29 +158,29 @@ Capital.order("name").forEach(function (capital) {
 * Supported Databases                                                                                                                                        
   * MySQL
   * Postgres
-* [Models](http://pollenware.github.com/patio/models.html)
-  * [Associations](http://pollenware.github.com/patio/associations.html)
-  * [Inheritance](http://pollenware.github.com/patio/model-inheritance.html)
-  * [Validation](http://pollenware.github.com/patio/validation.html)
-  * [Plugins](http://pollenware.github.com/patio/plugins.html)
+* [Models](http://c2fo.github.com/patio/models.html)
+  * [Associations](http://c2fo.github.com/patio/associations.html)
+  * [Inheritance](http://c2fo.github.com/patio/model-inheritance.html)
+  * [Validation](http://c2fo.github.com/patio/validation.html)
+  * [Plugins](http://c2fo.github.com/patio/plugins.html)
 * Simple adapter extensions
-* [Migrations](http://pollenware.github.com/patio/migrations.html)
+* [Migrations](http://c2fo.github.com/patio/migrations.html)
   * Integer and Timestamp based.
-* Powerful [Querying](http://pollenware.github.com/patio/querying.html) API
-* [Transactions](http://pollenware.github.com/patio/patio_Database.html#transaction) with
+* Powerful [Querying](http://c2fo.github.com/patio/querying.html) API
+* [Transactions](http://c2fo.github.com/patio/patio_Database.html#transaction) with
   * Savepoints
   * Isolation Levels
   * Two phase commits
 * SQL Datatype casting
 * Full database CRUD operations                                                                                                                           
-  * [createTable](http://pollenware.github.com/patio/patio_Database.html#createTable)
-  * [alterTable](http://pollenware.github.com/patio/patio_Database.html#alterTable)
-  * [dropTable](http://pollenware.github.com/patio/patio_Database.html#dropTable)
-  * [insert](http://pollenware.github.com/patio/patio_Dataset.html#insert)
-  * [multiInsert](http://pollenware.github.com/patio/patio_Dataset.html#multiInsert)
-  * [update](http://pollenware.github.com/patio/patio_Dataset.html#update)
-  * [remove](http://pollenware.github.com/patio/patio_Dataset.html#remove)
-  * [query](http://pollenware.github.com/patio/patio_Dataset.html#filter)
+  * [createTable](http://c2fo.github.com/patio/patio_Database.html#createTable)
+  * [alterTable](http://c2fo.github.com/patio/patio_Database.html#alterTable)
+  * [dropTable](http://c2fo.github.com/patio/patio_Database.html#dropTable)
+  * [insert](http://c2fo.github.com/patio/patio_Dataset.html#insert)
+  * [multiInsert](http://c2fo.github.com/patio/patio_Dataset.html#multiInsert)
+  * [update](http://c2fo.github.com/patio/patio_Dataset.html#update)
+  * [remove](http://c2fo.github.com/patio/patio_Dataset.html#remove)
+  * [query](http://c2fo.github.com/patio/patio_Dataset.html#filter)
 
 
 
