@@ -28,7 +28,7 @@ var getTimeZoneOffset = function (date) {
 };
 
 
-it.describe("patio", function (it) {
+it.describe("patio",function (it) {
 
     var DummyDataset, DummyDatabase;
     it.beforeAll(function () {
@@ -130,7 +130,7 @@ it.describe("patio", function (it) {
         var DB2 = patio.createConnection("dummyDB://test:testpass@localhost/dummySchema");
         assert.instanceOf(DB2, DummyDatabase);
         var DB3;
-        patio.connectAndExecute("dummyDB://test:testpass@localhost/dummySchema",
+        return patio.connectAndExecute("dummyDB://test:testpass@localhost/dummySchema",
             function (db) {
                 db.dropTable("test");
                 db.createTable("test", function () {
@@ -138,25 +138,26 @@ it.describe("patio", function (it) {
                     this.name(String);
                     this.age(Number);
                 });
-            }).then(function (db) {
+            }).chain(function (db) {
                 DB3 = db;
                 assert.instanceOf(db, DummyDatabase);
                 assert.isTrue(db.connected);
                 assert.deepEqual(db.sqls, [ 'DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)' ]);
+                assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
             });
-        assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
     });
 
     it.should("disconnect from a db", function () {
         var DB = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
-        DB.createTable("test", function () {
+        return DB.createTable("test",function () {
             this.primaryKey("id");
             this.name(String);
             this.age(Number);
-        });
-        assert.isTrue(DB.connected);
-        patio.disconnect();
-        assert.isFalse(DB.connected);
+        }).chain(function () {
+                assert.isTrue(DB.connected);
+                patio.disconnect();
+                assert.isFalse(DB.connected);
+            });
     });
 
     it.should("expose core classes", function () {

@@ -5210,8 +5210,6 @@ such as <a href='./patio_Database.html#createTable'> patio.Database#createTable<
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>cb</em>  : </li>
-    
      </ul>
 
 
@@ -5220,9 +5218,9 @@ such as <a href='./patio_Database.html#createTable'> patio.Database#createTable<
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,cb){
+function (sql,opts){
    opts = opts || {};
-   return this.executeDui(sql, opts, cb);
+   return this.executeDui(sql, opts);
            
 }
     </pre>
@@ -5261,8 +5259,6 @@ statement.  By default, calls <a href='./patio_Database.html#execute'> patio.Dat
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>block</em>  : </li>
-    
      </ul>
 
 
@@ -5271,9 +5267,9 @@ statement.  By default, calls <a href='./patio_Database.html#execute'> patio.Dat
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,block){
+function (sql,opts){
    opts = opts || {};
-   return this.execute(sql, opts, block);
+   return this.execute(sql, opts);
            
 }
     </pre>
@@ -5312,8 +5308,6 @@ statement.  By default, calls <a href='./patio_Database.html#executeDui'> patio.
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>cb</em>  : </li>
-    
      </ul>
 
 
@@ -5322,9 +5316,9 @@ statement.  By default, calls <a href='./patio_Database.html#executeDui'> patio.
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,cb){
+function (sql,opts){
    opts = opts || {};
-   return this.executeDui(sql, opts, cb);
+   return this.executeDui(sql, opts);
            
 }
     </pre>
