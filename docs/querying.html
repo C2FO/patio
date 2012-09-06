@@ -163,6 +163,8 @@
                             
                             <li><a href="./logging.html">Logging</a></li>
                             
+                            <li><a href="./History.html">Change Log</a></li>
+                            
                             <li><a href="./coverage.html">Test Coverage</a></li>
                             
                         </ul>
@@ -337,7 +339,7 @@
                 <ul class="nav pull-right">
 
                     <li class="divider-vertical"></li>
-                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                    <li><a href="https://github.com/C2FO/patio" target="#github" class="pull-right">github</a></li>
                 </ul>
                 
             </div>
@@ -1032,13 +1034,11 @@ With fromSelf, you are limiting the number of records before grouping. So if the
 
 patio allows you to easily add a FOR UPDATE clause to your queries so that the records returned can&#39;t be modified by another query until the current transaction commits. You just use the [forUpdate](./patio_Dataset.html#forUpdate) method:</code></pre>
 <p> DB.transaction(function(){
-    var ret = new comb.Promise();
-    User.forUpdate().first({id : 1}).then(function(){
+    return User.forUpdate().first({id : 1}).chain(function(){
         // SELECT * FROM user WHERE id = 1 FOR UPDATE
         user.password = null;
-        user.save().then(ret);
-    }, ret);
-    return ret;
+        return user.save();
+    });
  });
 </p>
 <pre class='prettyprint linenums lang-js'><code>

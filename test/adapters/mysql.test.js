@@ -7,7 +7,7 @@ var it = require('it'),
     format = comb.string.format,
     hitch = comb.hitch;
 
-it.describe("patio.adapters.Mysql", function (it) {
+it.describe("patio.adapters.Mysql",function (it) {
 
     var SQL_BEGIN = 'BEGIN';
     var SQL_ROLLBACK = 'ROLLBACK';
@@ -48,41 +48,39 @@ it.describe("patio.adapters.Mysql", function (it) {
         var db;
         it.beforeEach(function () {
             db = MYSQL_DB;
-            var ret = db.forceDropTable("dolls");
-            db.sqls.length = 0;
+            return db.forceDropTable("dolls").chain(function () {
+                db.sqls.length = 0;
+            });
 
         });
 
         it.should("allow the the specification of options", function (next) {
-            db.createTable("dolls", {engine:"MyISAM", charset:"latin2"},function () {
+            return db.createTable("dolls", {engine:"MyISAM", charset:"latin2"},function () {
                 this.name("text");
-            }).then(function () {
+            }).chain(function () {
                     assert.deepEqual(db.sqls, ["CREATE TABLE dolls (name text) ENGINE=MyISAM DEFAULT CHARSET=latin2"]);
-                    next();
-                }, next);
+                });
         });
 
         it.should("create create a temporary table when temp options is set to true", function (next) {
-            db.createTable("tmp_dolls", {temp:true, engine:"MyISAM", charset:"latin2"},function () {
+            return db.createTable("tmp_dolls", {temp:true, engine:"MyISAM", charset:"latin2"},function () {
                 this.name("text");
-            }).then(function () {
+            }).chain(function () {
                     assert.deepEqual(db.sqls, ["CREATE TEMPORARY TABLE tmp_dolls (name text) ENGINE=MyISAM DEFAULT CHARSET=latin2"]);
-                    next();
-                }, next);
+                });
 
         });
 
         it.should("not use default for string {text : true}", function (next) {
-            db.createTable("dolls",function () {
+            return db.createTable("dolls",function () {
                 this.name("string", {text:true, "default":"blah"});
-            }).then(function () {
+            }).chain(function () {
                     assert.deepEqual(db.sqls, ["CREATE TABLE dolls (name text)"]);
-                    next();
-                }, next);
+                });
         });
 
         it.should("not create the autoIncrement attribute if it is specified", function (next) {
-            comb.serial([
+            return comb.serial([
                 function () {
                     return db.createTable("dolls", function () {
                         this.n2("integer");
@@ -91,13 +89,12 @@ it.describe("patio.adapters.Mysql", function (it) {
                     });
                 },
                 hitch(db, "schema", "dolls")
-            ]).then(function (res) {
+            ]).chain(function (res) {
                     var schema = res[1];
                     assert.deepEqual([false, false, true], Object.keys(schema).map(function (k) {
                         return schema[k].autoIncrement;
                     }));
-                    next();
-                }, next);
+                });
 
         });
 
@@ -144,7 +141,7 @@ it.describe("patio.adapters.Mysql", function (it) {
     it.should("support forShare", function (next) {
         var cb = hitch(this, "callback", null), eb = hitch(this, "callback");
         MYSQL_DB.transaction(function () {
-            MYSQL_DB.from("test2").forShare().all().classic(function (err, res) {
+            return MYSQL_DB.from("test2").forShare().all().classic(function (err, res) {
                 assert.lengthOf(res, 0);
                 next();
             });
@@ -1343,16 +1340,16 @@ it.describe("patio.adapters.Mysql", function (it) {
 
         });
 
-        it.should("handle CURRENT_TIMESTAMP as a default value", function(next){
+        it.should("handle CURRENT_TIMESTAMP as a default value", function (next) {
 
             comb.serial([
-                function(){
-                    return MYSQL_DB.alterTable("items", function(){
-                        this.addColumn("timestamp", sql.TimeStamp, {"default" : sql.CURRENT_TIMESTAMP});
+                function () {
+                    return MYSQL_DB.alterTable("items", function () {
+                        this.addColumn("timestamp", sql.TimeStamp, {"default":sql.CURRENT_TIMESTAMP});
                     });
                 },
-                function(){
-                    return MYSQL_DB.schema("items").then(function(schema){
+                function () {
+                    return MYSQL_DB.schema("items").then(function (schema) {
                         assert.equal(schema.timestamp["default"], "CURRENT_TIMESTAMP");
                         assert.isNull(schema.timestamp.jsDefault);
                     });

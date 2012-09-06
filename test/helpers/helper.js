@@ -16,10 +16,8 @@ var MockDataset = comb.define(Dataset, {
         },
 
         fetchRows : function(sql, cb) {
-            var ret = new comb.Promise();
             this.db.execute(sql);
-            ret.callback({id : 1, x : 1});
-            return ret;
+            return comb.async.array({id : 1, x : 1});
         },
 
         _quotedIdentifier : function(c) {
