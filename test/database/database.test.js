@@ -13,7 +13,7 @@ var it = require('it'),
     comb = require("comb"),
     hitch = comb.hitch;
 
-it.describe("Database", function (it) {
+it.describe("Database",function (it) {
 
     var DummyDataset = comb.define(patio.Dataset, {
         instance:{
@@ -45,7 +45,7 @@ it.describe("Database", function (it) {
 
             executeError:function () {
                 var ret = new comb.Promise();
-                this.execute.apply(this, arguments).both(comb.hitch(ret, 'errback'));
+                this.execute.apply(this, arguments).both(comb('errback').bind(ret));
                 return ret;
             },
 
@@ -101,20 +101,17 @@ it.describe("Database", function (it) {
             },
 
             retCommit:function () {
-                this.transaction(function () {
-                    this.execute('DROP TABLE test;');
-                    return;
-                    this.execute('DROP TABLE test2;');
+                return this.transaction(function () {
+                    return this.execute('DROP TABLE test;');
                 });
             },
 
             retCommitSavePoint:function () {
-                this.transaction(function () {
-                    this.transaction({savepoint:true}, function () {
-                        this.execute('DROP TABLE test;');
-                        return;
+                return this.transaction(function (db, done) {
+                    this.transaction({savepoint:true},function () {
+                        return this.execute('DROP TABLE test;');
                         this.execute('DROP TABLE test2;');
-                    })
+                    }).classic(done);
                 });
             },
 
@@ -426,58 +423,70 @@ it.describe("Database", function (it) {
 
         it.should("construct the proper SQL", function () {
             patio.quoteIdentifiers = false;
-            var db = new DB();
-            db.createTable("test", function (table) {
-                table.primaryKey("id", "integer", {"null":false});
-                table.column("name", "text");
-                table.column("image", Buffer, {"null" : false});
-                table.index("name", {unique:true});
-            });
-
-            assert.deepEqual(db.sqls, [
-                'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL)',
-                'CREATE UNIQUE INDEX test_name_index ON test (name)'
-            ]);
-            patio.quoteIdentifiers = true;
-            db = new DB();
-            db.createTable("test", function (table) {
-                table.primaryKey("id", "integer", {"null":false});
-                table.column("name", "text");
-                table.index("name", {unique:true});
-            });
-
-            assert.deepEqual(db.sqls, [
-                'CREATE TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
-                'CREATE UNIQUE INDEX "test_name_index" ON "test" ("name")'
+            return comb.serial([
+                function () {
+                    var db = new DB();
+                    return db.createTable("test",function (table) {
+                        table.primaryKey("id", "integer", {"null":false});
+                        table.column("name", "text");
+                        table.column("image", Buffer, {"null":false});
+                        table.index("name", {unique:true});
+                    }).chain(function () {
+                            assert.deepEqual(db.sqls, [
+                                'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL)',
+                                'CREATE UNIQUE INDEX test_name_index ON test (name)'
+                            ]);
+                        });
+                },
+                function () {
+                    return patio.quoteIdentifiers = true;
+                    db = new DB();
+                    db.createTable("test",function (table) {
+                        table.primaryKey("id", "integer", {"null":false});
+                        table.column("name", "text");
+                        table.index("name", {unique:true});
+                    }).chain(function () {
+                            assert.deepEqual(db.sqls, [
+                                'CREATE TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
+                                'CREATE UNIQUE INDEX "test_name_index" ON "test" ("name")'
+                            ]);
+                        })
+                }
             ]);
         });
 
 
         it.should("create a temporary table", function () {
-            patio.quoteIdentifiers = true;
-            var db = new DB();
-            db.createTable("test", {temp:true}, function (table) {
-                table.primaryKey("id", "integer", {"null":false});
-                table.column("name", "text");
-                table.index("name", {unique:true});
-            });
+            return comb.serial([
 
-            assert.deepEqual(db.sqls, [
-                'CREATE TEMPORARY TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
-                'CREATE UNIQUE INDEX "test_name_index" ON "test" ("name")'
-            ]);
-
-            patio.quoteIdentifiers = false;
-            db = new DB();
-            db.createTable("test", {temp:true}, function (table) {
-                table.primaryKey("id", "integer", {"null":false});
-                table.column("name", "text");
-                table.index("name", {unique:true});
-            });
-
-            assert.deepEqual(db.sqls, [
-                'CREATE TEMPORARY TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text)',
-                'CREATE UNIQUE INDEX test_name_index ON test (name)'
+                function () {
+                    patio.quoteIdentifiers = true;
+                    var db = new DB();
+                    return db.createTable("test", {temp:true},function (table) {
+                        table.primaryKey("id", "integer", {"null":false});
+                        table.column("name", "text");
+                        table.index("name", {unique:true});
+                    }).chain(function () {
+                            assert.deepEqual(db.sqls, [
+                                'CREATE TEMPORARY TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
+                                'CREATE UNIQUE INDEX "test_name_index" ON "test" ("name")'
+                            ]);
+                        });
+                },
+                function () {
+                    patio.quoteIdentifiers = false;
+                    var db = new DB();
+                    return db.createTable("test", {temp:true},function (table) {
+                        table.primaryKey("id", "integer", {"null":false});
+                        table.column("name", "text");
+                        table.index("name", {unique:true});
+                    }).chain(function () {
+                            assert.deepEqual(db.sqls, [
+                                'CREATE TEMPORARY TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text)',
+                                'CREATE UNIQUE INDEX test_name_index ON test (name)'
+                            ]);
+                        });
+                }
             ]);
         });
     });
@@ -492,7 +501,7 @@ it.describe("Database", function (it) {
         it.should("construct proper SQL", function () {
             var db = new DB();
 
-            db.alterTable("xyz", function (table) {
+            return db.alterTable("xyz",function (table) {
                 table.addColumn("aaa", "text", {"null":false, unique:true});
                 table.dropColumn("bbb");
                 table.renameColumn("ccc", "ddd");
@@ -501,18 +510,18 @@ it.describe("Database", function (it) {
                 table.addIndex("fff", {unique:true});
                 table.dropIndex("ggg");
                 table.addForeignKey(["aaa"], "table");
-            });
-
-            assert.deepEqual(db.sqls, [
-                'ALTER TABLE xyz ADD COLUMN aaa text UNIQUE NOT NULL',
-                'ALTER TABLE xyz DROP COLUMN bbb',
-                'ALTER TABLE xyz RENAME COLUMN ccc TO ddd',
-                'ALTER TABLE xyz ALTER COLUMN eee TYPE integer',
-                "ALTER TABLE xyz ALTER COLUMN hhh SET DEFAULT 'abcd'",
-                'CREATE UNIQUE INDEX xyz_fff_index ON xyz (fff)',
-                'DROP INDEX xyz_ggg_index',
-                "ALTER TABLE xyz ADD FOREIGN KEY (aaa) REFERENCES table"
-            ]);
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, [
+                        'ALTER TABLE xyz ADD COLUMN aaa text UNIQUE NOT NULL',
+                        'ALTER TABLE xyz DROP COLUMN bbb',
+                        'ALTER TABLE xyz RENAME COLUMN ccc TO ddd',
+                        'ALTER TABLE xyz ALTER COLUMN eee TYPE integer',
+                        "ALTER TABLE xyz ALTER COLUMN hhh SET DEFAULT 'abcd'",
+                        'CREATE UNIQUE INDEX xyz_fff_index ON xyz (fff)',
+                        'DROP INDEX xyz_ggg_index',
+                        "ALTER TABLE xyz ADD FOREIGN KEY (aaa) REFERENCES table"
+                    ]);
+                });
         });
     });
 
@@ -524,10 +533,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.addColumn("test", "name", "text", {unique:true});
-            assert.deepEqual(db.sqls, [
-                'ALTER TABLE test ADD COLUMN name text UNIQUE'
-            ]);
+            return db.addColumn("test", "name", "text", {unique:true}).chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'ALTER TABLE test ADD COLUMN name text UNIQUE'
+                ]);
+            });
         });
     });
 
@@ -539,10 +549,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.dropColumn("test", "name");
-            assert.deepEqual(db.sqls, [
-                'ALTER TABLE test DROP COLUMN name'
-            ]);
+            return db.dropColumn("test", "name").chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'ALTER TABLE test DROP COLUMN name'
+                ]);
+            });
         });
     });
 
@@ -554,10 +565,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.renameColumn("test", "abc", "def");
-            assert.deepEqual(db.sqls, [
-                'ALTER TABLE test RENAME COLUMN abc TO def'
-            ]);
+            return db.renameColumn("test", "abc", "def").chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'ALTER TABLE test RENAME COLUMN abc TO def'
+                ]);
+            });
         });
     });
 
@@ -569,10 +581,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.setColumnType("test", "name", "integer");
-            assert.deepEqual(db.sqls, [
-                'ALTER TABLE test ALTER COLUMN name TYPE integer'
-            ]);
+            return db.setColumnType("test", "name", "integer").chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'ALTER TABLE test ALTER COLUMN name TYPE integer'
+                ]);
+            });
         });
     });
 
@@ -584,10 +597,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.setColumnDefault("test", "name", 'zyx');
-            assert.deepEqual(db.sqls, [
-                "ALTER TABLE test ALTER COLUMN name SET DEFAULT 'zyx'"
-            ]);
+            return db.setColumnDefault("test", "name", 'zyx').chain(function () {
+                assert.deepEqual(db.sqls, [
+                    "ALTER TABLE test ALTER COLUMN name SET DEFAULT 'zyx'"
+                ]);
+            });
         });
     });
 
@@ -599,18 +613,20 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.addIndex("test", "name", {unique:true});
-            assert.deepEqual(db.sqls, [
-                'CREATE UNIQUE INDEX test_name_index ON test (name)'
-            ]);
+            return db.addIndex("test", "name", {unique:true}).chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'CREATE UNIQUE INDEX test_name_index ON test (name)'
+                ]);
+            });
         });
 
         it.should("accept multiple columns", function () {
             db.reset();
-            db.addIndex("test", ["one", "two"]);
-            assert.deepEqual(db.sqls, [
-                'CREATE INDEX test_one_two_index ON test (one, two)'
-            ]);
+            return db.addIndex("test", ["one", "two"]).chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'CREATE INDEX test_one_two_index ON test (one, two)'
+                ]);
+            });
         });
     });
 
@@ -622,10 +638,11 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.dropIndex("test", "name");
-            assert.deepEqual(db.sqls, [
-                'DROP INDEX test_name_index'
-            ]);
+            return db.dropIndex("test", "name").chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'DROP INDEX test_name_index'
+                ]);
+            });
         });
 
     });
@@ -636,18 +653,20 @@ it.describe("Database", function (it) {
 
 
         it.should("construct proper SQL", function () {
-            db.dropTable("test");
-            assert.deepEqual(db.sqls, ['DROP TABLE test']);
+            return db.dropTable("test").chain(function () {
+                assert.deepEqual(db.sqls, ['DROP TABLE test']);
+            });
         });
 
         it.should("accept multiple table names", function () {
             db.reset();
-            db.dropTable("a", "bb", "ccc");
-            assert.deepEqual(db.sqls, [
-                'DROP TABLE a',
-                'DROP TABLE bb',
-                'DROP TABLE ccc'
-            ]);
+            return db.dropTable("a", "bb", "ccc").chain(function () {
+                assert.deepEqual(db.sqls, [
+                    'DROP TABLE a',
+                    'DROP TABLE bb',
+                    'DROP TABLE ccc'
+                ]);
+            });
         });
     });
 
@@ -659,8 +678,9 @@ it.describe("Database", function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.renameTable("abc", "xyz");
-            assert.deepEqual(db.sqls, ['ALTER TABLE abc RENAME TO xyz']);
+            return db.renameTable("abc", "xyz").chain(function () {
+                assert.deepEqual(db.sqls, ['ALTER TABLE abc RENAME TO xyz']);
+            });
         });
     });
 
@@ -672,14 +692,15 @@ it.describe("Database", function (it) {
         });
         it.should("try to select the first record from the table's dataset", function () {
             var a, b;
-            db.tableExists("a").then(function (ret) {
-                a = ret;
-            });
-            db.tableExists("b").then(function (ret) {
-                b = ret;
-            });
-            assert.isFalse(a);
-            assert.isTrue(b);
+            return comb.when(
+                db.tableExists("a").chain(function (ret) {
+                    assert.isFalse(ret);
+                }),
+                db.tableExists("b").then(function (ret) {
+                    assert.isTrue(ret);
+                })
+            );
+
         });
     });
 
@@ -693,83 +714,82 @@ it.describe("Database", function (it) {
 
         it.should("wrap the supplied block with BEGIN + COMMIT statements", function () {
             db.reset();
-            db.transaction(function (d) {
-                d.execute('DROP TABLE test;');
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            return db.transaction(function (d) {
+                return d.execute('DROP TABLE test;');
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+                });
         });
 
         it.should("support transaction isolation levels", function () {
             db.reset();
             db.supportsTransactionIsolationLevels = true;
-            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function (level) {
-                db.transaction({isolation:level}, function (d) {
-                    d.run("DROP TABLE " + level);
+            return comb.async.array(["uncommitted", "committed", "repeatable", "serializable"]).forEach(function (level) {
+                return db.transaction({isolation:level}, function (d) {
+                    return d.run("DROP TABLE " + level);
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', 'DROP TABLE committed', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ', 'DROP TABLE repeatable', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL SERIALIZABLE', 'DROP TABLE serializable', 'COMMIT']);
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', 'DROP TABLE committed', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ', 'DROP TABLE repeatable', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL SERIALIZABLE', 'DROP TABLE serializable', 'COMMIT']);
+                });
 
         });
 
         it.should("allow specifying a default transaction isolation level", function () {
             db.reset();
             db.supportsTransactionIsolationLevels = true;
-            ["uncommitted", "committed", "repeatable", "serializable"].forEach(function (level) {
+            return comb.async.array(["uncommitted", "committed", "repeatable", "serializable"]).forEach(function (level) {
                 db.transactionIsolationLevel = level;
-                db.transaction(function (d) {
-                    d.run("DROP TABLE " + level);
+                return db.transaction(function (d) {
+                    return d.run("DROP TABLE " + level);
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', 'DROP TABLE committed', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ', 'DROP TABLE repeatable', 'COMMIT',
-                'BEGIN', 'SET TRANSACTION ISOLATION LEVEL SERIALIZABLE', 'DROP TABLE serializable', 'COMMIT']);
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', 'DROP TABLE committed', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ', 'DROP TABLE repeatable', 'COMMIT',
+                        'BEGIN', 'SET TRANSACTION ISOLATION LEVEL SERIALIZABLE', 'DROP TABLE serializable', 'COMMIT']);
+                });
 
         });
 
-        it.should("issue ROLLBACK if an exception is raised, and re-raise", function () {
+        it.should("issue ROLLBACK if an exception is raised, and re-raise", function (next) {
             var db = new Dummy3Database();
+
             db.transaction(function (d) {
                 d.execute('DROP TABLE test');
                 throw "Error";
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
-            db.reset();
-            db.transaction(function (d) {
-                d.execute('DROP TABLE test', {error:true});
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
-            var errored;
-            var p = db.transaction(
-                function (d) {
-                    throw "Error";
+            }).chain(next, function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
+                    db.reset();
+                    db.transaction(function (d) {
+                        return d.execute('DROP TABLE test', {error:true});
+                    }).chain(next, function () {
+                            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
+                            var errored;
+                            return db.transaction(function (d) {
+                                throw "Error";
+                            }).chain(next, function () {
+                                    next();
+                                });
+                        });
                 });
-            p.then(function () {
-                errored = false;
-            }, function () {
-                errored = true;
-            });
-            assert.isTrue(errored);
+
+
         });
 
-        it.should("raise database call errback if there is an error commiting", function () {
+        it.should("raise database call errback if there is an error commiting", function (next) {
             var db = new Dummy3Database();
             db.__commitTransaction = function () {
                 return new comb.Promise().errback();
             };
             var errored;
-            db.transaction(
-                function (d) {
-                    d.run("DROP TABLE test");
-                }).then(function () {
-                    errored = false;
-                }, function () {
-                    errored = true;
+            db.transaction(function (d) {
+                return d.run("DROP TABLE test");
+            }).chain(next, function () {
+                    next();
                 });
-            assert.isTrue(errored);
         });
 
     });
@@ -780,146 +800,139 @@ it.describe("Database", function (it) {
         db.supportsSavepoints = true;
 
         it.should("wrap the supplied block with BEGIN + COMMIT statements", function () {
-            db.transaction(function () {
-                db.execute("DROP TABLE test;");
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            return db.transaction(function () {
+                return db.execute("DROP TABLE test;");
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+                });
         });
 
         it.should("use savepoints if given the :savepoint option", function () {
             db.reset();
-            db.transaction(function () {
-                db.transaction({savepoint:true}, function () {
-                    db.execute('DROP TABLE test;');
+            return db.transaction(function () {
+                return db.transaction({savepoint:true}, function () {
+                    return db.execute('DROP TABLE test;');
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
+                });
         });
 
         it.should("not use a savepoints if no transaction is in progress", function () {
             db.reset();
-            db.transaction({savepoint:true}, function (d) {
-                d.execute('DROP TABLE test;');
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            return db.transaction({savepoint:true},function (d) {
+                return d.execute('DROP TABLE test;');
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+                });
         });
 
         it.should("reuse the current transaction if no savepoint option is given", function () {
             db.reset();
-            db.transaction(function (d) {
-                d.transaction(function (d2) {
-                    d2.execute('DROP TABLE test;');
+            return db.transaction(function (d) {
+                return d.transaction(function (d2) {
+                    return d2.execute('DROP TABLE test;');
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+                });
         });
 
         it.should("handle returning inside of the block by committing", function () {
             db.reset();
-            db.retCommit();
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            return db.retCommit().chain(function () {
+                assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
+            });
         });
 
         it.should("handle returning inside of a savepoint by committing", function () {
             db.reset();
-            db.retCommitSavePoint();
-            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
+            return db.retCommitSavePoint().chain(function () {
+                assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
+            });
         });
 
-        it.should("issue ROLLBACK if an exception is raised, and re-raise", function () {
+        it.should("issue ROLLBACK if an exception is raised, and re-raise", function (next) {
             var db = new Dummy3Database();
-            db.transaction(function (d) {
+            return db.transaction(function (d) {
                 d.execute('DROP TABLE test');
                 throw "Error";
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
-            db.reset();
-            db.transaction(function (d) {
-                d.execute('DROP TABLE test', {error:true});
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
-            var errored;
-            db.transaction(
-                function (d) {
-                    throw "Error";
-                }).then(function () {
-                    errored = false;
-                }, function () {
-                    errored = true;
+            }).chain(next, function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
+                    db.reset();
+                    return db.transaction(function (d) {
+                        return d.execute('DROP TABLE test', {error:true});
+                    }).chain(next, function () {
+                            assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
+                            var errored;
+                            return db.transaction(function (d) {
+                                throw "Error";
+                            }).chain(next, function () {
+                                    next();
+                                });
+                        });
                 });
-            assert.isTrue(errored);
         });
 
-        it.should("issue ROLLBACK if an exception is raised inside a savepoint, and re-raise", function () {
+        it.should("issue ROLLBACK if an exception is raised inside a savepoint, and re-raise", function (next) {
             db.reset();
             db.transaction(function () {
                 return db.transaction({savepoint:true}, function () {
-                    db.execute('DROP TABLE test');
+                    return db.execute('DROP TABLE test');
                     throw "Error";
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
-            db.reset();
-            db.transaction(function (d) {
-                db.transaction({savepoint:true}, function () {
-                    d.execute('DROP TABLE test', {error:true});
+            }).chain(next, function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
+                    db.reset();
+                    return db.transaction(function (d) {
+                        return db.transaction({savepoint:true}, function () {
+                            d.execute('DROP TABLE test', {error:true});
+                        });
+                    }).chain(next, function () {
+                            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
+                            db.transaction(function (d) {
+                                return db.transaction({savepoint:true}, function () {
+                                    throw "ERROR";
+                                });
+                            }).chain(next, function () {
+                                    next();
+                                });
+                        });
                 });
-            });
-            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
-            var errored;
-            db.transaction(
-                function (d) {
-                    db.transaction({savepoint:true}, function () {
-                        throw "ERROR";
-                    });
-                }).then(function () {
-                    errored = false;
-                }, function () {
-                    errored = true;
-                });
-            assert.isTrue(errored);
         });
 
         it.should("issue ROLLBACK SAVEPOINT if 'ROLLBACK' is called is thrown in savepoint", function () {
             db.reset();
-            db.transaction(function () {
-                db.transaction({savepoint:true}, function () {
+            return db.transaction(function () {
+                return db.transaction({savepoint:true},function () {
                     db.dropTable("a");
                     throw "ROLLBACK";
+                }).chain(comb(db).bindIgnore("dropTable", "b"));
+            }).chain(function () {
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE a', 'ROLLBACK TO SAVEPOINT autopoint_1', "DROP TABLE b", 'COMMIT']);
                 });
-                db.dropTable("b");
-            });
-
-            assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE a', 'ROLLBACK TO SAVEPOINT autopoint_1', 'DROP TABLE b', 'COMMIT']);
         });
 
 
-        it.should("raise database errors when commiting a transaction and error is thrown", function () {
+        it.should("raise database errors when commiting a transaction and error is thrown", function (next) {
             var orig = db.__commitTransaction;
             db.__commitTransaction = function () {
                 return new comb.Promise().errback("ERROR");
             };
-            var thrown = false;
-            db.transaction(
-                function () {
-                }).then(function () {
-                    thrown = false;
-                }, function () {
-                    thrown = true;
+            return db.transaction(function (db, done) {
+                done();
+            }).chain(next, function () {
+                    return db.transaction(function () {
+                        return db.transaction({savepoint:true}, function (db, done) {
+                            done()
+                        });
+                    }).chain(next, function () {
+                            db.__commitTransaction = orig;
+                            next();
+                        });
                 });
-            assert.isTrue(thrown);
-            thrown = false;
-            db.transaction(
-                function () {
-                    db.transaction({savepoint:true}, function () {
-                    });
-                }).then(function () {
-                    thrown = false;
-                }, function () {
-                    thrown = true;
-                });
-            assert.isTrue(thrown);
-            db.__commitTransaction = orig;
+
+
         });
 
     });
@@ -929,7 +942,7 @@ it.describe("Database", function (it) {
             instance:{
 
                 fetchRows:function (sql, cb) {
-                    return new comb.Promise().callback({sql:sql}).addCallback(cb);
+                    return comb.async.array(new comb.Promise().callback({sql:sql}).addCallback(cb));
                 }
             }
         });
@@ -947,42 +960,37 @@ it.describe("Database", function (it) {
         it.should("create a dataset and invoke its fetch_rows method with the given sql", function () {
             var sql = null;
             db.fetch('select * from xyz').forEach(function (r) {
-                sql = r.sql;
+                assert.equal(r.sql, 'select * from xyz');
             });
-            assert.equal(sql, 'select * from xyz');
         });
 
         it.should("format the given sql with any additional arguments", function () {
             var sql = null;
-            db.fetch('select * from xyz where x = ? and y = ?', 15, 'abc', function (r) {
-                sql = r.sql;
-            });
-            assert.equal(sql, "select * from xyz where x = 15 and y = 'abc'");
-
-            db.fetch('select name from table where name = ? or id in ?', 'aman', [3, 4, 7], function (r) {
-                sql = r.sql;
-            });
-            assert.equal(sql, "select name from table where name = 'aman' or id in (3, 4, 7)");
+            return comb.when(
+                db.fetch('select * from xyz where x = ? and y = ?', 15, 'abc', function (r) {
+                    assert.equal(r.sql, "select * from xyz where x = 15 and y = 'abc'");
+                }),
+                db.fetch('select name from table where name = ? or id in ?', 'aman', [3, 4, 7], function (r) {
+                    assert.equal(r.sql, "select name from table where name = 'aman' or id in (3, 4, 7)");
+                })
+            );
         });
 
         it.should("format the given sql with named arguments", function () {
             var sql = null;
-            db.fetch('select * from xyz where x = {x} and y = {y}', {x:15, y:'abc'}, function (r) {
-                sql = r.sql;
+            return db.fetch('select * from xyz where x = {x} and y = {y}', {x:15, y:'abc'}, function (r) {
+                assert.equal(r.sql, "select * from xyz where x = 15 and y = 'abc'");
             });
-            assert.equal(sql, "select * from xyz where x = 15 and y = 'abc'");
         });
 
         it.should("return the dataset if no block is given", function () {
             assert.instanceOf(db.fetch('select * from xyz'), patio.Dataset);
-            var ret;
-            db.fetch('select a from b').map(
+            return db.fetch('select a from b').map(
                 function (r) {
                     return r.sql;
-                }).then(function (r) {
-                    ret = r;
+                }).chain(function (r) {
+                    assert.deepEqual(r, ['select a from b']);
                 });
-            assert.deepEqual(ret, ['select a from b']);
         });
 
         it.should("return a dataset that always uses the given sql for SELECTs", function () {

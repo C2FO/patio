@@ -10,7 +10,7 @@ patio.connect("mysql://test:testpass@localhost:3306/sandbox?maxConnections=50&mi
 patio.configureLogging();
 //patio.LOGGER.level = "ERROR";
 
-helpers.loadData().then(function () {
+helpers.loadData().chain(function () {
     var app = express.createServer();
     Flight.route(app);
     Airport.route(app);

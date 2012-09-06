@@ -1,9 +1,13 @@
+#0.1.2 / 2012-09-06
+* Updated for new comb api.
+* Fixed tests
+* Update db.tranaction to require a promise or the callback function to be called.
 #0.1.1 / 2012-08-29
 * new patio.Dataset features
-  * #sourceList - get all sources as identifiers
-  * #joinSourceList - get all join sources
-  * #hasSelectSource - returns true if there are not any select sources (i.e select *)
-  * #seleIfNoSource - add the selects if there is not currently a select
+  * sourceList - get all sources as identifiers
+  * joinSourceList - get all join sources
+  * hasSelectSource - returns true if there are not any select sources (i.e select *)
+  * seleIfNoSource - add the selects if there is not currently a select
 * Fixed issue with patio.Model#_setFromDb where values not in the models table columns would be in accesible, (i.e a join with a model would not show the join columns)
 * updated docs
 #0.1.0 / 2012-08-25

@@ -21,15 +21,7 @@ it.describe("Model with cache plugin", function (it) {
 
                 fetchRows:function (sql, cb) {
                     var ret = new comb.Promise();
-                    this.db.execute(sql).then(function (res) {
-                        var cbret = cb(res);
-                        if (comb.isPromiseLike(cbret)) {
-                            cbret.then(ret);
-                        } else {
-                            ret.callback(res);
-                        }
-                    }, ret);
-                    return ret;
+                    return comb.async.array(this.db.execute(sql));
                 },
 
                 _quotedIdentifier:function (c) {

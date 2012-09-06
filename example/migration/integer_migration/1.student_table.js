@@ -1,8 +1,8 @@
 var patio = require("../../../index"),
     sql = patio.sql;
 
-exports.up = function(db){
-    db.createTable("student", function() {
+exports.up = function (db) {
+    return db.createTable("student", function () {
         this.primaryKey("id");
         this.firstName(String);
         this.lastName(String);
@@ -15,6 +15,6 @@ exports.up = function(db){
     });
 };
 
-exports.down = function(db){
-    db.dropTable("student");
-}
+exports.down = function (db) {
+    return db.dropTable("student");
+};
