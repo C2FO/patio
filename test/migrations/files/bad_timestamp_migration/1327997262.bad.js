@@ -1,7 +1,7 @@
-exports.up = function(db){
+exports.up = function (db) {
     return ret.errback("err");
-}
+};
 
-exports.down = function(db){
-    db.dropTable("test4");
-}
+exports.down = function (db) {
+    return db.dropTable("test4");
+};

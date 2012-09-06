@@ -25,7 +25,9 @@ it.describe("Migrators",function (it) {
             instance:{
 
                 fetchRows:function (sql, cb) {
-                    return comb.async.array([{version:patioMigrationVersion}]);
+                    return comb.async.array([
+                        {version:patioMigrationVersion}
+                    ]);
                 },
 
                 insert:function (values) {
@@ -129,7 +131,8 @@ it.describe("Migrators",function (it) {
 
                 alterTable:function (name) {
                     this.alteredTables[name] = true;
-                    return this._super(arguments).chain(function () {
+                    var promise = this._super(arguments);
+                    return promise.chain(function () {
                         this.columnsCreated = [];
                         this.columnsAltered = {};
                         this.sqls.forEach(function (sql) {
@@ -248,39 +251,41 @@ it.describe("Migrators",function (it) {
         });
 
         it.should("apply a migration correctly in the down direction if a target is given", function (next) {
-            DB.createTable("schema_info", function () {
+            return DB.createTable("schema_info",function () {
                 this.version("integer", {"default":0});
-            });
-            DB.from("schema_info").update({version:3});
-            patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1}).chain(function () {
-                assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"]);
-                assert.equal(patioMigrationVersion, -1);
-                assert.isTrue(comb.isEmpty(DB.alteredTables));
-                assert.isTrue(comb.isEmpty(DB.columnsAltered));
-                next();
-            }, next);
+            }).chain(function () {
+                    return DB.from("schema_info").update({version:3}).chain(function () {
+                        patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1}).chain(function () {
+                            assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"]);
+                            assert.equal(patioMigrationVersion, -1);
+                            assert.isTrue(comb.isEmpty(DB.alteredTables));
+                            assert.isTrue(comb.isEmpty(DB.columnsAltered));
+                        });
+                    });
+                });
         });
 
         it.should("apply a migration correctly in the down direction if a target and current is given", function (next) {
-            DB.createTable("schema_info", function () {
+            return DB.createTable("schema_info",function () {
                 this.version("integer", {"default":0});
-            });
-            DB.from("schema_info").update({version:3});
-            patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1, current:4}).chain(function () {
-                assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"])
-                assert.equal(patioMigrationVersion, -1);
-                assert.isTrue(DB.alteredTables.test1);
-                assert.isTrue(DB.alteredTables.test2);
-                assert.isTrue(DB.alteredTables.test3);
-                assert.isTrue(DB.alteredTables.test4);
-                assert.deepEqual(DB.columnsAltered, {
-                    column2:"column1",
-                    column3:"column2",
-                    column4:"column3",
-                    column5:"column4"
+            }).chain(function () {
+                    return DB.from("schema_info").update({version:3}).chain(function () {
+                        patio.migrate(DB, __dirname + "/migrations/files/basic_integer_migration", {target:-1, current:4}).chain(function () {
+                            assert.deepEqual(DB.droppedTables, ["test4", "test3", "test2", "test1"]);
+                            assert.equal(patioMigrationVersion, -1);
+                            assert.isTrue(DB.alteredTables.test1);
+                            assert.isTrue(DB.alteredTables.test2);
+                            assert.isTrue(DB.alteredTables.test3);
+                            assert.isTrue(DB.alteredTables.test4);
+                            assert.deepEqual(DB.columnsAltered, {
+                                column2:"column1",
+                                column3:"column2",
+                                column4:"column3",
+                                column5:"column4"
+                            });
+                        });
+                    });
                 });
-                next();
-            }, next);
         });
         it.should("apply return the correct target number", function (next) {
             var ret = [];
@@ -309,7 +314,9 @@ it.describe("Migrators",function (it) {
                     fetchRows:function (sql, cb) {
                         var from = this.__opts.from[0], ret = new comb.Promise();
                         if (from.toString() === "schema_info") {
-                            ret = comb.async.array([{version:patioMigrationVersion}]);
+                            ret = comb.async.array([
+                                {version:patioMigrationVersion}
+                            ]);
                         } else if (from.toString() === "schema_migrations") {
                             sortMigrationFiles();
                             ret = comb.async.array(patioMigrationFiles.map(function (f) {

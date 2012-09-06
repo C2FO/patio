@@ -102,19 +102,16 @@ it.describe("Database",function (it) {
 
             retCommit:function () {
                 return this.transaction(function () {
-                    this.execute('DROP TABLE test;');
-                    return;
-                    this.execute('DROP TABLE test2;');
+                    return this.execute('DROP TABLE test;');
                 });
             },
 
             retCommitSavePoint:function () {
-                return this.transaction(function () {
-                    this.transaction({savepoint:true}, function () {
-                        this.execute('DROP TABLE test;');
-                        return;
+                return this.transaction(function (db, done) {
+                    this.transaction({savepoint:true},function () {
+                        return this.execute('DROP TABLE test;');
                         this.execute('DROP TABLE test2;');
-                    })
+                    }).classic(done);
                 });
             },
 
@@ -718,7 +715,7 @@ it.describe("Database",function (it) {
         it.should("wrap the supplied block with BEGIN + COMMIT statements", function () {
             db.reset();
             return db.transaction(function (d) {
-                d.execute('DROP TABLE test;');
+                return d.execute('DROP TABLE test;');
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
                 });
@@ -729,7 +726,7 @@ it.describe("Database",function (it) {
             db.supportsTransactionIsolationLevels = true;
             return comb.async.array(["uncommitted", "committed", "repeatable", "serializable"]).forEach(function (level) {
                 return db.transaction({isolation:level}, function (d) {
-                    d.run("DROP TABLE " + level);
+                    return d.run("DROP TABLE " + level);
                 });
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
@@ -746,7 +743,7 @@ it.describe("Database",function (it) {
             return comb.async.array(["uncommitted", "committed", "repeatable", "serializable"]).forEach(function (level) {
                 db.transactionIsolationLevel = level;
                 return db.transaction(function (d) {
-                    d.run("DROP TABLE " + level);
+                    return d.run("DROP TABLE " + level);
                 });
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
@@ -767,7 +764,7 @@ it.describe("Database",function (it) {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                     db.reset();
                     db.transaction(function (d) {
-                        d.execute('DROP TABLE test', {error:true});
+                        return d.execute('DROP TABLE test', {error:true});
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                             var errored;
@@ -789,7 +786,7 @@ it.describe("Database",function (it) {
             };
             var errored;
             db.transaction(function (d) {
-                d.run("DROP TABLE test");
+                return d.run("DROP TABLE test");
             }).chain(next, function () {
                     next();
                 });
@@ -804,7 +801,7 @@ it.describe("Database",function (it) {
 
         it.should("wrap the supplied block with BEGIN + COMMIT statements", function () {
             return db.transaction(function () {
-                db.execute("DROP TABLE test;");
+                return db.execute("DROP TABLE test;");
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
                 });
@@ -813,8 +810,8 @@ it.describe("Database",function (it) {
         it.should("use savepoints if given the :savepoint option", function () {
             db.reset();
             return db.transaction(function () {
-                db.transaction({savepoint:true}, function () {
-                    db.execute('DROP TABLE test;');
+                return db.transaction({savepoint:true}, function () {
+                    return db.execute('DROP TABLE test;');
                 });
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test;', 'RELEASE SAVEPOINT autopoint_1', 'COMMIT']);
@@ -824,7 +821,7 @@ it.describe("Database",function (it) {
         it.should("not use a savepoints if no transaction is in progress", function () {
             db.reset();
             return db.transaction({savepoint:true},function (d) {
-                d.execute('DROP TABLE test;');
+                return d.execute('DROP TABLE test;');
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
                 });
@@ -833,8 +830,8 @@ it.describe("Database",function (it) {
         it.should("reuse the current transaction if no savepoint option is given", function () {
             db.reset();
             return db.transaction(function (d) {
-                d.transaction(function (d2) {
-                    d2.execute('DROP TABLE test;');
+                return d.transaction(function (d2) {
+                    return d2.execute('DROP TABLE test;');
                 });
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
@@ -864,14 +861,14 @@ it.describe("Database",function (it) {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                     db.reset();
                     return db.transaction(function (d) {
-                        d.execute('DROP TABLE test', {error:true});
+                        return d.execute('DROP TABLE test', {error:true});
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                             var errored;
                             return db.transaction(function (d) {
                                 throw "Error";
                             }).chain(next, function () {
-                                    next()
+                                    next();
                                 });
                         });
                 });
@@ -881,24 +878,23 @@ it.describe("Database",function (it) {
             db.reset();
             db.transaction(function () {
                 return db.transaction({savepoint:true}, function () {
-                    db.execute('DROP TABLE test');
+                    return db.execute('DROP TABLE test');
                     throw "Error";
                 });
             }).chain(next, function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
                     db.reset();
                     return db.transaction(function (d) {
-                        db.transaction({savepoint:true}, function () {
+                        return db.transaction({savepoint:true}, function () {
                             d.execute('DROP TABLE test', {error:true});
                         });
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
-                            db.transaction(
-                                function (d) {
-                                    db.transaction({savepoint:true}, function () {
-                                        throw "ERROR";
-                                    });
-                                }).chain(next, function () {
+                            db.transaction(function (d) {
+                                return db.transaction({savepoint:true}, function () {
+                                    throw "ERROR";
+                                });
+                            }).chain(next, function () {
                                     next();
                                 });
                         });
@@ -908,13 +904,12 @@ it.describe("Database",function (it) {
         it.should("issue ROLLBACK SAVEPOINT if 'ROLLBACK' is called is thrown in savepoint", function () {
             db.reset();
             return db.transaction(function () {
-                db.transaction({savepoint:true}, function () {
+                return db.transaction({savepoint:true},function () {
                     db.dropTable("a");
                     throw "ROLLBACK";
-                });
-                db.dropTable("b");
+                }).chain(comb(db).bindIgnore("dropTable", "b"));
             }).chain(function () {
-                    assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE b', 'SAVEPOINT autopoint_1', 'DROP TABLE a', 'ROLLBACK TO SAVEPOINT autopoint_1', 'COMMIT']);
+                    assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE a', 'ROLLBACK TO SAVEPOINT autopoint_1', "DROP TABLE b", 'COMMIT']);
                 });
         });
 
@@ -924,15 +919,17 @@ it.describe("Database",function (it) {
             db.__commitTransaction = function () {
                 return new comb.Promise().errback("ERROR");
             };
-            return db.transaction(function () {
+            return db.transaction(function (db, done) {
+                done();
             }).chain(next, function () {
                     return db.transaction(function () {
-                        db.transaction({savepoint:true}, function () {
+                        return db.transaction({savepoint:true}, function (db, done) {
+                            done()
                         });
                     }).chain(next, function () {
                             db.__commitTransaction = orig;
                             next();
-                        })
+                        });
                 });
 
 

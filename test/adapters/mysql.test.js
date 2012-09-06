@@ -48,7 +48,7 @@ it.describe("patio.adapters.Mysql",function (it) {
         var db;
         it.beforeEach(function () {
             db = MYSQL_DB;
-            return db.forceDropTable("dolls").chain(function(){
+            return db.forceDropTable("dolls").chain(function () {
                 db.sqls.length = 0;
             });
 
@@ -141,7 +141,7 @@ it.describe("patio.adapters.Mysql",function (it) {
     it.should("support forShare", function (next) {
         var cb = hitch(this, "callback", null), eb = hitch(this, "callback");
         MYSQL_DB.transaction(function () {
-            MYSQL_DB.from("test2").forShare().all().classic(function (err, res) {
+            return MYSQL_DB.from("test2").forShare().all().classic(function (err, res) {
                 assert.lengthOf(res, 0);
                 next();
             });
@@ -1363,6 +1363,6 @@ it.describe("patio.adapters.Mysql",function (it) {
     it.afterAll(function () {
         return patio.disconnect();
     });
-}).as(module).run();
+}).as(module);
 
 
