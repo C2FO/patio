@@ -953,7 +953,7 @@ td.cov-stats {
     </table>
     <div class='source' id="index.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class=''> </span><code>/**</code></li>
 <li class='green'><span class=''> </span><code> * @projectName patio</code></li>
-<li class='green'><span class=''> </span><code> * @github https://github.com/Pollenware/patio</code></li>
+<li class='green'><span class=''> </span><code> * @github https://github.com/C2FO/patio</code></li>
 <li class='green'><span class=''> </span><code> * @includeDoc [Connecting] ../docs-md/connecting.md</code></li>
 <li class='green'><span class=''> </span><code> * @includeDoc [Models] ../docs-md/models.md</code></li>
 <li class='green'><span class=''> </span><code> * @includeDoc [Associations] ../docs-md/associations.md</code></li>
@@ -1432,7 +1432,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {patio.Model|patio.Model[]} Parent models of this model.</code></li>
 <li class='green'><span class=''> </span><code>         *                  See {@link patio.plugins.ClassTableInheritancePlugin}.</code></li>
 <li class='green'><span class=''> </span><code>         * @param {Object} [proto] an object to be used as the prototype for the model. See</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;a href="http://pollenware.github.com/comb/symbols/comb.html#.define"&gt;comb.define&lt;/a&gt;.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;a href="http://c2fo.github.com/comb/symbols/comb.html#.define"&gt;comb.define&lt;/a&gt;.</code></li>
 <li class='green'><span class=''> </span><code>         * @param [Object[]] [proto.plugins] this can be used to specify additional plugins to use such as.</code></li>
 <li class='green'><span class=''> </span><code>         * &lt;ul&gt;</code></li>
 <li class='green'><span class=''> </span><code>         *     &lt;li&gt;{@link patio.plugins.TimeStampPlugin&lt;/li&gt;</code></li>
@@ -2171,9 +2171,9 @@ td.cov-stats {
 <li class='green'><span class='hits'>7492</span><code>                var q = this.connection.query(query, hitch(this, function (err, results) {</code></li>
 <li class='green'><span class='hits'>7492</span><code>                    q.handleRowDescription = orig;</code></li>
 <li class='green'><span class='hits'>7492</span><code>                    if (err) {</code></li>
-<li class='green'><span class='hits'>67</span><code>                        return ret.errback(err);</code></li>
+<li class='green'><span class='hits'>70</span><code>                        return ret.errback(err);</code></li>
 <li class='green'><span class=''> </span><code>                    } else {</code></li>
-<li class='green'><span class='hits'>7425</span><code>                        return ret.callback(results.rows, fields);</code></li>
+<li class='green'><span class='hits'>7422</span><code>                        return ret.callback(results.rows, fields);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }));</code></li>
 <li class='green'><span class='hits'>7492</span><code>                var orig = q.handleRowDescription;</code></li>
@@ -6821,14 +6821,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>3140</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>3140</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>3140</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>3140</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>3140</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>3140</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>3140</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>3140</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>3086</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>3086</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>3086</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3086</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>3086</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>3086</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>3086</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>3086</span><code>                if (fromDb) {</code></li>
 <li class='green'><span class='hits'>1757</span><code>                    this._hook("pre", "load");</code></li>
 <li class='green'><span class='hits'>1757</span><code>                    this.__isNew = false;</code></li>
 <li class='green'><span class='hits'>1757</span><code>                    this.__setFromDb(options, true);</code></li>
@@ -6837,8 +6837,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>1757</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1383</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1383</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1329</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1329</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -6846,15 +6846,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set:function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1505</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1505</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1505</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1451</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1451</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1451</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6632</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6632</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6632</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1505</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1451</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb:function (values, ignore) {</code></li>
@@ -7092,7 +7092,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced:function () {</code></li>
-<li class='green'><span class='hits'>12813</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>12759</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -8065,7 +8065,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * @param {String} message the message to show.</code></li>
 <li class='green'><span class=''> </span><code> */</code></li>
 <li class='green'><span class='hits'>1</span><code>patio.QueryError = function(message) {</code></li>
-<li class='green'><span class='hits'>118</span><code>  return new Error("QueryError : " + message);</code></li>
+<li class='green'><span class='hits'>121</span><code>  return new Error("QueryError : " + message);</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>/**</code></li>
@@ -9385,21 +9385,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>995</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>995</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>995</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>995</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1005</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>995</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>995</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>995</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>995</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>4</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>1005</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>995</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>548</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>548</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>542</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9409,8 +9409,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>1005</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>1005</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>995</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>995</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -9862,7 +9862,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>1005</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>995</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10672,13 +10672,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>2346</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>2346</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2346</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>2336</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>2336</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2336</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2346</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2346</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2336</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2336</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11481,7 +11481,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>16670</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>16650</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12081,7 +12081,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3485</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3455</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -16965,10 +16965,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>3140</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>3018</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>3086</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>2991</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>3140</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3086</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload:function () {</code></li>
@@ -20144,8 +20144,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Logs a DEBUG level message to the "patio.Database" logger.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        logDebug:function () {</code></li>
-<li class='green'><span class='hits'>8001</span><code>            if (LOGGER.isDebug) {</code></li>
-<li class='green'><span class='hits'>8001</span><code>                LOGGER.debug.apply(LOGGER, arguments);</code></li>
+<li class='green'><span class='hits'>7998</span><code>            if (LOGGER.isDebug) {</code></li>
+<li class='green'><span class='hits'>7998</span><code>                LOGGER.debug.apply(LOGGER, arguments);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -20153,8 +20153,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Logs an ERROR level message to the "patio.Database" logger.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        logError:function (error) {</code></li>
-<li class='green'><span class='hits'>72</span><code>            if (LOGGER.isError) {</code></li>
-<li class='green'><span class='hits'>72</span><code>                LOGGER.error.apply(LOGGER, arguments);</code></li>
+<li class='green'><span class='hits'>75</span><code>            if (LOGGER.isError) {</code></li>
+<li class='green'><span class='hits'>75</span><code>                LOGGER.error.apply(LOGGER, arguments);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -20203,12 +20203,12 @@ td.cov-stats {
 <li class='green'><span class='hits'>8072</span><code>            if (isFunction(cb)) {</code></li>
 <li class='green'><span class='hits'>8071</span><code>                this.logInfo("Executing; %s", sql);</code></li>
 <li class='green'><span class='hits'>8071</span><code>                cb().then(hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>8000</span><code>                    this.logDebug("Duration: % 6dms; %s", new Date() - start, sql);</code></li>
-<li class='green'><span class='hits'>8000</span><code>                    ret.callback.apply(ret, arguments);</code></li>
+<li class='green'><span class='hits'>7997</span><code>                    this.logDebug("Duration: % 6dms; %s", new Date() - start, sql);</code></li>
+<li class='green'><span class='hits'>7997</span><code>                    ret.callback.apply(ret, arguments);</code></li>
 <li class='green'><span class=''> </span><code>                }), hitch(this, function (err) {</code></li>
-<li class='green'><span class='hits'>71</span><code>                    err = new QueryError(format("%s: %s", err.message, sql));</code></li>
-<li class='green'><span class='hits'>71</span><code>                    this.logError(err);</code></li>
-<li class='green'><span class='hits'>71</span><code>                    ret.errback.apply(ret, [err]);</code></li>
+<li class='green'><span class='hits'>74</span><code>                    err = new QueryError(format("%s: %s", err.message, sql));</code></li>
+<li class='green'><span class='hits'>74</span><code>                    this.logError(err);</code></li>
+<li class='green'><span class='hits'>74</span><code>                    ret.errback.apply(ret, [err]);</code></li>
 <li class='green'><span class=''> </span><code>                }));</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='green'><span class='hits'>1</span><code>                throw new QueryError("CB is required");</code></li>

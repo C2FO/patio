@@ -1,7 +1,7 @@
 
 
 exports.up = function(db){
-    db.createTable("class", function() {
+    return db.createTable("class", function() {
         this.primaryKey("id");
         this.semester("char", {size:10});
         this.name(String);
@@ -12,5 +12,5 @@ exports.up = function(db){
 };
 
 exports.down = function(db){
-    db.dropTable("class");
+    return db.dropTable("class");
 }

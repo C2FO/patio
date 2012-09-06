@@ -337,7 +337,7 @@
                 <ul class="nav pull-right">
 
                     <li class="divider-vertical"></li>
-                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                    <li><a href="https://github.com/C2FO/patio" target="#github" class="pull-right">github</a></li>
                 </ul>
                 
             </div>
@@ -3386,7 +3386,7 @@ function (column){
        meth += &quot;Date&quot;;
    } else if ((isStr &amp;&amp; type.match(/year/i)) || type === Year) {
        meth += &quot;Year&quot;;
-   } else if ((isStr &amp;&amp; type.match(/timestamp/i))|| type === TimeStamp) {
+   } else if ((isStr &amp;&amp; type.match(/timestamp/i)) || type === TimeStamp) {
        meth += &quot;Timestamp&quot;;
    } else if ((isStr &amp;&amp; type.match(/time/i)) || type === Time) {
        meth += &quot;Time&quot;;
@@ -4293,23 +4293,11 @@ function (name,generator,block){
        generator = new AlterTableGenerator(this, block);
    }
    var ret = new Promise();
-   this.__alterTableSqlList(name, generator.operations).then(hitch(this, function (res) {
-       var sqls = array.flatten(res.map(function (r) {
-           return r[1];
-       }));
-       var l = sqls.length;
-       var drop = hitch(this, function (i) {
-           if (i &lt; l) {
-               var sql = sqls[i++];
-               this.executeDdl(sql).then(hitch(this, drop, i), ret);
-           } else {
-               this.removeCachedSchema(name);
-               ret.callback();
-           }
-       });
-       drop(0);
-   }));
-   return ret.promise();
+   return this.__alterTableSqlList(name, generator.operations).chain(function (res) {
+       return asyncArray(comb(res).pluck(&quot;1&quot;).flatten()).forEach(function (sql) {
+           return this.executeDdl(sql);
+       }, this).chain(comb(&quot;removeCachedSchema&quot;).bindIgnore(this, name));
+   }.bind(this));
            
 }
     </pre>
@@ -4530,12 +4518,9 @@ function (name,source){
    if (isInstanceOf(source, Dataset)) {
        source = source.sql;
    }
-   var ret = new Promise();
-   this.executeDdl(format(&quot;CREATE OR REPLACE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source)).then(hitch(this, function () {
+   return this.executeDdl(format(&quot;CREATE OR REPLACE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source)).chain(function () {
        this.removeCachedSchema(name);
-       ret.callback();
-   }), ret);
-   return ret.promise();
+   }.bind(this));
            
 }
     </pre>
@@ -4643,8 +4628,7 @@ function (name,options,block){
    }
    var generator = options.generator || new SchemaGenerator(this, block);
    return this.__createTableFromGenerator(name, generator, options)
-       .chain(hitch(this, &quot;__createTableIndexesFromGenerator&quot;, name, generator, options))
-       .promise();
+       .chain(comb(&quot;__createTableIndexesFromGenerator&quot;).bindIgnore(this, name, generator, options));
            
 }
     </pre>
@@ -4696,14 +4680,11 @@ function (name,options,block){
     <pre class="prettyprint linenums lang-js">
 function (name,options,block){
    var ret = new Promise();
-   this.tableExists(name).then(hitch(this, function (exists) {
+   return this.tableExists(name).chain(function (exists) {
        if (!exists) {
-           this.createTable(name, options, block).then(ret);
-       } else {
-           ret.callback();
+           return this.createTable(name, options, block);
        }
-   }), ret);
-   return ret.promise();
+   }.bind(this));
            
 }
     </pre>
@@ -5018,26 +4999,18 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (names){
-   var ret = new Promise(), l = names.length;
-   if (isArray(names)) {
-       var drop = hitch(this, function (i) {
-           if (i &lt; l) {
-               var name = names[i++];
-               this.executeDdl(this.__dropTableSql(name)).then(hitch(this, function () {
-                   this.removeCachedSchema(name);
-                   drop(i);
-               }), ret);
-           } else {
-               ret.callback();
-           }
-       });
-       drop(0);
-       return ret.promise();
-   } else {
-       return this.dropTable(argsToArray(arguments).filter(function (t) {
-           return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
-       }));
+   if (!isArray(names)) {
+       names = comb(arguments).toArray();
    }
+   return serial(names.filter(function (t) {
+       return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
+   }).map(function (name) {
+       return function () {
+           return this.executeDdl(this.__dropTableSql(name)).chain(function () {
+               return this.removeCachedSchema(name);
+           }.bind(this));
+       }.bind(this);
+   }.bind(this)));
            
 }
     </pre>
@@ -5471,9 +5444,7 @@ function (args,block){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,options,block){
-   return this.dropTable(name)
-       .chainBoth(hitch(this, this.createTable, name, options, block))
-       .promise();
+   return this.dropTable(name).chainBoth(comb(&quot;createTable&quot;).bindIgnore(this, name, options, block));
            
 }
     </pre>
@@ -5537,25 +5508,26 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (names){
-   var ret = new Promise(), l = names.length;
-   if (isArray(names)) {
-       var drop = hitch(this, function (i) {
-           if (i &lt; l) {
-               var name = names[i++];
-               this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function () {
-                   this.removeCachedSchema(name);
-                   drop(i);
-               }));
-           } else {
-               ret.callback();
-           }
-       });
-       drop(0);
-   } else {
-       this.forceDropTable(argsToArray(arguments).filter(function (t) {
-           return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
-       })).both(ret);
+   var ret = new Promise();
+   if (!isArray(names)) {
+       names = comb(arguments).toArray();
    }
+   names = names.filter(function (t) {
+       return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
+   });
+   var l = names.length;
+   var drop = function (i) {
+       if (i &lt; l) {
+           var name = names[i++];
+           this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function () {
+               this.removeCachedSchema(name);
+               drop(i);
+           }));
+       } else {
+           ret.callback();
+       }
+   }.bind(this);
+   drop(0);
    return ret.promise();
            
 }

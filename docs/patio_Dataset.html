@@ -337,7 +337,7 @@
                 <ul class="nav pull-right">
 
                     <li class="divider-vertical"></li>
-                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                    <li><a href="https://github.com/C2FO/patio" target="#github" class="pull-right">github</a></li>
                 </ul>
                 
             </div>
@@ -9449,13 +9449,13 @@ function (columns,values,opts,cb){
                    return;
                }
                this.db.transaction(opts, hitch(this, function () {
-                   return this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).forEach(hitch(this, function (st) {
+                   return when(this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).map(hitch(this, function (st) {
                        return this.executeDui(st);
-                   }));
+                   })));
                })).then(hitch(this, function () {
                    offset += sliceSize;
                    execute();
-               }), hitch(ret, &quot;errback&quot;));
+               }), ret);
            }.bind(this);
            execute();
        } else {
