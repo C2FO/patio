@@ -163,6 +163,8 @@
                             
                             <li><a href="./logging.html">Logging</a></li>
                             
+                            <li><a href="./History.html">Change Log</a></li>
+                            
                             <li><a href="./coverage.html">Test Coverage</a></li>
                             
                         </ul>
@@ -337,7 +339,7 @@
                 <ul class="nav pull-right">
 
                     <li class="divider-vertical"></li>
-                    <li><a href="https://github.com/Pollenware/patio" target="#github" class="pull-right">github</a></li>
+                    <li><a href="https://github.com/C2FO/patio" target="#github" class="pull-right">github</a></li>
                 </ul>
                 
             </div>
@@ -3298,17 +3300,14 @@ each column (e.g. database type), see {@link patio.Database#schema}.
        // => ["id", "name"]
   });
 </pre></td><td><code>function (){
-   var ret = new Promise();
    if (this.__columns) {
-       ret.callback(this.__columns);
+       return asyncArray(this.__columns);
    } else {
        var ds = this.unfiltered().unordered().mergeOptions({distinct:null, limit:1});
-       ds.forEach().then(hitch(this, function () {
-           this.__columns = ds.__columns || [];
-           ret.callback(this.__columns);
-       }), ret);
+       return asyncArray(ds.forEach().chain(function () {
+           return (this.__columns = ds.__columns || []);
+       }.bind(this)));
    }
-   return ret.promise();
                
 }</code></td><td></td><tr><tr><td>firstSourceAlias</td><td>String</td><td></td><td><p>The first source (primary table) for this dataset. If the table is aliased, returns the aliased name.                                     throws a {patio.DatasetError} tf the dataset doesn&#39;t have a table. <pre class="code">   DB.from(&quot;table&quot;).firstSourceAlias;   //=&gt; &quot;table&quot;    DB.from(&quot;table___t&quot;).firstSourceAlias;   //=&gt; &quot;t&quot; </pre></p>
 </td><tr><tr><td>firstSourceTable</td><td>String</td><td></td><td><p>The first source (primary table) for this dataset.  If the dataset doesn&#39;t                                      have a table, raises a <a href='./patio_erros_DatasetError.html#'> patio.erros.DatasetError</a>. <pre class="code">   DB.from(&quot;table&quot;).firstSourceTable;         //=&gt; &quot;table&quot;   DB.from(&quot;table___t&quot;).firstSourceTable;         //=&gt; &quot;t&quot; </pre></p>
@@ -3767,7 +3766,7 @@ function (op,obj){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (opts){
-   return merge({server:this.__opts.server || &quot;default&quot;}, opts);
+   return merge({server:this.__opts.server || &quot;default&quot;}, opts || {});
            
 }
     </pre>
@@ -5976,13 +5975,13 @@ columnOrTable___alias //=&gt; columnOrTable as alias
     <pre class="prettyprint linenums lang-js">
 function (s){
    var ret, m;
-   if ((m = s.match(this._static.COLUMN_REF_RE1)) != null) {
+   if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {
        ret = m.slice(1);
    }
-   else if ((m = s.match(this._static.COLUMN_REF_RE2)) != null) {
+   else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {
        ret = [null, m[1], m[2]];
    }
-   else if ((m = s.match(this._static.COLUMN_REF_RE3)) != null) {
+   else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {
        ret = [m[1], m[2], null];
    }
    else {
@@ -6600,17 +6599,11 @@ rowPromise.then(function(rows){
     <pre class="prettyprint linenums lang-js">
 function (block,cb){
    var a = [];
-   var ret = new Promise().classic(cb);
-   this.forEach(hitch(this, function (r) {
-       a.push(r);
-   })).then(hitch(this, function () {
-       this.postLoad(a);
-       if (block) {
-           a.forEach(block, this);
-       }
-       ret.callback(a);
-   }), ret);
-   return ret.promise();
+   var ret = asyncArray(this.forEach().chain(this.postLoad.bind(this)));
+   if (block) {
+       ret = ret.forEach(block);
+   }
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -7335,11 +7328,9 @@ DB.from(&quot;table&quot;).count().then(function(count){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = new Promise().classic(cb);
-   this.__aggregateDataset().get(sql.COUNT(sql.literal(&quot;*&quot;)).as(&quot;count&quot;)).then(hitch(this, function (res) {
-       ret.callback(parseInt(res, 10));
-   }), ret);
-   return ret.promise();
+   return this.__aggregateDataset().get(sql.COUNT(sql.literal(&quot;*&quot;)).as(&quot;count&quot;)).chain(function (res) {
+       return parseInt(res, 10);
+   }).classic(cb);
            
 }
     </pre>
@@ -7682,8 +7673,6 @@ function (){
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>block</em>  : </li>
-    
      </ul>
 
 
@@ -7692,14 +7681,8 @@ function (){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,block){
-   if (isFunction(opts)) {
-       block = opts;
-       opts = {};
-   } else {
-       opts = opts || {};
-   }
-   return this.db.execute(sql, merge({server:this.__opts.server || &quot;readOnly&quot;}, opts), block);
+function (sql,opts){
+   return this.db.execute(sql, merge({server:this.__opts.server || &quot;readOnly&quot;}, opts || {}));
            
 }
     </pre>
@@ -7732,8 +7715,6 @@ function (sql,opts,block){
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>block</em>  : </li>
-    
      </ul>
 
 
@@ -7742,9 +7723,8 @@ function (sql,opts,block){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,block){
-   opts = opts || {};
-   return this.db.executeDdl(sql, this.__defaultServerOpts(opts), block);
+function (sql,opts){
+   return this.db.executeDdl(sql, this.__defaultServerOpts(opts || {}));
            
 }
     </pre>
@@ -7777,8 +7757,6 @@ function (sql,opts,block){
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>block</em>  : </li>
-    
      </ul>
 
 
@@ -7787,9 +7765,8 @@ function (sql,opts,block){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,block){
-   opts = opts || {};
-   return this.db.executeDui(sql, this.__defaultServerOpts(opts), block);
+function (sql,opts){
+   return this.db.executeDui(sql, this.__defaultServerOpts(opts || {}));
            
 }
     </pre>
@@ -7822,8 +7799,6 @@ function (sql,opts,block){
     
         <li> <em>opts</em>  : </li>
     
-        <li> <em>block</em>  : </li>
-    
      </ul>
 
 
@@ -7832,9 +7807,8 @@ function (sql,opts,block){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,opts,block){
-   opts = opts || {};
-   return this.db.executeInsert(sql, this.__defaultServerOpts(opts), block);
+function (sql,opts){
+   return this.db.executeInsert(sql, this.__defaultServerOpts(opts || {}));
            
 }
     </pre>
@@ -7865,8 +7839,6 @@ function (sql,opts,block){
     
         <li> <em>sql</em>  : </li>
     
-        <li> <em>cb</em>  : </li>
-    
      </ul>
 
 
@@ -7875,7 +7847,7 @@ function (sql,opts,block){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,cb){
+function (sql){
    throw new NotImplemented(&quot;fetchRows must be implemented by the adapter&quot;);
            
 }
@@ -8114,8 +8086,9 @@ comb.executeInOrder(DB.from(&quot;table&quot;), function(ds){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (args){
-   args = argsToArray(arguments);
-   var cb, block = isFunction(args[args.length - 1]) ? args.pop() : null;
+   args = comb(arguments).toArray();
+   var cb,
+       block = isFunction(args[args.length - 1]) ? args.pop() : null;
    if (block &amp;&amp; block.length &gt; 0) {
        cb = block;
        block = isFunction(args[args.length - 1]) ? args.pop() : null;
@@ -8124,7 +8097,7 @@ function (args){
    if (!args.length) {
        return ds.singleRecord(cb);
    } else {
-       args = (args.length === 1) ? args.shift() : args;
+       args = (args.length === 1) ? args[0] : args;
        if (isNumber(args)) {
            return ds.limit(args).all(null, cb);
        } else {
@@ -8199,27 +8172,18 @@ function (block,cb){
    var rowCb, ret;
    if (this.__opts.graph) {
        ret = this.graphEach(block);
-   } else if ((rowCb = this.rowCb)) {
-       ret = this.fetchRows(this.selectSql, function (r) {
-           var ret = new Promise();
-           try {
-               when(rowCb(r)).then(function (r) {
-                   try {
-                       when(block(r)).then(hitch(ret, &quot;callback&quot;, r), ret);
-                   } catch (e) {
-                       ret.errback(e);
-                   }
-               }, ret);
-           } catch (e) {
-               ret.errback(e);
-           }
-           return ret.promise();
-       });
    } else {
-       ret = this.fetchRows(this.selectSql, block);
+       ret = this.fetchRows(this.selectSql);
+       if ((rowCb = this.rowCb)) {
+           ret = ret.map(function (r) {
+               return rowCb(r);
+           });
+       }
+       if (block) {
+           ret = ret.forEach(block);
+       }
    }
-   ret.classic(cb);
-   return ret.promise();
+   return ret.classic(cb);
            
 }
     </pre>
@@ -8865,7 +8829,7 @@ function (cb){
    // Use the manually set graph aliases, if any, otherwise
    // use the ones automatically created by .graph
    var columnAliases = this.__opts.graphAliases || this.__opts.graph.columnAliases;
-   return this.fetchRows(this.selectSql, function (r) {
+   var ret = this.fetchRows(this.selectSql).map(function (r) {
        var graph = {};
        // Create the sub hashes, one per table
        tableAliases.forEach(function (ta) {
@@ -8891,8 +8855,12 @@ function (cb){
                graph[ta] = null;
            }
        });
-       cb(graph);
+       return graph;
    });
+   if (cb) {
+       ret.forEach(cb);
+   }
+   return ret;
            
 }
     </pre>
@@ -9471,39 +9439,37 @@ function (columns,values,opts,cb){
        ret = new Promise();
        if (!values.length) {
            ret.callback();
-       }
-       if (!columns.length) {
+       } else if (!columns.length) {
            throw new QueryError(&quot;Invalid columns in import&quot;);
        }
        var sliceSize = opts.commitEvery || opts.slice;
        if (sliceSize) {
            var offset = 0;
-           var execute = hitch(this, function () {
+           var execute = function () {
                if (offset &gt;= values.length) {
                    ret.callback();
                    return;
                }
                this.db.transaction(opts, hitch(this, function () {
-                   this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).forEach(hitch(this, function (st) {
+                   return when(this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).map(hitch(this, function (st) {
                        return this.executeDui(st);
-                   }));
+                   })));
                })).then(hitch(this, function () {
                    offset += sliceSize;
                    execute();
-               }), hitch(ret, &quot;errback&quot;));
-           });
+               }), ret);
+           }.bind(this);
            execute();
        } else {
            var statements = this.multiInsertSql(columns, values);
-           ret = this.db.transaction(hitch(this, function () {
-               statements.forEach(function (st) {
-                   this.executeDui(st);
-               }, this);
-           }));
+           ret = this.db.transaction(function () {
+               return when(statements.map(function (st) {
+                   return this.executeDui(st);
+               }.bind(this)));
+           }.bind(this));
        }
    }
-   ret.classic(cb);
-   return ret.promise();
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -9714,19 +9680,17 @@ DB.from(&quot;table&quot;).insertMultiple([{x : 1}, {x : 2}], function(row){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (array,block,cb){
-   var promises;
+   var promises, ret;
    if (block) {
-       promises = array.map(function (i) {
+       ret = when(array.map(function (i) {
            return this.insert(block(i));
-       }, this);
+       }, this));
    } else {
-       promises = array.map(function (i) {
+       ret = when(array.map(function (i) {
            return this.insert(i);
-       }, this);
+       }, this));
    }
-   var ret = new PromiseList(promises, true);
-   ret.classic(cb);
-   return ret;
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -10231,11 +10195,9 @@ DB.from(&quot;table&quot;).isEmpty().then(function(isEmpty){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = new Promise().classic(cb);
-   this.get(1).then(hitch(this, function (res) {
-       ret.callback(isUndefinedOrNull(res) || res.length === 0);
-   }), ret);
-   return ret.promise();
+   return this.get(1).chain(function (res) {
+       return isUndefinedOrNull(res) || res.length === 0;
+   }.bind(this)).classic(cb);
            
 }
     </pre>
@@ -11675,23 +11637,9 @@ DB.from(&quot;table&quot;).map(function(r){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column,cb){
-   var ret = new Promise(), block;
-   if (isFunction(column)) {
-       block = column;
-       column = null;
-   }
-   var a = [], forEachP;
-   forEachP = this.forEach(function (r) {
-       var item = column ? r[column] : (block ? block(r) : r);
-       return when(item, function (mapped) {
-           a.push(mapped);
-       });
-   });
-   forEachP.then(hitch(this, function () {
-       ret.callback(a);
-   }), ret);
-   ret.classic(cb);
-   return ret;
+   var ret = this.forEach();
+   column &amp;&amp; (ret = ret[isFunction(column) ? &quot;map&quot; : &quot;pluck&quot;](column))
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -11819,14 +11767,14 @@ function (opts){
    this._static.FEATURES.forEach(function (f) {
        ds[f] = this[f];
    }, this);
-   ds.__opts = merge({}, this.__opts, opts);
+   var dsOpts = ds.__opts = merge({}, this.__opts, opts);
    ds.identifierInputMethod = this.identifierInputMethod;
    ds.identifierOutputMethod = this.identifierOutputMethod;
    var columnChangeOpts = this._static.COLUMN_CHANGE_OPTS;
    if (Object.keys(opts).some(function (o) {
-       return columnChangeOpts.indexOf(o) != -1;
+       return columnChangeOpts.indexOf(o) !== -1;
    })) {
-       ds.__opts.columns = null;
+       dsOpts.columns = null;
    }
    return ds;
            
@@ -11979,18 +11927,18 @@ function (hashes,opts,cb){
    }
    opts = opts || {};
    hashes = hashes || [];
-   var ret = new Promise().classic(cb);
+   var ret = new Promise();
    if (!hashes.length) {
        ret.callback();
    } else {
        var columns = Object.keys(hashes[0]);
-       return this[&quot;import&quot;](columns, hashes.map(function (h) {
+       ret = this[&quot;import&quot;](columns, hashes.map(function (h) {
            return columns.map(function (c) {
                return h[c];
            });
        }), opts, cb);
    }
-   return ret;
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -12338,16 +12286,16 @@ be a filter function but instead a callback.
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   var args = argsToArray(arguments), cb;
+   var args = comb(arguments).toArray(), cb;
    var last = args[args.length - 1];
    if (isFunction(last) &amp;&amp; last.length &gt; 0) {
        cb = args.pop();
    }
+   var ret = this;
    if (args.length) {
-       return this.filter.apply(this, args).singleRecord(cb);
-   } else {
-       return this.singleRecord(cb);
+       ret = ret.filter.apply(ret, args)
    }
+   return ret.singleRecord(cb);
            
 }
     </pre>
@@ -13389,11 +13337,13 @@ and second args respectively.</p>
     <pre class="prettyprint linenums lang-js">
 function (column,cb){
    var ret = new Promise();
-   this.__aggregateDataset().select(sql.min(this.stringToIdentifier(column)).as(&quot;v1&quot;), sql.max(this.stringToIdentifier(column)).as(&quot;v2&quot;)).first().then(hitch(this, function (r) {
-       ret.callback(r.v1, r.v2);
-   }), hitch(ret, &quot;errback&quot;));
-   ret.classic(cb);
-   return ret;
+   this.__aggregateDataset()
+       .select(sql.min(this.stringToIdentifier(column)).as(&quot;v1&quot;), sql.max(this.stringToIdentifier(column)).as(&quot;v2&quot;))
+       .first()
+       .then(function (r) {
+           ret.callback(r.v1, r.v2);
+       }, ret);
+   return ret.classic(cb).promise();
            
 }
     </pre>
@@ -13457,9 +13407,7 @@ number of records deleted, but that is adapter dependent.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = this.executeDui(this.deleteSql);
-   ret.classic(cb);
-   return ret;
+   return this.executeDui(this.deleteSql).classic(cb).promise();
            
 }
     </pre>
@@ -14037,15 +13985,12 @@ as the key and the valueColumn as the value.</p>
 function (keyColumn,valueColumn,cb){
    var map = {}, args = comb.argsToArray(arguments);
    cb = isFunction(args[args.length - 1]) ? args.pop() : null;
-   var ret = new Promise().classic(cb);
-   var k = this.__hashIdentifierToName(keyColumn), v = this.__hashIdentifierToName(valueColumn);
-   var mapPromise = this.select.apply(this, args).map(function (r) {
+   var ret = new Promise();
+   var k = this.__hashIdentifierToName(keyColumn),
+       v = this.__hashIdentifierToName(valueColumn);
+   return this.select.apply(this, args).map(function (r) {
        map[r[k]] = v ? r[v] : r;
-   });
-   mapPromise.then(function () {
-       ret.callback(map);
-   }, ret);
-   return ret.promise();
+   }).chain(map).classic(cb).promise();
            
 }
     </pre>
@@ -14190,9 +14135,9 @@ DB.from(&quot;table&quot;).selectMap(function(){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column,cb){
-   var ds = this.naked().ungraphed().select(column);
+   var ds = this.naked().ungraphed().select(column), col;
    return ds.map(function (r) {
-       return r[Object.keys(r)[0]];
+       return r[col || (col = Object.keys(r)[0])];
    }, cb);
            
 }
@@ -14336,12 +14281,12 @@ DB.from(&quot;table&quot;).selectOrderMap(&quot;id&quot;).then(function(mappedId
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column,cb){
-   var ds = this.naked()
+   var col, ds = this.naked()
        .ungraphed()
        .select(column)
        .order(isFunction(column) ? column : this._unaliasedIdentifier(column));
    return ds.map(function (r) {
-       return r[Object.keys(r)[0]];
+       return r[col || (col = Object.keys(r)[0])];
    }, cb);
            
 }
@@ -14634,11 +14579,9 @@ DB.from(&quot;test&quot;).singleRecord().then(function(r) {
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = new Promise().classic(cb);
-   this.mergeOptions({limit:1}).all().then(function (r) {
-       ret.callback(r &amp;&amp; r.length ? r[0] : null);
-   }, ret);
-   return ret.promise();
+   return this.mergeOptions({limit:1}).all().chain(function (r) {
+       return r &amp;&amp; r.length ? r[0] : null;
+   }).classic(cb).promise();
            
 }
     </pre>
@@ -14703,11 +14646,9 @@ from the dataset.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = new Promise().classic(cb);
-   this.naked().ungraphed().singleRecord().then(function (r) {
-       ret.callback(r ? r[Object.keys(r)[0]] : null);
-   }, ret);
-   return ret.promise();
+   return this.naked().ungraphed().singleRecord().chain(function (r) {
+       return r ? r[Object.keys(r)[0]] : null;
+   }).classic(cb).promise();
            
 }
     </pre>
@@ -14987,24 +14928,19 @@ function (includeColumnTitles,cb){
        includeColumnTitles = true;
    }
    includeColumnTitles = isBoolean(includeColumnTitles) ? includeColumnTitles : true;
-   var csv = null, cols = [];
-   var ret = new Promise().classic(cb);
-   n.columns.then(hitch(this, function (cols) {
+   return n.columns.chain(function (cols) {
        var vals = [];
        if (includeColumnTitles) {
            vals.push(cols.join(&quot;, &quot;));
        }
-       n.forEach(
-           function (r) {
-               vals.push(cols.map(
-                   function (c) {
-                       return r[c] || &quot;&quot;;
-                   }).join(&quot;, &quot;));
-           }).then(function () {
-               ret.callback(vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;);
-           }, ret);
-   }), ret);
-   return ret.promise();
+       return n.forEach(function (r) {
+           vals.push(cols.map(function (c) {
+               return r[c] || &quot;&quot;;
+           }).join(&quot;, &quot;));
+       }).chain(function () {
+               return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
+           });
+   }.bind(this)).classic(cb).promise();
            
 }
     </pre>
@@ -15095,8 +15031,7 @@ function (keyColumn,valueColumn,cb){
    mapPromise.then(function () {
        ret.callback(map);
    }, ret);
-   ret.classic(cb);
-   return ret.promise();
+   return ret.classic(cb).promise();
            
 }
     </pre>
