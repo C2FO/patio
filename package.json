@@ -1,7 +1,7 @@
 {
   "name": "patio",
   "description": "Patio query engine and ORM",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "ORM",
     "object relation mapper",
@@ -23,10 +23,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:pollenware/patio.git"
+    "url": "git@github.com:c2fo/patio.git"
   },
-  "homepage": "http://pollenware.github.com/patio/index.html",
-  "author": "Pollenware (http://pollenware.github.com)",
+  "homepage": "http://c2fo.github.com/patio/index.html",
+  "author": "Doug Martin (http://c2fo.github.com)",
   "main": "index.js",
   "dependencies": {
     "mysql": "2.0.0-alpha2",

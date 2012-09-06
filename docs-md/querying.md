@@ -861,13 +861,11 @@ patio allows you to easily add a FOR UPDATE clause to your queries so that the r
 
 ```
  DB.transaction(function(){
-    var ret = new comb.Promise();
-    User.forUpdate().first({id : 1}).then(function(){
+    return User.forUpdate().first({id : 1}).chain(function(){
         // SELECT * FROM user WHERE id = 1 FOR UPDATE
         user.password = null;
-        user.save().then(ret);
-    }, ret);
-    return ret;
+        return user.save();
+    });
  });
 ```
 

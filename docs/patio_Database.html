@@ -163,6 +163,8 @@
                             
                             <li><a href="./logging.html">Logging</a></li>
                             
+                            <li><a href="./History.html">Change Log</a></li>
+                            
                             <li><a href="./coverage.html">Test Coverage</a></li>
                             
                         </ul>
@@ -6812,33 +6814,63 @@ successful.
      <b>Note</b> that MySQL MyISAM tables do not support transactions.</p>
 </p>
 
-</p>
-
-    <em>Example</em>
-        <pre class="prettyprint linenums lang-js">
-//normal transaction
+<pre class='prettyprint linenums lang-js'><code>//normal transaction
 DB.transaction(function() {
-      this.execute(&#x27;DROP TABLE test;&#x27;);
-      this.execute(&#x27;DROP TABLE test2;&#x27;);
+     return comb.when(
+         this.execute(&#39;DROP TABLE test;&#39;),
+         this.execute(&#39;DROP TABLE test2;&#39;)
+     );
  });
 
 //transaction with a save point.
 DB.transaction(function() {
-     this.transaction({savepoint : true}, function() {
-         this.execute(&#x27;DROP TABLE test;&#x27;);
-         this.execute(&#x27;DROP TABLE test2;&#x27;);
+     return this.transaction({savepoint : true}, function() {
+        return comb.when(
+             this.execute(&#39;DROP TABLE test;&#39;),
+             this.execute(&#39;DROP TABLE test2;&#39;)
+        );
      });
-});
+});</code></pre>
+<p>Using a promise.
 
-//WITH ISOLATION LEVELS
+</p>
+<pre class='prettyprint linenums lang-js'><code>var ds = db.from(&quot;user&quot;);
+db.transaction(function(){
+     return ds.insert({
+             firstName:&quot;Jane&quot;,
+             lastName:&quot;Gorgenson&quot;,
+             password:&quot;password&quot;,
+             dateOfBirth:new Date(1956, 1, 3)
+         }).chain(function(){
+             return ds.forEach(function(user){
+                 return ds.where({id:user.id}).update({firstName:user.firstName + 1});
+             });
+     });
+});</code></pre>
+<p>Using the done method
+</p>
+<pre class='prettyprint linenums lang-js'><code>var ds = db.from(&quot;user&quot;);
+db.transaction(function(db, done){
+     ds.insert({
+         firstName:&quot;Jane&quot;,
+         lastName:&quot;Gorgenson&quot;,
+         password:&quot;password&quot;,
+         dateOfBirth:new Date(1956, 1, 3)
+     }).chain(function(){
+         ds.forEach(function(user){
+            return ds.where({id:user.id}).update({firstName:user.firstName + 1});
+         }).classic(done)
+     });
+});</code></pre>
+<pre class='prettyprint linenums lang-js'><code>//WITH ISOLATION LEVELS
 
 db.supportsTransactionIsolationLevels = true;
 //BEGIN
 //SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
-//DROP TABLE test1&#x27;
+//DROP TABLE test1&#39;
 //COMMIT
 DB.transaction({isolation:&quot;uncommited&quot;}, function(d) {
-     d.run(&quot;DROP TABLE test1&quot;);
+    return d.run(&quot;DROP TABLE test1&quot;);
 });
 
 //BEGIN
@@ -6846,15 +6878,15 @@ DB.transaction({isolation:&quot;uncommited&quot;}, function(d) {
 //DROP TABLE test1
 //COMMIT
  DB.transaction({isolation:&quot;committed&quot;}, function(d) {
-     d.run(&quot;DROP TABLE test1&quot;);
+     return d.run(&quot;DROP TABLE test1&quot;);
  });
 
 //BEGIN
-//SET TRANSACTION ISOLATION LEVEL REPEATABLE READ&#x27;
+//SET TRANSACTION ISOLATION LEVEL REPEATABLE READ&#39;
 //DROP TABLE test1
 //COMMIT
  DB.transaction({isolation:&quot;repeatable&quot;}, function(d) {
-     d.run(&quot;DROP TABLE test1&quot;);
+     return d.run(&quot;DROP TABLE test1&quot;);
  });
 
 //BEGIN
@@ -6862,7 +6894,7 @@ DB.transaction({isolation:&quot;uncommited&quot;}, function(d) {
 //DROP TABLE test1
 //COMMIT
  DB.transaction({isolation:&quot;serializable&quot;}, function(d) {
-     d.run(&quot;DROP TABLE test1&quot;);
+     return d.run(&quot;DROP TABLE test1&quot;);
  });
 
 //With an Error
@@ -6870,10 +6902,10 @@ DB.transaction({isolation:&quot;uncommited&quot;}, function(d) {
 //DROP TABLE test
 //ROLLBACK
 DB.transaction(function(d) {
-     d.execute(&#x27;DROP TABLE test&#x27;);
+     d.execute(&#39;DROP TABLE test&#39;);
      throw &quot;Error&quot;;
-});
-        </pre>
+});</code></pre>
+</p>
 
 
     <em>Arguments</em>
@@ -6882,7 +6914,7 @@ DB.transaction(function(d) {
         <li> <em>[opts= <code>{}</code>]</em>  : <p>options to use when performing the transaction.</p>
 </li>
     
-        <li> <em>cb</em>  : <p>a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument. If you have complex operations within your transactions you will want to return a promise to ensure proper transaction scope. <pre class="code"> var ds = db.from(&quot;user&quot;); db.transaction(function(){      var ret = new comb.Promise();      ds.insert({          firstName:&quot;Jane&quot;,          lastName:&quot;Gorgenson&quot;,          password:&quot;password&quot;,          dateOfBirth:new Date(1956, 1, 3)      }).then(function(){          ds.forEach(function(user){                  return ds.where({id:user.id}).update({firstName:user.firstName + 1});          }).then(comb.hitch(ret, &quot;callback&quot;), comb.hitch(ret, &quot;errback&quot;));      }, comb.hitch(ret, &quot;errback&quot;));     return ret; }); </pre></p>
+        <li> <em>cb</em>  : <p>a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument, and a function to be called when the tranaction is complete. If you return a promise from the transaction block then you do not need to call the done cb.</p>
 </li>
     
         <li> <em>opts.isolation?</em> <code>String</code> : <p>The transaction isolation level to use for this transaction,
