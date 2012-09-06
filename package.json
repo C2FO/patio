@@ -31,14 +31,14 @@
   "dependencies": {
     "mysql": "2.0.0-alpha2",
     "pg": "0.7.2",
-    "comb": ">=0.1.5",
-    "comb-proxy": ">=0.0.2",
-    "hive-cache": "0.0.2",
+    "comb": ">=0.1.7",
+    "comb-proxy": ">=0.0.3",
+    "hive-cache": "0.0.3",
     "commander": "0.5.1",
     "validator": "~0.4.11"
   },
   "devDependencies": {
-    "it": "0.0.3"
+    "it": "0.0.5"
   },
   "directories": {
     "lib": "lib"
