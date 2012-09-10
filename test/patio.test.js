@@ -106,6 +106,7 @@ it.describe("patio",function (it) {
                 }
             }
         });
+        patio.resetIdentifierMethods();
     });
 
     it.should("have constants", function () {
