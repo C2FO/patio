@@ -1,6 +1,8 @@
 before_script:
-  - mysql -e 'create database sandbox; create database sandbox2;'
-  - psql -c 'create database sandbox; create database sandbox2;' -U postgres
+  - mysql -e 'create database sandbox;'
+  - mysql -e 'create database sandbox2;'
+  - psql -c 'create database sandbox;' -U postgres
+  - psql -c 'create database sandbox2;' -U postgres
 
 language: node_js
 node_js:
