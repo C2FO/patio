@@ -8,7 +8,7 @@ var it = require('it'),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-it.describe("patio.plugins.ValidatorPlugin", function (it) {
+it.describe("patio.plugins.ValidatorPlugin",function (it) {
     it.beforeAll(function () {
         return helper.createSchemaAndSync(true);
     });
@@ -1026,7 +1026,7 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
 
-    it.context(function () {
+    it.context(function (it) {
         var Model = patio.addModel("validator", {
             plugins:[ValidatorPlugin]
         });
