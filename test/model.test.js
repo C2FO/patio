@@ -10,7 +10,7 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 
-it.describe("A model with properites",function (it) {
+it.describe("patio.Model",function (it) {
 
     var Employee;
     it.beforeAll(function () {

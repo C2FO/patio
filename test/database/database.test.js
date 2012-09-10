@@ -745,7 +745,7 @@ it.describe("Database",function (it) {
                 return db.transaction(function (d) {
                     return d.run("DROP TABLE " + level);
                 });
-            }).chain(function () {
+            }, 1).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', 'DROP TABLE uncommitted', 'COMMIT',
                         'BEGIN', 'SET TRANSACTION ISOLATION LEVEL READ COMMITTED', 'DROP TABLE committed', 'COMMIT',
                         'BEGIN', 'SET TRANSACTION ISOLATION LEVEL REPEATABLE READ', 'DROP TABLE repeatable', 'COMMIT',
