@@ -1286,7 +1286,7 @@ function (id){
    var pk = this.primaryKey;
    pk = pk.length == 1 ? pk[0] : pk;
    var q = {};
-   if (comb.isArray(id) &amp;&amp; comb.isArray(pk)) {
+   if (isArray(id) &amp;&amp; isArray(pk)) {
        if (id.length === pk.length) {
            pk.forEach(function (k, i) {
                q[k] = id[i];
@@ -1345,11 +1345,9 @@ does not exist then a new one is created as passed back.
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (q){
-   var ret = new Promise();
-   this.find(q).then(hitch(this, function (res) {
-       ret.callback(res || this.create());
-   }), ret);
-   return ret.promise();
+   return this.find(q).chain(hitch(this, function (res) {
+       return res || this.create(q);
+   }));
            
 }
     </pre>
@@ -1760,7 +1758,7 @@ but the pre/post remove hooks not be notified of the deletion.</p>
     <pre class="prettyprint linenums lang-js">
 function (q,options){
    options = options || {};
-   var loadEach = comb.isBoolean(options.load) ? options.load : true;
+   var loadEach = isBoolean(options.load) ? options.load : true;
    //first find all records so we call alert the middleware for each model
    return this._checkTransaction(options, hitch(this, function () {
        var ds = this.dataset;
@@ -1842,15 +1840,11 @@ removing the model.</p>
     <pre class="prettyprint linenums lang-js">
 function (id,options){
    return this._checkTransaction(options, hitch(this, function () {
-       var p = new Promise();
-       this.findById(id).then(function (model) {
+       return this.findById(id).chain(function (model) {
            if (model) {
-               model.remove(options).then(p);
-           } else {
-               p.callback(0);
+               return model.remove(options);
            }
-       }, p);
-       return p.promise();
+       });
    }));
            
 }
@@ -1965,28 +1959,16 @@ saving the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (items,options){
    options = options || {};
+   var isArr = isArray(items);
    return this._checkTransaction(options, hitch(this, function () {
-       var ps, ret;
-       if (comb.isArray(items)) {
-           ps = items.map(function (o) {
-               if (!comb.isInstanceOf(o, this)) {
-                   o = new this(o);
-               }
-               return o.save(null, options);
-           }, this);
-           ret = new PromiseList(ps, true);
-       } else {
-           ret = new Promise();
-           try {
-               if (!comb.isInstanceOf(items, this)) {
-                   items = new this(items);
-               }
-               ret = items.save(null, options);
-           } catch (e) {
-               ret.errback(e);
+       return asyncArray(items).map(function (o) {
+           if (!isInstanceOf(o, this)) {
+               o = new this(o);
            }
-       }
-       return ret.promise();
+           return o.save(null, options);
+       }, this).chain(function (res) {
+               return isArr ? res : res[0];
+           });
    }));
            
 }
@@ -2075,10 +2057,10 @@ updating the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (vals,/*?object*/query,options){
    options = options || {};
-   var args = comb.argsToArray(arguments);
+   var args = comb(arguments).toArray();
    return this._checkTransaction(options, hitch(this, function () {
        var dataset = this.dataset;
-       if (!comb.isUndefined(query)) {
+       if (!isUndefined(query)) {
            dataset = dataset.filter(query);
        }
        return dataset.update(vals);
@@ -2492,7 +2474,7 @@ function (vals,options){
    if (this.synced) {
        if (this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
-               if (comb.isHash(vals)) {
+               if (isHash(vals)) {
                    this.__set(vals);
                }
                return serial([
@@ -2841,7 +2823,7 @@ function (vals,options){
    if (this.synced) {
        if (!this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
-               if (comb.isHash(vals)) {
+               if (isHash(vals)) {
                    this.__set(vals);
                }
                var saveChange = !isEmpty(this.__changed);

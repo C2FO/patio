@@ -256,10 +256,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.90</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>21686</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>5151</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>572</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.98</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>21673</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>5138</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>566</span>
                 </div>
             </td>
         </tr>
@@ -3558,659 +3558,6 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li></ol></pre></div>
 </div>
 
-<div class="cov-section cov-section-hover cov-section-med" id="plugins/query.js">
-    <table class='section-table'>
-        <tr>
-            <td>
-                <div class='cov-section-header'>plugins/query.js</div>
-            </td>
-            <td class="cov-stats">
-                <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>78.68</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>635</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>136</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>29</span>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div class='source' id="plugins/query.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb"),</code></li>
-<li class='green'><span class=''> </span><code>    when = comb.when,</code></li>
-<li class='green'><span class=''> </span><code>    isBoolean = comb.isBoolean,</code></li>
-<li class='green'><span class=''> </span><code>    isEmpty = comb.isEmpty,</code></li>
-<li class='green'><span class=''> </span><code>    serial = comb.serial,</code></li>
-<li class='green'><span class=''> </span><code>    Dataset = require("../dataset"),</code></li>
-<li class='green'><span class=''> </span><code>    ModelError = require("../errors").ModelError,</code></li>
-<li class='green'><span class=''> </span><code>    hitch = comb.hitch,</code></li>
-<li class='green'><span class=''> </span><code>    hitchIgnore = comb.hitchIgnore,</code></li>
-<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
-<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList;</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>var QueryPlugin = comb.define(null, {</code></li>
-<li class='green'><span class=''> </span><code>    instance:{</code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.Model.prototype*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _getPrimaryKeyQuery:function () {</code></li>
-<li class='green'><span class='hits'>1997</span><code>            var q = {}, pk = this.primaryKey;</code></li>
-<li class='green'><span class='hits'>1997</span><code>            for (var i = 0, l = pk.length; i &lt; l; i++) {</code></li>
-<li class='green'><span class='hits'>1997</span><code>                var k = pk[i];</code></li>
-<li class='green'><span class='hits'>1997</span><code>                q[k] = this[k];</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>1997</span><code>            return q;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _clearPrimaryKeys:function () {</code></li>
-<li class='green'><span class='hits'>525</span><code>            var pk = this.primaryKey;</code></li>
-<li class='green'><span class='hits'>525</span><code>            for (var i = 0, l = pk.length; i &lt; l; i++) {</code></li>
-<li class='green'><span class='hits'>525</span><code>                this.__values[pk[i]] = null;</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        reload:function () {</code></li>
-<li class='green'><span class='hits'>15</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>15</span><code>                return serial([</code></li>
-<li class='green'><span class=''> </span><code>                    this._hook.bind(this, "pre", "load"),</code></li>
-<li class='green'><span class=''> </span><code>                    this.__reload.bind(this),</code></li>
-<li class='green'><span class=''> </span><code>                    this._hook.bind(this, "post", "load")</code></li>
-<li class='green'><span class=''> </span><code>                ]).chain(this);</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the</code></li>
-<li class='green'><span class=''> </span><code>         * model.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * myModel.reload().then(function(model){</code></li>
-<li class='green'><span class=''> </span><code>         *    //model === myModel</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved with the model instance.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        __reload:function () {</code></li>
-<li class='green'><span class='hits'>1307</span><code>            if (!this.__isNew) {</code></li>
-<li class='green'><span class='hits'>1307</span><code>                return this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().chain(function (values) {</code></li>
-<li class='green'><span class='hits'>1307</span><code>                    this.__setFromDb(values, true);</code></li>
-<li class='green'><span class='hits'>1307</span><code>                    return this;</code></li>
-<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                return when(this);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * This method removes the instance of the model. If the model {@link patio.Model#isNew} then the promise is</code></li>
-<li class='green'><span class=''> </span><code>         * resolved with a 0 indicating no rows were affected. Otherwise the model is removed, primary keys are cleared</code></li>
-<li class='green'><span class=''> </span><code>         * and the model's isNew flag is set to true.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         * myModel.remove().then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *     //model is deleted</code></li>
-<li class='green'><span class=''> </span><code>         *     assert.isTrue(myModel.isNew);</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //dont use a transaction to remove this model</code></li>
-<li class='green'><span class=''> </span><code>         * myModel.remove({transaction : false}).then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *     //model is deleted</code></li>
-<li class='green'><span class=''> </span><code>         *     assert.isTrue(myModel.isNew);</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * removing the model.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back after the deletion is successful.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        remove:function (options) {</code></li>
-<li class='green'><span class='hits'>525</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>525</span><code>                if (!this.__isNew) {</code></li>
-<li class='green'><span class='hits'>525</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>525</span><code>                        return serial([</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "remove", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            this._remove.bind(this, options),</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "remove", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            function () {</code></li>
-<li class='green'><span class='hits'>525</span><code>                                this._clearPrimaryKeys();</code></li>
-<li class='green'><span class='hits'>525</span><code>                                this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>525</span><code>                                if (this._static.emitOnRemove) {</code></li>
-<li class='green'><span class='hits'>525</span><code>                                    this.emit("remove", this);</code></li>
-<li class='green'><span class='hits'>525</span><code>                                    this._static.emit("remove", this);</code></li>
-<li class='green'><span class=''> </span><code>                                }</code></li>
-<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
-<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
-<li class='green'><span class=''> </span><code>                    }));</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    return when(0);</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _remove:function () {</code></li>
-<li class='green'><span class='hits'>519</span><code>            return this.dataset.filter(this._getPrimaryKeyQuery()).remove();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * @private</code></li>
-<li class='green'><span class=''> </span><code>         * Called after a save action to reload the model properties,</code></li>
-<li class='green'><span class=''> </span><code>         * abstracted out so this can be overidden by sub classes</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _saveReload:function (options) {</code></li>
-<li class='green'><span class='hits'>1134</span><code>            options || (options = {});</code></li>
-<li class='green'><span class='hits'>1134</span><code>            var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnSave;</code></li>
-<li class='green'><span class='hits'>1134</span><code>            return reload ? this.__reload() : when(this);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * @private</code></li>
-<li class='green'><span class=''> </span><code>         * Called after an update action to reload the model properties,</code></li>
-<li class='green'><span class=''> </span><code>         * abstracted out so this can be overidden by sub classes</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _updateReload:function (options) {</code></li>
-<li class='green'><span class='hits'>162</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>162</span><code>            options || (options = {});</code></li>
-<li class='green'><span class='hits'>162</span><code>            var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnUpdate;</code></li>
-<li class='green'><span class='hits'>162</span><code>            return reload ? this.__reload() : when(this);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Updates a model. This action checks if the model is not new and values have changed.</code></li>
-<li class='green'><span class=''> </span><code>         * If the model is new then the {@link patio.Model#save} action is called.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * When updating a model you can pass values you want set as the first argument.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.update({</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal1 : "newValue1",</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal2 : "newValue2",</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal3 : "newValue3"</code></li>
-<li class='green'><span class=''> </span><code>         * }).then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *      //do something</code></li>
-<li class='green'><span class=''> </span><code>         * }, errorHandler);</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * Or you can set values on the model directly</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal1 = "newValue1";</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal2 = "newValue2";</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal3 = "newValue3";</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //update model with current values</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.update().then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *     //do something</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * Update also accepts an options object as the second argument allowing the overriding of default behavior.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * To override &lt;code&gt;useTransactions&lt;/code&gt; you can set the &lt;code&gt;transaction&lt;/code&gt; option.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.update(null, {transaction : false});</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * You can also override the &lt;code&gt;reloadOnUpdate&lt;/code&gt; property by setting the &lt;code&gt;reload&lt;/code&gt; option.</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.update(null, {reload : false});</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [vals] optional values hash to set on the model before saving.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * updating the model.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.reload] boolean indicating if the model should be reloaded after the update. This will take</code></li>
-<li class='green'><span class=''> </span><code>         * precedence over {@link patio.Model.reloadOnUpdate}</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved when the update action has completed.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        update:function (vals, options) {</code></li>
-<li class='green'><span class='hits'>158</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>158</span><code>                if (!this.__isNew) {</code></li>
-<li class='green'><span class='hits'>158</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>158</span><code>                        if (comb.isHash(vals)) {</code></li>
-<li class='green'><span class='hits'>107</span><code>                            this.__set(vals);</code></li>
-<li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>158</span><code>                        var saveChange = !isEmpty(this.__changed);</code></li>
-<li class='green'><span class='hits'>158</span><code>                        return serial([</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "update", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            function () {</code></li>
-<li class='green'><span class='hits'>158</span><code>                                return saveChange ? this._update(options) : null;</code></li>
-<li class='green'><span class=''> </span><code>                            }.bind(this),</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "update", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            this._updateReload.bind(this, options),</code></li>
-<li class='green'><span class=''> </span><code>                            function () {</code></li>
-<li class='green'><span class='hits'>158</span><code>                                if (this._static.emitOnUpdate) {</code></li>
-<li class='green'><span class='hits'>158</span><code>                                    this.emit("update", this);</code></li>
-<li class='green'><span class='hits'>158</span><code>                                    this._static.emit("update", this);</code></li>
-<li class='green'><span class=''> </span><code>                                }</code></li>
-<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
-<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>                    }));</code></li>
-<li class='red'><span class='nohits'>0</span><code>                } else if (this.__isNew &amp;&amp; this.__isChanged) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    return this.save(vals, options);</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    return when(this);</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _update:function (options) {</code></li>
-<li class='green'><span class='hits'>139</span><code>            var ret = this.dataset.filter(this._getPrimaryKeyQuery()).update(this.__changed);</code></li>
-<li class='green'><span class='hits'>139</span><code>            this.__changed = {};</code></li>
-<li class='green'><span class='hits'>139</span><code>            return ret;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Saves a model. This action checks if the model is new and values have changed.</code></li>
-<li class='green'><span class=''> </span><code>         * If the model is not new then the {@link patio.Model#update} action is called.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * When saving a model you can pass values you want set as the first argument.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.save({</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal1 : "newValue1",</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal2 : "newValue2",</code></li>
-<li class='green'><span class=''> </span><code>         *      myVal3 : "newValue3"</code></li>
-<li class='green'><span class=''> </span><code>         * }).then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *      //do something</code></li>
-<li class='green'><span class=''> </span><code>         * }, errorHandler);</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * Or you can set values on the model directly</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal1 = "newValue1";</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal2 = "newValue2";</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.myVal3 = "newValue3";</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //update model with current values</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.save().then(function(){</code></li>
-<li class='green'><span class=''> </span><code>         *     //do something</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * Save also accepts an options object as the second argument allowing the overriding of default behavior.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * To override &lt;code&gt;useTransactions&lt;/code&gt; you can set the &lt;code&gt;transaction&lt;/code&gt; option.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.save(null, {transaction : false});</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * You can also override the &lt;code&gt;reloadOnSave&lt;/code&gt; property by setting the &lt;code&gt;reload&lt;/code&gt; option.</code></li>
-<li class='green'><span class=''> </span><code>         * {@code</code></li>
-<li class='green'><span class=''> </span><code>         * someModel.save(null, {reload : false});</code></li>
-<li class='green'><span class=''> </span><code>         * }</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [vals] optional values hash to set on the model before saving.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * saving the model.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.reload] boolean indicating if the model should be reloaded after the save. This will take</code></li>
-<li class='green'><span class=''> </span><code>         * precedence over {@link patio.Model.reloadOnSave}</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved when the save action has completed.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        save:function (vals, options) {</code></li>
-<li class='green'><span class='hits'>1221</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>1221</span><code>                if (this.__isNew) {</code></li>
-<li class='green'><span class='hits'>1173</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>1173</span><code>                        if (comb.isHash(vals)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                            this.__set(vals);</code></li>
-<li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>1173</span><code>                        return serial([</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "save", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            this._save.bind(this, options),</code></li>
-<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "save", [options]),</code></li>
-<li class='green'><span class=''> </span><code>                            this._saveReload.bind(this, options),</code></li>
-<li class='green'><span class=''> </span><code>                            function () {</code></li>
-<li class='green'><span class='hits'>1129</span><code>                                if (this._static.emitOnSave) {</code></li>
-<li class='green'><span class='hits'>1129</span><code>                                    this.emit("save", this);</code></li>
-<li class='green'><span class='hits'>1129</span><code>                                    this._static.emit("save", this);</code></li>
-<li class='green'><span class=''> </span><code>                                }</code></li>
-<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
-<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
-<li class='green'><span class=''> </span><code>                    }));</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>48</span><code>                    return this.update(vals, options);</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _save:function (options) {</code></li>
-<li class='green'><span class='hits'>1124</span><code>            var pk = this._static.primaryKey[0];</code></li>
-<li class='green'><span class='hits'>1124</span><code>            return this.dataset.insert(this._toObject()).chain(function (id) {</code></li>
-<li class='green'><span class='hits'>1124</span><code>                this.__ignore = true;</code></li>
-<li class='green'><span class='hits'>1124</span><code>                if (id) {</code></li>
-<li class='green'><span class='hits'>1124</span><code>                    this[pk] = id;</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>1124</span><code>                this.__ignore = false;</code></li>
-<li class='green'><span class='hits'>1124</span><code>                this.__isNew = false;</code></li>
-<li class='green'><span class='hits'>1124</span><code>                this.__isChanged = false;</code></li>
-<li class='green'><span class='hits'>1124</span><code>                return this;</code></li>
-<li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    static:{</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.Model*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is saved.</code></li>
-<li class='green'><span class=''> </span><code>         * @default true</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        emitOnSave:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is updated.</code></li>
-<li class='green'><span class=''> </span><code>         * @default true</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        emitOnUpdate:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is removed.</code></li>
-<li class='green'><span class=''> </span><code>         * @default true</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        emitOnRemove:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Retrieves a record by the primaryKey/s of a table.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * User.findById(1).then(function(userOne){</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //assume the primary key is a compostie of first_name and last_name</code></li>
-<li class='green'><span class=''> </span><code>         * User.findById(["greg", "yukon"]).then(function(userOne){</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} id the primary key of the record to find.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with the record or null if one is not found.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        findById:function (id) {</code></li>
-<li class='green'><span class='hits'>3</span><code>            var pk = this.primaryKey;</code></li>
-<li class='green'><span class='hits'>3</span><code>            pk = pk.length == 1 ? pk[0] : pk;</code></li>
-<li class='green'><span class='hits'>3</span><code>            var q = {};</code></li>
-<li class='green'><span class='hits'>3</span><code>            if (comb.isArray(id) &amp;&amp; comb.isArray(pk)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                if (id.length === pk.length) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    pk.forEach(function (k, i) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        q[k] = id[i];</code></li>
-<li class='green'><span class=''> </span><code>                    });</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("findById : ids length does not equal the primaryKeys length.");</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>3</span><code>                q[pk] = id;</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>3</span><code>            return this.filter(q).one();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Finds a single model according to the supplied filter.</code></li>
-<li class='green'><span class=''> </span><code>         * See {@link patio.Dataset#filter} for filter options.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param id</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        find:function (id) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            return this.filter.apply(this, arguments).first();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Finds a single model according to the supplied filter.</code></li>
-<li class='green'><span class=''> </span><code>         * See {@link patio.Dataset#filter} for filter options. If the model</code></li>
-<li class='green'><span class=''> </span><code>         * does not exist then a new one is created as passed back.</code></li>
-<li class='green'><span class=''> </span><code>         * @param q</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        findOrCreate:function (q) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            var ret = new Promise();</code></li>
-<li class='red'><span class='nohits'>0</span><code>            this.find(q).then(hitch(this, function (res) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ret.callback(res || this.create());</code></li>
-<li class='green'><span class=''> </span><code>            }), ret);</code></li>
-<li class='red'><span class='nohits'>0</span><code>            return ret.promise();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Update multiple rows with a set of values.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //BEGIN</code></li>
-<li class='green'><span class=''> </span><code>         * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')</code></li>
-<li class='green'><span class=''> </span><code>         * //COMMIT</code></li>
-<li class='green'><span class=''> </span><code>         * User.update({password : null}, function(){</code></li>
-<li class='green'><span class=''> </span><code>         *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         * //same as</code></li>
-<li class='green'><span class=''> </span><code>         * User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), "year", -1)}});</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')</code></li>
-<li class='green'><span class=''> </span><code>         * User.update({password : null}, function(){</code></li>
-<li class='green'><span class=''> </span><code>         *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));</code></li>
-<li class='green'><span class=''> </span><code>         * }, {transaction : false});</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} vals a hash of values to update. See {@link patio.Dataset#update}.</code></li>
-<li class='green'><span class=''> </span><code>         * @param query a filter to apply to the UPDATE.  See {@link patio.Dataset#filter}.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * updating the models.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {Promise} a promise that is resolved once the update statement has completed.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        update:function (vals, /*?object*/query, options) {</code></li>
-<li class='green'><span class='hits'>2</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>2</span><code>            var args = comb.argsToArray(arguments);</code></li>
-<li class='green'><span class='hits'>2</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>2</span><code>                var dataset = this.dataset;</code></li>
-<li class='green'><span class='hits'>2</span><code>                if (!comb.isUndefined(query)) {</code></li>
-<li class='green'><span class='hits'>2</span><code>                    dataset = dataset.filter(query);</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>2</span><code>                return dataset.update(vals);</code></li>
-<li class='green'><span class=''> </span><code>            }));</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Remove(delete) models. This can be used to do a mass delete of models.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //remove all users</code></li>
-<li class='green'><span class=''> </span><code>         * User.remove();</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //remove all users who's names start with a.</code></li>
-<li class='green'><span class=''> </span><code>         * User.remove({name : /A%/i});</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * //remove all users who's names start with a, without a transaction.</code></li>
-<li class='green'><span class=''> </span><code>         * User.remove({name : /A%/i}, {transaction : false});</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [q] query to filter the rows to remove. See {@link patio.Dataset#filter}.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * removing the models.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.load=true] boolean set to prevent the loading of each model. This is more efficient</code></li>
-<li class='green'><span class=''> </span><code>         * but the pre/post remove hooks not be notified of the deletion.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the removal completes.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        remove:function (q, options) {</code></li>
-<li class='green'><span class='hits'>363</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>363</span><code>            var loadEach = comb.isBoolean(options.load) ? options.load : true;</code></li>
-<li class='green'><span class=''> </span><code>            //first find all records so we call alert the middleware for each model</code></li>
-<li class='green'><span class='hits'>363</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>363</span><code>                var ds = this.dataset;</code></li>
-<li class='green'><span class='hits'>363</span><code>                ds = ds.filter.call(ds, q);</code></li>
-<li class='green'><span class='hits'>363</span><code>                if (loadEach) {</code></li>
-<li class='green'><span class='hits'>363</span><code>                    return ds.map(function (r) {</code></li>
-<li class='green'><span class=''> </span><code>                        //todo this sucks find a better way!</code></li>
-<li class='green'><span class='hits'>435</span><code>                        return r.remove(options);</code></li>
-<li class='green'><span class=''> </span><code>                    });</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    return ds.remove();</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            }));</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Similar to remove but takes an id or an array for a composite key.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * User.removeById(1);</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param id id or an array for a composite key, to find the model by</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * removing the model.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the removal completes.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        removeById:function (id, options) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                var p = new Promise();</code></li>
-<li class='red'><span class='nohits'>0</span><code>                this.findById(id).then(function (model) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    if (model) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        model.remove(options).then(p);</code></li>
-<li class='green'><span class=''> </span><code>                    } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        p.callback(0);</code></li>
-<li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class=''> </span><code>                }, p);</code></li>
-<li class='red'><span class='nohits'>0</span><code>                return p.promise();</code></li>
-<li class='green'><span class=''> </span><code>            }));</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Save either a new model or list of models to the database.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @example</code></li>
-<li class='green'><span class=''> </span><code>         * var Student = patio.getModel("student");</code></li>
-<li class='green'><span class=''> </span><code>         * Student.save([</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"Bob",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Yukon",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:3.689,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Senior"</code></li>
-<li class='green'><span class=''> </span><code>         *      },</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"Greg",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Horn",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:3.689,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Sohpmore"</code></li>
-<li class='green'><span class=''> </span><code>         *      },</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"Sara",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Malloc",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:4.0,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Junior"</code></li>
-<li class='green'><span class=''> </span><code>         *      },</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"John",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Favre",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:2.867,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Junior"</code></li>
-<li class='green'><span class=''> </span><code>         *      },</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"Kim",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Bim",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:2.24,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Senior"</code></li>
-<li class='green'><span class=''> </span><code>         *      },</code></li>
-<li class='green'><span class=''> </span><code>         *      {</code></li>
-<li class='green'><span class=''> </span><code>         *          firstName:"Alex",</code></li>
-<li class='green'><span class=''> </span><code>         *          lastName:"Young",</code></li>
-<li class='green'><span class=''> </span><code>         *          gpa:1.9,</code></li>
-<li class='green'><span class=''> </span><code>         *          classYear:"Freshman"</code></li>
-<li class='green'><span class=''> </span><code>         *      }</code></li>
-<li class='green'><span class=''> </span><code>         * ]).then(function(users){</code></li>
-<li class='green'><span class=''> </span><code>         *     //work with the users</code></li>
-<li class='green'><span class=''> </span><code>         * });</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * Save a single record</code></li>
-<li class='green'><span class=''> </span><code>         * MyModel.save(m1);</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {patio.Model|Object|patio.Model[]|Object[]} record the record/s to save.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
-<li class='green'><span class=''> </span><code>         * saving the models.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with the saved record/s.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        save:function (items, options) {</code></li>
-<li class='green'><span class='hits'>34</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>34</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
-<li class='green'><span class='hits'>34</span><code>                var ps, ret;</code></li>
-<li class='green'><span class='hits'>34</span><code>                if (comb.isArray(items)) {</code></li>
-<li class='green'><span class='hits'>27</span><code>                    ps = items.map(function (o) {</code></li>
-<li class='green'><span class='hits'>524</span><code>                        if (!comb.isInstanceOf(o, this)) {</code></li>
-<li class='green'><span class='hits'>44</span><code>                            o = new this(o);</code></li>
-<li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>524</span><code>                        return o.save(null, options);</code></li>
-<li class='green'><span class=''> </span><code>                    }, this);</code></li>
-<li class='green'><span class='hits'>27</span><code>                    ret = new PromiseList(ps, true);</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>7</span><code>                    ret = new Promise();</code></li>
-<li class='green'><span class='hits'>7</span><code>                    try {</code></li>
-<li class='green'><span class='hits'>7</span><code>                        if (!comb.isInstanceOf(items, this)) {</code></li>
-<li class='green'><span class='hits'>7</span><code>                            items = new this(items);</code></li>
-<li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>7</span><code>                        ret = items.save(null, options);</code></li>
-<li class='green'><span class=''> </span><code>                    } catch (e) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        ret.errback(e);</code></li>
-<li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>34</span><code>                return ret.promise();</code></li>
-<li class='green'><span class=''> </span><code>            }));</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class=''> </span><code>}).as(exports, "QueryPlugin");</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>Dataset.ACTION_METHODS.concat(Dataset.QUERY_METHODS).forEach(function (m) {</code></li>
-<li class='green'><span class='hits'>162</span><code>    if (!QueryPlugin[m]) {</code></li>
-<li class='green'><span class='hits'>98</span><code>        QueryPlugin[m] = function () {</code></li>
-<li class='green'><span class='hits'>358</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>358</span><code>                var ds = this.dataset;</code></li>
-<li class='green'><span class='hits'>358</span><code>                return ds[m].apply(ds, arguments);</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class=''> </span><code>});</code></li>
-<li class='green'><span class=''> </span><code></code></li></ol></pre></div>
-</div>
-
 <div class="cov-section cov-section-hover cov-section-med" id="database/index.js">
     <table class='section-table'>
         <tr>
@@ -5424,6 +4771,646 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(exports, "MySQLDatabase");</code></li></ol></pre></div>
+</div>
+
+<div class="cov-section cov-section-hover cov-section-med" id="plugins/query.js">
+    <table class='section-table'>
+        <tr>
+            <td>
+                <div class='cov-section-header'>plugins/query.js</div>
+            </td>
+            <td class="cov-stats">
+                <div>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>81.30</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>622</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>123</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>23</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class='source' id="plugins/query.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb"),</code></li>
+<li class='green'><span class=''> </span><code>    asyncArray = comb.async.array,</code></li>
+<li class='green'><span class=''> </span><code>    when = comb.when,</code></li>
+<li class='green'><span class=''> </span><code>    isBoolean = comb.isBoolean,</code></li>
+<li class='green'><span class=''> </span><code>    isArray = comb.isArray,</code></li>
+<li class='green'><span class=''> </span><code>    isHash = comb.isHash,</code></li>
+<li class='green'><span class=''> </span><code>    isUndefined = comb.isUndefined,</code></li>
+<li class='green'><span class=''> </span><code>    isInstanceOf = comb.isInstanceOf,</code></li>
+<li class='green'><span class=''> </span><code>    isEmpty = comb.isEmpty,</code></li>
+<li class='green'><span class=''> </span><code>    serial = comb.serial,</code></li>
+<li class='green'><span class=''> </span><code>    Dataset = require("../dataset"),</code></li>
+<li class='green'><span class=''> </span><code>    ModelError = require("../errors").ModelError,</code></li>
+<li class='green'><span class=''> </span><code>    hitch = comb.hitch,</code></li>
+<li class='green'><span class=''> </span><code>    hitchIgnore = comb.hitchIgnore,</code></li>
+<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
+<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList;</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>1</span><code>var QueryPlugin = comb.define(null, {</code></li>
+<li class='green'><span class=''> </span><code>    instance:{</code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.Model.prototype*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getPrimaryKeyQuery:function () {</code></li>
+<li class='green'><span class='hits'>1997</span><code>            var q = {}, pk = this.primaryKey;</code></li>
+<li class='green'><span class='hits'>1997</span><code>            for (var i = 0, l = pk.length; i &lt; l; i++) {</code></li>
+<li class='green'><span class='hits'>1997</span><code>                var k = pk[i];</code></li>
+<li class='green'><span class='hits'>1997</span><code>                q[k] = this[k];</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>1997</span><code>            return q;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _clearPrimaryKeys:function () {</code></li>
+<li class='green'><span class='hits'>525</span><code>            var pk = this.primaryKey;</code></li>
+<li class='green'><span class='hits'>525</span><code>            for (var i = 0, l = pk.length; i &lt; l; i++) {</code></li>
+<li class='green'><span class='hits'>525</span><code>                this.__values[pk[i]] = null;</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        reload:function () {</code></li>
+<li class='green'><span class='hits'>15</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>15</span><code>                return serial([</code></li>
+<li class='green'><span class=''> </span><code>                    this._hook.bind(this, "pre", "load"),</code></li>
+<li class='green'><span class=''> </span><code>                    this.__reload.bind(this),</code></li>
+<li class='green'><span class=''> </span><code>                    this._hook.bind(this, "post", "load")</code></li>
+<li class='green'><span class=''> </span><code>                ]).chain(this);</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the</code></li>
+<li class='green'><span class=''> </span><code>         * model.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * myModel.reload().then(function(model){</code></li>
+<li class='green'><span class=''> </span><code>         *    //model === myModel</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved with the model instance.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        __reload:function () {</code></li>
+<li class='green'><span class='hits'>1307</span><code>            if (!this.__isNew) {</code></li>
+<li class='green'><span class='hits'>1307</span><code>                return this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().chain(function (values) {</code></li>
+<li class='green'><span class='hits'>1307</span><code>                    this.__setFromDb(values, true);</code></li>
+<li class='green'><span class='hits'>1307</span><code>                    return this;</code></li>
+<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return when(this);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * This method removes the instance of the model. If the model {@link patio.Model#isNew} then the promise is</code></li>
+<li class='green'><span class=''> </span><code>         * resolved with a 0 indicating no rows were affected. Otherwise the model is removed, primary keys are cleared</code></li>
+<li class='green'><span class=''> </span><code>         * and the model's isNew flag is set to true.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         * myModel.remove().then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *     //model is deleted</code></li>
+<li class='green'><span class=''> </span><code>         *     assert.isTrue(myModel.isNew);</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //dont use a transaction to remove this model</code></li>
+<li class='green'><span class=''> </span><code>         * myModel.remove({transaction : false}).then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *     //model is deleted</code></li>
+<li class='green'><span class=''> </span><code>         *     assert.isTrue(myModel.isNew);</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * removing the model.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back after the deletion is successful.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        remove:function (options) {</code></li>
+<li class='green'><span class='hits'>525</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>525</span><code>                if (!this.__isNew) {</code></li>
+<li class='green'><span class='hits'>525</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>525</span><code>                        return serial([</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "remove", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            this._remove.bind(this, options),</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "remove", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            function () {</code></li>
+<li class='green'><span class='hits'>525</span><code>                                this._clearPrimaryKeys();</code></li>
+<li class='green'><span class='hits'>525</span><code>                                this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>525</span><code>                                if (this._static.emitOnRemove) {</code></li>
+<li class='green'><span class='hits'>525</span><code>                                    this.emit("remove", this);</code></li>
+<li class='green'><span class='hits'>525</span><code>                                    this._static.emit("remove", this);</code></li>
+<li class='green'><span class=''> </span><code>                                }</code></li>
+<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
+<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
+<li class='green'><span class=''> </span><code>                    }));</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return when(0);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _remove:function () {</code></li>
+<li class='green'><span class='hits'>519</span><code>            return this.dataset.filter(this._getPrimaryKeyQuery()).remove();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * @private</code></li>
+<li class='green'><span class=''> </span><code>         * Called after a save action to reload the model properties,</code></li>
+<li class='green'><span class=''> </span><code>         * abstracted out so this can be overidden by sub classes</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _saveReload:function (options) {</code></li>
+<li class='green'><span class='hits'>1134</span><code>            options || (options = {});</code></li>
+<li class='green'><span class='hits'>1134</span><code>            var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnSave;</code></li>
+<li class='green'><span class='hits'>1134</span><code>            return reload ? this.__reload() : when(this);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * @private</code></li>
+<li class='green'><span class=''> </span><code>         * Called after an update action to reload the model properties,</code></li>
+<li class='green'><span class=''> </span><code>         * abstracted out so this can be overidden by sub classes</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _updateReload:function (options) {</code></li>
+<li class='green'><span class='hits'>162</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>162</span><code>            options || (options = {});</code></li>
+<li class='green'><span class='hits'>162</span><code>            var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnUpdate;</code></li>
+<li class='green'><span class='hits'>162</span><code>            return reload ? this.__reload() : when(this);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Updates a model. This action checks if the model is not new and values have changed.</code></li>
+<li class='green'><span class=''> </span><code>         * If the model is new then the {@link patio.Model#save} action is called.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * When updating a model you can pass values you want set as the first argument.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.update({</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal1 : "newValue1",</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal2 : "newValue2",</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal3 : "newValue3"</code></li>
+<li class='green'><span class=''> </span><code>         * }).then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *      //do something</code></li>
+<li class='green'><span class=''> </span><code>         * }, errorHandler);</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * Or you can set values on the model directly</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal1 = "newValue1";</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal2 = "newValue2";</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal3 = "newValue3";</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //update model with current values</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.update().then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *     //do something</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * Update also accepts an options object as the second argument allowing the overriding of default behavior.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * To override &lt;code&gt;useTransactions&lt;/code&gt; you can set the &lt;code&gt;transaction&lt;/code&gt; option.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.update(null, {transaction : false});</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * You can also override the &lt;code&gt;reloadOnUpdate&lt;/code&gt; property by setting the &lt;code&gt;reload&lt;/code&gt; option.</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.update(null, {reload : false});</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [vals] optional values hash to set on the model before saving.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * updating the model.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.reload] boolean indicating if the model should be reloaded after the update. This will take</code></li>
+<li class='green'><span class=''> </span><code>         * precedence over {@link patio.Model.reloadOnUpdate}</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved when the update action has completed.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        update:function (vals, options) {</code></li>
+<li class='green'><span class='hits'>158</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>158</span><code>                if (!this.__isNew) {</code></li>
+<li class='green'><span class='hits'>158</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>158</span><code>                        if (isHash(vals)) {</code></li>
+<li class='green'><span class='hits'>107</span><code>                            this.__set(vals);</code></li>
+<li class='green'><span class=''> </span><code>                        }</code></li>
+<li class='green'><span class='hits'>158</span><code>                        var saveChange = !isEmpty(this.__changed);</code></li>
+<li class='green'><span class='hits'>158</span><code>                        return serial([</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "update", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            function () {</code></li>
+<li class='green'><span class='hits'>158</span><code>                                return saveChange ? this._update(options) : null;</code></li>
+<li class='green'><span class=''> </span><code>                            }.bind(this),</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "update", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            this._updateReload.bind(this, options),</code></li>
+<li class='green'><span class=''> </span><code>                            function () {</code></li>
+<li class='green'><span class='hits'>158</span><code>                                if (this._static.emitOnUpdate) {</code></li>
+<li class='green'><span class='hits'>158</span><code>                                    this.emit("update", this);</code></li>
+<li class='green'><span class='hits'>158</span><code>                                    this._static.emit("update", this);</code></li>
+<li class='green'><span class=''> </span><code>                                }</code></li>
+<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
+<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>                    }));</code></li>
+<li class='red'><span class='nohits'>0</span><code>                } else if (this.__isNew &amp;&amp; this.__isChanged) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return this.save(vals, options);</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return when(this);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _update:function (options) {</code></li>
+<li class='green'><span class='hits'>139</span><code>            var ret = this.dataset.filter(this._getPrimaryKeyQuery()).update(this.__changed);</code></li>
+<li class='green'><span class='hits'>139</span><code>            this.__changed = {};</code></li>
+<li class='green'><span class='hits'>139</span><code>            return ret;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Saves a model. This action checks if the model is new and values have changed.</code></li>
+<li class='green'><span class=''> </span><code>         * If the model is not new then the {@link patio.Model#update} action is called.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * When saving a model you can pass values you want set as the first argument.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.save({</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal1 : "newValue1",</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal2 : "newValue2",</code></li>
+<li class='green'><span class=''> </span><code>         *      myVal3 : "newValue3"</code></li>
+<li class='green'><span class=''> </span><code>         * }).then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *      //do something</code></li>
+<li class='green'><span class=''> </span><code>         * }, errorHandler);</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * Or you can set values on the model directly</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal1 = "newValue1";</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal2 = "newValue2";</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.myVal3 = "newValue3";</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //update model with current values</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.save().then(function(){</code></li>
+<li class='green'><span class=''> </span><code>         *     //do something</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * Save also accepts an options object as the second argument allowing the overriding of default behavior.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * To override &lt;code&gt;useTransactions&lt;/code&gt; you can set the &lt;code&gt;transaction&lt;/code&gt; option.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.save(null, {transaction : false});</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * You can also override the &lt;code&gt;reloadOnSave&lt;/code&gt; property by setting the &lt;code&gt;reload&lt;/code&gt; option.</code></li>
+<li class='green'><span class=''> </span><code>         * {@code</code></li>
+<li class='green'><span class=''> </span><code>         * someModel.save(null, {reload : false});</code></li>
+<li class='green'><span class=''> </span><code>         * }</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [vals] optional values hash to set on the model before saving.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * saving the model.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.reload] boolean indicating if the model should be reloaded after the save. This will take</code></li>
+<li class='green'><span class=''> </span><code>         * precedence over {@link patio.Model.reloadOnSave}</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} resolved when the save action has completed.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        save:function (vals, options) {</code></li>
+<li class='green'><span class='hits'>1221</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>1221</span><code>                if (this.__isNew) {</code></li>
+<li class='green'><span class='hits'>1173</span><code>                    return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>1173</span><code>                        if (isHash(vals)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                            this.__set(vals);</code></li>
+<li class='green'><span class=''> </span><code>                        }</code></li>
+<li class='green'><span class='hits'>1173</span><code>                        return serial([</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "pre", "save", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            this._save.bind(this, options),</code></li>
+<li class='green'><span class=''> </span><code>                            this._hook.bind(this, "post", "save", [options]),</code></li>
+<li class='green'><span class=''> </span><code>                            this._saveReload.bind(this, options),</code></li>
+<li class='green'><span class=''> </span><code>                            function () {</code></li>
+<li class='green'><span class='hits'>1129</span><code>                                if (this._static.emitOnSave) {</code></li>
+<li class='green'><span class='hits'>1129</span><code>                                    this.emit("save", this);</code></li>
+<li class='green'><span class='hits'>1129</span><code>                                    this._static.emit("save", this);</code></li>
+<li class='green'><span class=''> </span><code>                                }</code></li>
+<li class='green'><span class=''> </span><code>                            }.bind(this)</code></li>
+<li class='green'><span class=''> </span><code>                        ]).chain(this);</code></li>
+<li class='green'><span class=''> </span><code>                    }));</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='green'><span class='hits'>48</span><code>                    return this.update(vals, options);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _save:function (options) {</code></li>
+<li class='green'><span class='hits'>1124</span><code>            var pk = this._static.primaryKey[0];</code></li>
+<li class='green'><span class='hits'>1124</span><code>            return this.dataset.insert(this._toObject()).chain(function (id) {</code></li>
+<li class='green'><span class='hits'>1124</span><code>                this.__ignore = true;</code></li>
+<li class='green'><span class='hits'>1124</span><code>                if (id) {</code></li>
+<li class='green'><span class='hits'>1124</span><code>                    this[pk] = id;</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class='hits'>1124</span><code>                this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1124</span><code>                this.__isNew = false;</code></li>
+<li class='green'><span class='hits'>1124</span><code>                this.__isChanged = false;</code></li>
+<li class='green'><span class='hits'>1124</span><code>                return this;</code></li>
+<li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>    },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>    static:{</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.Model*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is saved.</code></li>
+<li class='green'><span class=''> </span><code>         * @default true</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        emitOnSave:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is updated.</code></li>
+<li class='green'><span class=''> </span><code>         * @default true</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        emitOnUpdate:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Set to false to prevent the emitting on an event when a model is removed.</code></li>
+<li class='green'><span class=''> </span><code>         * @default true</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        emitOnRemove:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Retrieves a record by the primaryKey/s of a table.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * User.findById(1).then(function(userOne){</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //assume the primary key is a compostie of first_name and last_name</code></li>
+<li class='green'><span class=''> </span><code>         * User.findById(["greg", "yukon"]).then(function(userOne){</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} id the primary key of the record to find.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with the record or null if one is not found.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        findById:function (id) {</code></li>
+<li class='green'><span class='hits'>3</span><code>            var pk = this.primaryKey;</code></li>
+<li class='green'><span class='hits'>3</span><code>            pk = pk.length == 1 ? pk[0] : pk;</code></li>
+<li class='green'><span class='hits'>3</span><code>            var q = {};</code></li>
+<li class='green'><span class='hits'>3</span><code>            if (isArray(id) &amp;&amp; isArray(pk)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                if (id.length === pk.length) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    pk.forEach(function (k, i) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                        q[k] = id[i];</code></li>
+<li class='green'><span class=''> </span><code>                    });</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("findById : ids length does not equal the primaryKeys length.");</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class='hits'>3</span><code>                q[pk] = id;</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>3</span><code>            return this.filter(q).one();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Finds a single model according to the supplied filter.</code></li>
+<li class='green'><span class=''> </span><code>         * See {@link patio.Dataset#filter} for filter options.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param id</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        find:function (id) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return this.filter.apply(this, arguments).first();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Finds a single model according to the supplied filter.</code></li>
+<li class='green'><span class=''> </span><code>         * See {@link patio.Dataset#filter} for filter options. If the model</code></li>
+<li class='green'><span class=''> </span><code>         * does not exist then a new one is created as passed back.</code></li>
+<li class='green'><span class=''> </span><code>         * @param q</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        findOrCreate:function (q) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return this.find(q).chain(hitch(this, function (res) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return res || this.create(q);</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Update multiple rows with a set of values.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //BEGIN</code></li>
+<li class='green'><span class=''> </span><code>         * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')</code></li>
+<li class='green'><span class=''> </span><code>         * //COMMIT</code></li>
+<li class='green'><span class=''> </span><code>         * User.update({password : null}, function(){</code></li>
+<li class='green'><span class=''> </span><code>         *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         * //same as</code></li>
+<li class='green'><span class=''> </span><code>         * User.update({password : null}, {lastAccess : {lte : comb.date.add(new Date(), "year", -1)}});</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //UPDATE `user` SET `password` = NULL WHERE (`last_accessed` &lt;= '2011-01-27')</code></li>
+<li class='green'><span class=''> </span><code>         * User.update({password : null}, function(){</code></li>
+<li class='green'><span class=''> </span><code>         *  return this.lastAccessed.lte(comb.date.add(new Date(), "year", -1));</code></li>
+<li class='green'><span class=''> </span><code>         * }, {transaction : false});</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} vals a hash of values to update. See {@link patio.Dataset#update}.</code></li>
+<li class='green'><span class=''> </span><code>         * @param query a filter to apply to the UPDATE.  See {@link patio.Dataset#filter}.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * updating the models.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {Promise} a promise that is resolved once the update statement has completed.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        update:function (vals, /*?object*/query, options) {</code></li>
+<li class='green'><span class='hits'>2</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>2</span><code>            var args = comb(arguments).toArray();</code></li>
+<li class='green'><span class='hits'>2</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>2</span><code>                var dataset = this.dataset;</code></li>
+<li class='green'><span class='hits'>2</span><code>                if (!isUndefined(query)) {</code></li>
+<li class='green'><span class='hits'>2</span><code>                    dataset = dataset.filter(query);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class='hits'>2</span><code>                return dataset.update(vals);</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Remove(delete) models. This can be used to do a mass delete of models.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         * var User = patio.getModel("user");</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //remove all users</code></li>
+<li class='green'><span class=''> </span><code>         * User.remove();</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //remove all users who's names start with a.</code></li>
+<li class='green'><span class=''> </span><code>         * User.remove({name : /A%/i});</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //remove all users who's names start with a, without a transaction.</code></li>
+<li class='green'><span class=''> </span><code>         * User.remove({name : /A%/i}, {transaction : false});</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [q] query to filter the rows to remove. See {@link patio.Dataset#filter}.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * removing the models.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.load=true] boolean set to prevent the loading of each model. This is more efficient</code></li>
+<li class='green'><span class=''> </span><code>         * but the pre/post remove hooks not be notified of the deletion.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the removal completes.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        remove:function (q, options) {</code></li>
+<li class='green'><span class='hits'>363</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>363</span><code>            var loadEach = isBoolean(options.load) ? options.load : true;</code></li>
+<li class='green'><span class=''> </span><code>            //first find all records so we call alert the middleware for each model</code></li>
+<li class='green'><span class='hits'>363</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>363</span><code>                var ds = this.dataset;</code></li>
+<li class='green'><span class='hits'>363</span><code>                ds = ds.filter.call(ds, q);</code></li>
+<li class='green'><span class='hits'>363</span><code>                if (loadEach) {</code></li>
+<li class='green'><span class='hits'>363</span><code>                    return ds.map(function (r) {</code></li>
+<li class='green'><span class=''> </span><code>                        //todo this sucks find a better way!</code></li>
+<li class='green'><span class='hits'>435</span><code>                        return r.remove(options);</code></li>
+<li class='green'><span class=''> </span><code>                    });</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return ds.remove();</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Similar to remove but takes an id or an array for a composite key.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * User.removeById(1);</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param id id or an array for a composite key, to find the model by</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * removing the model.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the removal completes.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        removeById:function (id, options) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return this.findById(id).chain(function (model) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    if (model) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                        return model.remove(options);</code></li>
+<li class='green'><span class=''> </span><code>                    }</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Save either a new model or list of models to the database.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @example</code></li>
+<li class='green'><span class=''> </span><code>         * var Student = patio.getModel("student");</code></li>
+<li class='green'><span class=''> </span><code>         * Student.save([</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"Bob",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Yukon",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:3.689,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Senior"</code></li>
+<li class='green'><span class=''> </span><code>         *      },</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"Greg",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Horn",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:3.689,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Sohpmore"</code></li>
+<li class='green'><span class=''> </span><code>         *      },</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"Sara",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Malloc",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:4.0,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Junior"</code></li>
+<li class='green'><span class=''> </span><code>         *      },</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"John",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Favre",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:2.867,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Junior"</code></li>
+<li class='green'><span class=''> </span><code>         *      },</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"Kim",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Bim",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:2.24,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Senior"</code></li>
+<li class='green'><span class=''> </span><code>         *      },</code></li>
+<li class='green'><span class=''> </span><code>         *      {</code></li>
+<li class='green'><span class=''> </span><code>         *          firstName:"Alex",</code></li>
+<li class='green'><span class=''> </span><code>         *          lastName:"Young",</code></li>
+<li class='green'><span class=''> </span><code>         *          gpa:1.9,</code></li>
+<li class='green'><span class=''> </span><code>         *          classYear:"Freshman"</code></li>
+<li class='green'><span class=''> </span><code>         *      }</code></li>
+<li class='green'><span class=''> </span><code>         * ]).then(function(users){</code></li>
+<li class='green'><span class=''> </span><code>         *     //work with the users</code></li>
+<li class='green'><span class=''> </span><code>         * });</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * Save a single record</code></li>
+<li class='green'><span class=''> </span><code>         * MyModel.save(m1);</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {patio.Model|Object|patio.Model[]|Object[]} record the record/s to save.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} [options] additional options.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Boolean} [options.transaction] boolean indicating if a transaction should be used when</code></li>
+<li class='green'><span class=''> </span><code>         * saving the models.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with the saved record/s.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        save:function (items, options) {</code></li>
+<li class='green'><span class='hits'>34</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>34</span><code>            var isArr = isArray(items);</code></li>
+<li class='green'><span class='hits'>34</span><code>            return this._checkTransaction(options, hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>34</span><code>                return asyncArray(items).map(function (o) {</code></li>
+<li class='green'><span class='hits'>531</span><code>                    if (!isInstanceOf(o, this)) {</code></li>
+<li class='green'><span class='hits'>51</span><code>                        o = new this(o);</code></li>
+<li class='green'><span class=''> </span><code>                    }</code></li>
+<li class='green'><span class='hits'>531</span><code>                    return o.save(null, options);</code></li>
+<li class='green'><span class=''> </span><code>                }, this).chain(function (res) {</code></li>
+<li class='green'><span class='hits'>34</span><code>                        return isArr ? res : res[0];</code></li>
+<li class='green'><span class=''> </span><code>                    });</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    }</code></li>
+<li class='green'><span class=''> </span><code>}).as(exports, "QueryPlugin");</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>1</span><code>Dataset.ACTION_METHODS.concat(Dataset.QUERY_METHODS).forEach(function (m) {</code></li>
+<li class='green'><span class='hits'>162</span><code>    if (!QueryPlugin[m]) {</code></li>
+<li class='green'><span class='hits'>98</span><code>        QueryPlugin[m] = function () {</code></li>
+<li class='green'><span class='hits'>358</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>358</span><code>                var ds = this.dataset;</code></li>
+<li class='green'><span class='hits'>358</span><code>                return ds[m].apply(ds, arguments);</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    }</code></li>
+<li class='green'><span class=''> </span><code>});</code></li>
+<li class='green'><span class=''> </span><code></code></li></ol></pre></div>
 </div>
 
 <div class="cov-section cov-section-hover cov-section-med" id="database/connect.js">
@@ -7130,14 +7117,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>3131</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>3131</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>3131</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>3131</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>3131</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>3131</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>3131</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>3131</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>3129</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>3129</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>3129</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3129</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>3129</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>3129</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>3129</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>3129</span><code>                if (fromDb) {</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this._hook("pre", "load");</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this.__isNew = false;</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this.__setFromDb(options, true);</code></li>
@@ -7146,8 +7133,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>1760</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1371</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1371</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1369</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1369</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -7155,15 +7142,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set:function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1495</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1495</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1495</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1493</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1493</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1493</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6634</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6634</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6634</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1495</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1493</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb:function (values, ignore) {</code></li>
@@ -7401,7 +7388,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced:function () {</code></li>
-<li class='green'><span class='hits'>12808</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>12806</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -7603,7 +7590,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>924</span><code>            return this.sync().chain(function () {</code></li>
 <li class='green'><span class='hits'>924</span><code>                var m = new this(vals, true);</code></li>
 <li class='green'><span class=''> </span><code>                //call the hooks!</code></li>
-<li class='green'><span class='hits'>924</span><code>                return m._hook("post", "load").chain(function(){</code></li>
+<li class='green'><span class='hits'>924</span><code>                return m._hook("post", "load").chain(function () {</code></li>
 <li class='green'><span class='hits'>924</span><code>                    return m;</code></li>
 <li class='green'><span class=''> </span><code>                });</code></li>
 <li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
@@ -9368,21 +9355,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>987</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>987</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>987</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>987</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>987</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>987</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>987</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>987</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>4</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>987</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>1005</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>548</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>548</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>542</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9392,8 +9379,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>987</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>987</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>1005</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>1005</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -9845,7 +9832,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>987</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>1005</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10655,13 +10642,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>2328</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>2328</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2328</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>2346</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>2346</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2346</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2328</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2328</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2346</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2346</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11464,7 +11451,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>16645</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>16681</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12064,7 +12051,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3431</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3485</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -16896,10 +16883,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>3131</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>3015</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>3129</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>3014</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>3131</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3129</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload:function () {</code></li>
