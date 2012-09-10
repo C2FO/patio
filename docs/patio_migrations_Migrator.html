@@ -560,11 +560,9 @@ function (db,directory,opts,cb){
    }
    opts = opts || {};
    var ret = new Promise();
-   this.__getMigrator(directory).then(function (migrator) {
-       new migrator(db, directory, opts).run().then(ret);
-   }, ret);
-   ret.classic(cb);
-   return ret.promise();
+   return this.__getMigrator(directory).chain(function (migrator) {
+       return new migrator(db, directory, opts).run();
+   }).classic(cb);
            
 }
     </pre>

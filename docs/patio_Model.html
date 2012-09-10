@@ -1286,7 +1286,7 @@ function (id){
    var pk = this.primaryKey;
    pk = pk.length == 1 ? pk[0] : pk;
    var q = {};
-   if (comb.isArray(id) &amp;&amp; comb.isArray(pk)) {
+   if (isArray(id) &amp;&amp; isArray(pk)) {
        if (id.length === pk.length) {
            pk.forEach(function (k, i) {
                q[k] = id[i];
@@ -1345,11 +1345,9 @@ does not exist then a new one is created as passed back.
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (q){
-   var ret = new Promise();
-   this.find(q).then(hitch(this, function (res) {
-       ret.callback(res || this.create());
-   }), ret);
-   return ret.promise();
+   return this.find(q).chain(hitch(this, function (res) {
+       return res || this.create(q);
+   }));
            
 }
     </pre>
@@ -1760,7 +1758,7 @@ but the pre/post remove hooks not be notified of the deletion.</p>
     <pre class="prettyprint linenums lang-js">
 function (q,options){
    options = options || {};
-   var loadEach = comb.isBoolean(options.load) ? options.load : true;
+   var loadEach = isBoolean(options.load) ? options.load : true;
    //first find all records so we call alert the middleware for each model
    return this._checkTransaction(options, hitch(this, function () {
        var ds = this.dataset;
@@ -1842,15 +1840,11 @@ removing the model.</p>
     <pre class="prettyprint linenums lang-js">
 function (id,options){
    return this._checkTransaction(options, hitch(this, function () {
-       var p = new Promise();
-       this.findById(id).then(function (model) {
+       return this.findById(id).chain(function (model) {
            if (model) {
-               model.remove(options).then(p);
-           } else {
-               p.callback(0);
+               return model.remove(options);
            }
-       }, p);
-       return p.promise();
+       });
    }));
            
 }
@@ -1965,28 +1959,16 @@ saving the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (items,options){
    options = options || {};
+   var isArr = isArray(items);
    return this._checkTransaction(options, hitch(this, function () {
-       var ps, ret;
-       if (comb.isArray(items)) {
-           ps = items.map(function (o) {
-               if (!comb.isInstanceOf(o, this)) {
-                   o = new this(o);
-               }
-               return o.save(null, options);
-           }, this);
-           ret = new PromiseList(ps, true);
-       } else {
-           ret = new Promise();
-           try {
-               if (!comb.isInstanceOf(items, this)) {
-                   items = new this(items);
-               }
-               ret = items.save(null, options);
-           } catch (e) {
-               ret.errback(e);
+       return asyncArray(items).map(function (o) {
+           if (!isInstanceOf(o, this)) {
+               o = new this(o);
            }
-       }
-       return ret.promise();
+           return o.save(null, options);
+       }, this).chain(function (res) {
+               return isArr ? res : res[0];
+           });
    }));
            
 }
@@ -2075,10 +2057,10 @@ updating the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (vals,/*?object*/query,options){
    options = options || {};
-   var args = comb.argsToArray(arguments);
+   var args = comb(arguments).toArray();
    return this._checkTransaction(options, hitch(this, function () {
        var dataset = this.dataset;
-       if (!comb.isUndefined(query)) {
+       if (!isUndefined(query)) {
            dataset = dataset.filter(query);
        }
        return dataset.update(vals);
@@ -2179,16 +2161,14 @@ myModel.reload().then(function(model){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   var ret = new Promise();
    if (!this.__isNew) {
-       this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().then(hitch(this, function (values) {
+       return this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().chain(function (values) {
            this.__setFromDb(values, true);
-           ret.callback(this);
-       }), ret);
+           return this;
+       }.bind(this));
    } else {
-       ret.callback(this);
+       return when(this);
    }
-   return ret;
            
 }
     </pre>
@@ -2230,7 +2210,7 @@ function (){
 function (options){
    options || (options = {});
    var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnSave;
-   return reload ? this.__reload() : new Promise().callback(this).promise();
+   return reload ? this.__reload() : when(this);
            
 }
     </pre>
@@ -2273,7 +2253,7 @@ function (options){
    options = options || {};
    options || (options = {});
    var reload = isBoolean(options.reload) ? options.reload : this._static.reloadOnUpdate;
-   return reload ? this.__reload() : new Promise().callback(this).promise();
+   return reload ? this.__reload() : when(this);
            
 }
     </pre>
@@ -2350,8 +2330,7 @@ function (options){
    if (this.synced) {
        if (!this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
-               var ret = new Promise();
-               serial([
+               return serial([
                    this._hook.bind(this, &quot;pre&quot;, &quot;remove&quot;, [options]),
                    this._remove.bind(this, options),
                    this._hook.bind(this, &quot;post&quot;, &quot;remove&quot;, [options]),
@@ -2363,11 +2342,10 @@ function (options){
                            this._static.emit(&quot;remove&quot;, this);
                        }
                    }.bind(this)
-               ]).then(ret);
-               return ret.promise();
+               ]).chain(this);
            }));
        } else {
-           return new Promise().callback(0).promise();
+           return when(0);
        }
    } else {
        throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);
@@ -2496,9 +2474,10 @@ function (vals,options){
    if (this.synced) {
        if (this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
-               comb.isHash(vals) &amp;&amp; this.__set(vals);
-               var ret = new Promise();
-               serial([
+               if (isHash(vals)) {
+                   this.__set(vals);
+               }
+               return serial([
                    this._hook.bind(this, &quot;pre&quot;, &quot;save&quot;, [options]),
                    this._save.bind(this, options),
                    this._hook.bind(this, &quot;post&quot;, &quot;save&quot;, [options]),
@@ -2509,8 +2488,7 @@ function (vals,options){
                            this._static.emit(&quot;save&quot;, this);
                        }
                    }.bind(this)
-               ]).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
-               return ret.promise();
+               ]).chain(this);
            }));
        } else {
            return this.update(vals, options);
@@ -2845,10 +2823,11 @@ function (vals,options){
    if (this.synced) {
        if (!this.__isNew) {
            return this._checkTransaction(options, hitch(this, function () {
-               comb.isHash(vals) &amp;&amp; this.__set(vals);
-               var saveChange = !comb.isEmpty(this.__changed);
-               var ret = new Promise();
-               serial([
+               if (isHash(vals)) {
+                   this.__set(vals);
+               }
+               var saveChange = !isEmpty(this.__changed);
+               return serial([
                    this._hook.bind(this, &quot;pre&quot;, &quot;update&quot;, [options]),
                    function () {
                        return saveChange ? this._update(options) : null;
@@ -2861,13 +2840,12 @@ function (vals,options){
                            this._static.emit(&quot;update&quot;, this);
                        }
                    }.bind(this)
-               ]).then(hitchIgnore(ret, &quot;callback&quot;, this), ret);
-               return ret;
+               ]).chain(this);
            }));
        } else if (this.__isNew &amp;&amp; this.__isChanged) {
            return this.save(vals, options);
        } else {
-           return new Promise().callback(this).promise();
+           return when(this);
        }
    } else {
        throw new ModelError(&quot;Model &quot; + this.tableName + &quot; has not been synced&quot;);

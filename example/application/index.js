@@ -8,7 +8,7 @@ var patio = require("../../index"),
 patio.camelize = true;
 patio.connect("mysql://test:testpass@localhost:3306/sandbox?maxConnections=50&minConnections=10");
 patio.configureLogging();
-//patio.LOGGER.level = "ERROR";
+patio.LOGGER.level = "ERROR";
 
 helpers.loadData().chain(function () {
     var app = express.createServer();
