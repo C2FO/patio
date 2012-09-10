@@ -38,7 +38,7 @@
         "validator":"~0.4.11"
     },
     "scripts":{
-        "test":"make test"
+        "test":"make test-travis"
     },
     "devDependencies":{
         "it":"0.0.5"
