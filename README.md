@@ -1,3 +1,4 @@
+[![Build Status](https://secure.travis-ci.org/C2FO/patio.png)](http://travis-ci.org/C2FO/patio)
 #[Patio](http://c2fo.github.com/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.                                                        

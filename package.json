@@ -1,52 +1,55 @@
 {
-  "name": "patio",
-  "description": "Patio query engine and ORM",
-  "version": "0.1.2",
-  "keywords": [
-    "ORM",
-    "object relation mapper",
-    "relational",
-    "mapper",
-    "moose",
-    "mysql",
-    "MySQL",
-    "MySql",
-    "SQL",
-    "sql",
-    "query",
-    "database",
-    "dataset",
-    "transactions",
-    "DDl",
-    "Sequel",
-    "migrations"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:c2fo/patio.git"
-  },
-  "homepage": "http://c2fo.github.com/patio/index.html",
-  "author": "Doug Martin (http://c2fo.github.com)",
-  "main": "index.js",
-  "dependencies": {
-    "mysql": "2.0.0-alpha2",
-    "pg": "0.7.2",
-    "comb": ">=0.1.7",
-    "comb-proxy": ">=0.0.3",
-    "hive-cache": "0.0.3",
-    "commander": "0.5.1",
-    "validator": "~0.4.11"
-  },
-  "devDependencies": {
-    "it": "0.0.5"
-  },
-  "directories": {
-    "lib": "lib"
-  },
-  "bin": {
-    "patio": "./bin/patio"
-  },
-  "engines": {
-    "node": ">= 0.6.0"
-  }
+    "name":"patio",
+    "description":"Patio query engine and ORM",
+    "version":"0.1.3",
+    "keywords":[
+        "ORM",
+        "object relation mapper",
+        "relational",
+        "mapper",
+        "moose",
+        "mysql",
+        "MySQL",
+        "MySql",
+        "SQL",
+        "sql",
+        "query",
+        "database",
+        "dataset",
+        "transactions",
+        "DDl",
+        "Sequel",
+        "migrations"
+    ],
+    "repository":{
+        "type":"git",
+        "url":"git@github.com:c2fo/patio.git"
+    },
+    "homepage":"http://c2fo.github.com/patio/index.html",
+    "author":"Doug Martin (http://c2fo.github.com)",
+    "main":"index.js",
+    "dependencies":{
+        "mysql":"2.0.0-alpha2",
+        "pg":"0.7.2",
+        "comb":">=0.1.8",
+        "comb-proxy":">=0.0.3",
+        "hive-cache":"0.0.3",
+        "commander":"0.5.1",
+        "validator":"~0.4.11"
+    },
+    "scripts":{
+        "test":"make test-travis"
+    },
+    "devDependencies":{
+        "it":"0.0.5"
+    },
+    "directories":{
+        "lib":"lib"
+    },
+    "bin":{
+        "patio":"./bin/patio"
+    },
+    "engines":{
+        "node":">= 0.6.0"
+    }
 }

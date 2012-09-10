@@ -655,10 +655,7 @@ function (parent){
            var model = this._toModel(item, true);
            recip &amp;&amp; recip.__setValue(model, parent);
            //call hook to finish other model associations
-           model._hook(&quot;post&quot;, &quot;load&quot;).then(hitch(this, function () {
-               ret.callback(model);
-           }), ret);
-           return ret.promise();
+           return model._hook(&quot;post&quot;, &quot;load&quot;).chain(model);
        });
    }
    return this._setDatasetOptions(ds);
@@ -709,7 +706,7 @@ function (model){
    //if we have them return them;
    if (this.associationLoaded(model)) {
        var assoc = this.getAssociation(model);
-       return this.isEager() ? assoc : new Promise().callback(assoc).promise();
+       return this.isEager() ? assoc : when(assoc)
    } else if (model.isNew) {
        return null;
    } else {
@@ -1222,15 +1219,16 @@ function (parent,name){
    this.name = name;
    var self = this;
    this.parent = parent;
-   parent.prototype.__defineGetter__(name, function () {
+   var parentProto = parent.prototype;
+   parentProto.__defineGetter__(name, function () {
        return  self._getter(this);
    });
-   parent.prototype.__defineGetter__(this.associatedDatasetName, function () {
+   parentProto.__defineGetter__(this.associatedDatasetName, function () {
        return  self._filter(this);
    });
    if (!this.readOnly &amp;&amp; this.createSetter) {
        //define a setter because we arent read only
-       parent.prototype.__defineSetter__(name, function (vals) {
+       parentProto.__defineSetter__(name, function (vals) {
            self._setter(vals, this);
        });
    }
@@ -1284,7 +1282,7 @@ function (parent,name){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.fetchType == fetch.EAGER;
+   return this.fetchType === fetch.EAGER;
            
 }
     </pre>

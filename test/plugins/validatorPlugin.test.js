@@ -8,7 +8,8 @@ var it = require('it'),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-it.describe("patio.plugins.ValidatorPlugin", function (it) {
+it.describe("patio.plugins.ValidatorPlugin",function (it) {
+    var Model;
     it.beforeAll(function () {
         return helper.createSchemaAndSync(true);
     });
@@ -18,12 +19,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isAfter", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("date").isAfter(new Date(2006, 1, 1));
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("date").isAfter(new Date(2006, 1, 1));
+
             return  Model.sync();
         });
         it.should("throw an error if invalid", function (next) {
@@ -44,12 +46,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isBefore", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("date").isBefore(new Date(2006, 1, 1));
+
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("date").isBefore(new Date(2006, 1, 1));
             return  Model.sync();
         });
 
@@ -71,12 +74,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isDefined", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isDefined();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isDefined();
             return  Model.sync();
         });
 
@@ -95,12 +98,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isNotDefined", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotDefined();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotDefined();
             return  Model.sync();
         });
 
@@ -119,12 +122,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isNotNull", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotNull();
-
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotNull();
+
             return  Model.sync();
         });
 
@@ -141,12 +144,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isNull", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNull();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNull();
             return  Model.sync();
         });
 
@@ -163,13 +166,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isEq", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isEq("HELLO");
-        Model.validate("date").isEq(new Date(2006, 1, 1));
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isEq("HELLO");
+            Model.validate("date").isEq(new Date(2006, 1, 1));
             return  Model.sync();
         });
 
@@ -196,13 +199,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isNeq", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNeq("HELLO");
-        Model.validate("date").isNeq(new Date(2006, 1, 1));
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNeq("HELLO");
+            Model.validate("date").isNeq(new Date(2006, 1, 1));
             return  Model.sync();
         });
 
@@ -229,13 +232,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isLike", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isLike("HELLO");
-        Model.validate("str2").isLike(/HELLO/i);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isLike("HELLO");
+            Model.validate("str2").isLike(/HELLO/i);
             return  Model.sync();
         });
 
@@ -266,13 +269,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isNotLike", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotLike("HELLO");
-        Model.validate("str2").isNotLike(/HELLO/i);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotLike("HELLO");
+            Model.validate("str2").isNotLike(/HELLO/i);
             return  Model.sync();
         });
 
@@ -303,12 +306,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isLt", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("num").isLt(10);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("num").isLt(10);
             return  Model.sync();
         });
 
@@ -331,12 +334,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     });
     it.describe("#isGt", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("num").isGt(10);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("num").isGt(10);
             return  Model.sync();
         });
 
@@ -358,12 +361,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isLte", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("num").isLte(10);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("num").isLte(10);
             return  Model.sync();
         });
 
@@ -385,12 +388,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isGte", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("num").isGte(10);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("num").isGte(10);
             return  Model.sync();
         });
 
@@ -413,12 +416,11 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
     it.describe("#isIn", function (it) {
 
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isIn(["a", "b", "c"]);
-
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isIn(["a", "b", "c"]);
             return  Model.sync();
         });
 
@@ -447,12 +449,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     });
     it.describe("#isNotIn", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotIn(["a", "b", "c"]);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotIn(["a", "b", "c"]);
             return  Model.sync();
         });
 
@@ -481,12 +483,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     });
     it.describe("#isMacAddress", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("macAddress").isMacAddress();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("macAddress").isMacAddress();
             return  Model.sync();
         });
 
@@ -511,12 +513,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isIpAddress", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("ipAddress").isIPAddress();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("ipAddress").isIPAddress();
             return  Model.sync();
         });
 
@@ -541,12 +543,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isIpV4Address", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("ipAddress").isIPv4Address();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("ipAddress").isIPv4Address();
             return  Model.sync();
         });
 
@@ -570,12 +572,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isIpV6Address", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("ipAddress").isIPv6Address();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("ipAddress").isIPv6Address();
             return  Model.sync();
         });
 
@@ -599,12 +601,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
     it.describe("#isUUID", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("uuid").isUUID();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("uuid").isUUID();
             return  Model.sync();
         });
 
@@ -629,12 +631,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isEmail", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isEmail();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isEmail();
             return  Model.sync();
         });
 
@@ -660,12 +662,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isUrl", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isUrl();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isUrl();
             return  Model.sync();
         });
 
@@ -691,12 +693,11 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     it.describe("#isAlpha", function (it) {
 
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isAlpha();
-
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isAlpha();
             return  Model.sync();
         });
 
@@ -722,12 +723,11 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     it.describe("#isAlphaNumeric", function (it) {
 
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isAlphaNumeric();
-
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isAlphaNumeric();
             return  Model.sync();
         });
 
@@ -752,13 +752,13 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#hasLength", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").hasLength(10);
-        Model.validate("str2").hasLength(7, 10);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").hasLength(10);
+            Model.validate("str2").hasLength(7, 10);
             return  Model.sync();
         });
 
@@ -793,12 +793,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isLowercase", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isLowercase();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isLowercase();
             return  Model.sync();
         });
 
@@ -823,12 +823,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isUppercase", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isUppercase();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isUppercase();
             return  Model.sync();
         });
 
@@ -853,12 +853,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.describe("#isEmpty", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isEmpty();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isEmpty();
             return  Model.sync();
         });
 
@@ -883,12 +883,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     });
     it.describe("#isNotEmpty", function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotEmpty();
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotEmpty();
             return  Model.sync();
         });
 
@@ -913,12 +913,12 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
     });
 
     it.context(function (it) {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("str").isNotEmpty().isAlpha().isLike(/hello/);
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("str").isNotEmpty().isAlpha().isLike(/hello/);
             return  Model.sync();
         });
         it.should("throw an error if string is empty", function (next) {
@@ -975,18 +975,17 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
 
     it.describe("#check", function (it) {
 
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate("num").check(function (val) {
-            return val % 2 === 0;
-        }, {message:"{col} must be even got {val}."});
-
-        Model.validate("num2").isNotNull().check(function (val) {
-            return val % 2 === 0;
-        }, {message:"{col} must be even got {val}."});
-
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate("num").check(function (val) {
+                return val % 2 === 0;
+            }, {message:"{col} must be even got {val}."});
+
+            Model.validate("num2").isNotNull().check(function (val) {
+                return val % 2 === 0;
+            }, {message:"{col} must be even got {val}."});
             return  Model.sync();
         });
 
@@ -1026,20 +1025,20 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         });
     });
 
-    it.context(function () {
-        var Model = patio.addModel("validator", {
-            plugins:[ValidatorPlugin]
-        });
-        Model.validate(function (validate) {
-            validate("num").check(function (val) {
-                return val % 2 === 0;
-            }, {message:"{col} must be even got {val}."});
-            validate("num2").isNotNull().check(function (val) {
-                return val % 2 === 0;
-            }, {message:"{col} must be even got {val}."});
-        });
+    it.context(function (it) {
 
         it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins:[ValidatorPlugin]
+            });
+            Model.validate(function (validate) {
+                validate("num").check(function (val) {
+                    return val % 2 === 0;
+                }, {message:"{col} must be even got {val}."});
+                validate("num2").isNotNull().check(function (val) {
+                    return val % 2 === 0;
+                }, {message:"{col} must be even got {val}."});
+            });
             return  Model.sync();
         });
 
@@ -1080,6 +1079,10 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
             ]).classic(next);
         });
 
+    });
+
+    it.afterAll(function () {
+        return helper.dropModels();
     });
 }).as(module);
 
