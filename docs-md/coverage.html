@@ -256,10 +256,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>89.00</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>21684</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>5145</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>566</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.95</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>21690</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>5148</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>569</span>
                 </div>
             </td>
         </tr>
@@ -968,7 +968,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * @includeDoc [Test Coverage] [../docs-md/coverage.html]</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * @header</code></li>
-<li class='green'><span class=''> </span><code> * [![Build Status](https://secure.travis-ci.org/doug-martin/patio.png)](http://travis-ci.org/doug-martin/patio)</code></li>
+<li class='green'><span class=''> </span><code> * [![Build Status](https://secure.travis-ci.org/C2FO/patio.png)](http://travis-ci.org/C2FO/patio)</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
 <li class='green'><span class=''> </span><code> * Patio is a &lt;a href="http://sequel.rubyforge.org/" target="patioapi"&gt;Sequel&lt;/a&gt; inspired query engine.</code></li>
 <li class='green'><span class=''> </span><code> *</code></li>
@@ -5586,6 +5586,545 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li></ol></pre></div>
 </div>
 
+<div class="cov-section cov-section-hover cov-section-med" id="associations/_Association.js">
+    <table class='section-table'>
+        <tr>
+            <td>
+                <div class='cov-section-header'>associations/_Association.js</div>
+            </td>
+            <td class="cov-stats">
+                <div>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>84.91</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>521</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>159</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>24</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class='source' id="associations/_Association.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb-proxy"),</code></li>
+<li class='green'><span class=''> </span><code>    define = comb.define,</code></li>
+<li class='green'><span class=''> </span><code>    isUndefined = comb.isUndefined,</code></li>
+<li class='green'><span class=''> </span><code>    isUndefinedOrNull = comb.isUndefinedOrNull,</code></li>
+<li class='green'><span class=''> </span><code>    isBoolean = comb.isBoolean,</code></li>
+<li class='green'><span class=''> </span><code>    isString = comb.isString,</code></li>
+<li class='green'><span class=''> </span><code>    isHash = comb.isHash,</code></li>
+<li class='green'><span class=''> </span><code>    when = comb.when,</code></li>
+<li class='green'><span class=''> </span><code>    isFunction = comb.isFunction,</code></li>
+<li class='green'><span class=''> </span><code>    isInstanceOf = comb.isInstanceOf,</code></li>
+<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
+<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList,</code></li>
+<li class='green'><span class=''> </span><code>    hitch = comb.hitch,</code></li>
+<li class='green'><span class=''> </span><code>    array = comb.array,</code></li>
+<li class='green'><span class=''> </span><code>    toArray = array.toArray,</code></li>
+<li class='green'><span class=''> </span><code>    isArray = comb.isArray,</code></li>
+<li class='green'><span class=''> </span><code>    Middleware = comb.plugins.Middleware,</code></li>
+<li class='green'><span class=''> </span><code>    PatioError = require("../errors").PatioError;</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>1</span><code>var fetch = {</code></li>
+<li class='green'><span class=''> </span><code>    LAZY:"lazy",</code></li>
+<li class='green'><span class=''> </span><code>    EAGER:"eager"</code></li>
+<li class='green'><span class=''> </span><code>};</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>/**</code></li>
+<li class='green'><span class=''> </span><code> * @class</code></li>
+<li class='green'><span class=''> </span><code> * Base class for all associations.</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code> * &lt;b&gt;NOT to be instantiated directly&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code> * Its just documented for reference.</code></li>
+<li class='green'><span class=''> </span><code> *</code></li>
+<li class='green'><span class=''> </span><code> * @constructs</code></li>
+<li class='green'><span class=''> </span><code> * @param {Object} options</code></li>
+<li class='green'><span class=''> </span><code> * @param {String} options.model a string to look up the model that we are associated with</code></li>
+<li class='green'><span class=''> </span><code> * @param {Function} options.filter  a callback to find association if a filter is defined then</code></li>
+<li class='green'><span class=''> </span><code> *                                    the association is read only</code></li>
+<li class='green'><span class=''> </span><code> * @param {Object} options.key object with left key and right key</code></li>
+<li class='green'><span class=''> </span><code> * @param {String|Object} options.orderBy&lt;String|Object&gt; - how to order our association @see Dataset.order</code></li>
+<li class='green'><span class=''> </span><code> * @param {fetch.EAGER|fetch.LAZY} options.fetchType the fetch type of the model if fetch.Eager is supplied then</code></li>
+<li class='green'><span class=''> </span><code> *                                    the associations are automatically filled, if fetch.Lazy is supplied</code></li>
+<li class='green'><span class=''> </span><code> *                                    then a promise is returned and is called back with the loaded models</code></li>
+<li class='green'><span class=''> </span><code> * @property {Model} model the model associatied with this association.</code></li>
+<li class='green'><span class=''> </span><code> * @name Association</code></li>
+<li class='green'><span class=''> </span><code> * @memberOf patio.associations</code></li>
+<li class='green'><span class=''> </span><code> * */</code></li>
+<li class='green'><span class='hits'>1</span><code>define(Middleware, {</code></li>
+<li class='green'><span class=''> </span><code>    instance:{</code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.associations.Association.prototype*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        type:"",</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        //Our associated model</code></li>
+<li class='green'><span class=''> </span><code>        _model:null,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Fetch type</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        fetchType:fetch.LAZY,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**how to order our association*/</code></li>
+<li class='green'><span class=''> </span><code>        orderBy:null,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**Our filter method*/</code></li>
+<li class='green'><span class=''> </span><code>        filter:null,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        __hooks:null,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        isOwner:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        createSetter:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        isCascading:false,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        supportsStringKey:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        supportsHashKey:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        supportsCompositeKey:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        supportsLeftAndRightKey:true,</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *Method to call to look up association,</code></li>
+<li class='green'><span class=''> </span><code>         *called after the model has been filtered</code></li>
+<li class='green'><span class=''> </span><code>         **/</code></li>
+<li class='green'><span class=''> </span><code>        _fetchMethod:"all",</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        constructor:function (options, patio, filter) {</code></li>
+<li class='green'><span class='hits'>55</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>55</span><code>            if (!options.model) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new Error("Model is required for " + this.type + " association");</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>55</span><code>            this._model = options.model;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.patio = patio;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.__opts = options;</code></li>
+<li class='green'><span class='hits'>55</span><code>            !isUndefined(options.isCascading) &amp;&amp; (this.isCascading = options.isCascading);</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.filter = filter;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.readOnly = isBoolean(options.readOnly) ? options.readOnly : false;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.__hooks =</code></li>
+<li class='green'><span class=''> </span><code>            {before:{add:null, remove:null, "set":null, load:null}, after:{add:null, remove:null, "set":null, load:null}};</code></li>
+<li class='green'><span class='hits'>55</span><code>            var hooks = ["Add", "Remove", "Set", "Load"];</code></li>
+<li class='green'><span class='hits'>55</span><code>            ["before", "after"].forEach(function (h) {</code></li>
+<li class='green'><span class='hits'>110</span><code>                hooks.forEach(function (a) {</code></li>
+<li class='green'><span class='hits'>440</span><code>                    var hookName = h + a, hook;</code></li>
+<li class='green'><span class='hits'>440</span><code>                    if (isFunction((hook = options[hookName]))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                        this.__hooks[h][a.toLowerCase()] = hook;</code></li>
+<li class='green'><span class=''> </span><code>                    }</code></li>
+<li class='green'><span class=''> </span><code>                }, this);</code></li>
+<li class='green'><span class=''> </span><code>            }, this);</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.fetchType = options.fetchType || fetch.LAZY;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _callHook:function (hook, action, args) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            var func = this.__hooks[hook][action], ret;</code></li>
+<li class='red'><span class='nohits'>0</span><code>            if (isFunction(func)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ret = func.apply(this, args);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return ret;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _clearAssociations:function (model) {</code></li>
+<li class='green'><span class='hits'>125</span><code>            if (!this.readOnly) {</code></li>
+<li class='green'><span class='hits'>125</span><code>                delete model.__associations[this.name];</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _forceReloadAssociations:function (model) {</code></li>
+<li class='green'><span class='hits'>243</span><code>            if (!this.readOnly) {</code></li>
+<li class='green'><span class='hits'>243</span><code>                delete model.__associations[this.name];</code></li>
+<li class='green'><span class='hits'>243</span><code>                return model[this.name];</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * @return {Boolean} true if the association is eager.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        isEager:function () {</code></li>
+<li class='green'><span class='hits'>2120</span><code>            return this.fetchType === fetch.EAGER;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _checkAssociationKey:function (parent) {</code></li>
+<li class='green'><span class='hits'>787</span><code>            var q = {};</code></li>
+<li class='green'><span class='hits'>787</span><code>            this._setAssociationKeys(parent, q);</code></li>
+<li class='green'><span class='hits'>787</span><code>            return Object.keys(q).every(function (k) {</code></li>
+<li class='green'><span class='hits'>787</span><code>                return q[k] !== null;</code></li>
+<li class='green'><span class=''> </span><code>            });</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getAssociationKey:function () {</code></li>
+<li class='green'><span class='hits'>5213</span><code>            var options = this.__opts, key, ret = [], lk, rk;</code></li>
+<li class='green'><span class='hits'>5213</span><code>            if (!isUndefinedOrNull((key = options.key))) {</code></li>
+<li class='green'><span class='hits'>730</span><code>                if (this.supportsStringKey &amp;&amp; isString(key)) {</code></li>
+<li class='green'><span class=''> </span><code>                    //normalize the key first!</code></li>
+<li class='green'><span class='hits'>364</span><code>                    ret = [</code></li>
+<li class='green'><span class=''> </span><code>                        [this.isOwner ? this.defaultLeftKey : key],</code></li>
+<li class='green'><span class=''> </span><code>                        [this.isOwner ? key : this.defaultRightKey]</code></li>
+<li class='green'><span class=''> </span><code>                    ];</code></li>
+<li class='green'><span class='hits'>366</span><code>                } else if (this.supportsHashKey &amp;&amp; isHash(key)) {</code></li>
+<li class='green'><span class='hits'>366</span><code>                    var leftKey = Object.keys(key)[0];</code></li>
+<li class='green'><span class='hits'>366</span><code>                    var rightKey = key[leftKey];</code></li>
+<li class='green'><span class='hits'>366</span><code>                    ret = [</code></li>
+<li class='green'><span class=''> </span><code>                        [leftKey],</code></li>
+<li class='green'><span class=''> </span><code>                        [rightKey]</code></li>
+<li class='green'><span class=''> </span><code>                    ];</code></li>
+<li class='red'><span class='nohits'>0</span><code>                } else if (this.supportsCompositeKey &amp;&amp; isArray(key)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    ret = [</code></li>
+<li class='green'><span class=''> </span><code>                        [key],</code></li>
+<li class='green'><span class=''> </span><code>                        null</code></li>
+<li class='green'><span class=''> </span><code>                    ];</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class='hits'>4483</span><code>            } else if (this.supportsLeftAndRightKey &amp;&amp; (!isUndefinedOrNull((lk = options.leftKey)) &amp;&amp; !isUndefinedOrNull((rk = options.rightKey)))) {</code></li>
+<li class='green'><span class='hits'>140</span><code>                ret = [</code></li>
+<li class='green'><span class=''> </span><code>                    toArray(lk), toArray(rk)</code></li>
+<li class='green'><span class=''> </span><code>                ];</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class=''> </span><code>                //todo handle composite primary keys</code></li>
+<li class='green'><span class='hits'>4343</span><code>                ret = [</code></li>
+<li class='green'><span class=''> </span><code>                    [this.defaultLeftKey],</code></li>
+<li class='green'><span class=''> </span><code>                    [this.defaultRightKey]</code></li>
+<li class='green'><span class=''> </span><code>                ];</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>5213</span><code>            return ret;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _setAssociationKeys:function (parent, model, val) {</code></li>
+<li class='green'><span class='hits'>1577</span><code>            var keys = this._getAssociationKey(parent), leftKey = keys[0], rightKey = keys[1], i = leftKey.length - 1;</code></li>
+<li class='green'><span class='hits'>1577</span><code>            if (leftKey &amp;&amp; rightKey) {</code></li>
+<li class='green'><span class='hits'>1577</span><code>                for (; i &gt;= 0; i--) {</code></li>
+<li class='green'><span class='hits'>1577</span><code>                    model[rightKey[i]] = !isUndefined(val) ? val : parent[leftKey[i]];</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                for (; i &gt;= 0; i--) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    var k = leftKey[i];</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    model[k] = !isUndefined(val) ? val : parent[k];</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _setDatasetOptions:function (ds) {</code></li>
+<li class='green'><span class='hits'>976</span><code>            var options = this.__opts || {};</code></li>
+<li class='green'><span class='hits'>976</span><code>            var order, limit, distinct, select, query;</code></li>
+<li class='green'><span class=''> </span><code>            //allow for multi key ordering</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((select = this.select))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.select.apply(ds, toArray(select));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((query = options.query)) || !isUndefined((query = options.conditions))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.filter(query);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (isFunction(this.filter)) {</code></li>
+<li class='green'><span class='hits'>334</span><code>                var ret = this.filter.apply(this, [ds]);</code></li>
+<li class='green'><span class='hits'>334</span><code>                if (isInstanceOf(ret, ds._static)) {</code></li>
+<li class='green'><span class='hits'>334</span><code>                    ds = ret;</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((distinct = options.distinct))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.limit.apply(ds, toArray(distinct));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((order = options.orderBy)) || !isUndefined((order = options.order))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.order.apply(ds, toArray(order));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((limit = options.limit))) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.limit.apply(ds, toArray(limit));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>976</span><code>            return ds;</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         *Filters our associated dataset to load our association.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         *@return {Dataset} the dataset with all filters applied.</code></li>
+<li class='green'><span class=''> </span><code>         **/</code></li>
+<li class='green'><span class=''> </span><code>        _filter:function (parent) {</code></li>
+<li class='green'><span class='hits'>650</span><code>            var options = this.__opts || {};</code></li>
+<li class='green'><span class='hits'>650</span><code>            var ds;</code></li>
+<li class='green'><span class='hits'>650</span><code>            if (!isUndefined((ds = options.dataset)) &amp;&amp; isFunction(ds)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds = ds.apply(parent, [parent]);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>650</span><code>            if (!ds) {</code></li>
+<li class='green'><span class='hits'>650</span><code>                var q = {};</code></li>
+<li class='green'><span class='hits'>650</span><code>                this._setAssociationKeys(parent, q);</code></li>
+<li class='green'><span class='hits'>650</span><code>                ds = this.model.dataset.naked().filter(q);</code></li>
+<li class='green'><span class='hits'>650</span><code>                var recip = this.model._findAssociation(this);</code></li>
+<li class='green'><span class='hits'>650</span><code>                recip &amp;&amp; (recip = recip[1]);</code></li>
+<li class='green'><span class='hits'>650</span><code>                ds.rowCb = hitch(this, function (item) {</code></li>
+<li class='green'><span class='hits'>495</span><code>                    var ret = new Promise();</code></li>
+<li class='green'><span class='hits'>495</span><code>                    var model = this._toModel(item, true);</code></li>
+<li class='green'><span class='hits'>495</span><code>                    recip &amp;&amp; recip.__setValue(model, parent);</code></li>
+<li class='green'><span class=''> </span><code>                    //call hook to finish other model associations</code></li>
+<li class='green'><span class='hits'>495</span><code>                    return model._hook("post", "load").chain(model);</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ds.rowCb = hitch(this, function (item) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    var model = this._toModel(item, true);</code></li>
+<li class='green'><span class=''> </span><code>                    //call hook to finish other model associations</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return model._hook("post", "load").chain(model);</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>650</span><code>            return this._setDatasetOptions(ds);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        __setValue:function (parent, model) {</code></li>
+<li class='green'><span class='hits'>2067</span><code>            parent.__associations[this.name] = this._fetchMethod</code></li>
+<li class='green'><span class=''> </span><code>                === "all" ? !isArray(model) ? [model] : model : isArray(model) ? model[0] : model;</code></li>
+<li class='green'><span class='hits'>2067</span><code>            return parent.__associations[this.name];</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        fetch:function (parent) {</code></li>
+<li class='green'><span class='hits'>787</span><code>            var ret = new Promise();</code></li>
+<li class='green'><span class='hits'>787</span><code>            if (this._checkAssociationKey(parent)) {</code></li>
+<li class='green'><span class='hits'>735</span><code>                return this._filter(parent)[this._fetchMethod]().chain(function (result) {</code></li>
+<li class='green'><span class='hits'>735</span><code>                    this.__setValue(parent, result);</code></li>
+<li class='green'><span class='hits'>735</span><code>                    parent = null;</code></li>
+<li class='green'><span class='hits'>735</span><code>                    return result;</code></li>
+<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class='hits'>52</span><code>                this.__setValue(parent, null);</code></li>
+<li class='green'><span class='hits'>52</span><code>                ret.callback(null);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>52</span><code>            return ret;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called before a model is removed.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being acted up.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _preRemove:function (next, model) {</code></li>
+<li class='green'><span class='hits'>223</span><code>            if (this.isOwner &amp;&amp; !this.isCascading) {</code></li>
+<li class='green'><span class='hits'>46</span><code>                var q = {};</code></li>
+<li class='green'><span class='hits'>46</span><code>                this._setAssociationKeys(model, q, null);</code></li>
+<li class='green'><span class='hits'>46</span><code>                model[this.associatedDatasetName].update(q).classic(next);</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class='hits'>177</span><code>                next();</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called aft era model is removed.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _postRemove:function (next, model) {</code></li>
+<li class='green'><span class='hits'>514</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called before a model is saved.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _preSave:function (next, model) {</code></li>
+<li class='green'><span class='hits'>324</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called after a model is saved.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _postSave:function (next, model) {</code></li>
+<li class='green'><span class='hits'>198</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called before a model is updated.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _preUpdate:function (next, model) {</code></li>
+<li class='green'><span class='hits'>2</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called before a model is updated.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _postUpdate:function (next, model) {</code></li>
+<li class='green'><span class='hits'>129</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called before a model is loaded.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _preLoad:function (next, model) {</code></li>
+<li class='green'><span class='hits'>1576</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Middleware called after a model is loaded.</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _postLoad:function (next, model) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            next();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Alias used to explicitly set an association on a model.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} val the value to set the association to</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _setter:function (val, model) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            model.__associations[this.name] = val;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        associationLoaded:function (model) {</code></li>
+<li class='green'><span class='hits'>2715</span><code>            return model.__associations.hasOwnProperty(this.name);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        getAssociation:function (model) {</code></li>
+<li class='green'><span class='hits'>887</span><code>            return model.__associations[this.name];</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Alias used to explicitly get an association on a model.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        _getter:function (model) {</code></li>
+<li class='green'><span class=''> </span><code>            //if we have them return them;</code></li>
+<li class='green'><span class='hits'>612</span><code>            if (this.associationLoaded(model)) {</code></li>
+<li class='green'><span class='hits'>220</span><code>                var assoc = this.getAssociation(model);</code></li>
+<li class='green'><span class='hits'>220</span><code>                return this.isEager() ? assoc : when(assoc)</code></li>
+<li class='green'><span class='hits'>392</span><code>            } else if (model.isNew) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return null;</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class='hits'>392</span><code>                return this.fetch(model);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _toModel:function (val, fromDb) {</code></li>
+<li class='green'><span class='hits'>1418</span><code>            var Model = this.model;</code></li>
+<li class='green'><span class='hits'>1418</span><code>            if (!isUndefinedOrNull(Model)) {</code></li>
+<li class='green'><span class='hits'>1418</span><code>                if (!isInstanceOf(val, Model)) {</code></li>
+<li class='green'><span class='hits'>1173</span><code>                    val = new this.model(val, fromDb);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw new PatioError("Invalid model " + this.name);</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>1418</span><code>            return val;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Method to inject functionality into a model. This method alters the model</code></li>
+<li class='green'><span class=''> </span><code>         * to prepare it for associations, and initializes all required middleware calls</code></li>
+<li class='green'><span class=''> </span><code>         * to fulfill requirements needed to loaded the associations.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Model} parent the model that is having an associtaion set on it.</code></li>
+<li class='green'><span class=''> </span><code>         * @param {String} name the name of the association.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        inject:function (parent, name) {</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.name = name;</code></li>
+<li class='green'><span class='hits'>55</span><code>            var self = this;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.parent = parent;</code></li>
+<li class='green'><span class='hits'>55</span><code>            var parentProto = parent.prototype;</code></li>
+<li class='green'><span class='hits'>55</span><code>            parentProto.__defineGetter__(name, function () {</code></li>
+<li class='green'><span class='hits'>612</span><code>                return  self._getter(this);</code></li>
+<li class='green'><span class=''> </span><code>            });</code></li>
+<li class='green'><span class='hits'>55</span><code>            parentProto.__defineGetter__(this.associatedDatasetName, function () {</code></li>
+<li class='green'><span class='hits'>146</span><code>                return  self._filter(this);</code></li>
+<li class='green'><span class=''> </span><code>            });</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>55</span><code>            if (!this.readOnly &amp;&amp; this.createSetter) {</code></li>
+<li class='green'><span class=''> </span><code>                //define a setter because we arent read only</code></li>
+<li class='green'><span class='hits'>55</span><code>                parentProto.__defineSetter__(name, function (vals) {</code></li>
+<li class='green'><span class='hits'>139</span><code>                    self._setter(vals, this);</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            //set up all callbacks</code></li>
+<li class='green'><span class='hits'>55</span><code>            ["pre", "post"].forEach(function (op) {</code></li>
+<li class='green'><span class='hits'>110</span><code>                ["save", "update", "remove", "load"].forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>440</span><code>                    parent[op](type, function (next) {</code></li>
+<li class='green'><span class='hits'>5614</span><code>                        return self["_" + op + type.charAt(0).toUpperCase() + type.slice(1)](next, this);</code></li>
+<li class='green'><span class=''> </span><code>                    });</code></li>
+<li class='green'><span class=''> </span><code>                }, this);</code></li>
+<li class='green'><span class=''> </span><code>            }, this);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        getters:{</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            select:function () {</code></li>
+<li class='green'><span class='hits'>650</span><code>                return this.__opts.select;</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            defaultLeftKey:function () {</code></li>
+<li class='green'><span class='hits'>2843</span><code>                var ret = "";</code></li>
+<li class='green'><span class='hits'>2843</span><code>                if (this.isOwner) {</code></li>
+<li class='green'><span class='hits'>2097</span><code>                    ret = this.__opts.primaryKey || this.parent.primaryKey[0]</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='green'><span class='hits'>746</span><code>                    ret = this.model.tableName + "Id";</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class='hits'>2843</span><code>                return ret;</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            defaultRightKey:function () {</code></li>
+<li class='green'><span class='hits'>2727</span><code>                return this.associatedModelKey;</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            //Returns our model</code></li>
+<li class='green'><span class=''> </span><code>            model:function () {</code></li>
+<li class='green'><span class='hits'>10596</span><code>                return this.patio.getModel(this._model, this.parent.db);</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            associatedModelKey:function () {</code></li>
+<li class='green'><span class='hits'>2727</span><code>                var ret = "";</code></li>
+<li class='green'><span class='hits'>2727</span><code>                if (this.isOwner) {</code></li>
+<li class='green'><span class='hits'>1857</span><code>                    ret = this.__opts.primaryKey || this.parent.tableName + "Id";</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='green'><span class='hits'>870</span><code>                    ret = this.model.primaryKey[0];</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class='hits'>2727</span><code>                return ret;</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            associatedDatasetName:function () {</code></li>
+<li class='green'><span class='hits'>201</span><code>                return this.name + "Dataset";</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            removeAssociationFlagName:function () {</code></li>
+<li class='green'><span class='hits'>27</span><code>                return "__remove" + this.name + "association";</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>    static:{</code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.associations.Association*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        fetch:{</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            LAZY:"lazy",</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            EAGER:"eager"</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    }</code></li>
+<li class='green'><span class=''> </span><code>}).as(module);</code></li></ol></pre></div>
+</div>
+
 <div class="cov-section cov-section-hover cov-section-med" id="dataset/index.js">
     <table class='section-table'>
         <tr>
@@ -6059,539 +6598,6 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>}).as(module);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li></ol></pre></div>
-</div>
-
-<div class="cov-section cov-section-hover cov-section-med" id="associations/_Association.js">
-    <table class='section-table'>
-        <tr>
-            <td>
-                <div class='cov-section-header'>associations/_Association.js</div>
-            </td>
-            <td class="cov-stats">
-                <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>86.54</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>515</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>156</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>21</span>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div class='source' id="associations/_Association.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb-proxy"),</code></li>
-<li class='green'><span class=''> </span><code>    define = comb.define,</code></li>
-<li class='green'><span class=''> </span><code>    isUndefined = comb.isUndefined,</code></li>
-<li class='green'><span class=''> </span><code>    isUndefinedOrNull = comb.isUndefinedOrNull,</code></li>
-<li class='green'><span class=''> </span><code>    isBoolean = comb.isBoolean,</code></li>
-<li class='green'><span class=''> </span><code>    isString = comb.isString,</code></li>
-<li class='green'><span class=''> </span><code>    isHash = comb.isHash,</code></li>
-<li class='green'><span class=''> </span><code>    when = comb.when,</code></li>
-<li class='green'><span class=''> </span><code>    isFunction = comb.isFunction,</code></li>
-<li class='green'><span class=''> </span><code>    isInstanceOf = comb.isInstanceOf,</code></li>
-<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
-<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList,</code></li>
-<li class='green'><span class=''> </span><code>    hitch = comb.hitch,</code></li>
-<li class='green'><span class=''> </span><code>    array = comb.array,</code></li>
-<li class='green'><span class=''> </span><code>    toArray = array.toArray,</code></li>
-<li class='green'><span class=''> </span><code>    isArray = comb.isArray,</code></li>
-<li class='green'><span class=''> </span><code>    Middleware = comb.plugins.Middleware,</code></li>
-<li class='green'><span class=''> </span><code>    PatioError = require("../errors").PatioError;</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>var fetch = {</code></li>
-<li class='green'><span class=''> </span><code>    LAZY:"lazy",</code></li>
-<li class='green'><span class=''> </span><code>    EAGER:"eager"</code></li>
-<li class='green'><span class=''> </span><code>};</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>/**</code></li>
-<li class='green'><span class=''> </span><code> * @class</code></li>
-<li class='green'><span class=''> </span><code> * Base class for all associations.</code></li>
-<li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code> * &lt;b&gt;NOT to be instantiated directly&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code> * Its just documented for reference.</code></li>
-<li class='green'><span class=''> </span><code> *</code></li>
-<li class='green'><span class=''> </span><code> * @constructs</code></li>
-<li class='green'><span class=''> </span><code> * @param {Object} options</code></li>
-<li class='green'><span class=''> </span><code> * @param {String} options.model a string to look up the model that we are associated with</code></li>
-<li class='green'><span class=''> </span><code> * @param {Function} options.filter  a callback to find association if a filter is defined then</code></li>
-<li class='green'><span class=''> </span><code> *                                    the association is read only</code></li>
-<li class='green'><span class=''> </span><code> * @param {Object} options.key object with left key and right key</code></li>
-<li class='green'><span class=''> </span><code> * @param {String|Object} options.orderBy&lt;String|Object&gt; - how to order our association @see Dataset.order</code></li>
-<li class='green'><span class=''> </span><code> * @param {fetch.EAGER|fetch.LAZY} options.fetchType the fetch type of the model if fetch.Eager is supplied then</code></li>
-<li class='green'><span class=''> </span><code> *                                    the associations are automatically filled, if fetch.Lazy is supplied</code></li>
-<li class='green'><span class=''> </span><code> *                                    then a promise is returned and is called back with the loaded models</code></li>
-<li class='green'><span class=''> </span><code> * @property {Model} model the model associatied with this association.</code></li>
-<li class='green'><span class=''> </span><code> * @name Association</code></li>
-<li class='green'><span class=''> </span><code> * @memberOf patio.associations</code></li>
-<li class='green'><span class=''> </span><code> * */</code></li>
-<li class='green'><span class='hits'>1</span><code>define(Middleware, {</code></li>
-<li class='green'><span class=''> </span><code>    instance:{</code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.associations.Association.prototype*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        type:"",</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        //Our associated model</code></li>
-<li class='green'><span class=''> </span><code>        _model:null,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Fetch type</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        fetchType:fetch.LAZY,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**how to order our association*/</code></li>
-<li class='green'><span class=''> </span><code>        orderBy:null,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**Our filter method*/</code></li>
-<li class='green'><span class=''> </span><code>        filter:null,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        __hooks:null,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        isOwner:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        createSetter:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        isCascading:false,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        supportsStringKey:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        supportsHashKey:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        supportsCompositeKey:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        supportsLeftAndRightKey:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *Method to call to look up association,</code></li>
-<li class='green'><span class=''> </span><code>         *called after the model has been filtered</code></li>
-<li class='green'><span class=''> </span><code>         **/</code></li>
-<li class='green'><span class=''> </span><code>        _fetchMethod:"all",</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        constructor:function (options, patio, filter) {</code></li>
-<li class='green'><span class='hits'>55</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>55</span><code>            if (!options.model) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new Error("Model is required for " + this.type + " association");</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>55</span><code>            this._model = options.model;</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.patio = patio;</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.__opts = options;</code></li>
-<li class='green'><span class='hits'>55</span><code>            !isUndefined(options.isCascading) &amp;&amp; (this.isCascading = options.isCascading);</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.filter = filter;</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.readOnly = isBoolean(options.readOnly) ? options.readOnly : false;</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.__hooks =</code></li>
-<li class='green'><span class=''> </span><code>            {before:{add:null, remove:null, "set":null, load:null}, after:{add:null, remove:null, "set":null, load:null}};</code></li>
-<li class='green'><span class='hits'>55</span><code>            var hooks = ["Add", "Remove", "Set", "Load"];</code></li>
-<li class='green'><span class='hits'>55</span><code>            ["before", "after"].forEach(function (h) {</code></li>
-<li class='green'><span class='hits'>110</span><code>                hooks.forEach(function (a) {</code></li>
-<li class='green'><span class='hits'>440</span><code>                    var hookName = h + a, hook;</code></li>
-<li class='green'><span class='hits'>440</span><code>                    if (isFunction((hook = options[hookName]))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        this.__hooks[h][a.toLowerCase()] = hook;</code></li>
-<li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class=''> </span><code>                }, this);</code></li>
-<li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.fetchType = options.fetchType || fetch.LAZY;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _callHook:function (hook, action, args) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            var func = this.__hooks[hook][action], ret;</code></li>
-<li class='red'><span class='nohits'>0</span><code>            if (isFunction(func)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ret = func.apply(this, args);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='red'><span class='nohits'>0</span><code>            return ret;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _clearAssociations:function (model) {</code></li>
-<li class='green'><span class='hits'>125</span><code>            if (!this.readOnly) {</code></li>
-<li class='green'><span class='hits'>125</span><code>                delete model.__associations[this.name];</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _forceReloadAssociations:function (model) {</code></li>
-<li class='green'><span class='hits'>243</span><code>            if (!this.readOnly) {</code></li>
-<li class='green'><span class='hits'>243</span><code>                delete model.__associations[this.name];</code></li>
-<li class='green'><span class='hits'>243</span><code>                return model[this.name];</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * @return {Boolean} true if the association is eager.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        isEager:function () {</code></li>
-<li class='green'><span class='hits'>2120</span><code>            return this.fetchType === fetch.EAGER;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _checkAssociationKey:function (parent) {</code></li>
-<li class='green'><span class='hits'>787</span><code>            var q = {};</code></li>
-<li class='green'><span class='hits'>787</span><code>            this._setAssociationKeys(parent, q);</code></li>
-<li class='green'><span class='hits'>787</span><code>            return Object.keys(q).every(function (k) {</code></li>
-<li class='green'><span class='hits'>787</span><code>                return q[k] !== null;</code></li>
-<li class='green'><span class=''> </span><code>            });</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _getAssociationKey:function () {</code></li>
-<li class='green'><span class='hits'>5213</span><code>            var options = this.__opts, key, ret = [], lk, rk;</code></li>
-<li class='green'><span class='hits'>5213</span><code>            if (!isUndefinedOrNull((key = options.key))) {</code></li>
-<li class='green'><span class='hits'>730</span><code>                if (this.supportsStringKey &amp;&amp; isString(key)) {</code></li>
-<li class='green'><span class=''> </span><code>                    //normalize the key first!</code></li>
-<li class='green'><span class='hits'>364</span><code>                    ret = [</code></li>
-<li class='green'><span class=''> </span><code>                        [this.isOwner ? this.defaultLeftKey : key],</code></li>
-<li class='green'><span class=''> </span><code>                        [this.isOwner ? key : this.defaultRightKey]</code></li>
-<li class='green'><span class=''> </span><code>                    ];</code></li>
-<li class='green'><span class='hits'>366</span><code>                } else if (this.supportsHashKey &amp;&amp; isHash(key)) {</code></li>
-<li class='green'><span class='hits'>366</span><code>                    var leftKey = Object.keys(key)[0];</code></li>
-<li class='green'><span class='hits'>366</span><code>                    var rightKey = key[leftKey];</code></li>
-<li class='green'><span class='hits'>366</span><code>                    ret = [</code></li>
-<li class='green'><span class=''> </span><code>                        [leftKey],</code></li>
-<li class='green'><span class=''> </span><code>                        [rightKey]</code></li>
-<li class='green'><span class=''> </span><code>                    ];</code></li>
-<li class='red'><span class='nohits'>0</span><code>                } else if (this.supportsCompositeKey &amp;&amp; isArray(key)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    ret = [</code></li>
-<li class='green'><span class=''> </span><code>                        [key],</code></li>
-<li class='green'><span class=''> </span><code>                        null</code></li>
-<li class='green'><span class=''> </span><code>                    ];</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>4483</span><code>            } else if (this.supportsLeftAndRightKey &amp;&amp; (!isUndefinedOrNull((lk = options.leftKey)) &amp;&amp; !isUndefinedOrNull((rk = options.rightKey)))) {</code></li>
-<li class='green'><span class='hits'>140</span><code>                ret = [</code></li>
-<li class='green'><span class=''> </span><code>                    toArray(lk), toArray(rk)</code></li>
-<li class='green'><span class=''> </span><code>                ];</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class=''> </span><code>                //todo handle composite primary keys</code></li>
-<li class='green'><span class='hits'>4343</span><code>                ret = [</code></li>
-<li class='green'><span class=''> </span><code>                    [this.defaultLeftKey],</code></li>
-<li class='green'><span class=''> </span><code>                    [this.defaultRightKey]</code></li>
-<li class='green'><span class=''> </span><code>                ];</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>5213</span><code>            return ret;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _setAssociationKeys:function (parent, model, val) {</code></li>
-<li class='green'><span class='hits'>1577</span><code>            var keys = this._getAssociationKey(parent), leftKey = keys[0], rightKey = keys[1], i = leftKey.length - 1;</code></li>
-<li class='green'><span class='hits'>1577</span><code>            if (leftKey &amp;&amp; rightKey) {</code></li>
-<li class='green'><span class='hits'>1577</span><code>                for (; i &gt;= 0; i--) {</code></li>
-<li class='green'><span class='hits'>1577</span><code>                    model[rightKey[i]] = !isUndefined(val) ? val : parent[leftKey[i]];</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                for (; i &gt;= 0; i--) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    var k = leftKey[i];</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    model[k] = !isUndefined(val) ? val : parent[k];</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _setDatasetOptions:function (ds) {</code></li>
-<li class='green'><span class='hits'>976</span><code>            var options = this.__opts || {};</code></li>
-<li class='green'><span class='hits'>976</span><code>            var order, limit, distinct, select, query;</code></li>
-<li class='green'><span class=''> </span><code>            //allow for multi key ordering</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((select = this.select))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.select.apply(ds, toArray(select));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((query = options.query)) || !isUndefined((query = options.conditions))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.filter(query);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (isFunction(this.filter)) {</code></li>
-<li class='green'><span class='hits'>334</span><code>                var ret = this.filter.apply(this, [ds]);</code></li>
-<li class='green'><span class='hits'>334</span><code>                if (isInstanceOf(ret, ds._static)) {</code></li>
-<li class='green'><span class='hits'>334</span><code>                    ds = ret;</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((distinct = options.distinct))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.limit.apply(ds, toArray(distinct));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((order = options.orderBy)) || !isUndefined((order = options.order))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.order.apply(ds, toArray(order));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            if (!isUndefined((limit = options.limit))) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.limit.apply(ds, toArray(limit));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>976</span><code>            return ds;</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         *Filters our associated dataset to load our association.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         *@return {Dataset} the dataset with all filters applied.</code></li>
-<li class='green'><span class=''> </span><code>         **/</code></li>
-<li class='green'><span class=''> </span><code>        _filter:function (parent) {</code></li>
-<li class='green'><span class='hits'>650</span><code>            var options = this.__opts || {};</code></li>
-<li class='green'><span class='hits'>650</span><code>            var ds;</code></li>
-<li class='green'><span class='hits'>650</span><code>            if (!isUndefined((ds = options.dataset)) &amp;&amp; isFunction(ds)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ds = ds.apply(parent, [parent]);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>650</span><code>            if (!ds) {</code></li>
-<li class='green'><span class='hits'>650</span><code>                var q = {};</code></li>
-<li class='green'><span class='hits'>650</span><code>                this._setAssociationKeys(parent, q);</code></li>
-<li class='green'><span class='hits'>650</span><code>                ds = this.model.dataset.naked().filter(q);</code></li>
-<li class='green'><span class='hits'>650</span><code>                var recip = this.model._findAssociation(this);</code></li>
-<li class='green'><span class='hits'>650</span><code>                recip &amp;&amp; (recip = recip[1]);</code></li>
-<li class='green'><span class='hits'>650</span><code>                ds.rowCb = hitch(this, function (item) {</code></li>
-<li class='green'><span class='hits'>495</span><code>                    var ret = new Promise();</code></li>
-<li class='green'><span class='hits'>495</span><code>                    var model = this._toModel(item, true);</code></li>
-<li class='green'><span class='hits'>495</span><code>                    recip &amp;&amp; recip.__setValue(model, parent);</code></li>
-<li class='green'><span class=''> </span><code>                    //call hook to finish other model associations</code></li>
-<li class='green'><span class='hits'>495</span><code>                    return model._hook("post", "load").chain(model);</code></li>
-<li class='green'><span class=''> </span><code>                });</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>650</span><code>            return this._setDatasetOptions(ds);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        __setValue:function (parent, model) {</code></li>
-<li class='green'><span class='hits'>2067</span><code>            parent.__associations[this.name] = this._fetchMethod</code></li>
-<li class='green'><span class=''> </span><code>                === "all" ? !isArray(model) ? [model] : model : isArray(model) ? model[0] : model;</code></li>
-<li class='green'><span class='hits'>2067</span><code>            return parent.__associations[this.name];</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        fetch:function (parent) {</code></li>
-<li class='green'><span class='hits'>787</span><code>            var ret = new Promise();</code></li>
-<li class='green'><span class='hits'>787</span><code>            if (this._checkAssociationKey(parent)) {</code></li>
-<li class='green'><span class='hits'>735</span><code>                return this._filter(parent)[this._fetchMethod]().chain(function (result) {</code></li>
-<li class='green'><span class='hits'>735</span><code>                    this.__setValue(parent, result);</code></li>
-<li class='green'><span class='hits'>735</span><code>                    parent = null;</code></li>
-<li class='green'><span class='hits'>735</span><code>                    return result;</code></li>
-<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>52</span><code>                this.__setValue(parent, null);</code></li>
-<li class='green'><span class='hits'>52</span><code>                ret.callback(null);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>52</span><code>            return ret;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called before a model is removed.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being acted up.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _preRemove:function (next, model) {</code></li>
-<li class='green'><span class='hits'>223</span><code>            if (this.isOwner &amp;&amp; !this.isCascading) {</code></li>
-<li class='green'><span class='hits'>46</span><code>                var q = {};</code></li>
-<li class='green'><span class='hits'>46</span><code>                this._setAssociationKeys(model, q, null);</code></li>
-<li class='green'><span class='hits'>46</span><code>                model[this.associatedDatasetName].update(q).classic(next);</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>177</span><code>                next();</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called aft era model is removed.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _postRemove:function (next, model) {</code></li>
-<li class='green'><span class='hits'>514</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called before a model is saved.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _preSave:function (next, model) {</code></li>
-<li class='green'><span class='hits'>324</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called after a model is saved.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _postSave:function (next, model) {</code></li>
-<li class='green'><span class='hits'>198</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called before a model is updated.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _preUpdate:function (next, model) {</code></li>
-<li class='green'><span class='hits'>2</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called before a model is updated.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _postUpdate:function (next, model) {</code></li>
-<li class='green'><span class='hits'>129</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called before a model is loaded.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _preLoad:function (next, model) {</code></li>
-<li class='green'><span class='hits'>1576</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Middleware called after a model is loaded.</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;/br&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * &lt;b&gt; This is called in the scope of the model&lt;/b&gt;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Function} next function to pass control up the middleware stack.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _postLoad:function (next, model) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            next();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Alias used to explicitly set an association on a model.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} val the value to set the association to</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _setter:function (val, model) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            model.__associations[this.name] = val;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        associationLoaded:function (model) {</code></li>
-<li class='green'><span class='hits'>2715</span><code>            return model.__associations.hasOwnProperty(this.name);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        getAssociation:function (model) {</code></li>
-<li class='green'><span class='hits'>887</span><code>            return model.__associations[this.name];</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Alias used to explicitly get an association on a model.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {_Association} self reference to the Association that is being called.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        _getter:function (model) {</code></li>
-<li class='green'><span class=''> </span><code>            //if we have them return them;</code></li>
-<li class='green'><span class='hits'>612</span><code>            if (this.associationLoaded(model)) {</code></li>
-<li class='green'><span class='hits'>220</span><code>                var assoc = this.getAssociation(model);</code></li>
-<li class='green'><span class='hits'>220</span><code>                return this.isEager() ? assoc : when(assoc)</code></li>
-<li class='green'><span class='hits'>392</span><code>            } else if (model.isNew) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                return null;</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>392</span><code>                return this.fetch(model);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        _toModel:function (val, fromDb) {</code></li>
-<li class='green'><span class='hits'>1418</span><code>            var Model = this.model;</code></li>
-<li class='green'><span class='hits'>1418</span><code>            if (!isUndefinedOrNull(Model)) {</code></li>
-<li class='green'><span class='hits'>1418</span><code>                if (!isInstanceOf(val, Model)) {</code></li>
-<li class='green'><span class='hits'>1173</span><code>                    val = new this.model(val, fromDb);</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw new PatioError("Invalid model " + this.name);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>1418</span><code>            return val;</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Method to inject functionality into a model. This method alters the model</code></li>
-<li class='green'><span class=''> </span><code>         * to prepare it for associations, and initializes all required middleware calls</code></li>
-<li class='green'><span class=''> </span><code>         * to fulfill requirements needed to loaded the associations.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {Model} parent the model that is having an associtaion set on it.</code></li>
-<li class='green'><span class=''> </span><code>         * @param {String} name the name of the association.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        inject:function (parent, name) {</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.name = name;</code></li>
-<li class='green'><span class='hits'>55</span><code>            var self = this;</code></li>
-<li class='green'><span class='hits'>55</span><code>            this.parent = parent;</code></li>
-<li class='green'><span class='hits'>55</span><code>            var parentProto = parent.prototype;</code></li>
-<li class='green'><span class='hits'>55</span><code>            parentProto.__defineGetter__(name, function () {</code></li>
-<li class='green'><span class='hits'>612</span><code>                return  self._getter(this);</code></li>
-<li class='green'><span class=''> </span><code>            });</code></li>
-<li class='green'><span class='hits'>55</span><code>            parentProto.__defineGetter__(this.associatedDatasetName, function () {</code></li>
-<li class='green'><span class='hits'>146</span><code>                return  self._filter(this);</code></li>
-<li class='green'><span class=''> </span><code>            });</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>55</span><code>            if (!this.readOnly &amp;&amp; this.createSetter) {</code></li>
-<li class='green'><span class=''> </span><code>                //define a setter because we arent read only</code></li>
-<li class='green'><span class='hits'>55</span><code>                parentProto.__defineSetter__(name, function (vals) {</code></li>
-<li class='green'><span class='hits'>139</span><code>                    self._setter(vals, this);</code></li>
-<li class='green'><span class=''> </span><code>                });</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            //set up all callbacks</code></li>
-<li class='green'><span class='hits'>55</span><code>            ["pre", "post"].forEach(function (op) {</code></li>
-<li class='green'><span class='hits'>110</span><code>                ["save", "update", "remove", "load"].forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>440</span><code>                    parent[op](type, function (next) {</code></li>
-<li class='green'><span class='hits'>5614</span><code>                        return self["_" + op + type.charAt(0).toUpperCase() + type.slice(1)](next, this);</code></li>
-<li class='green'><span class=''> </span><code>                    });</code></li>
-<li class='green'><span class=''> </span><code>                }, this);</code></li>
-<li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        getters:{</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            select:function () {</code></li>
-<li class='green'><span class='hits'>650</span><code>                return this.__opts.select;</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            defaultLeftKey:function () {</code></li>
-<li class='green'><span class='hits'>2843</span><code>                var ret = "";</code></li>
-<li class='green'><span class='hits'>2843</span><code>                if (this.isOwner) {</code></li>
-<li class='green'><span class='hits'>2097</span><code>                    ret = this.__opts.primaryKey || this.parent.primaryKey[0]</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>746</span><code>                    ret = this.model.tableName + "Id";</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>2843</span><code>                return ret;</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            defaultRightKey:function () {</code></li>
-<li class='green'><span class='hits'>2727</span><code>                return this.associatedModelKey;</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            //Returns our model</code></li>
-<li class='green'><span class=''> </span><code>            model:function () {</code></li>
-<li class='green'><span class='hits'>10596</span><code>                return this.patio.getModel(this._model, this.parent.db);</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            associatedModelKey:function () {</code></li>
-<li class='green'><span class='hits'>2727</span><code>                var ret = "";</code></li>
-<li class='green'><span class='hits'>2727</span><code>                if (this.isOwner) {</code></li>
-<li class='green'><span class='hits'>1857</span><code>                    ret = this.__opts.primaryKey || this.parent.tableName + "Id";</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>870</span><code>                    ret = this.model.primaryKey[0];</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>2727</span><code>                return ret;</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            associatedDatasetName:function () {</code></li>
-<li class='green'><span class='hits'>201</span><code>                return this.name + "Dataset";</code></li>
-<li class='green'><span class=''> </span><code>            },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            removeAssociationFlagName:function () {</code></li>
-<li class='green'><span class='hits'>27</span><code>                return "__remove" + this.name + "association";</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    static:{</code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.associations.Association*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        fetch:{</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            LAZY:"lazy",</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>            EAGER:"eager"</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class=''> </span><code>}).as(module);</code></li></ol></pre></div>
 </div>
 
 <div class="cov-section cov-section-hover cov-section-med" id="associations/manyToMany.js">
@@ -7118,14 +7124,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>3091</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>3091</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>3091</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>3091</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>3091</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>3091</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>3091</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>3091</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>3131</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>3131</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>3131</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3131</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>3131</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>3131</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>3131</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>3131</span><code>                if (fromDb) {</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this._hook("pre", "load");</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this.__isNew = false;</code></li>
 <li class='green'><span class='hits'>1760</span><code>                    this.__setFromDb(options, true);</code></li>
@@ -7134,8 +7140,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>1760</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1331</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1331</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1371</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1371</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -7143,15 +7149,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set:function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1455</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1455</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1455</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1495</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1495</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1495</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6634</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6634</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6634</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1455</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1495</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb:function (values, ignore) {</code></li>
@@ -7389,7 +7395,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced:function () {</code></li>
-<li class='green'><span class='hits'>12768</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>12808</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -9356,21 +9362,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1000</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>4</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>1000</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>1004</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>548</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>548</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>542</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9380,8 +9386,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>1000</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>1000</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>1004</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>1004</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -9833,7 +9839,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>1000</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>1004</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10643,13 +10649,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>2341</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>2341</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2341</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>2345</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>2345</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2345</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2341</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2341</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2345</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2345</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11452,7 +11458,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>16671</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>16679</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12052,7 +12058,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3470</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3482</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -16894,10 +16900,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>3091</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>2995</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>3131</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>3015</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>3091</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3131</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload:function () {</code></li>
