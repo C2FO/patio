@@ -9,8 +9,7 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 
-
-it.describe("Many to Many camelize properties", function (it) {
+it.describe("Many to Many camelize properties",function (it) {
 
     var Company, Employee;
     it.beforeAll(function () {

@@ -1,4 +1,10 @@
-#0.1.3  2012-09-10
+#0.1.4 / 2012-09-20
+* added a rowCB for custom dataset model
+* added insert, update and remove sql properties on models
+* re-added jscoverage submodule
+
+
+#0.1.3 / 2012-09-10
 * Added travis CI
 * Code clean up
 * Updated comb version
