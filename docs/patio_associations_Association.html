@@ -657,7 +657,7 @@ function (parent){
            //call hook to finish other model associations
            return model._hook(&quot;post&quot;, &quot;load&quot;).chain(model);
        });
-   } else {
+   } else if (!ds.rowCb &amp;&amp; this.model) {
        ds.rowCb = hitch(this, function (item) {
            var model = this._toModel(item, true);
            //call hook to finish other model associations
