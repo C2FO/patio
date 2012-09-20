@@ -407,7 +407,23 @@ it.describe("patio.Model",function (it) {
                 }, next);
         });
 
+        it.should("have insertSql property", function () {
+            assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
+        });
+
+        it.should("have the updateSql property", function(){
+            assert.isTrue(emp.updateSql.match(/UPDATE +[`|"]employee[`|"] +SET  +WHERE +\([`|"]id[`|"] += +\d+\)/) !== null);
+        });
+
+        it.should("have the removeSql property", function(){
+            assert.isTrue(emp.removeSql.match(/DELETE +FROM +[`|"]employee[`|"] +WHERE +\([`|"]id[`|"] += +\d+\)/) !== null);
+        });
+
+        it.should("have the deleteSql property", function(){
+            assert.isTrue(emp.deleteSql.match(/DELETE +FROM +[`|"]employee[`|"] +WHERE +\([`|"]id[`|"] += +\d+\)/) !== null);
+        })
     });
+
 
     it.should("allow values when initalizing that are not in the schema", function () {
         var m = new Employee({otherVal:"otherVal", firstname:"dougie"}, true);
