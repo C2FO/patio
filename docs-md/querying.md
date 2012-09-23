@@ -356,7 +356,7 @@ You can combine these expression operators with functions:
 User.filter(function(){
     return this.a.gt(1).and(this.b("c").and(this.d)).not();
 });
-``
+```
   
 ###Strings with Placeholders
                 

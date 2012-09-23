@@ -627,448 +627,424 @@ User.filter(sql.name.like(&#39;B%&#39;).and(sql.b.eq(1).or(sql.c.neq(3))));</cod
 <pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE ((a &lt;= 1) OR NOT b(c) OR NOT d)
 User.filter(function(){
     return this.a.gt(1).and(this.b(&quot;c&quot;).and(this.d)).not();
-});
-``
-
-###Strings with Placeholders
-
-patio also supports place holder strings.</code></pre>
-<p>// SELECT * FROM user WHERE name LIKE &#39;B%&#39;
-User.filter(&quot;name LIKE ?&quot;, &#39;B%&#39;)
+});</code></pre>
+<h3>Strings with Placeholders</h3>
+<p>patio also supports place holder strings.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-This is the most common type of placeholder, where each question mark is substituted with the corresponding argument.</code></pre>
-<p>// SELECT * FROM user WHERE name LIKE &#39;B%&#39; AND id = 1
-User.filter(&quot;name LIKE ? AND id = ?&quot;, &#39;B%&#39;, 1)
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can also use named placeholders with an object, where the named placeholders use `{}` that contain the placeholder key name</code></pre>
-<p>//SELECT * FROM user WHERE name LIKE &#39;B%&#39; AND id = 1
-User.filter(&quot;name LIKE {name} AND id = {id}&quot;, {name : &#39;B%&#39;, id : 1});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-###Literal Strings
-
-You can also provide a literal string using the [literal](./patio_sql.html#.literal)</code></pre>
-<p>// SELECT * FROM user WHERE id = 2
-User.filter(sql.literal(&quot;id = 2&quot;))
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-However, if you are using any untrusted input, you should use placeholders. In general, unless you are hardcoding values in the strings, you should use placeholders. You should never pass a string that has been built using concatenation becuase it can lead to SQL injection.</code></pre>
-<p>//id is some user input
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE name LIKE &#39;B%&#39;
+User.filter(&quot;name LIKE ?&quot;, &#39;B%&#39;)</code></pre>
+<p>This is the most common type of placeholder, where each question mark is substituted with the corresponding argument.
 
 </p>
-<p> User.filter(&quot;id = &quot; + id) //id could be anything so dont do it!
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE name LIKE &#39;B%&#39; AND id = 1
+User.filter(&quot;name LIKE ? AND id = ?&quot;, &#39;B%&#39;, 1)</code></pre>
+<p>You can also use named placeholders with an object, where the named placeholders use <code>{}</code> that contain the placeholder key name
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user WHERE name LIKE &#39;B%&#39; AND id = 1
+User.filter(&quot;name LIKE {name} AND id = {id}&quot;, {name : &#39;B%&#39;, id : 1});</code></pre>
+<h3>Literal Strings</h3>
+<p>You can also provide a literal string using the <a href="./patio_sql.html#.literal">literal</a>
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE id = 2
+User.filter(sql.literal(&quot;id = 2&quot;))</code></pre>
+<p>However, if you are using any untrusted input, you should use placeholders. In general, unless you are hardcoding values in the strings, you should use placeholders. You should never pass a string that has been built using concatenation becuase it can lead to SQL injection.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//id is some user input
+
+ User.filter(&quot;id = &quot; + id) //id could be anything so dont do it!
  User.filter(&quot;id = ?&quot;, id) //Do this as patio will escape it
- User.filter({ id : id}) // Best solution!
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-###Inverting filters               
+ User.filter({ id : id}) // Best solution!</code></pre>
+<h3>Inverting filters</h3>
+<p>You can use the <a href=".patio_Dataset.html#invert">invert</a> method.
 
-You can use the [invert](.patio_Dataset.html#invert) method.</code></pre>
-<p>// SELECT * FROM user WHERE id != 5
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE id != 5
 User.filter({id : 5}).invert(); 
 
-</p>
-<p>//OR
+//OR
+
+ // SELECT * FROM user WHERE id != 5
+User.filter({id : {neq : 5}});</code></pre>
+<p><strong>NOTE:</strong> the <a href="./patio_Dataset.html#invert">invert</a> method inverts the entire filter!
 
 </p>
-<p> // SELECT * FROM user WHERE id != 5
-User.filter({id : {neq : 5}});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-**NOTE:** the [invert](./patio_Dataset.html#invert) method inverts the entire filter!</code></pre>
-<p>// SELECT * FROM user WHERE id != 5 OR name &lt;= &#39;A&#39;
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE id != 5 OR name &lt;= &#39;A&#39;
  User.filter({id : 5}).filter(function(){ 
     return this.name.gt(&#39;A&#39;);
-}).invert();
+}).invert();</code></pre>
+<h3>Excluding filters</h3>
+<p>You can use <a href="./patio_Dataset.html#exclude">exclude</a> to invert only specific filters:
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-###Excluding filters
-You can use [exclude](./patio_Dataset.html#exclude) to invert only specific filters:</code></pre>
-<p>// SELECT * FROM user WHERE id != 5
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE id != 5
 User.exclude({id : 5});
 
-</p>
-<p>// SELECT * FROM user WHERE id = 5 OR name &lt;= &#39;A&#39; 
+// SELECT * FROM user WHERE id = 5 OR name &lt;= &#39;A&#39; 
 User.filter({id : 5}).exclude(function(){ 
     return this.name.gt(&#39;A&#39;)
-});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-So to do a NOT IN with an array:</code></pre>
-<p>// SELECT * FROM user WHERE id NOT IN (1, 2)
-User.exclude({id : [1, 2]});
-</p>
-<pre class='prettyprint linenums lang-js'><code>Or to use the NOT LIKE operator:</code></pre>
-<p>// SELECT * FROM user WHERE name NOT LIKE &#39;%o%&#39;
-User.exclude(sql.name.like(&#39;%o%&#39;)) 
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-###Removing
-
-To remove all existing filters, use the [unfiltered](./patio_Dataset.html#unfiltered) method:</code></pre>
-<p> // SELECT * FROM user
- User.filter({id : 1}).unfiltered();
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Ordering
-
-To add order to an SQL statement use the [order](./patio_Dataset.html#order) method.</code></pre>
-<p> // SELECT * FROM user ORDER BY id
- User.order(&quot;id&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can also provide multiple columns to the order method.</code></pre>
-<p> // SELECT * FROM album ORDER BY user_id, id
- User.order(&quot;userId&quot;, &quot;id&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>**Note:** order replaces any existing order</code></pre>
-<p> User.order(&quot;id&quot;).order(&quot;name&quot;);
- // SELECT * FROM user ORDER BY name
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-If you want to append a column to the existing order use the [orderAppend](./patio_Dataset.html#orderAppend) method.</code></pre>
-<p> // SELECT * FROM user ORDER BY id, name
- User.order(&quot;id&quot;).orderAppend(&quot;name&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-If you want to prepend a column to the existing order use the [orderPrepend](./patio_Dataset.html#orderPrepend) method.</code></pre>
-<p> User.order(&quot;id&quot;).orderPrepend(&quot;name&quot;);
- // SELECT * FROM user ORDER BY name, id
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-###Reversing                
-
-To reverse the order of a SQL query use the [reverse](./patio_Dataset.html#reverse) method.</code></pre>
-<p> // SELECT FROM user ORDER BY id DESC
- User.order(&quot;id&quot;).reverse();
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can also use the [desc](./patio_sql_OrderedMethods.html#desc) method.</code></pre>
-<p> // SELECT FROM user ORDER BY id DESC
- User.order(sql.id.desc());
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-This allows for finer grained control of the ordering of columns.</code></pre>
-<p> // SELECT FROM user ORDER BY name, id DESC
- User.order(&quot;name&quot;, sql.id.desc());
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-###Removing
-
-To remove ordering use the [unordered](./patio_Dataset.html#unordered) method:</code></pre>
-<p> User.order(&quot;name&quot;).unordered();
- // SELECT * FROM user
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Selecting columns
-
-To only return certain columns use the [select](./patio_Dataset.html#select) method.</code></pre>
-<p>// SELECT id, name FROM user
-User.select(&quot;id&quot;, &quot;name&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-**NOTE:** If you are dealing with Model objects, you&#39;ll want to include the primary key if you want to update or remove the object. You&#39;ll also want to include any keys (primary or foreign) related to associations you plan to use.
-
-**NOTE:** If a column is not selected, and you attempt to access it, you will get null:</code></pre>
-<p>// SELECT name FROM user LIMIT 1<br>User.select(&quot;name&quot;).first().then(function(user){
-    //user.id === null<br>});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-select replaces any columns previously selected.</code></pre>
-<p> User.select(&quot;id&quot;).select(&quot;name&quot;);
- // SELECT name FROM user
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-Like order you can use the [selectAppend](./patio_Dataset.html#selectAppend) method to append columns to be returned.</code></pre>
-<p>// SELECT id, name FROM user
-User.select(&quot;id&quot;).selectAppend(&quot;name&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-To remove selected columns and revert to `SELECT *` use the [selectAll](./patio_Dataset.html#selectAll) method.</code></pre>
-<p> User.select(&quot;id&quot;).selectAll();
- // SELECT * FROM user
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Distinct
-
-To add a `DISTINCT` clause to filter out duplicate rows use the [distinct](./patio_Dataset.html#distinct) method.
-
-**Note:** `DISTINCT` is separate from the select clause,</code></pre>
-<p>// SELECT DISTINCT name FROM user
-User.distinct().select(&quot;name&quot;)
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Limit and Offset
-
-To limit the number of rows returned use the [limit](./patio_Dataset.html#limit) method.</code></pre>
-<p>//SELECT * FROM user LIMIT 5
-User.limit(5);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-To provide an offset you can provide limit with a second argument.
-
-The following would return the 11th through 15th records in the original dataset.</code></pre>
-<p>// SELECT * FROM user LIMIT 5 OFFSET 10
- User.limit(5, 10);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-To remove the LIMIT and OFFSET clause use the [unlimited](./patio_Dataset.html#unlimited) method.</code></pre>
-<p> // SELECT * FROM user
- User.limit(5, 10).unlimited();
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-
-##Grouping
-
-The GROUP clause is used to results based on the values of a given group of columns. To provide grouping use the [group](./patio_Dataset.html#group) method:</code></pre>
-<p> // SELECT * FROM user GROUP BY user_id
- User.group(&quot;userId&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can remove an existing grouping use the [ungrouped](./patio_Dataset.html#ungrouped) method:</code></pre>
-<p> User.group(&quot;userId&quot;).ungrouped();
- // SELECT * FROM user
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-A common use of grouping is to count based on the number of grouped rows, so patio provides a [groupAndCount](./patio_Dataset.html#groupAndCount) method.</code></pre>
-<p>// SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id
- User.groupAndCount(&quot;userId&quot;);
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Having
-
-The HAVING clause filters the results after the grouping has been applied, instead of before.</code></pre>
-<p> // SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id HAVING count &gt;= 10
- User.groupAndCount(&quot;dateOfBirth&quot;).having({count : {gte : 10}});
+});</code></pre>
+<p>So to do a NOT IN with an array:
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-If you have a HAVING clause then filter will apply the filter to the HAVING clause.</code></pre>
-<p> // SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id HAVING count &gt;= 10 AND count &lt; 15
- User.groupAndCount(&quot;dateOfBirth&quot;).having({count : {gte : 10}}).filter({count : {lt : 15}});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Where                
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE id NOT IN (1, 2)
+User.exclude({id : [1, 2]});</code></pre>
+<p>Or to use the NOT LIKE operator:
 
-Unlike filter, the where method will always affect the WHERE clause:</code></pre>
-<p>// SELECT user_id, COUNT(*) AS count FROM user WHERE name LIKE &#39;A%&#39; GROUP BY id HAVING count &gt;= 10
- User.groupAndCount(&quot;id&quot;).having({count : {gte : 10}}).where({name  : {like : &#39;A%&#39;}});
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-Both the WHERE clause and the HAVING clause can be removed by using the unfiltered method:</code></pre>
-<p>// SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id
-User.groupAndCount(&quot;id&quot;).having({count : {gte : 10}}).where({name  : {like : &#39;A%&#39;}}).unfiltered();
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Joins
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user WHERE name NOT LIKE &#39;%o%&#39;
+User.exclude(sql.name.like(&#39;%o%&#39;))</code></pre>
+<h3>Removing</h3>
+<p>To remove all existing filters, use the <a href="./patio_Dataset.html#unfiltered">unfiltered</a> method:
 
-To join a dataset to another table or dataset. The underlying method used is [joinTable](./patio_Dataset.html#joinTable):</code></pre>
-<p>// SELECT * FROM user INNER JOIN user ON blog.user_id = user.id
-User.joinTable(&quot;inner&quot;, &quot;blog&quot;, {userId : sql.id});
 </p>
-<pre class='prettyprint linenums lang-js'><code>**Note:** unlike other querying methods when specifying the join condition you must specify the value as a [sql.Identifier](./patio_sql.html#.identifier) if it is a column otherwise it will be assumed to be a literal value.</code></pre>
-<p>// SELECT * FROM user INNER JOIN blog ON blog.user_id = user.id
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user
+ User.filter({id : 1}).unfiltered();</code></pre>
+<h2>Ordering</h2>
+<p>To add order to an SQL statement use the <a href="./patio_Dataset.html#order">order</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user ORDER BY id
+ User.order(&quot;id&quot;);</code></pre>
+<p>You can also provide multiple columns to the order method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM album ORDER BY user_id, id
+ User.order(&quot;userId&quot;, &quot;id&quot;);</code></pre>
+<p><strong>Note:</strong> order replaces any existing order
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.order(&quot;id&quot;).order(&quot;name&quot;);
+ // SELECT * FROM user ORDER BY name</code></pre>
+<p>If you want to append a column to the existing order use the <a href="./patio_Dataset.html#orderAppend">orderAppend</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user ORDER BY id, name
+ User.order(&quot;id&quot;).orderAppend(&quot;name&quot;);</code></pre>
+<p>If you want to prepend a column to the existing order use the <a href="./patio_Dataset.html#orderPrepend">orderPrepend</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.order(&quot;id&quot;).orderPrepend(&quot;name&quot;);
+ // SELECT * FROM user ORDER BY name, id</code></pre>
+<h3>Reversing</h3>
+<p>To reverse the order of a SQL query use the <a href="./patio_Dataset.html#reverse">reverse</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT FROM user ORDER BY id DESC
+ User.order(&quot;id&quot;).reverse();</code></pre>
+<p>You can also use the <a href="./patio_sql_OrderedMethods.html#desc">desc</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT FROM user ORDER BY id DESC
+ User.order(sql.id.desc());</code></pre>
+<p>This allows for finer grained control of the ordering of columns.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT FROM user ORDER BY name, id DESC
+ User.order(&quot;name&quot;, sql.id.desc());</code></pre>
+<h3>Removing</h3>
+<p>To remove ordering use the <a href="./patio_Dataset.html#unordered">unordered</a> method:
+
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.order(&quot;name&quot;).unordered();
+ // SELECT * FROM user</code></pre>
+<h2>Selecting columns</h2>
+<p>To only return certain columns use the <a href="./patio_Dataset.html#select">select</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT id, name FROM user
+User.select(&quot;id&quot;, &quot;name&quot;);</code></pre>
+<p><strong>NOTE:</strong> If you are dealing with Model objects, you&#39;ll want to include the primary key if you want to update or remove the object. You&#39;ll also want to include any keys (primary or foreign) related to associations you plan to use.
+
+</p>
+<p><strong>NOTE:</strong> If a column is not selected, and you attempt to access it, you will get null:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT name FROM user LIMIT 1                    
+User.select(&quot;name&quot;).first().then(function(user){
+    //user.id === null                    
+});</code></pre>
+<p>select replaces any columns previously selected.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.select(&quot;id&quot;).select(&quot;name&quot;);
+ // SELECT name FROM user</code></pre>
+<p>Like order you can use the <a href="./patio_Dataset.html#selectAppend">selectAppend</a> method to append columns to be returned.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT id, name FROM user
+User.select(&quot;id&quot;).selectAppend(&quot;name&quot;);</code></pre>
+<p>To remove selected columns and revert to <code>SELECT *</code> use the <a href="./patio_Dataset.html#selectAll">selectAll</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.select(&quot;id&quot;).selectAll();
+ // SELECT * FROM user</code></pre>
+<h2>Distinct</h2>
+<p>To add a <code>DISTINCT</code> clause to filter out duplicate rows use the <a href="./patio_Dataset.html#distinct">distinct</a> method.
+
+</p>
+<p><strong>Note:</strong> <code>DISTINCT</code> is separate from the select clause,
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT DISTINCT name FROM user
+User.distinct().select(&quot;name&quot;)</code></pre>
+<h2>Limit and Offset</h2>
+<p>To limit the number of rows returned use the <a href="./patio_Dataset.html#limit">limit</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user LIMIT 5
+User.limit(5);</code></pre>
+<p>To provide an offset you can provide limit with a second argument.
+
+</p>
+<p>The following would return the 11th through 15th records in the original dataset.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user LIMIT 5 OFFSET 10
+ User.limit(5, 10);</code></pre>
+<p>To remove the LIMIT and OFFSET clause use the <a href="./patio_Dataset.html#unlimited">unlimited</a> method.
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user
+ User.limit(5, 10).unlimited();</code></pre>
+<h2>Grouping</h2>
+<p>The GROUP clause is used to results based on the values of a given group of columns. To provide grouping use the <a href="./patio_Dataset.html#group">group</a> method:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user GROUP BY user_id
+ User.group(&quot;userId&quot;);</code></pre>
+<p>You can remove an existing grouping use the <a href="./patio_Dataset.html#ungrouped">ungrouped</a> method:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.group(&quot;userId&quot;).ungrouped();
+ // SELECT * FROM user</code></pre>
+<p>A common use of grouping is to count based on the number of grouped rows, so patio provides a <a href="./patio_Dataset.html#groupAndCount">groupAndCount</a> method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id
+ User.groupAndCount(&quot;userId&quot;);</code></pre>
+<h2>Having</h2>
+<p>The HAVING clause filters the results after the grouping has been applied, instead of before.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id HAVING count &gt;= 10
+ User.groupAndCount(&quot;dateOfBirth&quot;).having({count : {gte : 10}});</code></pre>
+<p>If you have a HAVING clause then filter will apply the filter to the HAVING clause.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id HAVING count &gt;= 10 AND count &lt; 15
+ User.groupAndCount(&quot;dateOfBirth&quot;).having({count : {gte : 10}}).filter({count : {lt : 15}});</code></pre>
+<h2>Where</h2>
+<p>Unlike filter, the where method will always affect the WHERE clause:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT user_id, COUNT(*) AS count FROM user WHERE name LIKE &#39;A%&#39; GROUP BY id HAVING count &gt;= 10
+ User.groupAndCount(&quot;id&quot;).having({count : {gte : 10}}).where({name  : {like : &#39;A%&#39;}});</code></pre>
+<p>Both the WHERE clause and the HAVING clause can be removed by using the unfiltered method:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT user_id, COUNT(*) AS count FROM user GROUP BY user_id
+User.groupAndCount(&quot;id&quot;).having({count : {gte : 10}}).where({name  : {like : &#39;A%&#39;}}).unfiltered();</code></pre>
+<h2>Joins</h2>
+<p>To join a dataset to another table or dataset. The underlying method used is <a href="./patio_Dataset.html#joinTable">joinTable</a>:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user INNER JOIN user ON blog.user_id = user.id
+User.joinTable(&quot;inner&quot;, &quot;blog&quot;, {userId : sql.id});</code></pre>
+<p><strong>Note:</strong> unlike other querying methods when specifying the join condition you must specify the value as a <a href="./patio_sql.html#.identifier">sql.Identifier</a> if it is a column otherwise it will be assumed to be a literal value.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user INNER JOIN blog ON blog.user_id = user.id
 User.joinTable(&quot;inner&quot;, &quot;blog&quot;, {userId : sql.id});
 
+// SELECT * FROM user INNER JOIN blog ON blog.userId = &#39;id&#39;
+User.joinTable(&quot;inner&quot;, &quot;blog&quot;, {userId : &quot;id&quot;});</code></pre>
+<p>joinTable is not typically used directly, but instead by named join methods:
+
 </p>
-<p>// SELECT * FROM user INNER JOIN blog ON blog.userId = &#39;id&#39;
-User.joinTable(&quot;inner&quot;, &quot;blog&quot;, {userId : &quot;id&quot;});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-joinTable is not typically used directly, but instead by named join methods:</code></pre>
-<p>// SELECT * FROM user INNER JOIN blog ON blog.user_id = user.id
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user INNER JOIN blog ON blog.user_id = user.id
  User.join(&quot;blog&quot;, {userId : sql.id});
 
+ // SELECT * FROM user LEFT JOIN blog ON blog.user_id = user.id
+ User.leftJoin(&quot;blog&quot;, {userId: sql.id});</code></pre>
+<h3>Table/Dataset to Join</h3>
+<p>For the join methods, the first argument is generally the name of the table to which you are joining. However, you can also provide a
+
 </p>
-<p> // SELECT * FROM user LEFT JOIN blog ON blog.user_id = user.id
- User.leftJoin(&quot;blog&quot;, {userId: sql.id});
+<ul>
+<li>model class:</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.join(Blog, {userId : sql.id});</code></pre>
+<ul>
+<li>dataset, in which case a subselect is used:<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user INNER JOIN (SELECT * FROM blog WHERE (title &lt; &#39;A&#39;)) AS t1 ON (t1.user_id = user.id)
+User.join(Blog.filter({title : {lt : &#39;A&#39;}}), {userId : sql.id});</code></pre>
+</li>
+</ul>
+<h3>Join Conditions</h3>
+<p>The second argument to the specialized join methods is the conditions to use when joining, which is similar to a filter expression, with a few minor exceptions.
+
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>
+<p><strong>Implicit Qualification</strong>
 
-###Table/Dataset to Join
-
-For the join methods, the first argument is generally the name of the table to which you are joining. However, you can also provide a
-
-* model class:</code></pre>
-<p> User.join(Blog, {userId : sql.id});
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-* dataset, in which case a subselect is used:</code></pre>
-<p> //SELECT <em> FROM user INNER JOIN (SELECT </em> FROM blog WHERE (title &lt; &#39;A&#39;)) AS t1 ON (t1.user_id = user.id)
- User.join(Blog.filter({title : {lt : &#39;A&#39;}}), {userId : sql.id});
+<p>An object used as the join conditions operates similarly to a filter, except that keys are automatically qualified with the table from the first argument, and unqualified values, that are sql.Identifiers, are automatically qualified with the first table or the last table joined. 
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-###Join Conditions
+<p><strong>Note:</strong> both the id key and the userId value are qualified.
 
-The second argument to the specialized join methods is the conditions to use when joining, which is similar to a filter expression, with a few minor exceptions.
-
-
-**Implicit Qualification**
-
-An object used as the join conditions operates similarly to a filter, except that keys are automatically qualified with the table from the first argument, and unqualified values, that are sql.Identifiers, are automatically qualified with the first table or the last table joined. 
-
-**Note:** both the id key and the userId value are qualified.</code></pre>
-<p> //SELECT * FROM user INNER JOIN blog ON (blog.userId = user.id)
- User.join(&quot;blog&quot;, {userId : sql.id});
 </p>
-<pre class='prettyprint linenums lang-js'><code>
+<pre class='prettyprint linenums lang-js'><code> //SELECT * FROM user INNER JOIN blog ON (blog.userId = user.id)
+ User.join(&quot;blog&quot;, {userId : sql.id});</code></pre>
+<p>Because patio uses the last joined table for implicit qualifications of values, you can do things like:
 
-Because patio uses the last joined table for implicit qualifications of values, you can do things like:</code></pre>
-<p> //SELECT * FROM user
+</p>
+<pre class='prettyprint linenums lang-js'><code> //SELECT * FROM user
  //    INNER JOIN blog ON (blog.user_id = user.id)
  //    INNER JOIN posts ON (posts.blog_id = blog.id)
 
 
-</p>
-<p> User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {blogId : sql.id});
-</p>
-<pre class='prettyprint linenums lang-js'><code>**Note** blogId is qualified with posts and id is qualified with blog.
+ User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {blogId : sql.id});</code></pre>
+<p><strong>Note</strong> blogId is qualified with posts and id is qualified with blog.
 
 
-Implicit qualification is not always correct:</code></pre>
-<p>// SELECT * FROM user INNER JOIN blog ON (blog.user_id = user.id) INNER JOIN posts ON (posts.user_id = blog.id)
-User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.id});
 </p>
-<pre class='prettyprint linenums lang-js'><code>id is qualified with blog instead of user. This is wrong as the foreign key posts.user_id refers to user.id, not blog.id. To fix this, you need to explicitly qualify when joining:</code></pre>
-<p>//SELECT * FROM user
+<p>Implicit qualification is not always correct:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user INNER JOIN blog ON (blog.user_id = user.id) INNER JOIN posts ON (posts.user_id = blog.id)
+User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.id});</code></pre>
+<p>id is qualified with blog instead of user. This is wrong as the foreign key posts.user_id refers to user.id, not blog.id. To fix this, you need to explicitly qualify when joining:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user
 //  INNER JOIN blog ON (blog.user_id = user.id)
 //  INNER JOIN posts ON (posts.user_id = user.id)
 
 
-</p>
-<p>User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.id.qualify(&quot;user&quot;)});
+User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.id.qualify(&quot;user&quot;)});
+
+//OR
+
+User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.user__id}).sql</code></pre>
+<p>Just like the dataset filter method the join expression can be an array of two element arrays.
 
 </p>
-<p>//OR
-
-</p>
-<p>User.join(&quot;blog&quot;, {userId : sql.id}).join(&quot;posts&quot;, {userId : sql.user__id}).sql
-
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-Just like the dataset filter method the join expression can be an array of two element arrays.</code></pre>
-<p>// SELECT * FROM user
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user
 //     INNER JOIN blog ON ((blog.user_id = user.id) AND (blog.id &gt;= 1) AND (blog.id &lt;= 5))
 
-</p>
-<p>User.join(&quot;blog&quot;, [[sql.userId, sql.id], [sql.id, {between : [1, 5]}]]).sql
+User.join(&quot;blog&quot;, [[sql.userId, sql.id], [sql.id, {between : [1, 5]}]]).sql</code></pre>
+<h3>USING Joins</h3>
+<p>JOIN ON is the most common type of join condition, however USING is also another valid SQL join expr that patio supports.
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-###USING Joins
+<p>JOIN USING is useful when the columns you are using have the same names in both tables.
 
-JOIN ON is the most common type of join condition, however USING is also another valid SQL join expr that patio supports.
-
-JOIN USING is useful when the columns you are using have the same names in both tables.</code></pre>
-<p>// SELECT * FROM user INNER JOIN blog USING (user_id)
- User.join(&quot;blog&quot;, [sql.userId])
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-###NATURAL Joins
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user INNER JOIN blog USING (user_id)
+ User.join(&quot;blog&quot;, [sql.userId])</code></pre>
+<h3>NATURAL Joins</h3>
+<p>NATURAL Joins assume that all columns with the same names used for joining, so you do not need to use a join expression.
 
-NATURAL Joins assume that all columns with the same names used for joining, so you do not need to use a join expression.</code></pre>
-<p>// SELECT * FROM user NATURAL JOIN blog
- User.naturalJoin(&quot;blog&quot;);
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-###Join Blocks
+<pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user NATURAL JOIN blog
+ User.naturalJoin(&quot;blog&quot;);</code></pre>
+<h3>Join Blocks</h3>
+<p>The block should accept 3 arguments, the table alias for the table currently being joined, the table alias for the last table joined (or first table), and an array of previous <a href="./patio_sql_JoinClause.html">patio.sql.JoinClause</a>s.
 
-The block should accept 3 arguments, the table alias for the table currently being joined, the table alias for the last table joined (or first table), and an array of previous [patio.sql.JoinClause](./patio_sql_JoinClause.html)s.
 
+</p>
+<p>This allows you to qualify columns similar to how the implicit qualification works, without worrying about the specific aliases being used. For example, if you wanted to join the user and blog tables, but only want user where the user&#39;s name comes before the blog&#39;s title.
 
-This allows you to qualify columns similar to how the implicit qualification works, without worrying about the specific aliases being used. For example, if you wanted to join the user and blog tables, but only want user where the user&#39;s name comes before the blog&#39;s title.</code></pre>
-<p> //SELECT * FROM user INNER JOIN blog
+</p>
+<pre class='prettyprint linenums lang-js'><code> //SELECT * FROM user INNER JOIN blog
  //     ON ((blog.user_id = user.id) AND (user.name &lt; blog.title))
  User.join(&quot;blog&quot;, {userId : sql.id}, function(currAlias, lastAlias, previousJoins){
             return sql.name.qualify(lastAlias).lt(sql.title.qualify(currAlias));
-        })
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-or you could do this which is the same thing:</code></pre>
-<p> User.join(&quot;blog&quot;, {userId : sql.id, title : {gt : sql.name.qualify(&quot;user&quot;)}});
-//SELECT * FROM user INNER JOIN blog
-//      ON ((blog.user_id = user.id) AND (blog.title &gt; user.name))
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##From
+        })</code></pre>
+<p>or you could do this which is the same thing:
 
-The FROM table is typically the first clause populated when creating a dataset. For a standard [patio.Model](./patio_Model.html), the dataset already has the FROM clause populated, and the most common way to create datasets is with the Database from method.</code></pre>
-<p>DB.from(&quot;user&quot;);
-// SELECT * FROM user
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-However, you can also use the from method on the Dataset.</code></pre>
-<p> User.from(&quot;user&quot;, &quot;oldUser&quot;);
+<pre class='prettyprint linenums lang-js'><code> User.join(&quot;blog&quot;, {userId : sql.id, title : {gt : sql.name.qualify(&quot;user&quot;)}});
+//SELECT * FROM user INNER JOIN blog
+//      ON ((blog.user_id = user.id) AND (blog.title &gt; user.name))</code></pre>
+<h2>From</h2>
+<p>The FROM table is typically the first clause populated when creating a dataset. For a standard <a href="./patio_Model.html">patio.Model</a>, the dataset already has the FROM clause populated, and the most common way to create datasets is with the Database from method.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code>DB.from(&quot;user&quot;);
+// SELECT * FROM user</code></pre>
+<p>However, you can also use the from method on the Dataset.
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.from(&quot;user&quot;, &quot;oldUser&quot;);
  // SELECT * FROM user, old_user
 
-</p>
-<p>//Using from again will remove the previous FROM clause.
+//Using from again will remove the previous FROM clause.
 DB.from(&quot;user&quot;).from(&quot;oldUser&quot;);
- // SELECT * FROM old_user
+ // SELECT * FROM old_user</code></pre>
+<p><strong>Note:</strong> multiple tables in the FROM clause use a cross join by default, so the number of rows will be number of user times the number of old user.
+
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-**Note:** multiple tables in the FROM clause use a cross join by default, so the number of rows will be number of user times the number of old user.
+<h2>Subselects</h2>
+<p>If you want to perform a subselect you can use the <a href="./patio_Dataset.html#fromSelf">fromSelf</a> method.
 
-
-##Subselects
-
-If you want to perform a subselect you can use the [fromSelf](./patio_Dataset.html#fromSelf) method.</code></pre>
-<p> Blog.order(&quot;userId&quot;).limit(100).fromSelf().group(&quot;userId&quot;);
- //SELECT <em> FROM (SELECT </em> FROM user ORDER BY user_id LIMIT 100) AS t1 GROUP BY user_id
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-If you did not use the `fromSelf` method the query would be:</code></pre>
-<p> // SELECT * FROM user GROUP BY user_id ORDER BY user_id LIMIT 100
- Blog.order(&quot;userId&quot;).limit(100).group(&quot;userId&quot;)
+<pre class='prettyprint linenums lang-js'><code> Blog.order(&quot;userId&quot;).limit(100).fromSelf().group(&quot;userId&quot;);
+ //SELECT * FROM (SELECT * FROM user ORDER BY user_id LIMIT 100) AS t1 GROUP BY user_id</code></pre>
+<p>If you did not use the <code>fromSelf</code> method the query would be:
+
 </p>
-<pre class='prettyprint linenums lang-js'><code>
-Without fromSelf, you are doing the grouping, and limiting the number of grouped records returned to 100. So assuming you have blogs written by more than 100 user, you&#39;ll end up with 100 results.
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user GROUP BY user_id ORDER BY user_id LIMIT 100
+ Blog.order(&quot;userId&quot;).limit(100).group(&quot;userId&quot;)</code></pre>
+<p>Without fromSelf, you are doing the grouping, and limiting the number of grouped records returned to 100. So assuming you have blogs written by more than 100 user, you&#39;ll end up with 100 results.
 
 
-With fromSelf, you are limiting the number of records before grouping. So if the user with the lowest id had 100 blogs, you&#39;d get 1 result, not 100.
+</p>
+<p>With fromSelf, you are limiting the number of records before grouping. So if the user with the lowest id had 100 blogs, you&#39;d get 1 result, not 100.
 
-##Locking for Update
+</p>
+<h2>Locking for Update</h2>
+<p>patio allows you to easily add a FOR UPDATE clause to your queries so that the records returned can&#39;t be modified by another query until the current transaction commits. You just use the <a href="./patio_Dataset.html#forUpdate">forUpdate</a> method:
 
-patio allows you to easily add a FOR UPDATE clause to your queries so that the records returned can&#39;t be modified by another query until the current transaction commits. You just use the [forUpdate](./patio_Dataset.html#forUpdate) method:</code></pre>
-<p> DB.transaction(function(){
+</p>
+<pre class='prettyprint linenums lang-js'><code> DB.transaction(function(){
     return User.forUpdate().first({id : 1}).chain(function(){
         // SELECT * FROM user WHERE id = 1 FOR UPDATE
         user.password = null;
         return user.save();
     });
- });
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-This will ensure that no other connection modifies the row between when you select it and when the transaction ends.
-
-##Custom SQL
-
-patio makes it easy to use custom SQL by providing the [fetch][./patio_Database.html#fetch] method.</code></pre>
-<p> // SELECT <em> FROM user
- DB.fetch(&quot;SELECT </em> FROM user&quot;)
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can also use the withSql dataset method.</code></pre>
-<p> DB.from(&quot;user&quot;).withSql(&quot;SELECT <em> FROM user&quot;);
- // SELECT </em> FROM user
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-You can also use placeholders:</code></pre>
-<p> // SELECT <em> FROM user WHERE id = 5
- DB.fetch(&quot;SELECT </em> FROM user WHERE id = ?&quot;, 5);
+ });</code></pre>
+<p>This will ensure that no other connection modifies the row between when you select it and when the transaction ends.
 
 </p>
-<p> // SELECT <em> FROM user WHERE id = 5
- DB.from(&quot;user&quot;).withSql(&quot;SELECT </em> FROM user WHERE id = {id}&quot;, {id : 5});
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-##Checking for Records
+<h2>Custom SQL</h2>
+<p>patio makes it easy to use custom SQL by providing the [fetch][./patio_Database.html#fetch] method.
 
-To test if there are any records in the database use the isEmpty method</code></pre>
-<p> User.isEmpty().then(function(isEmpty){
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user
+ DB.fetch(&quot;SELECT * FROM user&quot;)</code></pre>
+<p>You can also use the withSql dataset method.
+</p>
+<pre class='prettyprint linenums lang-js'><code> DB.from(&quot;user&quot;).withSql(&quot;SELECT * FROM user&quot;);
+ // SELECT * FROM user</code></pre>
+<p>You can also use placeholders:
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> // SELECT * FROM user WHERE id = 5
+ DB.fetch(&quot;SELECT * FROM user WHERE id = ?&quot;, 5);
+
+ // SELECT * FROM user WHERE id = 5
+ DB.from(&quot;user&quot;).withSql(&quot;SELECT * FROM user WHERE id = {id}&quot;, {id : 5});</code></pre>
+<h2>Checking for Records</h2>
+<p>To test if there are any records in the database use the isEmpty method
+
+</p>
+<pre class='prettyprint linenums lang-js'><code> User.isEmpty().then(function(isEmpty){
     // SELECT 1 FROM user LIMIT 1
  }, errorHandler);
  User.filter({id : 0}).isEmpty().then(function(isEmpty){
@@ -1076,43 +1052,41 @@ To test if there are any records in the database use the isEmpty method</code></
  },errorHandler);
  User.filter(sql.name.like(&#39;B%&#39;)).isEmpty().then(function(isEmpty){
     // SELECT 1 FROM user WHERE name LIKE &#39;B%&#39; LIMIT 1
- },errorHandler);
+ },errorHandler);</code></pre>
+<h2>Aggregate Calculations</h2>
+<p>There are dataset methods for each of the following aggregate calculations:
 
 </p>
-<pre class='prettyprint linenums lang-js'><code>##Aggregate Calculations
-
-There are dataset methods for each of the following aggregate calculations:
-
-* [count](./patio_Dataset.html#count) : count just returns the number of records in the dataset.</code></pre>
-<p> User.count().then(function(count){
+<ul>
+<li><a href="./patio_Dataset.html#count">count</a> : count just returns the number of records in the dataset.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.count().then(function(count){
     // SELECT COUNT(*) AS count FROM user LIMIT 1
- });
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-* [sum](./patio_Dataset.html#sum) : makes a sum aggregate function call for the column.</code></pre>
-<p> User.sum(&quot;id&quot;).then(function(){
+ });</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#sum">sum</a> : makes a sum aggregate function call for the column.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.sum(&quot;id&quot;).then(function(){
     // SELECT sum(id) FROM user LIMIT 1
- });
-
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-* [avg](./patio_Dataset.html#avg): makes a avg aggregate function call for the column.</code></pre>
-<p> User.avg(&quot;id&quot;).then(function(){
+ });</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#avg">avg</a>: makes a avg aggregate function call for the column.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.avg(&quot;id&quot;).then(function(){
     // SELECT avg(id) FROM user LIMIT 1
- });
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-* [min](./patio_Dataset.html#min) : makes a min aggregate function call for the column.</code></pre>
-<p> User.min(&quot;id&quot;).then(function(){
+ });</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#min">min</a> : makes a min aggregate function call for the column.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.min(&quot;id&quot;).then(function(){
     // SELECT sum(id) FROM user LIMIT 1
- });
-</p>
-<pre class='prettyprint linenums lang-js'><code>
-* [max](./patio_Dataset.html#max): makes a max aggregate function call for the column.</code></pre>
-<p> User.max(&quot;id&quot;).then(function(){
+ });</code></pre>
+<ul>
+<li><a href="./patio_Dataset.html#max">max</a>: makes a max aggregate function call for the column.</li>
+</ul>
+<pre class='prettyprint linenums lang-js'><code> User.max(&quot;id&quot;).then(function(){
     // SELECT sum(id) FROM user LIMIT 1
- });
-```</p>
+ });</code></pre>
 
 <hr>
 
