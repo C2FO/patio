@@ -563,6 +563,7 @@ exports = define(null, {
     <pre class="prettyprint linenums lang-js">
 function (options){
    options = options || {};
+   this._timestampOptions = options;
    var updateColumn = options.updated || &quot;updated&quot;;
    var createdColumn = options.created || &quot;created&quot;;
    var updateOnCreate = options.updateOnCreate || false;
