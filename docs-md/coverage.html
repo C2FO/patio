@@ -256,10 +256,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.90</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>21750</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>5169</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>574</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.84</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>21807</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>5180</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>578</span>
                 </div>
             </td>
         </tr>
@@ -1485,7 +1485,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *                               different databases.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        getModel:function (name, db) {</code></li>
-<li class='green'><span class='hits'>10624</span><code>            return model.getModel(name, db);</code></li>
+<li class='green'><span class='hits'>83</span><code>            return model.getModel(name, db);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -1756,7 +1756,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @default []</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            DATABASES:function () {</code></li>
-<li class='green'><span class='hits'>21815</span><code>                return Database.DATABASES;</code></li>
+<li class='green'><span class='hits'>733</span><code>                return Database.DATABASES;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
 <li class='green'><span class=''> </span><code>             * Returns the default database. This is the first database created using {@link patio#connect}.</code></li>
@@ -1765,7 +1765,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @default null</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            defaultDatabase:function () {</code></li>
-<li class='green'><span class='hits'>10933</span><code>                return this.DATABASES.length ? this.DATABASES[0] : null;</code></li>
+<li class='green'><span class='hits'>392</span><code>                return this.DATABASES.length ? this.DATABASES[0] : null;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            Database:function () {</code></li>
@@ -2158,12 +2158,12 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (conn) {</code></li>
-<li class='green'><span class='hits'>65</span><code>            this.connection = conn;</code></li>
+<li class='green'><span class='hits'>64</span><code>            this.connection = conn;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        closeConnection:function () {</code></li>
-<li class='green'><span class='hits'>65</span><code>            this.connection.end();</code></li>
-<li class='green'><span class='hits'>65</span><code>            return new Promise().callback().promise();</code></li>
+<li class='green'><span class='hits'>64</span><code>            this.connection.end();</code></li>
+<li class='green'><span class='hits'>64</span><code>            return new Promise().callback().promise();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        query:function (query) {</code></li>
@@ -2490,15 +2490,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        createConnection:function (opts) {</code></li>
-<li class='green'><span class='hits'>65</span><code>            delete opts.query;</code></li>
-<li class='green'><span class='hits'>65</span><code>            var conn = new pg.Client(merge({}, opts, {typeCast:false}));</code></li>
-<li class='green'><span class='hits'>65</span><code>            conn.connect();</code></li>
+<li class='green'><span class='hits'>64</span><code>            delete opts.query;</code></li>
+<li class='green'><span class='hits'>64</span><code>            var conn = new pg.Client(merge({}, opts, {typeCast:false}));</code></li>
+<li class='green'><span class='hits'>64</span><code>            conn.connect();</code></li>
 <li class='green'><span class=''> </span><code>            //conn.useDatabase(opts.database)</code></li>
-<li class='green'><span class='hits'>65</span><code>            return new Connection(conn);</code></li>
+<li class='green'><span class='hits'>64</span><code>            return new Connection(conn);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        closeConnection:function (conn) {</code></li>
-<li class='green'><span class='hits'>65</span><code>            return conn.closeConnection();</code></li>
+<li class='green'><span class='hits'>64</span><code>            return conn.closeConnection();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        validate:function (conn) {</code></li>
@@ -3012,7 +3012,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        createObject:function () {</code></li>
-<li class='green'><span class='hits'>81</span><code>            return this.createConnection();</code></li>
+<li class='green'><span class='hits'>80</span><code>            return this.createConnection();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -3024,7 +3024,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>41</span><code>            this.__ending = true;</code></li>
 <li class='green'><span class='hits'>41</span><code>            var conn, fQueue = this.__freeObjects, count = this.count, ps = [];</code></li>
 <li class='green'><span class='hits'>41</span><code>            while ((conn = this.__freeObjects.dequeue()) != undefined) {</code></li>
-<li class='green'><span class='hits'>68</span><code>                ps.push(this.closeConnection(conn));</code></li>
+<li class='green'><span class='hits'>67</span><code>                ps.push(this.closeConnection(conn));</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>41</span><code>            var inUse = this.__inUseObjects;</code></li>
 <li class='green'><span class='hits'>41</span><code>            for (var i = inUse.length - 1; i &gt;= 0; i--) {</code></li>
@@ -3056,7 +3056,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Override to create connections to insert into this ConnectionPool.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        createConnection:function () {</code></li>
-<li class='green'><span class='hits'>81</span><code>            return  this.__createConnectionCB(this._options);</code></li>
+<li class='green'><span class='hits'>80</span><code>            return  this.__createConnectionCB(this._options);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -3066,7 +3066,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the connection is closed.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        closeConnection:function (conn) {</code></li>
-<li class='green'><span class='hits'>72</span><code>            return this.__closeConnectionCB(conn);</code></li>
+<li class='green'><span class='hits'>71</span><code>            return this.__closeConnectionCB(conn);</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -3201,10 +3201,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>78.62</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>344</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>159</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>34</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>78.40</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>352</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>162</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>35</span>
                 </div>
             </td>
         </tr>
@@ -3254,7 +3254,6 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        type:"oneToMany",</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        createSetter:true,</code></li>
-<li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        _postSave:function (next, model) {</code></li>
 <li class='green'><span class='hits'>324</span><code>            var loaded = this.associationLoaded(model), vals;</code></li>
@@ -3549,6 +3548,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        getters:{</code></li>
 <li class='green'><span class=''> </span><code>            oldAssocationCacheName:function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                return "_" + this.name + "OldValues";</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            //Returns our model</code></li>
+<li class='green'><span class=''> </span><code>            model:function () {</code></li>
+<li class='green'><span class='hits'>7684</span><code>                try {</code></li>
+<li class='green'><span class='hits'>7684</span><code>                    return this.__model__ || (this.__model__ = this.patio.getModel(this._model, this.parent.db));</code></li>
+<li class='green'><span class=''> </span><code>                } catch (e) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    return this.__model__ = this.patio.getModel(this.name, this.parent.db)</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
@@ -5129,16 +5137,16 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        getUpdateSql:function () {</code></li>
-<li class='green'><span class='hits'>4</span><code>            return this.dataset.filter(this._getPrimaryKeyQuery()).updateSql(this.__changed);</code></li>
+<li class='green'><span class='hits'>4</span><code>            return this.updateDataset.filter(this._getPrimaryKeyQuery()).updateSql(this.__changed);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        getInsertSql:function () {</code></li>
-<li class='green'><span class='hits'>4</span><code>            return this.dataset.insertSql(this._toObject());</code></li>
+<li class='green'><span class='hits'>4</span><code>            return this.insertDataset.insertSql(this._toObject());</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        getRemoveSql:function () {</code></li>
-<li class='green'><span class='hits'>2</span><code>            return this.dataset.filter(this._getPrimaryKeyQuery()).deleteSql;</code></li>
+<li class='green'><span class='hits'>2</span><code>            return this.removeDataset.filter(this._getPrimaryKeyQuery()).deleteSql;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -6117,7 +6125,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Returns our model</code></li>
 <li class='green'><span class=''> </span><code>            model:function () {</code></li>
-<li class='green'><span class='hits'>10596</span><code>                return this.patio.getModel(this._model, this.parent.db);</code></li>
+<li class='green'><span class='hits'>2912</span><code>                return this.__model__ || (this.__model__ = this.patio.getModel(this._model, this.parent.db));</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            associatedModelKey:function () {</code></li>
@@ -6733,11 +6741,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {Boolean} hasSelectSource true if this dataset already has a select sources.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (db, opts) {</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this.db = db;</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this.__opts = {};</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this.__rowCb = null;</code></li>
-<li class='green'><span class='hits'>28665</span><code>            if (db) {</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this.db = db;</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this.__opts = {};</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this.__rowCb = null;</code></li>
+<li class='green'><span class='hits'>28667</span><code>            if (db) {</code></li>
 <li class='green'><span class='hits'>14909</span><code>                this.__quoteIdentifiers = db.quoteIdentifiers;</code></li>
 <li class='green'><span class='hits'>14909</span><code>                this.__identifierInputMethod = db.identifierInputMethod;</code></li>
 <li class='green'><span class='hits'>14909</span><code>                this.__identifierOutputMethod = db.identifierOutputMethod;</code></li>
@@ -6755,22 +6763,22 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return [patio.Dataset] a cloned dataset with the merged options</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        mergeOptions:function (opts) {</code></li>
-<li class='green'><span class='hits'>14919</span><code>            opts = isUndefined(opts) ? {} : opts;</code></li>
-<li class='green'><span class='hits'>14919</span><code>            var ds = new this._static(this.db, {});</code></li>
-<li class='green'><span class='hits'>14919</span><code>            ds.rowCb = this.rowCb;</code></li>
-<li class='green'><span class='hits'>14919</span><code>            this._static.FEATURES.forEach(function (f) {</code></li>
-<li class='green'><span class='hits'>208866</span><code>                ds[f] = this[f];</code></li>
+<li class='green'><span class='hits'>14920</span><code>            opts = isUndefined(opts) ? {} : opts;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            var ds = new this._static(this.db, {});</code></li>
+<li class='green'><span class='hits'>14920</span><code>            ds.rowCb = this.rowCb;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            this._static.FEATURES.forEach(function (f) {</code></li>
+<li class='green'><span class='hits'>208880</span><code>                ds[f] = this[f];</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>14919</span><code>            var dsOpts = ds.__opts = merge({}, this.__opts, opts);</code></li>
-<li class='green'><span class='hits'>14919</span><code>            ds.identifierInputMethod = this.identifierInputMethod;</code></li>
-<li class='green'><span class='hits'>14919</span><code>            ds.identifierOutputMethod = this.identifierOutputMethod;</code></li>
-<li class='green'><span class='hits'>14919</span><code>            var columnChangeOpts = this._static.COLUMN_CHANGE_OPTS;</code></li>
-<li class='green'><span class='hits'>14919</span><code>            if (Object.keys(opts).some(function (o) {</code></li>
-<li class='green'><span class='hits'>13499</span><code>                return columnChangeOpts.indexOf(o) !== -1;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            var dsOpts = ds.__opts = merge({}, this.__opts, opts);</code></li>
+<li class='green'><span class='hits'>14920</span><code>            ds.identifierInputMethod = this.identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            ds.identifierOutputMethod = this.identifierOutputMethod;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            var columnChangeOpts = this._static.COLUMN_CHANGE_OPTS;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            if (Object.keys(opts).some(function (o) {</code></li>
+<li class='green'><span class='hits'>13500</span><code>                return columnChangeOpts.indexOf(o) !== -1;</code></li>
 <li class='green'><span class=''> </span><code>            })) {</code></li>
 <li class='green'><span class='hits'>2357</span><code>                dsOpts.columns = null;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>14919</span><code>            return ds;</code></li>
+<li class='green'><span class='hits'>14920</span><code>            return ds;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -6797,10 +6805,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return  {patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} an identifier generated based on the name string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        stringToIdentifier:function (name) {</code></li>
-<li class='green'><span class='hits'>14481</span><code>            if (isString(name)) {</code></li>
-<li class='green'><span class='hits'>9657</span><code>                var parts = this._splitString(name);</code></li>
-<li class='green'><span class='hits'>9657</span><code>                var schema = parts[0], table = parts[1], alias = parts[2];</code></li>
-<li class='green'><span class='hits'>9657</span><code>                return (schema &amp;&amp; table &amp;&amp; alias</code></li>
+<li class='green'><span class='hits'>14504</span><code>            if (isString(name)) {</code></li>
+<li class='green'><span class='hits'>9680</span><code>                var parts = this._splitString(name);</code></li>
+<li class='green'><span class='hits'>9680</span><code>                var schema = parts[0], table = parts[1], alias = parts[2];</code></li>
+<li class='green'><span class='hits'>9680</span><code>                return (schema &amp;&amp; table &amp;&amp; alias</code></li>
 <li class='green'><span class=''> </span><code>                    ? new AliasedExpression(new QualifiedIdentifier(schema, table), alias)</code></li>
 <li class='green'><span class=''> </span><code>                    : (schema &amp;&amp; table</code></li>
 <li class='green'><span class=''> </span><code>                    ? new QualifiedIdentifier(schema, table)</code></li>
@@ -6835,20 +6843,20 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;/ul&gt;</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _splitString:function (s) {</code></li>
-<li class='green'><span class='hits'>19227</span><code>            var ret, m;</code></li>
-<li class='green'><span class='hits'>19227</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
+<li class='green'><span class='hits'>19252</span><code>            var ret, m;</code></li>
+<li class='green'><span class='hits'>19252</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
 <li class='green'><span class='hits'>156</span><code>                ret = m.slice(1);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>19071</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
+<li class='green'><span class='hits'>19096</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
 <li class='green'><span class='hits'>24</span><code>                ret = [null, m[1], m[2]];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>19047</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
+<li class='green'><span class='hits'>19072</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
 <li class='green'><span class='hits'>1782</span><code>                ret = [m[1], m[2], null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>            else {</code></li>
-<li class='green'><span class='hits'>17265</span><code>                ret = [null, s, null];</code></li>
+<li class='green'><span class='hits'>17290</span><code>                ret = [null, s, null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>19227</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>19252</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -6857,15 +6865,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        getters:{</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            rowCb:function () {</code></li>
-<li class='green'><span class='hits'>23071</span><code>                return this.__rowCb;</code></li>
+<li class='green'><span class='hits'>21756</span><code>                return this.__rowCb;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            identifierInputMethod:function () {</code></li>
-<li class='green'><span class='hits'>14919</span><code>                return this.__identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                return this.__identifierInputMethod;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            identifierOutputMethod:function () {</code></li>
-<li class='green'><span class='hits'>14919</span><code>                return this.__identifierOutputMethod;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                return this.__identifierOutputMethod;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            firstSourceAlias:function () {</code></li>
@@ -6924,16 +6932,16 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            /**@lends patio.Dataset.prototype*/</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            identifierInputMethod:function (meth) {</code></li>
-<li class='green'><span class='hits'>15009</span><code>                this.__identifierInputMethod = meth;</code></li>
+<li class='green'><span class='hits'>15010</span><code>                this.__identifierInputMethod = meth;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            identifierOutputMethod:function (meth) {</code></li>
-<li class='green'><span class='hits'>15009</span><code>                this.__identifierOutputMethod = meth;</code></li>
+<li class='green'><span class='hits'>15010</span><code>                this.__identifierOutputMethod = meth;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            rowCb:function (cb) {</code></li>
-<li class='green'><span class='hits'>18551</span><code>                if (isFunction(cb) || isNull(cb)) {</code></li>
-<li class='green'><span class='hits'>18546</span><code>                    this.__rowCb = cb;</code></li>
+<li class='green'><span class='hits'>18552</span><code>                if (isFunction(cb) || isNull(cb)) {</code></li>
+<li class='green'><span class='hits'>18547</span><code>                    this.__rowCb = cb;</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='green'><span class='hits'>5</span><code>                    throw new DatasetError("rowCb mus be a function");</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
@@ -6959,10 +6967,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.44</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>1065</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>320</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>37</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>87.95</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>1118</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>332</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>40</span>
                 </div>
             </td>
         </tr>
@@ -7000,11 +7008,11 @@ td.cov-stats {
 <li class='green'><span class='hits'>1</span><code>var MODELS = new HashTable();</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var applyColumnTransformMethod = function (val, meth) {</code></li>
-<li class='green'><span class='hits'>11488</span><code>    return !isUndefinedOrNull(meth) ? isFunction(val[meth]) ? val[meth] : isFunction(comb[meth]) ? comb[meth](val) : val : val;</code></li>
+<li class='green'><span class='hits'>947</span><code>    return !isUndefinedOrNull(meth) ? isFunction(val[meth]) ? val[meth] : isFunction(comb[meth]) ? comb[meth](val) : val : val;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var checkAndTransformName = function (name) {</code></li>
-<li class='green'><span class='hits'>10717</span><code>    return isString(name) ? applyColumnTransformMethod(name, Model.camelize === true ? "camelize" : Model.underscore === true ? "underscore" : null) : name;</code></li>
+<li class='green'><span class='hits'>176</span><code>    return isString(name) ? applyColumnTransformMethod(name, Model.camelize === true ? "camelize" : Model.underscore === true ? "underscore" : null) : name;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var Model = define([QueryPlugin, Middleware], {</code></li>
@@ -7159,14 +7167,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>3181</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>3181</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>3181</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>3181</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>3181</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>3181</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>3181</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>3181</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>3125</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>3125</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>3125</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3125</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>3125</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>3125</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>3125</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>3125</span><code>                if (fromDb) {</code></li>
 <li class='green'><span class='hits'>1770</span><code>                    this._hook("pre", "load");</code></li>
 <li class='green'><span class='hits'>1770</span><code>                    this.__isNew = false;</code></li>
 <li class='green'><span class='hits'>1770</span><code>                    this.__setFromDb(options, true);</code></li>
@@ -7175,8 +7183,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>1770</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1411</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1411</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1355</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1355</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -7184,15 +7192,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set:function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1535</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1535</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1535</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1479</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1479</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1479</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6698</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6698</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6698</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1535</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1479</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb:function (values, ignore) {</code></li>
@@ -7414,7 +7422,24 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            dataset:function () {</code></li>
-<li class='green'><span class='hits'>3129</span><code>                return this.__dataset || this._static.dataset;</code></li>
+<li class='green'><span class='hits'>3119</span><code>                return this.__dataset || (this.__dataset = this._static.dataset);</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            removeDataset:function () {</code></li>
+<li class='green'><span class='hits'>2</span><code>                return this.__removeDataset || (this.__removeDataset = this._static.removeDataset);</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            queryDataset:function () {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return this.__queryDataset || (this.__queryDataset = this._static.queryDataset);</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            updateDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>                return this.__updateDataset || (this.__updateDataset = this._static.updateDataset);</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            insertDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>                return this.__insertDataset || (this.__insertDataset = this._static.insertDataset);</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            db:function () {</code></li>
@@ -7430,7 +7455,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced:function () {</code></li>
-<li class='green'><span class='hits'>12956</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>12900</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -7574,28 +7599,28 @@ td.cov-stats {
 <li class='green'><span class='hits'>4016</span><code>            var ret = new Promise();</code></li>
 <li class='green'><span class='hits'>4016</span><code>            if (!this.synced) {</code></li>
 <li class='green'><span class='hits'>93</span><code>                var db = this.db, tableName = this.tableName, supers = this.__supers;</code></li>
-<li class='green'><span class='hits'>93</span><code>                db.schema(tableName).then(hitch(this, function (schema) {</code></li>
+<li class='green'><span class='hits'>93</span><code>                ret = db.schema(tableName).chain(hitch(this, function (schema) {</code></li>
 <li class='green'><span class='hits'>93</span><code>                    if (!this.synced &amp;&amp; schema) {</code></li>
 <li class='green'><span class='hits'>93</span><code>                        this._setSchema(schema);</code></li>
 <li class='green'><span class='hits'>93</span><code>                        if (supers &amp;&amp; supers.length) {</code></li>
-<li class='green'><span class='hits'>3</span><code>                            new PromiseList(supers.map(function (sup) {</code></li>
+<li class='green'><span class='hits'>3</span><code>                            return when(supers.map(function (sup) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                                return sup.sync();</code></li>
-<li class='green'><span class=''> </span><code>                            })).then(hitch(this, function () {</code></li>
+<li class='green'><span class=''> </span><code>                            })).chain(hitch(this, function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>                                this.synced = true;</code></li>
 <li class='green'><span class='hits'>3</span><code>                                supers.forEach(this.inherits, this);</code></li>
-<li class='green'><span class='hits'>3</span><code>                                ret.callback(this);</code></li>
-<li class='green'><span class=''> </span><code>                            }), ret);</code></li>
+<li class='green'><span class='hits'>3</span><code>                                return this;</code></li>
+<li class='green'><span class=''> </span><code>                            }));</code></li>
 <li class='green'><span class=''> </span><code>                        } else {</code></li>
 <li class='green'><span class='hits'>90</span><code>                            this.synced = true;</code></li>
-<li class='green'><span class='hits'>90</span><code>                            ret.callback(this);</code></li>
+<li class='green'><span class='hits'>90</span><code>                            return this;</code></li>
 <li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>93</span><code>                        this.emit("sync", this);</code></li>
 <li class='green'><span class=''> </span><code>                    } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                        var error = new ModelError("Unable to find schema for " + tableName);</code></li>
 <li class='red'><span class='nohits'>0</span><code>                        this.emit("error", error);</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        ret.errback(error);</code></li>
+<li class='red'><span class='nohits'>0</span><code>                        throw error;</code></li>
+<li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class=''> </span><code>                }), ret);</code></li>
+<li class='green'><span class=''> </span><code>                }));</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='green'><span class='hits'>3923</span><code>                ret.callback(this);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
@@ -7742,6 +7767,40 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            });</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getDataset:function () {</code></li>
+<li class='green'><span class='hits'>3576</span><code>            var ds = this.__dataset;</code></li>
+<li class='green'><span class='hits'>3576</span><code>            if (!ds) {</code></li>
+<li class='green'><span class='hits'>84</span><code>                ds = this.db.from(this.tableName);</code></li>
+<li class='green'><span class='hits'>84</span><code>                ds.rowCb = hitch(this, function (vals) {</code></li>
+<li class='green'><span class='hits'>883</span><code>                    return this.load(vals);</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class='hits'>84</span><code>                this.identifierInputMethod &amp;&amp; (ds.identifierInputMethod = this.identifierInputMethod);</code></li>
+<li class='green'><span class='hits'>84</span><code>                this.identifierOutputMethod &amp;&amp; (ds.identifierOutputMethod = this.identifierOutputMethod);</code></li>
+<li class='green'><span class='hits'>84</span><code>                this.__dataset = ds;</code></li>
+<li class='green'><span class='hits'>3492</span><code>            } else if (!ds.rowCb) {</code></li>
+<li class='green'><span class='hits'>6</span><code>                ds.rowCb = hitch(this, function rowCb(vals) {</code></li>
+<li class='green'><span class='hits'>25</span><code>                    return this.load(vals);</code></li>
+<li class='green'><span class=''> </span><code>                });</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>3576</span><code>            return ds;</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getQueryDataset:function () {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return this._getDataset();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getUpdateDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>            return this._getDataset();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getRemoveDataset:function () {</code></li>
+<li class='green'><span class='hits'>2</span><code>            return this._getDataset();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        _getInsertDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>            return this._getDataset();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
@@ -7758,7 +7817,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type {Boolean}</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            camelize:function (camelize) {</code></li>
-<li class='green'><span class='hits'>10710</span><code>                return  this.__camelize;</code></li>
+<li class='green'><span class='hits'>169</span><code>                return  this.__camelize;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7794,14 +7853,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type patio.Database</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            db:function () {</code></li>
-<li class='green'><span class='hits'>46751</span><code>                var db = this.__db;</code></li>
-<li class='green'><span class='hits'>46751</span><code>                if (!db) {</code></li>
+<li class='green'><span class='hits'>36210</span><code>                var db = this.__db;</code></li>
+<li class='green'><span class='hits'>36210</span><code>                if (!db) {</code></li>
 <li class='green'><span class='hits'>53</span><code>                    db = this.__db = patio.defaultDatabase;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>46751</span><code>                if (!db) {</code></li>
+<li class='green'><span class='hits'>36210</span><code>                if (!db) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("patio has not been connected to a database");</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>46751</span><code>                return db;</code></li>
+<li class='green'><span class='hits'>36210</span><code>                return db;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -7812,21 +7871,23 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type patio.Dataset</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            dataset:function () {</code></li>
-<li class='green'><span class='hits'>4892</span><code>                var ds = this.__dataset;</code></li>
-<li class='green'><span class='hits'>4892</span><code>                if (!ds) {</code></li>
-<li class='green'><span class='hits'>84</span><code>                    ds = this.db.from(this.tableName);</code></li>
-<li class='green'><span class='hits'>84</span><code>                    ds.rowCb = hitch(this, function (vals) {</code></li>
-<li class='green'><span class='hits'>883</span><code>                        return this.load(vals);</code></li>
-<li class='green'><span class=''> </span><code>                    });</code></li>
-<li class='green'><span class='hits'>84</span><code>                    this.identifierInputMethod &amp;&amp; (ds.identifierInputMethod = this.identifierInputMethod);</code></li>
-<li class='green'><span class='hits'>84</span><code>                    this.identifierOutputMethod &amp;&amp; (ds.identifierOutputMethod = this.identifierOutputMethod);</code></li>
-<li class='green'><span class='hits'>84</span><code>                    this.__dataset = ds;</code></li>
-<li class='green'><span class='hits'>4808</span><code>                } else if (!ds.rowCb) {</code></li>
-<li class='green'><span class='hits'>6</span><code>                    ds.rowCb = hitch(this, function rowCb(vals) {</code></li>
-<li class='green'><span class='hits'>25</span><code>                        return this.load(vals);</code></li>
-<li class='green'><span class=''> </span><code>                    });</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>4892</span><code>                return ds;</code></li>
+<li class='green'><span class='hits'>3566</span><code>                return this._getDataset();</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            removeDataset:function () {</code></li>
+<li class='green'><span class='hits'>2</span><code>                return this._getRemoveDataset();</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            queryDataset:function () {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return this._getQueryDataset();</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            updateDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>                return this._getUpdateDataset();</code></li>
+<li class='green'><span class=''> </span><code>            },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>            insertDataset:function () {</code></li>
+<li class='green'><span class='hits'>4</span><code>                return this._getInsertDataset();</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -7990,29 +8051,29 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var checkAndGetModel = function (db, name) {</code></li>
-<li class='green'><span class='hits'>21246</span><code>    var ret;</code></li>
-<li class='green'><span class='hits'>21246</span><code>    if (MODELS.contains(db)) {</code></li>
-<li class='green'><span class='hits'>10624</span><code>        ret = MODELS.get(db).get(checkAndTransformName(name));</code></li>
+<li class='green'><span class='hits'>164</span><code>    var ret;</code></li>
+<li class='green'><span class='hits'>164</span><code>    if (MODELS.contains(db)) {</code></li>
+<li class='green'><span class='hits'>83</span><code>        ret = MODELS.get(db).get(checkAndTransformName(name));</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>21246</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>164</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.getModel = function (name, db) {</code></li>
-<li class='green'><span class='hits'>10627</span><code>    var ret = null;</code></li>
-<li class='green'><span class='hits'>10627</span><code>    if (isDefined(name)) {</code></li>
-<li class='green'><span class='hits'>10627</span><code>        !patio &amp;&amp; (patio = require("./index"));</code></li>
-<li class='green'><span class='hits'>10627</span><code>        if (isFunction(name)) {</code></li>
+<li class='green'><span class='hits'>86</span><code>    var ret = null;</code></li>
+<li class='green'><span class='hits'>86</span><code>    if (isDefined(name)) {</code></li>
+<li class='green'><span class='hits'>86</span><code>        !patio &amp;&amp; (patio = require("./index"));</code></li>
+<li class='green'><span class='hits'>86</span><code>        if (isFunction(name)) {</code></li>
 <li class='green'><span class='hits'>3</span><code>            ret = name;</code></li>
 <li class='green'><span class=''> </span><code>        } else {</code></li>
-<li class='green'><span class='hits'>10624</span><code>            if (!db &amp;&amp; isInstanceOf(name, patio.Dataset)) {</code></li>
+<li class='green'><span class='hits'>83</span><code>            if (!db &amp;&amp; isInstanceOf(name, patio.Dataset)) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                db = name.db;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>10624</span><code>            var defaultDb = patio.defaultDatabase;</code></li>
-<li class='green'><span class='hits'>10624</span><code>            if (db) {</code></li>
-<li class='green'><span class='hits'>10598</span><code>                ret = checkAndGetModel(db, name);</code></li>
-<li class='green'><span class='hits'>10598</span><code>                if (!ret &amp;&amp; db === defaultDb) {</code></li>
-<li class='green'><span class='hits'>10596</span><code>                    ret = checkAndGetModel("default", name);</code></li>
+<li class='green'><span class='hits'>83</span><code>            var defaultDb = patio.defaultDatabase;</code></li>
+<li class='green'><span class='hits'>83</span><code>            if (db) {</code></li>
+<li class='green'><span class='hits'>57</span><code>                ret = checkAndGetModel(db, name);</code></li>
+<li class='green'><span class='hits'>57</span><code>                if (!ret &amp;&amp; db === defaultDb) {</code></li>
+<li class='green'><span class='hits'>55</span><code>                    ret = checkAndGetModel("default", name);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='green'><span class='hits'>26</span><code>                db = patio.defaultDatabase;</code></li>
@@ -8025,10 +8086,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        ret = name;</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>10627</span><code>    if (isUndefinedOrNull(ret)) {</code></li>
+<li class='green'><span class='hits'>86</span><code>    if (isUndefinedOrNull(ret)) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        throw new ModelError("Model " + name + " has not been registered with patio");</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>10627</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>86</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li></ol></pre></div>
@@ -9397,21 +9458,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>981</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>981</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>981</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>981</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>975</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>975</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>975</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>975</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>981</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>981</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>981</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>981</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>975</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>975</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>975</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>975</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>4</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>981</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>975</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>548</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>548</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>542</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9421,8 +9482,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>981</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>981</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>975</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>975</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -9770,15 +9831,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>     * @return  {patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} an identifier generated based on the name string.</code></li>
 <li class='green'><span class=''> </span><code>     */</code></li>
 <li class='green'><span class=''> </span><code>    identifier:function (s) {</code></li>
-<li class='green'><span class='hits'>1574</span><code>        return sql.stringToIdentifier(s);</code></li>
+<li class='green'><span class='hits'>1575</span><code>        return sql.stringToIdentifier(s);</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>    /**</code></li>
 <li class='green'><span class=''> </span><code>     * @see patio.sql.identifier</code></li>
 <li class='green'><span class=''> </span><code>     */</code></li>
 <li class='green'><span class=''> </span><code>    stringToIdentifier:function (name) {</code></li>
-<li class='green'><span class='hits'>11814</span><code>        !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
-<li class='green'><span class='hits'>11814</span><code>        return new Dataset().stringToIdentifier(name);</code></li>
+<li class='green'><span class='hits'>11815</span><code>        !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
+<li class='green'><span class='hits'>11815</span><code>        return new Dataset().stringToIdentifier(name);</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>    /**</code></li>
@@ -9805,8 +9866,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>     * for {@link patio.Dataset} query methods.</code></li>
 <li class='green'><span class=''> </span><code>     */</code></li>
 <li class='green'><span class=''> </span><code>    literal:function (s) {</code></li>
-<li class='green'><span class='hits'>457</span><code>        var args = argsToArray(arguments);</code></li>
-<li class='green'><span class='hits'>457</span><code>        return args.length &gt; 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);</code></li>
+<li class='green'><span class='hits'>458</span><code>        var args = argsToArray(arguments);</code></li>
+<li class='green'><span class='hits'>458</span><code>        return args.length &gt; 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>    /**</code></li>
@@ -9874,7 +9935,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>981</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>975</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10684,13 +10745,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>2289</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>2289</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2289</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>2284</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>2284</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2284</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2289</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2289</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2284</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2284</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -10707,7 +10768,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {Boolean} true if the object is a Hash or is an array of two element arrays.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        isConditionSpecifier:function (obj) {</code></li>
-<li class='green'><span class='hits'>22170</span><code>            return isHash(obj) || (isArray(obj) &amp;&amp; obj.length &amp;&amp; obj.every(function (i) {</code></li>
+<li class='green'><span class='hits'>22172</span><code>            return isHash(obj) || (isArray(obj) &amp;&amp; obj.length &amp;&amp; obj.every(function (i) {</code></li>
 <li class='green'><span class='hits'>9547</span><code>                return isArray(i) &amp;&amp; i.length === 2;</code></li>
 <li class='green'><span class=''> </span><code>            }));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -10932,25 +10993,25 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;/p&gt;</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (op) {</code></li>
-<li class='green'><span class='hits'>7722</span><code>            if (op) {</code></li>
-<li class='green'><span class='hits'>6967</span><code>                var args = argsToArray(arguments,1 );</code></li>
+<li class='green'><span class='hits'>7723</span><code>            if (op) {</code></li>
+<li class='green'><span class='hits'>6968</span><code>                var args = argsToArray(arguments,1 );</code></li>
 <li class='green'><span class=''> </span><code>                //make a copy of the args</code></li>
-<li class='green'><span class='hits'>6967</span><code>                var origArgs = args.slice(0);</code></li>
-<li class='green'><span class='hits'>6967</span><code>                args.forEach(function (a, i) {</code></li>
-<li class='green'><span class='hits'>14150</span><code>                    if (Expression.isConditionSpecifier(a)) {</code></li>
+<li class='green'><span class='hits'>6968</span><code>                var origArgs = args.slice(0);</code></li>
+<li class='green'><span class='hits'>6968</span><code>                args.forEach(function (a, i) {</code></li>
+<li class='green'><span class='hits'>14152</span><code>                    if (Expression.isConditionSpecifier(a)) {</code></li>
 <li class='green'><span class='hits'>6</span><code>                        args[i] = BooleanExpression.fromValuePairs(a);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                });</code></li>
-<li class='green'><span class='hits'>6967</span><code>                op = op.toUpperCase();</code></li>
+<li class='green'><span class='hits'>6968</span><code>                op = op.toUpperCase();</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>6967</span><code>                if (N_ARITY_OPERATORS.hasOwnProperty(op)) {</code></li>
-<li class='green'><span class='hits'>1131</span><code>                    if (args.length &lt; 1) {</code></li>
+<li class='green'><span class='hits'>6968</span><code>                if (N_ARITY_OPERATORS.hasOwnProperty(op)) {</code></li>
+<li class='green'><span class='hits'>1132</span><code>                    if (args.length &lt; 1) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                        throw new ExpressionError("The " + op + " operator requires at least 1 argument")</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class='hits'>1131</span><code>                    var oldArgs = args.slice(0);</code></li>
-<li class='green'><span class='hits'>1131</span><code>                    args = [];</code></li>
-<li class='green'><span class='hits'>1131</span><code>                    oldArgs.forEach(function (a) {</code></li>
-<li class='green'><span class='hits'>2541</span><code>                        a instanceof ComplexExpression &amp;&amp; a.op == op ? args = args.concat(a.args) : args.push(a);</code></li>
+<li class='green'><span class='hits'>1132</span><code>                    var oldArgs = args.slice(0);</code></li>
+<li class='green'><span class='hits'>1132</span><code>                    args = [];</code></li>
+<li class='green'><span class='hits'>1132</span><code>                    oldArgs.forEach(function (a) {</code></li>
+<li class='green'><span class='hits'>2543</span><code>                        a instanceof ComplexExpression &amp;&amp; a.op == op ? args = args.concat(a.args) : args.push(a);</code></li>
 <li class='green'><span class=''> </span><code>                    });</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>5836</span><code>                } else if (TWO_ARITY_OPERATORS.hasOwnProperty(op)) {</code></li>
@@ -10970,8 +11031,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    throw new ExpressionError("Invalid operator " + op);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>6967</span><code>                this.op = op;</code></li>
-<li class='green'><span class='hits'>6967</span><code>                this.args = args;</code></li>
+<li class='green'><span class='hits'>6968</span><code>                this.op = op;</code></li>
+<li class='green'><span class='hits'>6968</span><code>                this.args = args;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -10984,9 +11045,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return String the SQL version of the {@link patio.sql.ComplexExpression}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        toString:function (ds) {</code></li>
-<li class='green'><span class='hits'>6564</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
-<li class='green'><span class='hits'>6564</span><code>            ds = ds || new Dataset();</code></li>
-<li class='green'><span class='hits'>6564</span><code>            return ds.complexExpressionSql(this.op, this.args);</code></li>
+<li class='green'><span class='hits'>6565</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
+<li class='green'><span class='hits'>6565</span><code>            ds = ds || new Dataset();</code></li>
+<li class='green'><span class='hits'>6565</span><code>            return ds.complexExpressionSql(this.op, this.args);</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -11493,7 +11554,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>16583</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>16572</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11505,15 +11566,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return String the SQL version of the {@link patio.sql.Identifier}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        toString:function (ds) {</code></li>
-<li class='green'><span class='hits'>21951</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
-<li class='green'><span class='hits'>21951</span><code>            ds = ds || new Dataset();</code></li>
-<li class='green'><span class='hits'>21951</span><code>            return ds.quoteIdentifier(this);</code></li>
+<li class='green'><span class='hits'>21953</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
+<li class='green'><span class='hits'>21953</span><code>            ds = ds || new Dataset();</code></li>
+<li class='green'><span class='hits'>21953</span><code>            return ds.quoteIdentifier(this);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        getters:{</code></li>
 <li class='green'><span class=''> </span><code>            value:function () {</code></li>
-<li class='green'><span class='hits'>25181</span><code>                return this.__value;</code></li>
+<li class='green'><span class='hits'>25183</span><code>                return this.__value;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
@@ -11686,11 +11747,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} parens &lt;b&gt;READ ONLY&lt;/b&gt; set to true to wrap the string in parens.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str, args, parens) {</code></li>
-<li class='green'><span class='hits'>53</span><code>            parens = parens || false;</code></li>
-<li class='green'><span class='hits'>53</span><code>            var v;</code></li>
-<li class='green'><span class='hits'>53</span><code>            this.__str = str;</code></li>
-<li class='green'><span class='hits'>53</span><code>            this.__args = isArray(args) &amp;&amp; args.length == 1 &amp;&amp; isHash((v = args[0])) ? v : args;</code></li>
-<li class='green'><span class='hits'>53</span><code>            this.__parens = parens;</code></li>
+<li class='green'><span class='hits'>55</span><code>            parens = parens || false;</code></li>
+<li class='green'><span class='hits'>55</span><code>            var v;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.__args = isArray(args) &amp;&amp; args.length == 1 &amp;&amp; isHash((v = args[0])) ? v : args;</code></li>
+<li class='green'><span class='hits'>55</span><code>            this.__parens = parens;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11702,22 +11763,22 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return String the SQL version of the {@link patio.sql.PlaceHolderLiteralString}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        toString:function (ds) {</code></li>
-<li class='green'><span class='hits'>52</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
-<li class='green'><span class='hits'>52</span><code>            ds = ds || new Dataset();</code></li>
-<li class='green'><span class='hits'>52</span><code>            return ds.placeholderLiteralStringSql(this);</code></li>
+<li class='green'><span class='hits'>55</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
+<li class='green'><span class='hits'>55</span><code>            ds = ds || new Dataset();</code></li>
+<li class='green'><span class='hits'>55</span><code>            return ds.placeholderLiteralStringSql(this);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        getters:{</code></li>
 <li class='green'><span class=''> </span><code>            str:function () {</code></li>
-<li class='green'><span class='hits'>55</span><code>                return this.__str;</code></li>
+<li class='green'><span class='hits'>58</span><code>                return this.__str;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code>            args:function () {</code></li>
-<li class='green'><span class='hits'>55</span><code>                return this.__args;</code></li>
+<li class='green'><span class='hits'>58</span><code>                return this.__args;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            parens:function () {</code></li>
-<li class='green'><span class='hits'>55</span><code>                return this.__parens;</code></li>
+<li class='green'><span class='hits'>58</span><code>                return this.__parens;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -12093,7 +12154,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3428</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3410</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -13710,7 +13771,7 @@ td.cov-stats {
             <td class="cov-stats">
                 <div>
                     <span class='cov-label'>Coverage</span><span class='cov-value'>92.86</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>1684</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>1685</span>
                     <span class='cov-label'>LOC</span><span class='cov-value'>504</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>36</span>
                 </div>
@@ -13718,45 +13779,46 @@ td.cov-stats {
         </tr>
     </table>
     <div class='source' id="dataset/sql.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb"),</code></li>
-<li class='green'><span class=''> </span><code>        define = comb.define,</code></li>
-<li class='green'><span class=''> </span><code>        array = comb.array,</code></li>
-<li class='green'><span class=''> </span><code>        intersect = array.intersect,</code></li>
-<li class='green'><span class=''> </span><code>        compact = array.compact,</code></li>
-<li class='green'><span class=''> </span><code>        string = comb.string,</code></li>
-<li class='green'><span class=''> </span><code>        format = string.format,</code></li>
-<li class='green'><span class=''> </span><code>        argsToArray = comb.argsToArray,</code></li>
-<li class='green'><span class=''> </span><code>        isInstanceOf = comb.isInstanceOf,</code></li>
-<li class='green'><span class=''> </span><code>        isArray = comb.isArray,</code></li>
-<li class='green'><span class=''> </span><code>        isNumber = comb.isNumber,</code></li>
-<li class='green'><span class=''> </span><code>        isDate = comb.isDate,</code></li>
-<li class='green'><span class=''> </span><code>        isNull = comb.isNull,</code></li>
-<li class='green'><span class=''> </span><code>        isBoolean = comb.isBoolean,</code></li>
-<li class='green'><span class=''> </span><code>        isFunction = comb.isFunction,</code></li>
-<li class='green'><span class=''> </span><code>        isUndefined = comb.isUndefined,</code></li>
-<li class='green'><span class=''> </span><code>        isObject = comb.isObject,</code></li>
-<li class='green'><span class=''> </span><code>        isHash = comb.isHash,</code></li>
-<li class='green'><span class=''> </span><code>        isEmpty = comb.isEmpty,</code></li>
-<li class='green'><span class=''> </span><code>        merge = comb.merge,</code></li>
-<li class='green'><span class=''> </span><code>        isUndefinedOrNull = comb.isUndefinedOrNull,</code></li>
-<li class='green'><span class=''> </span><code>        isString = comb.isString,</code></li>
-<li class='green'><span class=''> </span><code>        sql = require("../sql").sql,</code></li>
-<li class='green'><span class=''> </span><code>        Expression = sql.Expression,</code></li>
-<li class='green'><span class=''> </span><code>        ComplexExpression = sql.ComplexExpression,</code></li>
-<li class='green'><span class=''> </span><code>        AliasedExpression = sql.AliasedExpression,</code></li>
-<li class='green'><span class=''> </span><code>        Identifier = sql.Identifier,</code></li>
-<li class='green'><span class=''> </span><code>        QualifiedIdentifier = sql.QualifiedIdentifier,</code></li>
-<li class='green'><span class=''> </span><code>        OrderedExpression = sql.OrderedExpression,</code></li>
-<li class='green'><span class=''> </span><code>        CaseExpression = sql.CaseExpression,</code></li>
-<li class='green'><span class=''> </span><code>        SubScript = sql.SubScript,</code></li>
-<li class='green'><span class=''> </span><code>        NumericExpression = sql.NumericExpression,</code></li>
-<li class='green'><span class=''> </span><code>        ColumnAll = sql.ColumnAll,</code></li>
-<li class='green'><span class=''> </span><code>        Cast = sql.Cast,</code></li>
-<li class='green'><span class=''> </span><code>        StringExpression = sql.StringExpression,</code></li>
-<li class='green'><span class=''> </span><code>        BooleanExpression = sql.BooleanExpression,</code></li>
-<li class='green'><span class=''> </span><code>        SQLFunction = sql.SQLFunction,</code></li>
-<li class='green'><span class=''> </span><code>        LiteralString = sql.LiteralString,</code></li>
-<li class='green'><span class=''> </span><code>        PlaceHolderLiteralString = sql.PlaceHolderLiteralString,</code></li>
-<li class='green'><span class=''> </span><code>        QueryError = require("../errors").QueryError, patio;</code></li>
+<li class='green'><span class=''> </span><code>    define = comb.define,</code></li>
+<li class='green'><span class=''> </span><code>    array = comb.array,</code></li>
+<li class='green'><span class=''> </span><code>    toArray = array.toArray,</code></li>
+<li class='green'><span class=''> </span><code>    intersect = array.intersect,</code></li>
+<li class='green'><span class=''> </span><code>    compact = array.compact,</code></li>
+<li class='green'><span class=''> </span><code>    string = comb.string,</code></li>
+<li class='green'><span class=''> </span><code>    format = string.format,</code></li>
+<li class='green'><span class=''> </span><code>    argsToArray = comb.argsToArray,</code></li>
+<li class='green'><span class=''> </span><code>    isInstanceOf = comb.isInstanceOf,</code></li>
+<li class='green'><span class=''> </span><code>    isArray = comb.isArray,</code></li>
+<li class='green'><span class=''> </span><code>    isNumber = comb.isNumber,</code></li>
+<li class='green'><span class=''> </span><code>    isDate = comb.isDate,</code></li>
+<li class='green'><span class=''> </span><code>    isNull = comb.isNull,</code></li>
+<li class='green'><span class=''> </span><code>    isBoolean = comb.isBoolean,</code></li>
+<li class='green'><span class=''> </span><code>    isFunction = comb.isFunction,</code></li>
+<li class='green'><span class=''> </span><code>    isUndefined = comb.isUndefined,</code></li>
+<li class='green'><span class=''> </span><code>    isObject = comb.isObject,</code></li>
+<li class='green'><span class=''> </span><code>    isHash = comb.isHash,</code></li>
+<li class='green'><span class=''> </span><code>    isEmpty = comb.isEmpty,</code></li>
+<li class='green'><span class=''> </span><code>    merge = comb.merge,</code></li>
+<li class='green'><span class=''> </span><code>    isUndefinedOrNull = comb.isUndefinedOrNull,</code></li>
+<li class='green'><span class=''> </span><code>    isString = comb.isString,</code></li>
+<li class='green'><span class=''> </span><code>    sql = require("../sql").sql,</code></li>
+<li class='green'><span class=''> </span><code>    Expression = sql.Expression,</code></li>
+<li class='green'><span class=''> </span><code>    ComplexExpression = sql.ComplexExpression,</code></li>
+<li class='green'><span class=''> </span><code>    AliasedExpression = sql.AliasedExpression,</code></li>
+<li class='green'><span class=''> </span><code>    Identifier = sql.Identifier,</code></li>
+<li class='green'><span class=''> </span><code>    QualifiedIdentifier = sql.QualifiedIdentifier,</code></li>
+<li class='green'><span class=''> </span><code>    OrderedExpression = sql.OrderedExpression,</code></li>
+<li class='green'><span class=''> </span><code>    CaseExpression = sql.CaseExpression,</code></li>
+<li class='green'><span class=''> </span><code>    SubScript = sql.SubScript,</code></li>
+<li class='green'><span class=''> </span><code>    NumericExpression = sql.NumericExpression,</code></li>
+<li class='green'><span class=''> </span><code>    ColumnAll = sql.ColumnAll,</code></li>
+<li class='green'><span class=''> </span><code>    Cast = sql.Cast,</code></li>
+<li class='green'><span class=''> </span><code>    StringExpression = sql.StringExpression,</code></li>
+<li class='green'><span class=''> </span><code>    BooleanExpression = sql.BooleanExpression,</code></li>
+<li class='green'><span class=''> </span><code>    SQLFunction = sql.SQLFunction,</code></li>
+<li class='green'><span class=''> </span><code>    LiteralString = sql.LiteralString,</code></li>
+<li class='green'><span class=''> </span><code>    PlaceHolderLiteralString = sql.PlaceHolderLiteralString,</code></li>
+<li class='green'><span class=''> </span><code>    QueryError = require("../errors").QueryError, patio;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var Dataset;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -13820,9 +13882,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
 <li class='green'><span class=''> </span><code>            //We initialize these here because otherwise</code></li>
 <li class='green'><span class=''> </span><code>            //the will be blank because of recursive dependencies.</code></li>
-<li class='green'><span class='hits'>28665</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
-<li class='green'><span class='hits'>28665</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
+<li class='green'><span class='hits'>28667</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14107,15 +14169,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {String} a literal representation of the value.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        literal:function (v) {</code></li>
-<li class='green'><span class='hits'>43919</span><code>            if (isInstanceOf(v, LiteralString)) {</code></li>
-<li class='green'><span class='hits'>219</span><code>                return "" + v;</code></li>
-<li class='green'><span class='hits'>43700</span><code>            } else if (isString(v)) {</code></li>
-<li class='green'><span class='hits'>6162</span><code>                return this._literalString(v);</code></li>
-<li class='green'><span class='hits'>37538</span><code>            } else if (isNumber(v)) {</code></li>
+<li class='green'><span class='hits'>43926</span><code>            if (isInstanceOf(v, LiteralString)) {</code></li>
+<li class='green'><span class='hits'>218</span><code>                return "" + v;</code></li>
+<li class='green'><span class='hits'>43708</span><code>            } else if (isString(v)) {</code></li>
+<li class='green'><span class='hits'>6164</span><code>                return this._literalString(v);</code></li>
+<li class='green'><span class='hits'>37544</span><code>            } else if (isNumber(v)) {</code></li>
 <li class='green'><span class='hits'>7025</span><code>                return this._literalNumber(v);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>30513</span><code>            else if (isInstanceOf(v, Expression)) {</code></li>
-<li class='green'><span class='hits'>27931</span><code>                return this._literalExpression(v);</code></li>
+<li class='green'><span class='hits'>30519</span><code>            else if (isInstanceOf(v, Expression)) {</code></li>
+<li class='green'><span class='hits'>27937</span><code>                return this._literalExpression(v);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>2582</span><code>            else if (isInstanceOf(v, Dataset)) {</code></li>
 <li class='green'><span class='hits'>104</span><code>                return this._literalDataset(v);</code></li>
@@ -14167,7 +14229,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>59</span><code>                return new QualifiedIdentifier(table, e);</code></li>
 <li class='green'><span class='hits'>217</span><code>            } else if (isInstanceOf(e, OrderedExpression)) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                return new OrderedExpression(this._qualifiedExpression(e.expression, table), e.descending,</code></li>
-<li class='green'><span class=''> </span><code>                        {nulls:e.nulls});</code></li>
+<li class='green'><span class=''> </span><code>                    {nulls:e.nulls});</code></li>
 <li class='green'><span class='hits'>215</span><code>            } else if (isInstanceOf(e, AliasedExpression)) {</code></li>
 <li class='green'><span class='hits'>72</span><code>                return new AliasedExpression(this._qualifiedExpression(e.expression, table), e.alias);</code></li>
 <li class='green'><span class='hits'>143</span><code>            } else if (isInstanceOf(e, CaseExpression)) {</code></li>
@@ -14306,22 +14368,22 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        //Prepares an SQL statement by calling all clause methods for the given statement type.</code></li>
 <li class='green'><span class=''> </span><code>        _clauseSql:function (type) {</code></li>
-<li class='green'><span class='hits'>6657</span><code>            var sql = [("" + type).toUpperCase()];</code></li>
-<li class='green'><span class='hits'>6657</span><code>            try {</code></li>
-<li class='green'><span class='hits'>6657</span><code>                this._static[sql + "_CLAUSE_METHODS"].forEach(function (m) {</code></li>
-<li class='green'><span class='hits'>66194</span><code>                    if (m.match("With")) {</code></li>
-<li class='green'><span class='hits'>6380</span><code>                        this[m](sql);</code></li>
+<li class='green'><span class='hits'>6658</span><code>            var sql = [("" + type).toUpperCase()];</code></li>
+<li class='green'><span class='hits'>6658</span><code>            try {</code></li>
+<li class='green'><span class='hits'>6658</span><code>                this._static[sql + "_CLAUSE_METHODS"].forEach(function (m) {</code></li>
+<li class='green'><span class='hits'>66207</span><code>                    if (m.match("With")) {</code></li>
+<li class='green'><span class='hits'>6381</span><code>                        this[m](sql);</code></li>
 <li class='green'><span class=''> </span><code>                    } else {</code></li>
-<li class='green'><span class='hits'>59814</span><code>                        var sqlRet = this[m]();</code></li>
-<li class='green'><span class='hits'>59812</span><code>                        if (sqlRet) {</code></li>
-<li class='green'><span class='hits'>21302</span><code>                            sql.push(sqlRet);</code></li>
+<li class='green'><span class='hits'>59826</span><code>                        var sqlRet = this[m]();</code></li>
+<li class='green'><span class='hits'>59824</span><code>                        if (sqlRet) {</code></li>
+<li class='green'><span class='hits'>21305</span><code>                            sql.push(sqlRet);</code></li>
 <li class='green'><span class=''> </span><code>                        }</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }, this);</code></li>
 <li class='green'><span class=''> </span><code>            } catch (e) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                throw e;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>6655</span><code>            return sql.join("");</code></li>
+<li class='green'><span class='hits'>6656</span><code>            return sql.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -14335,9 +14397,9 @@ td.cov-stats {
 <li class='green'><span class='hits'>1454</span><code>            var columns = this.__opts.columns, ret = "";</code></li>
 <li class='green'><span class='hits'>1454</span><code>            if (columns &amp;&amp; columns.length) {</code></li>
 <li class='green'><span class='hits'>1401</span><code>                ret = " (" + columns.map(</code></li>
-<li class='green'><span class=''> </span><code>                        function (c) {</code></li>
-<li class='green'><span class='hits'>6800</span><code>                            return c.toString(this);</code></li>
-<li class='green'><span class=''> </span><code>                        }, this).join(this._static.COMMA_SEPARATOR) + ")";</code></li>
+<li class='green'><span class=''> </span><code>                    function (c) {</code></li>
+<li class='green'><span class='hits'>6800</span><code>                        return c.toString(this);</code></li>
+<li class='green'><span class=''> </span><code>                    }, this).join(this._static.COMMA_SEPARATOR) + ")";</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>1454</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -14435,9 +14497,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * SQL fragment for complex expressions</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        complexExpressionSql:function (op, args) {</code></li>
-<li class='green'><span class='hits'>6549</span><code>            var newOp;</code></li>
-<li class='green'><span class='hits'>6549</span><code>            var isOperators = this._static.IS_OPERATORS, isLiterals = this._static.IS_LITERALS;</code></li>
-<li class='green'><span class='hits'>6549</span><code>            if ((newOp = isOperators[op]) != null) {</code></li>
+<li class='green'><span class='hits'>6550</span><code>            var newOp;</code></li>
+<li class='green'><span class='hits'>6550</span><code>            var isOperators = this._static.IS_OPERATORS, isLiterals = this._static.IS_LITERALS;</code></li>
+<li class='green'><span class='hits'>6550</span><code>            if ((newOp = isOperators[op]) != null) {</code></li>
 <li class='green'><span class='hits'>259</span><code>                var r = args[1], v = isNull(r) ? isLiterals.NULL : isLiterals[r];</code></li>
 <li class='green'><span class='hits'>259</span><code>                if (r == null || this.supportsIsTrue) {</code></li>
 <li class='green'><span class='hits'>259</span><code>                    if (isUndefined(v)) {</code></li>
@@ -14449,11 +14511,11 @@ td.cov-stats {
 <li class='red'><span class='nohits'>0</span><code>                    return this.complexExpressionSql("EQ", args);</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    return this.complexExpressionSql("OR",</code></li>
-<li class='green'><span class=''> </span><code>                            [BooleanExpression.fromArgs(["NEQ"].concat(args)), new BooleanExpression("IS", args[0],</code></li>
-<li class='green'><span class=''> </span><code>                                    null)]);</code></li>
+<li class='green'><span class=''> </span><code>                        [BooleanExpression.fromArgs(["NEQ"].concat(args)), new BooleanExpression("IS", args[0],</code></li>
+<li class='green'><span class=''> </span><code>                            null)]);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>6290</span><code>            } else if (["IN", "NOTIN"].indexOf(op) != -1) {</code></li>
+<li class='green'><span class='hits'>6291</span><code>            } else if (["IN", "NOTIN"].indexOf(op) != -1) {</code></li>
 <li class='green'><span class='hits'>17</span><code>                var cols = args[0], vals = args[1], colArray = isArray(cols), valArray = false, emptyValArray = false;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>17</span><code>                if (isArray(vals)) {</code></li>
@@ -14481,8 +14543,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                        //literal so that if values is an array of two element arrays, it</code></li>
 <li class='green'><span class=''> </span><code>                        //will be treated as a value list instead of a condition specifier.</code></li>
 <li class='green'><span class='hits'>4</span><code>                        return format("(%s %s %s)", isString(cols) ? cols : this.literal(cols),</code></li>
-<li class='green'><span class=''> </span><code>                                ComplexExpression.IN_OPERATORS[op],</code></li>
-<li class='green'><span class=''> </span><code>                                valArray ? this._arraySql(vals) : this.literal(vals));</code></li>
+<li class='green'><span class=''> </span><code>                            ComplexExpression.IN_OPERATORS[op],</code></li>
+<li class='green'><span class=''> </span><code>                            valArray ? this._arraySql(vals) : this.literal(vals));</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>                else {</code></li>
@@ -14496,15 +14558,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                        }</code></li>
 <li class='green'><span class=''> </span><code>                    } else {</code></li>
 <li class='green'><span class='hits'>10</span><code>                        return format("(%s %s %s)", isString(cols) ? cols : this.literal(cols),</code></li>
-<li class='green'><span class=''> </span><code>                                ComplexExpression.IN_OPERATORS[op], this.literal(vals));</code></li>
+<li class='green'><span class=''> </span><code>                            ComplexExpression.IN_OPERATORS[op], this.literal(vals));</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>6273</span><code>            } else if ((newOp = this._static.TWO_ARITY_OPERATORS[op]) != null) {</code></li>
+<li class='green'><span class='hits'>6274</span><code>            } else if ((newOp = this._static.TWO_ARITY_OPERATORS[op]) != null) {</code></li>
 <li class='green'><span class='hits'>5296</span><code>                var l = args[0];</code></li>
 <li class='green'><span class='hits'>5296</span><code>                return format("(%s %s %s)", isString(l) ? l : this.literal(l), newOp,</code></li>
-<li class='green'><span class=''> </span><code>                        this.literal(args[1]));</code></li>
-<li class='green'><span class='hits'>977</span><code>            } else if ((newOp = this._static.N_ARITY_OPERATORS[op]) != null) {</code></li>
-<li class='green'><span class='hits'>943</span><code>                return string.format("(%s)", args.map(this.literal, this).join(" " + newOp + " "));</code></li>
+<li class='green'><span class=''> </span><code>                    this.literal(args[1]));</code></li>
+<li class='green'><span class='hits'>978</span><code>            } else if ((newOp = this._static.N_ARITY_OPERATORS[op]) != null) {</code></li>
+<li class='green'><span class='hits'>944</span><code>                return string.format("(%s)", args.map(this.literal, this).join(" " + newOp + " "));</code></li>
 <li class='green'><span class='hits'>34</span><code>            } else if (op == "NOT") {</code></li>
 <li class='green'><span class='hits'>5</span><code>                return string.format("NOT %s", this.literal(args[0]));</code></li>
 <li class='green'><span class='hits'>29</span><code>            } else if (op == "NOOP") {</code></li>
@@ -14545,7 +14607,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>931</span><code>            var tref = this.__tableRef(table);</code></li>
 <li class='green'><span class='hits'>931</span><code>            return string.format(" %s %s", this._joinTypeSql(jc.joinType),</code></li>
-<li class='green'><span class=''> </span><code>                    tableAlias ? this.__asSql(tref, tableAlias) : tref);</code></li>
+<li class='green'><span class=''> </span><code>                tableAlias ? this.__asSql(tref, tableAlias) : tref);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14591,23 +14653,23 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * SQL fragment for a literal string with placeholders</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        placeholderLiteralStringSql:function (pls) {</code></li>
-<li class='green'><span class='hits'>52</span><code>            var args = pls.args;</code></li>
-<li class='green'><span class='hits'>52</span><code>            var s;</code></li>
-<li class='green'><span class='hits'>52</span><code>            if (isHash(args)) {</code></li>
+<li class='green'><span class='hits'>55</span><code>            var args = pls.args;</code></li>
+<li class='green'><span class='hits'>55</span><code>            var s;</code></li>
+<li class='green'><span class='hits'>55</span><code>            if (isHash(args)) {</code></li>
 <li class='green'><span class='hits'>6</span><code>                for (var i in args) {</code></li>
 <li class='green'><span class='hits'>10</span><code>                    args[i] = this.literal(args[i]);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class='hits'>6</span><code>                s = string.format(pls.str, args);</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>46</span><code>                s = pls.str.replace(this._static.QUESTION_MARK, "%s");</code></li>
-<li class='green'><span class='hits'>46</span><code>                args = args.map(this.literal, this);</code></li>
-<li class='green'><span class='hits'>46</span><code>                s = string.format(s, args);</code></li>
+<li class='green'><span class='hits'>49</span><code>                s = pls.str.replace(this._static.QUESTION_MARK, "%s");</code></li>
+<li class='green'><span class='hits'>49</span><code>                args = toArray(args).map(this.literal, this);</code></li>
+<li class='green'><span class='hits'>49</span><code>                s = string.format(s, args);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>52</span><code>            if (pls.parens) {</code></li>
-<li class='green'><span class='hits'>28</span><code>                s = string.format("(%s)", s);</code></li>
+<li class='green'><span class='hits'>55</span><code>            if (pls.parens) {</code></li>
+<li class='green'><span class='hits'>30</span><code>                s = string.format("(%s)", s);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>52</span><code>            return s;</code></li>
+<li class='green'><span class='hits'>55</span><code>            return s;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -14618,11 +14680,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        qualifiedIdentifierSql:function (qcr) {</code></li>
 <li class='green'><span class='hits'>4202</span><code>            return [qcr.table, qcr.column].map(</code></li>
-<li class='green'><span class=''> </span><code>                    function (x) {</code></li>
-<li class='green'><span class='hits'>8404</span><code>                        return [QualifiedIdentifier, Identifier, String].some(function (c) {</code></li>
-<li class='green'><span class='hits'>23691</span><code>                            return x instanceof c</code></li>
-<li class='green'><span class=''> </span><code>                        }) ? this.literal(x) : this.quoteIdentifier(x)</code></li>
-<li class='green'><span class=''> </span><code>                    }, this).join('.');</code></li>
+<li class='green'><span class=''> </span><code>                function (x) {</code></li>
+<li class='green'><span class='hits'>8404</span><code>                    return [QualifiedIdentifier, Identifier, String].some(function (c) {</code></li>
+<li class='green'><span class='hits'>23691</span><code>                        return x instanceof c</code></li>
+<li class='green'><span class=''> </span><code>                    }) ? this.literal(x) : this.quoteIdentifier(x)</code></li>
+<li class='green'><span class=''> </span><code>                }, this).join('.');</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14633,18 +14695,18 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * quote the name with {@link patio.dataset._Sql#_quotedIdentifier}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        quoteIdentifier:function (name) {</code></li>
-<li class='green'><span class='hits'>33119</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
+<li class='green'><span class='hits'>33121</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
 <li class='green'><span class='hits'>260</span><code>                return name;</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>32859</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
-<li class='green'><span class='hits'>22287</span><code>                    name = name.value;</code></li>
+<li class='green'><span class='hits'>32861</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
+<li class='green'><span class='hits'>22289</span><code>                    name = name.value;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>32859</span><code>                name = this.inputIdentifier(name);</code></li>
-<li class='green'><span class='hits'>32859</span><code>                if (this.quoteIdentifiers) {</code></li>
+<li class='green'><span class='hits'>32861</span><code>                name = this.inputIdentifier(name);</code></li>
+<li class='green'><span class='hits'>32861</span><code>                if (this.quoteIdentifiers) {</code></li>
 <li class='green'><span class='hits'>25787</span><code>                    name = this._quotedIdentifier(name)</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>32859</span><code>            return name;</code></li>
+<li class='green'><span class='hits'>32861</span><code>            return name;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14654,15 +14716,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * identifierOutputMethod.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        inputIdentifier:function (v) {</code></li>
-<li class='green'><span class='hits'>33012</span><code>            var i = this.__identifierInputMethod;</code></li>
-<li class='green'><span class='hits'>33012</span><code>            v = v.toString(this);</code></li>
-<li class='green'><span class='hits'>33012</span><code>            return !isUndefinedOrNull(i) ?</code></li>
-<li class='green'><span class=''> </span><code>                    isFunction(v[i]) ?</code></li>
-<li class='green'><span class=''> </span><code>                            v[i]() :</code></li>
-<li class='green'><span class=''> </span><code>                            isFunction(comb[i]) ?</code></li>
-<li class='green'><span class=''> </span><code>                                    comb[i](v)</code></li>
-<li class='green'><span class=''> </span><code>                                    : v</code></li>
-<li class='green'><span class=''> </span><code>                    : v;</code></li>
+<li class='green'><span class='hits'>33014</span><code>            var i = this.__identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>33014</span><code>            v = v.toString(this);</code></li>
+<li class='green'><span class='hits'>33014</span><code>            return !isUndefinedOrNull(i) ?</code></li>
+<li class='green'><span class=''> </span><code>                isFunction(v[i]) ?</code></li>
+<li class='green'><span class=''> </span><code>                    v[i]() :</code></li>
+<li class='green'><span class=''> </span><code>                    isFunction(comb[i]) ?</code></li>
+<li class='green'><span class=''> </span><code>                        comb[i](v)</code></li>
+<li class='green'><span class=''> </span><code>                        : v</code></li>
+<li class='green'><span class=''> </span><code>                : v;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14675,12 +14737,12 @@ td.cov-stats {
 <li class='green'><span class='hits'>20096</span><code>            (v == '' &amp;&amp; (v = 'untitled'));</code></li>
 <li class='green'><span class='hits'>20096</span><code>            var i = this.__identifierOutputMethod;</code></li>
 <li class='green'><span class='hits'>20096</span><code>            return !isUndefinedOrNull(i) ?</code></li>
-<li class='green'><span class=''> </span><code>                    isFunction(v[i]) ?</code></li>
-<li class='green'><span class=''> </span><code>                            v[i]() :</code></li>
-<li class='green'><span class=''> </span><code>                            isFunction(comb[i]) ?</code></li>
-<li class='green'><span class=''> </span><code>                                    comb[i](v)</code></li>
-<li class='green'><span class=''> </span><code>                                    : v</code></li>
-<li class='green'><span class=''> </span><code>                    : v;</code></li>
+<li class='green'><span class=''> </span><code>                isFunction(v[i]) ?</code></li>
+<li class='green'><span class=''> </span><code>                    v[i]() :</code></li>
+<li class='green'><span class=''> </span><code>                    isFunction(comb[i]) ?</code></li>
+<li class='green'><span class=''> </span><code>                        comb[i](v)</code></li>
+<li class='green'><span class=''> </span><code>                        : v</code></li>
+<li class='green'><span class=''> </span><code>                : v;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14744,7 +14806,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * column names. If the array is empty, a wildcard (*) is returned.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        __columnList:function (columns) {</code></li>
-<li class='green'><span class='hits'>5427</span><code>            return (!columns || columns.length == 0) ? this._static.WILDCARD : this.__expressionList(columns);</code></li>
+<li class='green'><span class='hits'>5428</span><code>            return (!columns || columns.length == 0) ? this._static.WILDCARD : this.__expressionList(columns);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14776,9 +14838,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _joinTypeSql:function (joinType) {</code></li>
 <li class='green'><span class='hits'>928</span><code>            return (joinType || "").replace(/([a-z]+)|([A-Z][a-z]+)/g,</code></li>
-<li class='green'><span class=''> </span><code>                    function (m) {</code></li>
-<li class='green'><span class='hits'>1133</span><code>                        return m.toUpperCase() + " ";</code></li>
-<li class='green'><span class=''> </span><code>                    }</code></li>
+<li class='green'><span class=''> </span><code>                function (m) {</code></li>
+<li class='green'><span class='hits'>1133</span><code>                    return m.toUpperCase() + " ";</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            ).trimRight() + " JOIN";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -14881,7 +14943,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return SQL fragment for SQL::Expression, result depends on the specific type of expression.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        _literalExpression:function (v) {</code></li>
-<li class='green'><span class='hits'>27941</span><code>            return v.toString(this);</code></li>
+<li class='green'><span class='hits'>27947</span><code>            return v.toString(this);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14900,23 +14962,23 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return SQL fragment for String.  Doubles \ and ' by default.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        _literalString:function (v) {</code></li>
-<li class='green'><span class='hits'>6111</span><code>            var parts = this._splitString(v);</code></li>
-<li class='green'><span class='hits'>6111</span><code>            var table = parts[0], column = parts[1], alias = parts[2];</code></li>
-<li class='green'><span class='hits'>6111</span><code>            if (!alias) {</code></li>
-<li class='green'><span class='hits'>6111</span><code>                return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : "'"</code></li>
-<li class='green'><span class=''> </span><code>                        + v.replace(/\\/g, "\\\\").replace(/'/g, "''") + "'"</code></li>
+<li class='green'><span class='hits'>6113</span><code>            var parts = this._splitString(v);</code></li>
+<li class='green'><span class='hits'>6113</span><code>            var table = parts[0], column = parts[1], alias = parts[2];</code></li>
+<li class='green'><span class='hits'>6113</span><code>            if (!alias) {</code></li>
+<li class='green'><span class='hits'>6113</span><code>                return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : "'"</code></li>
+<li class='green'><span class=''> </span><code>                    + v.replace(/\\/g, "\\\\").replace(/'/g, "''") + "'"</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                return this.literal(new AliasedExpression(column</code></li>
-<li class='green'><span class=''> </span><code>                        &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));</code></li>
+<li class='green'><span class=''> </span><code>                    &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /*SQL STATEMENT CREATION METHODS*/</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        _selectQualifySql:function () {</code></li>
-<li class='green'><span class='hits'>4960</span><code>            var o = this.__opts;</code></li>
-<li class='green'><span class='hits'>4960</span><code>            var table = this.__opts.alwaysQualify;</code></li>
-<li class='green'><span class='hits'>4960</span><code>            if (table &amp;&amp; !o.sql) {</code></li>
+<li class='green'><span class='hits'>4961</span><code>            var o = this.__opts;</code></li>
+<li class='green'><span class='hits'>4961</span><code>            var table = this.__opts.alwaysQualify;</code></li>
+<li class='green'><span class='hits'>4961</span><code>            if (table &amp;&amp; !o.sql) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                array.intersect(Object.keys(o), this._static.QUALIFY_KEYS).forEach(function (k) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                    o[k] = this._qualifiedExpression(o[k], table);</code></li>
 <li class='green'><span class=''> </span><code>                }, this);</code></li>
@@ -14934,19 +14996,19 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return the columns selected</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        _selectColumnsSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return " " + this.__columnList(this.__opts.select);</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return " " + this.__columnList(this.__opts.select);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@return the DISTINCT clause.*/</code></li>
 <li class='green'><span class=''> </span><code>        _selectDistinctSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            var distinct = this.__opts.distinct, ret = [];</code></li>
-<li class='green'><span class='hits'>4015</span><code>            if (distinct) {</code></li>
+<li class='green'><span class='hits'>4016</span><code>            var distinct = this.__opts.distinct, ret = [];</code></li>
+<li class='green'><span class='hits'>4016</span><code>            if (distinct) {</code></li>
 <li class='green'><span class='hits'>10</span><code>                ret.push(" DISTINCT");</code></li>
 <li class='green'><span class='hits'>10</span><code>                if (distinct.length) {</code></li>
 <li class='green'><span class='hits'>4</span><code>                    ret.push(format(" ON (%s)", this.__expressionList(distinct)));</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return ret.join("");</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return ret.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14955,30 +15017,30 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * work on all databases.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectCompoundsSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            var opts = this.__opts, compounds = opts.compounds, ret = [];</code></li>
-<li class='green'><span class='hits'>4015</span><code>            if (compounds) {</code></li>
+<li class='green'><span class='hits'>4016</span><code>            var opts = this.__opts, compounds = opts.compounds, ret = [];</code></li>
+<li class='green'><span class='hits'>4016</span><code>            if (compounds) {</code></li>
 <li class='green'><span class='hits'>49</span><code>                compounds.forEach(function (c) {</code></li>
 <li class='green'><span class='hits'>49</span><code>                    var type = c[0], dataset = c[1], all = c[2];</code></li>
 <li class='green'><span class='hits'>49</span><code>                    ret.push(string.format(" %s%s %s", type.toUpperCase(), all ? " ALL" : "", this._subselectSql(dataset)));</code></li>
 <li class='green'><span class=''> </span><code>                }, this);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return ret.join("");</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return ret.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the sql to add the list of tables to select FROM</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectFromSql:function () {</code></li>
-<li class='green'><span class='hits'>4033</span><code>            var from = this.__opts.from;</code></li>
-<li class='green'><span class='hits'>4033</span><code>            return from ? string.format(" %s%s", this._static.FROM, this._sourceList(from)) : "";</code></li>
+<li class='green'><span class='hits'>4034</span><code>            var from = this.__opts.from;</code></li>
+<li class='green'><span class='hits'>4034</span><code>            return from ? string.format(" %s%s", this._static.FROM, this._sourceList(from)) : "";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the GROUP BY clause</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectGroupSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            var group = this.__opts.group;</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return group ? string.format(" GROUP BY %s", this.__expressionList(group)) : "";</code></li>
+<li class='green'><span class='hits'>4016</span><code>            var group = this.__opts.group;</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return group ? string.format(" GROUP BY %s", this.__expressionList(group)) : "";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -14986,62 +15048,62 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *@return the sql to add the filter criteria in the HAVING clause</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectHavingSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            var having = this.__opts.having;</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return having ? string.format(" HAVING %s", this.literal(having)) : "";</code></li>
+<li class='green'><span class='hits'>4016</span><code>            var having = this.__opts.having;</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return having ? string.format(" HAVING %s", this.literal(having)) : "";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the JOIN clause.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectJoinSql:function () {</code></li>
-<li class='green'><span class='hits'>4018</span><code>            var join = this.__opts.join, ret = [];</code></li>
-<li class='green'><span class='hits'>4018</span><code>            if (join) {</code></li>
+<li class='green'><span class='hits'>4019</span><code>            var join = this.__opts.join, ret = [];</code></li>
+<li class='green'><span class='hits'>4019</span><code>            if (join) {</code></li>
 <li class='green'><span class='hits'>595</span><code>                join.forEach(function (j) {</code></li>
 <li class='green'><span class='hits'>931</span><code>                    ret.push(this.literal(j));</code></li>
 <li class='green'><span class=''> </span><code>                }, this);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4018</span><code>            return ret.join("");</code></li>
+<li class='green'><span class='hits'>4019</span><code>            return ret.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the LIMIT and OFFSET clauses.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        _selectLimitSql:function () {</code></li>
-<li class='green'><span class='hits'>4015</span><code>            var ret = [], limit = this.__opts.limit, offset = this.__opts.offset;</code></li>
-<li class='green'><span class='hits'>4015</span><code>            !isUndefined(limit) &amp;&amp; !isNull(limit) &amp;&amp; (ret.push(format(" LIMIT %s", this.literal(limit))));</code></li>
-<li class='green'><span class='hits'>4015</span><code>            !isUndefined(offset) &amp;&amp; !isNull(offset) &amp;&amp; (ret.push(format(" OFFSET %s", this.literal(offset))));</code></li>
-<li class='green'><span class='hits'>4015</span><code>            return ret.join("");</code></li>
+<li class='green'><span class='hits'>4016</span><code>            var ret = [], limit = this.__opts.limit, offset = this.__opts.offset;</code></li>
+<li class='green'><span class='hits'>4016</span><code>            !isUndefined(limit) &amp;&amp; !isNull(limit) &amp;&amp; (ret.push(format(" LIMIT %s", this.literal(limit))));</code></li>
+<li class='green'><span class='hits'>4016</span><code>            !isUndefined(offset) &amp;&amp; !isNull(offset) &amp;&amp; (ret.push(format(" OFFSET %s", this.literal(offset))));</code></li>
+<li class='green'><span class='hits'>4016</span><code>            return ret.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return SQL for different locking modes.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _selectLockSql:function () {</code></li>
-<li class='green'><span class='hits'>4014</span><code>            var lock = this.__opts.lock, ret = [];</code></li>
-<li class='green'><span class='hits'>4014</span><code>            if (lock) {</code></li>
+<li class='green'><span class='hits'>4015</span><code>            var lock = this.__opts.lock, ret = [];</code></li>
+<li class='green'><span class='hits'>4015</span><code>            if (lock) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                if (lock == "update") {</code></li>
 <li class='green'><span class='hits'>2</span><code>                    ret.push(this._static.FOR_UPDATE);</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='green'><span class='hits'>1</span><code>                    ret.push(" ", lock);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4014</span><code>            return ret.join("");</code></li>
+<li class='green'><span class='hits'>4015</span><code>            return ret.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the SQL ORDER BY clause fragment.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _selectOrderSql:function () {</code></li>
-<li class='green'><span class='hits'>4027</span><code>            var order = this.__opts.order;</code></li>
-<li class='green'><span class='hits'>4027</span><code>            return order ? string.format(" ORDER BY %s", this.__expressionList(order)) : "";</code></li>
+<li class='green'><span class='hits'>4028</span><code>            var order = this.__opts.order;</code></li>
+<li class='green'><span class='hits'>4028</span><code>            return order ? string.format(" ORDER BY %s", this.__expressionList(order)) : "";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
 <li class='green'><span class=''> </span><code>         * @return the SQL WHERE clause fragment.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _selectWhereSql:function () {</code></li>
-<li class='green'><span class='hits'>5193</span><code>            var where = this.__opts.where;</code></li>
-<li class='green'><span class='hits'>5193</span><code>            return where ? string.format(" WHERE %s", this.literal(where)) : "";</code></li>
+<li class='green'><span class='hits'>5194</span><code>            var where = this.__opts.where;</code></li>
+<li class='green'><span class='hits'>5194</span><code>            return where ? string.format(" WHERE %s", this.literal(where)) : "";</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -15049,8 +15111,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param sql</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _selectWithSql:function (sql) {</code></li>
-<li class='green'><span class='hits'>6380</span><code>            var wit = this.__opts["with"];</code></li>
-<li class='green'><span class='hits'>6380</span><code>            if (wit &amp;&amp; wit.length) {</code></li>
+<li class='green'><span class='hits'>6381</span><code>            var wit = this.__opts["with"];</code></li>
+<li class='green'><span class='hits'>6381</span><code>            if (wit &amp;&amp; wit.length) {</code></li>
 <li class='green'><span class=''> </span><code>                //sql.length = 0;</code></li>
 <li class='green'><span class='hits'>8</span><code>                var base = sql.join("");</code></li>
 <li class='green'><span class='hits'>8</span><code>                sql.length = 0;</code></li>
@@ -15193,16 +15255,16 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Converts an array of source names into into a comma separated list.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        _sourceList:function (source) {</code></li>
-<li class='green'><span class='hits'>6681</span><code>            if (!Array.isArray(source)) {</code></li>
+<li class='green'><span class='hits'>6682</span><code>            if (!Array.isArray(source)) {</code></li>
 <li class='green'><span class='hits'>928</span><code>                source = [source];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>6681</span><code>            if (!source || !source.length) {</code></li>
+<li class='green'><span class='hits'>6682</span><code>            if (!source || !source.length) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new QueryError("No source specified for the query");</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>6681</span><code>            return " " + source.map(</code></li>
-<li class='green'><span class=''> </span><code>                    function (s) {</code></li>
-<li class='green'><span class='hits'>6896</span><code>                        return this.__tableRef(s);</code></li>
-<li class='green'><span class=''> </span><code>                    }, this).join(this._static.COMMA_SEPARATOR);</code></li>
+<li class='green'><span class='hits'>6682</span><code>            return " " + source.map(</code></li>
+<li class='green'><span class=''> </span><code>                function (s) {</code></li>
+<li class='green'><span class='hits'>6897</span><code>                    return this.__tableRef(s);</code></li>
+<li class='green'><span class=''> </span><code>                }, this).join(this._static.COMMA_SEPARATOR);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -15226,7 +15288,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @returns SQL fragment specifying a table name.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        __tableRef:function (t) {</code></li>
-<li class='green'><span class='hits'>7827</span><code>            return isString(t) ? this._quotedIdentifier(t) : this.literal(t);</code></li>
+<li class='green'><span class='hits'>7828</span><code>            return isString(t) ? this._quotedIdentifier(t) : this.literal(t);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -15260,8 +15322,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            selectSql:function () {</code></li>
-<li class='green'><span class='hits'>4117</span><code>                if (this.__opts.sql) return this._staticSql(this.__opts.sql);</code></li>
-<li class='green'><span class='hits'>4015</span><code>                else return this._clauseSql("select");</code></li>
+<li class='green'><span class='hits'>4118</span><code>                if (this.__opts.sql) return this._staticSql(this.__opts.sql);</code></li>
+<li class='green'><span class='hits'>4016</span><code>                else return this._clauseSql("select");</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            deleteSql:function () {</code></li>
@@ -15716,10 +15778,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>28665</span><code>            if (!Dataset) {</code></li>
+<li class='green'><span class='hits'>28667</span><code>            if (!Dataset) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                Dataset = require("../index").Dataset;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -16874,9 +16936,9 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>97.26</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>453</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>73</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>97.06</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>447</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>68</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>2</span>
                 </div>
             </td>
@@ -16889,6 +16951,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    manyToMany = associations.manyToMany,</code></li>
 <li class='green'><span class=''> </span><code>    fetch = associations.fetch,</code></li>
 <li class='green'><span class=''> </span><code>    comb = require("comb"),</code></li>
+<li class='green'><span class=''> </span><code>    asyncArray = comb.async.array,</code></li>
 <li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
 <li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -16935,10 +16998,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>3181</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>3050</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>3125</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>3022</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>3181</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3125</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload:function () {</code></li>
@@ -17224,27 +17287,20 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        sync:function (cb) {</code></li>
-<li class='green'><span class='hits'>4016</span><code>            var ret = new Promise();</code></li>
 <li class='green'><span class='hits'>4016</span><code>            if (!this.synced &amp;&amp; this.hasAssociations) {</code></li>
-<li class='green'><span class='hits'>47</span><code>                this._super().then(comb.hitch(this, function () {</code></li>
+<li class='green'><span class='hits'>47</span><code>                return this._super().chain(function () {</code></li>
 <li class='green'><span class='hits'>47</span><code>                    var associations = this.__associations;</code></li>
-<li class='green'><span class='hits'>47</span><code>                    comb.serial(Object.keys(associations).map(function (type) {</code></li>
-<li class='green'><span class='hits'>188</span><code>                        return function () {</code></li>
-<li class='green'><span class='hits'>188</span><code>                            var types = associations[type];</code></li>
-<li class='green'><span class='hits'>188</span><code>                            return comb.serial(Object.keys(types).map(function (name) {</code></li>
-<li class='green'><span class='hits'>55</span><code>                                return function () {</code></li>
-<li class='green'><span class='hits'>55</span><code>                                    return types[name].model.sync();</code></li>
-<li class='green'><span class=''> </span><code>                                };</code></li>
-<li class='green'><span class=''> </span><code>                            }, this));</code></li>
-<li class='green'><span class=''> </span><code>                        };</code></li>
-<li class='green'><span class=''> </span><code>                    }, this)).then(comb.hitchIgnore(ret, "callback", this), ret);</code></li>
+<li class='green'><span class='hits'>47</span><code>                    return asyncArray(Object.keys(associations)).map(function (type) {</code></li>
+<li class='green'><span class='hits'>188</span><code>                        var types = associations[type];</code></li>
+<li class='green'><span class='hits'>188</span><code>                        return asyncArray(Object.keys(types)).map(function (name) {</code></li>
+<li class='green'><span class='hits'>55</span><code>                            return types[name].model.sync();</code></li>
+<li class='green'><span class=''> </span><code>                        }, 1);</code></li>
+<li class='green'><span class=''> </span><code>                    }, 1);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>                }), ret);</code></li>
-<li class='green'><span class='hits'>47</span><code>                ret.classic(cb);</code></li>
+<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>3969</span><code>                ret = this._super(arguments);</code></li>
+<li class='green'><span class='hits'>3969</span><code>                return this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4016</span><code>            return ret.promise();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __isReciprocalAssociation:function (assoc, pAssoc) {</code></li>
@@ -17899,8 +17955,8 @@ td.cov-stats {
             <td class="cov-stats">
                 <div>
                     <span class='cov-label'>Coverage</span><span class='cov-value'>97.71</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>2160</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>436</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>2161</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>437</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>10</span>
                 </div>
             </td>
@@ -17966,17 +18022,17 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>28665</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>200655</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>200655</span><code>                    this[type + "Join"] = conditionedJoin.bind(this, type);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>200669</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>200669</span><code>                    this[type + "Join"] = conditionedJoin.bind(this, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>143325</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>143325</span><code>                    this[type + "Join"] = unConditionJoin.bind(this, type);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>143335</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>143335</span><code>                    this[type + "Join"] = unConditionJoin.bind(this, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
@@ -18419,8 +18475,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        group:function (columns) {</code></li>
 <li class='green'><span class='hits'>32</span><code>            columns = argsToArray(arguments);</code></li>
+<li class='green'><span class='hits'>32</span><code>            var stringToIdentifier = this.stringToIdentifier.bind(this)</code></li>
 <li class='green'><span class='hits'>32</span><code>            return this.mergeOptions({group:(array.compact(columns).length == 0 ? null : columns.map(function (c) {</code></li>
-<li class='green'><span class='hits'>32</span><code>                return isString(c) ? new Identifier(c) : c;</code></li>
+<li class='green'><span class='hits'>32</span><code>                return isString(c) ? stringToIdentifier(c) : c;</code></li>
 <li class='green'><span class=''> </span><code>            }))});</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -19632,7 +19689,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        where:function () {</code></li>
-<li class='green'><span class='hits'>331</span><code>            return this._filter.apply(this, ["where"].concat(argsToArray(arguments)));</code></li>
+<li class='green'><span class='hits'>332</span><code>            return this._filter.apply(this, ["where"].concat(argsToArray(arguments)));</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -19781,20 +19838,20 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Internal filter method so it works on either the having or where clauses.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _filter:function (clause) {</code></li>
-<li class='green'><span class='hits'>4204</span><code>            var cond = argsToArray(arguments).slice(1), cb;</code></li>
-<li class='green'><span class='hits'>4204</span><code>            if (cond.length &amp;&amp; isFunction(cond[cond.length - 1])) {</code></li>
+<li class='green'><span class='hits'>4205</span><code>            var cond = argsToArray(arguments).slice(1), cb;</code></li>
+<li class='green'><span class='hits'>4205</span><code>            if (cond.length &amp;&amp; isFunction(cond[cond.length - 1])) {</code></li>
 <li class='green'><span class='hits'>59</span><code>                cb = cond.pop();</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4204</span><code>            cond = cond.length == 1 ? cond[0] : cond</code></li>
-<li class='green'><span class='hits'>4204</span><code>            if ((cond == null || cond == undefined || cond === "") || (isArray(cond) &amp;&amp; cond.length == 0 &amp;&amp; !cb) || (isObject(cond) &amp;&amp; isEmpty(cond) &amp;&amp; !cb)) {</code></li>
+<li class='green'><span class='hits'>4205</span><code>            cond = cond.length == 1 ? cond[0] : cond</code></li>
+<li class='green'><span class='hits'>4205</span><code>            if ((cond == null || cond == undefined || cond === "") || (isArray(cond) &amp;&amp; cond.length == 0 &amp;&amp; !cb) || (isObject(cond) &amp;&amp; isEmpty(cond) &amp;&amp; !cb)) {</code></li>
 <li class='green'><span class='hits'>382</span><code>                return this.mergeOptions();</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>3822</span><code>                cond = this._filterExpr(cond, cb);</code></li>
-<li class='green'><span class='hits'>3819</span><code>                var cl = this.__opts[clause];</code></li>
-<li class='green'><span class='hits'>3819</span><code>                cl &amp;&amp; (cond = new BooleanExpression("AND", cl, cond));</code></li>
-<li class='green'><span class='hits'>3819</span><code>                var opts = {};</code></li>
-<li class='green'><span class='hits'>3819</span><code>                opts[clause] = cond;</code></li>
-<li class='green'><span class='hits'>3819</span><code>                return this.mergeOptions(opts);</code></li>
+<li class='green'><span class='hits'>3823</span><code>                cond = this._filterExpr(cond, cb);</code></li>
+<li class='green'><span class='hits'>3820</span><code>                var cl = this.__opts[clause];</code></li>
+<li class='green'><span class='hits'>3820</span><code>                cl &amp;&amp; (cond = new BooleanExpression("AND", cl, cond));</code></li>
+<li class='green'><span class='hits'>3820</span><code>                var opts = {};</code></li>
+<li class='green'><span class='hits'>3820</span><code>                opts[clause] = cond;</code></li>
+<li class='green'><span class='hits'>3820</span><code>                return this.mergeOptions(opts);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -19937,17 +19994,17 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * SQL expression object based on the expr type.  See {@link patio.Dataset#filter}</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _filterExpr:function (expr, cb) {</code></li>
-<li class='green'><span class='hits'>4798</span><code>            expr = (isUndefined(expr) || isNull(expr) || (isArray(expr) &amp;&amp; !expr.length)) ? null : expr;</code></li>
-<li class='green'><span class='hits'>4798</span><code>            if (expr &amp;&amp; cb) {</code></li>
+<li class='green'><span class='hits'>4799</span><code>            expr = (isUndefined(expr) || isNull(expr) || (isArray(expr) &amp;&amp; !expr.length)) ? null : expr;</code></li>
+<li class='green'><span class='hits'>4799</span><code>            if (expr &amp;&amp; cb) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                return new BooleanExpression("AND", this._filterExpr(expr), this._filterExpr(cb))</code></li>
-<li class='green'><span class='hits'>4797</span><code>            } else if (cb) {</code></li>
+<li class='green'><span class='hits'>4798</span><code>            } else if (cb) {</code></li>
 <li class='green'><span class='hits'>58</span><code>                expr = cb</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>4797</span><code>            if (isInstanceOf(expr, Expression)) {</code></li>
-<li class='green'><span class='hits'>458</span><code>                if (isInstanceOf(expr, NumericExpression, StringExpression)) {</code></li>
+<li class='green'><span class='hits'>4798</span><code>            if (isInstanceOf(expr, Expression)) {</code></li>
+<li class='green'><span class='hits'>459</span><code>                if (isInstanceOf(expr, NumericExpression, StringExpression)) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                    throw new QueryError("Invalid SQL Expression type : " + expr);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>456</span><code>                return expr;</code></li>
+<li class='green'><span class='hits'>457</span><code>                return expr;</code></li>
 <li class='green'><span class='hits'>4339</span><code>            } else if (isArray(expr)) {</code></li>
 <li class='green'><span class='hits'>908</span><code>                if (expr.length) {</code></li>
 <li class='green'><span class='hits'>908</span><code>                    var first = expr[0];</code></li>
@@ -20666,8 +20723,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>28665</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>28665</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>28667</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -21346,7 +21403,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // Whether this dataset quotes identifiers.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            quoteIdentifiers:function(){</code></li>
-<li class='green'><span class='hits'>47778</span><code>                return this.__quoteIdentifiers;</code></li>
+<li class='green'><span class='hits'>47781</span><code>                return this.__quoteIdentifiers;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether this dataset will provide accurate number of rows matched for</code></li>
@@ -21354,80 +21411,80 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // rows matched by the dataset's filter.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            providesAccurateRowsMatched:function(){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                return this.__providesAccurateRowsMatched;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                return this.__providesAccurateRowsMatched;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset requires SQL standard datetimes (false by default,</code></li>
 <li class='green'><span class=''> </span><code>            // as most allow strings with ISO 8601 format).</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            requiresSqlStandardDateTimes:function(){</code></li>
-<li class='green'><span class='hits'>14926</span><code>                return this.__requiresSqlStandardDateTimes;</code></li>
+<li class='green'><span class='hits'>14927</span><code>                return this.__requiresSqlStandardDateTimes;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether the dataset supports common table expressions (the WITH clause).</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsCte:function(){</code></li>
-<li class='green'><span class='hits'>14932</span><code>                return this.__supportsCte;</code></li>
+<li class='green'><span class='hits'>14933</span><code>                return this.__supportsCte;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether the dataset supports the DISTINCT ON clause, false by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsDistinctOn:function(){</code></li>
-<li class='green'><span class='hits'>2278</span><code>                return this.__supportsDistinctOn;</code></li>
+<li class='green'><span class='hits'>2279</span><code>                return this.__supportsDistinctOn;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the INTERSECT and EXCEPT compound operations, true by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIntersectExcept:function(){</code></li>
-<li class='green'><span class='hits'>14955</span><code>                return this.__supportsIntersectExcept;</code></li>
+<li class='green'><span class='hits'>14956</span><code>                return this.__supportsIntersectExcept;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the INTERSECT ALL and EXCEPT ALL compound operations, true by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIntersectExceptAll:function(){</code></li>
-<li class='green'><span class='hits'>14931</span><code>                return this.__supportsIntersectExceptAll;</code></li>
+<li class='green'><span class='hits'>14932</span><code>                return this.__supportsIntersectExceptAll;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the IS TRUE syntax.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIsTrue:function(){</code></li>
-<li class='green'><span class='hits'>15155</span><code>                return this.__supportsIsTrue;</code></li>
+<li class='green'><span class='hits'>15156</span><code>                return this.__supportsIsTrue;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the JOIN table USING (column1, ...) syntax.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsJoinUsing:function(){</code></li>
-<li class='green'><span class='hits'>14930</span><code>                return this.__supportsJoinUsing;</code></li>
+<li class='green'><span class='hits'>14931</span><code>                return this.__supportsJoinUsing;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether modifying joined datasets is supported.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsModifyingJoins:function(){</code></li>
-<li class='green'><span class='hits'>2518</span><code>                return this.__supportsModifyingJoins;</code></li>
+<li class='green'><span class='hits'>2519</span><code>                return this.__supportsModifyingJoins;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the IN/NOT IN operators support multiple columns when an</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsMultipleColumnIn:function(){</code></li>
-<li class='green'><span class='hits'>14923</span><code>                return this.__supportsMultipleColumnIn;</code></li>
+<li class='green'><span class='hits'>14924</span><code>                return this.__supportsMultipleColumnIn;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports timezones in literal timestamps</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsTimestampTimezones:function(){</code></li>
-<li class='green'><span class='hits'>2275</span><code>                return this.__supportsTimestampTimezones;</code></li>
+<li class='green'><span class='hits'>2276</span><code>                return this.__supportsTimestampTimezones;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports fractional seconds in literal timestamps</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsTimestampUsecs:function(){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                return this.__supportsTimestampUsecs;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                return this.__supportsTimestampUsecs;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports window functions.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsWindowFunctions:function(){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                return this.__supportsWindowFunctions;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                return this.__supportsWindowFunctions;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -21438,7 +21495,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // Whether this dataset quotes identifiers.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            quoteIdentifiers:function(val){</code></li>
-<li class='green'><span class='hits'>14931</span><code>                this.__quoteIdentifiers = val;</code></li>
+<li class='green'><span class='hits'>14932</span><code>                this.__quoteIdentifiers = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether this dataset will provide accurate number of rows matched for</code></li>
@@ -21446,80 +21503,80 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // rows matched by the dataset's filter.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            providesAccurateRowsMatched:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__providesAccurateRowsMatched = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__providesAccurateRowsMatched = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset requires SQL standard datetimes (false by default,</code></li>
 <li class='green'><span class=''> </span><code>            // as most allow strings with ISO 8601 format).</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            requiresSqlStandardDateTimes:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__requiresSqlStandardDateTimes = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__requiresSqlStandardDateTimes = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether the dataset supports common table expressions (the WITH clause).</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsCte:function(val){</code></li>
-<li class='green'><span class='hits'>14920</span><code>                this.__supportsCte = val;</code></li>
+<li class='green'><span class='hits'>14921</span><code>                this.__supportsCte = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether the dataset supports the DISTINCT ON clause, false by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsDistinctOn:function(val){</code></li>
-<li class='green'><span class='hits'>2276</span><code>                this.__supportsDistinctOn = val;</code></li>
+<li class='green'><span class='hits'>2277</span><code>                this.__supportsDistinctOn = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the INTERSECT and EXCEPT compound operations, true by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIntersectExcept:function(val){</code></li>
-<li class='green'><span class='hits'>14921</span><code>                this.__supportsIntersectExcept = val;</code></li>
+<li class='green'><span class='hits'>14922</span><code>                this.__supportsIntersectExcept = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the INTERSECT ALL and EXCEPT ALL compound operations, true by default.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIntersectExceptAll:function(val){</code></li>
-<li class='green'><span class='hits'>14921</span><code>                this.__supportsIntersectExceptAll = val;</code></li>
+<li class='green'><span class='hits'>14922</span><code>                this.__supportsIntersectExceptAll = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the IS TRUE syntax.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsIsTrue:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__supportsIsTrue = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__supportsIsTrue = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports the JOIN table USING (column1, ...) syntax.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsJoinUsing:function(val){</code></li>
-<li class='green'><span class='hits'>14921</span><code>                this.__supportsJoinUsing = val;</code></li>
+<li class='green'><span class='hits'>14922</span><code>                this.__supportsJoinUsing = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether modifying joined datasets is supported.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsModifyingJoins:function(val){</code></li>
-<li class='green'><span class='hits'>2276</span><code>                this.__supportsModifyingJoins = val;</code></li>
+<li class='green'><span class='hits'>2277</span><code>                this.__supportsModifyingJoins = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the IN/NOT IN operators support multiple columns when an</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsMultipleColumnIn:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__supportsMultipleColumnIn = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__supportsMultipleColumnIn = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports timezones in literal timestamps</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsTimestampTimezones:function(val){</code></li>
-<li class='green'><span class='hits'>2275</span><code>                this.__supportsTimestampTimezones = val;</code></li>
+<li class='green'><span class='hits'>2276</span><code>                this.__supportsTimestampTimezones = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports fractional seconds in literal timestamps</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsTimestampUsecs:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__supportsTimestampUsecs = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__supportsTimestampUsecs = val;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            //Whether the dataset supports window functions.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            supportsWindowFunctions:function(val){</code></li>
-<li class='green'><span class='hits'>14919</span><code>                this.__supportsWindowFunctions = val;</code></li>
+<li class='green'><span class='hits'>14920</span><code>                this.__supportsWindowFunctions = val;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -21791,7 +21848,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        sync:function () {</code></li>
 <li class='green'><span class='hits'>44</span><code>            var ret = this._super(arguments);</code></li>
 <li class='green'><span class='hits'>44</span><code>            if (!this.synced) {</code></li>
-<li class='green'><span class='hits'>1</span><code>                ret.then(function () {</code></li>
+<li class='green'><span class='hits'>1</span><code>                ret = ret.chain(function () {</code></li>
 <li class='green'><span class='hits'>1</span><code>                    var ds = this.dataset.naked().select(), mappedColumns = this._mappedColumns, joinTableAlias = "columnMapper", selects = [];</code></li>
 <li class='green'><span class='hits'>1</span><code>                    Object.keys(mappedColumns).forEach(function (column, i) {</code></li>
 <li class='green'><span class='hits'>4</span><code>                        var opts = mappedColumns[column],</code></li>
