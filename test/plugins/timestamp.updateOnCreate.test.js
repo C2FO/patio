@@ -6,10 +6,7 @@ var it = require('it'),
     helper = require("../data/timestampPlugin.helper.js");
 
 
-
-
-
-it.describe("Timestamp updateOnCreate", function (it) {
+it.describe("Timestamp updateOnCreate",function (it) {
 
     var emp, Employee;
     it.beforeAll(function () {
@@ -39,6 +36,14 @@ it.describe("Timestamp updateOnCreate", function (it) {
     it.should("set created column", function () {
         assert.instanceOf(emp.created, patio.SQL.DateTime);
         assert.instanceOf(emp.updated, patio.SQL.DateTime);
+    });
+
+    it.should("set created column on insertSql", function () {
+        assert.isNotNull(emp.insertSql.match(/["|`]updated["|`], *["|`]created["|`]\)/));
+    });
+
+    it.should("set updated or updateSql", function () {
+        assert.isNotNull(emp.updateSql.match(/["|`]updated["|`]\s*=/));
     });
 
     it.should("set updated column", function (next) {

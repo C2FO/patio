@@ -38,6 +38,14 @@ it.describe("Timestamp default columns", function (it) {
         }, next);
     });
 
+    it.should("set created column on insertSql", function () {
+        assert.isNotNull(emp.insertSql.match(/["|`]created["|`]\)/));
+    });
+
+    it.should("set updated or updateSql", function () {
+        assert.isNotNull(emp.updateSql.match(/["|`]updated["|`]\s*=/));
+    });
+
     it.should("set created column", function () {
         assert.isNull(emp.updated);
         assert.isNotNull(emp.created);

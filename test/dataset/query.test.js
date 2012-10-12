@@ -14,7 +14,7 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
-it.describe("Dataset queries", function (it) {
+it.describe("Dataset queries",function (it) {
     patio.identifierInputMethod = null;
     patio.identifierOutputMethod = null;
 
@@ -295,7 +295,9 @@ it.describe("Dataset queries", function (it) {
 
             assert.equal(d2.where(sql.literal('GDP > ?')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > ?))");
 
-            assert.equal(d3.where(sql.literal('b = 2')).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (b = 2))");
+            assert.equal(d2.where(sql.literal('GDP > ?')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > ?))");
+
+            assert.equal(d2.where(sql.literal('(size = ?)', sql.identifier("big"))).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (size = big))");
 
             assert.equal(d3.where({c:3}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (c = 3))");
 
