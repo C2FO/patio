@@ -1,3 +1,11 @@
+#0.1.5 / 2012-09-20
+* Fixed issue with sql.literal not accepting a single identifier
+* Fixed Issue with one to many model if the table is plurarlized
+* Fixed issue with Dataset#group not using stringToIdentifier to convert column arguments to identifiers
+* Cleaned up model code to use async array and chain methods so errors are propagated properly.
+* updated timestamp plugin to set updated/created when just retreving sql
+* Fixed primary key caching issue
+
 #0.1.4 / 2012-09-20
 * added a rowCB for custom dataset model
 * added insert, update and remove sql properties on models
