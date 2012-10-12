@@ -4313,9 +4313,9 @@ and converts to uppercase/
     <pre class="prettyprint linenums lang-js">
 function (joinType){
    return (joinType || &quot;&quot;).replace(/([a-z]+)|([A-Z][a-z]+)/g,
-           function (m) {
-               return m.toUpperCase() + &quot; &quot;;
-           }
+       function (m) {
+           return m.toUpperCase() + &quot; &quot;;
+       }
    ).trimRight() + &quot; JOIN&quot;;
            
 }
@@ -4902,10 +4902,10 @@ function (v){
    var table = parts[0], column = parts[1], alias = parts[2];
    if (!alias) {
        return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : &quot;&#x27;&quot;
-               + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
+           + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
    } else {
        return this.literal(new AliasedExpression(column
-               &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
+           &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
    }
            
 }
@@ -5167,7 +5167,7 @@ function (e,table){
        return new QualifiedIdentifier(table, e);
    } else if (isInstanceOf(e, OrderedExpression)) {
        return new OrderedExpression(this._qualifiedExpression(e.expression, table), e.descending,
-               {nulls:e.nulls});
+           {nulls:e.nulls});
    } else if (isInstanceOf(e, AliasedExpression)) {
        return new AliasedExpression(this._qualifiedExpression(e.expression, table), e.alias);
    } else if (isInstanceOf(e, CaseExpression)) {
@@ -5845,9 +5845,9 @@ function (source){
        throw new QueryError(&quot;No source specified for the query&quot;);
    }
    return &quot; &quot; + source.map(
-           function (s) {
-               return this.__tableRef(s);
-           }, this).join(this._static.COMMA_SEPARATOR);
+       function (s) {
+           return this.__tableRef(s);
+       }, this).join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -7101,8 +7101,8 @@ function (op,args){
            return this.complexExpressionSql(&quot;EQ&quot;, args);
        } else {
            return this.complexExpressionSql(&quot;OR&quot;,
-                   [BooleanExpression.fromArgs([&quot;NEQ&quot;].concat(args)), new BooleanExpression(&quot;IS&quot;, args[0],
-                           null)]);
+               [BooleanExpression.fromArgs([&quot;NEQ&quot;].concat(args)), new BooleanExpression(&quot;IS&quot;, args[0],
+                   null)]);
        }
    } else if ([&quot;IN&quot;, &quot;NOTIN&quot;].indexOf(op) != -1) {
        var cols = args[0], vals = args[1], colArray = isArray(cols), valArray = false, emptyValArray = false;
@@ -7131,8 +7131,8 @@ function (op,args){
                //literal so that if values is an array of two element arrays, it
                //will be treated as a value list instead of a condition specifier.
                return format(&quot;(%s %s %s)&quot;, isString(cols) ? cols : this.literal(cols),
-                       ComplexExpression.IN_OPERATORS[op],
-                       valArray ? this._arraySql(vals) : this.literal(vals));
+                   ComplexExpression.IN_OPERATORS[op],
+                   valArray ? this._arraySql(vals) : this.literal(vals));
            }
        }
        else {
@@ -7146,13 +7146,13 @@ function (op,args){
                }
            } else {
                return format(&quot;(%s %s %s)&quot;, isString(cols) ? cols : this.literal(cols),
-                       ComplexExpression.IN_OPERATORS[op], this.literal(vals));
+                   ComplexExpression.IN_OPERATORS[op], this.literal(vals));
            }
        }
    } else if ((newOp = this._static.TWO_ARITY_OPERATORS[op]) != null) {
        var l = args[0];
        return format(&quot;(%s %s %s)&quot;, isString(l) ? l : this.literal(l), newOp,
-               this.literal(args[1]));
+           this.literal(args[1]));
    } else if ((newOp = this._static.N_ARITY_OPERATORS[op]) != null) {
        return string.format(&quot;(%s)&quot;, args.map(this.literal, this).join(&quot; &quot; + newOp + &quot; &quot;));
    } else if (op == &quot;NOT&quot;) {
@@ -9035,8 +9035,9 @@ DB.from(&quot;items&quot;).group(&quot;id&quot;)
     <pre class="prettyprint linenums lang-js">
 function (columns){
    columns = argsToArray(arguments);
+   var stringToIdentifier = this.stringToIdentifier.bind(this)
    return this.mergeOptions({group:(array.compact(columns).length == 0 ? null : columns.map(function (c) {
-       return isString(c) ? new Identifier(c) : c;
+       return isString(c) ? stringToIdentifier(c) : c;
    }))});
            
 }
@@ -9512,12 +9513,12 @@ function (v){
    var i = this.__identifierInputMethod;
    v = v.toString(this);
    return !isUndefinedOrNull(i) ?
-           isFunction(v[i]) ?
-                   v[i]() :
-                   isFunction(comb[i]) ?
-                           comb[i](v)
-                           : v
-           : v;
+       isFunction(v[i]) ?
+           v[i]() :
+           isFunction(comb[i]) ?
+               comb[i](v)
+               : v
+       : v;
            
 }
     </pre>
@@ -10729,7 +10730,7 @@ function (jc){
    }
    var tref = this.__tableRef(table);
    return string.format(&quot; %s %s&quot;, this._joinTypeSql(jc.joinType),
-           tableAlias ? this.__asSql(tref, tableAlias) : tref);
+       tableAlias ? this.__asSql(tref, tableAlias) : tref);
            
 }
     </pre>
@@ -12732,12 +12733,12 @@ function (v){
    (v == &#x27;&#x27; &amp;&amp; (v = &#x27;untitled&#x27;));
    var i = this.__identifierOutputMethod;
    return !isUndefinedOrNull(i) ?
-           isFunction(v[i]) ?
-                   v[i]() :
-                   isFunction(comb[i]) ?
-                           comb[i](v)
-                           : v
-           : v;
+       isFunction(v[i]) ?
+           v[i]() :
+           isFunction(comb[i]) ?
+               comb[i](v)
+               : v
+       : v;
            
 }
     </pre>
@@ -12786,7 +12787,7 @@ function (pls){
        s = string.format(pls.str, args);
    } else {
        s = pls.str.replace(this._static.QUESTION_MARK, &quot;%s&quot;);
-       args = args.map(this.literal, this);
+       args = toArray(args).map(this.literal, this);
        s = string.format(s, args);
    }
    if (pls.parens) {
@@ -12977,11 +12978,11 @@ function (column,table){
     <pre class="prettyprint linenums lang-js">
 function (qcr){
    return [qcr.table, qcr.column].map(
-           function (x) {
-               return [QualifiedIdentifier, Identifier, String].some(function (c) {
-                   return x instanceof c
-               }) ? this.literal(x) : this.quoteIdentifier(x)
-           }, this).join(&#x27;.&#x27;);
+       function (x) {
+           return [QualifiedIdentifier, Identifier, String].some(function (c) {
+               return x instanceof c
+           }) ? this.literal(x) : this.quoteIdentifier(x)
+       }, this).join(&#x27;.&#x27;);
            
 }
     </pre>
