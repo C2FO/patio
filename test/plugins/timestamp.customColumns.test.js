@@ -6,7 +6,7 @@ var it = require('it'),
     helper = require("../data/timestampPlugin.helper.js"),
     Employee;
 
-it.describe("Timestamp custom columns", function (it) {
+it.describe("Timestamp custom columns",function (it) {
 
     var emp;
     it.beforeAll(function () {
@@ -36,6 +36,14 @@ it.describe("Timestamp custom columns", function (it) {
                     next();
                 }, next);
         }, next);
+    });
+
+    it.should("set created column on insertSql", function () {
+        assert.isNotNull(emp.insertSql.match(/["|`]createdAt["|`]\)/));
+    });
+
+    it.should("set updated or updateSql", function () {
+        assert.isNotNull(emp.updateSql.match(/["|`]updatedAt["|`]\s*=/));
     });
 
     it.should("set created column", function () {
