@@ -130,6 +130,7 @@ it.describe("Many to one eager", function (it) {
 
             e1.save().then(function () {
                 assert.isFalse(comb.isPromiseLike(e1.company));
+                assert.equal(e1.company, null);
                 next();
             }, next);
         });
