@@ -109,6 +109,33 @@ it.describe("Many to one eager", function (it) {
 
     });
 
+    it.describe("saving a model with many to one - with parent side being null", function (it) {
+
+        it.beforeAll(function () {
+            return comb.when(
+                Company.remove(),
+                Employee.remove()
+            );
+        });
+        
+        it.should("never return a promise for fetchType eager", function (next) {
+            var e1 = new Employee({
+                lastName:"last" + 1,
+                firstName:"first" + 1,
+                midInitial:"m",
+                gender:gender[1 % 2],
+                street:"Street " + 1,
+                city:"City " + 1
+            });
+
+            e1.save().then(function () {
+                assert.isFalse(comb.isPromiseLike(e1.company));
+                assert.equal(e1.company, null);
+                next();
+            }, next);
+        });
+    });
+
     it.describe("saving a model with many to one", function (it) {
 
         it.beforeAll(function () {
