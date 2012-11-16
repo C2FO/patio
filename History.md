@@ -1,3 +1,8 @@
+#0.1.6 / 2012-11-16
+* Upgraded comb to v0.1.10
+* Fixed issue where eager many to one returns a promise if null (@mbenedettini)
+
+
 #0.1.5 / 2012-09-20
 * Fixed issue with sql.literal not accepting a single identifier
 * Fixed Issue with one to many model if the table is plurarlized
