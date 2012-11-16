@@ -103,6 +103,29 @@ it.describe("Many to Many camelize properties", function (it) {
         });
     });
 
+    it.describe("access children immediately after save operation", function (it) {
+        it.beforeAll(function () {
+            return comb.when(
+                Company.remove(),
+                Employee.remove()
+            );
+        });
+        
+        it.should("never return a promise for fetchType eager, parent null", function (next) {
+            var c1 = new Company({
+                companyName:"Bubu Inc."
+            });
+
+            c1.save().then(function () {
+                assert.isFalse(comb.isPromiseLike(c1.employees));
+                assert.lengthOf(c1.employees, 0);
+                next();
+            }, next);
+        });
+
+    });
+
+
     it.describe("add methods", function (it) {
 
         it.beforeEach(function () {
