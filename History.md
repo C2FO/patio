@@ -1,3 +1,7 @@
+#0.1.7 / 2012-12-4
+* Fixed issue where port was not added to connection options.
+
+
 #0.1.6 / 2012-11-16
 * Upgraded comb to v0.1.10
 * Fixed issue where eager many to one returns a promise if null (@mbenedettini)
