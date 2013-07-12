@@ -1,8 +1,8 @@
 {
-    "name":"patio",
-    "description":"Patio query engine and ORM",
-    "version":"0.1.7",
-    "keywords":[
+    "name": "patio",
+    "description": "Patio query engine and ORM",
+    "version": "0.1.8",
+    "keywords": [
         "ORM",
         "object relation mapper",
         "relational",
@@ -21,35 +21,35 @@
         "Sequel",
         "migrations"
     ],
-    "repository":{
-        "type":"git",
-        "url":"git@github.com:c2fo/patio.git"
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:c2fo/patio.git"
     },
-    "homepage":"http://c2fo.github.com/patio/index.html",
-    "author":"Doug Martin (http://c2fo.github.com)",
-    "main":"index.js",
-    "dependencies":{
-        "mysql":"2.0.0-alpha2",
-        "pg":"0.7.2",
-        "comb":">=0.1.10",
-        "comb-proxy":">=0.0.3",
-        "hive-cache":"0.0.3",
-        "commander":"0.5.1",
-        "validator":"~0.4.11"
+    "homepage": "http://c2fo.github.com/patio/index.html",
+    "author": "Doug Martin (http://c2fo.github.com)",
+    "main": "index.js",
+    "dependencies": {
+        "mysql": "2.0.0-alpha2",
+        "pg": "0.7.2",
+        "comb": ">=0.1.10",
+        "comb-proxy": ">=0.0.3",
+        "hive-cache": "0.0.3",
+        "commander": "0.5.1",
+        "validator": "~0.4.11"
     },
-    "scripts":{
-        "test":"make test-travis"
+    "scripts": {
+        "test": "make test-travis"
     },
-    "devDependencies":{
-        "it":"0.0.5"
+    "devDependencies": {
+        "it": "0.0.5"
     },
-    "directories":{
-        "lib":"lib"
+    "directories": {
+        "lib": "lib"
     },
-    "bin":{
-        "patio":"./bin/patio"
+    "bin": {
+        "patio": "./bin/patio"
     },
-    "engines":{
-        "node":">= 0.6.0"
+    "engines": {
+        "node": ">= 0.6.0"
     }
 }

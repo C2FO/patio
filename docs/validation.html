@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -358,12 +363,8 @@
 <h3><a href="./patio_plugins_ValidatorPlugin.html">patio.plugins.ValidatorPlugin</a></h3>
 <p>A validation plugin for patio models. This plugin adds a <code>validate</code> method to each <a href="./patio_Model.html">Model</a>
 class that adds it as a plugin. This plugin does not include most typecast checks as <code>patio</code> already checks
-types upon column assignment.                                                                                                                              
-
-</p>
-<p>To do single col validation                                                                                                                                
-
-</p>
+types upon column assignment.                                                                                                                              </p>
+<p>To do single col validation                                                                                                                                </p>
 <pre class='prettyprint linenums lang-js'><code>var Model = patio.addModel(&quot;validator&quot;, {                                                                                                                  
      plugins:[patio.plugins.ValidatorPlugin]
 });                                                                                                                                                        
@@ -373,9 +374,7 @@ Model.validate(&quot;col1&quot;).isNotNull().isAlphaNumeric().hasLength(1, 10);
 Model.validate(&quot;col2&quot;).like(/hello/ig);                                                                                                                    
 //Ensures that the emailAddress column is a valid email address.                                                                                           
 Model.validate(&quot;emailAddress&quot;).isEmailAddress();</code></pre>
-<p>Or you can do a mass validation through a callback.                                                                                                        
-
-</p>
+<p>Or you can do a mass validation through a callback.                                                                                                        </p>
 <pre class='prettyprint linenums lang-js'><code>var Model = patio.addModel(&quot;validator&quot;, {                                                                                                                  
      plugins:[patio.plugins.ValidatorPlugin]
 });                                                                                                                                                        
@@ -387,35 +386,24 @@ Model.validate(function(validate){
      //Ensures that the emailAddress column is a valid email address.                                                                                      
      validate(&quot;emailAddress&quot;).isEmail();                                                                                                                   
 });</code></pre>
-<p>To check if a <a href="./patio_Model.html">Model</a> is valid you can run the <code>isValid</code> method.
-
-</p>
+<p>To check if a <a href="./patio_Model.html">Model</a> is valid you can run the <code>isValid</code> method.</p>
 <pre class='prettyprint linenums lang-js'><code>var model1 = new Model({col2 : &#39;grape&#39;, emailAddress : &quot;test&quot;}),                                                                                           
     model2 = new Model({col1 : &quot;grape&quot;, col2 : &quot;hello&quot;, emailAddress : &quot;test@test.com&quot;});                                                                  
 
 model1.isValid() //false                                                                                                                                   
 model2.isValid() //true</code></pre>
-<p>To get the errors associated with an invalid model you can access the errors property                                                                      
-
-</p>
+<p>To get the errors associated with an invalid model you can access the errors property                                                                      </p>
 <pre class='prettyprint linenums lang-js'><code>model1.errors; //{ col1: [ &#39;col1 must be defined.&#39; ],                                                                                                      
                //  col2: [ &#39;col2 must be like /hello/gi got grape.&#39; ],                                                                                     
                //  emailAddress: [ &#39;emailAddress must be a valid Email Address got test&#39; ] }</code></pre>
-<p>Validation is also run pre save and pre update. To prevent this you can specify the <code>validate</code> option
-
-</p>
+<p>Validation is also run pre save and pre update. To prevent this you can specify the <code>validate</code> option</p>
 <pre class='prettyprint linenums lang-js'><code>model1.save(null, {validate : false});                                                                                                                     
 model2.save(null, {validate : false});</code></pre>
 <p>Or you can specify the class level properties <code>validateOnSave</code> and <code>validateOnUpdate</code>
-to false respectively                                                                                                                                      
-
-</p>
+to false respectively                                                                                                                                      </p>
 <pre class='prettyprint linenums lang-js'><code>Model.validateOnSave = false;                                                                                                                              
 Model.validateOnUpdate = false;</code></pre>
-<p>Available validation methods are.
-
-
-</p>
+<p>Available validation methods are.</p>
 <ul>
 <li><code>isAfter</code> : check that a date is after a specified date</li></li>
 <li><code>isBefore</code> : check that a date is after before a specified date </li></li>
@@ -450,11 +438,8 @@ Model.validateOnUpdate = false;</code></pre>
 <li><code>isCreditCard</code> : ensure than a is a valid credit card number</li></li>
 <li><code>check</code> : accepts a function to perform validation</li></li>
 </ul>
-<p>All of the validation methods are chainable, and accept an options argument.                                                                               
-
-</p>
-<p>The options include                                                                                                                                        
-</p>
+<p>All of the validation methods are chainable, and accept an options argument.                                                                               </p>
+<p>The options include                                                                                                                                        </p>
 <ul><br>    <li><code>message</code> : a message to return if a column fails validation. The message can include <code>{val}</code> and <code>{col}</code>
     replacements which will insert the invalid value and the column name.<br>    </li><br>    <li><code>onlyDefined</code>=<code>true</code> : set to false to run the method even if the column value is not defined.</li>
     <li><code>onlyNotNull</code>=<code>true</code> : set to false to run the method even if the column value is null.</li>

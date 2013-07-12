@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -567,13 +572,10 @@ Instances are created by <a href='./patio_Database.html#createTable'> patio.Data
 It is used to specify table creation parameters.  It takes a Database
 object and a block of column/index/constraint specifications, and
 gives the Database a table description, which the database uses to
-create a table.
-
-</p>
+create a table.</p>
 <p><a href='./patio_SchemaGenerator.html#'> patio.SchemaGenerator</a> has some methods but also includes method_missing,
 allowing users to specify column type as a method instead of using
-the column method, which makes for a cleaner code.
-</p>
+the column method, which makes for a cleaner code.</p>
 </p>
     
         <em>Example</em>
@@ -741,9 +743,7 @@ function (columns){
 <em>Defined database/schemaGenerators.js</em>
 
 <p><p>Add an unnamed constraint to the DDL, specified by the given block
-or args:
-
-</p>
+or args:</p>
 </p>
 
     <em>Example</em>
@@ -789,9 +789,7 @@ function (){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p><p>Add a column with the given name, type, and opts to the DDL.
-
-</p>
+<p><p>Add a column with the given name, type, and opts to the DDL.</p>
 <pre class="code">
  DB.createTable("test", function(){
      this.column("num", "integer");
@@ -804,8 +802,7 @@ function (){
 </pre>
 
 <p>You can also create columns via method missing, so the following are
-equivalent:
-</p>
+equivalent:</p>
 <pre class="code">
 DB.createTable("test", function(){
   this.column("number", "integer");
@@ -918,8 +915,7 @@ function (name,type,opts){
 <em>Defined database/schemaGenerators.js</em>
 
 <p><p>Adds a named constraint (or unnamed if name is nil) to the DDL,
-with the given block or args.
-</p>
+with the given block or args.</p>
 </p>
 
     <em>Example</em>
@@ -980,9 +976,7 @@ function (name,args){
 <em>Defined database/schemaGenerators.js</em>
 
 <p><p> Add a foreign key in the table that references another table to the DDL. See {@link patio.SchemaGenerator#column{
-for options.
-
-</p>
+for options.</p>
 </p>
 
     <em>Example</em>
@@ -1047,9 +1041,7 @@ function (name,table,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p><p>Add a full text index on the given columns to the DDL.
-
-</p>
+<p><p>Add a full text index on the given columns to the DDL.</p>
 </p>
 
     <em>Example</em>
@@ -1105,8 +1097,7 @@ function (columns,opts){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p><p>Check if the DDL includes the creation of a column with the given name.
-</p>
+<p><p>Check if the DDL includes the creation of a column with the given name.</p>
 </p>
 
 
@@ -1160,8 +1151,7 @@ function (name){
 <em>Defined database/schemaGenerators.js</em>
 
 <p><p>Add an index on the given column(s) with the given options to the DDL.
-The available options are:
-</p>
+The available options are:</p>
 </p>
 
     <em>Example</em>
@@ -1230,14 +1220,10 @@ function (columns,opts){
 To create a constraint, the first argument should be an array of columns
 specifying the primary key columns. To create an auto-incrementing primary key
 column, a single column can be used. In both cases, an options hash can be used
-as the second argument.
-
-</p>
+as the second argument.</p>
 <p>If you want to create a primary key column that is not auto-incrementing, you
 should not use this method.  Instead, you should use the regular <a href='./patio_SchemaGenerator.html#column'> patio.SchemaGenerator#column</a>
-method with a {primaryKey : true} option.
-
-</p>
+method with a {primaryKey : true} option.</p>
 </p>
 
     <em>Example</em>
@@ -1302,8 +1288,7 @@ function (name){
 <hr/>
 <em>Defined database/schemaGenerators.js</em>
 
-<p><p>Add a spatial index on the given columns to the DDL.
-</p>
+<p><p>Add a spatial index on the given columns to the DDL.</p>
 </p>
 
 
@@ -1350,8 +1335,7 @@ function (columns,opts){
 <em>Defined database/schemaGenerators.js</em>
 
 <p><p>Add a unique constraint on the given columns to the DDL. See <a href='./patio_SchemaGenerator.html#constraint'> patio.SchemaGenerator#constraint</a>
-for argument types.
-</p>
+for argument types.</p>
 </p>
 
     <em>Example</em>

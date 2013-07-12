@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -356,22 +361,12 @@
 
 
 <h1>Migrations</h1>
-<p>Migrates the database using migration files found in the supplied directory.
-
-</p>
+<p>Migrates the database using migration files found in the supplied directory.</p>
 <h2>Integer Migrations</h2>
-<p>Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations. In order for patio to determine which versions the file must have the naming format &quot;{versionnumber}.someFileName.js&quot; where versionNumber is a integer <strong>starting at 0</strong> representing the version number.
-
-</p>
-<p><strong>NOTE:</strong> The reason the version number comes first is that most file viewers and IDE&#39;s sort files alphabetically and this makes for quicker migration lookup.
-
-</p>
-<p><strong>NOTE:</strong> With integer migrations missing versions are not allowed.
-
-</p>
-<p>An example directory structure might look like the following:
-
-</p>
+<p>Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations. In order for patio to determine which versions the file must have the naming format &quot;{versionnumber}.someFileName.js&quot; where versionNumber is a integer <strong>starting at 0</strong> representing the version number.</p>
+<p><strong>NOTE:</strong> The reason the version number comes first is that most file viewers and IDE&#39;s sort files alphabetically and this makes for quicker migration lookup.</p>
+<p><strong>NOTE:</strong> With integer migrations missing versions are not allowed.</p>
+<p>An example directory structure might look like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>-migrations
      - 0.createFirstTables.js
      - 1.shortDescription.js
@@ -380,33 +375,25 @@
      .
      .
      -n.lastMigration.js</code></pre>
-<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.
-
-</p>
+<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.</p>
 <pre class='prettyprint linenums lang-js'><code>0.createEmployee.js
 1.alterEmployeeNameColumn.js</code></pre>
 <h2>Timestamp Migrations</h2>
-<p>Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially with development teams. This is because Timestamp migrations:
-
-</p>
+<p>Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially with development teams. This is because Timestamp migrations:</p>
 <ul>
 <li>Do not require consecutive version numbers</li>
 <li>Allow for duplicate version numbers(but this should be avoided)</li>
 <li>Keep track of all currently applied migrations</li>
 <li>Will merge missing migrations.</li>
 </ul>
-<p>In order for patio to determine the order of the migration files must follow the naming format of {timestamp}.someFileName.js where the timestamp can be any form of a time stamp.
-
-</p>
+<p>In order for patio to determine the order of the migration files must follow the naming format of {timestamp}.someFileName.js where the timestamp can be any form of a time stamp.</p>
 <pre class='prettyprint linenums lang-js'><code> //yyyyMMdd
  20110131
  //yyyyMMddHHmmss
  20110131123940
  //unix epoch timestamp
  1328035161</code></pre>
-<p>An example directory structure might look like the following:
-
-</p>
+<p>An example directory structure might look like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>-migrations
      - 1328035161.createFirstTables.js
      - 1328035360.shortDescription.js
@@ -415,28 +402,17 @@
      .
      .
      -n.lastMigration.js</code></pre>
-<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.
-
-</p>
+<p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.</p>
 <pre class='prettyprint linenums lang-js'><code> 1328035161.createEmployee.js
  1328035360.alterEmployeeNameColumn.js</code></pre>
 <h2>Mixed Migrations</h2>
-<p>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the patio will attempt to merge the two migrations. It does this by ordering the files based off of the versionNumber order. So Integerbase migrations will come first. If the version number in any file with a version number lower than or equal to the current verion will be inserted into the schema_migration table and and file with a version greater will be applied up the the supplied target, or greatest version number and will be inserted into the database.
-
-</p>
+<p>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the patio will attempt to merge the two migrations. It does this by ordering the files based off of the versionNumber order. So Integerbase migrations will come first. If the version number in any file with a version number lower than or equal to the current verion will be inserted into the schema_migration table and and file with a version greater will be applied up the the supplied target, or greatest version number and will be inserted into the database.</p>
 <h2>Migration Files</h2>
-<p>Migration files are files with an up and down method.
-
-</p>
+<p>Migration files are files with an up and down method.</p>
 <h3>exports.up</h3>
-<p>The up function is called when applying the migration. The up function typically contains create and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.
-
-
-</p>
+<p>The up function is called when applying the migration. The up function typically contains create and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.</p>
 <h3>exports.down</h3>
-<p>The down function is called when rolling back the migration. The down function typically contains drop and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.
-
-</p>
+<p>The down function is called when rolling back the migration. The down function typically contains drop and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.</p>
 <h2>Example migration file</h2>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
       when = comb.when;
@@ -464,9 +440,7 @@
 exports.down = function(db) {
     return db.dropTable(&quot;employee&quot;, &quot;company&quot;);
 };</code></pre>
-<p>While it will not break any thing you should always return a promise from the up and down functions. If you perform a single database altering action (i.e. create/alter/drop table) you can just return that action. If you perform multiple then you can wrap it in a <code>comb.when</code> call.
-
-</p>
+<p>While it will not break any thing you should always return a promise from the up and down functions. If you perform a single database altering action (i.e. create/alter/drop table) you can just return that action. If you perform multiple then you can wrap it in a <code>comb.when</code> call.</p>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     when = comb.when;
 
@@ -489,12 +463,8 @@ exports.down = function(db) {
         });
     );
 };</code></pre>
-<p><code>comb.when</code> will return a Promise that will resolve once all three database actions have completed.
-
-</p>
-<p>If you perform more complex actions you may need to should use the Promise api. Consider the following example.
-
-</p>
+<p><code>comb.when</code> will return a Promise that will resolve once all three database actions have completed.</p>
+<p>If you perform more complex actions you may need to should use the Promise api. Consider the following example.</p>
 <pre class='prettyprint linenums lang-js'><code> //Up function used to migrate up a version
 exports.up = function(db) {
     //create a new table
@@ -525,25 +495,17 @@ exports.down = function(db) {
         this.dropColumn(&quot;hireDate&quot;);
     });
 };</code></pre>
-<p>First we wait for both the rename and createTable action to complete, and then we perform some database actions and finally resolve.
-
-</p>
+<p>First we wait for both the rename and createTable action to complete, and then we perform some database actions and finally resolve.</p>
 <h2>Running migrations</h2>
-<p>In order to run a migraton there are two options:
-
-</p>
+<p>In order to run a migraton there are two options:</p>
 <h3><a href="./patio.html#migrate">patio.migrate</a></h3>
-<p><strong>Available options</strong>
-
-</p>
+<p><strong>Available options</strong></p>
 <ul>
 <li><strong>column</strong> : the column in the table that version information should be stored.</li>
 <li><strong>table</strong> : the table that version information should be stored.</li></li>
 <li><strong>target</strong> : the target migration(i.e the migration to migrate up/down to). <strong>NOTE:</strong> If you are using integer based migrations you must specify your target to <code>-1</code> in order to roll all the way back.</li>
 </ul>
-<p><strong>Integer migrator options</strong>
-
-</p>
+<p><strong>Integer migrator options</strong></p>
 <ul>
 <li><strong>current</strong> : the version that the database is currently at if the current version is not provided it is retrieved from the database.</li>
 </ul>
@@ -552,13 +514,9 @@ exports.down = function(db) {
       console.log(&quot;migrations finished&quot;);
   }, errorHandler);</code></pre>
 <h3>Patio Executable</h3>
-<p>patio comes with an executable script that can be used to run the migrations
-
-</p>
+<p>patio comes with an executable script that can be used to run the migrations</p>
 <pre class='prettyprint linenums lang-js'><code>patio -u some://connection/string -d ./migrations/</code></pre>
-<p><strong>script options</strong>
-
-</p>
+<p><strong>script options</strong></p>
 <ul>
 <li><strong>-d, --directory</strong> : Directory of migrations</li>
 <li><strong>-u, --uri</strong> : connection uri</li>

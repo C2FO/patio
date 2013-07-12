@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -355,6 +360,10 @@
 
 
 
+<h1>0.1.7 / 2012-12-4</h1>
+<ul>
+<li>Fixed issue where port was not added to connection options.</li>
+</ul>
 <h1>0.1.6 / 2012-11-16</h1>
 <ul>
 <li>Upgraded comb to v0.1.10</li>

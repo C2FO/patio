@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -441,8 +446,7 @@ in a text/string/varchar value in SQL.</p>
         <a name="staticProperties"></a>
         <em>Static Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>likeMap</em></td><td>Object</td><td><code>{"truetrue":'~*', "truefalse":"~", "falsetrue":"ILIKE", "falsefalse":"LIKE"}</code></td><td><p>Like map used to by <a href='./patio_sql_StringExpression.html#.like'> patio.sql.StringExpression.like</a> to create the
-LIKE expression.
-</p>
+LIKE expression.</p>
 </td><tr></table>
     
     

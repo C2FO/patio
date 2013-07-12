@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -540,9 +545,7 @@
 
 
 
-    <p><p>Mixin that provides time formatting/coversion functions.
-
-</p>
+    <p><p>Mixin that provides time formatting/coversion functions.</p>
 </p>
     
 
@@ -592,9 +595,7 @@ fails this format will be tried.</p>
 </td><tr><tr><td>TWO_YEAR_DATE_FORMAT</td><td>String</td><td><code>
 yy-MM-dd
 </code></td><td><p>Two year date format
-This is used in date coversions when convertTwoDigitYears is used.
-
-</p>
+This is used in date coversions when convertTwoDigitYears is used.</p>
 <p>If this format fails then dateFormat|DEFAULT_DATE_FORMAT is used.</p>
 </td><tr><tr><td>convertTwoDigitYears</td><td>Boolean</td><td><code>
 true
@@ -637,9 +638,7 @@ To turn this off:</p>
 
 <p><p>Converts a @link{patio.sql.DateTime} to a string.
 The format used is <a href='./patio_Time.html#dateTimeFormat'> patio.Time#dateTimeFormat</a>,
-which defaults to <a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a>
-
-</p>
+which defaults to <a href='./patio_Time.html#DEFAULT_DATETIME_FORMAT'> patio.Time#DEFAULT_DATETIME_FORMAT</a></p>
 </p>
 
     <em>Example</em>
@@ -718,9 +717,7 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a date to a string.
-
-</p>
+<p><p>Converts a date to a string.</p>
 </p>
 
     <em>Example</em>
@@ -838,9 +835,7 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a date string to a Date
-
-</p>
+<p><p>Converts a date string to a Date</p>
 </p>
 
     <em>Example</em>
@@ -922,9 +917,7 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a datetime date string to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a>
-
-</p>
+<p><p>Converts a datetime date string to a <a href='./patio_sql_DateTime.html#'> patio.sql.DateTime</a></p>
 </p>
 
     <em>Example</em>
@@ -1024,9 +1017,7 @@ function (dt,fmt){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a time date string to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a>
-
-</p>
+<p><p>Converts a time date string to a <a href='./patio_sql_Time.html#'> patio.sql.Time</a></p>
 </p>
 
     <em>Example</em>
@@ -1099,9 +1090,7 @@ function (dt,format){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a timestamp date string to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a>
-
-</p>
+<p><p>Converts a timestamp date string to a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a></p>
 </p>
 
     <em>Example</em>
@@ -1200,9 +1189,7 @@ function (dt,fmt){
 <hr/>
 <em>Defined time.js</em>
 
-<p><p>Converts a year date string to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a>
-
-</p>
+<p><p>Converts a year date string to a <a href='./patio_sql_Year.html#'> patio.sql.Year</a></p>
 </p>
 
     <em>Example</em>
@@ -1279,9 +1266,7 @@ function (dt,format){
 
 <p><p>Converts a <a href='./patio_sql_TimeStamp.html#'> patio.sql.TimeStamp</a> to a string.
 The format used is <a href='./patio_Time.html#timeStampFormat'> patio.Time#timeStampFormat</a>,
-which defaults to <a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a>
-
-</p>
+which defaults to <a href='./patio_Time.html#DEFAULT_TIMESTAMP_FORMAT'> patio.Time#DEFAULT_TIMESTAMP_FORMAT</a></p>
 </p>
 
     <em>Example</em>
@@ -1362,9 +1347,7 @@ function (dt,format){
 
 <p><p>Converts a <a href='./sql_Time.html#'> sql.Time</a> to a string.
 The format used is <a href='./patio_Time.html#timeFormat'> patio.Time#timeFormat</a>,
-which defaults to <a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a>
-
-</p>
+which defaults to <a href='./patio_Time.html#DEFAULT_TIME_FORMAT'> patio.Time#DEFAULT_TIME_FORMAT</a></p>
 </p>
 
     <em>Example</em>
@@ -1431,9 +1414,7 @@ function (dt,format){
 
 <p><p>Converts a <a href='./patio_sql_Year.html#'> patio.sql.Year</a> to a string.
 The format used is <a href='./patio_Time.html#yearFormat'> patio.Time#yearFormat</a>,
-which defaults to <a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a>
-
-</p>
+which defaults to <a href='./patio_Time.html#DEFAULT_YEAR_FORMAT'> patio.Time#DEFAULT_YEAR_FORMAT</a></p>
 </p>
 
     <em>Example</em>
