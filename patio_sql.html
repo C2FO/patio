@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -466,9 +471,7 @@
 </div>
 <em>Defined sql.js</em>
 
-<p><p>Collection of SQL related types, and expressions.
-
-</p>
+<p><p>Collection of SQL related types, and expressions.</p>
 <p>
  The <a href='./patio.html#.sql'> patio.sql</a> object
  can be used directly to create <a href='./patio_sql_Expression.html#'> patio.sql.Expression</a>s, <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>s, <a href='./patio_sql_SQLFunction.html#'> patio.sql.SQLFunction</a>s,
@@ -561,10 +564,10 @@ This is useful when combined with dataset filtering
      * or {@link patio.sql.ALiasedExpression} depending on the format of the string
      * passed in.
      *
-     * &lt;ul&gt;
-     *      &lt;li&gt;For columns : table__column___alias.&lt;/li&gt;
-     *      &lt;li&gt;For tables : schema__table___alias.&lt;/li&gt;
-     * &lt;/ul&gt;
+     * &amp;lt;ul&gt;
+     *      &amp;lt;li&gt;For columns : table__column___alias.&amp;lt;/li&gt;
+     *      &amp;lt;li&gt;For tables : schema__table___alias.&amp;lt;/li&gt;
+     * &amp;lt;/ul&gt;
      * each portion of the identifier is optional. See example below
      *
      * @example
@@ -651,7 +654,7 @@ This is useful when combined with dataset filtering
         });
         if (joiner) {
             var newJoiner = [];
-            for (var i = 0; i &lt; arr.length; i++) {
+            for (var i = 0; i &amp;lt; arr.length; i++) {
                 newJoiner.push(joiner);
             }
             args = array.flatten(array.zip(arr, newJoiner));
@@ -675,9 +678,7 @@ This is useful when combined with dataset filtering
     
 
     <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>NegativeBooleanConstant</td><td>declaration</td><td><code>define(BooleanConstant, {</code></td><td><p>Represents inverse boolean constants (currently only NOTNULL). A
-special class to allow for special behavior.
-
-</p>
+special class to allow for special behavior.</p>
 </td><tr></table>
     
         <a name=".case"></a>
@@ -699,9 +700,7 @@ special class to allow for special behavior.
 <hr/>
 <em>Defined sql.js</em>
 
-<p><p>Returns a <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>. See <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a> for argument types.
-
-</p>
+<p><p>Returns a <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a>. See <a href='./patio_sql_CaseExpression.html#'> patio.sql.CaseExpression</a> for argument types.</p>
 </p>
 
     <em>Example</em>
@@ -756,16 +755,12 @@ function (hash,/*args**/opts){
 
 <p><p>Returns a <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>,
 or <a href='./patio_sql_ALiasedExpression.html#'> patio.sql.ALiasedExpression</a> depending on the format of the string
-passed in.
-
-</p>
+passed in.</p>
 <p><ul>
      <li>For columns : table<strong>column_</strong>alias.</li>
      <li>For tables : schema<strong>table_</strong>alias.</li>
 </ul>
-each portion of the identifier is optional. See example below
-
-</p>
+each portion of the identifier is optional. See example below</p>
 </p>
 
     <em>Example</em>
@@ -832,9 +827,7 @@ function (s){
 <p><p>Creates a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a> or <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>
 depending on the arguments passed in. If a single string is passed in then
 it is assumed to be a <a href='./patio_sql_LiteralString.html#'> patio.sql.LiteralString</a>. If more than one argument is
-passed in then it is assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.
-
-</p>
+passed in then it is assumed to be a <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>.</p>
 </p>
 
     <em>Example</em>
@@ -902,15 +895,11 @@ function (s){
 <hr/>
 <em>Defined sql.js</em>
 
-<p><p>Creates a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a>
-
-</p>
+<p><p>Creates a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a></p>
 <p>Return a <a href='./patio_sql_StringExpression.html#'> patio.sql.StringExpression</a> representing an SQL string made up of the
 concatenation of this array&#39;s elements.  If an joiner is passed
 it is used in between each element of the array in the SQL
-concatenation.
-
-</p>
+concatenation.</p>
 </p>
 
     <em>Example</em>
@@ -946,7 +935,7 @@ function (arr,joiner){
    });
    if (joiner) {
        var newJoiner = [];
-       for (var i = 0; i &lt; arr.length; i++) {
+       for (var i = 0; i &amp;lt; arr.length; i++) {
            newJoiner.push(joiner);
        }
        args = array.flatten(array.zip(arr, newJoiner));

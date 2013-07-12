@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -356,12 +361,8 @@
 
 
 
-  <p><a href="http://travis-ci.org/C2FO/patio"><img src="https://secure.travis-ci.org/C2FO/patio.png" alt="Build Status"></a>
-
-</p>
-<p>Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
-
-</p>
+  <p><a href="http://travis-ci.org/C2FO/patio"><img src="https://secure.travis-ci.org/C2FO/patio.png" alt="Build Status"></a></p>
+<p>Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.</p>
 <h3>Why Use Patio?</h3>
 
 <p>
@@ -375,22 +376,11 @@ you can <a href="./patio_Database.html#run">write plain SQL</a>.
 
 
 <h3>Getting Started</h3>
-<p>To install patio run
-
-</p>
-<p><code>npm install comb patio</code>
-
-</p>
-<p>If you want to use the patio executable for migrations
-
-</p>
-<p><code>npm install -g patio</code>
-
-
-</p>
-<p>Create some tables.
-
-</p>
+<p>To install patio run</p>
+<p><code>npm install comb patio</code></p>
+<p>If you want to use the patio executable for migrations</p>
+<p><code>npm install -g patio</code></p>
+<p>Create some tables.</p>
 <pre class='prettyprint linenums lang-js'><code>var patio = require(&quot;patio&quot;),
 comb = require(&quot;comb&quot;),
 when = comb.when,
@@ -438,18 +428,12 @@ function createTables() {
 createTables().then(function () {
      patio.disconnect();
 }, errorHandler);</code></pre>
-<p>Next lets create some models for the tables created.
-
-</p>
+<p>Next lets create some models for the tables created.</p>
 <pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
 var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);</code></pre>
-<p>Next you&#39;ll need to sync your models. <strong>Note</strong>: The sync operation returns a promise.
-
-</p>
+<p>Next you&#39;ll need to sync your models. <strong>Note</strong>: The sync operation returns a promise.</p>
 <pre class='prettyprint linenums lang-js'><code>patio.syncModels();</code></pre>
-<p>Save some data to query.
-
-</p>
+<p>Save some data to query.</p>
 <pre class='prettyprint linenums lang-js'><code>//comb.when waits for the save operation to complete
 return comb.when(
      State.save({
@@ -474,9 +458,7 @@ return comb.when(
           }
      })
 );</code></pre>
-<p>Now we can query the states and capitals we created.
-
-</p>
+<p>Now we can query the states and capitals we created.</p>
 <pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function (state) {
      //if you return a promise here it will prevent the foreach from
      //resolving until all inner processing has finished.

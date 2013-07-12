@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -356,19 +361,10 @@
 
 
 <h1>Logging</h1>
-<p>Patio uses the <a href="http://pollenware.github.com/comb/symbols/comb.logging.Logger.html">comb.logging</a> framework for all logging. To set up logging there are two scenarios.
-
-</p>
-<p>If you installed comb at the root of your project and then installed patio
-
-</p>
-<p><code>npm install comb patio</code>
-
-
-</p>
-<p>Then patio should be using the same version of comb that your application uses. If that is the case then you can configure logging through
-
-</p>
+<p>Patio uses the <a href="http://pollenware.github.com/comb/symbols/comb.logging.Logger.html">comb.logging</a> framework for all logging. To set up logging there are two scenarios.</p>
+<p>If you installed comb at the root of your project and then installed patio</p>
+<p><code>npm install comb patio</code></p>
+<p>Then patio should be using the same version of comb that your application uses. If that is the case then you can configure logging through</p>
 <ul>
 <li><a href="http://pollenware.github.com/comb/symbols/comb.logging.BasicConfigurator.html">comb.logging.BasicConfigurator</a></li>
 <li><a href="http://pollenware.github.com/comb/symbols/comb.logging.PropertyConfigurator.html">comb.logging.PropertyConfigurator</a></li>
@@ -378,8 +374,7 @@
 
 comb.logger.configure();
 comb.logger(&quot;patio&quot;).level = &quot;info&quot;;</code></pre>
-<p>Or
-</p>
+<p>Or</p>
 <pre class='prettyprint linenums lang-js'><code>//configure with a JSON file.
 comb.logger.configure(&quot;/location/of/log/config.json&quot;);
 
@@ -407,19 +402,14 @@ var loggingConfig = {
     }
 };
 comb.logger.configure(loggingConfig);</code></pre>
-<p>If you are using a different version of comb or do not want to use comb, then you can use the following method <a href="./patio.html#configureLogging">patio.configureLogging</a>;
-
-</p>
+<p>If you are using a different version of comb or do not want to use comb, then you can use the following method <a href="./patio.html#configureLogging">patio.configureLogging</a>;</p>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     patio = require(&quot;patio&quot;);
 //sets up a basic configurator
 patio.configureLogging();</code></pre>
-<p>Or with a JSON file
-</p>
+<p>Or with a JSON file</p>
 <pre class='prettyprint linenums lang-js'><code>patio.configureLogging(&quot;/location/of/log/config.json&quot;);</code></pre>
-<p>Or with an object
-
-</p>
+<p>Or with an object</p>
 <pre class='prettyprint linenums lang-js'><code>var loggingConfig = {
     //set the root patio logger to INFO by setting it on the root patio logger, patio.Dataset, patio.Database will
     //all get set to INFO level.
@@ -446,22 +436,16 @@ patio.configureLogging();</code></pre>
     }
 };
 patio.configureLogging(loggingConfig);</code></pre>
-<p>The patio logger currently contains the following loggers:
-
-</p>
+<p>The patio logger currently contains the following loggers:</p>
 <ul>
 <li>patio</li>
 <li>patio.Dataset</li>
 <li>patio.Database</li>
 </ul>
-<p>To get access to patios root logger use the <code>patio.LOGGER</code> property.
-
-</p>
+<p>To get access to patios root logger use the <code>patio.LOGGER</code> property.</p>
 <pre class='prettyprint linenums lang-js'><code>var patioLogger = patio.LOGGER;
 patioLogger.level = &quot;off&quot;;</code></pre>
-<p>There are also a methods for each logger method on patio.
-
-</p>
+<p>There are also a methods for each logger method on patio.</p>
 <pre class='prettyprint linenums lang-js'><code>patio.logDebug(&quot;DEBUG&quot;);
 patio.logInfo(&quot;INFO&quot;);
 patio.logTrace(&quot;TRACE&quot;);

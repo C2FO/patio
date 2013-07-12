@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -357,9 +362,7 @@
 
 <h1>DDL</h1>
 <h2><a href="./patio_Database.html#createTable">createTable</a></h2>
-<p>Patio supports the creation to tables through an instance of <a href="./patio_Database.html#createTable">patio.Database</a>. The <a href="./patio_Database.html#createTable">createTable</a> method is used by passing it a name of the table to create and a function which performs the actions to create <code>column</code>s, <code>indexe</code>s, <code>foreignKey</code>s, <code>constraint</code>s, and <code>primaryKey</code>s.
-
-</p>
+<p>Patio supports the creation to tables through an instance of <a href="./patio_Database.html#createTable">patio.Database</a>. The <a href="./patio_Database.html#createTable">createTable</a> method is used by passing it a name of the table to create and a function which performs the actions to create <code>column</code>s, <code>indexe</code>s, <code>foreignKey</code>s, <code>constraint</code>s, and <code>primaryKey</code>s.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;airport&quot;, function () {
         this.primaryKey(&quot;id&quot;);
         this.airportCode(String, {size:4, allowNull:false, unique:true});
@@ -367,9 +370,7 @@
         this.city(String, {allowNull:false});
         this.state(String, {size:2, allowNull:false});
     });</code></pre>
-<p>Patio by default supports the built in JavaScript types
-
-</p>
+<p>Patio by default supports the built in JavaScript types</p>
 <ul>
 <li><code>String</code> : varchar(255)</li>
 <li><code>Boolean</code> : boolean or tinyint(1)</li>
@@ -382,9 +383,7 @@
     this.boolean(Boolean); //=&gt; `boolean` tinyint(1)
     this.date(Date); //=&gt; `date` date
 });</code></pre>
-<p>Patio also has a few other built in types that can be used.
-
-</p>
+<p>Patio also has a few other built in types that can be used.</p>
 <ul>
 <li><a href="./patio_sql_Time.html">patio.sql.Time</a> : time</li>
 <li><a href="./patio_sql_TimeStamp.html">patio.sql.TimeStamp</a> : timestamp</li>
@@ -402,19 +401,11 @@ DB.createTable(&quot;test&quot;, function () {
     this.decimal(sql.Decimal);
     this.float(sql.Float);
 });</code></pre>
-<p>When creating a table there are a number of methods that can be invoked to create the table. For a full reference see <a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a>.
-
-</p>
-<p>The most commonly used methods are:
-
-</p>
+<p>When creating a table there are a number of methods that can be invoked to create the table. For a full reference see <a href="./patio_SchemaGenerator.html">patio.SchemaGenerator</a>.</p>
+<p>The most commonly used methods are:</p>
 <h3><a href="./patio_SchemaGenerator.html#column">column</a></h3>
-<p>Add a column to the DDL.  
-
-</p>
-<p><strong>Options</strong>
-
-</p>
+<p>Add a column to the DDL.  </p>
+<p><strong>Options</strong></p>
 <ul>
 <li><strong>key</strong> : For foreign key columns, the column in the associated table that this column references. Unnecessary if this column references the primary key of the associated table.</li>
 <li><strong>allowNull</strong> : Mark the column as allowing NULL values (if true), or not allowing NULL values (if false). If unspecified, will default to whatever the database default is.</li>
@@ -434,48 +425,36 @@ DB.createTable(&quot;test&quot;, function () {
      this.column(&quot;ip&quot;, &quot;inet&quot;);
          //=&gt; ip inet
  });</code></pre>
-<p>You can also create columns via method missing, so the following are equivalent:
-
-</p>
+<p>You can also create columns via method missing, so the following are equivalent:</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
   this.column(&quot;number&quot;, &quot;integer&quot;);
   //Same as
   this.number(&quot;integer&quot;);
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#primaryKey">primaryKey</a></h3>
-<p>Adds an auto-incrementing primary key column or a primary key constraint to the DDL
-
-</p>
+<p>Adds an auto-incrementing primary key column or a primary key constraint to the DDL</p>
 <pre class='prettyprint linenums lang-js'><code>db.createTable(&quot;airplane_type&quot;, function () {
      this.primaryKey(&quot;id&quot;);
          //=&gt; id integer NOT NULL PRIMARY KEY AUTOINCREMENT
      this.name(String, {allowNull:false});
      this.created(sql.TimeStamp);
 });</code></pre>
-<p>If you want a primary key that is not an auto-incrementing number use <a href="./patio_SchemaGenerator.html#column">column</a> instead.
-
-</p>
+<p>If you want a primary key that is not an auto-incrementing number use <a href="./patio_SchemaGenerator.html#column">column</a> instead.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.pk(&quot;integer&quot;, {primaryKey : true}); //Non auto incrementing primary key.
 });
 DB.createTable(&quot;test2&quot;, function(){
     this.pk(String, {primaryKey : true}); //varchar(255) primary key.
 });</code></pre>
-<p>If you want a composite primary key pass an array of column names. <strong>Note:</strong> when creating a composite primary key it does not create the columns so you must create those also.
-
-</p>
+<p>If you want a composite primary key pass an array of column names. <strong>Note:</strong> when creating a composite primary key it does not create the columns so you must create those also.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.firstName(String);
     this.lastName(String);
     this.primaryKey([&quot;firstName&quot;, &quot;lastName&quot;]); //composite key
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#foreignKey">foreignKey</a></h3>
-<p>Add a foreign key constraint to the DDL.
-
-</p>
-<p><strong>Options</strong>
-
-</p>
+<p>Add a foreign key constraint to the DDL.</p>
+<p><strong>Options</strong></p>
 <ul>
 <li><strong>deferrable</strong> : Makes the foreign key constraint checks deferrable, so they aren&#39;t checked until the end of the transaction.</li>
 <li><strong>key</strong> : For foreign key columns, the column in the associated table that this column references. Unnecessary if this column references the primary key of the associated table, at least on most databases.</li>
@@ -502,12 +481,8 @@ DB.createTable(&quot;flight_leg&quot;, function () {
      this.foreignKey(&quot;flight_id&quot;, &quot;flight&quot;, {key:&quot;id&quot;});
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#index">index</a></h3>
-<p>Adds an index to the the DDL. For single columns, calling index is the same as using the <code>index</code> option when creating the column:
-
-</p>
-<p><strong>Options</strong>
-
-</p>
+<p>Adds an index to the the DDL. For single columns, calling index is the same as using the <code>index</code> option when creating the column:</p>
+<p><strong>Options</strong></p>
 <ul>
 <li><strong>name</strong> : The name of the index (generated based on the table and column names if not provided).</li>
 <li><strong>type</strong> : The type of index to use (only supported by some databases)</li>
@@ -522,9 +497,7 @@ DB.createTable(&quot;a&quot;, function(){
   this.id(&quot;integer&quot;);
   this.index(&quot;id&quot;);
 });</code></pre>
-<p>Similar to the <a href="./patio_SchemaGenerator.html#primaryKey">primaryKey</a> and <a href="./patio_SchemaGenerator.html#foreignKey">foreignKey</a> methods, calling index with an array of strings will create a multiple column index:
-
-</p>
+<p>Similar to the <a href="./patio_SchemaGenerator.html#primaryKey">primaryKey</a> and <a href="./patio_SchemaGenerator.html#foreignKey">foreignKey</a> methods, calling index with an array of strings will create a multiple column index:</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id&quot;);
     this.first_name(String);
@@ -532,9 +505,7 @@ DB.createTable(&quot;a&quot;, function(){
     this.index([&quot;first_name&quot;, &quot;last_name&quot;]); //multi-column index
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#unique">unique</a></h3>
-<p>The unique method creates a unique constraint on the table. A unique constraint generally operates identically to a unique index.
-
-</p>
+<p>The unique method creates a unique constraint on the table. A unique constraint generally operates identically to a unique index.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;a&quot;, function(){
     this.id(&quot;integer&quot;, {unique : true});
 });
@@ -549,9 +520,7 @@ DB.createTable(&quot;a&quot;, function(){
   this.id(&quot;iteger&quot;);
   this.unique(&quot;id&quot;);
 });</code></pre>
-<p>Just like index, unique can set up a multiple column unique constraint, where the combination of the columns must be unique.
-
-</p>
+<p>Just like index, unique can set up a multiple column unique constraint, where the combination of the columns must be unique.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id&quot;);
     this.first_name(String);
@@ -559,9 +528,7 @@ DB.createTable(&quot;a&quot;, function(){
     this.unique([&quot;first_name&quot;, &quot;last_name&quot;]);
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#constraint">constraint</a></h3>
-<p>creates a named table constraint:
-
-</p>
+<p>creates a named table constraint:</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id&quot;);
     this.name(String);
@@ -569,9 +536,7 @@ DB.createTable(&quot;a&quot;, function(){
         return this.char_length(this.name).gt(2)
     });
 });</code></pre>
-<p>Instead of using a block, you can use arguments that will be handled similarly to <a href="./patio_Dataset.html#filter">patio.Dataset#filter</a>:
-
-</p>
+<p>Instead of using a block, you can use arguments that will be handled similarly to <a href="./patio_Dataset.html#filter">patio.Dataset#filter</a>:</p>
 <pre class='prettyprint linenums lang-js'><code>var sql = patio.sql;
 DB.createTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id&quot;);
@@ -579,9 +544,7 @@ DB.createTable(&quot;test&quot;, function(){
     this.constraint(&quot;name_min_length&quot;,  sql.char_length(sql.name).gt(2));
 });</code></pre>
 <h3><a href="./patio_SchemaGenerator.html#check">check</a></h3>
-<p>Operates just like <a href="./patio_SchemaGenerator.html#constraint">constraint</a>, except that it doesn&#39;t take a name and it creates an unnamed constraint.
-
-</p>
+<p>Operates just like <a href="./patio_SchemaGenerator.html#constraint">constraint</a>, except that it doesn&#39;t take a name and it creates an unnamed constraint.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id&quot;);
     this.name(String);
@@ -590,9 +553,7 @@ DB.createTable(&quot;test&quot;, function(){
     });
 });</code></pre>
 <h2><a href="./patio_Database.html#alterTable">alterTable</a></h2>
-<p><a href="./patio_Database.html#alterTable">alterTable</a> is used to alter a tables definition. It is used just like <a href="./patio_Database.html#createTable">createTable</a> where you use a function to alter the table&#39;s definition. For a full reference see <a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a>.
-
-</p>
+<p><a href="./patio_Database.html#alterTable">alterTable</a> is used to alter a tables definition. It is used just like <a href="./patio_Database.html#createTable">createTable</a> where you use a function to alter the table&#39;s definition. For a full reference see <a href="./patio_AlterTableGenerator.html">patio.AlterTableGenerator</a>.</p>
 <pre class='prettyprint linenums lang-js'><code> DB.alterTable(&quot;xyz&quot;, function() {
      this.addColumn(&quot;aaa&quot;, &quot;text&quot;, {null : false, unique : true});
      this.dropColumn(&quot;bbb&quot;);
@@ -603,160 +564,114 @@ DB.createTable(&quot;test&quot;, function(){
      this.dropIndex(&quot;ggg&quot;);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#addColumn">addColumn</a></h3>
-<p>This method adds a column to the table. This method is similar to <code>createTable</code>&#39;s column method where the first parameter is the column and the second parameter is the data type and third parameter an optional options hash
-
-</p>
+<p>This method adds a column to the table. This method is similar to <code>createTable</code>&#39;s column method where the first parameter is the column and the second parameter is the data type and third parameter an optional options hash</p>
 <pre class='prettyprint linenums lang-js'><code> DB.alterTable(&quot;test&quot;, function(){
      this.addColumn(&quot;num&quot;, &quot;integer&quot;);
      this.addColumn(&quot;name&quot;, String, {allowNull : false, &quot;default&quot; : &quot;a&quot;);
      this.addColumn(&quot;ip&quot;, &quot;inet&quot;);
  });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#dropColumn">dropColumn</a></h3>
-<p>This method removes a column from the table definition.
-
-</p>
+<p>This method removes a column from the table definition.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
      this.dropColumn(&quot;num&quot;);
      this.dropColumn(&quot;name&quot;);
      this.dropColumn(&quot;ip&quot;);
  });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#renameColumn">renameColumn</a></h3>
-<p>This method renames a column.
-
-</p>
+<p>This method renames a column.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
      this.renameColumn(&quot;num&quot;, &quot;number&quot;);
      this.renameColumn(&quot;name&quot;, &quot;first_name&quot;);
      this.renameColumn(&quot;ip&quot;, &quot;ip_address&quot;);
  });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#addPrimaryKey">addPrimaryKey</a></h3>
-<p>This method is used to add a primaryKey to a table incase you forgot to include a primaryKey when creating the table.
-
-</p>
+<p>This method is used to add a primaryKey to a table incase you forgot to include a primaryKey when creating the table.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
      this.addPrimaryKey(&quot;id&quot;);     
  });</code></pre>
-<p>Just like <code>createTable</code>&#39;s primaryKey method if you provide an array of columns to use it will not create the columns but, add a composite primaryKey.
-
-</p>
+<p>Just like <code>createTable</code>&#39;s primaryKey method if you provide an array of columns to use it will not create the columns but, add a composite primaryKey.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addPrimaryKey([&quot;first_name&quot;, &quot;last_name&quot;]); //composite key
 });</code></pre>
-<p>If you just want to take an existing single column and make it a primary key, call addPrimaryKey with an array of one element:
-
-</p>
+<p>If you just want to take an existing single column and make it a primary key, call addPrimaryKey with an array of one element:</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addPrimarykey([&quot;id&quot;]);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#addForeignKey">addForeignKey</a></h3>
-<p>This method is used to add a foreign key to a table. Like when using <code>addPrimaryKey</code> if you pass a string as the first argument then a column will be created.
-
-
-</p>
+<p>This method is used to add a foreign key to a table. Like when using <code>addPrimaryKey</code> if you pass a string as the first argument then a column will be created.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
      this.addForeignKey(&quot;test2_id&quot;, &quot;test2&quot;);
         //=&gt;ADD COLUMN test2_id integer REFERENCES test2
  });</code></pre>
-<p>Just like <code>createTable</code>&#39;s foreignKey method if you provide an array of columns to use it will not create the columns but, add a composite foreignKey.
-
-</p>
+<p>Just like <code>createTable</code>&#39;s foreignKey method if you provide an array of columns to use it will not create the columns but, add a composite foreignKey.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addForeignKey([&quot;first_name&quot;, &quot;last_name&quot;], &quot;users&quot;); //composite key
 });</code></pre>
-<p>If you just want to take an existing single column and make it a foreign key, call addForeignKey with an array of one element:
-
-</p>
+<p>If you just want to take an existing single column and make it a foreign key, call addForeignKey with an array of one element:</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addForeignKey([&quot;test2_id&quot;], &quot;test2&quot;);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#addIndex">addIndex</a></h3>
-<p>Just like <code>createTable</code>&#39;s index method.
-
-</p>
+<p>Just like <code>createTable</code>&#39;s index method.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;table&quot;, function(){
   this.addIndex(&quot;first_name&quot;);
 });</code></pre>
-<p>Just like <code>createTable</code>&#39;s index method you can create a composite key by passing in an array of column names.
-
-</p>
+<p>Just like <code>createTable</code>&#39;s index method you can create a composite key by passing in an array of column names.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addIndex([&quot;first_name&quot;, &quot;last_name&quot;]);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#dropIndex">dropIndex</a></h3>
-<p>Drops an index from a table.
-
-</p>
+<p>Drops an index from a table.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.dropIndex(&quot;first_name&quot;);
 });</code></pre>
-<p>To drop an index with a custom name use the name option.
-
-</p>
+<p>To drop an index with a custom name use the name option.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.dropIndex(&quot;first_name&quot;, {name : &quot;first_name_index&quot;});
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#addConstraint">addConstraint</a></h3>
-<p>Adds a named constraint to a table. Just like <code>createTable</code>&#39;s constraint method.
-
-</p>
+<p>Adds a named constraint to a table. Just like <code>createTable</code>&#39;s constraint method.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addConstraint(&quot;name_min_length&quot;, function(){
         return this.char_length(this.name).gt(2);
     });
 });</code></pre>
-<p><strong>Note:</strong> there is not a method to add an unnamed constraint when altering a table.
-
-
-</p>
+<p><strong>Note:</strong> there is not a method to add an unnamed constraint when altering a table.</p>
 <h3><a href="./patio_AlterTableGenerator.html#addUniqueConstraint">addUniqueConstraint</a></h3>
-<p>Adds a unique constraint to a table. Just like <code>createTable</code>&#39;s unique method.
-
-</p>
+<p>Adds a unique constraint to a table. Just like <code>createTable</code>&#39;s unique method.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addUniqueConstraint(&quot;name&quot;);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#dropConstraint">dropConstraint</a></h3>
-<p>Drops a named constraint from a table.
-
-</p>
+<p>Drops a named constraint from a table.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;albums&quot;, function(){
     this.dropConstraint(&quot;name_min_length&quot;);
 });</code></pre>
-<p>On MySQL you specify the type of constraint you are dropping.
-
-</p>
+<p>On MySQL you specify the type of constraint you are dropping.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;albums&quot;, function(){
   this.dropConstraint(&quot;albums_pk&quot;, {type : &quot;primaryKey&quot;});
   this.dropConstraint(&quot;albums_fk&quot;, {type : &quot;foreignKey&quot;});
   this.dropConstraint(&quot;albums_uk&quot;, {type : &quot;unique&quot;});
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#setColumnDefault">setColumnDefault</a></h3>
-<p>Sets a columns default value.
-
-</p>
+<p>Sets a columns default value.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.setColumnDefault(&quot;first_name&quot;, &quot;John&quot;);
     this.setColumnDefault(&quot;last_name&quot;, &quot;Doe&quot;);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#setColumnType">setColumnType</a></h3>
-<p>Sets the columns type.
-
-</p>
+<p>Sets the columns type.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.setColumnType(&quot;first_name&quot;, &quot;char(10)&quot;);
 });</code></pre>
 <h3><a href="./patio_AlterTableGenerator.html#setAllowNull">setAllowNull</a></h3>
-<p>Changes the NULL/NOT NULL modifier of a column.
-
-</p>
+<p>Changes the NULL/NOT NULL modifier of a column.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.setAllowNull(&quot;first_name&quot;, false); //NOT NULL
     this.setAllowNull(&quot;last_name&quot;, true); //NULL
 });</code></pre>
 <h2><a href="./patio_Database.html">patio.Database</a> modification methods</h2>
-<p><a href="./patio_Database.html">patio.Database</a> has methods that act as shortcuts to an <a href="./patio_Database.html#alterTable">alterTable</a> call these methods include
-
-</p>
+<p><a href="./patio_Database.html">patio.Database</a> has methods that act as shortcuts to an <a href="./patio_Database.html#alterTable">alterTable</a> call these methods include</p>
 <ul>
 <li><a href="./patio_Database.html#addColumn">addColumn</a></li>
 <li><a href="./patio_Database.html#dropColumn">dropColumn</a></li>
@@ -766,9 +681,7 @@ DB.createTable(&quot;test&quot;, function(){
 <li><a href="./patio_Database.html#setColumnDefault">setColumnDefault</a></li>
 <li><a href="./patio_Database.html#setColumnType">setColumnType</a></li>
 </ul>
-<p>These methods are useful when your only performing a couple of modifications at a time.
-
-</p>
+<p>These methods are useful when your only performing a couple of modifications at a time.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.alterTable(&quot;test&quot;, function(){
     this.addColumn(&quot;num&quot;, &quot;integer&quot;);
 });
@@ -777,23 +690,17 @@ DB.createTable(&quot;test&quot;, function(){
 DB.addColumn(&quot;test&quot;, &quot;num&quot;, &quot;integer&quot;);</code></pre>
 <h2>Tables</h2>
 <h3><a href="./patio_Database.html#dropTable">dropTable</a></h3>
-<p>Can drop either a single table or multiple tables at a time.
-
-</p>
+<p>Can drop either a single table or multiple tables at a time.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.dropTable([&quot;leg_instance&quot;, &quot;flight_leg&quot;, &quot;flight&quot;, &quot;airplane&quot;, &quot;can_land&quot;, &quot;airplane_type&quot;, &quot;airport&quot;]);
 //same as
 DB.dropTable(&quot;leg_instance&quot;, &quot;flight_leg&quot;, &quot;flight&quot;, &quot;airplane&quot;, &quot;can_land&quot;, &quot;airplane_type&quot;, &quot;airport&quot;);
 //OR one table
 DB.dropTable(&quot;leg_instance&quot;);</code></pre>
 <h3><a href="./patio_Database.html#renameTable">renameTable</a></h3>
-<p>Renames an existing table.
-
-</p>
+<p>Renames an existing table.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.renameTable(&quot;test&quot;, &quot;test_old&quot;);</code></pre>
 <h3><a href="./patio_Database.html#forceCreateTable">forceCreateTable</a></h3>
-<p>Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it. <strong>Note:</strong> This should not be used within a transaction as it could cause the transaction to fail.
-
-</p>
+<p>Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it. <strong>Note:</strong> This should not be used within a transaction as it could cause the transaction to fail.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.forceCreateTable(&quot;test&quot;, function(){
     this.primaryKey(&quot;id);
     this.first_name(String);
@@ -801,9 +708,7 @@ DB.dropTable(&quot;leg_instance&quot;);</code></pre>
     this.date_of_birth(Date);
 });</code></pre>
 <h3><a href="./patio_Database.html#createTableUnlessExists">createTableUnlessExists</a></h3>
-<p>Creates the table unless the table already exists.
-
-</p>
+<p>Creates the table unless the table already exists.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.createTableUnlessExists(&quot;test&quot;, function(){
     this.primaryKey(&quot;id);
     this.first_name(String);
@@ -812,27 +717,21 @@ DB.dropTable(&quot;leg_instance&quot;);</code></pre>
 });</code></pre>
 <h2>Views</h2>
 <h3><a href="./patio_Database.html#createView">createView</a></h3>
-<p>Creates a view based on a dataset or an SQL string:
-
-</p>
+<p>Creates a view based on a dataset or an SQL string:</p>
 <pre class='prettyprint linenums lang-js'><code>//CREATE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
 DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
 
 //CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = &#39;misc&#39;
 DB.createView(&quot;miscItems&quot;, DB[:items].filter({category : &#39;misc&#39;}));</code></pre>
 <h3><a href="./patio_Database.html#createOrReplaceView">createOrReplaceView</a></h3>
-<p>Same as create view but replaces the view if it already exists.
-
-</p>
+<p>Same as create view but replaces the view if it already exists.</p>
 <pre class='prettyprint linenums lang-js'><code>//CREATE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
 DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
 
 //CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = &#39;misc&#39;
 DB.createOrReplaceView(&quot;miscItems&quot;, DB[:items].filter({category : &#39;misc&#39;}));</code></pre>
 <h3><a href="./patio_Database.html#dropView">dropView</a></h3>
-<p>Similar to <code>dropTable</code> but instead of a table it drops a view.
-
-</p>
+<p>Similar to <code>dropTable</code> but instead of a table it drops a view.</p>
 <pre class='prettyprint linenums lang-js'><code>DB.dropView(&quot;test_view&quot;);
     //=&gt;&#39;DROP VIEW test_view&#39;
 DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3&quot;);

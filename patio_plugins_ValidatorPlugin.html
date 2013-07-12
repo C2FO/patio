@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -419,11 +424,8 @@
 
     <p><p>A validation plugin for patio models. This plugin adds a <code>validate</code> method to each <a href='./patio_Model.html#'> patio.Model</a>
 class that adds it as a plugin. This plugin does not include most typecast checks as <code>patio</code> already checks
-types upon column assignment.
-
-</p>
-<p>To do single col validation
-</p>
+types upon column assignment.</p>
+<p>To do single col validation</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -439,8 +441,7 @@ Model.validate("emailAddress").isEmailAddress();
 
 </pre>
 
-<p>Or you can do a mass validation through a callback.
-</p>
+<p>Or you can do a mass validation through a callback.</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -458,9 +459,7 @@ Model.validate(function(validate){
 
 </pre>
 
-<p>To check if a <a href='./patio_Model.html#'> patio.Model</a> is valid you can run the <code>isValid</code> method.
-
-</p>
+<p>To check if a <a href='./patio_Model.html#'> patio.Model</a> is valid you can run the <code>isValid</code> method.</p>
 <pre class='prettyprint linenums lang-js'>
 
 var model1 = new Model({col2 : 'grape', emailAddress : "test"}),
@@ -471,9 +470,7 @@ model2.isValid() //true
 
 </pre>
 
-<p>To get the errors associated with an invalid model you can access the errors property
-
-</p>
+<p>To get the errors associated with an invalid model you can access the errors property</p>
 <pre class='prettyprint linenums lang-js'>
 
 model1.errors; //{ col1: [ 'col1 must be defined.' ],
@@ -482,9 +479,7 @@ model1.errors; //{ col1: [ 'col1 must be defined.' ],
 
 </pre>
 
-<p>Validation is also run pre save and pre update. To prevent this you can specify the <code>validate</code> option
-
-</p>
+<p>Validation is also run pre save and pre update. To prevent this you can specify the <code>validate</code> option</p>
 <pre class='prettyprint linenums lang-js'>
 
 model1.save(null, {validate : false});
@@ -493,8 +488,7 @@ model2.save(null, {validate : false});
 </pre>
 
 <p>Or you can specify the class level properties <code>validateOnSave</code> and <code>validateOnUpdate</code>
-to false respectively
-</p>
+to false respectively</p>
 <pre class='prettyprint linenums lang-js'>
 
 Model.validateOnSave = false;
@@ -502,9 +496,7 @@ Model.validateOnUpdate = false;
 
 </pre>
 
-<p>Avaiable validation methods are.
-
-</p>
+<p>Avaiable validation methods are.</p>
 <ul>
  <li><code>isAfter</code> : check that a date is after a specified date</li>
  <li><code>isBefore</code> : check that a date is after before a specified date </li>
@@ -540,11 +532,8 @@ Model.validateOnUpdate = false;
  <li><code>check</code> : accepts a function to perform validation</li>
 </ul>
 
-<p>All of the validation methods are chainable, and accept an options argument.
-
-</p>
-<p>The options include
-</p>
+<p>All of the validation methods are chainable, and accept an options argument.</p>
+<p>The options include</p>
 <ul>
     <li><code>message</code> : a message to return if a column fails validation. The message can include <code>{val}</code> and <code>{col}</code>
     replacements which will insert the invalid value and the column name.
@@ -563,11 +552,9 @@ Model.validateOnUpdate = false;
         <a name="staticProperties"></a>
         <em>Static Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>validateOnSave</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent model validation when saving.
-</p>
+         </code></td><td><p>Set to false to prevent model validation when saving.</p>
 </td><tr><tr><td><em>validateOnUpdate</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent model validation when updating.
-</p>
+         </code></td><td><p>Set to false to prevent model validation when updating.</p>
 </td><tr></table>
     
     
@@ -616,11 +603,8 @@ function (){
 <hr/>
 <em>Defined plugins/validation.js</em>
 
-<p><p>Sets up validation for a model.
-
-</p>
-<p>To do single col validation
-</p>
+<p><p>Sets up validation for a model.</p>
+<p>To do single col validation</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -636,8 +620,7 @@ Model.validate("emailAddress").isEmailAddress();
 
 </pre>
 
-<p>Or you can do a mass validation through a callback.
-</p>
+<p>Or you can do a mass validation through a callback.</p>
 <pre class='prettyprint linenums lang-js'>
 
 

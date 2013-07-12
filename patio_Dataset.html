@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -3042,9 +3047,7 @@
 
 
 
-    <p><p>Class that is used for querying/retirving datasets from a database.
-
-</p>
+    <p><p>Class that is used for querying/retirving datasets from a database.</p>
 <p> Dynamically genertated methods include
 <ul>
     <li>Join methods from <a href='./patio_Dataset.html#'> patio.Dataset.CONDITIONED_JOIN_TYPES</a> and
@@ -3197,90 +3200,58 @@
          'get', 'import', 'insert', 'save', 'insertMultiple', 'saveMultiple', 'interval', 'last',
          'map', 'max', 'min', 'multiInsert', 'range', 'selectHash', 'selectMap', 'selectOrderMap', 'set',
          'singleRecord', 'singleValue', 'sum', 'toCsv', 'toHash', 'truncate', 'update']
-         </code></td><td><p>List of action methods avaiable on the dataset.
-
-</p>
-</td><tr><tr><td><em>AND_SEPARATOR</em></td><td>property</td><td><code>" AND "</code></td><td><p>Default SQL AND separator.
-</p>
-</td><tr><tr><td><em>BOOL_FALSE</em></td><td>property</td><td><code>"'f'"</code></td><td><p>Default SQL boolean false operator.
-</p>
-</td><tr><tr><td><em>BOOL_TRUE</em></td><td>property</td><td><code>"'t'"</code></td><td><p>Default SQL boolean true operator.
-</p>
+         </code></td><td><p>List of action methods avaiable on the dataset.</p>
+</td><tr><tr><td><em>AND_SEPARATOR</em></td><td>property</td><td><code>" AND "</code></td><td><p>Default SQL AND separator.</p>
+</td><tr><tr><td><em>BOOL_FALSE</em></td><td>property</td><td><code>"'f'"</code></td><td><p>Default SQL boolean false operator.</p>
+</td><tr><tr><td><em>BOOL_TRUE</em></td><td>property</td><td><code>"'t'"</code></td><td><p>Default SQL boolean true operator.</p>
 </td><tr><tr><td><em>COLUMN_CHANGE_OPTS</em></td><td>property</td><td><code>["select", "sql", "from", "join"]</code></td><td><p> The dataset options that require the removal of cached columns
- if changed.
-</p>
-</td><tr><tr><td><em>COMMA_SEPARATOR</em></td><td>property</td><td><code>'</code></td><td><p>Default SQL comma sperator.
-</p>
+ if changed.</p>
+</td><tr><tr><td><em>COMMA_SEPARATOR</em></td><td>property</td><td><code>'</code></td><td><p>Default SQL comma sperator.</p>
 </td><tr><tr><td><em>CONDITIONED_JOIN_TYPES</em></td><td>property</td><td><code>["inner", "fullOuter", "rightOuter", "leftOuter", "full", "right", "left"]</code></td><td><p>These strings have {name}Join methods created (e.g. <a href='./patio_Dataset.html#innerJoin'> patio.Dataset#innerJoin</a>) that
 call <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a> with the string, passing along the arguments and
-block from the method call.
-</p>
+block from the method call.</p>
 </td><tr><tr><td><em>COUNT_FROM_SELF_OPTS</em></td><td>String[]</td><td><code>
 ["distinct", "group", "sql", "limit", "compounds"]
-         </code></td><td><p>List of options that can interfere with the aggregation of a <a href='./patio_Dataset.html#'> patio.Dataset</a>
-</p>
-</td><tr><tr><td><em>COUNT_OF_ALL_AS_COUNT</em></td><td>property</td><td><code>sql.count(sql.literal('*')).as("count")</code></td><td><p>Default COUNT expression.
-</p>
-</td><tr><tr><td><em>DATASET_ALIAS_BASE_NAME</em></td><td>property</td><td><code>'t'</code></td><td><p>Default alias for datasets.
-</p>
-</td><tr><tr><td><em>DELETE_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("delete"</code></td><td><p>Default SQL DELETE clause methods. This may be overrode by adapters.
-</p>
+         </code></td><td><p>List of options that can interfere with the aggregation of a <a href='./patio_Dataset.html#'> patio.Dataset</a></p>
+</td><tr><tr><td><em>COUNT_OF_ALL_AS_COUNT</em></td><td>property</td><td><code>sql.count(sql.literal('*')).as("count")</code></td><td><p>Default COUNT expression.</p>
+</td><tr><tr><td><em>DATASET_ALIAS_BASE_NAME</em></td><td>property</td><td><code>'t'</code></td><td><p>Default alias for datasets.</p>
+</td><tr><tr><td><em>DELETE_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("delete"</code></td><td><p>Default SQL DELETE clause methods. This may be overrode by adapters.</p>
 </td><tr><tr><td><em>FEATURES</em></td><td>property</td><td><code>
 ["quoteIdentifiers","providesAccurateRowsMatched","requiresSqlStandardDateTimes","supportsCte",
 "supportsDistinctOn","supportsIntersectExcept","supportsIntersectExceptAll","supportsIsTrue","supportsJoinUsing",
 "supportsModifyingJoins","supportsMultipleColumnIn","supportsTimestampTimezones","supportsTimestampUsecs",
 "supportsWindowFunctions"]
 Array of features.
-         </code></td><td></td><tr><tr><td><em>FOR_UPDATE</em></td><td>property</td><td><code>' FOR UPDATE'</code></td><td><p>Default FOR UPDATE SQL fragment.
-</p>
-</td><tr><tr><td><em>FROM</em></td><td>property</td><td><code>"FROM"</code></td><td><p>Default FROM clause
-</p>
-</td><tr><tr><td><em>INSERT_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("insert"</code></td><td><p>Default SQL INSERT clause. This may be overrode by adapters.
-</p>
-</td><tr><tr><td><em>IS_LITERALS</em></td><td>property</td><td><code>{NULL:'NULL', true:'TRUE', false:'FALSE'}</code></td><td><p>Hash of IS literals
-</p>
-</td><tr><tr><td><em>IS_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.IS_OPERATORS</code></td><td><p>Defaults IS OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.IS_OPERATORS</a>.
-</p>
-</td><tr><tr><td><em>JOIN_METHODS</em></td><td>property</td><td><code>["join", "joinTable"]</code></td><td><p> All methods that return modified datasets with a joined table added.
-</p>
+         </code></td><td></td><tr><tr><td><em>FOR_UPDATE</em></td><td>property</td><td><code>' FOR UPDATE'</code></td><td><p>Default FOR UPDATE SQL fragment.</p>
+</td><tr><tr><td><em>FROM</em></td><td>property</td><td><code>"FROM"</code></td><td><p>Default FROM clause</p>
+</td><tr><tr><td><em>INSERT_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("insert"</code></td><td><p>Default SQL INSERT clause. This may be overrode by adapters.</p>
+</td><tr><tr><td><em>IS_LITERALS</em></td><td>property</td><td><code>{NULL:'NULL', true:'TRUE', false:'FALSE'}</code></td><td><p>Hash of IS literals</p>
+</td><tr><tr><td><em>IS_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.IS_OPERATORS</code></td><td><p>Defaults IS OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.IS_OPERATORS</a>.</p>
+</td><tr><tr><td><em>JOIN_METHODS</em></td><td>property</td><td><code>["join", "joinTable"]</code></td><td><p> All methods that return modified datasets with a joined table added.</p>
 </td><tr><tr><td><em>NON_SQL_OPTIONS</em></td><td>property</td><td><code>["server", "defaults", "overrides", "graph", "eagerGraph", "graphAliases"]</code></td><td><p>Which options don&#39;t affect the SQL generation.  Used by <a href='./patio_Dataset.html#simpleSelectAll'> patio.Dataset#simpleSelectAll</a>
-to determine if this is a simple SELECT * FROM table.
-</p>
-</td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>"NULL"</code></td><td><p>Defaults SQL NULL.
-</p>
-</td><tr><tr><td><em>N_ARITY_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.N_ARITY_OPERATORS</code></td><td><p>Defaults N(Multi arity) OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.N_ARITY_OPERATORS</a>.
-</p>
-</td><tr><tr><td><em>QUALIFY_KEYS</em></td><td>property</td><td><code>["select", "where", "having", "order", "group"]</code></td><td><p>Default SQL clauses that need qualifying. This may be overrode by adapters.
-</p>
+to determine if this is a simple SELECT * FROM table.</p>
+</td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>"NULL"</code></td><td><p>Defaults SQL NULL.</p>
+</td><tr><tr><td><em>N_ARITY_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.N_ARITY_OPERATORS</code></td><td><p>Defaults N(Multi arity) OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.N_ARITY_OPERATORS</a>.</p>
+</td><tr><tr><td><em>QUALIFY_KEYS</em></td><td>property</td><td><code>["select", "where", "having", "order", "group"]</code></td><td><p>Default SQL clauses that need qualifying. This may be overrode by adapters.</p>
 </td><tr><tr><td><em>QUERY_METHODS</em></td><td>property</td><td><code>['addGraphAliases', "and", "distinct", "except", "exclude", "filter", "find", "is", "isNot",
             "eq", "neq", "lt", "lte", "gt", "gte", "forUpdate", "from", "fromSelf", "graph", "grep", "group",
             "groupAndCount", "groupBy", "having", "intersect", "invert", "limit", "lockStyle", "naked", "or", "order",
             "orderAppend", "orderBy", "orderMore", "orderPrepend", "qualify", "reverse",
             "reverseOrder", "select", "selectAll", "selectAppend", "selectMore", "setDefaults",
             "setGraphAliases", "setOverrides", "unfiltered", "ungraphed", "ungrouped", "union", "unlimited",
-            "unordered", "where", "with", "withRecursive", "withSql"]</code></td><td><p>Methods that return modified datasets
-</p>
-</td><tr><tr><td><em>QUESTION_MARK</em></td><td>property</td><td><code>/\?/g</code></td><td><p>Regexp used to replace &#39;?&#39; in <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a>
-</p>
-</td><tr><tr><td><em>RETURNING</em></td><td>property</td><td><code>" RETURNING "</code></td><td><p>Default SQL &#39;RETURNING&#39; literal string
-</p>
-</td><tr><tr><td><em>SELECT_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("select"</code></td><td><p>Default SQL SELECT clause. This may be overrode by adapters.
-</p>
-</td><tr><tr><td><em>SPACE</em></td><td>property</td><td><code>" "</code></td><td><p>Default space to use when building SQL queries
-</p>
-</td><tr><tr><td><em>SQL_WITH</em></td><td>property</td><td><code>"WITH"</code></td><td><p>Default SQL WITH base. This may be overrode by adapters.
-</p>
-</td><tr><tr><td><em>TWO_ARITY_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.TWO_ARITY_OPERATORS</code></td><td><p>Defaults TWO OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.TWO_ARITY_OPERATORS</a>.
-</p>
+            "unordered", "where", "with", "withRecursive", "withSql"]</code></td><td><p>Methods that return modified datasets</p>
+</td><tr><tr><td><em>QUESTION_MARK</em></td><td>property</td><td><code>/\?/g</code></td><td><p>Regexp used to replace &#39;?&#39; in <a href='./patio_sql_PlaceHolderLiteralString.html#'> patio.sql.PlaceHolderLiteralString</a></p>
+</td><tr><tr><td><em>RETURNING</em></td><td>property</td><td><code>" RETURNING "</code></td><td><p>Default SQL &#39;RETURNING&#39; literal string</p>
+</td><tr><tr><td><em>SELECT_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("select"</code></td><td><p>Default SQL SELECT clause. This may be overrode by adapters.</p>
+</td><tr><tr><td><em>SPACE</em></td><td>property</td><td><code>" "</code></td><td><p>Default space to use when building SQL queries</p>
+</td><tr><tr><td><em>SQL_WITH</em></td><td>property</td><td><code>"WITH"</code></td><td><p>Default SQL WITH base. This may be overrode by adapters.</p>
+</td><tr><tr><td><em>TWO_ARITY_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.TWO_ARITY_OPERATORS</code></td><td><p>Defaults TWO OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.TWO_ARITY_OPERATORS</a>.</p>
 </td><tr><tr><td><em>UNCONDITIONED_JOIN_TYPES</em></td><td>property</td><td><code>["natural", "naturalLeft", "naturalRight", "naturalFull", "cross"]</code></td><td><p>These strings have {name}Join methods created (e.g. naturalJoin) that
 call <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>.  They only accept a single table
 argument which is passed to <a href='./patio_Dataset.html#joinTable'> patio.Dataset#joinTable</a>, and they throw an error
-if called with a block.
-</p>
-</td><tr><tr><td><em>UPDATE_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("update"</code></td><td><p>Default SQL UPDATE clause. This may be overrode by adapters.
-</p>
-</td><tr><tr><td><em>WILDCARD</em></td><td>property</td><td><code>new LiteralString('*')</code></td><td><p>Default SQL &#39;*&#39; literal string.
-</p>
+if called with a block.</p>
+</td><tr><tr><td><em>UPDATE_CLAUSE_METHODS</em></td><td>property</td><td><code>clauseMethods("update"</code></td><td><p>Default SQL UPDATE clause. This may be overrode by adapters.</p>
+</td><tr><tr><td><em>WILDCARD</em></td><td>property</td><td><code>new LiteralString('*')</code></td><td><p>Default SQL &#39;*&#39; literal string.</p>
 </td><tr></table>
     
     
@@ -3414,8 +3385,7 @@ function (){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Do a simple join of the arguments (which should be strings) separated by commas
-</p>
+<p><p>Do a simple join of the arguments (which should be strings) separated by commas</p>
 </p>
 
 
@@ -3521,8 +3491,7 @@ function (arr,defaultOp){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>SQL fragment for specifying an alias.  expression should already be literalized.
-</p>
+<p><p>SQL fragment for specifying an alias.  expression should already be literalized.</p>
 </p>
 
 
@@ -3566,8 +3535,7 @@ function (expression,alias){
 <em>Defined dataset/sql.js</em>
 
 <p><p>Converts an array of column names into a comma seperated string of
-column names. If the array is empty, a wildcard (*) is returned.
-</p>
+column names. If the array is empty, a wildcard (*) is returned.</p>
 </p>
 
 
@@ -3677,9 +3645,7 @@ function (obj,invert){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Creates a boolean expression that each key is compared to its value using the provided operator.
-
-</p>
+<p><p>Creates a boolean expression that each key is compared to its value using the provided operator.</p>
 </p>
 
     <em>Example</em>
@@ -3790,8 +3756,7 @@ function (opts){
 <em>Defined dataset/sql.js</em>
 
 <p><p>Converts an array of expressions into a comma separated string of
-expressions.
-</p>
+expressions.</p>
 </p>
 
 
@@ -3933,8 +3898,7 @@ function (t){
 <em>Defined dataset/sql.js</em>
 
 <p><p>Return a [@link patio.sql._Query#fromSelf} dataset if an order or limit is specified, so it works as expected
-with UNION, EXCEPT, and INTERSECT clauses.
-</p>
+with UNION, EXCEPT, and INTERSECT clauses.</p>
 </p>
 
 
@@ -3969,8 +3933,7 @@ function (){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>The alias to use for datasets, takes a number to make sure the name is unique.
-</p>
+<p><p>The alias to use for datasets, takes a number to make sure the name is unique.</p>
 </p>
 
 
@@ -4293,8 +4256,7 @@ function (order){
 <em>Defined dataset/sql.js</em>
 
 <p><p>SQL fragment specifying a JOIN type, splits a camelCased join type
-and converts to uppercase/
-</p>
+and converts to uppercase/</p>
 </p>
 
 
@@ -5073,8 +5035,7 @@ function (o){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Return true if the dataset has a non-null value for any key in opts.
-</p>
+<p><p>Return true if the dataset has a non-null value for any key in opts.</p>
 </p>
 
 
@@ -5130,8 +5091,7 @@ function (opts){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Qualify the given expression to the given table.
-</p>
+<p><p>Qualify the given expression to the given table.</p>
 </p>
 
 
@@ -5819,8 +5779,7 @@ function (){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Converts an array of source names into into a comma separated list.
-</p>
+<p><p>Converts an array of source names into into a comma separated list.</p>
 </p>
 
 
@@ -5873,8 +5832,7 @@ function (source){
 <p><p>Splits a possible implicit alias, handling both <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>s
 and strings.  Returns an array of two elements, with the first being the
 main expression, and the second being the alias. Alias may be null if it is a
-string that does not contain an alias {table}<em>_</em>{alias}.
-</p>
+string that does not contain an alias {table}<em>_</em>{alias}.</p>
 </p>
 
 
@@ -5928,10 +5886,7 @@ function (c){
 <hr/>
 <em>Defined dataset/index.js</em>
 
-<p><p>Can either be a string or null.
-
-
-</p>
+<p><p>Can either be a string or null.</p>
 </p>
 
     <em>Example</em>
@@ -5959,8 +5914,7 @@ columnOrTable___alias //=&gt; columnOrTable as alias
     <em>Returns</em>
     <ul>
     
-        <li> <code>String[]</code> <p>an array with the elements being:
-</p>
+        <li> <code>String[]</code> <p>an array with the elements being:</p>
 <ul>
      <li>For columns :[table, column, alias].</li>
      <li>For tables : [schema, table, alias].</li>
@@ -6108,9 +6062,7 @@ function (ds){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Returns a string that is the name of the table.
-
-</p>
+<p><p>Returns a string that is the name of the table.</p>
 </p>
 
 
@@ -6185,9 +6137,7 @@ function (name){
 
 <p><p>Return the unaliased part of the identifier.  Handles both
 implicit aliases in strings, as well as <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>s.
-Other objects are returned as is.
-
-</p>
+Other objects are returned as is.</p>
 </p>
 
 
@@ -6305,7 +6255,7 @@ function (){
    var st = [&quot; SET &quot;];
    if (isArray(values)) {
        var v = [], mergedDefsAndOverrides = false, length = values.length;
-       for (var i = 0; i &lt; length; i++) {
+       for (var i = 0; i &amp;lt; length; i++) {
            var val = values[i];
            if (isHash(val)) {
                mergedDefsAndOverrides = true;
@@ -6446,9 +6396,7 @@ function (){
 
 <p><p>Adds the given graph aliases to the list of graph aliases to use,
 unlike <a href='./patio_Dataset.html#setGraphAliases'> patio.Dataset#setGraphAliases</a>, which replaces the list (the equivalent
-of <a href='./patio_Dataset.html#selectMore'> patio.Dataset#selectMore</a> when graphing).  See <a href='./patio_Dataset.html#setGraphAliases'> patio.Dataset#setGraphAliases</a>.
-
-</p>
+of <a href='./patio_Dataset.html#selectMore'> patio.Dataset#selectMore</a> when graphing).  See <a href='./patio_Dataset.html#setGraphAliases'> patio.Dataset#setGraphAliases</a>.</p>
 </p>
 
     <em>Example</em>
@@ -6552,9 +6500,7 @@ function (ae){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Returns a Promise that is resolved with an array with all records in the dataset.
-If a block is given, the array is iterated over after all items have been loaded.
-
-</p>
+If a block is given, the array is iterated over after all items have been loaded.</p>
 </p>
 
     <em>Example</em>
@@ -6629,9 +6575,7 @@ function (block,cb){
 <em>Defined dataset/query.js</em>
 
 <p><p>Same as <a href='./patio_Dataset@qualifyTo.html#'> patio.Dataset@qualifyTo</a> except that it forces qualification on methods called
-after it has been called.
-
-</p>
+after it has been called.</p>
 </p>
 
     <em>Example</em>
@@ -6695,9 +6639,7 @@ function (table){
 <em>Defined dataset/query.js</em>
 
 <p><p>Adds a futher filter to an existing filter using AND. This method is identical to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
-except it expects an existing filter.
-
-</p>
+except it expects an existing filter.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -6764,9 +6706,7 @@ function (){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Returns a promise that is resolved with the average value for the given column.
-
-</p>
+<p><p>Returns a promise that is resolved with the average value for the given column.</p>
 </p>
 
     <em>Example</em>
@@ -6830,9 +6770,7 @@ function (column,cb){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a between clause added
-to the where clause.
-
-</p>
+to the where clause.</p>
 </p>
 
     <em>Example</em>
@@ -7186,9 +7124,7 @@ function (op,args){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Add the dataset to the list of compounds
-
-</p>
+<p><p>Add the dataset to the list of compounds</p>
 </p>
 
 
@@ -7291,9 +7227,7 @@ function (constant){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Returns a promise that is resolved with the number of records in the dataset.
-
-</p>
+<p><p>Returns a promise that is resolved with the number of records in the dataset.</p>
 </p>
 
     <em>Example</em>
@@ -7359,9 +7293,7 @@ function (cb){
 The DISTINCT clause is used to remove duplicate rows from the
 output.  If arguments are provided, uses a DISTINCT ON clause,
 in which case it will only be distinct on those columns, instead
-of all returned columns.
-
-</p>
+of all returned columns.</p>
 </p>
 
     <em>Example</em>
@@ -7437,9 +7369,7 @@ function (args){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with an equal expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -7501,9 +7431,7 @@ function (obj){
 
 <p><p>Adds an EXCEPT clause using a second dataset object.
 An EXCEPT compound dataset returns all rows in the current dataset
-that are not in the given dataset.
-
-</p>
+that are not in the given dataset.</p>
 </p>
 
     <em>Example</em>
@@ -7600,9 +7528,7 @@ function (dataset,opts){
 
 <p><p>Performs the inverse of <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.  Note that if you have multiple filter
 conditions, this is not the same as a negation of all conditions. For argument types see
-<a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
-
-</p>
+<a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a></p>
 </p>
 
     <em>Example</em>
@@ -7875,9 +7801,7 @@ function (sql){
 
 <p><p>Returns a copy of the dataset with the given conditions applied to it.
 If the query already has a HAVING clause, then the conditions are applied to the
-HAVING clause otherwise they are applied to the WHERE clause.
-
-</p>
+HAVING clause otherwise they are applied to the WHERE clause.</p>
 </p>
 
     <em>Example</em>
@@ -7921,9 +7845,7 @@ DB.from(&quot;items&quot;).filter(:category =&gt; &#x27;software&#x27;).filter{p
     
         <li> <em>cb?</em>  : <p>filter also takes a cb, which should return one of the above argument
 types, and is treated the same way.  This block is called with an <a href='./patio.html#.sql'> patio.sql</a> object which can be used to dynaically create expression.  For more details
-on the sql object see <a href='./patio.html#.sql'> patio.sql</a>
-
-</p>
+on the sql object see <a href='./patio.html#.sql'> patio.sql</a></p>
 <p>
     <b>NOTE:</b>If both a cb and regular arguments are provided, they get ANDed together.
 </p></li>
@@ -8008,22 +7930,14 @@ function (){
 <em>Defined dataset/actions.js</em>
 
 <p><p>If a integer argument is given, it is interpreted as a limit, and then returns all
-matching records up to that limit.
-
-</p>
-<p>If no arguments are passed, it returns the first matching record.
-
-</p>
+matching records up to that limit.</p>
+<p>If no arguments are passed, it returns the first matching record.</p>
 <p>If a function taking no arguments is passed in as the last parameter then it
 is assumed to be a filter block. If the a funciton is passed in that takes arguments
 then it is assumed to be a callback. You may also pass in both the second to last argument
-being a filter function, and the last being a callback.
-
-</p>
+being a filter function, and the last being a callback.</p>
 <p>If any other type of argument(s) is passed, it is given to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> and the
-first matching record is returned.  Examples:
-
-</p>
+first matching record is returned.  Examples:</p>
 </p>
 
     <em>Example</em>
@@ -8129,9 +8043,7 @@ function (args){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Iterates over the records in the dataset as they are returned from the
-database adapter.
-
-</p>
+database adapter.</p>
 </p>
 
     <em>Example</em>
@@ -8259,9 +8171,7 @@ function (){
 
 <p><p>Returns a copy of the dataset with the source changed. If no
 source is given, removes all tables.  If multiple sources
-are given, it is the same as using a CROSS JOIN (cartesian product) between all tables.
-
-</p>
+are given, it is the same as using a CROSS JOIN (cartesian product) between all tables.</p>
 </p>
 
     <em>Example</em>
@@ -8353,9 +8263,7 @@ function (source){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a dataset selecting from the current dataset.
-Supplying the alias option controls the alias of the result.
-
-</p>
+Supplying the alias option controls the alias of the result.</p>
 </p>
 
     <em>Example</em>
@@ -8471,9 +8379,7 @@ function (f){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Return the column value for the first matching record in the dataset.
-
-</p>
+<p><p>Return the column value for the first matching record in the dataset.</p>
 </p>
 
     <em>Example</em>
@@ -8550,13 +8456,9 @@ function (column,cb){
 <em>Defined dataset/graph.js</em>
 
 <p><p>Allows you to join multiple datasets/tables and have the result set
-split into component tables.
-
-</p>
+split into component tables.</p>
 <p>This differs from the usual usage of join, which returns the result set
-as a single hash.
-
-</p>
+as a single hash.</p>
 <pre class="code">
 
 //CREATE TABLE artists (id INTEGER, name TEXT);
@@ -8588,14 +8490,10 @@ p.then(function(obj){
 the tables are combined in the single return hash.  You can get around that by
 using <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> with correct aliases for all of the columns, but it is simpler to
 use <a href='./patio_Dataset.html#graph'> patio.Dataset#graph</a> and have the result set split for you.  In addition, <a href='./patio_Dataset.html#graph'> patio.Dataset#graph</a> respects
-any <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a> of the current dataset and the datasets you use with <a href='./patio_Dataset.html#graph'> patio.Dataset#graph</a>.
-
-</p>
+any <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a> of the current dataset and the datasets you use with <a href='./patio_Dataset.html#graph'> patio.Dataset#graph</a>.</p>
 <p>If you are graphing a table and all columns for that table are null, this
 indicates that no matching rows existed in the table, so graph will return null.
-instead of a hash with all nil values:
-
-</p>
+instead of a hash with all nil values:</p>
 <pre class="code">
   // Psuedo code there will be promises returned
   /// If the artist doesn't have any albums
@@ -8795,8 +8693,7 @@ function (dataset,joinConditions,options,block){
 
 <p><p>Fetch the rows, split them into component table parts,
 transform and run the <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a> on each part (if applicable),
-and yield a hash of the parts.
-</p>
+and yield a hash of the parts.</p>
 </p>
 
 
@@ -8889,9 +8786,7 @@ function (cb){
 strings (which use LIKE) or regular expressions (which are only
 supported on MySQL and PostgreSQL).  Note that the total number of
 pattern matches will be columns[].length * terms[].length,
-which could cause performance issues.
-
-</p>
+which could cause performance issues.</p>
 </p>
 
     <em>Example</em>
@@ -8998,8 +8893,7 @@ function (columns,patterns,opts){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a copy of the dataset with the results grouped by the value of
-the given columns.
-</p>
+the given columns.</p>
 </p>
 
     <em>Example</em>
@@ -9064,9 +8958,7 @@ function (columns){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a dataset grouped by the given column with count by group.
-Column aliases may be supplied, and will be included in the select clause.
-
-</p>
+Column aliases may be supplied, and will be included in the select clause.</p>
 </p>
 
     <em>Example</em>
@@ -9173,9 +9065,7 @@ function (){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a greater than expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -9236,9 +9126,7 @@ function (obj){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a greater than or equal to expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -9301,9 +9189,7 @@ function (arr){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a copy of the dataset with the HAVING conditions changed. See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.
-
-</p>
+<p><p>Returns a copy of the dataset with the HAVING conditions changed. See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.</p>
 </p>
 
     <em>Example</em>
@@ -9359,20 +9245,15 @@ function (){
 <p><p>Inserts multiple records into the associated table. This method can be
 used to efficiently insert a large number of records into a table in a
 single query if the database supports it. Inserts
-are automatically wrapped in a transaction.
-
-</p>
-<p>This method is called with a columns array and an array of value arrays:
-</p>
+are automatically wrapped in a transaction.</p>
+<p>This method is called with a columns array and an array of value arrays:</p>
 <pre class="code">
   // INSERT INTO table (x, y) VALUES (1, 2)
   // INSERT INTO table (x, y) VALUES (3, 4)
   DB.from("table").import(["x", "y"], [[1, 2], [3, 4]]).
 </pre>
 
-<p>This method also accepts a dataset instead of an array of value arrays:
-
-</p>
+<p>This method also accepts a dataset instead of an array of value arrays:</p>
 <pre class="code">
  // INSERT INTO table (x, y) SELECT a, b FROM table2
  DB.from("table").import(["x", "y"], DB.from("table2").select("a", "b"));
@@ -9380,9 +9261,7 @@ are automatically wrapped in a transaction.
 
 <p>The method also accepts a commitEvery option that specifies
 the number of records to insert per transaction. This is useful especially
-when inserting a large number of records, e.g.:
-
-</p>
+when inserting a large number of records, e.g.:</p>
 <pre class="code">
   // this will commit every 50 records
  DB.from("table").import(["x", "y"], [[1, 2], [3, 4], ...], {commitEvery : 50});
@@ -9544,9 +9423,7 @@ function (v){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Inserts values into the associated table. The returned value is generally
-the value of the primary key for the inserted row, but that is adapter dependent.
-
-</p>
+the value of the primary key for the inserted row, but that is adapter dependent.</p>
 </p>
 
     <em>Example</em>
@@ -9629,12 +9506,8 @@ function (){
 
 <p><p>Inserts multiple values. If a block is given it is invoked for each
 item in the given array before inserting it.  See <a href='./patio_Dataset.html#multiInsert'> patio.Dataset#multiInsert</a> as
-a possible faster version that inserts multiple records in one SQL statement.
-
-</p>
-<p><b> Params see @link patio.Dataset#insert</b>
-
-</p>
+a possible faster version that inserts multiple records in one SQL statement.</p>
+<p><b> Params see @link patio.Dataset#insert</b></p>
 </p>
 
     <em>Example</em>
@@ -9716,9 +9589,7 @@ function (array,block,cb){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Returns an INSERT SQL query string.  See <a href='./patio_dataset.html#insert'> patio.dataset._Actions#insert</a>
-
-</p>
+<p><p>Returns an INSERT SQL query string.  See <a href='./patio_dataset.html#insert'> patio.dataset._Actions#insert</a></p>
 </p>
 
     <em>Example</em>
@@ -9865,9 +9736,7 @@ function (values){
 
 <p><p>Adds an INTERSECT clause using a second dataset object.
 An INTERSECT compound dataset returns all rows in both the current dataset
-and the given dataset.
-
-</p>
+and the given dataset.</p>
 </p>
 
     <em>Example</em>
@@ -9961,9 +9830,7 @@ function (dataset,opts){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Returns a promise that is resolved with the interval between minimum and maximum values
-for the given column.
-
-</p>
+for the given column.</p>
 </p>
 
     <em>Example</em>
@@ -10027,9 +9894,7 @@ function (column,cb){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Inverts the current filter.
-
-</p>
+<p><p>Inverts the current filter.</p>
 </p>
 
     <em>Example</em>
@@ -10097,9 +9962,7 @@ function (){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10160,8 +10023,7 @@ function (obj){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Returns a promise that is resolved with true if no records exist in the dataset,
-false otherwise.
-</p>
+false otherwise.</p>
 </p>
 
     <em>Example</em>
@@ -10224,9 +10086,7 @@ function (cb){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS FALSE boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10288,9 +10148,7 @@ function (arr){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS NOT expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10351,9 +10209,7 @@ function (obj){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS NOT FALSE boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10415,9 +10271,7 @@ function (arr){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS NOT NULL boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10479,9 +10333,7 @@ function (arr){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS NOT TRUE boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10543,9 +10395,7 @@ function (arr){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS NULL boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10607,9 +10457,7 @@ function (arr){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returnes a cloned dataset with the IS TRUE boolean expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -10670,9 +10518,7 @@ function (arr){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a cloned dataset with an inner join applied.
-
-</p>
+<p><p>Returns a cloned dataset with an inner join applied.</p>
 </p>
 
 
@@ -10795,9 +10641,7 @@ function (jc){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a joined dataset.  Uses the following arguments:
-
-</p>
+<p><p>Returns a joined dataset.  Uses the following arguments:</p>
 </p>
 
     <em>Example</em>
@@ -11082,9 +10926,7 @@ function (jc){
 
 <p><p>Reverses the order and then runs first.  Note that this
 will not necessarily give you the last record in the dataset,
-unless you have an unambiguous order.
-
-</p>
+unless you have an unambiguous order.</p>
 </p>
 
     <em>Example</em>
@@ -11199,9 +11041,7 @@ function (){
 
 <p><p>If given an integer, the dataset will contain only the first l results.
          If a second argument is given, it is used as an offset. To use
-an offset without a limit, pass null as the first argument.
-
-</p>
+an offset without a limit, pass null as the first argument.</p>
 </p>
 
     <em>Example</em>
@@ -11256,7 +11096,7 @@ function (limit,offset){
    if (isString(limit) || isInstanceOf(limit, LiteralString)) {
        limit = parseInt(&quot;&quot; + limit, 10);
    }
-   if (isNumber(limit) &amp;&amp; limit &lt; 1) {
+   if (isNumber(limit) &amp;&amp; limit &amp;lt; 1) {
        throw new QueryError(&quot;Limit must be &gt;= 1&quot;);
    }
    var opts = {limit:limit};
@@ -11265,7 +11105,7 @@ function (limit,offset){
            offset = parseInt(&quot;&quot; + offset, 10);
            isNaN(offset) &amp;&amp; (offset = 0);
        }
-       if (isNumber(offset) &amp;&amp; offset &lt; 0) {
+       if (isNumber(offset) &amp;&amp; offset &amp;lt; 0) {
            throw new QueryError(&quot;Offset must be &gt;= 0&quot;);
        }
        opts.offset = offset;
@@ -11296,9 +11136,7 @@ function (limit,offset){
 <em>Defined dataset/sql.js</em>
 
 <p><p>Returns a literal representation of a value to be used as part
-of an SQL expression.
-
-</p>
+of an SQL expression.</p>
 </p>
 
     <em>Example</em>
@@ -11404,9 +11242,7 @@ function (v){
 
 <p><p>Returns a cloned dataset with the given lock style.  If style is a
 string, it will be used directly.Currently &quot;update&quot; is respected
-by most databases, and &quot;share&quot; is supported by some.
-
-</p>
+by most databases, and &quot;share&quot; is supported by some.</p>
 </p>
 
     <em>Example</em>
@@ -11464,9 +11300,7 @@ function (style){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a less than expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -11527,9 +11361,7 @@ function (obj){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a less than or equal to expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -11591,9 +11423,7 @@ function (obj){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Maps column values for each record in the dataset (if a column name is
-given).
-
-</p>
+given).</p>
 </p>
 
     <em>Example</em>
@@ -11665,9 +11495,7 @@ function (column,cb){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Returns a promise resolved with  the maximum value for the given column.
-
-</p>
+<p><p>Returns a promise resolved with  the maximum value for the given column.</p>
 </p>
 
     <em>Example</em>
@@ -11733,9 +11561,7 @@ function (column,cb){
 <p><p>Returns a new clone of the dataset with with the given options merged into the current datasets options.
 If the options changed include options in <a href='./patio_dataset_Query.html#COLUMN_CHANGE_OPTS'> patio.dataset.Query#COLUMN_CHANGE_OPTS</a>, the cached
 columns are deleted.  This method should generally not be called
-directly by user code.
-
-</p>
+directly by user code.</p>
 </p>
 
 
@@ -11802,9 +11628,7 @@ function (opts){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Returns a promise resolved with  the minimum value for the given column.
-
-</p>
+<p><p>Returns a promise resolved with  the minimum value for the given column.</p>
 </p>
 
     <em>Example</em>
@@ -11870,8 +11694,7 @@ function (column,cb){
 <p><p>This is the recommended function to do the insert of multiple items into the
 database. This acts as a proxy to the <a href='./patio_Dataset.html#import'> patio.Dataset#import</a> method so
 one can use an array of hashes rather than an array of columns and an array of values.
-See <a href='./patio_Dataset.html#import'> patio.Dataset#import</a> for more information regarding the method of inserting.
-</p>
+See <a href='./patio_Dataset.html#import'> patio.Dataset#import</a> for more information regarding the method of inserting.</p>
 <p>
     <b>NOTE:</b>All hashes should have the same keys other wise some values could be missed</b>
 </p>
@@ -11966,9 +11789,7 @@ function (hashes,opts,cb){
 
 <p><p>Returns an array of insert statements for inserting multiple records.
 This method is used by <a href='./patio_dataset.html#multiInsert'> patio.dataset._Actions#multiInsert</a> to format insert statements.
-<b>This method is not typically used directly.</b>
-
-</p>
+<b>This method is not typically used directly.</b></p>
 <p>
      <b>Note:</b>This method should be overridden by descendants if there is support for
                      inserting multiple records in a single SQL statement.
@@ -12030,9 +11851,7 @@ function (columns,values){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns the a cloned dataset with out the <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a>
-
-</p>
+<p><p>Returns the a cloned dataset with out the <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a></p>
 </p>
 
     <em>Example</em>
@@ -12134,9 +11953,7 @@ function (constant){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a not equal expression added to the WHERE
-clause.
-
-</p>
+clause.</p>
 </p>
 
     <em>Example</em>
@@ -12197,9 +12014,7 @@ function (obj){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a cloned dataset with a not between clause added
-to the where clause.
-
-</p>
+to the where clause.</p>
 </p>
 
     <em>Example</em>
@@ -12262,13 +12077,9 @@ function (obj){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Same as <a href='./patio_Dataset.html#singleRecord'> patio.Dataset#singleRecord</a> but accepts arguments
-to filter the dataset. See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.
-
-</p>
+to filter the dataset. See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.</p>
 <p><b>NOTE</b> If the last argument is a function that accepts arguments it is not assumed to
-be a filter function but instead a callback.
-
-</p>
+be a filter function but instead a callback.</p>
 </p>
 
 
@@ -12321,9 +12132,7 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds an alternate filter to an existing WHERE/HAVING using OR.
-
-</p>
+<p><p>Adds an alternate filter to an existing WHERE/HAVING using OR.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -12399,9 +12208,7 @@ function (){
 existing order, it is ignored and overwritten with this order. If null is given
 the returned dataset has no order. This can accept multiple arguments
 of varying kinds, such as SQL functions.  This also takes a function similar
-to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
-
-</p>
+to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a></p>
 </p>
 
     <em>Example</em>
@@ -12500,8 +12307,7 @@ function (args){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Alias of <a href='./patio_Dataset.html#orderMore'> patio.Dataset#orderMore</a>;
-</p>
+<p><p>Alias of <a href='./patio_Dataset.html#orderMore'> patio.Dataset#orderMore</a>;</p>
 </p>
 
 
@@ -12573,8 +12379,7 @@ function (){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a copy of the dataset with the order columns added
-to the end of the existing order. For more detail
-</p>
+to the end of the existing order. For more detail</p>
 </p>
 
     <em>Example</em>
@@ -12624,8 +12429,7 @@ function (){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a copy of the dataset with the order columns added
-to the beginning of the existing order. For more detail
-</p>
+to the beginning of the existing order. For more detail</p>
 </p>
 
     <em>Example</em>
@@ -12821,8 +12625,7 @@ function (pls){
 <p><p>This is run inside <a href='./patio_Dataset.html#all'> patio.Dataset#all</a>, after all of the records have been loaded
 via <a href='./patio_Dataset.html#forEach'> patio.Dataset#forEach</a>, but before any block passed to all is called.  It is called with
 a single argument, an array of all returned records.  Does nothing by
-default.
-</p>
+default.</p>
 </p>
 
 
@@ -12866,9 +12669,7 @@ function (allRecords){
 <em>Defined dataset/sql.js</em>
 
 <p><p>Returns a qualified column name (including a table name) if the column
-name isn&#39;t already qualified.
-
-</p>
+name isn&#39;t already qualified.</p>
 </p>
 
     <em>Example</em>
@@ -13007,9 +12808,7 @@ function (qcr){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Qualify to the given table, or <a href='./patio_Dataset.html#firstSourceAlias'> patio.Dataset#firstSourceAlias</a> if not table is given.
-
-</p>
+<p><p>Qualify to the given table, or <a href='./patio_Dataset.html#firstSourceAlias'> patio.Dataset#firstSourceAlias</a> if not table is given.</p>
 </p>
 
     <em>Example</em>
@@ -13074,9 +12873,7 @@ function (table){
 <p><p>Return a copy of the dataset with unqualified identifiers in the
 SELECT, WHERE, GROUP, HAVING, and ORDER clauses qualified by the
 given table. If no columns are currently selected, select all
-columns of the given table.
-
-</p>
+columns of the given table.</p>
 </p>
 
     <em>Example</em>
@@ -13149,9 +12946,7 @@ function (table){
 if you have unqualified identifiers in the query that all refer to
 the first source, and you want to join to another table which
 has columns with the same name as columns in the current dataset.
-See <a href='./patio_Dataset.html#qualifyTo'> patio.Dataset#qualifyTo</a>
-
-</p>
+See <a href='./patio_Dataset.html#qualifyTo'> patio.Dataset#qualifyTo</a></p>
 </p>
 
     <em>Example</em>
@@ -13296,9 +13091,7 @@ function (table){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Returns a promise resolved with  a range from the minimum and maximum values for the
-given column.
-
-</p>
+given column.</p>
 </p>
 
     <em>Example</em>
@@ -13370,9 +13163,7 @@ function (column,cb){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Deletes the records in the dataset.  The returned Promise should be resolved with the
-number of records deleted, but that is adapter dependent.
-
-</p>
+number of records deleted, but that is adapter dependent.</p>
 </p>
 
     <em>Example</em>
@@ -13434,9 +13225,7 @@ function (cb){
 <em>Defined dataset/query.js</em>
 
 <p><p>Adds a RETURNING clause, which is not supported by all databases. If returning is
-used instead of returning the autogenerated primary key or update/delete returning the number of rows modified.
-
-</p>
+used instead of returning the autogenerated primary key or update/delete returning the number of rows modified.</p>
 </p>
 
     <em>Example</em>
@@ -13505,9 +13294,7 @@ function (values){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a copy of the dataset with the order reversed. If no order is
-given, the existing order is inverted.
-
-</p>
+given, the existing order is inverted.</p>
 </p>
 
     <em>Example</em>
@@ -13729,9 +13516,7 @@ function (tableName){
 <em>Defined dataset/query.js</em>
 
 <p><p>Returns a copy of the dataset with the columns selected changed
-to the given columns. This also takes a function similar to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
-
-</p>
+to the given columns. This also takes a function similar to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a></p>
 </p>
 
     <em>Example</em>
@@ -13818,9 +13603,7 @@ function (args){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a cloned dataset that selects *.
-
-</p>
+<p><p>Returns a cloned dataset that selects *.</p>
 </p>
 
 
@@ -13866,9 +13649,7 @@ function (){
 
 <p><p>Returns a copy of the dataset with the given columns added
 to the existing selected columns. If no columns are currently selected,
-it will select the columns given in addition to *.
-
-</p>
+it will select the columns given in addition to *.</p>
 </p>
 
     <em>Example</em>
@@ -13940,9 +13721,7 @@ function (cols){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Returns a promise resolved with a hash with keyColumn values as keys and valueColumn values as
-values.  Similar to <a href='./patio_Dataset.html#toHash'> patio.Dataset#toHash</a>, but only selects the two columns.
-
-</p>
+values.  Similar to <a href='./patio_Dataset.html#toHash'> patio.Dataset#toHash</a>, but only selects the two columns.</p>
 </p>
 
     <em>Example</em>
@@ -14016,9 +13795,7 @@ function (keyColumn,valueColumn,cb){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Selects the columns if only if there is not already select sources.
-
-</p>
+<p><p>Selects the columns if only if there is not already select sources.</p>
 </p>
 
     <em>Example</em>
@@ -14088,10 +13865,7 @@ function (cols){
 <p><p>Selects the column given (either as an argument or as a callback), and
 returns an array of all values of that column in the dataset.  If you
 give a block argument that returns an array with multiple entries,
-the contents of the resulting array are undefined.
-
-
-</p>
+the contents of the resulting array are undefined.</p>
 </p>
 
     <em>Example</em>
@@ -14166,9 +13940,7 @@ function (column,cb){
 
 <p><p>Returns a copy of the dataset with the given columns added
 to the existing selected columns. If no columns are currently selected
-it will just select the columns given.
-
-</p>
+it will just select the columns given.</p>
 </p>
 
     <em>Example</em>
@@ -14236,9 +14008,7 @@ function (cols){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>The same as <a href='./patio_Dataset.html#selectMap'> patio.Dataset#selectMap</a>, but in addition orders the array by the column.
-
-</p>
+<p><p>The same as <a href='./patio_Dataset.html#selectMap'> patio.Dataset#selectMap</a>, but in addition orders the array by the column.</p>
 </p>
 
     <em>Example</em>
@@ -14350,9 +14120,7 @@ function (){
 
 <p><p>Set the default values for insert and update statements.  The values hash passed
 to insert or update are merged into this hash, so any values in the hash passed
-to insert or update will override values passed to this method.
-
-</p>
+to insert or update will override values passed to this method.</p>
 </p>
 
     <em>Example</em>
@@ -14415,9 +14183,7 @@ when using graph.  You can use it to only select certain
 columns, and have those columns mapped to specific aliases
 in the result set.  This is the equivalent of <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> for a
 graphed dataset, and must be used instead of <a href='./patio_Dataset.html#select'> patio.Dataset#select</a> whenever
-graphing is used.
-
-</p>
+graphing is used.</p>
 </p>
 
     <em>Example</em>
@@ -14481,9 +14247,7 @@ function (graphAliases){
 
 <p><p>Set values that override hash arguments given to insert and update statements.
 This hash is merged into the hash provided to insert or update, so values
-will override any values given in the insert/update hashes.
-
-</p>
+will override any values given in the insert/update hashes.</p>
 </p>
 
     <em>Example</em>
@@ -14543,9 +14307,7 @@ function (hash){
 
 <p><p>Returns a promise resolved with  the first record in the dataset, or null if the dataset
 has no records. Users should probably use <a href='./patio_Dataset.html#first'> patio.Dataset#first</a> instead of
-this method.
-
-</p>
+this method.</p>
 </p>
 
     <em>Example</em>
@@ -14609,9 +14371,7 @@ function (cb){
 
 <p><p>Returns a promise resolved with the first value of the first record in the dataset.
 Returns null if dataset is empty.  Users should generally use
-<a href='./patio_Dataset.html#get'> patio.Dataset#get</a> instead of this method.
-
-</p>
+<a href='./patio_Dataset.html#get'> patio.Dataset#get</a> instead of this method.</p>
 </p>
 
     <em>Example</em>
@@ -14675,16 +14435,12 @@ function (cb){
 <em>Defined dataset/index.js</em>
 
 <p><p>Converts a string to an <a href='./patio_sql_Identifier.html#'> patio.sql.Identifier</a>, <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>,
-or <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>, depending on the format:
-
-</p>
+or <a href='./patio_sql_AliasedExpression.html#'> patio.sql.AliasedExpression</a>, depending on the format:</p>
 <p><ul>
      <li>For columns : table<strong>column_</strong>alias.</li>
      <li>For tables : schema<strong>table_</strong>alias.</li>
 </ul>
-each portion of the identifier is optional. See example below
-
-</p>
+each portion of the identifier is optional. See example below</p>
 </p>
 
     <em>Example</em>
@@ -14795,9 +14551,7 @@ function (s){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Returns a promise resolved the sum for the given column.
-
-</p>
+<p><p>Returns a promise resolved the sum for the given column.</p>
 </p>
 
     <em>Example</em>
@@ -14863,9 +14617,7 @@ function (column,cb){
 <p><p>Returns a promise resolved with a string in CSV format containing the dataset records. By
 default the CSV representation includes the column titles in the
 first line. You can turn that off by passing false as the
-includeColumnTitles argument.
-
-</p>
+includeColumnTitles argument.</p>
 <p>
    <b>NOTE:</b> This does not use a CSV library or handle quoting of values in
          any way.  If any values in any of the rows could include commas or line
@@ -14969,9 +14721,7 @@ function (includeColumnTitles,cb){
 <p><p>Returns a promise resolved with a hash with one column used as key and another used as value.
 If rows have duplicate values for the key column, the latter row(s)
 will overwrite the value of the previous row(s). If the valueColumn
-is not given or null, uses the entire hash as the value.
-
-</p>
+is not given or null, uses the entire hash as the value.</p>
 </p>
 
     <em>Example</em>
@@ -15057,9 +14807,7 @@ function (keyColumn,valueColumn,cb){
 <hr/>
 <em>Defined dataset/actions.js</em>
 
-<p><p>Truncates the dataset.  Returns a promise that is resolved once truncation is complete.
-
-</p>
+<p><p>Truncates the dataset.  Returns a promise that is resolved once truncation is complete.</p>
 </p>
 
     <em>Example</em>
@@ -15119,8 +14867,7 @@ function (cb){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a copy of the dataset with no filters (HAVING or WHERE clause) applied.
-</p>
+<p><p>Returns a copy of the dataset with no filters (HAVING or WHERE clause) applied.</p>
 </p>
 
     <em>Example</em>
@@ -15171,8 +14918,7 @@ function (){
 <em>Defined dataset/graph.js</em>
 
 <p><p>Remove the splitting of results into subhashes, and all metadata
-related to the current graph (if any).
-</p>
+related to the current graph (if any).</p>
 </p>
 
 
@@ -15208,9 +14954,7 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a copy of the dataset with no GROUP or HAVING clause.
-
-</p>
+<p><p>Returns a copy of the dataset with no GROUP or HAVING clause.</p>
 </p>
 
     <em>Example</em>
@@ -15266,9 +15010,7 @@ or the given dataset.
 Options:
 :alias :: Use the given value as the from_self alias
 :all :: Set to true to use UNION ALL instead of UNION, so duplicate rows can occur
-:from_self :: Set to false to not wrap the returned dataset in a from_self, use with care.
-
-</p>
+:from_self :: Set to false to not wrap the returned dataset in a from_self, use with care.</p>
 </p>
 
     <em>Example</em>
@@ -15348,9 +15090,7 @@ function (dataset,opts){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a copy of the dataset with no limit or offset.
-
-</p>
+<p><p>Returns a copy of the dataset with no limit or offset.</p>
 </p>
 
     <em>Example</em>
@@ -15400,9 +15140,7 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Returns a copy of the dataset with no order.
-
-</p>
+<p><p>Returns a copy of the dataset with no order.</p>
 </p>
 
     <em>Example</em>
@@ -15452,9 +15190,7 @@ function (){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Creates a unique table alias that hasn&#39;t already been used in this dataset.
-
-</p>
+<p><p>Creates a unique table alias that hasn&#39;t already been used in this dataset.</p>
 </p>
 
     <em>Example</em>
@@ -15542,9 +15278,7 @@ function (tableAlias){
 <em>Defined dataset/actions.js</em>
 
 <p><p>Updates values for the dataset.  The returned promise is resolved with a value that is generally the
-number of rows updated, but that is adapter dependent.
-
-</p>
+number of rows updated, but that is adapter dependent.</p>
 </p>
 
     <em>Example</em>
@@ -15613,9 +15347,7 @@ function (values,cb){
 <hr/>
 <em>Defined dataset/sql.js</em>
 
-<p><p>Formats an UPDATE statement using the given values.  See <a href='./patio_dataset.html#update'> patio.dataset._Actions#update</a>.
-
-</p>
+<p><p>Formats an UPDATE statement using the given values.  See <a href='./patio_dataset.html#update'> patio.dataset._Actions#update</a>.</p>
 </p>
 
     <em>Example</em>
@@ -15686,9 +15418,7 @@ function (values){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Add a condition to the WHERE clause.  See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.
-
-</p>
+<p><p>Add a condition to the WHERE clause.  See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for argument types.</p>
 </p>
 
     <em>Example</em>
@@ -15733,9 +15463,7 @@ function (){
 <em>Defined dataset/query.js</em>
 
 <p><p>Add a common table expression (CTE) with the given name and a dataset that defines the CTE.
-A common table expression acts as an inline view for the query.
-
-</p>
+A common table expression acts as an inline view for the query.</p>
 </p>
 
     <em>Example</em>
@@ -15818,9 +15546,7 @@ function (name,dataset,opts){
 
 <p><p>Add a recursive common table expression (CTE) with the given name, a dataset that
 defines the nonrecursive part of the CTE, and a dataset that defines the recursive part
-of the CTE.
-
-</p>
+of the CTE.</p>
 </p>
 
     <em>Example</em>
@@ -15916,9 +15642,7 @@ function (name,nonRecursive,recursive,opts){
 
 <p><p>Returns a copy of the dataset with the static SQL used.  This is useful if you want
 to keep the same <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a>/<a href='./patio_Dataset.html#graph'> patio.Dataset#graph</a>,
- but change the SQL used to custom SQL.
-
-</p>
+ but change the SQL used to custom SQL.</p>
 </p>
 
     <em>Example</em>
