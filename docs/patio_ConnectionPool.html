@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -522,8 +527,7 @@
 
 
 
-    <p><p>ConnectionPool object used internall by the <a href='./patio_Database.html#'> patio.Database</a> class;
-</p>
+    <p><p>ConnectionPool object used internall by the <a href='./patio_Database.html#'> patio.Database</a> class;</p>
 </p>
     
 
@@ -581,8 +585,7 @@ function (options){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Checks all deferred connection requests.
-</p>
+<p><p>Checks all deferred connection requests.</p>
 </p>
 
 
@@ -629,8 +632,7 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Override to implement close connection functionality;
-</p>
+<p><p>Override to implement close connection functionality;</p>
 </p>
 
 
@@ -682,8 +684,7 @@ function (conn){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Override to create connections to insert into this ConnectionPool.
-</p>
+<p><p>Override to create connections to insert into this ConnectionPool.</p>
 </p>
 
 
@@ -719,9 +720,7 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Override to implement the closing of all connections.
-
-</p>
+<p><p>Override to implement the closing of all connections.</p>
 </p>
 
 
@@ -775,9 +774,7 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Performs a query on one of the connection in this Pool.
-
-</p>
+<p><p>Performs a query on one of the connection in this Pool.</p>
 </p>
 
 
@@ -830,8 +827,7 @@ function (){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Removes a connection from the pool.
-</p>
+<p><p>Removes a connection from the pool.</p>
 </p>
 
 
@@ -875,9 +871,7 @@ function (conn){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Return a connection to the pool.
-
-</p>
+<p><p>Return a connection to the pool.</p>
 </p>
 
 
@@ -930,9 +924,7 @@ function (connection){
 <em>Defined ConnectionPool.js</em>
 
 <p><p>Override comb.collections.Pool to allow async validation to allow
-pools to do any calls to reset a connection if it needs to be done.
-
-</p>
+pools to do any calls to reset a connection if it needs to be done.</p>
 </p>
 
 
@@ -953,7 +945,7 @@ pools to do any calls to reset a connection if it needs to be done.
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (obj){
-   if (this.count &lt;= this.__maxObjects) {
+   if (this.count &amp;lt;= this.__maxObjects) {
        this.validate(obj).then(function (valid) {
            if (valid) {
                this.__freeObjects.enqueue(obj);
@@ -993,9 +985,7 @@ function (obj){
 <hr/>
 <em>Defined ConnectionPool.js</em>
 
-<p><p>Override to provide any additional validation. By default the promise is called back with true.
-
-</p>
+<p><p>Override to provide any additional validation. By default the promise is called back with true.</p>
 </p>
 
 

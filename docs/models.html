@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -356,15 +361,9 @@
 
 
 <h1>Models</h1>
-<p>Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.
-
-</p>
-<p>When defining a model it is assumed that the database table already exists. So before defining a model you must create the table/s that the model requires to function including associations. To create a model you must <a href="./patio.html#connect">connect</a> to a database.
-
-</p>
-<p>An example model definition flow.
-
-</p>
+<p>Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.</p>
+<p>When defining a model it is assumed that the database table already exists. So before defining a model you must create the table/s that the model requires to function including associations. To create a model you must <a href="./patio.html#connect">connect</a> to a database.</p>
+<p>An example model definition flow.</p>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     format = comb.string.format,
     patio = require(&quot;patio&quot;);
@@ -417,9 +416,7 @@ connectAndCreateSchema()
             }, disconnectError);
         }, disconnectError);
 }, disconnectError);</code></pre>
-<p>The flow for the above example is as follows:
-
-</p>
+<p>The flow for the above example is as follows:</p>
 <ul>
 <li>Connects to a database and creates the &quot;user&quot; table.</li></li>
 <li>Sync the models. This gets the relevant table information from the &quot;user&quot; table</li>
@@ -433,9 +430,7 @@ connectAndCreateSchema()
 </ul>
 <h2>Options</h2>
 <p>Models some options that allow for the customization of the way a model be haves when interacting
-with the database.
-
-</p>
+with the database.</p>
 <ul>
 <li><strong>typecastOnLoad</strong> : Defaults to true. Set to false to prevent properties from being type casted when loaded from the database. See <a href="./patio_Database.html#typecastValue">patio.Database.typecastValue</a></li>
 </ul>
@@ -454,9 +449,7 @@ with the database.
         typecastOnAssignment : false
     }
 });</code></pre>
-<p>So the following would not be typecasted.
-
-</p>
+<p>So the following would not be typecasted.</p>
 <pre class='prettyprint linenums lang-js'><code>var myUser = new User();
 myUser.updated = new Date(2004, 1, 1, 12, 12, 12); //would not be auto converted to a patio.sql.DateTime
 myUser.updated = &quot;2004-02-01 12:12:12&quot; //would not be auto converted to a patio.sql.DateTime</code></pre>
@@ -542,9 +535,7 @@ myUser.updated = &quot;2004-02-01 12:12:12&quot; //would not be auto converted t
     }
 });</code></pre>
 <h2>Creating a model</h2>
-<p>To create a Model class to use within your code you use the <a href=".patio.html#addModel">patio.addModel</a> method. 
-
-</p>
+<p>To create a Model class to use within your code you use the <a href=".patio.html#addModel">patio.addModel</a> method. </p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;)
 
 //you must sync the model before using it 
@@ -560,9 +551,7 @@ User.sync().then(function(User){
         console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser.firstName, myUser.lastName, myUser.id));
     }, disconnectError);
 });</code></pre>
-<p>You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to use a custom query as the base for a particular model.
-
-</p>
+<p>You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to use a custom query as the base for a particular model.</p>
 <pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
 var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
 //user table in db1
@@ -592,12 +581,8 @@ patio.syncModels().then(function(User1,User2){
 });</code></pre>
 <h2>Custom setters and getters</h2>
 <h3>Setters</h3>
-<p>patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.
-
-</p>
-<p>For example if you wanted to ensure proper case and first and last name of a user:
-
-</p>
+<p>patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.</p>
+<p>For example if you wanted to ensure proper case and first and last name of a user:</p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
     instance : {
         _setFirstName : function(firstName){
@@ -619,12 +604,8 @@ patio.syncModels().then(function(User){
     console.log(myUser.lastName);  //Yukon
 });</code></pre>
 <h3>Getters</h3>
-<p>Custom getters can be used to change values returned from the database but not alter the value when persisting. 
-
-</p>
-<p>For example if you wanted to return a value as an array but persist as a string you could do the following.
-
-</p>
+<p>Custom getters can be used to change values returned from the database but not alter the value when persisting. </p>
+<p>For example if you wanted to return a value as an array but persist as a string you could do the following.</p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
     instance : {
         _getRoles : function(roles){
@@ -641,13 +622,8 @@ patio.syncModels().then(function(User){
     });
     console.log(myUser.roles); //[&#39;admin&#39;, &#39;user&#39;,&#39;groupAdmin&#39;];
 });</code></pre>
-<p>You can also use the getters/setters in tandem.
-
-</p>
-<p>Lets take the getters example from before but use a setter also
-
-
-</p>
+<p>You can also use the getters/setters in tandem.</p>
+<p>Lets take the getters example from before but use a setter also</p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
     instance : {
         _setRoles : function(roles){
@@ -672,9 +648,7 @@ patio.syncModels().then(function(User){
     myUser.save(); 
 });</code></pre>
 <h2>Model hooks</h2>
-<p>Each model has the following hooks
-
-</p>
+<p>Each model has the following hooks</p>
 <ul>
 <li>pre<ul>
 <li><strong>save&lt;</strong> : called right before the model is saved to the database</li>
@@ -726,9 +700,7 @@ patio.syncModels().then(function(User){
     }
  });</code></pre>
 <h2>Using a model</h2>
-<p>If you define a model you can either use the Models constructor directly.
-
-</p>
+<p>If you define a model you can either use the Models constructor directly.</p>
 <pre class='prettyprint linenums lang-js'><code>//define the model
 var User = patio.addModel(&quot;user&quot;);
 
@@ -739,9 +711,7 @@ patio.syncModels(function(err){
        var user = new User();
    }
 })</code></pre>
-<p>or you can use <code>patio.getModel</code>
-
-</p>
+<p>or you can use <code>patio.getModel</code></p>
 <pre class='prettyprint linenums lang-js'><code>
 patio.addModel(&quot;user&quot;);
 
@@ -754,9 +724,7 @@ patio.syncModels(function(err){
    }
 })</code></pre>
 <h3>Mutli Database Models</h3>
-<p>If you are working with multiple databases and your model&#39;s table is not in the <a href="&quot;./patio.html#defaultDatabase&quot;">patio.defaultDatabase</a> (the first database you connected to) then you will need to pass in the database the model&#39;s table is in.
-
-</p>
+<p>If you are working with multiple databases and your model&#39;s table is not in the <a href="&quot;./patio.html#defaultDatabase&quot;">patio.defaultDatabase</a> (the first database you connected to) then you will need to pass in the database the model&#39;s table is in.</p>
 <pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
 var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
 //user table in db1
@@ -772,9 +740,7 @@ patio.syncModels(function(err){
    }
 });</code></pre>
 <h3>Creating</h3>
-<p>The static <a href="./patio_Model.html#.save">save</a> can be used for saving a group of models at once. <strong>Note</strong> this method is not any more efficient than creating a model using new, just less verbose.
-
-</p>
+<p>The static <a href="./patio_Model.html#.save">save</a> can be used for saving a group of models at once. <strong>Note</strong> this method is not any more efficient than creating a model using new, just less verbose.</p>
 <pre class='prettyprint linenums lang-js'><code>var Student = patio.getModel(&quot;student&quot;);
 Student.save([
       {
@@ -816,9 +782,7 @@ Student.save([
  ]).then(function(users){
    //All users have been saved
  }, disconnectError);</code></pre>
-<p>When saving a group of models the save method will use a transaction unless the <code>useTransactions</code> property is set to false. You can manually override the useTransactions property by passing in an additional options parameter with a transaction value set to false.
-
-</p>
+<p>When saving a group of models the save method will use a transaction unless the <code>useTransactions</code> property is set to false. You can manually override the useTransactions property by passing in an additional options parameter with a transaction value set to false.</p>
 <pre class='prettyprint linenums lang-js'><code>var Student = patio.getModel(&quot;student&quot;);
 Student.save([
       {
@@ -836,9 +800,7 @@ Student.save([
  ], {transaction : false}).then(function(users){
      //work with the users
  });</code></pre>
-<p>If you have an instance of a model then you can use the <a href="./patio_Model.html#save">save</a> method on the instance of the model.
-
-</p>
+<p>If you have an instance of a model then you can use the <a href="./patio_Model.html#save">save</a> method on the instance of the model.</p>
 <pre class='prettyprint linenums lang-js'><code>var myUser = new User({
      firstName : &quot;Bob&quot;,
      lastName : &quot;Yukon&quot;,
@@ -849,9 +811,7 @@ Student.save([
 myUser.save().then(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
-<p>You can also pass in values into the save method to set before saving.
-
-</p>
+<p>You can also pass in values into the save method to set before saving.</p>
 <pre class='prettyprint linenums lang-js'><code>var myUser = new User();
 //save the user
 myUser.save({
@@ -862,9 +822,7 @@ myUser.save({
  }).then(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
-<p>You can also pass in an options object to override options such as using a transaction.
-
-</p>
+<p>You can also pass in an options object to override options such as using a transaction.</p>
 <pre class='prettyprint linenums lang-js'><code>var myUser = new User();
 //save the user
 myUser.save({
@@ -876,12 +834,8 @@ myUser.save({
     //the save is complete
 }, disconnectError);</code></pre>
 <h3>Reading</h3>
-<p>The Model contains static methods for all of the datasets methods listed in <a href="./patio_Dataset.html#.ACTION_METHODS">patio.Dataset.ACTION_METHODS</a> as well as all the methods listed in <a href="./patio_Dataset.html#.QUERY_METHODS">patio.Dataset.QUERY_METHODS</a>.
-
-</p>
-<p>Some of the most commonly used methods are:
-
-</p>
+<p>The Model contains static methods for all of the datasets methods listed in <a href="./patio_Dataset.html#.ACTION_METHODS">patio.Dataset.ACTION_METHODS</a> as well as all the methods listed in <a href="./patio_Dataset.html#.QUERY_METHODS">patio.Dataset.QUERY_METHODS</a>.</p>
+<p>Some of the most commonly used methods are:</p>
 <ul>
 <li><a href="./patio_Dataset.html#forEach">forEach</a></li>
 </ul>
@@ -952,29 +906,21 @@ User.isEmpty().then(function(isEmpty){
    }
 }, disconnectError);</code></pre>
 <h3>Updating</h3>
-<p>The static <a href="./patio_Model.html#.update">update</a> can be used for updating a batch of models.
-
-</p>
+<p>The static <a href="./patio_Model.html#.update">update</a> can be used for updating a batch of models.</p>
 <pre class='prettyprint linenums lang-js'><code> //BEGIN
  //UPDATE `user` SET `password` = NULL
  //COMMIT
  User.update({password : null});</code></pre>
-<p>You can also pass in a query to limit the models that are updated. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.
-
-</p>
+<p>You can also pass in a query to limit the models that are updated. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.</p>
 <pre class='prettyprint linenums lang-js'><code>User.update({password : null}, function(){
     return this.lastAccessed.lte(comb.yearsAgo(1));
  });
 
 //same as
 User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}});</code></pre>
-<p>To prevent default transaction behavior you can pass in an additional transaction option
-
-</p>
+<p>To prevent default transaction behavior you can pass in an additional transaction option</p>
 <pre class='prettyprint linenums lang-js'><code>User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}}, {transaction : false});</code></pre>
-<p>If you have an instance of a model and you want to update it you can use the <a href="./patio_Model.html#update">update</a> instance method.
-
-</p>
+<p>If you have an instance of a model and you want to update it you can use the <a href="./patio_Model.html#update">update</a> instance method.</p>
 <pre class='prettyprint linenums lang-js'><code>var updateUsers = User.forEach(function(user){
     //returning the promise from update will cause the forEach not to resolve
     //until all updates have completed
@@ -983,9 +929,7 @@ User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}});</code><
 updateUsers.then(function(){
     //updates finished
 });</code></pre>
-<p>as with save you can pass in an options object to prevent default behavior such as transactions.
-
-</p>
+<p>as with save you can pass in an options object to prevent default behavior such as transactions.</p>
 <pre class='prettyprint linenums lang-js'><code>var updateUsers = User.forEach(function(user){
     //returning the promise from update will cause the forEach not to resolve
     //until all updates have completed
@@ -995,38 +939,26 @@ updateUsers.then(function(){
     //updates finished
 });</code></pre>
 <h3>Deleting</h3>
-<p>The static <a href="./patio_Model.html#.remove">remove</a> can be used for removing a batch of models. <strong>Note</strong> this method is not anymore efficient just a convenience.
-
-</p>
+<p>The static <a href="./patio_Model.html#.remove">remove</a> can be used for removing a batch of models. <strong>Note</strong> this method is not anymore efficient just a convenience.</p>
 <pre class='prettyprint linenums lang-js'><code>//remove all models
 User.remove();</code></pre>
-<p>To limit the models removed you can pass in a query. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.
-
-</p>
+<p>To limit the models removed you can pass in a query. The filter can be anything that <a href="./patio_Dataset.html#filter">filter</a> accepts.</p>
 <pre class='prettyprint linenums lang-js'><code>//remove models that start with m
 User.remove({lastName : {like : &quot;m%&quot;}});`</code></pre>
 <p>The default behavior of remove is to load each model and call remove on it. If you wish to just do a mass delete and not load each model you can pass in an additional options object with a key called <code>load</code> set to false.
-<strong>Note</strong> If you do this then the pre/post remove hooks will not be called.
-
-</p>
+<strong>Note</strong> If you do this then the pre/post remove hooks will not be called.</p>
 <pre class='prettyprint linenums lang-js'><code>//mass remove models without loading them
 User.remove(null, {load : false});</code></pre>
-<p>To prevent the default transaction behavior pass in the transaction option.
-
-</p>
+<p>To prevent the default transaction behavior pass in the transaction option.</p>
 <pre class='prettyprint linenums lang-js'><code>//removing models, not using a transaction
 User.remove(null, {transaction : false});</code></pre>
-<p>If you have an instance of a model and you want to remove it you can use the <a href="./patio_Model.remove">remove</a> instance method.
-
-</p>
+<p>If you have an instance of a model and you want to remove it you can use the <a href="./patio_Model.remove">remove</a> instance method.</p>
 <pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove();
 }).then(function(){
     //removed
 });</code></pre>
-<p>To prevent the default transaction behavior pass in the transaction option
-
-</p>
+<p>To prevent the default transaction behavior pass in the transaction option</p>
 <pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove({transaction : false});
 }).then(function(){

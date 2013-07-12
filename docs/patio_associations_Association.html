@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -560,9 +565,7 @@
 
 
 
-    <p><p>Base class for all associations.
-
-</p>
+    <p><p>Base class for all associations.</p>
 <p></br>
 <b>NOT to be instantiated directly</b>
 Its just documented for reference.</p>
@@ -576,10 +579,8 @@ Its just documented for reference.</p>
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>_fetchMethod</td><td>property</td><td><code>"all"</code></td><td><p>Method to call to look up association,
-called after the model has been filtered
-</p>
-</td><tr><tr><td>fetchType</td><td>property</td><td><code>fetch.LAZY</code></td><td><p>Fetch type
-</p>
+called after the model has been filtered</p>
+</td><tr><tr><td>fetchType</td><td>property</td><td><code>fetch.LAZY</code></td><td><p>Fetch type</p>
 </td><tr><tr><td>filter</td><td>property</td><td><code>null</code></td><td><p>Our filter method</p>
 </td><tr><tr><td>model</td><td>Model</td><td></td><td><p>the model associatied with this association.</p>
 </td><tr><tr><td>orderBy</td><td>property</td><td><code>null</code></td><td><p>how to order our association</p>
@@ -611,9 +612,7 @@ called after the model has been filtered
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p><p>Filters our associated dataset to load our association.
-
-</p>
+<p><p>Filters our associated dataset to load our association.</p>
 </p>
 
 
@@ -687,8 +686,7 @@ function (parent){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p><p>Alias used to explicitly get an association on a model.
-</p>
+<p><p>Alias used to explicitly get an association on a model.</p>
 </p>
 
 
@@ -742,8 +740,7 @@ function (model){
 
 <p><p>Middleware called after a model is loaded.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -792,8 +789,7 @@ function (next,model){
 
 <p><p>Middleware called aft era model is removed.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -842,8 +838,7 @@ function (next,model){
 
 <p><p>Middleware called after a model is saved.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -892,8 +887,7 @@ function (next,model){
 
 <p><p>Middleware called before a model is updated.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -942,8 +936,7 @@ function (next,model){
 
 <p><p>Middleware called before a model is loaded.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -992,8 +985,7 @@ function (next,model){
 
 <p><p>Middleware called before a model is removed.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -1048,8 +1040,7 @@ function (next,model){
 
 <p><p>Middleware called before a model is saved.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -1098,8 +1089,7 @@ function (next,model){
 
 <p><p>Middleware called before a model is updated.
 </br>
-<b> This is called in the scope of the model</b>
-</p>
+<b> This is called in the scope of the model</b></p>
 </p>
 
 
@@ -1146,8 +1136,7 @@ function (next,model){
 <hr/>
 <em>Defined associations/_Association.js</em>
 
-<p><p>Alias used to explicitly set an association on a model.
-</p>
+<p><p>Alias used to explicitly set an association on a model.</p>
 </p>
 
 
@@ -1198,9 +1187,7 @@ function (val,model){
 
 <p><p>Method to inject functionality into a model. This method alters the model
 to prepare it for associations, and initializes all required middleware calls
-to fulfill requirements needed to loaded the associations.
-
-</p>
+to fulfill requirements needed to loaded the associations.</p>
 </p>
 
 

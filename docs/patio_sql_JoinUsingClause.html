@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -416,9 +421,7 @@
 
     <p><p>Represents an SQL JOIN clause with USING conditions.
 Created by <a href='./patio_Dataset.html#'> patio.Dataset</a> join methods.
-See <a href='./patio_sql_JoinClause.html#'> patio.sql.JoinClause</a> for other argument parameters.
-
-</p>
+See <a href='./patio_sql_JoinClause.html#'> patio.sql.JoinClause</a> for other argument parameters.</p>
 </p>
     
 
@@ -479,9 +482,7 @@ function (using,joinType,table,tableAlias){
 <hr/>
 <em>Defined sql.js</em>
 
-<p><p>Converts the <a href='./patio_sql_JoinUsingClause.html#'> patio.sql.JoinUsingClause</a> to a string.
-
-</p>
+<p><p>Converts the <a href='./patio_sql_JoinUsingClause.html#'> patio.sql.JoinUsingClause</a> to a string.</p>
 </p>
 
 

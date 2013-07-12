@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -626,9 +631,7 @@
 
 
 
-    <p><p>A singleton class that acts as the entry point for all actions performed in patio.
-
-</p>
+    <p><p>A singleton class that acts as the entry point for all actions performed in patio.</p>
 </p>
     
         <em>Example</em>
@@ -684,9 +687,7 @@ patio.createModel(&quot;my_table&quot;);
     
         <a name="staticProperties"></a>
         <em>Static Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>patio.Time</td><td></td><td></td><td><p>Mixin that provides time formatting/coversion functions.
-
-</p>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>patio.Time</td><td></td><td></td><td><p>Mixin that provides time formatting/coversion functions.</p>
 </td><tr></table>
     
     
@@ -694,18 +695,14 @@ patio.createModel(&quot;my_table&quot;);
         <em>Instance Properties</em>
         <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>DATABASES</td><td>patio.Database[]</td><td><code>
 []
-             </code></td><td><p>An array of databases that are currently connected.
-</p>
+             </code></td><td><p>An array of databases that are currently connected.</p>
 </td><tr><tr><td>LOGGER</td><td>Logger</td><td><code>
 comb.logger("patio")
              </code></td><td><p>Returns the root comb logger using this logger you
-can set the levels add appenders etc.
-
-</p>
+can set the levels add appenders etc.</p>
 </td><tr><tr><td>camelize</td><td>function</td><td></td><td><p>Sets the whether or not to camelize identifiers coming from the database and to underscore
 identifiers when sending identifiers to the database. Setting this property to true has the same effect
-as:
-</p>
+as:</p>
 <pre class="code">
     patio.identifierOutputMethod = "camelize";
     patio.identifierInputMethod = "underscore";
@@ -713,12 +710,10 @@ as:
 
 </td><tr><tr><td>defaultDatabase</td><td>patio.Database</td><td><code>
 null
-             </code></td><td><p>Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.
-</p>
+             </code></td><td><p>Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.</p>
 </td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td><p>Set the method to call on identifiers going into the database.  This affects
 how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
-use camelize. The method can include
-</p>
+use camelize. The method can include</p>
 <ul>
     <li>toUpperCase</li>
     <li>toLowerCase</li>
@@ -727,13 +722,10 @@ use camelize. The method can include
     <li>Other String instance method names.</li>
 </ul>
 
-<p>patio uses toUpperCase identifiers in all SQL strings for most databases.
-
-</p>
+<p>patio uses toUpperCase identifiers in all SQL strings for most databases.</p>
 </td><tr><tr><td>identifierOutputMethod</td><td>String</td><td></td><td><p>Set the method to call on identifiers coming out of the database.  This affects
 the how identifiers are represented by calling the method on them.
-The method can include
-</p>
+The method can include</p>
 <p><ul>
     <li>toUpperCase</li>
     <li>toLowerCase</li>
@@ -741,16 +733,12 @@ The method can include
     <li>underscore</li>
     <li>Other String instance method names.</li>
 </ul>
-most database implementations in patio use toLowerCase
-</p>
+most database implementations in patio use toLowerCase</p>
 </td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td></td><td><p>Set whether to quote identifiers for all databases by default. By default,
-patio quotes identifiers in all SQL strings.
-
-</p>
+patio quotes identifiers in all SQL strings.</p>
 </td><tr><tr><td>underscore</td><td>function</td><td></td><td><p>Sets the whether or not to underscore identifiers coming from the database and to camelize
 identifiers when sending identifiers to the database. Setting this property to true has the same effect
-as:
-</p>
+as:</p>
 <pre class="code">
     patio.identifierOutputMethod = "underscore";
     patio.identifierInputMethod = "camelize";
@@ -801,9 +789,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>This method is used to create a <a href='./patio_Model.html#'> patio.Model</a> object.
-
-</p>
+<p><p>This method is used to create a <a href='./patio_Model.html#'> patio.Model</a> object.</p>
 </p>
 
     <em>Example</em>
@@ -875,8 +861,7 @@ var Flight = patio.addModel(&quot;flight&quot;, {
         <li> <em>Parent</em> <code>patio.Model|patio.Model[]</code> : <p>models of this model.                  See <a href='./patio_plugins_ClassTableInheritancePlugin.html#'> patio.plugins.ClassTableInheritancePlugin</a>.</p>
 </li>
     
-        <li> <em>Object[]?</em>  : <p>[proto.plugins] this can be used to specify additional plugins to use such as.
-</p>
+        <li> <em>Object[]?</em>  : <p>[proto.plugins] this can be used to specify additional plugins to use such as.</p>
 <ul>
     <li>{@link patio.plugins.TimeStampPlugin</li>
     <li>{@link patio.plugins.CachePlugin</li>
@@ -919,9 +904,7 @@ function (table,supers,proto){
 <p><p>This can be used to configure logging. If a options
 hash is passed in then it will passed to the comb.logging.PropertyConfigurator.
 If the options are omitted then a ConsoleAppender will be added and the level will
-be set to info.
-
-</p>
+be set to info.</p>
 </p>
 
     <em>Example</em>
@@ -1105,9 +1088,7 @@ function (options,cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Returns a <a href='./patio_Database.html#'> patio.Database</a> object that can be used to for querying.
-
-</p>
+<p><p>Returns a <a href='./patio_Database.html#'> patio.Database</a> object that can be used to for querying.</p>
 <p>This method is the entry point for all interactions with a database including getting
 <a href='./patio_Dataset.html#'> patio.Dataset</a>s for creating queries(see <a href='./patio_Database.html#from'> patio.Database#from</a>).
 </p>
@@ -1206,9 +1187,7 @@ function (options){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Disconnects all databases in use.
-
-</p>
+<p><p>Disconnects all databases in use.</p>
 </p>
 
 
@@ -1268,9 +1247,7 @@ function (cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Returns a model from the name of the table for which the model was created.
-
-</p>
+<p><p>Returns a model from the name of the table for which the model was created.</p>
 <pre class='prettyprint linenums lang-js'>
 
 var TestModel = patio.addModel("test_model").sync(function(err){
@@ -1283,9 +1260,7 @@ var TestModel = patio.addModel("test_model").sync(function(err){
 
 </pre>
 
-<p>If you have two tables with the same name in different databases then you can use the db parameter also.
-
-</p>
+<p>If you have two tables with the same name in different databases then you can use the db parameter also.</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -1352,9 +1327,7 @@ function (name,db){
 <em>Defined index.js</em>
 
 <p><p>Allows for the importing of multiple models so you do not have to worry about the promise that is returned from create model,
-or a directory if an index.js file is used.
-
-</p>
+or a directory if an index.js file is used.</p>
 <p>
     To import a group of model files you can do the following:
 <pre class='prettyprint linenums lang-js'>
@@ -1449,8 +1422,7 @@ function (files,cb){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs a DEBUG level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs a DEBUG level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1488,8 +1460,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs an ERROR level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs an ERROR level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1527,8 +1498,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs a FATAL level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs a FATAL level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1566,8 +1536,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs an INFO level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs an INFO level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1605,8 +1574,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs a TRACE level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs a TRACE level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1644,8 +1612,7 @@ function (){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Logs a WARN level message to the &quot;patio&quot; logger.
-</p>
+<p><p>Logs a WARN level message to the &quot;patio&quot; logger.</p>
 </p>
 
 
@@ -1685,8 +1652,7 @@ function (){
 
 <p><p>Migrates the database using migration files found in the supplied directory.
 <br/>
-<br/>
-</p>
+<br/></p>
 <div>
     <h3>Integer Migrations</h3>
      Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations.
@@ -1754,9 +1720,7 @@ function (){
 </div>
 
 <p><b>NOTE:</b>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the
-patio will attempt the migrate the current schema to the timestamp based migration schema.
-
-</p>
+patio will attempt the migrate the current schema to the timestamp based migration schema.</p>
 <div>
 In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
 
@@ -1866,9 +1830,7 @@ function (db){
 <hr/>
 <em>Defined index.js</em>
 
-<p><p>Helper method to sync all models at once.
-
-</p>
+<p><p>Helper method to sync all models at once.</p>
 </p>
 
     <em>Example</em>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -781,8 +786,7 @@
 
 
 
-    <p><p>Base class for all models.
-</p>
+    <p><p>Base class for all models.</p>
 <p>This is used through <a href='./patio.html#.addModel'> patio.addModel</a>, <b>NOT directly.</b></p>
 
 </p>
@@ -800,125 +804,83 @@
     
         <a name="staticProperties"></a>
         <em>Static Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>MANY_TO_MANY</em></td><td>property</td><td><code>"manyToMany"</code></td><td><p>String for to signify an association as many to many.
-</p>
-</td><tr><tr><td><em>MANY_TO_ONE</em></td><td>property</td><td><code>"manyToOne"</code></td><td><p>String for to signify an association as many to one.
-</p>
-</td><tr><tr><td><em>ONE_TO_MANY</em></td><td>property</td><td><code>"oneToMany"</code></td><td><p>String for to signify an association as one to many.
-</p>
-</td><tr><tr><td><em>ONE_TO_ONE</em></td><td>property</td><td><code>"oneToOne"</code></td><td><p>String for to signify an association as one to one.
-</p>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td><em>MANY_TO_MANY</em></td><td>property</td><td><code>"manyToMany"</code></td><td><p>String for to signify an association as many to many.</p>
+</td><tr><tr><td><em>MANY_TO_ONE</em></td><td>property</td><td><code>"manyToOne"</code></td><td><p>String for to signify an association as many to one.</p>
+</td><tr><tr><td><em>ONE_TO_MANY</em></td><td>property</td><td><code>"oneToMany"</code></td><td><p>String for to signify an association as one to many.</p>
+</td><tr><tr><td><em>ONE_TO_ONE</em></td><td>property</td><td><code>"oneToOne"</code></td><td><p>String for to signify an association as one to one.</p>
 </td><tr><tr><td><em>camelize</em></td><td>{Boolean}</td><td><code>
 false</code></td><td><p>Set to true if this models column names should be use the &quot;underscore&quot; method when sending
 keys to the database and to &quot;camelize&quot; method on columns returned from the database. If set to false see
-<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.
-</p>
-</td><tr><tr><td><em>columns</em></td><td>String[]</td><td></td><td><p>A list of columns this models table contains.
-</p>
+<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.</p>
+</td><tr><tr><td><em>columns</em></td><td>String[]</td><td></td><td><p>A list of columns this models table contains.</p>
 </td><tr><tr><td><em>dataset</em></td><td>patio.Dataset</td><td></td><td><p>A dataset to use to retrieve instances of this {@link patio.Model{ from the database. The dataset
-has the {@link patio.Dataset#rowCb} set to create instances of this model.
-</p>
-</td><tr><tr><td><em>db</em></td><td>patio.Database</td><td></td><td><p>The database all instances of this <a href='./patio_Model.html#'> patio.Model</a> use.
-</p>
+has the {@link patio.Dataset#rowCb} set to create instances of this model.</p>
+</td><tr><tr><td><em>db</em></td><td>patio.Database</td><td></td><td><p>The database all instances of this <a href='./patio_Model.html#'> patio.Model</a> use.</p>
 </td><tr><tr><td><em>emitOnAssociationAdd</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent an event from being emitted when an association is added to the model
-</p>
+         </code></td><td><p>Set to false to prevent an event from being emitted when an association is added to the model</p>
 </td><tr><tr><td><em>emitOnColumnSet</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the emitting of an event on the setting of a column value
-</p>
+         </code></td><td><p>Set to false to prevent the emitting of an event on the setting of a column value</p>
 </td><tr><tr><td><em>emitOnLoad</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the emitting of an event on load
-</p>
+         </code></td><td><p>Set to false to prevent the emitting of an event on load</p>
 </td><tr><tr><td><em>emitOnRemove</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the emitting on an event when a model is removed.
-</p>
+         </code></td><td><p>Set to false to prevent the emitting on an event when a model is removed.</p>
 </td><tr><tr><td><em>emitOnSave</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the emitting on an event when a model is saved.
-</p>
+         </code></td><td><p>Set to false to prevent the emitting on an event when a model is saved.</p>
 </td><tr><tr><td><em>emitOnUpdate</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the emitting on an event when a model is updated.
-</p>
+         </code></td><td><p>Set to false to prevent the emitting on an event when a model is updated.</p>
 </td><tr><tr><td><em>fetchType</em></td><td>property</td><td><code>fetch</code></td><td></td><tr><tr><td><em>identifierInputMethod</em></td><td>property</td><td><code>null
-         </code></td><td><p>See <a href='./patio_Dataset.html#identifierInputMethod'> patio.Dataset#identifierInputMethod</a>
-</p>
+         </code></td><td><p>See <a href='./patio_Dataset.html#identifierInputMethod'> patio.Dataset#identifierInputMethod</a></p>
 </td><tr><tr><td><em>identifierOutputMethod</em></td><td>property</td><td><code>null
-         </code></td><td><p>See <a href='./patio_Dataset.html#identifierOutputMethod'> patio.Dataset#identifierOutputMethod</a>
-</p>
+         </code></td><td><p>See <a href='./patio_Dataset.html#identifierOutputMethod'> patio.Dataset#identifierOutputMethod</a></p>
 </td><tr><tr><td><em>isRestrictedPrimaryKey</em></td><td>property</td><td><code>false
-         </code></td><td><p>Set to false to allow the setting of primary keys.
-</p>
-</td><tr><tr><td><em>patio</em></td><td>function</td><td></td><td><p>A reference to the global <a href='./patio.html#'> patio</a>.
-</p>
-</td><tr><tr><td><em>patio</em></td><td>patio</td><td><code>null</code></td><td><p>patio  - read only
-
-</p>
-</td><tr><tr><td><em>primaryKey</em></td><td>function</td><td></td><td><p>The primaryKey column/s of this <a href='./patio_Model.html#'> patio.Model</a>
-</p>
+         </code></td><td><p>Set to false to allow the setting of primary keys.</p>
+</td><tr><tr><td><em>patio</em></td><td>function</td><td></td><td><p>A reference to the global <a href='./patio.html#'> patio</a>.</p>
+</td><tr><tr><td><em>patio</em></td><td>patio</td><td><code>null</code></td><td><p>patio  - read only</p>
+</td><tr><tr><td><em>primaryKey</em></td><td>function</td><td></td><td><p>The primaryKey column/s of this <a href='./patio_Model.html#'> patio.Model</a></p>
 </td><tr><tr><td><em>raiseOnTypecastError</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent errors thrown while type casting a value from being propogated.
-</p>
+         </code></td><td><p>Set to false to prevent errors thrown while type casting a value from being propogated.</p>
 </td><tr><tr><td><em>reloadOnSave</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the reload of a model after saving.
-</p>
+         </code></td><td><p>Set to false to prevent the reload of a model after saving.</p>
 </td><tr><tr><td><em>reloadOnUpdate</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent the reload of a model after updating.
-</p>
-</td><tr><tr><td><em>restrictedColumns</em></td><td>property</td><td><code>null</code></td><td><p>Columns that should be restriced when setting values through the <a href='./patio_Model.html#set'> patio.Model#set</a> method.
-
-</p>
+         </code></td><td><p>Set to false to prevent the reload of a model after updating.</p>
+</td><tr><tr><td><em>restrictedColumns</em></td><td>property</td><td><code>null</code></td><td><p>Columns that should be restriced when setting values through the <a href='./patio_Model.html#set'> patio.Model#set</a> method.</p>
 </td><tr><tr><td><em>schema</em></td><td>Object</td><td></td><td><p>The schema of this <a href='./patio_Model.html#'> patio.Model</a>&#39;s table. See <a href='./patio_Database.html#schema'> patio.Database#schema</a> for details
-on the schema object.
-</p>
+on the schema object.</p>
 </td><tr><tr><td><em>table</em></td><td>property</td><td><code>null</code></td><td><p>The table that this Model represents.
-<b>READ ONLY</b>
-</p>
-</td><tr><tr><td><em>tableName</em></td><td>String</td><td></td><td><p>The name of the table all instances of the this <a href='./patio_Model.html#'> patio.Model</a> use.
-</p>
+<b>READ ONLY</b></p>
+</td><tr><tr><td><em>tableName</em></td><td>String</td><td></td><td><p>The name of the table all instances of the this <a href='./patio_Model.html#'> patio.Model</a> use.</p>
 </td><tr><tr><td><em>typecastEmptyStringToNull</em></td><td>property</td><td><code>true
-         </code></td><td><p>Set to false to prevent empty strings from being type casted to null
-</p>
+         </code></td><td><p>Set to false to prevent empty strings from being type casted to null</p>
 </td><tr><tr><td><em>typecastOnAssignment</em></td><td>property</td><td><code>true
          </code></td><td><p>Set to false to prevent properties from being type casted when manually set.
-See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a>
-</p>
+See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a></p>
 </td><tr><tr><td><em>typecastOnLoad</em></td><td>property</td><td><code>true
          </code></td><td><p>Set to false to prevent properties from being type casted when loaded from the database.
-See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a>
-</p>
+See <a href='./patio_Database.html#typecastValue'> patio.Database#typecastValue</a></p>
 </td><tr><tr><td><em>underscore</em></td><td>{Boolean}</td><td><code>
 false</code></td><td><p>Set to true if this models column names should be use the &quot;camelize&quot; method when sending
 keys to the database and to &quot;underscore&quot; method on columns returned from the database. If set to false see
-<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.
-</p>
+<a href='./patio_Model.html#underscore'> patio.Model#underscore</a>.</p>
 </td><tr><tr><td><em>useTransactions</em></td><td>property</td><td><code>true</code></td><td><p>Set to false to prevent models from using transactions when saving, deleting, or updating.
-This applies to the model associations also.
-</p>
+This applies to the model associations also.</p>
 </td><tr></table>
     
     
         <a name="instanceProperties"></a>
         <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>__isChanged</td><td>property</td><td><code>false</code></td><td><p>Signifies if the model has changed
-</p>
-</td><tr><tr><td>__isNew</td><td>property</td><td><code>true</code></td><td><p>Whether or not this model is new
-</p>
-</td><tr><tr><td>associations</td><td>function</td><td></td><td><p>List of associations on the <a href='./patio_Model.html#'> patio.Model</a>
-</p>
+        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>__isChanged</td><td>property</td><td><code>false</code></td><td><p>Signifies if the model has changed</p>
+</td><tr><tr><td>__isNew</td><td>property</td><td><code>true</code></td><td><p>Whether or not this model is new</p>
+</td><tr><tr><td>associations</td><td>function</td><td></td><td><p>List of associations on the <a href='./patio_Model.html#'> patio.Model</a></p>
 </td><tr><tr><td>columns</td><td>String[]</td><td></td><td><p>a list of columns this models table contains.</p>
 </td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td><p>a dataset to use to retrieve models from the database. The dataset                          has the <a href='./patio_Dataset.html#rowCb'> patio.Dataset#rowCb</a> set to create instances of this model.</p>
-</td><tr><tr><td>hasAssociations</td><td>function</td><td></td><td><p>Returns true if this <a href='./patio_Model.html#'> patio.Model</a> has associations.
-</p>
+</td><tr><tr><td>hasAssociations</td><td>function</td><td></td><td><p>Returns true if this <a href='./patio_Model.html#'> patio.Model</a> has associations.</p>
 </td><tr><tr><td>isChanged</td><td>Boolean</td><td></td><td><p>true if the model has been changed and not saved.</p>
 </td><tr><tr><td>isNew</td><td>Boolean</td><td></td><td><p>true if this model is new and does not exist in the database.</p>
-</td><tr><tr><td>patio</td><td>patio</td><td><code>null</code></td><td><p>patio  - read only
-
-</p>
+</td><tr><tr><td>patio</td><td>patio</td><td><code>null</code></td><td><p>patio  - read only</p>
 </td><tr><tr><td>primaryKeyValue</td><td>*</td><td></td><td><p>the value of this models primaryKey</p>
 </td><tr><tr><td>schema</td><td>Object</td><td></td><td><p>the schema of this models table.</p>
 </td><tr><tr><td>tableName</td><td>String</td><td></td><td><p>the table name of this models table.</p>
-</td><tr><tr><td>type</td><td>String</td><td><code>null</code></td><td><p>The database type such as mysql
-
-</p>
+</td><tr><tr><td>type</td><td>String</td><td><code>null</code></td><td><p>The database type such as mysql</p>
 </td><tr></table>
     
 
@@ -982,9 +944,7 @@ function (options,fromDb){
 <em>Defined plugins/association.js</em>
 
 <p><p>Associates a related model with the current model. The following types are
-supported:
-
-</p>
+supported:</p>
 <ul>
     <li><b>oneToMany</b> - Foreign key in associated model&#39;s table points to this
         model&#39;s primary key.   Each current model object can be associated with
@@ -1018,8 +978,7 @@ supported:
 </li>
     
         <li> <em>options?</em>  : <p>additional options.
-The following options can be supplied:
-</p>
+The following options can be supplied:</p>
 <ul>
   <li><b>model</b> - The associated class or its name. If not  given, uses the association&#39;s name,
    which is singularized unless the type is MANY_TO_ONE or ONE_TO_ONE</li>
@@ -1133,9 +1092,7 @@ function (type,name,options,filter){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Create a new model initialized with the specified values.
-
-</p>
+<p><p>Create a new model initialized with the specified values.</p>
 </p>
 
 
@@ -1191,11 +1148,7 @@ function (values){
 <em>Defined plugins/query.js</em>
 
 <p><p>Finds a single model according to the supplied filter.
-See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for filter options.
-
-
-
-</p>
+See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for filter options.</p>
 </p>
 
 
@@ -1240,9 +1193,7 @@ function (id){
 <hr/>
 <em>Defined plugins/query.js</em>
 
-<p><p>Retrieves a record by the primaryKey/s of a table.
-
-</p>
+<p><p>Retrieves a record by the primaryKey/s of a table.</p>
 </p>
 
     <em>Example</em>
@@ -1326,8 +1277,7 @@ function (id){
 
 <p><p>Finds a single model according to the supplied filter.
 See <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a> for filter options. If the model
-does not exist then a new one is created as passed back.
-</p>
+does not exist then a new one is created as passed back.</p>
 </p>
 
 
@@ -1374,9 +1324,7 @@ function (q){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Stub for plugins to notified of model inheritance
-
-</p>
+<p><p>Stub for plugins to notified of model inheritance</p>
 </p>
 
 
@@ -1422,9 +1370,7 @@ function (model){
 <em>Defined plugins/association.js</em>
 
 <p><p>Creates a MANY_TO_MANY relationship between models.
-See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
-
-</p>
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.</p>
 </p>
 
     <em>Example</em>
@@ -1504,8 +1450,7 @@ function (name,options,filter){
 
 <p><p>Creates a MANY_TO_ONE association.
 See <a href='./patio_plugins_AssociationPlugin.html#.oneToMany'> patio.plugins.AssociationPlugin.oneToMany</a>.
-See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a>
-</p>
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a></p>
 </p>
 
 
@@ -1555,9 +1500,7 @@ function (name,options,filter){
 <em>Defined plugins/association.js</em>
 
 <p><p>Creates a ONE_TO_MANY association.
-See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
-
-</p>
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.</p>
 </p>
 
     <em>Example</em>
@@ -1631,9 +1574,7 @@ function (name,options,filter){
 <em>Defined plugins/association.js</em>
 
 <p><p>Creates a ONE_TO_ONE relationship between models.
-See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.
-
-</p>
+See <a href='./patio_plugins_AssociationPlugin.html#.associate'> patio.plugins.AssociationPlugin.associate</a> for options.</p>
 </p>
 
     <em>Example</em>
@@ -1703,9 +1644,7 @@ function (name,options,filter){
 <hr/>
 <em>Defined plugins/query.js</em>
 
-<p><p>Remove(delete) models. This can be used to do a mass delete of models.
-
-</p>
+<p><p>Remove(delete) models. This can be used to do a mass delete of models.</p>
 </p>
 
     <em>Example</em>
@@ -1798,9 +1737,7 @@ function (q,options){
 <hr/>
 <em>Defined plugins/query.js</em>
 
-<p><p>Similar to remove but takes an id or an array for a composite key.
-
-</p>
+<p><p>Similar to remove but takes an id or an array for a composite key.</p>
 </p>
 
     <em>Example</em>
@@ -1872,9 +1809,7 @@ function (id,options){
 <hr/>
 <em>Defined plugins/query.js</em>
 
-<p><p>Save either a new model or list of models to the database.
-
-</p>
+<p><p>Save either a new model or list of models to the database.</p>
 </p>
 
     <em>Example</em>
@@ -1996,9 +1931,7 @@ function (items,options){
 <hr/>
 <em>Defined plugins/query.js</em>
 
-<p><p>Update multiple rows with a set of values.
-
-</p>
+<p><p>Update multiple rows with a set of values.</p>
 </p>
 
     <em>Example</em>
@@ -2133,9 +2066,7 @@ function (opts){
 <em>Defined plugins/query.js</em>
 
 <p><p>Forces the reload of the data for a particular model instance.  The Promise returned is resolved with the
-model.
-
-</p>
+model.</p>
 </p>
 
     <em>Example</em>
@@ -2280,9 +2211,7 @@ function (options){
 
 <p><p>This method removes the instance of the model. If the model <a href='./patio_Model.html#isNew'> patio.Model#isNew</a> then the promise is
 resolved with a 0 indicating no rows were affected. Otherwise the model is removed, primary keys are cleared
-and the model&#39;s isNew flag is set to true.
-
-</p>
+and the model&#39;s isNew flag is set to true.</p>
 </p>
 
     <em>Example</em>
@@ -2375,12 +2304,8 @@ function (options){
 <em>Defined plugins/query.js</em>
 
 <p><p>Saves a model. This action checks if the model is new and values have changed.
-If the model is not new then the <a href='./patio_Model.html#update'> patio.Model#update</a> action is called.
-
-</p>
-<p>When saving a model you can pass values you want set as the first argument.
-
-</p>
+If the model is not new then the <a href='./patio_Model.html#update'> patio.Model#update</a> action is called.</p>
+<p>When saving a model you can pass values you want set as the first argument.</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -2395,9 +2320,7 @@ someModel.save({
 
 </pre>
 
-<p>Or you can set values on the model directly
-
-</p>
+<p>Or you can set values on the model directly</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -2413,20 +2336,15 @@ someModel.save().then(function(){
 
 </pre>
 
-<p>Save also accepts an options object as the second argument allowing the overriding of default behavior.
-
-</p>
-<p>To override <code>useTransactions</code> you can set the <code>transaction</code> option.
-
-</p>
+<p>Save also accepts an options object as the second argument allowing the overriding of default behavior.</p>
+<p>To override <code>useTransactions</code> you can set the <code>transaction</code> option.</p>
 <pre class='prettyprint linenums lang-js'>
 
 someModel.save(null, {transaction : false});
 
 </pre>
 
-<p>You can also override the <code>reloadOnSave</code> property by setting the <code>reload</code> option.
-</p>
+<p>You can also override the <code>reloadOnSave</code> property by setting the <code>reload</code> option.</p>
 <pre class='prettyprint linenums lang-js'>
 
 someModel.save(null, {reload : false});
@@ -2520,12 +2438,8 @@ function (vals,options){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Set multiple values at once. Useful if you have a hash of properties that you want to set.
-
-</p>
-<p><b>NOTE:</b> This method will use the static restrictedColumns property of the model.
-
-</p>
+<p><p>Set multiple values at once. Useful if you have a hash of properties that you want to set.</p>
+<p><b>NOTE:</b> This method will use the static restrictedColumns property of the model.</p>
 </p>
 
     <em>Example</em>
@@ -2586,9 +2500,7 @@ function (values){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Convert this model to JSON, containing column, value pairs.
-
-</p>
+<p><p>Convert this model to JSON, containing column, value pairs.</p>
 </p>
 
 
@@ -2632,9 +2544,7 @@ function (){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Convert this model to an object, containing column, value pairs.
-
-</p>
+<p><p>Convert this model to an object, containing column, value pairs.</p>
 </p>
 
 
@@ -2678,9 +2588,7 @@ function (){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Convert this model to a string, containing column, value pairs.
-
-</p>
+<p><p>Convert this model to a string, containing column, value pairs.</p>
 </p>
 
 
@@ -2725,12 +2633,8 @@ function (){
 <em>Defined plugins/query.js</em>
 
 <p><p>Updates a model. This action checks if the model is not new and values have changed.
-If the model is new then the <a href='./patio_Model.html#save'> patio.Model#save</a> action is called.
-
-</p>
-<p>When updating a model you can pass values you want set as the first argument.
-
-</p>
+If the model is new then the <a href='./patio_Model.html#save'> patio.Model#save</a> action is called.</p>
+<p>When updating a model you can pass values you want set as the first argument.</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -2745,9 +2649,7 @@ someModel.update({
 
 </pre>
 
-<p>Or you can set values on the model directly
-
-</p>
+<p>Or you can set values on the model directly</p>
 <pre class='prettyprint linenums lang-js'>
 
 
@@ -2763,20 +2665,15 @@ someModel.update().then(function(){
 
 </pre>
 
-<p>Update also accepts an options object as the second argument allowing the overriding of default behavior.
-
-</p>
-<p>To override <code>useTransactions</code> you can set the <code>transaction</code> option.
-
-</p>
+<p>Update also accepts an options object as the second argument allowing the overriding of default behavior.</p>
+<p>To override <code>useTransactions</code> you can set the <code>transaction</code> option.</p>
 <pre class='prettyprint linenums lang-js'>
 
 someModel.update(null, {transaction : false});
 
 </pre>
 
-<p>You can also override the <code>reloadOnUpdate</code> property by setting the <code>reload</code> option.
-</p>
+<p>You can also override the <code>reloadOnUpdate</code> property by setting the <code>reload</code> option.</p>
 <pre class='prettyprint linenums lang-js'>
 
 someModel.update(null, {reload : false});
@@ -2874,9 +2771,7 @@ function (vals,options){
 <hr/>
 <em>Defined model.js</em>
 
-<p><p>Convert this model to a string, containing column, value pairs.
-
-</p>
+<p><p>Convert this model to a string, containing column, value pairs.</p>
 </p>
 
 

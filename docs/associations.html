@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -374,9 +379,7 @@
 <pre class='prettyprint linenums lang-js'><code>//you would not need to specify model for this
 patio.addModel(&quot;father&quot;).oneToMany(&quot;children&quot;);
 patio.addModel(&quot;child&quot;).manyToOne(&quot;father&quot;);</code></pre>
-<p>You would for the following;
-
-</p>
+<p>You would for the following;</p>
 <pre class='prettyprint linenums lang-js'><code>//it would default to the model myChild
 patio.addModel(&quot;father&quot;).oneToMany(&quot;myChildren&quot;, {model : &quot;child&quot;});
 //it would default to the model myBiologicalFather
@@ -429,32 +432,24 @@ patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {readOnly : t
 <pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;);;
 
 patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;);</code></pre>
-<p>However this table structure would not work.
-
-</p>
+<p>However this table structure would not work.</p>
 <pre class='prettyprint linenums lang-js'><code>biological_father       child
 |--id &lt;--------|        |--id
 |--name        |        |--name
                |------&gt; |--biological_father_key</code></pre>
-<p>So you would need to define your models like this.
-
-</p>
+<p>So you would need to define your models like this.</p>
 <pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;, {key : &quot;biologicalFatherKey&quot;});;
 
 patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {key : &quot;biologicalFatherKey&quot;});</code></pre>
 <ul>
 <li><strong>primaryKey</strong> : column in the associated table that the <strong>key</strong> option references. Defaults to the primary key of the associated table. Can use an array of strings for a composite key association.</li>
 </ul>
-<p>So, for the following table structure
-
-</p>
+<p>So, for the following table structure</p>
 <pre class='prettyprint linenums lang-js'><code>biological_father       child
 |--id                   |--id
 |--name &lt;------|        |--name
                |------&gt; |--step_father_key</code></pre>
-<p>You would set up the models as the following
-
-</p>
+<p>You would set up the models as the following</p>
 <pre class='prettyprint linenums lang-js'><code>
 patio.addModel(&quot;stepFather&quot;).oneToMany(&quot;children&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
 
@@ -470,9 +465,7 @@ patio.addModel(&quot;child&quot;).manyToOne(&quot;stepFather&quot;, {key : &quot
 <ul>
 <li><strong>joinTable</strong> : name of table that includes the foreign keys to both the current model and the associated model. Defaults to the name of current model and name of associated model, pluralized, sorted, and camelized.</li>
 </ul>
-<p>For example if you had a joinTable names students_classes you would have to define your models like this:
-
-</p>
+<p>For example if you had a joinTable names students_classes you would have to define your models like this:</p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
 patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {joinTable:&quot;studentsClasses&quot;});
 patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {joinTable:&quot;studentsClasses&quot;});</code></pre>
@@ -486,9 +479,7 @@ patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {joinTable:&
 </ul>
 </li>
 </ul>
-<p>Suppose you had a table structure like the following:
-
-</p>
+<p>Suppose you had a table structure like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>class              classes_students       students
 |--id &lt;----------&gt; |--class_key       |-&gt; |--id
 |--semester        |--student_key &lt;---|   |--first_name
@@ -496,9 +487,7 @@ patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {joinTable:&
 |--subject                                |--gpa
 |--description                            |--is_honors
 |--graded                                 |--classYear</code></pre>
-<p>You would set up you models like the following:
-
-</p>
+<p>You would set up you models like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
 patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {leftKey:&quot;classKey&quot;, rightKey:&quot;studentKey&quot;});
 patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {leftKey:&quot;studentKey&quot;, rightKey:&quot;classKey&quot;});</code></pre>
@@ -509,9 +498,7 @@ patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {leftKey:&qu
 </ul>
 </li>
 </ul>
-<p>Suppose you had a table structure like the following:
-
-</p>
+<p>Suppose you had a table structure like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>class              classes_students       students
 |--id              |--first_name_key &lt;--&gt; |--first_name
 |--semester        |--last_name_key &lt;---&gt; |--last_name
@@ -519,9 +506,7 @@ patio.addModel(&quot;student&quot;).manyToMany(&quot;classes&quot;, {leftKey:&qu
 |--subject &lt;-----&gt; |--subject_key         |--gpa
 |--description                            |--is_honors
 |--graded                                 |--classYear</code></pre>
-<p>You would set up you models like the following:
-
-</p>
+<p>You would set up you models like the following:</p>
 <pre class='prettyprint linenums lang-js'><code>patio.camelize = true;
 patio.addModel(&quot;class&quot;)
     .manyToMany(&quot;students&quot;, {
@@ -539,13 +524,8 @@ patio.addModel(&quot;student&quot;)
         rightKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
     });</code></pre>
 <h2>Filter Block</h2>
-<p>You may also pass a function to the association to perform additional filtering on the dataset.
-
-
-</p>
-<p>Assume the student/class relation ship defined above with the conventional keys and jointable
-
-</p>
+<p>You may also pass a function to the association to perform additional filtering on the dataset.</p>
+<p>Assume the student/class relation ship defined above with the conventional keys and jointable</p>
 <pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;)
     .manyToMany(&quot;students&quot;)
     .manyToMany(&quot;aboveAverageStudents&quot;, {model:&quot;student&quot;}, function(ds) {
@@ -567,15 +547,9 @@ patio.addModel(&quot;student&quot;)
         return ds.filter({semester : &quot;SPRING&quot;});
     });</code></pre>
 <h2><a href="./patio_Model.html#.oneToMany">oneToMany</a></h2>
-<p>One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many <a href="./patio_Model.html">Model</a> is the parent, and the many to one model is the child.
-
-</p>
-<p>For example consider a BiologicalFather and his children. The father can have many children, but a child can have only one Biological Father.
-
-</p>
-<p>Assuming you have the following table structure:
-
-</p>
+<p>One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many <a href="./patio_Model.html">Model</a> is the parent, and the many to one model is the child.</p>
+<p>For example consider a BiologicalFather and his children. The father can have many children, but a child can have only one Biological Father.</p>
+<p>Assuming you have the following table structure:</p>
 <pre class='prettyprint linenums lang-js'><code>\\biological_father       child
 \\|--id &lt;--------|        |--id
 \\|--name        |        |--name
@@ -593,13 +567,8 @@ DB.createTable(&quot;child&quot;, function(){
     this.name(String);
     this.foreignKey(&quot;biologicalFatherId&quot;, &quot;biologicalFather&quot;, {key : &quot;id&quot;});
 });</code></pre>
-<p>The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child Brad.
-
-
-</p>
-<p>You could represent the OneToMany association as follows:
-
-</p>
+<p>The table biological_father has four fathers in it. Each row in child has a bio_father_id that is a foreign key to biological father. Fred has 3 children(Bobby, Alice, and Susan) while Scott has 1 child Brad.</p>
+<p>You could represent the OneToMany association as follows:</p>
 <pre class='prettyprint linenums lang-js'><code>
  var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;)
 
@@ -621,12 +590,8 @@ patio.syncModels().then(function(){
      ]);
 
 }, errorHandler);</code></pre>
-<p>Above we created a BiologicalFather and Child model. The BiologicalFather has a static initializer(init) that sets up the oneToMany association with the Child. The Child also has a static initializer that sets up the ManyToOne association with the BiologicalFather. When saving <a href="./patio_Model.html">Models</a>s that have associations in you can nest the associations directly.
-
-</p>
-<p>You can query each model by:
-
-</p>
+<p>Above we created a BiologicalFather and Child model. The BiologicalFather has a static initializer(init) that sets up the oneToMany association with the Child. The Child also has a static initializer that sets up the ManyToOne association with the BiologicalFather. When saving <a href="./patio_Model.html">Models</a>s that have associations in you can nest the associations directly.</p>
+<p>You can query each model by:</p>
 <pre class='prettyprint linenums lang-js'><code>//syncModels only needs to be performed once
 patio.syncModels().then(function(){
     Child.findById(1).then(function(child){
@@ -643,12 +608,8 @@ patio.syncModels().then(function(){
         }, errorHandler);
     });
 }, errorHandler);</code></pre>
-<p>Notice the models set up above are <code>LAZY</code> loaded meaning the associations are not loaded until the association is accessed. When working with lazy loaded associations a Promise will <strong>always</strong> be returned,even if the value has already been cached. The promise will be resolved with the association value/s.
-
-</p>
-<p>An <code>EAGER</code> model and query would look like this:
-
-</p>
+<p>Notice the models set up above are <code>LAZY</code> loaded meaning the associations are not loaded until the association is accessed. When working with lazy loaded associations a Promise will <strong>always</strong> be returned,even if the value has already been cached. The promise will be resolved with the association value/s.</p>
+<p>An <code>EAGER</code> model and query would look like this:</p>
 <pre class='prettyprint linenums lang-js'><code>var BiologicalFather = patio.addModel(&quot;biologicalFather&quot;).oneToMany(&quot;children&quot;, {fetchType : this.fetchType.EAGER});
 var Child = patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {fetchType : this.fetchType.EAGER});
 
@@ -660,25 +621,12 @@ patio.syncModels().then(funciton(){
          //father.children.length === 3
     }, errorHandler);
 }, errorHandler);</code></pre>
-<p>When working with eager associations the eagerly loaded association will be fetched on the load of a model.
-
-</p>
-<p><strong>Note:</strong> one should choose wisely when <code>EAGER</code>ly loading associations as it can severly inhibit performance.
-
-
-
-</p>
+<p>When working with eager associations the eagerly loaded association will be fetched on the load of a model.</p>
+<p><strong>Note:</strong> one should choose wisely when <code>EAGER</code>ly loading associations as it can severly inhibit performance.</p>
 <h3><a href="./patio_Model.html#.oneToOne">oneToOne</a></h3>
-<p>Similar to <code>ONE_TO_MANY</code>  in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to <code>MANY_TO_ONE</code> , except that the <code>ONE_TO_ONE</code>  setter method saves the passed object.
-
-</p>
-<p>The reciprocal association to a ONE TO ONE is a MANY TO ONE. This be because in a one to one relationship the MANY TO ONE model&#39;s table contains the foreign key that references the ONE TO ONE (the parent) models table.
-
-
-</p>
-<p>For example consider the following schema for states and their capitals.
-
-</p>
+<p>Similar to <code>ONE_TO_MANY</code>  in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to <code>MANY_TO_ONE</code> , except that the <code>ONE_TO_ONE</code>  setter method saves the passed object.</p>
+<p>The reciprocal association to a ONE TO ONE is a MANY TO ONE. This be because in a one to one relationship the MANY TO ONE model&#39;s table contains the foreign key that references the ONE TO ONE (the parent) models table.</p>
+<p>For example consider the following schema for states and their capitals.</p>
 <pre class='prettyprint linenums lang-js'><code>//state               capital
 //|--id &lt;--------|    |--id
 //|--name        |    |--population
@@ -702,16 +650,11 @@ db.createTable(&quot;capital&quot;, function(){
     this.founded(Date);
     this.foreignKey(&quot;stateId&quot;, &quot;state&quot;, {key:&quot;id&quot;});
 });</code></pre>
-<p>In the above state and capital tables the state would contian the <code>ONE_TO_ONE</code>  relationship and captial would contain a MANY TO ONE relationship with state because captial contains a foreign key to state&#39;s id.
-
-</p>
-<p>The models for the above schema would be declared as follows:
-</p>
+<p>In the above state and capital tables the state would contian the <code>ONE_TO_ONE</code>  relationship and captial would contain a MANY TO ONE relationship with state because captial contains a foreign key to state&#39;s id.</p>
+<p>The models for the above schema would be declared as follows:</p>
 <pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
 var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);</code></pre>
-<p>To insert data into state or capital you could create each individually and set the properties manually:
-
-</p>
+<p>To insert data into state or capital you could create each individually and set the properties manually:</p>
 <pre class='prettyprint linenums lang-js'><code>//BE SURE TO SYNC YOUR MODELS BEFORE USING THEM
 var comb = require(&quot;comb&quot;),
     when = comb.when;
@@ -755,9 +698,7 @@ when(
        });
     }, errorHandler);
 }, errorHandler);</code></pre>
-<p>The above example is pretty verbose, so <code>patio</code> allows you to nest the assignment of assoications on the creation of a model.
-
-</p>
+<p>The above example is pretty verbose, so <code>patio</code> allows you to nest the assignment of assoications on the creation of a model.</p>
 <pre class='prettyprint linenums lang-js'><code>//BE SURE TO SYNC YOUR MODELS BEFORE USING THEM
 var comb = require(&quot;comb&quot;),
     when = comb.when;
@@ -796,9 +737,7 @@ when(
         });
     });    
 }, errorHandler);</code></pre>
-<p>To query:
-
-</p>
+<p>To query:</p>
 <pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function(state){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
@@ -816,20 +755,12 @@ Capital.order(&quot;name&quot;).forEach(function(capital){
     })
 });</code></pre>
 <p><strong>Note:</strong> when retrieving the state and captial properties they return a Promise because the properties are
-lazy loaded. To change this set the <strong>fetchType</strong> to <strong>EAGER</strong>.
-
-
-</p>
+lazy loaded. To change this set the <strong>fetchType</strong> to <strong>EAGER</strong>.</p>
 <h3><a href="./patio_Model.html#.manyToMany">manyToMany</a></h3>
 <p>A join table is used that has a foreign key that points to this model&#39;s primary key and a foreign key that
 points to the associated model&#39;s primary key. Each current model object can be associated with many associated
-model objects, and each associated model object can be associated with many current model objects.
-
-
-</p>
-<p>Consider the following table schema
-
-</p>
+model objects, and each associated model object can be associated with many current model objects.</p>
+<p>Consider the following table schema</p>
 <pre class='prettyprint linenums lang-js'><code>//class              classes_students       students
 //|--id &lt;----------&gt; |--class_id        |-&gt; |--id
 //|--semester        |--student_id &lt;----|   |--first_name
@@ -864,11 +795,8 @@ db.createTable(&quot;classes_students&quot;, function() {
 });</code></pre>
 <p><strong>Notice</strong> the join tables name is the plural form of each tables name in alphabetical order. In order for patio
 to correctly guess the join table you must follow this convention. Otherwise you can specify the <strong>joinTable</strong>
-option when creating the associations.
-
-</p>
-<p>Standard model definition:
-</p>
+option when creating the associations.</p>
+<p>Standard model definition:</p>
 <pre class='prettyprint linenums lang-js'><code>var Class = patio.addModel(&quot;class&quot;)
     .manyToMany(&quot;students&quot;, {fetchType:this.fetchType.EAGER, order:[sql.firstName.desc(), sql.lastName.desc()]})
     //custom filters, notice the specification of the model property.
@@ -894,16 +822,10 @@ var Student = patio.addModel(&quot;student&quot;, {
     }
 }).manyToMany(&quot;classes&quot;, {fetchType:this.fetchType.EAGER, order:sql.name.desc()});</code></pre>
 <p>In the above declarations both models fetch the default classes/students EAGERLY meaning that when
-referencing the associations it <strong>will not</strong> return a Promise.
-
-
-</p>
+referencing the associations it <strong>will not</strong> return a Promise.</p>
 <p><strong>Note:</strong> The <strong>aboveAverageStudents</strong>, <strong>averageStudents</strong>, and <strong>belowAverageStudents</strong> all use a custom
-filter to create the association.
-
-</p>
-<p>To save items using the associations you can insert items individually
-</p>
+filter to create the association.</p>
+<p>To save items using the associations you can insert items individually</p>
 <pre class='prettyprint linenums lang-js'><code>Class.save([
     {
       semester:&quot;FALL&quot;,
@@ -977,9 +899,7 @@ filter to create the association.
       classYear:&quot;Freshman&quot;
     }
  ]);</code></pre>
-<p>You can manually associate them by assigning the associations.
-
-</p>
+<p>You can manually associate them by assigning the associations.</p>
 <pre class='prettyprint linenums lang-js'><code>//Retrieve All classes and students
 comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quot;, &quot;lastName&quot;).all()).then(function(results) {
     var classes = results[0], students = results[1];
@@ -987,8 +907,7 @@ comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quo
         student.enroll(i === 0 ? classes : classes.slice(1));
     });
 });</code></pre>
-<p>Or you can save a class or student with students or classes respectively.
-</p>
+<p>Or you can save a class or student with students or classes respectively.</p>
 <pre class='prettyprint linenums lang-js'><code>Student.save({
     firstName:&quot;Zach&quot;,
     lastName:&quot;Igor&quot;,
@@ -1008,9 +927,7 @@ comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quo
         }
     ]
 });</code></pre>
-<p>To query MANY TO MANY associations:
-
-</p>
+<p>To query MANY TO MANY associations:</p>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     when = comb.when,
     format = comb.string.format;
