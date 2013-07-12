@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>patio</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/prettify.css">
     <style type="text/css">
         
@@ -74,13 +74,18 @@
             z-index: 1000;
         }
 
+        .dropdown-menu{
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
         @media (max-width:979px) {
             .subnav{
                 margin-top: auto;
             }
         }
     </style>
-    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap-responsive.min.css">
     <script type="text/javascript">
         var init = (function () {
             "use strict";
@@ -357,9 +362,7 @@
 
 <h1>Model Inheritance</h1>
 <h2><a href="http://www.martinfowler.com/eaaCatalog/classTableInheritance.html">Class Table Inheritance</a></h2>
-<p>Consider the following table model.
-
-</p>
+<p>Consider the following table model.</p>
 <pre class='prettyprint linenums lang-js'><code>          employee
             - id
             - name (varchar)
@@ -377,33 +380,21 @@
 <li><strong>manager</strong>: Another subclass of employee.</li>
 <li><strong>executive</strong>: Subclass of manager that also inherits from employee through inhertiance</li>
 </ul>
-<p>When setting up you tables the parent table should contain a String column that contains the &quot;kind&quot; of class it is. (i.e. employee, staff, manager, executive). This allows the plugin to return the proper instance type when querying the tables.
-
-</p>
-<p>All other tables that inherit from employee should contain a foreign key to their direct super class that is the same name as the primary key of the parent table(<strong>employee</strong>). So, in the above example <strong>staff</strong> and <strong>manager</strong> both contain foreign keys to employee and <strong>executive</strong> contains a foreign key to <strong>manager</strong> and they are all named <strong>id</strong>.
-
-</p>
-<p>To set up you models the base super class should contain the <a href="./patio_plugins_ClassTableInheritance.html">ClassTableInheritancePlugin</a> plugin.
-
-</p>
+<p>When setting up you tables the parent table should contain a String column that contains the &quot;kind&quot; of class it is. (i.e. employee, staff, manager, executive). This allows the plugin to return the proper instance type when querying the tables.</p>
+<p>All other tables that inherit from employee should contain a foreign key to their direct super class that is the same name as the primary key of the parent table(<strong>employee</strong>). So, in the above example <strong>staff</strong> and <strong>manager</strong> both contain foreign keys to employee and <strong>executive</strong> contains a foreign key to <strong>manager</strong> and they are all named <strong>id</strong>.</p>
+<p>To set up you models the base super class should contain the <a href="./patio_plugins_ClassTableInheritance.html">ClassTableInheritancePlugin</a> plugin.</p>
 <pre class='prettyprint linenums lang-js'><code> var Employee = patio.addModel(&quot;employee&quot;, {
       plugins : [patio.plugins.ClassTableInheritancePlugin],
  }).configure({key : &quot;kind&quot;});</code></pre>
-<p>All sub classes should just inherit their super class
-
-</p>
+<p>All sub classes should just inherit their super class</p>
 <pre class='prettyprint linenums lang-js'><code>var Staff = patio.addModel(&quot;staff&quot;, Employee)
     .manyToOne(&quot;manager&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});;
 
 var Manager = patio.addModel(&quot;manager&quot;, Employee)
     .oneToMany(&quot;staff&quot;, {key : &quot;managerId&quot;, fetchType : this.fetchType.EAGER});;</code></pre>
-<p><code>Executive</code> inherits from <code>Manager</code>, and through inheritance will also receive the <code>oneToMany</code> relationship with staff
-
-</p>
+<p><code>Executive</code> inherits from <code>Manager</code>, and through inheritance will also receive the <code>oneToMany</code> relationship with staff</p>
 <pre class='prettyprint linenums lang-js'><code> var Executive = patio.addModel(&quot;executive&quot;,  Manager);</code></pre>
-<p>Working with models
-
-</p>
+<p>Working with models</p>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
     when = comb.when;
 when(
@@ -425,12 +416,8 @@ when(
       });
  });</code></pre>
 <h3>Configuring</h3>
-<p>When setting up the <a href="./patio_plugins_ClassTableInheritance.html">ClassTableInheritancePlugin</a> plugin you should include it as a plugin on the base model, and call configure in the <code>init</code> block of the Model.
-
-</p>
-<p><strong>Options</strong>
-
-</p>
+<p>When setting up the <a href="./patio_plugins_ClassTableInheritance.html">ClassTableInheritancePlugin</a> plugin you should include it as a plugin on the base model, and call configure in the <code>init</code> block of the Model.</p>
+<p><strong>Options</strong></p>
 <ul>
 <li><strong>key</strong> : The name of the column in the parent table that contains the name of the subclass that the row in the parent table represents.</li>
 </ul>
