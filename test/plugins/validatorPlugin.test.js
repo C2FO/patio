@@ -1089,29 +1089,29 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             Model = patio.addModel("validator", {
                 plugins: [ValidatorPlugin]
             });
-            Model.validate("str_req").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  false });
-            Model.validate("str_opt").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  true  });
+            Model.validate("col1").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  false });
+            Model.validate("col2").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  true  });
             return  Model.sync();
         });
 
         it.should("throw an error if required field is null", function (next) {
-            var m = new Model({str_req: null, str_opt: "HELLO"});
+            var m = new Model({col1: null, col2: "HELLO"});
             assert.isFalse(m.isValid());
             m.save().then(next, function (err) {
-                assert.equal(err[0].message, "str_req must === HELLO got null.");
+                assert.equal(err[0].message, "col1 must === HELLO got null.");
                 next();
             });
         });
 
         it.should("not throw an error if valid and not null", function (next) {
             comb.when(
-                new Model({str_req: "HELLO", str_opt: "HELLO"}).save()
+                new Model({col1: "HELLO", col2: "HELLO"}).save()
             ).classic(next);
         });
 
         it.should("not throw an error if valid and optional fields are null", function (next) {
             comb.when(
-                new Model({str_req: "HELLO", str_opt: null}).save()
+                new Model({col1: "HELLO", col2: null}).save()
             ).classic(next);
         });
 
