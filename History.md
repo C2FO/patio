@@ -1,7 +1,7 @@
 #0.2.0 / 2013-09-30
 * Upgraded `pg`, `mysql`, and `validator`.
 * Added a v0.10 build to travis
-
+* Merged issue [#68](https://github.com/C2FO/patio/pull/68).
 
 #0.1.7 / 2012-12-4
 * Fixed issue where port was not added to connection options.
