@@ -1083,6 +1083,44 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
 
     });
 
+    it.describe("#onlyNotNull", function (it) {
+
+        it.beforeAll(function () {
+            Model = patio.addModel("validator", {
+                plugins: [ValidatorPlugin]
+            });
+            Model.validate("col1").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  false });
+            Model.validate("col2").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  true  });
+            return  Model.sync();
+        });
+
+        it.should("throw an error if required field is null", function (next) {
+            var m = new Model({col1: null, col2: "HELLO"});
+            assert.isFalse(m.isValid());
+            m.save().then(next, function (err) {
+                assert.equal(err[0].message, "col1 must === HELLO got null.");
+                next();
+            });
+        });
+
+        it.should("not throw an error if valid and not null", function (next) {
+            comb.when(
+                new Model({col1: "HELLO", col2: "HELLO"}).save()
+            ).classic(next);
+        });
+
+        it.should("not throw an error if valid and optional fields are null", function (next) {
+            comb.when(
+                new Model({col1: "HELLO", col2: null}).save()
+            ).classic(next);
+        });
+
+        it.should("not throw an error if values are undefined", function (next) {
+            new Model().save().classic(next);
+        });
+
+    });
+
     it.afterAll(function () {
         return helper.dropModels();
     });
