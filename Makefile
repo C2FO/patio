@@ -11,8 +11,8 @@ test:
 
 test-travis:
 	export NODE_PATH=lib:$(NODE_PATH) && export NODE_ENV=test \
-	&& export PATIO_DB=mysql && ./node_modules/it/bin/it \
-	&& export PATIO_DB=pg && ./node_modules/it/bin/it
+	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r tap \
+	&& export PATIO_DB=pg && ./node_modules/it/bin/it -r tap
 test-coverage:
 	rm -rf ./lib-cov && node-jscoverage ./lib ./lib-cov && export NODE_PATH=lib-cov:$(NODE_PATH) && export NODE_ENV=test \
 	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix --cov-html ./docs-md/coverage.html \
