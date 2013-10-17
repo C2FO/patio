@@ -256,10 +256,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.51</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>21823</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>5187</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>596</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.48</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>21825</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>5189</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>598</span>
                 </div>
             </td>
         </tr>
@@ -677,9 +677,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * as the first argument.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (db, block) {</code></li>
-<li class='green'><span class='hits'>80</span><code>            this.db = db;</code></li>
-<li class='green'><span class='hits'>80</span><code>            this.operations = [];</code></li>
-<li class='green'><span class='hits'>80</span><code>            block.apply(this, [this]);</code></li>
+<li class='green'><span class='hits'>81</span><code>            this.db = db;</code></li>
+<li class='green'><span class='hits'>81</span><code>            this.operations = [];</code></li>
+<li class='green'><span class='hits'>81</span><code>            block.apply(this, [this]);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -694,8 +694,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * });</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        addColumn:function (name, type, opts) {</code></li>
-<li class='green'><span class='hits'>13</span><code>            opts = opts || {};</code></li>
-<li class='green'><span class='hits'>13</span><code>            this.operations.push(merge({op:"addColumn", name:name, type:type}, opts));</code></li>
+<li class='green'><span class='hits'>14</span><code>            opts = opts || {};</code></li>
+<li class='green'><span class='hits'>14</span><code>            this.operations.push(merge({op:"addColumn", name:name, type:type}, opts));</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -933,6 +933,216 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li></ol></pre></div>
+</div>
+
+<div class="cov-section cov-section-hover cov-section-low" id="ConnectionPool.js">
+    <table class='section-table'>
+        <tr>
+            <td>
+                <div class='cov-section-header'>ConnectionPool.js</div>
+            </td>
+            <td class="cov-stats">
+                <div>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>70.97</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>192</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>62</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>18</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class='source' id="ConnectionPool.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb"),</code></li>
+<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
+<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList,</code></li>
+<li class='green'><span class=''> </span><code>    isFunction = comb.isFunction,</code></li>
+<li class='green'><span class=''> </span><code>    Queue = comb.collections.Queue,</code></li>
+<li class='green'><span class=''> </span><code>    merge = comb.merge,</code></li>
+<li class='green'><span class=''> </span><code>    define = comb.define,</code></li>
+<li class='green'><span class=''> </span><code>    Pool = comb.collections.Pool;</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>1</span><code>define(Pool, {</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>    instance: {</code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.ConnectionPool.prototype*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * ConnectionPool object used internall by the {@link patio.Database} class;</code></li>
+<li class='green'><span class=''> </span><code>         * @constructs;</code></li>
+<li class='green'><span class=''> </span><code>         * @param options</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        constructor: function (options) {</code></li>
+<li class='green'><span class='hits'>118</span><code>            options = options || {};</code></li>
+<li class='green'><span class='hits'>118</span><code>            if (!options.createConnection || !isFunction(options.createConnection)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw "patio.adapters.clients.ConnectionPool : create connection CB required.";</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>118</span><code>            if (!options.closeConnection || !isFunction(options.closeConnection)) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                throw "patio.adapters.clients.ConnectionPool : close connection CB required.";</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>118</span><code>            options.minObjects = parseInt(options.minConnections || 0, 10);</code></li>
+<li class='green'><span class='hits'>118</span><code>            options.maxObjects = parseInt(options.maxConnections || 10, 10);</code></li>
+<li class='green'><span class='hits'>118</span><code>            this.__deferredQueue = new Queue();</code></li>
+<li class='green'><span class='hits'>118</span><code>            this._options = options;</code></li>
+<li class='green'><span class='hits'>118</span><code>            this.__createConnectionCB = options.createConnection;</code></li>
+<li class='green'><span class='hits'>118</span><code>            this.__closeConnectionCB = options.closeConnection;</code></li>
+<li class='green'><span class='hits'>118</span><code>            this.__validateConnectionCB = options.validateConnection;</code></li>
+<li class='green'><span class='hits'>118</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Checks all deferred connection requests.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        __checkQueries: function () {</code></li>
+<li class='green'><span class='hits'>2213</span><code>            var fc = this.freeCount, def, defQueue = this.__deferredQueue;</code></li>
+<li class='green'><span class='hits'>2213</span><code>            while (fc-- &gt;= 0 &amp;&amp; defQueue.count) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                def = defQueue.dequeue();</code></li>
+<li class='red'><span class='nohits'>0</span><code>                var conn = this.getObject();</code></li>
+<li class='red'><span class='nohits'>0</span><code>                if (conn) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    def.callback(conn);</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    throw new Error("UNEXPECTED ERROR");</code></li>
+<li class='green'><span class=''> </span><code>                    //we didnt get a conneciton so assume we're out.</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    break;</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='red'><span class='nohits'>0</span><code>                fc--;</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Performs a query on one of the connection in this Pool.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} A promise to called back with a connection.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        getConnection: function () {</code></li>
+<li class='green'><span class='hits'>2217</span><code>            var ret = new Promise();</code></li>
+<li class='green'><span class='hits'>2217</span><code>            if (this.count &gt; this.__maxObjects) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                this.__deferredQueue.enqueue(ret);</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class=''> </span><code>                //todo override getObject to make async so creating a connetion can execute setup sql</code></li>
+<li class='green'><span class='hits'>2217</span><code>                var conn = this.getObject();</code></li>
+<li class='green'><span class='hits'>2217</span><code>                if (!conn) {</code></li>
+<li class='green'><span class=''> </span><code>                    //we need to deffer it</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    this.__deferredQueue.enqueue(ret);</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='green'><span class='hits'>2217</span><code>                    ret.callback(conn);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>2217</span><code>            if (this.count &gt; this.__maxObjects &amp;&amp; !conn) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ret.errback(new Error("Unexpected ConnectionPool error"));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>2217</span><code>            return ret.promise();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Override comb.collections.Pool to allow async validation to allow</code></li>
+<li class='green'><span class=''> </span><code>         * pools to do any calls to reset a connection if it needs to be done.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} connection the connection to return.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        returnObject: function (obj) {</code></li>
+<li class='green'><span class='hits'>2213</span><code>            this.validate(obj).then(function (valid) {</code></li>
+<li class='green'><span class='hits'>2213</span><code>                var index;</code></li>
+<li class='green'><span class='hits'>2213</span><code>                if (this.count &lt;= this.__maxObjects &amp;&amp; valid &amp;&amp; (index = this.__inUseObjects.indexOf(obj)) &gt; -1) {</code></li>
+<li class='green'><span class='hits'>2213</span><code>                    this.__inUseObjects.splice(index, 1);</code></li>
+<li class='green'><span class='hits'>2213</span><code>                    this.__freeObjects.enqueue(obj);</code></li>
+<li class='green'><span class='hits'>2213</span><code>                    this.__checkQueries();</code></li>
+<li class='green'><span class=''> </span><code>                } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    this.removeObject(obj);</code></li>
+<li class='green'><span class=''> </span><code>                }</code></li>
+<li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Removes a connection from the pool.</code></li>
+<li class='green'><span class=''> </span><code>         * @param conn</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        removeConnection: function (conn) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>            this.closeConnection(conn);</code></li>
+<li class='red'><span class='nohits'>0</span><code>            return this.removeObject(conn);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Return a connection to the pool.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} connection the connection to return.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {*} an adapter specific connection.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        returnConnection: function (connection) {</code></li>
+<li class='green'><span class='hits'>2213</span><code>            this.returnObject(connection);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        createObject: function () {</code></li>
+<li class='green'><span class='hits'>77</span><code>            return this.createConnection();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Override to implement the closing of all connections.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called when all connections are closed.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        endAll: function () {</code></li>
+<li class='green'><span class='hits'>37</span><code>            this.__ending = true;</code></li>
+<li class='green'><span class='hits'>37</span><code>            var conn, fQueue = this.__freeObjects, count = this.count, ps = [];</code></li>
+<li class='green'><span class='hits'>37</span><code>            while ((conn = this.__freeObjects.dequeue()) != undefined) {</code></li>
+<li class='green'><span class='hits'>64</span><code>                ps.push(this.closeConnection(conn));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>37</span><code>            var inUse = this.__inUseObjects;</code></li>
+<li class='green'><span class='hits'>37</span><code>            for (var i = inUse.length - 1; i &gt;= 0; i--) {</code></li>
+<li class='green'><span class='hits'>4</span><code>                ps.push(this.closeConnection(inUse[i]));</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class='hits'>37</span><code>            this.__inUseObjects.length = 0;</code></li>
+<li class='green'><span class='hits'>37</span><code>            return new PromiseList(ps).promise();</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Override to provide any additional validation. By default the promise is called back with true.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} connection the conneciton to validate.</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with a valid or invalid state.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        validate: function (conn) {</code></li>
+<li class='green'><span class='hits'>2213</span><code>            if (!this.__validateConnectionCB) {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                var ret = new Promise();</code></li>
+<li class='red'><span class='nohits'>0</span><code>                ret.callback(true);</code></li>
+<li class='red'><span class='nohits'>0</span><code>                return ret;</code></li>
+<li class='green'><span class=''> </span><code>            } else {</code></li>
+<li class='green'><span class='hits'>2213</span><code>                return this.__validateConnectionCB();</code></li>
+<li class='green'><span class=''> </span><code>            }</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Override to create connections to insert into this ConnectionPool.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        createConnection: function () {</code></li>
+<li class='green'><span class='hits'>77</span><code>            return  this.__createConnectionCB(this._options);</code></li>
+<li class='green'><span class=''> </span><code>        },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        /**</code></li>
+<li class='green'><span class=''> </span><code>         * Override to implement close connection functionality;</code></li>
+<li class='green'><span class=''> </span><code>         * @param {*} conn the connection to close;</code></li>
+<li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the connection is closed.</code></li>
+<li class='green'><span class=''> </span><code>         */</code></li>
+<li class='green'><span class=''> </span><code>        closeConnection: function (conn) {</code></li>
+<li class='green'><span class='hits'>68</span><code>            return this.__closeConnectionCB(conn);</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    },</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>    "static": {</code></li>
+<li class='green'><span class=''> </span><code>        /**@lends patio.ConnectionPool*/</code></li>
+<li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class=''> </span><code>        getPool: function (opts, createConnection, closeConnection, validateConnection) {</code></li>
+<li class='green'><span class='hits'>118</span><code>            return new this(merge(opts, {</code></li>
+<li class='green'><span class=''> </span><code>                createConnection: createConnection,</code></li>
+<li class='green'><span class=''> </span><code>                closeConnection: closeConnection,</code></li>
+<li class='green'><span class=''> </span><code>                validateConnection: validateConnection</code></li>
+<li class='green'><span class=''> </span><code>            }));</code></li>
+<li class='green'><span class=''> </span><code>        }</code></li>
+<li class='green'><span class=''> </span><code>    }</code></li>
+<li class='green'><span class=''> </span><code>}).as(module);</code></li></ol></pre></div>
 </div>
 
 <div class="cov-section cov-section-hover cov-section-low" id="index.js">
@@ -2878,214 +3088,6 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    as(exports, "PostgresDatabase");</code></li></ol></pre></div>
 </div>
 
-<div class="cov-section cov-section-hover cov-section-low" id="ConnectionPool.js">
-    <table class='section-table'>
-        <tr>
-            <td>
-                <div class='cov-section-header'>ConnectionPool.js</div>
-            </td>
-            <td class="cov-stats">
-                <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>73.33</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>190</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>60</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>16</span>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div class='source' id="ConnectionPool.js-source"><pre class='prettyprint linenums'><ol class='linenums'><li class='green'><span class='hits'>1</span><code>var comb = require("comb"),</code></li>
-<li class='green'><span class=''> </span><code>    Promise = comb.Promise,</code></li>
-<li class='green'><span class=''> </span><code>    PromiseList = comb.PromiseList,</code></li>
-<li class='green'><span class=''> </span><code>    isFunction = comb.isFunction,</code></li>
-<li class='green'><span class=''> </span><code>    Queue = comb.collections.Queue,</code></li>
-<li class='green'><span class=''> </span><code>    merge = comb.merge,</code></li>
-<li class='green'><span class=''> </span><code>    define = comb.define,</code></li>
-<li class='green'><span class=''> </span><code>    Pool = comb.collections.Pool;</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>define(Pool, {</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    instance:{</code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.ConnectionPool.prototype*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * ConnectionPool object used internall by the {@link patio.Database} class;</code></li>
-<li class='green'><span class=''> </span><code>         * @constructs;</code></li>
-<li class='green'><span class=''> </span><code>         * @param options</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        constructor:function (options) {</code></li>
-<li class='green'><span class='hits'>118</span><code>            options = options || {};</code></li>
-<li class='green'><span class='hits'>118</span><code>            if (!options.createConnection || !isFunction(options.createConnection)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw "patio.adapters.clients.ConnectionPool : create connection CB required.";</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>118</span><code>            if (!options.closeConnection || !isFunction(options.closeConnection)) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                throw "patio.adapters.clients.ConnectionPool : close connection CB required.";</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>118</span><code>            options.minObjects = parseInt(options.minConnections || 0, 10);</code></li>
-<li class='green'><span class='hits'>118</span><code>            options.maxObjects = parseInt(options.maxConnections || 10, 10);</code></li>
-<li class='green'><span class='hits'>118</span><code>            this.__deferredQueue = new Queue();</code></li>
-<li class='green'><span class='hits'>118</span><code>            this._options = options;</code></li>
-<li class='green'><span class='hits'>118</span><code>            this.__createConnectionCB = options.createConnection;</code></li>
-<li class='green'><span class='hits'>118</span><code>            this.__closeConnectionCB = options.closeConnection;</code></li>
-<li class='green'><span class='hits'>118</span><code>            this.__validateConnectionCB = options.validateConnection;</code></li>
-<li class='green'><span class='hits'>118</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Checks all deferred connection requests.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        __checkQueries:function () {</code></li>
-<li class='green'><span class='hits'>2213</span><code>            var fc = this.freeCount, def, defQueue = this.__deferredQueue;</code></li>
-<li class='green'><span class='hits'>2213</span><code>            while (fc-- &gt;= 0 &amp;&amp; defQueue.count) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                def = defQueue.dequeue();</code></li>
-<li class='red'><span class='nohits'>0</span><code>                var conn = this.getObject();</code></li>
-<li class='red'><span class='nohits'>0</span><code>                if (conn) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    def.callback(conn);</code></li>
-<li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class=''> </span><code>                    //we didnt get a conneciton so assume we're out.</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    break;</code></li>
-<li class='green'><span class=''> </span><code>                }</code></li>
-<li class='red'><span class='nohits'>0</span><code>                fc--;</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Performs a query on one of the connection in this Pool.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} A promise to called back with a connection.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        getConnection:function () {</code></li>
-<li class='green'><span class='hits'>2217</span><code>            var ret = new Promise();</code></li>
-<li class='green'><span class=''> </span><code>            //todo override getObject to make async so creating a connetion can execute setup sql</code></li>
-<li class='green'><span class='hits'>2217</span><code>            var conn = this.getObject();</code></li>
-<li class='green'><span class='hits'>2217</span><code>            if (!conn) {</code></li>
-<li class='green'><span class=''> </span><code>                //we need to deffer it</code></li>
-<li class='red'><span class='nohits'>0</span><code>                this.__deferredQueue.enqueue(ret);</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>2217</span><code>                ret.callback(conn);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2217</span><code>            return ret.promise();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Override comb.collections.Pool to allow async validation to allow</code></li>
-<li class='green'><span class=''> </span><code>         * pools to do any calls to reset a connection if it needs to be done.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} connection the connection to return.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        returnObject:function (obj) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>            if (this.count &lt;= this.__maxObjects) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>                this.validate(obj).then(function (valid) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>                    if (valid) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>                        this.__freeObjects.enqueue(obj);</code></li>
-<li class='green'><span class='hits'>2213</span><code>                        var index;</code></li>
-<li class='green'><span class='hits'>2213</span><code>                        if ((index = this.__inUseObjects.indexOf(obj)) &gt; -1) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>                            this.__inUseObjects.splice(index, 1);</code></li>
-<li class='green'><span class=''> </span><code>                        }</code></li>
-<li class='green'><span class='hits'>2213</span><code>                        this.__checkQueries();</code></li>
-<li class='green'><span class=''> </span><code>                    } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                        this.removeObject(obj);</code></li>
-<li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class=''> </span><code>                }.bind(this));</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                this.removeObject(obj);</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Removes a connection from the pool.</code></li>
-<li class='green'><span class=''> </span><code>         * @param conn</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        removeConnection:function (conn) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>            this.closeConnection(conn);</code></li>
-<li class='red'><span class='nohits'>0</span><code>            return this.removeObject(conn);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Return a connection to the pool.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} connection the connection to return.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {*} an adapter specific connection.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        returnConnection:function (connection) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>            this.returnObject(connection);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        createObject:function () {</code></li>
-<li class='green'><span class='hits'>77</span><code>            return this.createConnection();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Override to implement the closing of all connections.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called when all connections are closed.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        endAll:function () {</code></li>
-<li class='green'><span class='hits'>37</span><code>            this.__ending = true;</code></li>
-<li class='green'><span class='hits'>37</span><code>            var conn, fQueue = this.__freeObjects, count = this.count, ps = [];</code></li>
-<li class='green'><span class='hits'>37</span><code>            while ((conn = this.__freeObjects.dequeue()) != undefined) {</code></li>
-<li class='green'><span class='hits'>64</span><code>                ps.push(this.closeConnection(conn));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>37</span><code>            var inUse = this.__inUseObjects;</code></li>
-<li class='green'><span class='hits'>37</span><code>            for (var i = inUse.length - 1; i &gt;= 0; i--) {</code></li>
-<li class='green'><span class='hits'>4</span><code>                ps.push(this.closeConnection(inUse[i]));</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>37</span><code>            this.__inUseObjects.length = 0;</code></li>
-<li class='green'><span class='hits'>37</span><code>            return new PromiseList(ps).promise();</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Override to provide any additional validation. By default the promise is called back with true.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} connection the conneciton to validate.</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back with a valid or invalid state.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        validate:function (conn) {</code></li>
-<li class='green'><span class='hits'>2213</span><code>            if (!this.__validateConnectionCB) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                var ret = new Promise();</code></li>
-<li class='red'><span class='nohits'>0</span><code>                ret.callback(true);</code></li>
-<li class='red'><span class='nohits'>0</span><code>                return ret;</code></li>
-<li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>2213</span><code>                return this.__validateConnectionCB();</code></li>
-<li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Override to create connections to insert into this ConnectionPool.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        createConnection:function () {</code></li>
-<li class='green'><span class='hits'>77</span><code>            return  this.__createConnectionCB(this._options);</code></li>
-<li class='green'><span class=''> </span><code>        },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        /**</code></li>
-<li class='green'><span class=''> </span><code>         * Override to implement close connection functionality;</code></li>
-<li class='green'><span class=''> </span><code>         * @param {*} conn the connection to close;</code></li>
-<li class='green'><span class=''> </span><code>         *</code></li>
-<li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the connection is closed.</code></li>
-<li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        closeConnection:function (conn) {</code></li>
-<li class='green'><span class='hits'>68</span><code>            return this.__closeConnectionCB(conn);</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    },</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>    "static":{</code></li>
-<li class='green'><span class=''> </span><code>        /**@lends patio.ConnectionPool*/</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        getPool:function (opts, createConnection, closeConnection, validateConnection) {</code></li>
-<li class='green'><span class='hits'>118</span><code>            return new this(merge(opts, {</code></li>
-<li class='green'><span class=''> </span><code>                createConnection:createConnection,</code></li>
-<li class='green'><span class=''> </span><code>                closeConnection:closeConnection,</code></li>
-<li class='green'><span class=''> </span><code>                validateConnection:validateConnection</code></li>
-<li class='green'><span class=''> </span><code>            }));</code></li>
-<li class='green'><span class=''> </span><code>        }</code></li>
-<li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class=''> </span><code>}).as(module);</code></li></ol></pre></div>
-</div>
-
 <div class="cov-section cov-section-hover cov-section-low" id="associations/manyToMany.js">
     <table class='section-table'>
         <tr>
@@ -3884,7 +3886,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * See {@link patio.Dataset#literal}.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        literal:function (v) {</code></li>
-<li class='green'><span class='hits'>148</span><code>            return this.dataset.literal(v);</code></li>
+<li class='green'><span class='hits'>149</span><code>            return this.dataset.literal(v);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -6757,14 +6759,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {Boolean} hasSelectSource true if this dataset already has a select sources.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (db, opts) {</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this.db = db;</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this.__opts = {};</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this.__rowCb = null;</code></li>
-<li class='green'><span class='hits'>24980</span><code>            if (db) {</code></li>
-<li class='green'><span class='hits'>12932</span><code>                this.__quoteIdentifiers = db.quoteIdentifiers;</code></li>
-<li class='green'><span class='hits'>12932</span><code>                this.__identifierInputMethod = db.identifierInputMethod;</code></li>
-<li class='green'><span class='hits'>12932</span><code>                this.__identifierOutputMethod = db.identifierOutputMethod;</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this.db = db;</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this.__opts = {};</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this.__rowCb = null;</code></li>
+<li class='green'><span class='hits'>24981</span><code>            if (db) {</code></li>
+<li class='green'><span class='hits'>12933</span><code>                this.__quoteIdentifiers = db.quoteIdentifiers;</code></li>
+<li class='green'><span class='hits'>12933</span><code>                this.__identifierInputMethod = db.identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>12933</span><code>                this.__identifierOutputMethod = db.identifierOutputMethod;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -6859,20 +6861,20 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;/ul&gt;</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _splitString:function (s) {</code></li>
-<li class='green'><span class='hits'>16517</span><code>            var ret, m;</code></li>
-<li class='green'><span class='hits'>16517</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
+<li class='green'><span class='hits'>16518</span><code>            var ret, m;</code></li>
+<li class='green'><span class='hits'>16518</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
 <li class='green'><span class='hits'>136</span><code>                ret = m.slice(1);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>16381</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
+<li class='green'><span class='hits'>16382</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
 <li class='green'><span class='hits'>24</span><code>                ret = [null, m[1], m[2]];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>16357</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
+<li class='green'><span class='hits'>16358</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
 <li class='green'><span class='hits'>1538</span><code>                ret = [m[1], m[2], null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>            else {</code></li>
-<li class='green'><span class='hits'>14819</span><code>                ret = [null, s, null];</code></li>
+<li class='green'><span class='hits'>14820</span><code>                ret = [null, s, null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>16517</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>16518</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -8297,9 +8299,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {Promise} a promise that is resolved when the ADD COLUMN action is complete.</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        addColumn:function (table, column, type, opts) {</code></li>
-<li class='green'><span class='hits'>9</span><code>            var args = argsToArray(arguments).slice(1);</code></li>
-<li class='green'><span class='hits'>9</span><code>            return this.alterTable(table, function () {</code></li>
-<li class='green'><span class='hits'>9</span><code>                this.addColumn.apply(this, args);</code></li>
+<li class='green'><span class='hits'>10</span><code>            var args = argsToArray(arguments).slice(1);</code></li>
+<li class='green'><span class='hits'>10</span><code>            return this.alterTable(table, function () {</code></li>
+<li class='green'><span class='hits'>10</span><code>                this.addColumn.apply(this, args);</code></li>
 <li class='green'><span class=''> </span><code>            });</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -8527,14 +8529,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {Promise} a promise that is resolved once all ALTER TABLE operations have completed.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        alterTable:function (name, generator, block) {</code></li>
-<li class='green'><span class='hits'>80</span><code>            if (isFunction(generator)) {</code></li>
-<li class='green'><span class='hits'>80</span><code>                block = generator;</code></li>
-<li class='green'><span class='hits'>80</span><code>                generator = new AlterTableGenerator(this, block);</code></li>
+<li class='green'><span class='hits'>81</span><code>            if (isFunction(generator)) {</code></li>
+<li class='green'><span class='hits'>81</span><code>                block = generator;</code></li>
+<li class='green'><span class='hits'>81</span><code>                generator = new AlterTableGenerator(this, block);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>80</span><code>            var ret = new Promise();</code></li>
-<li class='green'><span class='hits'>80</span><code>            return this.__alterTableSqlList(name, generator.operations).chain(function (res) {</code></li>
-<li class='green'><span class='hits'>80</span><code>                return asyncArray(comb(res).pluck("1").flatten()).forEach(function (sql) {</code></li>
-<li class='green'><span class='hits'>91</span><code>                    return this.executeDdl(sql);</code></li>
+<li class='green'><span class='hits'>81</span><code>            var ret = new Promise();</code></li>
+<li class='green'><span class='hits'>81</span><code>            return this.__alterTableSqlList(name, generator.operations).chain(function (res) {</code></li>
+<li class='green'><span class='hits'>81</span><code>                return asyncArray(comb(res).pluck("1").flatten()).forEach(function (sql) {</code></li>
+<li class='green'><span class='hits'>92</span><code>                    return this.executeDdl(sql);</code></li>
 <li class='green'><span class=''> </span><code>                }, this).chain(comb("removeCachedSchema").bindIgnore(this, name));</code></li>
 <li class='green'><span class=''> </span><code>            }.bind(this));</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -8812,13 +8814,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * should be one of the operations returned by the AlterTableGenerator.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        __alterTableSql:function (table, op) {</code></li>
-<li class='green'><span class='hits'>79</span><code>            var ret = new Promise();</code></li>
-<li class='green'><span class='hits'>79</span><code>            var quotedName = op.name ? this.__quoteIdentifier(op.name) : null;</code></li>
-<li class='green'><span class='hits'>79</span><code>            var alterTableOp = null;</code></li>
-<li class='green'><span class='hits'>79</span><code>            switch (op.op) {</code></li>
+<li class='green'><span class='hits'>80</span><code>            var ret = new Promise();</code></li>
+<li class='green'><span class='hits'>80</span><code>            var quotedName = op.name ? this.__quoteIdentifier(op.name) : null;</code></li>
+<li class='green'><span class='hits'>80</span><code>            var alterTableOp = null;</code></li>
+<li class='green'><span class='hits'>80</span><code>            switch (op.op) {</code></li>
 <li class='green'><span class=''> </span><code>                case "addColumn":</code></li>
-<li class='green'><span class='hits'>13</span><code>                    alterTableOp = format("ADD COLUMN %s", this.__columnDefinitionSql(op));</code></li>
-<li class='green'><span class='hits'>13</span><code>                    break;</code></li>
+<li class='green'><span class='hits'>14</span><code>                    alterTableOp = format("ADD COLUMN %s", this.__columnDefinitionSql(op));</code></li>
+<li class='green'><span class='hits'>14</span><code>                    break;</code></li>
 <li class='green'><span class=''> </span><code>                case "dropColumn":</code></li>
 <li class='green'><span class='hits'>4</span><code>                    alterTableOp = format("DROP COLUMN %s", quotedName);</code></li>
 <li class='green'><span class='hits'>4</span><code>                    break;</code></li>
@@ -8847,7 +8849,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                default :</code></li>
 <li class='green'><span class='hits'>1</span><code>                    throw new DatabaseError("Invalid altertable operator");</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>71</span><code>            return ret.callback(format("ALTER TABLE %s %s", this.__quoteSchemaTable(table), alterTableOp)).promise();</code></li>
+<li class='green'><span class='hits'>72</span><code>            return ret.callback(format("ALTER TABLE %s %s", this.__quoteSchemaTable(table), alterTableOp)).promise();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -8856,7 +8858,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * corresponding to the DDL changes specified by the operations.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        __alterTableSqlList:function (table, operations) {</code></li>
-<li class='green'><span class='hits'>80</span><code>            return new PromiseList(operations.map(hitch(this, "__alterTableSql", table)));</code></li>
+<li class='green'><span class='hits'>81</span><code>            return new PromiseList(operations.map(hitch(this, "__alterTableSql", table)));</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -8866,15 +8868,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param column</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        __columnDefinitionSql:function (column) {</code></li>
-<li class='green'><span class='hits'>570</span><code>            var sql = [format("%s %s", this.__quoteIdentifier(column.name), this.typeLiteral(column))];</code></li>
-<li class='green'><span class='hits'>570</span><code>            column.unique &amp;&amp; sql.push(this._static.UNIQUE);</code></li>
-<li class='green'><span class='hits'>570</span><code>            (column.allowNull === false || column["null"] === false) &amp;&amp; sql.push(this._static.NOT_NULL);</code></li>
-<li class='green'><span class='hits'>570</span><code>            (column.allowNull === true || column["null"] === true) &amp;&amp; sql.push(this._static.NULL);</code></li>
-<li class='green'><span class='hits'>570</span><code>            !isUndefined(column["default"]) &amp;&amp; sql.push(format(" DEFAULT %s", this.literal(column["default"])));</code></li>
-<li class='green'><span class='hits'>570</span><code>            column.primaryKey &amp;&amp; sql.push(this._static.PRIMARY_KEY);</code></li>
-<li class='green'><span class='hits'>570</span><code>            column.autoIncrement &amp;&amp; sql.push(" " + this.autoIncrementSql);</code></li>
-<li class='green'><span class='hits'>570</span><code>            column.table &amp;&amp; sql.push(this.__columnReferencesColumnConstraintSql(column));</code></li>
-<li class='green'><span class='hits'>570</span><code>            return sql.join("");</code></li>
+<li class='green'><span class='hits'>571</span><code>            var sql = [format("%s %s", this.__quoteIdentifier(column.name), this.typeLiteral(column))];</code></li>
+<li class='green'><span class='hits'>571</span><code>            column.unique &amp;&amp; sql.push(this._static.UNIQUE);</code></li>
+<li class='green'><span class='hits'>571</span><code>            (column.allowNull === false || column["null"] === false) &amp;&amp; sql.push(this._static.NOT_NULL);</code></li>
+<li class='green'><span class='hits'>571</span><code>            (column.allowNull === true || column["null"] === true) &amp;&amp; sql.push(this._static.NULL);</code></li>
+<li class='green'><span class='hits'>571</span><code>            !isUndefined(column["default"]) &amp;&amp; sql.push(format(" DEFAULT %s", this.literal(column["default"])));</code></li>
+<li class='green'><span class='hits'>571</span><code>            column.primaryKey &amp;&amp; sql.push(this._static.PRIMARY_KEY);</code></li>
+<li class='green'><span class='hits'>571</span><code>            column.autoIncrement &amp;&amp; sql.push(" " + this.autoIncrementSql);</code></li>
+<li class='green'><span class='hits'>571</span><code>            column.table &amp;&amp; sql.push(this.__columnReferencesColumnConstraintSql(column));</code></li>
+<li class='green'><span class='hits'>571</span><code>            return sql.join("");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -9099,7 +9101,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Proxy the quoteSchemaTable method to the dataset</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        __quoteSchemaTable:function (table) {</code></li>
-<li class='green'><span class='hits'>1891</span><code>            return this.__schemaUtiltyDataset.quoteSchemaTable(table);</code></li>
+<li class='green'><span class='hits'>1892</span><code>            return this.__schemaUtiltyDataset.quoteSchemaTable(table);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -9107,7 +9109,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Proxy the quoteIdentifier method to the dataset, used for quoting tables and columns.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        __quoteIdentifier:function (v) {</code></li>
-<li class='green'><span class='hits'>755</span><code>            return this.__schemaUtiltyDataset.quoteIdentifier(v);</code></li>
+<li class='green'><span class='hits'>757</span><code>            return this.__schemaUtiltyDataset.quoteIdentifier(v);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -9149,7 +9151,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * SQL fragment specifying the type of a given column.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        typeLiteral:function (column) {</code></li>
-<li class='green'><span class='hits'>616</span><code>            return this.__typeLiteralGeneric(column);</code></li>
+<li class='green'><span class='hits'>617</span><code>            return this.__typeLiteralGeneric(column);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -9158,36 +9160,36 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * consider the type with possible modifiers.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        __typeLiteralGeneric:function (column) {</code></li>
-<li class='green'><span class='hits'>616</span><code>            var type = column.type;</code></li>
-<li class='green'><span class='hits'>616</span><code>            var meth = "__typeLiteralGeneric";</code></li>
-<li class='green'><span class='hits'>616</span><code>            var isStr = isString(type);</code></li>
-<li class='green'><span class='hits'>616</span><code>            var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1) : null;</code></li>
-<li class='green'><span class='hits'>616</span><code>            if (type === String || (isStr &amp;&amp; type.match(/string/i))) {</code></li>
+<li class='green'><span class='hits'>617</span><code>            var type = column.type;</code></li>
+<li class='green'><span class='hits'>617</span><code>            var meth = "__typeLiteralGeneric";</code></li>
+<li class='green'><span class='hits'>617</span><code>            var isStr = isString(type);</code></li>
+<li class='green'><span class='hits'>617</span><code>            var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1) : null;</code></li>
+<li class='green'><span class='hits'>617</span><code>            if (type === String || (isStr &amp;&amp; type.match(/string/i))) {</code></li>
 <li class='green'><span class='hits'>172</span><code>                meth += "String";</code></li>
-<li class='green'><span class='hits'>444</span><code>            } else if ((isStr &amp;&amp; type.match(/number/i)) || type === Number) {</code></li>
+<li class='green'><span class='hits'>445</span><code>            } else if ((isStr &amp;&amp; type.match(/number/i)) || type === Number) {</code></li>
 <li class='green'><span class='hits'>12</span><code>                meth += "Numeric";</code></li>
-<li class='green'><span class='hits'>432</span><code>            } else if ((isStr &amp;&amp; type.match(/datetime/i)) || type === DateTime) {</code></li>
+<li class='green'><span class='hits'>433</span><code>            } else if ((isStr &amp;&amp; type.match(/datetime/i)) || type === DateTime) {</code></li>
 <li class='green'><span class='hits'>8</span><code>                meth += "DateTime";</code></li>
-<li class='green'><span class='hits'>424</span><code>            } else if ((isStr &amp;&amp; type.match(/date/i)) || type === Date) {</code></li>
+<li class='green'><span class='hits'>425</span><code>            } else if ((isStr &amp;&amp; type.match(/date/i)) || type === Date) {</code></li>
 <li class='green'><span class='hits'>11</span><code>                meth += "Date";</code></li>
-<li class='green'><span class='hits'>413</span><code>            } else if ((isStr &amp;&amp; type.match(/year/i)) || type === Year) {</code></li>
+<li class='green'><span class='hits'>414</span><code>            } else if ((isStr &amp;&amp; type.match(/year/i)) || type === Year) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                meth += "Year";</code></li>
-<li class='green'><span class='hits'>411</span><code>            } else if ((isStr &amp;&amp; type.match(/timestamp/i)) || type === TimeStamp) {</code></li>
+<li class='green'><span class='hits'>412</span><code>            } else if ((isStr &amp;&amp; type.match(/timestamp/i)) || type === TimeStamp) {</code></li>
 <li class='green'><span class='hits'>4</span><code>                meth += "Timestamp";</code></li>
-<li class='green'><span class='hits'>407</span><code>            } else if ((isStr &amp;&amp; type.match(/time/i)) || type === Time) {</code></li>
+<li class='green'><span class='hits'>408</span><code>            } else if ((isStr &amp;&amp; type.match(/time/i)) || type === Time) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                meth += "Time";</code></li>
-<li class='green'><span class='hits'>405</span><code>            } else if ((isStr &amp;&amp; type.match(/decimal/i)) || type === Decimal) {</code></li>
+<li class='green'><span class='hits'>406</span><code>            } else if ((isStr &amp;&amp; type.match(/decimal/i)) || type === Decimal) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                meth += "Decimal";</code></li>
-<li class='green'><span class='hits'>403</span><code>            } else if ((isStr &amp;&amp; type.match(/float/i)) || type === Float) {</code></li>
+<li class='green'><span class='hits'>404</span><code>            } else if ((isStr &amp;&amp; type.match(/float/i)) || type === Float) {</code></li>
 <li class='green'><span class='hits'>15</span><code>                meth += "Float";</code></li>
-<li class='green'><span class='hits'>388</span><code>            } else if ((isStr &amp;&amp; type.match(/boolean/i)) || type === Boolean) {</code></li>
+<li class='green'><span class='hits'>389</span><code>            } else if ((isStr &amp;&amp; type.match(/boolean/i)) || type === Boolean) {</code></li>
 <li class='green'><span class='hits'>5</span><code>                meth += "Boolean";</code></li>
-<li class='green'><span class='hits'>383</span><code>            } else if ((isStr &amp;&amp; type.match(/buffer/i)) || type === Buffer) {</code></li>
+<li class='green'><span class='hits'>384</span><code>            } else if ((isStr &amp;&amp; type.match(/buffer/i)) || type === Buffer) {</code></li>
 <li class='green'><span class='hits'>23</span><code>                meth += "Blob";</code></li>
-<li class='green'><span class='hits'>360</span><code>            } else if (isStr &amp;&amp; isFunction(this[meth + proper])) {</code></li>
+<li class='green'><span class='hits'>361</span><code>            } else if (isStr &amp;&amp; isFunction(this[meth + proper])) {</code></li>
 <li class='green'><span class='hits'>118</span><code>                meth += proper;</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>242</span><code>                return this.__typeLiteralSpecific(column);</code></li>
+<li class='green'><span class='hits'>243</span><code>                return this.__typeLiteralSpecific(column);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>374</span><code>            return this[meth](column);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -9311,13 +9313,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * generic types specified with a native javascript type class.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        __typeLiteralSpecific:function (column) {</code></li>
-<li class='green'><span class='hits'>302</span><code>            var type = column.type;</code></li>
-<li class='green'><span class='hits'>302</span><code>            type = type === "double" ? "double precision" : type;</code></li>
-<li class='green'><span class='hits'>302</span><code>            if (type === "varchar") {</code></li>
+<li class='green'><span class='hits'>303</span><code>            var type = column.type;</code></li>
+<li class='green'><span class='hits'>303</span><code>            type = type === "double" ? "double precision" : type;</code></li>
+<li class='green'><span class='hits'>303</span><code>            if (type === "varchar") {</code></li>
 <li class='green'><span class='hits'>7</span><code>                column.size = isNumber(column.size) ? column.size : 255;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>302</span><code>            var elements = column.size || column.elements;</code></li>
-<li class='green'><span class='hits'>302</span><code>            return format("%s%s%s", type, elements ? this.literal(toArray(elements)) : "", column.unsigned ? " UNSIGNED" : "");</code></li>
+<li class='green'><span class='hits'>303</span><code>            var elements = column.size || column.elements;</code></li>
+<li class='green'><span class='hits'>303</span><code>            return format("%s%s%s", type, elements ? this.literal(toArray(elements)) : "", column.unsigned ? " UNSIGNED" : "");</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
@@ -9347,8 +9349,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @field</code></li>
 <li class='green'><span class=''> </span><code>             * */</code></li>
 <li class='green'><span class=''> </span><code>            __schemaUtiltyDataset:function () {</code></li>
-<li class='green'><span class='hits'>2839</span><code>                this.__schemaUtiltyDs = this.__schemaUtiltyDs || this.dataset;</code></li>
-<li class='green'><span class='hits'>2839</span><code>                return this.__schemaUtiltyDs;</code></li>
+<li class='green'><span class='hits'>2842</span><code>                this.__schemaUtiltyDs = this.__schemaUtiltyDs || this.dataset;</code></li>
+<li class='green'><span class='hits'>2842</span><code>                return this.__schemaUtiltyDs;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -9474,21 +9476,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>871</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>871</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>871</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>871</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>880</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>880</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>880</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>880</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>871</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>871</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>871</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>871</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>880</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>880</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>880</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>880</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>4</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>871</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>880</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>484</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>484</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>478</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9498,8 +9500,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>871</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>871</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>880</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>880</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -9951,7 +9953,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>871</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>880</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10761,13 +10763,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>1941</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>1941</span><code>            try {</code></li>
-<li class='green'><span class='hits'>1941</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>1950</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>1950</span><code>            try {</code></li>
+<li class='green'><span class='hits'>1950</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>1941</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>1941</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>1950</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>1950</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11570,7 +11572,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>14411</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>14429</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12170,7 +12172,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3042</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3069</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -12402,8 +12404,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;b&gt;This method should not be called directly by user code.&lt;/b&gt;</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        executeDdl: function (sql, opts) {</code></li>
-<li class='green'><span class='hits'>568</span><code>            opts = opts || {};</code></li>
-<li class='green'><span class='hits'>568</span><code>            return this.executeDui(sql, opts);</code></li>
+<li class='green'><span class='hits'>569</span><code>            opts = opts || {};</code></li>
+<li class='green'><span class='hits'>569</span><code>            return this.executeDui(sql, opts);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -12413,8 +12415,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;b&gt;This method should not be called directly by user code.&lt;/b&gt;</code></li>
 <li class='green'><span class=''> </span><code>         **/</code></li>
 <li class='green'><span class=''> </span><code>        executeDui: function (sql, opts) {</code></li>
-<li class='green'><span class='hits'>2588</span><code>            opts = opts || {};</code></li>
-<li class='green'><span class='hits'>2588</span><code>            return this.execute(sql, opts);</code></li>
+<li class='green'><span class='hits'>2589</span><code>            opts = opts || {};</code></li>
+<li class='green'><span class='hits'>2589</span><code>            return this.execute(sql, opts);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12537,7 +12539,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * databases cached schemas.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        removeCachedSchema: function (table) {</code></li>
-<li class='green'><span class='hits'>459</span><code>            if (this.schemas &amp;&amp; !isEmpty(this.schemas)) {</code></li>
+<li class='green'><span class='hits'>460</span><code>            if (this.schemas &amp;&amp; !isEmpty(this.schemas)) {</code></li>
 <li class='green'><span class='hits'>180</span><code>                delete this.schemas[this.__quoteSchemaTable(table)];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -12740,9 +12742,9 @@ td.cov-stats {
 <li class='green'><span class='hits'>1782</span><code>                var orig = this[n];</code></li>
 <li class='green'><span class='hits'>1782</span><code>                repl.push({name: n, orig: orig});</code></li>
 <li class='green'><span class='hits'>1782</span><code>                this[n] = function (arg1, arg2) {</code></li>
-<li class='green'><span class='hits'>5537</span><code>                    var ret;</code></li>
-<li class='green'><span class='hits'>5537</span><code>                    try {</code></li>
-<li class='green'><span class='hits'>5537</span><code>                        if (n === "transaction") {</code></li>
+<li class='green'><span class='hits'>5538</span><code>                    var ret;</code></li>
+<li class='green'><span class='hits'>5538</span><code>                    try {</code></li>
+<li class='green'><span class='hits'>5538</span><code>                        if (n === "transaction") {</code></li>
 <li class='green'><span class=''> </span><code>                            //if its a transaction with no options then we just create a promise from what ever is returned</code></li>
 <li class='green'><span class='hits'>1685</span><code>                            if (isFunction(arg1)) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                                ret = when(arg1.apply(this, [this]));</code></li>
@@ -12757,14 +12759,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                                }</code></li>
 <li class='green'><span class=''> </span><code>                            }</code></li>
 <li class='green'><span class=''> </span><code>                        } else {</code></li>
-<li class='green'><span class='hits'>3852</span><code>                            ret = orig.apply(this, argsToArray(arguments).concat(conn));</code></li>
+<li class='green'><span class='hits'>3853</span><code>                            ret = orig.apply(this, argsToArray(arguments).concat(conn));</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>                        }</code></li>
 <li class='green'><span class=''> </span><code>                    } catch (e) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                        ret = new Promise().errback(e);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
-<li class='green'><span class='hits'>5537</span><code>                    promises.push(when(ret));</code></li>
-<li class='green'><span class='hits'>5537</span><code>                    return ret.promise();</code></li>
+<li class='green'><span class='hits'>5538</span><code>                    promises.push(when(ret));</code></li>
+<li class='green'><span class='hits'>5538</span><code>                    return ret.promise();</code></li>
 <li class='green'><span class=''> </span><code>                };</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
 <li class='green'><span class='hits'>891</span><code>            try {</code></li>
@@ -13568,7 +13570,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='green'><span class='hits'>5</span><code>                    return ds.columns.chain(function (columns) {</code></li>
 <li class='green'><span class='hits'>5</span><code>                        if (columns.indexOf(c) === -1) {</code></li>
-<li class='green'><span class='hits'>1</span><code>                            db.addColumn(table, c, "integer", {"default":-1, allowNull:false});</code></li>
+<li class='green'><span class='hits'>2</span><code>                            db.addColumn(table, c, "integer", {"default":-1, allowNull:false});</code></li>
 <li class='green'><span class=''> </span><code>                        }</code></li>
 <li class='green'><span class=''> </span><code>                    });</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
@@ -13898,9 +13900,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
 <li class='green'><span class=''> </span><code>            //We initialize these here because otherwise</code></li>
 <li class='green'><span class=''> </span><code>            //the will be blank because of recursive dependencies.</code></li>
-<li class='green'><span class='hits'>24980</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
-<li class='green'><span class='hits'>24980</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
+<li class='green'><span class='hits'>24981</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14185,12 +14187,12 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {String} a literal representation of the value.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        literal:function (v) {</code></li>
-<li class='green'><span class='hits'>37821</span><code>            if (isInstanceOf(v, LiteralString)) {</code></li>
+<li class='green'><span class='hits'>37822</span><code>            if (isInstanceOf(v, LiteralString)) {</code></li>
 <li class='green'><span class='hits'>194</span><code>                return "" + v;</code></li>
-<li class='green'><span class='hits'>37627</span><code>            } else if (isString(v)) {</code></li>
+<li class='green'><span class='hits'>37628</span><code>            } else if (isString(v)) {</code></li>
 <li class='green'><span class='hits'>5379</span><code>                return this._literalString(v);</code></li>
-<li class='green'><span class='hits'>32248</span><code>            } else if (isNumber(v)) {</code></li>
-<li class='green'><span class='hits'>6053</span><code>                return this._literalNumber(v);</code></li>
+<li class='green'><span class='hits'>32249</span><code>            } else if (isNumber(v)) {</code></li>
+<li class='green'><span class='hits'>6054</span><code>                return this._literalNumber(v);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>26195</span><code>            else if (isInstanceOf(v, Expression)) {</code></li>
 <li class='green'><span class='hits'>23935</span><code>                return this._literalExpression(v);</code></li>
@@ -14711,18 +14713,18 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * quote the name with {@link patio.dataset._Sql#_quotedIdentifier}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        quoteIdentifier:function (name) {</code></li>
-<li class='green'><span class='hits'>28541</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
+<li class='green'><span class='hits'>28544</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
 <li class='green'><span class='hits'>228</span><code>                return name;</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>28313</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
+<li class='green'><span class='hits'>28316</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
 <li class='green'><span class='hits'>19326</span><code>                    name = name.value;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>28313</span><code>                name = this.inputIdentifier(name);</code></li>
-<li class='green'><span class='hits'>28313</span><code>                if (this.quoteIdentifiers) {</code></li>
+<li class='green'><span class='hits'>28316</span><code>                name = this.inputIdentifier(name);</code></li>
+<li class='green'><span class='hits'>28316</span><code>                if (this.quoteIdentifiers) {</code></li>
 <li class='green'><span class='hits'>21289</span><code>                    name = this._quotedIdentifier(name)</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>28313</span><code>            return name;</code></li>
+<li class='green'><span class='hits'>28316</span><code>            return name;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14732,9 +14734,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * identifierOutputMethod.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        inputIdentifier:function (v) {</code></li>
-<li class='green'><span class='hits'>28446</span><code>            var i = this.__identifierInputMethod;</code></li>
-<li class='green'><span class='hits'>28446</span><code>            v = v.toString(this);</code></li>
-<li class='green'><span class='hits'>28446</span><code>            return !isUndefinedOrNull(i) ?</code></li>
+<li class='green'><span class='hits'>28449</span><code>            var i = this.__identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>28449</span><code>            v = v.toString(this);</code></li>
+<li class='green'><span class='hits'>28449</span><code>            return !isUndefinedOrNull(i) ?</code></li>
 <li class='green'><span class=''> </span><code>                isFunction(v[i]) ?</code></li>
 <li class='green'><span class=''> </span><code>                    v[i]() :</code></li>
 <li class='green'><span class=''> </span><code>                    isFunction(comb[i]) ?</code></li>
@@ -14768,10 +14770,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * quoted (if quoting identifiers)</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        quoteSchemaTable:function (table) {</code></li>
-<li class='green'><span class='hits'>1910</span><code>            var parts = this.schemaAndTable(table);</code></li>
-<li class='green'><span class='hits'>1910</span><code>            var schema = parts[0];</code></li>
-<li class='green'><span class='hits'>1910</span><code>            table = parts[1];</code></li>
-<li class='green'><span class='hits'>1910</span><code>            return string.format("%s%s", schema ? this.quoteIdentifier(schema) + "." : "", this.quoteIdentifier(table));</code></li>
+<li class='green'><span class='hits'>1911</span><code>            var parts = this.schemaAndTable(table);</code></li>
+<li class='green'><span class='hits'>1911</span><code>            var schema = parts[0];</code></li>
+<li class='green'><span class='hits'>1911</span><code>            table = parts[1];</code></li>
+<li class='green'><span class='hits'>1911</span><code>            return string.format("%s%s", schema ? this.quoteIdentifier(schema) + "." : "", this.quoteIdentifier(table));</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -14780,11 +14782,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Split the schema information from the table</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        schemaAndTable:function (tableName) {</code></li>
-<li class='green'><span class='hits'>2101</span><code>            var sch = this.db ? this.db.defaultSchema || null : null;</code></li>
-<li class='green'><span class='hits'>2101</span><code>            if (isString(tableName)) {</code></li>
-<li class='green'><span class='hits'>907</span><code>                var parts = this._splitString(tableName);</code></li>
-<li class='green'><span class='hits'>907</span><code>                var s = parts[0], table = parts[1];</code></li>
-<li class='green'><span class='hits'>907</span><code>                return [s || sch, table];</code></li>
+<li class='green'><span class='hits'>2102</span><code>            var sch = this.db ? this.db.defaultSchema || null : null;</code></li>
+<li class='green'><span class='hits'>2102</span><code>            if (isString(tableName)) {</code></li>
+<li class='green'><span class='hits'>908</span><code>                var parts = this._splitString(tableName);</code></li>
+<li class='green'><span class='hits'>908</span><code>                var s = parts[0], table = parts[1];</code></li>
+<li class='green'><span class='hits'>908</span><code>                return [s || sch, table];</code></li>
 <li class='green'><span class='hits'>1194</span><code>            } else if (isInstanceOf(tableName, QualifiedIdentifier)) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                return [tableName.table, tableName.column]</code></li>
 <li class='green'><span class='hits'>1191</span><code>            } else if (isInstanceOf(tableName, Identifier)) {</code></li>
@@ -14906,11 +14908,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return SQL fragment for a number.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _literalNumber:function (num) {</code></li>
-<li class='green'><span class='hits'>6053</span><code>            var ret = "" + num;</code></li>
-<li class='green'><span class='hits'>6053</span><code>            if (isNaN(num) || num == Infinity) {</code></li>
+<li class='green'><span class='hits'>6054</span><code>            var ret = "" + num;</code></li>
+<li class='green'><span class='hits'>6054</span><code>            if (isNaN(num) || num == Infinity) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                ret = string.format("'%s'", ret);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>6053</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>6054</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -15625,7 +15627,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type String</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            identifierInputMethod:function () {</code></li>
-<li class='green'><span class='hits'>12927</span><code>                return this.__identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>12928</span><code>                return this.__identifierInputMethod;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -15637,7 +15639,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type String</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            identifierOutputMethod:function () {</code></li>
-<li class='green'><span class='hits'>12927</span><code>                return this.__identifierOutputMethod;</code></li>
+<li class='green'><span class='hits'>12928</span><code>                return this.__identifierOutputMethod;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -15650,7 +15652,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @default true</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            quoteIdentifiers:function () {</code></li>
-<li class='green'><span class='hits'>12897</span><code>                return this.__quoteIdentifiers;</code></li>
+<li class='green'><span class='hits'>12898</span><code>                return this.__quoteIdentifiers;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -15794,10 +15796,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>24980</span><code>            if (!Dataset) {</code></li>
+<li class='green'><span class='hits'>24981</span><code>            if (!Dataset) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                Dataset = require("../index").Dataset;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -18038,17 +18040,17 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>24980</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>174860</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>174860</span><code>                    this[type + "Join"] = conditionedJoin.bind(this, type);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>174867</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>174867</span><code>                    this[type + "Join"] = conditionedJoin.bind(this, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>124900</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>124900</span><code>                    this[type + "Join"] = unConditionJoin.bind(this, type);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>124905</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>124905</span><code>                    this[type + "Join"] = unConditionJoin.bind(this, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
@@ -20739,8 +20741,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function () {</code></li>
-<li class='green'><span class='hits'>24980</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>24980</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>24981</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -21419,7 +21421,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // Whether this dataset quotes identifiers.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            quoteIdentifiers:function(){</code></li>
-<li class='green'><span class='hits'>41388</span><code>                return this.__quoteIdentifiers;</code></li>
+<li class='green'><span class='hits'>41391</span><code>                return this.__quoteIdentifiers;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether this dataset will provide accurate number of rows matched for</code></li>
