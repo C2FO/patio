@@ -1,3 +1,6 @@
+#0.2.1 / 2013-10-16
+* Fixed issue in connection pool where a connection would never be returned to the pool.
+
 #0.2.0 / 2013-09-30
 * Upgraded `pg`, `mysql`, and `validator`.
 * Added a v0.10 build to travis
