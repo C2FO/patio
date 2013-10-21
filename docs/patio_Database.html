@@ -640,6 +640,18 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Database.html#__createViewSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __createViewSql
+
+                            </a></li>
+                            
                             <li><a href="./patio_Database.html#__defaultIndexName">
                                 
                                 
@@ -673,6 +685,18 @@
                                 <span class="label label-important">P</span>
                                 
                                 __dropTableSql
+
+                            </a></li>
+                            
+                            <li><a href="./patio_Database.html#__dropViewSql">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __dropViewSql
 
                             </a></li>
                             
@@ -2231,39 +2255,39 @@ function (){
     <pre class="prettyprint linenums lang-js">
 function (table,op){
    var ret = new Promise();
-   var quotedName = op.name ? this.__quoteIdentifier(op.name) : null;
+   var quotedName = op.name ? this.__quoteIdentifier(op.name): null;
    var alterTableOp = null;
    switch (op.op) {
-       case &quot;addColumn&quot;:
-           alterTableOp = format(&quot;ADD COLUMN %s&quot;, this.__columnDefinitionSql(op));
-           break;
-       case &quot;dropColumn&quot;:
-           alterTableOp = format(&quot;DROP COLUMN %s&quot;, quotedName);
-           break;
-       case &quot;renameColumn&quot;:
-           alterTableOp = format(&quot;RENAME COLUMN %s TO %s&quot;, quotedName, this.__quoteIdentifier(op.newName));
-           break;
-       case &quot;setColumnType&quot;:
-           alterTableOp = format(&quot;ALTER COLUMN %s TYPE %s&quot;, quotedName, this.typeLiteral(op));
-           break;
-       case &quot;setColumnDefault&quot;:
-           alterTableOp = format(&quot;ALTER COLUMN %s SET DEFAULT %s&quot;, quotedName, this.literal(op[&quot;default&quot;]));
-           break;
-       case &quot;setColumnNull&quot;:
-           alterTableOp = format(&quot;ALTER COLUMN %s %s NOT NULL&quot;, quotedName, op[&quot;null&quot;] ? &quot;DROP&quot; : &quot;SET&quot;);
-           break;
-       case &quot;addIndex&quot;:
-           return ret.callback(this.__indexDefinitionSql(table, op)).promise();
-       case &quot;dropIndex&quot;:
-           return ret.callback(this.__dropIndexSql(table, op)).promise();
-       case &quot;addConstraint&quot;:
-           alterTableOp = format(&quot;ADD %s&quot;, this.__constraintDefinitionSql(op));
-           break;
-       case &quot;dropConstraint&quot;:
-           alterTableOp = format(&quot;DROP CONSTRAINT %s&quot;, quotedName);
-           break;
-       default :
-           throw new DatabaseError(&quot;Invalid altertable operator&quot;);
+   case &quot;addColumn&quot;:
+       alterTableOp = format(&quot;ADD COLUMN %s&quot;, this.__columnDefinitionSql(op));
+       break;
+   case &quot;dropColumn&quot;:
+       alterTableOp = format(&quot;DROP COLUMN %s&quot;, quotedName);
+       break;
+   case &quot;renameColumn&quot;:
+       alterTableOp = format(&quot;RENAME COLUMN %s TO %s&quot;, quotedName, this.__quoteIdentifier(op.newName));
+       break;
+   case &quot;setColumnType&quot;:
+       alterTableOp = format(&quot;ALTER COLUMN %s TYPE %s&quot;, quotedName, this.typeLiteral(op));
+       break;
+   case &quot;setColumnDefault&quot;:
+       alterTableOp = format(&quot;ALTER COLUMN %s SET DEFAULT %s&quot;, quotedName, this.literal(op[&quot;default&quot;]));
+       break;
+   case &quot;setColumnNull&quot;:
+       alterTableOp = format(&quot;ALTER COLUMN %s %s NOT NULL&quot;, quotedName, op[&quot;null&quot;] ? &quot;DROP&quot;: &quot;SET&quot;);
+       break;
+   case &quot;addIndex&quot;:
+       return ret.callback(this.__indexDefinitionSql(table, op)).promise();
+   case &quot;dropIndex&quot;:
+       return ret.callback(this.__dropIndexSql(table, op)).promise();
+   case &quot;addConstraint&quot;:
+       alterTableOp = format(&quot;ADD %s&quot;, this.__constraintDefinitionSql(op));
+       break;
+   case &quot;dropConstraint&quot;:
+       alterTableOp = format(&quot;DROP CONSTRAINT %s&quot;, quotedName);
+       break;
+   default :
+       throw new DatabaseError(&quot;Invalid altertable operator&quot;);
    }
    return ret.callback(format(&quot;ALTER TABLE %s %s&quot;, this.__quoteSchemaTable(table), alterTableOp)).promise();
            
@@ -2521,7 +2545,7 @@ function (column){
     <pre class="prettyprint linenums lang-js">
 function (constraint){
    return format(&quot;FOREIGN KEY %s%s&quot;, this.literal(constraint.columns.map(function (c) {
-       return isString(c) ? sql.stringToIdentifier(c) : c;
+       return isString(c) ? sql.stringToIdentifier(c): c;
    })), this.__columnReferencesSql(constraint));
            
 }
@@ -2562,27 +2586,27 @@ function (constraint){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (constraint){
-   var ret = [constraint.name ? format(&quot;CONSTRAINT %s &quot;, this.__quoteIdentifier(constraint.name)) : &quot;&quot;];
+   var ret = [constraint.name ? format(&quot;CONSTRAINT %s &quot;, this.__quoteIdentifier(constraint.name)): &quot;&quot;];
    switch (constraint.type) {
-       case &quot;check&quot;:
-           var check = constraint.check;
-           ret.push(format(&quot;CHECK %s&quot;, this.__filterExpr(isArray(check) &amp;&amp; check.length === 1 ? check[0] : check)));
-           break;
-       case &quot;primaryKey&quot;:
-           ret.push(format(&quot;PRIMARY KEY %s&quot;, this.literal(constraint.columns.map(function (c) {
-               return isString(c) ? sql.stringToIdentifier(c) : c;
-           }))));
-           break;
-       case &quot;foreignKey&quot;:
-           ret.push(this.__columnReferencesTableConstraintSql(constraint));
-           break;
-       case &quot;unique&quot;:
-           ret.push(format(&quot;UNIQUE %s&quot;, this.literal(constraint.columns.map(function (c) {
-               return isString(c) ? sql.stringToIdentifier(c) : c;
-           }))));
-           break;
-       default:
-           throw new DatabaseError(format(&quot;Invalid constriant type %s, should be &#x27;check&#x27;, &#x27;primaryKey&#x27;, foreignKey&#x27;, or &#x27;unique&#x27;&quot;, constraint.type));
+   case &quot;check&quot;:
+       var check = constraint.check;
+       ret.push(format(&quot;CHECK %s&quot;, this.__filterExpr(isArray(check) &amp;&amp; check.length === 1 ? check[0]: check)));
+       break;
+   case &quot;primaryKey&quot;:
+       ret.push(format(&quot;PRIMARY KEY %s&quot;, this.literal(constraint.columns.map(function (c) {
+           return isString(c) ? sql.stringToIdentifier(c): c;
+       }))));
+       break;
+   case &quot;foreignKey&quot;:
+       ret.push(this.__columnReferencesTableConstraintSql(constraint));
+       break;
+   case &quot;unique&quot;:
+       ret.push(format(&quot;UNIQUE %s&quot;, this.literal(constraint.columns.map(function (c) {
+           return isString(c) ? sql.stringToIdentifier(c): c;
+       }))));
+       break;
+   default:
+       throw new DatabaseError(format(&quot;Invalid constriant type %s, should be &#x27;check&#x27;, &#x27;primaryKey&#x27;, foreignKey&#x27;, or &#x27;unique&#x27;&quot;, constraint.type));
    }
    return ret.join(&quot;&quot;);
            
@@ -2679,7 +2703,7 @@ function (name,generator,options){
        return new PromiseList(ps);
    }, this);
    if (promises.length) {
-       new PromiseList(promises).then(ret, hitch(ret, e ? &quot;callback&quot; : &quot;errback&quot;));
+       new PromiseList(promises).then(ret, hitch(ret, e ? &quot;callback&quot;: &quot;errback&quot;));
    } else {
        ret.callback();
    }
@@ -2727,7 +2751,57 @@ function (name,generator,options){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,generator,options){
-   return format(&quot;CREATE %sTABLE %s (%s)&quot;, options.temp ? this.temporaryTableSql : &quot;&quot;, this.__quoteSchemaTable(name), this.__columnListSql(generator));
+   return format(&quot;CREATE %sTABLE %s (%s)&quot;, options.temp ? this.temporaryTableSql: &quot;&quot;, this.__quoteSchemaTable(name), this.__columnListSql(generator));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__createViewSql"></a>
+    <h3>
+        __createViewSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p></p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>source</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,source,opts){
+   var sql = &quot;CREATE&quot;;
+   opts = opts || {};
+   if (opts.replace) {
+       sql += &quot; OR REPLACE&quot;;
+   }
+   sql += &quot; VIEW %s AS %s&quot;;
+   return format(sql, this.__quoteSchemaTable(name), source);
            
 }
     </pre>
@@ -2777,7 +2851,7 @@ function (tableName,columns){
    }
    index.push(table);
    index = index.concat(columns.map(function (c) {
-       return isString(c) ? c : this.literal(c).replace(/\W/g, &quot;&quot;);
+       return isString(c) ? c: this.literal(c).replace(/\W/g, &quot;&quot;);
    }, this));
    index.push(&quot;index&quot;);
    return index.join(this._static.UNDERSCORE);
@@ -2870,6 +2944,48 @@ function (name){
 
 
   
+    <a name="__dropViewSql"></a>
+    <h3>
+        __dropViewSql
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p></p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : </li>
+    
+        <li> <em>opts</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name,opts){
+   return format(&quot;DROP VIEW %s&quot;, this.__quoteSchemaTable(name))
+           
+}
+    </pre>
+    
+
+
+  
     <a name="__filterExpr"></a>
     <h3>
         __filterExpr
@@ -2953,8 +3069,8 @@ function (tableName,index){
    } else if (index.where) {
        throw new DatabaseError(&quot;Partial indexes are not supported for this database&quot;);
    } else {
-       return format(&quot;CREATE %sINDEX %s ON %s %s&quot;, index.unique ? &quot;UNIQUE &quot; : &quot;&quot;, this.__quoteIdentifier(indexName), this.__quoteSchemaTable(tableName), this.literal(index.columns.map(function (c) {
-           return isString(c) ? new Identifier(c) : c;
+       return format(&quot;CREATE %sINDEX %s ON %s %s&quot;, index.unique ? &quot;UNIQUE &quot;: &quot;&quot;, this.__quoteIdentifier(indexName), this.__quoteSchemaTable(tableName), this.literal(index.columns.map(function (c) {
+           return isString(c) ? new Identifier(c): c;
        })));
    }
            
@@ -3318,7 +3434,7 @@ function (column){
    var type = column.type;
    var meth = &quot;__typeLiteralGeneric&quot;;
    var isStr = isString(type);
-   var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1) : null;
+   var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1): null;
    if (type === String || (isStr &amp;&amp; type.match(/string/i))) {
        meth += &quot;String&quot;;
    } else if ((isStr &amp;&amp; type.match(/number/i)) || type === Number) {
@@ -3636,7 +3752,7 @@ function (column){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column){
-   return column.size ? format(&quot;numeric(%s)&quot;, array.toArray(column.size).join(&#x27;, &#x27;)) : column.isInt ? &quot;integer&quot; : column.isDouble ? &quot;double precision&quot; : &quot;numeric&quot;;
+   return column.size ? format(&quot;numeric(%s)&quot;, array.toArray(column.size).join(&#x27;, &#x27;)): column.isInt ? &quot;integer&quot;: column.isDouble ? &quot;double precision&quot;: &quot;numeric&quot;;
            
 }
     </pre>
@@ -3676,7 +3792,7 @@ function (column){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column){
-   return column.text ? &quot;text&quot; : format(&quot;%s(%s)&quot;, column.fixed ? &quot;char&quot; : &quot;varchar&quot;, column.size || 255);
+   return column.text ? &quot;text&quot;: format(&quot;%s(%s)&quot;, column.fixed ? &quot;char&quot;: &quot;varchar&quot;, column.size || 255);
            
 }
     </pre>
@@ -3837,12 +3953,12 @@ function (column){
     <pre class="prettyprint linenums lang-js">
 function (column){
    var type = column.type;
-   type = type === &quot;double&quot; ? &quot;double precision&quot; : type;
+   type = type === &quot;double&quot; ? &quot;double precision&quot;: type;
    if (type === &quot;varchar&quot;) {
-       column.size = isNumber(column.size) ? column.size : 255;
+       column.size = isNumber(column.size) ? column.size: 255;
    }
    var elements = column.size || column.elements;
-   return format(&quot;%s%s%s&quot;, type, elements ? this.literal(toArray(elements)) : &quot;&quot;, column.unsigned ? &quot; UNSIGNED&quot; : &quot;&quot;);
+   return format(&quot;%s%s%s&quot;, type, elements ? this.literal(toArray(elements)): &quot;&quot;, column.unsigned ? &quot; UNSIGNED&quot;: &quot;&quot;);
            
 }
     </pre>
@@ -4163,7 +4279,7 @@ function (conn,opts){
     table.setColumnType(&quot;value&quot;, &quot;float&quot;);
     table.setColumnDefault(&quot;value&quot;, &quot;float&quot;);
     table.addIndex([&quot;group&quot;, &quot;category&quot;]);
-    table.dropIndex [:group, :category]
+    table.dropIndex([&quot;group&quot;, &quot;category&quot;]);
   });
 
   //using this
@@ -4174,7 +4290,7 @@ function (conn,opts){
     this.setColumnType(&quot;value&quot;, &quot;float&quot;);
     this.setColumnDefault(&quot;value&quot;, &quot;float&quot;);
     this.addIndex([&quot;group&quot;, &quot;category&quot;]);
-    this.dropIndex [:group, :category]
+    this.dropIndex([&quot;group&quot;, &quot;category&quot;]);
   });
 
   //This will not work
@@ -4414,7 +4530,7 @@ function (options){
         <pre class="prettyprint linenums lang-js">
 DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
      //=&gt; CREATE OR REPLACE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
-  DB.createOrReplaceView(&quot;miscItems&quot;, DB[:items].filter({category : &#x27;misc&#x27;}));
+  DB.createOrReplaceView(&quot;miscItems&quot;, DB.from(&quot;items&quot;).filter({category : &#x27;misc&#x27;}));
     //=&gt; CREATE OR REPLACE VIEW miscItems AS SELECT * FROM items WHERE category = &#x27;misc&#x27;
         </pre>
 
@@ -4427,6 +4543,8 @@ DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE p
     
         <li> <em>source</em>  : <p>the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</p>
 </li>
+    
+        <li> <em>opts</em>  : </li>
     
      </ul>
 
@@ -4444,11 +4562,13 @@ DB.createOrReplaceView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE p
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (name,source){
+function (name,source,opts){
    if (isInstanceOf(source, Dataset)) {
        source = source.sql;
    }
-   return this.executeDdl(format(&quot;CREATE OR REPLACE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source)).chain(function () {
+   opts = opts || {};
+   opts.replace = true;
+   return this.executeDdl(this.__createViewSql(name, source, opts)).chain(function () {
        this.removeCachedSchema(name);
    }.bind(this));
            
@@ -4552,7 +4672,7 @@ function (name,options,block){
    }
    this.removeCachedSchema(name);
    if (isInstanceOf(options, SchemaGenerator)) {
-       options = {generator:options};
+       options = {generator: options};
    }
    var generator = options.generator || new SchemaGenerator(this, block);
    return this.__createTableFromGenerator(name, generator, options)
@@ -4643,7 +4763,7 @@ function (name,options,block){
         <pre class="prettyprint linenums lang-js">
 DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt; 100&quot;);
      //=&gt; CREATE VIEW cheapItems AS SELECT * FROM items WHERE price &lt; 100
-  DB.createView(&quot;miscItems&quot;, DB[:items].filter({category : &#x27;misc&#x27;}));
+  DB.createView(&quot;miscItems&quot;, DB.from(&quot;items&quot;).filter({category : &#x27;misc&#x27;}));
     //=&gt; CREATE  VIEW miscItems AS SELECT * FROM items WHERE category = &#x27;misc&#x27;
         </pre>
 
@@ -4657,6 +4777,8 @@ DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt;
         <li> <em>source</em>  : <p>the SQL or <a href='./patio_Dataset.html#'> patio.Dataset</a> to use as the source of the view.</p>
 </li>
     
+        <li> <em>opts</em>  : </li>
+    
      </ul>
 
 
@@ -4665,11 +4787,11 @@ DB.createView(&quot;cheapItems&quot;, &quot;SELECT * FROM items WHERE price &lt;
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (name,source){
+function (name,source,opts){
    if (isInstanceOf(source, Dataset)) {
        source = source.sql;
    }
-   return this.executeDdl(format(&quot;CREATE VIEW %s AS %s&quot;, this.__quoteSchemaTable(name), source));
+   return this.executeDdl(this.__createViewSql(name, source, opts));
            
 }
     </pre>
@@ -4925,12 +5047,12 @@ function (names){
    return serial(names.filter(function (t) {
        return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
    }).map(function (name) {
-       return function () {
-           return this.executeDdl(this.__dropTableSql(name)).chain(function () {
-               return this.removeCachedSchema(name);
-           }.bind(this));
-       }.bind(this);
-   }.bind(this)));
+           return function () {
+               return this.executeDdl(this.__dropTableSql(name)).chain(function () {
+                   return this.removeCachedSchema(name);
+               }.bind(this));
+           }.bind(this);
+       }.bind(this)));
            
 }
     </pre>
@@ -4975,6 +5097,9 @@ DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3
         <li> <em>names</em>  : <p>the names of the views to drop.</p>
 </li>
     
+        <li> <em>[opts= <code>{}</code>]</em>  : <p>Additional options that very based on the database adapter.</p>
+</li>
+    
      </ul>
 
 
@@ -4991,26 +5116,23 @@ DB.dropTable(&quot;test_view_1&quot;, &quot;test_view_2&quot;, &quot;test_view_3
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (names){
-   var ret = new Promise(), l = names.length;
+function (names,opts){
    if (isArray(names)) {
-       var drop = hitch(this, function (i) {
-           if (i &amp;lt; l) {
-               var name = names[i++];
-               this.executeDdl(format(&quot;DROP VIEW %s&quot;, this.__quoteSchemaTable(name))).then(hitch(this, function () {
-                   this.removeCachedSchema(name);
-                   drop(i);
-               }), ret);
-           } else {
-               ret.callback();
-           }
-       });
-       drop(0);
-       return ret.promise();
+       opts = opts || {};
+       var self = this;
+       return comb.async.array(names).forEach(function (name) {
+           return self.executeDdl(self.__dropViewSql(name, opts)).chain(function () {
+               self.removeCachedSchema(name);
+           });
+       }).chain(null);
    } else {
-       return this.dropView(argsToArray(arguments).filter(function (t) {
+       var args = argsToArray(arguments);
+       if (comb.isHash(args[args.length - 1])) {
+           opts = args.pop();
+       }
+       return this.dropView(args.filter(function (t) {
            return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
-       }));
+       }), opts);
    }
            
 }

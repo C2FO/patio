@@ -16,8 +16,8 @@ var it = require('it'),
 it.describe("Database",function (it) {
 
     var DummyDataset = comb.define(patio.Dataset, {
-        instance:{
-            first:function () {
+        instance: {
+            first: function () {
                 var ret = new comb.Promise();
                 if (this.__opts.from[0].toString() === "a") {
                     ret.errback();
@@ -29,38 +29,38 @@ it.describe("Database",function (it) {
         }
     });
     var DummyDatabase = comb.define(patio.Database, {
-        instance:{
-            constructor:function () {
+        instance: {
+            constructor: function () {
                 this._super(arguments);
                 this.sqls = [];
                 this.identifierInputMethod = null;
                 this.identifierOutputMethod = null;
             },
 
-            execute:function (sql, opts) {
+            execute: function (sql, opts) {
                 var ret = new comb.Promise().callback();
                 this.sqls.push(sql);
                 return ret;
             },
 
-            executeError:function () {
+            executeError: function () {
                 var ret = new comb.Promise();
                 this.execute.apply(this, arguments).both(comb('errback').bind(ret));
                 return ret;
             },
 
-            reset:function () {
+            reset: function () {
                 this.sqls = [];
             },
 
-            transaction:function (opts, cb) {
+            transaction: function (opts, cb) {
                 var ret = new comb.Promise().callback();
                 cb();
                 return ret;
             },
 
-            getters:{
-                dataset:function () {
+            getters: {
+                dataset: function () {
                     return new DummyDataset(this);
                 }
             }
@@ -68,62 +68,62 @@ it.describe("Database",function (it) {
     });
 
     var DummyConnection = comb.define(null, {
-        instance:{
-            constructor:function (db) {
+        instance: {
+            constructor: function (db) {
                 this.db = db;
             },
 
-            execute:function () {
+            execute: function () {
                 return this.db.execute.apply(this.db, arguments);
             }
         }
     });
 
     var Dummy3Database = comb.define(Database, {
-        instance:{
-            constructor:function () {
+        instance: {
+            constructor: function () {
                 this._super(arguments);
                 this.sqls = [];
                 this.identifierInputMethod = null;
                 this.identifierOutputMethod = null;
             },
 
-            execute:function (sql, opts) {
+            execute: function (sql, opts) {
                 opts = opts || {};
                 var ret = new comb.Promise();
                 this.sqls.push(sql);
-                ret[opts.error ? "errback" : "callback"](opts.error ? "ERROR" : "");
+                ret[opts.error ? "errback": "callback"](opts.error ? "ERROR": "");
                 return ret;
             },
 
-            createConnection:function (options) {
+            createConnection: function (options) {
                 return new DummyConnection(this);
             },
 
-            retCommit:function () {
+            retCommit: function () {
                 return this.transaction(function () {
                     return this.execute('DROP TABLE test;');
                 });
             },
 
-            retCommitSavePoint:function () {
+            retCommitSavePoint: function () {
                 return this.transaction(function (db, done) {
-                    this.transaction({savepoint:true},function () {
+                    this.transaction({savepoint: true},function () {
                         return this.execute('DROP TABLE test;');
                         this.execute('DROP TABLE test2;');
                     }).classic(done);
                 });
             },
 
-            closeConnection:function (conn) {
+            closeConnection: function (conn) {
                 return new comb.Promise().callback();
             },
 
-            validate:function (conn) {
+            validate: function (conn) {
                 return new comb.Promise().callback(true);
             },
 
-            reset:function () {
+            reset: function () {
                 this.sqls = [];
             }
         }
@@ -131,7 +131,7 @@ it.describe("Database",function (it) {
 
     it.describe("A new Database", function (it) {
 
-        var db = new Database({1:2});
+        var db = new Database({1: 2});
 
         it.should("receive options", function () {
             assert.equal(db.opts[1], 2);
@@ -140,12 +140,12 @@ it.describe("Database",function (it) {
         it.should("create a connection pool", function () {
             assert.instanceOf(db.pool, ConnectionPool);
             assert.equal(db.pool.maxObjects, 10);
-            assert.equal(new Database({maxConnections:4}).pool.maxObjects, 4);
+            assert.equal(new Database({maxConnections: 4}).pool.maxObjects, 4);
         });
 
         it.should("respect the quoteIdentifiers option", function () {
-            var db1 = new Database({quoteIdentifiers:false});
-            var db2 = new Database({quoteIdentifiers:true});
+            var db1 = new Database({quoteIdentifiers: false});
+            var db2 = new Database({quoteIdentifiers: true});
             assert.isFalse(db1.quoteIdentifiers);
             assert.isTrue(db2.quoteIdentifiers);
         });
@@ -157,11 +157,11 @@ it.describe("Database",function (it) {
         });
 
         it.should("respect the identifierInputMethod option", function () {
-            var db = new Database({identifierInputMethod:null});
+            var db = new Database({identifierInputMethod: null});
             assert.isNull(db.identifierInputMethod);
             db.identifierInputMethod = "toUpperCase";
             assert.equal(db.identifierInputMethod, 'toUpperCase');
-            db = new Database({identifierInputMethod:'toUpperCase'});
+            db = new Database({identifierInputMethod: 'toUpperCase'});
             assert.equal(db.identifierInputMethod, "toUpperCase");
             db.identifierInputMethod = null;
             assert.isNull(db.identifierInputMethod);
@@ -171,11 +171,11 @@ it.describe("Database",function (it) {
         });
 
         it.should("respect the identifierOutputMethod option", function () {
-            var db = new Database({identifierOutputMethod:null});
+            var db = new Database({identifierOutputMethod: null});
             assert.isNull(db.identifierOutputMethod);
             db.identifierOutputMethod = "toLowerCase";
             assert.equal(db.identifierOutputMethod, 'toLowerCase');
-            db = new Database({identifierOutputMethod:'toLowerCase'});
+            db = new Database({identifierOutputMethod: 'toLowerCase'});
             assert.equal(db.identifierOutputMethod, "toLowerCase");
             db.identifierOutputMethod = null;
             assert.isNull(db.identifierOutputMethod);
@@ -199,10 +199,10 @@ it.describe("Database",function (it) {
         it.should("respect the quoteIndentifiersDefault method if patio.quoteIdentifiers = null", function () {
             patio.quoteIdentifiers = null;
             assert.isTrue(new Database().quoteIdentifiers);
-            var x = comb.define(Database, {instance:{getters:{quoteIdentifiersDefault:function () {
+            var x = comb.define(Database, {instance: {getters: {quoteIdentifiersDefault: function () {
                 return false;
             }}}});
-            var y = comb.define(Database, {instance:{getters:{quoteIdentifiersDefault:function () {
+            var y = comb.define(Database, {instance: {getters: {quoteIdentifiersDefault: function () {
                 return true;
             }}}});
             assert.isFalse(new x().quoteIdentifiers);
@@ -212,10 +212,10 @@ it.describe("Database",function (it) {
         it.should("respect the identifierInputMethodDefault method if patio.identifierInputMethod = null", function () {
             patio.identifierInputMethod = undefined;
             assert.equal(new Database().identifierInputMethod, "toUpperCase");
-            var x = comb.define(Database, {instance:{getters:{identifierInputMethodDefault:function () {
+            var x = comb.define(Database, {instance: {getters: {identifierInputMethodDefault: function () {
                 return "toLowerCase";
             }}}});
-            var y = comb.define(Database, {instance:{getters:{identifierInputMethodDefault:function () {
+            var y = comb.define(Database, {instance: {getters: {identifierInputMethodDefault: function () {
                 return "toUpperCase";
             }}}});
             assert.equal(new x().identifierInputMethod, "toLowerCase");
@@ -225,10 +225,10 @@ it.describe("Database",function (it) {
         it.should("respect the identifierOutputMethodDefault method if patio.identifierOutputMethod = null", function () {
             patio.identifierOutputMethod = undefined;
             assert.equal(new Database().identifierOutputMethod, "toLowerCase");
-            var x = comb.define(Database, {instance:{getters:{identifierOutputMethodDefault:function () {
+            var x = comb.define(Database, {instance: {getters: {identifierOutputMethodDefault: function () {
                 return "toLowerCase";
             }}}});
-            var y = comb.define(Database, {instance:{getters:{identifierOutputMethodDefault:function () {
+            var y = comb.define(Database, {instance: {getters: {identifierOutputMethodDefault: function () {
                 return "toUpperCase";
             }}}});
             assert.equal(new x().identifierOutputMethod, "toLowerCase");
@@ -391,14 +391,14 @@ it.describe("Database",function (it) {
     it.describe("#run", function (it) {
 
         var db = new (comb.define(Database, {
-            instance:{
+            instance: {
 
-                constructor:function () {
+                constructor: function () {
                     this._super(arguments);
                     this.sqls = [];
                 },
 
-                executeDdl:function () {
+                executeDdl: function () {
                     var ret = new comb.Promise().callback();
                     this.sqls.length = 0;
                     this.sqls = this.sqls.concat(comb.argsToArray(arguments));
@@ -411,8 +411,8 @@ it.describe("Database",function (it) {
         it.should("pass the supplied arguments to executeDdl", function () {
             db.run("DELETE FROM items");
             assert.deepEqual(db.sqls, ["DELETE FROM items", {}]);
-            db.run("DELETE FROM items2", {hello:"world"});
-            assert.deepEqual(db.sqls, ["DELETE FROM items2", {hello:"world"}]);
+            db.run("DELETE FROM items2", {hello: "world"});
+            assert.deepEqual(db.sqls, ["DELETE FROM items2", {hello: "world"}]);
         });
     });
 
@@ -427,10 +427,10 @@ it.describe("Database",function (it) {
                 function () {
                     var db = new DB();
                     return db.createTable("test",function (table) {
-                        table.primaryKey("id", "integer", {"null":false});
+                        table.primaryKey("id", "integer", {"null": false});
                         table.column("name", "text");
-                        table.column("image", Buffer, {"null":false});
-                        table.index("name", {unique:true});
+                        table.column("image", Buffer, {"null": false});
+                        table.index("name", {unique: true});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
                                 'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL)',
@@ -442,9 +442,9 @@ it.describe("Database",function (it) {
                     return patio.quoteIdentifiers = true;
                     db = new DB();
                     db.createTable("test",function (table) {
-                        table.primaryKey("id", "integer", {"null":false});
+                        table.primaryKey("id", "integer", {"null": false});
                         table.column("name", "text");
-                        table.index("name", {unique:true});
+                        table.index("name", {unique: true});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
                                 'CREATE TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
@@ -462,10 +462,10 @@ it.describe("Database",function (it) {
                 function () {
                     patio.quoteIdentifiers = true;
                     var db = new DB();
-                    return db.createTable("test", {temp:true},function (table) {
-                        table.primaryKey("id", "integer", {"null":false});
+                    return db.createTable("test", {temp: true},function (table) {
+                        table.primaryKey("id", "integer", {"null": false});
                         table.column("name", "text");
-                        table.index("name", {unique:true});
+                        table.index("name", {unique: true});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
                                 'CREATE TEMPORARY TABLE "test" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" text)',
@@ -476,10 +476,10 @@ it.describe("Database",function (it) {
                 function () {
                     patio.quoteIdentifiers = false;
                     var db = new DB();
-                    return db.createTable("test", {temp:true},function (table) {
-                        table.primaryKey("id", "integer", {"null":false});
+                    return db.createTable("test", {temp: true},function (table) {
+                        table.primaryKey("id", "integer", {"null": false});
                         table.column("name", "text");
-                        table.index("name", {unique:true});
+                        table.index("name", {unique: true});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
                                 'CREATE TEMPORARY TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text)',
@@ -502,12 +502,12 @@ it.describe("Database",function (it) {
             var db = new DB();
 
             return db.alterTable("xyz",function (table) {
-                table.addColumn("aaa", "text", {"null":false, unique:true});
+                table.addColumn("aaa", "text", {"null": false, unique: true});
                 table.dropColumn("bbb");
                 table.renameColumn("ccc", "ddd");
                 table.setColumnType("eee", "integer");
                 table.setColumnDefault("hhh", 'abcd');
-                table.addIndex("fff", {unique:true});
+                table.addIndex("fff", {unique: true});
                 table.dropIndex("ggg");
                 table.addForeignKey(["aaa"], "table");
             }).chain(function () {
@@ -533,7 +533,7 @@ it.describe("Database",function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            return db.addColumn("test", "name", "text", {unique:true}).chain(function () {
+            return db.addColumn("test", "name", "text", {unique: true}).chain(function () {
                 assert.deepEqual(db.sqls, [
                     'ALTER TABLE test ADD COLUMN name text UNIQUE'
                 ]);
@@ -613,7 +613,7 @@ it.describe("Database",function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            return db.addIndex("test", "name", {unique:true}).chain(function () {
+            return db.addIndex("test", "name", {unique: true}).chain(function () {
                 assert.deepEqual(db.sqls, [
                     'CREATE UNIQUE INDEX test_name_index ON test (name)'
                 ]);
@@ -725,7 +725,7 @@ it.describe("Database",function (it) {
             db.reset();
             db.supportsTransactionIsolationLevels = true;
             return comb.async.array(["uncommitted", "committed", "repeatable", "serializable"]).forEach(function (level) {
-                return db.transaction({isolation:level}, function (d) {
+                return db.transaction({isolation: level}, function (d) {
                     return d.run("DROP TABLE " + level);
                 });
             }).chain(function () {
@@ -764,7 +764,7 @@ it.describe("Database",function (it) {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                     db.reset();
                     db.transaction(function (d) {
-                        return d.execute('DROP TABLE test', {error:true});
+                        return d.execute('DROP TABLE test', {error: true});
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                             var errored;
@@ -810,7 +810,7 @@ it.describe("Database",function (it) {
         it.should("use savepoints if given the :savepoint option", function () {
             db.reset();
             return db.transaction(function () {
-                return db.transaction({savepoint:true}, function () {
+                return db.transaction({savepoint: true}, function () {
                     return db.execute('DROP TABLE test;');
                 });
             }).chain(function () {
@@ -820,7 +820,7 @@ it.describe("Database",function (it) {
 
         it.should("not use a savepoints if no transaction is in progress", function () {
             db.reset();
-            return db.transaction({savepoint:true},function (d) {
+            return db.transaction({savepoint: true},function (d) {
                 return d.execute('DROP TABLE test;');
             }).chain(function () {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test;', 'COMMIT']);
@@ -861,7 +861,7 @@ it.describe("Database",function (it) {
                     assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                     db.reset();
                     return db.transaction(function (d) {
-                        return d.execute('DROP TABLE test', {error:true});
+                        return d.execute('DROP TABLE test', {error: true});
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'DROP TABLE test', 'ROLLBACK']);
                             var errored;
@@ -877,7 +877,7 @@ it.describe("Database",function (it) {
         it.should("issue ROLLBACK if an exception is raised inside a savepoint, and re-raise", function (next) {
             db.reset();
             db.transaction(function () {
-                return db.transaction({savepoint:true}, function () {
+                return db.transaction({savepoint: true}, function () {
                     return db.execute('DROP TABLE test');
                     throw "Error";
                 });
@@ -885,13 +885,13 @@ it.describe("Database",function (it) {
                     assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
                     db.reset();
                     return db.transaction(function (d) {
-                        return db.transaction({savepoint:true}, function () {
-                            d.execute('DROP TABLE test', {error:true});
+                        return db.transaction({savepoint: true}, function () {
+                            d.execute('DROP TABLE test', {error: true});
                         });
                     }).chain(next, function () {
                             assert.deepEqual(db.sqls, ['BEGIN', 'SAVEPOINT autopoint_1', 'DROP TABLE test', 'ROLLBACK TO SAVEPOINT autopoint_1', 'ROLLBACK']);
                             db.transaction(function (d) {
-                                return db.transaction({savepoint:true}, function () {
+                                return db.transaction({savepoint: true}, function () {
                                     throw "ERROR";
                                 });
                             }).chain(next, function () {
@@ -904,7 +904,7 @@ it.describe("Database",function (it) {
         it.should("issue ROLLBACK SAVEPOINT if 'ROLLBACK' is called is thrown in savepoint", function () {
             db.reset();
             return db.transaction(function () {
-                return db.transaction({savepoint:true},function () {
+                return db.transaction({savepoint: true},function () {
                     db.dropTable("a");
                     throw "ROLLBACK";
                 }).chain(comb(db).bindIgnore("dropTable", "b"));
@@ -923,7 +923,7 @@ it.describe("Database",function (it) {
                 done();
             }).chain(next, function () {
                     return db.transaction(function () {
-                        return db.transaction({savepoint:true}, function (db, done) {
+                        return db.transaction({savepoint: true}, function (db, done) {
                             done()
                         });
                     }).chain(next, function () {
@@ -939,17 +939,17 @@ it.describe("Database",function (it) {
 
     it.describe("#fetch", function (it) {
         var CDS = comb.define(patio.Dataset, {
-            instance:{
+            instance: {
 
-                fetchRows:function (sql, cb) {
-                    return comb.async.array(new comb.Promise().callback({sql:sql}).addCallback(cb));
+                fetchRows: function (sql, cb) {
+                    return comb.async.array(new comb.Promise().callback({sql: sql}).addCallback(cb));
                 }
             }
         });
         var TestDB = comb.define(patio.Database, {
-            instance:{
-                getters:{
-                    dataset:function () {
+            instance: {
+                getters: {
+                    dataset: function () {
                         return new CDS(this);
                     }
                 }
@@ -978,7 +978,7 @@ it.describe("Database",function (it) {
 
         it.should("format the given sql with named arguments", function () {
             var sql = null;
-            return db.fetch('select * from xyz where x = {x} and y = {y}', {x:15, y:'abc'}, function (r) {
+            return db.fetch('select * from xyz where x = {x} and y = {y}', {x: 15, y: 'abc'}, function (r) {
                 assert.equal(r.sql, "select * from xyz where x = 15 and y = 'abc'");
             });
         });
@@ -1063,11 +1063,16 @@ it.describe("Database",function (it) {
         });
 
         it.should("construct proper SQL", function () {
-            db.dropView("test");
-            db.dropView(sql.test);
-            db.dropView('sch__test');
-            db.dropView(sql.test.qualify('sch'));
-            assert.deepEqual(db.sqls, ['DROP VIEW test', 'DROP VIEW test', 'DROP VIEW sch.test', 'DROP VIEW sch.test']);
+            debugger;
+            return comb.when(
+                    db.dropView("test"),
+                    db.dropView(sql.identifier("test")),
+                    db.dropView('sch__test'),
+                    db.dropView(sql.test.qualify('sch'))
+                ).chain(function () {
+                    debugger;
+                    assert.deepEqual(db.sqls, ['DROP VIEW test', 'DROP VIEW test', 'DROP VIEW sch.test', 'DROP VIEW sch.test']);
+                }, console.log);
         });
     });
 
@@ -1079,7 +1084,7 @@ it.describe("Database",function (it) {
         });
 
         it.should("raise error for an invalid op", function () {
-            assert.throws(hitch(db, "__alterTableSql", "mau", {op:"blah"}));
+            assert.throws(hitch(db, "__alterTableSql", "mau", {op: "blah"}));
         });
     });
 
@@ -1087,9 +1092,9 @@ it.describe("Database",function (it) {
 
 
         var db = new (comb.define(DummyDatabase, {
-            instance:{
-                getters:{
-                    dataset:function () {
+            instance: {
+                getters: {
+                    dataset: function () {
                         var ds = new DummyDataset(this);
                         ds.get = function () {
                             return this.db.execute(this.select.apply(this, arguments).sql);
@@ -1160,28 +1165,28 @@ it.describe("Database",function (it) {
 
         var db = new Database();
         var typeLiteral = function (type, opts) {
-            return db.typeLiteral(comb.merge({type:type}, opts));
+            return db.typeLiteral(comb.merge({type: type}, opts));
         };
 
         it.should("convert Object constructors to types", function () {
             assert.equal(typeLiteral(String), "varchar(255)");
-            assert.equal(typeLiteral(String, {size:25}), "varchar(25)");
+            assert.equal(typeLiteral(String, {size: 25}), "varchar(25)");
             assert.equal(typeLiteral(Buffer), "blob");
             assert.equal(typeLiteral(Number), "numeric");
-            assert.equal(typeLiteral(Number, {size:2 }), "numeric(2)");
-            assert.equal(typeLiteral(Number, {isInt:true}), "integer");
-            assert.equal(typeLiteral(Number, {isDouble:true }), "double precision");
-            assert.equal(typeLiteral(sql.Float, {isDouble:true }), "double precision");
-            assert.equal(typeLiteral(sql.Decimal, {isDouble:true }), "double precision");
+            assert.equal(typeLiteral(Number, {size: 2 }), "numeric(2)");
+            assert.equal(typeLiteral(Number, {isInt: true}), "integer");
+            assert.equal(typeLiteral(Number, {isDouble: true }), "double precision");
+            assert.equal(typeLiteral(sql.Float, {isDouble: true }), "double precision");
+            assert.equal(typeLiteral(sql.Decimal, {isDouble: true }), "double precision");
             assert.equal(typeLiteral(Date), "date");
             assert.equal(typeLiteral(sql.Time), "time");
-            assert.equal(typeLiteral(Date, {onlyTime:true}), "time");
+            assert.equal(typeLiteral(Date, {onlyTime: true}), "time");
             assert.equal(typeLiteral(sql.TimeStamp), "timestamp");
-            assert.equal(typeLiteral(Date, {timeStamp:true}), "timestamp");
+            assert.equal(typeLiteral(Date, {timeStamp: true}), "timestamp");
             assert.equal(typeLiteral(sql.DateTime), "datetime");
-            assert.equal(typeLiteral(Date, {dateTime:true}), "datetime");
+            assert.equal(typeLiteral(Date, {dateTime: true}), "datetime");
             assert.equal(typeLiteral(sql.Year), "year");
-            assert.equal(typeLiteral(Date, {yearOnly:true}), "year");
+            assert.equal(typeLiteral(Date, {yearOnly: true}), "year");
             assert.equal(typeLiteral(Boolean), "boolean");
 
         });
@@ -1190,27 +1195,27 @@ it.describe("Database",function (it) {
             assert.equal(typeLiteral("string"), "varchar(255)");
             assert.equal(typeLiteral("buffer"), "blob");
             assert.equal(typeLiteral("number"), "numeric");
-            assert.equal(typeLiteral("number", {size:2 }), "numeric(2)");
-            assert.equal(typeLiteral("number", {isInt:true}), "integer");
-            assert.equal(typeLiteral("number", {isDouble:true }), "double precision");
-            assert.equal(typeLiteral("float", {isDouble:true }), "double precision");
-            assert.equal(typeLiteral("decimal", {isDouble:true }), "double precision");
+            assert.equal(typeLiteral("number", {size: 2 }), "numeric(2)");
+            assert.equal(typeLiteral("number", {isInt: true}), "integer");
+            assert.equal(typeLiteral("number", {isDouble: true }), "double precision");
+            assert.equal(typeLiteral("float", {isDouble: true }), "double precision");
+            assert.equal(typeLiteral("decimal", {isDouble: true }), "double precision");
             assert.equal(typeLiteral("date"), "date");
             assert.equal(typeLiteral("time"), "time");
-            assert.equal(typeLiteral("date", {onlyTime:true}), "time");
+            assert.equal(typeLiteral("date", {onlyTime: true}), "time");
             assert.equal(typeLiteral("timestamp"), "timestamp");
-            assert.equal(typeLiteral("date", {timeStamp:true}), "timestamp");
+            assert.equal(typeLiteral("date", {timeStamp: true}), "timestamp");
             assert.equal(typeLiteral("datetime"), "datetime");
-            assert.equal(typeLiteral("date", {dateTime:true}), "datetime");
+            assert.equal(typeLiteral("date", {dateTime: true}), "datetime");
             assert.equal(typeLiteral("year"), "year");
-            assert.equal(typeLiteral("date", {yearOnly:true}), "year");
+            assert.equal(typeLiteral("date", {yearOnly: true}), "year");
             assert.equal(typeLiteral("boolean"), "boolean");
         });
 
         it.should("support user defined types", function () {
             assert.equal(typeLiteral("double"), "double precision");
             assert.equal(typeLiteral("varchar"), "varchar(255)");
-            assert.equal(typeLiteral("varchar", {size:255}), "varchar(255)");
+            assert.equal(typeLiteral("varchar", {size: 255}), "varchar(255)");
             assert.equal(typeLiteral("tiny blob"), "tiny blob");
         });
 
@@ -1330,19 +1335,19 @@ it.describe("Database",function (it) {
     it.describe("logging features", function (it) {
 
         var mockAppender = new (comb.define(comb.logging.appenders.Appender, {
-            instance:{
+            instance: {
 
-                messages:null,
+                messages: null,
 
-                constructor:function () {
+                constructor: function () {
                     this.messages = [];
                 },
 
-                append:function (message) {
+                append: function (message) {
                     this.messages.push(message);
                 },
 
-                reset:function () {
+                reset: function () {
                     this.messages.length = 0;
                 }
             }
