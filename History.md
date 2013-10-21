@@ -1,21 +1,33 @@
-#0.2.1 / 2013-10-16
+# 0.2.2 / 2013-10-21
+
+* Added support for postgres 9.3 materialized views.
+   * `createMaterializedView`: Create a new materialized view.
+   * `dropMaterializedView`: Drops a materialized view.
+   * `refreshMaterializedView`: Refresh a materialized view.
+
+# 0.2.1 / 2013-10-16
+
 * Fixed issue in connection pool where a connection would never be returned to the pool.
 
-#0.2.0 / 2013-09-30
+# 0.2.0 / 2013-09-30
+
 * Upgraded `pg`, `mysql`, and `validator`.
 * Added a v0.10 build to travis
 * Merged issue [#68](https://github.com/C2FO/patio/pull/68).
 
-#0.1.7 / 2012-12-4
+# 0.1.7 / 2012-12-4
+
 * Fixed issue where port was not added to connection options.
 
 
-#0.1.6 / 2012-11-16
+# 0.1.6 / 2012-11-16
+
 * Upgraded comb to v0.1.10
 * Fixed issue where eager many to one returns a promise if null (@mbenedettini)
 
 
-#0.1.5 / 2012-09-20
+# 0.1.5 / 2012-09-20
+
 * Fixed issue with sql.literal not accepting a single identifier
 * Fixed Issue with one to many model if the table is plurarlized
 * Fixed issue with Dataset#group not using stringToIdentifier to convert column arguments to identifiers
@@ -23,23 +35,27 @@
 * updated timestamp plugin to set updated/created when just retreving sql
 * Fixed primary key caching issue
 
-#0.1.4 / 2012-09-20
+# 0.1.4 / 2012-09-20
+
 * added a rowCB for custom dataset model
 * added insert, update and remove sql properties on models
 * re-added jscoverage submodule
 
 
-#0.1.3 / 2012-09-10
+# 0.1.3 / 2012-09-10
+
 * Added travis CI
 * Code clean up
 * Updated comb version
 
-#0.1.2 / 2012-09-06
+# 0.1.2 / 2012-09-06
+
 * Updated for new comb api.
 * Fixed tests
 * Update db.tranaction to require a promise or the callback function to be called.
 
-#0.1.1 / 2012-08-29
+# 0.1.1 / 2012-08-29
+
 * new patio.Dataset features
   * sourceList - get all sources as identifiers
   * joinSourceList - get all join sources
@@ -48,7 +64,8 @@
 * Fixed issue with patio.Model#_setFromDb where values not in the models table columns would be in accesible, (i.e a join with a model would not show the join columns)
 * updated docs
 
-#0.1.0 / 2012-08-25
+# 0.1.0 / 2012-08-25
+
 * Added custom getters (mbenedettini)
 * Added Validator plugin for models
 * Change model inheritance configure method to return this for chaining
@@ -67,7 +84,8 @@
   * Changed the storage of model classes so patio.getModel will always work even with datasets.
    
 
-#0.0.9 / 2012-08-16
+# 0.0.9 / 2012-08-16
+
 * Fixed bug where default that are buffers were not handle properly (#35)
 * Fixed bug with inheritance loading
 * Updated benchmark
@@ -78,7 +96,7 @@
 * changed reload of save and update to be invoked after post save and update have been called.
 * Merged pull request from @mbenedettini to lazy initialize hive
 
-#0.0.8 / 2012-07-13
+# 0.0.8 / 2012-07-13
 
 * Updated Docs now using [coddoc](http://github.com/doug-martin/coddoc) for doc generation
   * Documented Plugins
@@ -94,11 +112,11 @@
   * Fixed issue where transaction connection would not always be used on databases
 * Added Events to patio     
 
-#0.0.5 / 2012-02-02
+# 0.0.5 / 2012-02-02
 
 * Made "use strict" compatibile
 
-#0.0.4 / 2012-02-16
+# 0.0.4 / 2012-02-16
 
 * Bug Fixes
    * Fixed issue with closing connections in the Connection Pool
@@ -109,7 +127,7 @@
    * upped comb version to v0.0.9
    
 
-#0.0.3 / 2012-02-09
+# 0.0.3 / 2012-02-09
 
 * Bug Fixes
   * Fixed issue in associations where options were not being applied correctly
@@ -119,7 +137,7 @@
   * Changed patio.sql Date wrappers to create a new Date if one is not provided
 * Docs fixes
 
-#0.0.2 / 2012-02-04
+# 0.0.2 / 2012-02-04
 
 
   * Added new plugin for model inheritance
@@ -146,7 +164,7 @@
     * Async deletes
     * Serial deletes
 
-#0.0.1 / 2012-01-31
+# 0.0.1 / 2012-01-31
 
 
   * Initial release

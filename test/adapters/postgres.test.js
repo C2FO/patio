@@ -9,7 +9,7 @@ var it = require('it'),
     format = comb.string.format,
     hitch = comb.hitch;
 
-it.describe("patio.adapters.Postgres", function (it) {
+it.describe("patio.adapters.Postgres",function (it) {
 
     var PG_DB;
 
@@ -23,7 +23,7 @@ it.describe("patio.adapters.Postgres", function (it) {
         PG_DB = patio.connect(config.PG_URI + "/sandbox");
 
         PG_DB.__defineGetter__("sqls", function () {
-            return (comb.isArray(this.__sqls) ? this.__sqls : (this.__sqls = []));
+            return (comb.isArray(this.__sqls) ? this.__sqls: (this.__sqls = []));
         });
 
         PG_DB.__defineSetter__("sqls", function (sql) {
@@ -40,7 +40,7 @@ it.describe("patio.adapters.Postgres", function (it) {
             function () {
                 return PG_DB.forceCreateTable("test", function () {
                     this.name("text");
-                    this.value("integer", {index:true});
+                    this.value("integer", {index: true});
                 });
             },
             function () {
@@ -57,7 +57,7 @@ it.describe("patio.adapters.Postgres", function (it) {
             },
             function () {
                 return PG_DB.forceCreateTable("test4", function () {
-                    this.name(String, {size:20});
+                    this.name(String, {size: 20});
                     this.value("bytea");
                 });
             }
@@ -73,12 +73,12 @@ it.describe("patio.adapters.Postgres", function (it) {
     it.should("correctly parse the schema", function (next) {
         comb.when(PG_DB.schema("test3"), PG_DB.schema("test4")).then(function (schemas) {
             assert.deepEqual(schemas[0], {
-                "value":{type:"integer", allowNull:true, "default":null, jsDefault:null, dbType:"integer", primaryKey:false},
-                "time":{type:"datetime", allowNull:true, "default":null, jsDefault:null, dbType:"timestamp without time zone", primaryKey:false}
+                "value": {type: "integer", allowNull: true, "default": null, jsDefault: null, dbType: "integer", primaryKey: false},
+                "time": {type: "datetime", allowNull: true, "default": null, jsDefault: null, dbType: "timestamp without time zone", primaryKey: false}
             });
             assert.deepEqual(schemas[1], {
-                "name":{type:"string", allowNull:true, "default":null, jsDefault:null, dbType:"character varying(20)", primaryKey:false},
-                "value":{type:"blob", allowNull:true, "default":null, jsDefault:null, dbType:"bytea", primaryKey:false}
+                "name": {type: "string", allowNull: true, "default": null, jsDefault: null, dbType: "character varying(20)", primaryKey: false},
+                "value": {type: "blob", allowNull: true, "default": null, jsDefault: null, dbType: "bytea", primaryKey: false}
             });
         }).classic(next);
     });
@@ -116,8 +116,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
             assert.equal(d.select(sql.test("abc__def", sql.literal("'hello'")).as("x2")).sql, "SELECT test(\"abc\".\"def\", 'hello') AS \"x2\" FROM \"test\"");
 
-            assert.isNotNull(d.insertSql({value:333}).match(/^INSERT INTO "test" \("value"\) VALUES \(333\)( RETURNING NULL)?$/));
-            assert.isNotNull(d.insertSql({x:sql.identifier("y")}).match(/^INSERT INTO "test" \("x"\) VALUES \("y"\)( RETURNING NULL)?$/));
+            assert.isNotNull(d.insertSql({value: 333}).match(/^INSERT INTO "test" \("value"\) VALUES \(333\)( RETURNING NULL)?$/));
+            assert.isNotNull(d.insertSql({x: sql.identifier("y")}).match(/^INSERT INTO "test" \("x"\) VALUES \("y"\)( RETURNING NULL)?$/));
 
         });
 
@@ -131,12 +131,12 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support regular expressions", function (next) {
             comb.when(
-                d.insert({name:"abc", value:1}),
-                d.insert({name:"bcd", value:2})
-            ).then(function () {
+                    d.insert({name: "abc", value: 1}),
+                    d.insert({name: "bcd", value: 2})
+                ).then(function () {
                     when(
-                        d.filter({name:/bc/}).count(),
-                        d.filter({name:/^bc/}).count()
+                        d.filter({name: /bc/}).count(),
+                        d.filter({name: /^bc/}).count()
                     ).then(function (res) {
                             assert.equal(res[0], 2);
                             assert.equal(res[1], 1);
@@ -146,14 +146,14 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support NULLS FIRST and NULLS LAST", function (next) {
             comb.when(
-                d.insert({name:"abc"}),
-                d.insert({name:"bcd"}),
-                d.insert({name:"bcd", value:2})
-            ).then(function () {
+                    d.insert({name: "abc"}),
+                    d.insert({name: "bcd"}),
+                    d.insert({name: "bcd", value: 2})
+                ).then(function () {
                     when(
-                        d.order(sql.value.asc({nulls:"first"}), "name").selectMap("name"),
-                        d.order(sql.value.asc({nulls:"last"}), "name").selectMap("name"),
-                        d.order(sql.value.asc({nulls:"first"}), "name").reverse().selectMap("name")
+                        d.order(sql.value.asc({nulls: "first"}), "name").selectMap("name"),
+                        d.order(sql.value.asc({nulls: "last"}), "name").selectMap("name"),
+                        d.order(sql.value.asc({nulls: "first"}), "name").reverse().selectMap("name")
                     ).
                         then(function (res) {
                             assert.deepEqual(res[0], ["abc", "bcd", "bcd"]);
@@ -166,7 +166,7 @@ it.describe("patio.adapters.Postgres", function (it) {
         it.describe("#lock", function (it) {
             it.should("lock tables and yield if a block is given", function (next) {
                 d.lock('EXCLUSIVE',function () {
-                    return d.insert({name:'a'});
+                    return d.insert({name: 'a'});
                 }).then(function () {
                         assert.deepEqual(PG_DB.sqls, [ "BEGIN",
                             "LOCK TABLE  test IN EXCLUSIVE MODE",
@@ -179,7 +179,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                 PG_DB.transaction(function () {
                     return serial([
                         d.lock.bind(d, 'EXCLUSIVE'),
-                        d.insert.bind(d, {name:'a'})
+                        d.insert.bind(d, {name: 'a'})
                     ]);
                 }).then(function () {
                         assert.deepEqual(PG_DB.sqls, [ "BEGIN",
@@ -207,16 +207,16 @@ it.describe("patio.adapters.Postgres", function (it) {
 
             it.should("should return results distinct based on arguments", function (next) {
                 comb.serial([ds.insert.bind(ds, 20, 10),
-                    ds.insert.bind(ds, 30, 10),
-                    function () {
-                        return when(
-                            ds.order("b", "a").distinct().map("a"),
-                            ds.order("b", sql.identifier("a").desc()).distinct().map("a"),
-                            ds.order("b", "a").distinct("b").map("a"),
-                            ds.order("b", sql.identifier("a").desc()).distinct("b").map("a")
-                        );
-                    }
-                ]).then(function (res) {
+                        ds.insert.bind(ds, 30, 10),
+                        function () {
+                            return when(
+                                ds.order("b", "a").distinct().map("a"),
+                                ds.order("b", sql.identifier("a").desc()).distinct().map("a"),
+                                ds.order("b", "a").distinct("b").map("a"),
+                                ds.order("b", sql.identifier("a").desc()).distinct("b").map("a")
+                            );
+                        }
+                    ]).then(function (res) {
                         res = res[2];
                         assert.deepEqual(res, [
                             [20, 30],
@@ -237,8 +237,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
             it.should("store milliseconds in the fime fields for Timestamp objects", function (next) {
                 var t = new sql.TimeStamp(new Date());
-                d.insert({value:1, time:t}).then(function () {
-                    d.filter({value:1}).select("time").returning("time").first().then(function (res) {
+                d.insert({value: 1, time: t}).then(function () {
+                    d.filter({value: 1}).select("time").returning("time").first().then(function (res) {
                         assert.equal(res.time.getMilliseconds(), t.getMilliseconds());
                     }).classic(next);
                 }, next);
@@ -246,8 +246,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
             it.should("store milliseconds in the time fields for DateTime objects", function (next) {
                 var t = new sql.DateTime(new Date());
-                d.insert({value:1, time:t}).then(function () {
-                    d.filter({value:1}).select("time").first().then(function (res) {
+                d.insert({value: 1, time: t}).then(function () {
+                    d.filter({value: 1}).select("time").first().then(function (res) {
                         assert.equal(res.time.getMilliseconds(), t.getMilliseconds());
                     }).classic(next);
                 }, next);
@@ -288,14 +288,14 @@ it.describe("patio.adapters.Postgres", function (it) {
                         assert.deepEqual(columns, ["name", "value"]);
                     });
                 },
-                db.addColumn.bind(db, "test2", "xyz", "text", {"default":'000'}),
+                db.addColumn.bind(db, "test2", "xyz", "text", {"default": '000'}),
                 function () {
                     return db.from("test2").columns.then(function (columns) {
                         assert.deepEqual(columns, ["name", "value", "xyz"]);
                     });
                 },
                 function () {
-                    return db.from("test2").insert({name:'mmm', value:111})
+                    return db.from("test2").insert({name: 'mmm', value: 111})
                 },
                 function () {
                     return db.from("test2").first().then(function (res) {
@@ -316,9 +316,9 @@ it.describe("patio.adapters.Postgres", function (it) {
                 function () {
                     return db.from("test2").remove();
                 },
-                db.addColumn.bind(db, "test2", "xyz", "text", {"default":'000'}),
+                db.addColumn.bind(db, "test2", "xyz", "text", {"default": '000'}),
                 function () {
-                    return db.from("test2").insert({name:'mmm', value:111, xyz:'gggg'});
+                    return db.from("test2").insert({name: 'mmm', value: 111, xyz: 'gggg'});
                 },
                 function () {
                     return db.from("test2").columns.then(function (columns) {
@@ -341,7 +341,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                     return db.from("test2").remove();
                 },
                 function () {
-                    return db.from("test2").insert({name:'mmm', value:111, xyz:56.78});
+                    return db.from("test2").insert({name: 'mmm', value: 111, xyz: 56.78});
                 },
                 db.setColumnType.bind(db, "test2", "xyz", "integer"),
                 function () {
@@ -365,7 +365,7 @@ it.describe("patio.adapters.Postgres", function (it) {
             return serial([
                 function () {
                     return db.createTable("posts",function () {
-                        this.primaryKey("a", {type:"integer"});
+                        this.primaryKey("a", {type: "integer"});
                     }).then(function () {
                             assert.deepEqual(PG_DB.sqls, [
                                 "CREATE TABLE posts (a serial PRIMARY KEY)"
@@ -375,7 +375,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                 resetDb,
                 function () {
                     return db.forceCreateTable("posts",function () {
-                        this.primaryKey("a", {type:"bigint"});
+                        this.primaryKey("a", {type: "bigint"});
                     }).then(function () {
                             assert.deepEqual(PG_DB.sqls, [
                                 "DROP TABLE posts",
@@ -391,7 +391,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                 this.title("text");
                 this.body("text");
                 this.userId("integer");
-                this.index("userId", {opclass:"int4_ops", type:"btree"});
+                this.index("userId", {opclass: "int4_ops", type: "btree"});
             })
                 .then(function () {
                     assert.deepEqual(db.sqls, [
@@ -408,7 +408,7 @@ it.describe("patio.adapters.Postgres", function (it) {
                     this.title("text");
                     this.body("text");
                     this.fullTextIndex(["title", "body"]);
-                    this.fullTextIndex("title", {language:'french'});
+                    this.fullTextIndex("title", {language: 'french'});
                 }),
                 function () {
                     assert.deepEqual(db.sqls, [
@@ -419,9 +419,9 @@ it.describe("patio.adapters.Postgres", function (it) {
                 },
                 function () {
                     return when(
-                        ds.insert({title:"node js", body:"hello"}),
-                        ds.insert({title:"patio", body:"orm"}),
-                        ds.insert({title:"java script", body:"world"})
+                        ds.insert({title: "node js", body: "hello"}),
+                        ds.insert({title: "patio", body: "orm"}),
+                        ds.insert({title: "java script", body: "world"})
                     );
                 },
                 resetDb,
@@ -429,17 +429,17 @@ it.describe("patio.adapters.Postgres", function (it) {
                     return when(
                         ds.fullTextSearch("title", "node").all(),
                         ds.fullTextSearch(["title", "body"], ["hello", "node"]).all(),
-                        ds.fullTextSearch("title", 'script', {language:"french"}).all()
+                        ds.fullTextSearch("title", 'script', {language: "french"}).all()
                     ).then(function (res) {
                             var all1 = res[0], all2 = res[1], all3 = res[2];
                             assert.deepEqual(all1, [
-                                {title:"node js", body:"hello"}
+                                {title: "node js", body: "hello"}
                             ]);
                             assert.deepEqual(all2, [
-                                {title:"node js", body:"hello"}
+                                {title: "node js", body: "hello"}
                             ]);
                             assert.deepEqual(all3, [
-                                {title:"java script", body:"world"}
+                                {title: "java script", body: "world"}
                             ]);
                             assert.deepEqual(db.sqls, [
                                 "SELECT * FROM posts WHERE (to_tsvector('simple', (COALESCE(title, ''))) @@ to_tsquery('simple', 'node'))",
@@ -466,8 +466,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support indexes with index type", function () {
             return db.createTable("posts",function () {
-                this.title("varchar", {size:5});
-                this.index("title", {type:'hash'});
+                this.title("varchar", {size: 5});
+                this.index("title", {type: 'hash'});
             }).then(function () {
                     assert.deepEqual(db.sqls, [
                         'CREATE TABLE posts (title varchar(5))',
@@ -478,8 +478,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support unique indexes with index type", function () {
             return db.createTable("posts",function () {
-                this.title("varchar", {size:5});
-                this.index("title", {type:'btree', unique:true})
+                this.title("varchar", {size: 5});
+                this.index("title", {type: 'btree', unique: true})
             }).then(function () {
                     assert.deepEqual(db.sqls, [
                         'CREATE TABLE posts (title varchar(5))',
@@ -490,8 +490,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support partial indexes", function () {
             return db.createTable("posts",function () {
-                this.title("varchar", {size:5});
-                this.index("title", {where:{title:'5'}});
+                this.title("varchar", {size: 5});
+                this.index("title", {where: {title: '5'}});
             }).then(function () {
                     assert.deepEqual(db.sqls, [
                         'CREATE TABLE posts (title varchar(5))',
@@ -502,8 +502,8 @@ it.describe("patio.adapters.Postgres", function (it) {
 
         it.should("support identifiers for table names in indicies", function () {
             return db.createTable(sql.identifier("posts"),function () {
-                this.title("varchar", {size:5});
-                this.index("title", {where:{title:'5'}});
+                this.title("varchar", {size: 5});
+                this.index("title", {where: {title: '5'}});
             }).then(function () {
                     assert.deepEqual(db.sqls, [
                         'CREATE TABLE posts (title varchar(5))',
@@ -557,13 +557,60 @@ it.describe("patio.adapters.Postgres", function (it) {
                     function () {
                         return ds.all().then(function (res) {
                             assert.deepEqual(res, [
-                                {x:1, y:2},
-                                {x:3, y:4}
+                                {x: 1, y: 2},
+                                {x: 3, y: 4}
                             ]);
                         })
                     }
                 ]);
             });
+        });
+
+        it.describe("#createMaterializedView, #dropMaterializedView and #refreshMaterializedView", function (it) {
+            var shouldRun;
+            it.beforeAll(function () {
+                return db.serverVersion().chain(function (v) {
+                    shouldRun = v >= 90300;
+                    if (shouldRun) {
+                        return db.forceCreateTable("mtrTest", function () {
+                            this.primaryKey("id");
+                            this.a("text");
+                            this.b("text");
+                            this.c("text");
+                        });
+                    }
+                });
+            });
+
+            it.should("create a materialized view", function () {
+                if (shouldRun) {
+                    return db.createMaterializedView("mtr", db.from("mtrTest").filter({a: "hello"})).chain(function () {
+                        assert.deepEqual(db.sqls, ["CREATE MATERIALIZED VIEW mtr AS SELECT * FROM mtrTest WHERE (a = 'hello')"]);
+                    });
+                }
+            });
+
+            it.should("refresh a materialized view", function () {
+                if (shouldRun) {
+                    return db.refreshMaterializedView("mtr").chain(function () {
+                        assert.deepEqual(db.sqls, ["REFRESH MATERIALIZED VIEW mtr"]);
+                    }).chain(function () {
+                            db.sqls = [];
+                            return db.refreshMaterializedView("mtr", {noData: true}).chain(function () {
+                                assert.deepEqual(db.sqls, ["REFRESH MATERIALIZED VIEW mtr WITH NO DATA"]);
+                            });
+                        });
+                }
+            });
+
+            it.should("drop a materializedView", function () {
+                if (shouldRun) {
+                    return db.dropMaterializedView("mtr").chain(function () {
+                        assert.deepEqual(db.sqls, ["DROP MATERIALIZED VIEW mtr"]);
+                    });
+                }
+            });
+
         });
 
     });
@@ -572,5 +619,7 @@ it.describe("patio.adapters.Postgres", function (it) {
         return patio.disconnect();
     });
 }).as(module);
+
+it.run();
 
 
