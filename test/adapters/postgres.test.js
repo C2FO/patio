@@ -620,6 +620,4 @@ it.describe("patio.adapters.Postgres",function (it) {
     });
 }).as(module);
 
-it.run();
-
 

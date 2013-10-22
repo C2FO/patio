@@ -5120,11 +5120,11 @@ function (names,opts){
    if (isArray(names)) {
        opts = opts || {};
        var self = this;
-       return comb.async.array(names).forEach(function (name) {
+       return asyncArray(names).forEach(function (name) {
            return self.executeDdl(self.__dropViewSql(name, opts)).chain(function () {
                self.removeCachedSchema(name);
            });
-       }).chain(null);
+       }, null, 1).chain(null);
    } else {
        var args = argsToArray(arguments);
        if (comb.isHash(args[args.length - 1])) {
