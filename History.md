@@ -1,3 +1,7 @@
+# 0.2.3 / 2013-10-22
+
+* Changed drop view code to ensure that views are dropped in order.
+
 # 0.2.2 / 2013-10-21
 
 * Added support for postgres 9.3 materialized views.
