@@ -6362,7 +6362,7 @@ function (table,opts){
    var schemaParts = this.__schemaAndTable(table);
    var sch = schemaParts[0], tableName = schemaParts[1];
    var quotedName = this.__quoteSchemaTable(table);
-   opts = sch &amp;&amp; !opts.schema ? merge({schema: sch}, opts) : opts;
+   opts = sch &amp;&amp; !opts.schema ? merge({schema: sch}, opts): opts;
    if (opts.reload) {
        delete this.schemas[quotedName];
    }
@@ -6449,7 +6449,7 @@ function (dbType){
    } else if (dbType.match(/^(real|float|double( precision)?)$/i)) {
        ret = &quot;float&quot;;
    } else if ((m = dbType.match(/^(?:(?:(?:num(?:ber|eric)?|decimal|double)(?:\(\d+,\s*(\d+)\))?)|(?:small)?money)/i))) {
-       ret = m[1] &amp;&amp; m[1] === &#x27;0&#x27; ? &quot;integer&quot; : &quot;decimal&quot;;
+       ret = m[1] &amp;&amp; m[1] === &#x27;0&#x27; ? &quot;integer&quot;: &quot;decimal&quot;;
    } else if (dbType.match(/n?text/i)) {
        ret = &quot;text&quot;;
    } else if (dbType.match(/bytea|[bc]lob|image|(var)?binary/i)) {

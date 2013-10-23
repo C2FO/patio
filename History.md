@@ -1,3 +1,8 @@
+# 0.2.4/ 2013-10-23
+
+* Changed to prevent errors that occur in a transaction from being wrapped in a new error and losing the stack.
+
+
 # 0.2.3 / 2013-10-22
 
 * Changed drop view code to ensure that views are dropped in order.
