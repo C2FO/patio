@@ -9566,21 +9566,21 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>876</span><code>    var WILDCARD = new LiteralString('*');</code></li>
-<li class='green'><span class='hits'>876</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
-<li class='green'><span class='hits'>876</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
-<li class='green'><span class='hits'>876</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>872</span><code>    var WILDCARD = new LiteralString('*');</code></li>
+<li class='green'><span class='hits'>872</span><code>    var QUESTION_MARK = new LiteralString('?');</code></li>
+<li class='green'><span class='hits'>872</span><code>    var COMMA_SEPARATOR = new LiteralString(', ');</code></li>
+<li class='green'><span class='hits'>872</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>876</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>876</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>876</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>876</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>872</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>872</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>872</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>872</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>3</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>876</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>872</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>484</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>484</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>478</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9590,8 +9590,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>876</span><code>    ret.__proto__ = ident;</code></li>
-<li class='green'><span class='hits'>876</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>872</span><code>    ret.__proto__ = ident;</code></li>
+<li class='green'><span class='hits'>872</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -10043,7 +10043,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>876</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>872</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10853,13 +10853,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs:function (args) {</code></li>
-<li class='green'><span class='hits'>1946</span><code>            var ret;</code></li>
-<li class='green'><span class='hits'>1946</span><code>            try {</code></li>
-<li class='green'><span class='hits'>1946</span><code>                ret = new this();</code></li>
+<li class='green'><span class='hits'>1942</span><code>            var ret;</code></li>
+<li class='green'><span class='hits'>1942</span><code>            try {</code></li>
+<li class='green'><span class='hits'>1942</span><code>                ret = new this();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>1946</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>1946</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>1942</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>1942</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11662,7 +11662,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (value) {</code></li>
-<li class='green'><span class='hits'>14425</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>14417</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -12262,7 +12262,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @param {String} str the literal string.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (str) {</code></li>
-<li class='green'><span class='hits'>3057</span><code>            this.__str = str;</code></li>
+<li class='green'><span class='hits'>3045</span><code>            this.__str = str;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}).as(sql, "LiteralString");</code></li>
@@ -12592,7 +12592,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>108</span><code>            var schemaParts = this.__schemaAndTable(table);</code></li>
 <li class='green'><span class='hits'>108</span><code>            var sch = schemaParts[0], tableName = schemaParts[1];</code></li>
 <li class='green'><span class='hits'>108</span><code>            var quotedName = this.__quoteSchemaTable(table);</code></li>
-<li class='green'><span class='hits'>108</span><code>            opts = sch &amp;&amp; !opts.schema ? merge({schema: sch}, opts) : opts;</code></li>
+<li class='green'><span class='hits'>108</span><code>            opts = sch &amp;&amp; !opts.schema ? merge({schema: sch}, opts): opts;</code></li>
 <li class='green'><span class='hits'>108</span><code>            if (opts.reload) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                delete this.schemas[quotedName];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
@@ -12894,7 +12894,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        __transaction: function (conn, opts, cb) {</code></li>
 <li class='green'><span class='hits'>891</span><code>            var promise = new Promise();</code></li>
 <li class='green'><span class='hits'>891</span><code>            try {</code></li>
-<li class='green'><span class='hits'>891</span><code>                var connPromise = conn ? new Promise().callback(conn) : this._getConnection().addCallback(hitch(this, function (conn) {</code></li>
+<li class='green'><span class='hits'>891</span><code>                var connPromise = conn ? new Promise().callback(conn): this._getConnection().addCallback(hitch(this, function (conn) {</code></li>
 <li class='green'><span class=''> </span><code>                    //add the connection to the transactions</code></li>
 <li class='green'><span class='hits'>886</span><code>                    this.__transactions.push(conn);</code></li>
 <li class='green'><span class=''> </span><code>                    //reset transaction depth to 0, this is used for keeping track of save points.</code></li>
@@ -12937,21 +12937,21 @@ td.cov-stats {
 <li class='green'><span class='hits'>55</span><code>                        if (isArray(e) &amp;&amp; e.length === 2) {</code></li>
 <li class='green'><span class='hits'>55</span><code>                            var realE = e[1];</code></li>
 <li class='green'><span class='hits'>55</span><code>                            if (realE !== "ROLLBACK") {</code></li>
-<li class='green'><span class='hits'>54</span><code>                                promise.errback(new Error(realE));</code></li>
+<li class='green'><span class='hits'>54</span><code>                                promise.errback(realE);</code></li>
 <li class='green'><span class='hits'>54</span><code>                                break;</code></li>
 <li class='green'><span class=''> </span><code>                            } else {</code></li>
 <li class='green'><span class='hits'>1</span><code>                                promise.callback();</code></li>
 <li class='green'><span class='hits'>1</span><code>                                break;</code></li>
 <li class='green'><span class=''> </span><code>                            }</code></li>
 <li class='green'><span class=''> </span><code>                        } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                            promise.errback(new Error(e));</code></li>
+<li class='red'><span class='nohits'>0</span><code>                            promise.errback(e);</code></li>
 <li class='red'><span class='nohits'>0</span><code>                            break;</code></li>
 <li class='green'><span class=''> </span><code>                        }</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                if (err !== "ROLLBACK") {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    throw new Error(err);</code></li>
+<li class='red'><span class='nohits'>0</span><code>                    throw err;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
@@ -13053,7 +13053,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        __setTransactionIsolation: function (conn, opts) {</code></li>
 <li class='green'><span class='hits'>886</span><code>            var level;</code></li>
 <li class='green'><span class='hits'>886</span><code>            var ret = new Promise();</code></li>
-<li class='green'><span class='hits'>886</span><code>            if (this.supportsTransactionIsolationLevels &amp;&amp; !isUndefinedOrNull(level = isUndefinedOrNull(opts.isolation) ? this.transactionIsolationLevel : opts.isolation)) {</code></li>
+<li class='green'><span class='hits'>886</span><code>            if (this.supportsTransactionIsolationLevels &amp;&amp; !isUndefinedOrNull(level = isUndefinedOrNull(opts.isolation) ? this.transactionIsolationLevel: opts.isolation)) {</code></li>
 <li class='green'><span class='hits'>8</span><code>                return this.__logConnectionExecute(conn, this.__setTransactionIsolationSql(level)).then(ret);</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='green'><span class='hits'>878</span><code>                ret.callback();</code></li>
@@ -13174,7 +13174,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>66</span><code>            } else if (dbType.match(/^(real|float|double( precision)?)$/i)) {</code></li>
 <li class='green'><span class='hits'>12</span><code>                ret = "float";</code></li>
 <li class='green'><span class='hits'>54</span><code>            } else if ((m = dbType.match(/^(?:(?:(?:num(?:ber|eric)?|decimal|double)(?:\(\d+,\s*(\d+)\))?)|(?:small)?money)/i))) {</code></li>
-<li class='green'><span class='hits'>2</span><code>                ret = m[1] &amp;&amp; m[1] === '0' ? "integer" : "decimal";</code></li>
+<li class='green'><span class='hits'>2</span><code>                ret = m[1] &amp;&amp; m[1] === '0' ? "integer": "decimal";</code></li>
 <li class='green'><span class='hits'>52</span><code>            } else if (dbType.match(/n?text/i)) {</code></li>
 <li class='green'><span class='hits'>37</span><code>                ret = "text";</code></li>
 <li class='green'><span class='hits'>15</span><code>            } else if (dbType.match(/bytea|[bc]lob|image|(var)?binary/i)) {</code></li>
@@ -18791,7 +18791,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *  &lt;/ul&gt;</code></li>
 <li class='green'><span class=''> </span><code>         * @param [expr] - depends on type</code></li>
 <li class='green'><span class=''> </span><code>         * &lt;ul&gt;</code></li>
-<li class='green'><span class=''> </span><code>         *     &lt;li&gt;Object|Array of two element arrays - Assumes key (1st arg) is column of joined table (unless already</code></li>
+<li class='green'><span class=''> </span><code>         *     &lt;li&gt;Object|Array of two element arrays - Assumes key (1st arg) is column of joinedson table (unless already</code></li>
 <li class='green'><span class=''> </span><code>         *     qualified), and value (2nd arg) is column of the last joined or primary table (or the</code></li>
 <li class='green'><span class=''> </span><code>         *     implicitQualifier option&lt;/li&gt;.</code></li>
 <li class='green'><span class=''> </span><code>         *     &lt;li&gt;Array - If all members of the array are string or {@link patio.sql.Identifier}, considers</code></li>
