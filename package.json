@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "keywords": [
         "ORM",
         "object relation mapper",
@@ -30,7 +30,7 @@
     "main": "index.js",
     "dependencies": {
         "mysql": "2.0.0-alpha9",
-        "pg": "2.7.0",
+        "pg": "2.8.2",
         "comb": "~0.2.3",
         "comb-proxy": ">=0.0.3",
         "hive-cache": "0.0.3",
