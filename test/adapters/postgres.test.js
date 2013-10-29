@@ -643,6 +643,7 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     var ret = new comb.Promise(), called = 0;
                     db.listenOnce("myChannel").chain(function (payload) {
                         assert.equal(payload, "hello1");
+                        called++;
                         ret.callback();
                     });
                     return when(
