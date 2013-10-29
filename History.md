@@ -1,4 +1,8 @@
-#0.2.5
+# 0.2.6
+
+* Updated to use postgres native drivers unless they are not found.
+
+# 0.2.5
 
 * Added support for postgres listen/notify.
 
