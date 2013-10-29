@@ -1,3 +1,7 @@
+# 0.2.7
+
+* Fixed issue with quoted channel names
+
 # 0.2.6
 
 * Updated to use postgres native drivers unless they are not found.
