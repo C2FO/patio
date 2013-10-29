@@ -644,11 +644,13 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     db.listenOnce("myChannel").chain(function (payload) {
                         assert.equal(payload, "hello1");
                         called++;
+                        ret.callback();
                     });
                     return when(
                         db.notify("myChannel", "hello1"),
                         db.notify("myChannel", "hello2"),
-                        db.notify("myChannel", "hello3")
+                        db.notify("myChannel", "hello3"),
+                        ret
                     ).chain(function () {
                             assert.equal(called, 1);
                             called = 0;
