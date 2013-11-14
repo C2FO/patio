@@ -1,3 +1,8 @@
+# 0.2.8
+
+* Updated listener to strip generated quotes.
+
+
 # 0.2.7
 
 * Fixed issue with quoted channel names
