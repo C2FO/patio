@@ -11,28 +11,31 @@ var it = require('it'),
 var gender = ["M", "F"];
 var cities = ["Omaha", "Lincoln", "Kearney"];
 
-it.describe("Many to Many lazy with filter", function (it) {
+it.describe("Many to Many lazy with filter",function (it) {
 
 
     var Company, Employee;
     it.beforeAll(function () {
         Company = patio.addModel("company", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
+                    this.manyToMany("buyers", {model: "company", joinTable: "buyerVendor", key: {vendorId: "buyerId"}});
+                    this.manyToMany("vendors", {model: "company", joinTable: "buyerVendor", key: {buyerId: "vendorId"}});
+
                     this.manyToMany("employees");
-                    this.manyToMany("omahaEmployees", {model:"employee"}, function (ds) {
+                    this.manyToMany("omahaEmployees", {model: "employee"}, function (ds) {
                         return ds.filter(sql.identifier("city").ilike("omaha"));
                     });
-                    this.manyToMany("lincolnEmployees", {model:"employee"}, function (ds) {
+                    this.manyToMany("lincolnEmployees", {model: "employee"}, function (ds) {
                         return ds.filter(sql.identifier("city").ilike("lincoln"));
                     });
                 }
             }
         });
         Employee = patio.addModel("employee", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
                     this.manyToMany("companies");
                 }
@@ -44,11 +47,11 @@ it.describe("Many to Many lazy with filter", function (it) {
 
     it.should("have associations", function () {
         assert.deepEqual(Employee.associations, ["companies"]);
-        assert.deepEqual(Company.associations, ["employees", "omahaEmployees", "lincolnEmployees"]);
+        assert.deepEqual(Company.associations, ["buyers", "vendors", "employees", "omahaEmployees", "lincolnEmployees"]);
         var emp = new Employee();
         var company = new Company();
         assert.deepEqual(emp.associations, ["companies"]);
-        assert.deepEqual(company.associations, ["employees", "omahaEmployees", "lincolnEmployees"]);
+        assert.deepEqual(company.associations, ["buyers", "vendors", "employees", "omahaEmployees", "lincolnEmployees"]);
     });
 
 
@@ -58,26 +61,26 @@ it.describe("Many to Many lazy with filter", function (it) {
             var employees = [];
             for (var i = 0; i < 3; i++) {
                 employees.push({
-                    lastname:"last" + i,
-                    firstname:"first" + i,
-                    midinitial:"m",
-                    gender:gender[i % 2],
-                    street:"Street " + i,
-                    city:cities[i % 3]
+                    lastname: "last" + i,
+                    firstname: "first" + i,
+                    midinitial: "m",
+                    gender: gender[i % 2],
+                    street: "Street " + i,
+                    city: cities[i % 3]
                 });
             }
             var c1 = new Company({
-                companyName:"Google",
-                employees:employees
+                companyName: "Google",
+                employees: employees
             });
             c1.save().then(function () {
                 comb.executeInOrder(Company,
                     function (Company) {
                         var company = Company.one();
                         return {
-                            employees:company.employees,
-                            omahaEmployees:company.omahaEmployees,
-                            lincolnEmployees:company.lincolnEmployees
+                            employees: company.employees,
+                            omahaEmployees: company.omahaEmployees,
+                            lincolnEmployees: company.lincolnEmployees
                         };
                     }).then(function (ret) {
                         var emps = ret.employees;
@@ -108,7 +111,7 @@ it.describe("Many to Many lazy with filter", function (it) {
             comb.executeInOrder(assert, Employee,function (assert, Employee) {
                 var emps = Employee.all();
                 assert.lengthOf(emps, 3);
-                return {companies1:emps[0].companies, companies2:emps[1].companies};
+                return {companies1: emps[0].companies, companies2: emps[1].companies};
             }).then(function (ret) {
                     assert.isTrue(ret.companies1.every(function (c) {
                         return c.companyName === "Google";
@@ -127,32 +130,32 @@ it.describe("Many to Many lazy with filter", function (it) {
         it.beforeEach(function () {
             return comb.executeInOrder(Company, function (Company) {
                 Company.remove();
-                new Company({companyName:"Google"}).save();
+                new Company({companyName: "Google"}).save();
             });
         });
 
         it.should("have an add method for filtered datasets", function (next) {
             Company.one().then(function (company) {
                 var lincolnEmp = new Employee({
-                    lastname:"last",
-                    firstname:"first",
-                    midInitial:"m",
-                    gender:gender[0],
-                    street:"Street",
-                    city:"Lincoln"
+                    lastname: "last",
+                    firstname: "first",
+                    midInitial: "m",
+                    gender: gender[0],
+                    street: "Street",
+                    city: "Lincoln"
                 });
                 var omahaEmp = new Employee({
-                    lastname:"last",
-                    firstname:"first",
-                    midInitial:"m",
-                    gender:gender[0],
-                    street:"Street",
-                    city:"Omaha"
+                    lastname: "last",
+                    firstname: "first",
+                    midInitial: "m",
+                    gender: gender[0],
+                    street: "Street",
+                    city: "Omaha"
                 });
                 comb.executeInOrder(company,function (company) {
                     company.addOmahaEmployee(omahaEmp);
                     company.addLincolnEmployee(lincolnEmp);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
                 }).then(function (ret) {
                         assert.lengthOf(ret.omahaEmployees, 1);
                         assert.lengthOf(ret.lincolnEmployees, 1);
@@ -165,22 +168,22 @@ it.describe("Many to Many lazy with filter", function (it) {
             var omahaEmployees = [], lincolnEmployees = [];
             for (var i = 0; i < 3; i++) {
                 omahaEmployees.push({
-                    lastname:"last" + i,
-                    firstname:"first" + i,
-                    midInitial:"m",
-                    gender:gender[i % 2],
-                    street:"Street " + i,
-                    city:"Omaha"
+                    lastname: "last" + i,
+                    firstname: "first" + i,
+                    midInitial: "m",
+                    gender: gender[i % 2],
+                    street: "Street " + i,
+                    city: "Omaha"
                 });
             }
             for (i = 0; i < 3; i++) {
                 lincolnEmployees.push({
-                    lastname:"last" + i,
-                    firstname:"first" + i,
-                    midInitial:"m",
-                    gender:gender[i % 2],
-                    street:"Street " + i,
-                    city:"Lincoln"
+                    lastname: "last" + i,
+                    firstname: "first" + i,
+                    midInitial: "m",
+                    gender: gender[i % 2],
+                    street: "Street " + i,
+                    city: "Lincoln"
                 });
             }
             comb.executeInOrder(Company,
@@ -188,11 +191,39 @@ it.describe("Many to Many lazy with filter", function (it) {
                     var company = Company.one();
                     company.addOmahaEmployees(omahaEmployees);
                     company.addLincolnEmployees(lincolnEmployees);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
                 }).then(function (ret) {
                     assert.lengthOf(ret.omahaEmployees, 3);
                     assert.lengthOf(ret.lincolnEmployees, 3);
                     next();
+                }, next);
+        });
+
+        it.should("filter many to many relationship to itself", function (next) {
+            var vendors = [], buyers = [];
+            for (var i = 0; i < 3; i++) {
+                vendors.push({
+                    companyName:"company" + i
+                });
+            }
+            for (i = 3; i < 6; i++) {
+                buyers.push({
+                    companyName:"company" + i
+                });
+            }
+            comb.executeInOrder(Company,
+                function (Company) {
+                    var company = Company.one();
+                    company.addBuyers(buyers);
+                    company.addVendors(vendors);
+                    return {vendors:company.vendorsDataset.filter({companyName:"company0"}).all(), buyers:company.buyers};
+                }).then(function (ret) {
+                    Company.findById(ret.vendors[0].id).then(function(vendor){
+                        assert.lengthOf(ret.vendors, 1);
+                        assert.equal(ret.vendors[0].companyName,vendor.companyName);
+                        assert.lengthOf(ret.buyers, 3);
+                        next();
+                    })
                 }, next);
         });
 
@@ -202,19 +233,19 @@ it.describe("Many to Many lazy with filter", function (it) {
         var employees = [];
         for (var i = 0; i < 3; i++) {
             employees.push({
-                lastname:"last" + i,
-                firstname:"first" + i,
-                midInitial:"m",
-                gender:gender[i % 2],
-                street:"Street " + i,
-                city:cities[i % 3]
+                lastname: "last" + i,
+                firstname: "first" + i,
+                midInitial: "m",
+                gender: gender[i % 2],
+                street: "Street " + i,
+                city: cities[i % 3]
             });
         }
         it.beforeEach(function () {
             return comb.executeInOrder(Company, Employee, function (Company, Employee) {
                 Company.remove();
                 Employee.remove();
-                new Company({companyName:"Google", employees:employees}).save();
+                new Company({companyName: "Google", employees: employees}).save();
             });
         });
 
@@ -226,7 +257,7 @@ it.describe("Many to Many lazy with filter", function (it) {
                     var lincolnEmps = company.lincolnEmployees;
                     company.removeOmahaEmployee(omahaEmps[0], true);
                     company.removeLincolnEmployee(lincolnEmps[0], true);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees, empCount:Employee.count()};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
                 }).then(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
@@ -244,7 +275,7 @@ it.describe("Many to Many lazy with filter", function (it) {
                     var lincolnEmps = company.lincolnEmployees;
                     company.removeOmahaEmployee(omahaEmps[0]);
                     company.removeLincolnEmployee(lincolnEmps[0]);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees, empCount:Employee.count()};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
                 }).then(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
@@ -262,7 +293,7 @@ it.describe("Many to Many lazy with filter", function (it) {
                     var lincolnEmps = company.lincolnEmployees;
                     company.removeOmahaEmployees(omahaEmps, true);
                     company.removeLincolnEmployees(lincolnEmps, true);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees, empCount:Employee.count()};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
                 }).then(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
@@ -280,7 +311,7 @@ it.describe("Many to Many lazy with filter", function (it) {
                     var lincolnEmps = company.lincolnEmployees;
                     company.removeOmahaEmployees(omahaEmps);
                     company.removeLincolnEmployees(lincolnEmps);
-                    return {omahaEmployees:company.omahaEmployees, lincolnEmployees:company.lincolnEmployees, empCount:Employee.count()};
+                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
                 }).then(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
@@ -295,4 +326,3 @@ it.describe("Many to Many lazy with filter", function (it) {
         return helper.dropModels();
     });
 }).as(module);
-
