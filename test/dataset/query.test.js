@@ -38,12 +38,12 @@ it.describe("Dataset queries",function (it) {
             assert.equal(ds.insertSql(), 'INSERT INTO test DEFAULT VALUES');
         });
         it.should("format an insert statement with hash", function () {
-            assert.equal(ds.insertSql({name:'wxyz', price:342}), "INSERT INTO test (name, price) VALUES ('wxyz', 342)");
+            assert.equal(ds.insertSql({name: 'wxyz', price: 342}), "INSERT INTO test (name, price) VALUES ('wxyz', 342)");
             assert.equal(ds.insertSql({}), "INSERT INTO test DEFAULT VALUES");
         });
 
         it.should("format an insert statement with an object that has a values property", function () {
-            var v = {values:{a:1}};
+            var v = {values: {a: 1}};
             assert.equal(ds.insertSql(v), "INSERT INTO test (a) VALUES (1)");
             assert.equal(ds.insertSql({}), "INSERT INTO test DEFAULT VALUES");
         });
@@ -53,7 +53,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("format an insert statement with sub-query", function () {
-            var sub = new Dataset().from("something").filter({x:2});
+            var sub = new Dataset().from("something").filter({x: 2});
             assert.equal(ds.insertSql(sub), "INSERT INTO test SELECT * FROM something WHERE (x = 2)");
 
         });
@@ -63,15 +63,15 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("format an update statement", function () {
-            assert.equal(ds.updateSql({name:'abc'}), "UPDATE test SET name = 'abc'");
+            assert.equal(ds.updateSql({name: 'abc'}), "UPDATE test SET name = 'abc'");
         });
 
         it.should("accept hash with string keys", function () {
-            assert.equal(ds.insertSql({c:'d'}), "INSERT INTO test (c) VALUES ('d')");
+            assert.equal(ds.insertSql({c: 'd'}), "INSERT INTO test (c) VALUES ('d')");
         });
 
         it.should("accept hash with string keys", function () {
-            assert.equal(ds.insertSql({c:'d'}), "INSERT INTO test (c) VALUES ('d')");
+            assert.equal(ds.insertSql({c: 'd'}), "INSERT INTO test (c) VALUES ('d')");
         });
 
         it.should("accept array subscript references", function () {
@@ -95,7 +95,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("raise if given bad values", function () {
-            assert.throws(hitch(ds.mergeOptions({values:'a'}), "_insertSql"));
+            assert.throws(hitch(ds.mergeOptions({values: 'a'}), "_insertSql"));
         });
 
         it.should("accept separate values", function () {
@@ -123,7 +123,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept an object that responds to values and returns a hash by using that hash as the columns and values", function () {
-            var o = {values:{c:"d"}};
+            var o = {values: {c: "d"}};
             assert.equal(ds.insertSql(o), "INSERT INTO test (c) VALUES ('d')");
         });
 
@@ -143,7 +143,7 @@ it.describe("Dataset queries",function (it) {
         var ds = new Dataset().from("t1", "t2");
 
         it.should("raise on updateSql", function () {
-            assert.throws(comb.hitch(ds, ds.updateSql, {a:1}));
+            assert.throws(comb.hitch(ds, ds.updateSql, {a: 1}));
         });
 
         it.should("raise on deleteSql", function () {
@@ -183,7 +183,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("return an appropriate string if given other forms of identifiers", function () {
-            ds.mergeOptions({from:null});
+            ds.mergeOptions({from: null});
             ds.from("test");
             assert.equal(ds.unusedTableAlias('test'), "test0");
             assert.equal(ds.unusedTableAlias("b__t___test"), "test0");
@@ -197,8 +197,8 @@ it.describe("Dataset queries",function (it) {
 
     it.describe("#exists", function (it) {
         var ds1 = new Dataset().from("test"),
-            ds2 = ds1.filter({price:{lt:100}}),
-            ds3 = ds1.filter({price:{gt:50}});
+            ds2 = ds1.filter({price: {lt: 100}}),
+            ds3 = ds1.filter({price: {gt: 50}});
 
         it.should("work in filters", function () {
             assert.equal(ds1.filter(ds2.exists).sql, 'SELECT * FROM test WHERE (EXISTS (SELECT * FROM test WHERE (price < 100)))');
@@ -212,7 +212,7 @@ it.describe("Dataset queries",function (it) {
 
     it.describe("#where", function (it) {
         var dataset = new Dataset().from("test"),
-            d1 = dataset.where({region:"Asia"}),
+            d1 = dataset.where({region: "Asia"}),
             d2 = dataset.where("region = ?", "Asia"),
             d3 = dataset.where(sql.literal("a = 1"));
 
@@ -229,7 +229,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("work with hashes", function () {
-            assert.equal(dataset.where({name:'xyz', price:342}).selectSql, "SELECT * FROM test WHERE ((name = 'xyz') AND (price = 342))");
+            assert.equal(dataset.where({name: 'xyz', price: 342}).selectSql, "SELECT * FROM test WHERE ((name = 'xyz') AND (price = 342))");
         });
 
         it.should("work with a string with placeholders and arguments for those placeholders", function () {
@@ -248,41 +248,41 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("work with a string with named placeholders and a hash of placeholder value arguments", function () {
-            assert.equal(dataset.where('price < {price} AND id in {ids}', {price:100, ids:[1, 2, 3]}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id in (1, 2, 3))");
+            assert.equal(dataset.where('price < {price} AND id in {ids}', {price: 100, ids: [1, 2, 3]}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id in (1, 2, 3))");
         });
 
         it.should("not modify passed array with named placeholders", function () {
-            var a = ['price < {price} AND id in {ids}', {price:100}];
+            var a = ['price < {price} AND id in {ids}', {price: 100}];
             var b = a.slice(0);
             dataset.where(a);
             assert.deepEqual(b, a);
         });
 
         it.should("not replace named placeholders that don't existin in the hash", function () {
-            assert.equal(dataset.where('price < {price} AND id in {ids}', {price:100}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id in {ids})");
+            assert.equal(dataset.where('price < {price} AND id in {ids}', {price: 100}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id in {ids})");
         });
 
         it.should("handle partial names", function () {
-            assert.equal(dataset.where('price < {price} AND id = {p}', {p:2, price:100}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id = 2)");
+            assert.equal(dataset.where('price < {price} AND id = {p}', {p: 2, price: 100}).selectSql, "SELECT * FROM test WHERE (price < 100 AND id = 2)");
         });
 
         it.should("affect SELECT, delete and update statements", function () {
             assert.equal(d1.selectSql, "SELECT * FROM test WHERE (region = 'Asia')");
             assert.equal(d1.deleteSql, "DELETE FROM test WHERE (region = 'Asia')");
-            assert.equal(d1.updateSql({GDP:0}), "UPDATE test SET GDP = 0 WHERE (region = 'Asia')");
+            assert.equal(d1.updateSql({GDP: 0}), "UPDATE test SET GDP = 0 WHERE (region = 'Asia')");
 
             assert.equal(d2.selectSql, "SELECT * FROM test WHERE (region = 'Asia')");
             assert.equal(d2.deleteSql, "DELETE FROM test WHERE (region = 'Asia')");
-            assert.equal(d2.updateSql({GDP:0}), "UPDATE test SET GDP = 0 WHERE (region = 'Asia')");
+            assert.equal(d2.updateSql({GDP: 0}), "UPDATE test SET GDP = 0 WHERE (region = 'Asia')");
 
             assert.equal(d3.selectSql, "SELECT * FROM test WHERE (a = 1)");
             assert.equal(d3.deleteSql, "DELETE FROM test WHERE (a = 1)");
-            assert.equal(d3.updateSql({GDP:0}), "UPDATE test SET GDP = 0 WHERE (a = 1)");
+            assert.equal(d3.updateSql({GDP: 0}), "UPDATE test SET GDP = 0 WHERE (a = 1)");
 
         });
 
         it.should("be composable using AND operator (for scoping)", function () {
-            assert.equal(d1.where({size:'big'}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (size = 'big'))");
+            assert.equal(d1.where({size: 'big'}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (size = 'big'))");
 
             assert.equal(d1.where(sql.literal('population > 1000')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (population > 1000))");
             assert.equal(d1.where(sql.literal('(a > 1) OR (b < 2)')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND ((a > 1) OR (b < 2)))");
@@ -291,7 +291,7 @@ it.describe("Dataset queries",function (it) {
 
             assert.equal(d2.where('GDP > ?', 1000).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > 1000))");
 
-            assert.equal(d2.where({name:['Japan', 'China']}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (name IN ('Japan', 'China')))");
+            assert.equal(d2.where({name: ['Japan', 'China']}).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (name IN ('Japan', 'China')))");
 
             assert.equal(d2.where(sql.literal('GDP > ?')).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (GDP > ?))");
 
@@ -299,20 +299,20 @@ it.describe("Dataset queries",function (it) {
 
             assert.equal(d2.where(sql.literal('(size = ?)', sql.identifier("big"))).selectSql, "SELECT * FROM test WHERE ((region = 'Asia') AND (size = big))");
 
-            assert.equal(d3.where({c:3}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (c = 3))");
+            assert.equal(d3.where({c: 3}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (c = 3))");
 
             assert.equal(d3.where('d = ?', 4).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (d = 4))");
 
-            assert.equal(d3.where({e:{lt:5}}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (e < 5))");
+            assert.equal(d3.where({e: {lt: 5}}).selectSql, "SELECT * FROM test WHERE ((a = 1) AND (e < 5))");
         });
 
         it.should("accept ranges", function () {
-            assert.equal(dataset.filter({id:{between:[4, 7]}}).sql, 'SELECT * FROM test WHERE ((id >= 4) AND (id <= 7))');
-            assert.equal(dataset.filter({table__id:{between:[4, 7]}}).sql, 'SELECT * FROM test WHERE ((table.id >= 4) AND (table.id <= 7))');
+            assert.equal(dataset.filter({id: {between: [4, 7]}}).sql, 'SELECT * FROM test WHERE ((id >= 4) AND (id <= 7))');
+            assert.equal(dataset.filter({table__id: {between: [4, 7]}}).sql, 'SELECT * FROM test WHERE ((table.id >= 4) AND (table.id <= 7))');
         });
 
         it.should("accept null", function () {
-            assert.equal(dataset.filter({owner_id:null}).sql, 'SELECT * FROM test WHERE (owner_id IS NULL)');
+            assert.equal(dataset.filter({owner_id: null}).sql, 'SELECT * FROM test WHERE (owner_id IS NULL)');
         });
 
         it.should("accept a subquery", function () {
@@ -320,29 +320,29 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle all types of IN/NOT IN queries", function () {
-            assert.equal(dataset.filter({id:d1.select("id")}).sql, "SELECT * FROM test WHERE (id IN (SELECT id FROM test WHERE (region = 'Asia')))");
-            assert.equal(dataset.filter({id:[]}).sql, "SELECT * FROM test WHERE (id != id)");
-            assert.equal(dataset.filter({id:[1, 2]}).sql, "SELECT * FROM test WHERE (id IN (1, 2))");
-            assert.equal(dataset.filter({"id1,id2":d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
-            assert.equal(dataset.filter({"id1,id2":[]}).sql, "SELECT * FROM test WHERE ((id1 != id1) AND (id2 != id2))");
-            assert.equal(dataset.filter({"id1,id2":[
+            assert.equal(dataset.filter({id: d1.select("id")}).sql, "SELECT * FROM test WHERE (id IN (SELECT id FROM test WHERE (region = 'Asia')))");
+            assert.equal(dataset.filter({id: []}).sql, "SELECT * FROM test WHERE (id != id)");
+            assert.equal(dataset.filter({id: [1, 2]}).sql, "SELECT * FROM test WHERE (id IN (1, 2))");
+            assert.equal(dataset.filter({"id1,id2": d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
+            assert.equal(dataset.filter({"id1,id2": []}).sql, "SELECT * FROM test WHERE ((id1 != id1) AND (id2 != id2))");
+            assert.equal(dataset.filter({"id1,id2": [
                 [1, 2],
                 [3, 4]
             ]}).sql, "SELECT * FROM test WHERE ((id1, id2) IN ((1, 2), (3, 4)))");
 
-            assert.equal(dataset.exclude({id:d1.select("id")}).sql, "SELECT * FROM test WHERE (id NOT IN (SELECT id FROM test WHERE (region = 'Asia')))");
+            assert.equal(dataset.exclude({id: d1.select("id")}).sql, "SELECT * FROM test WHERE (id NOT IN (SELECT id FROM test WHERE (region = 'Asia')))");
             //assert.equal(dataset.exclude({id : []}).sql, "SELECT * FROM test WHERE (1 = 1)");
-            assert.equal(dataset.exclude({id:[1, 2]}).sql, "SELECT * FROM test WHERE (id NOT IN (1, 2))");
-            assert.equal(dataset.exclude({"id1,id2":d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
-            assert.equal(dataset.exclude({"id1,id2":[]}).sql, "SELECT * FROM test WHERE (1 = 1)");
-            assert.equal(dataset.exclude({"id1,id2":[
+            assert.equal(dataset.exclude({id: [1, 2]}).sql, "SELECT * FROM test WHERE (id NOT IN (1, 2))");
+            assert.equal(dataset.exclude({"id1,id2": d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
+            assert.equal(dataset.exclude({"id1,id2": []}).sql, "SELECT * FROM test WHERE (1 = 1)");
+            assert.equal(dataset.exclude({"id1,id2": [
                 [1, 2],
                 [3, 4]
             ]}).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN ((1, 2), (3, 4)))");
         });
 
         it.should("accept a subquery for an EXISTS clause", function () {
-            var a = dataset.filter({price:{lt:100}});
+            var a = dataset.filter({price: {lt: 100}});
             assert.equal(dataset.filter(a.exists).sql, 'SELECT * FROM test WHERE (EXISTS (SELECT * FROM test WHERE (price < 100)))');
         });
 
@@ -375,7 +375,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("work for grouped datasets", function () {
-            assert.equal(dataset.group("a").filter({b:1}).sql, 'SELECT * FROM test WHERE (b = 1) GROUP BY a');
+            assert.equal(dataset.group("a").filter({b: 1}).sql, 'SELECT * FROM test WHERE (b = 1) GROUP BY a');
         });
 
         it.should("accept true and false as arguments", function () {
@@ -385,12 +385,12 @@ it.describe("Dataset queries",function (it) {
 
         it.should("allow the use of multiple arguments", function () {
             assert.equal(dataset.filter(new Identifier("a"), new Identifier("b")).sql, 'SELECT * FROM test WHERE (a AND b)');
-            assert.equal(dataset.filter(new Identifier("a"), {b:1}).sql, 'SELECT * FROM test WHERE (a AND (b = 1))');
-            assert.equal(dataset.filter(new Identifier("a"), {c:{gt:3}}, {b:1}).sql, 'SELECT * FROM test WHERE (a AND (c > 3) AND (b = 1))');
+            assert.equal(dataset.filter(new Identifier("a"), {b: 1}).sql, 'SELECT * FROM test WHERE (a AND (b = 1))');
+            assert.equal(dataset.filter(new Identifier("a"), {c: {gt: 3}}, {b: 1}).sql, 'SELECT * FROM test WHERE (a AND (c > 3) AND (b = 1))');
         });
 
         it.should("allow the use of blocks and arguments simultaneously", function () {
-            assert.equal(dataset.filter({zz:{lt:3}},
+            assert.equal(dataset.filter({zz: {lt: 3}},
                 function () {
                     return this.yy.gt(3);
                 }).sql, 'SELECT * FROM test WHERE ((zz < 3) AND (yy > 3))');
@@ -431,77 +431,128 @@ it.describe("Dataset queries",function (it) {
 
     it.describe("#or", function (it) {
         var dataset = new Dataset().from("test"),
-            d1 = dataset.where({x:1});
+            d1 = dataset.where({x: 1});
 
         it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "or", {a:1}));
+            assert.throws(comb.hitch(dataset, "or", {a: 1}));
         });
 
         it.should("add an alternative expression to the where clause", function () {
-            assert.equal(d1.or({y:2}).sql, "SELECT * FROM test WHERE ((x = 1) OR (y = 2))");
+            assert.equal(d1.or({y: 2}).sql, "SELECT * FROM test WHERE ((x = 1) OR (y = 2))");
         });
 
         it.should("accept all forms of filters", function () {
             assert.equal(d1.or("y > ?", 2).sql, 'SELECT * FROM test WHERE ((x = 1) OR (y > 2))');
-            assert.equal(d1.or({yy:{gt:3}}).sql, 'SELECT * FROM test WHERE ((x = 1) OR (yy > 3))');
+            assert.equal(d1.or({yy: {gt: 3}}).sql, 'SELECT * FROM test WHERE ((x = 1) OR (yy > 3))');
             assert.equal(d1.or(sql.yy.gt(3)).sql, 'SELECT * FROM test WHERE ((x = 1) OR (yy > 3))');
         });
 
         it.should("correctly add parens to give predictable results", function () {
-            assert.equal(d1.filter({y:2}).or({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) AND (y = 2)) OR (z = 3))');
-            assert.equal(d1.or({y:2}).filter({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) OR (y = 2)) AND (z = 3))');
+            assert.equal(d1.filter({y: 2}).or({z: 3}).sql, 'SELECT * FROM test WHERE (((x = 1) AND (y = 2)) OR (z = 3))');
+            assert.equal(d1.or({y: 2}).filter({z: 3}).sql, 'SELECT * FROM test WHERE (((x = 1) OR (y = 2)) AND (z = 3))');
         });
 
     });
 
     it.describe("#andGroupedOr", function (it) {
         var dataset = new Dataset().from("test"),
-            d1 = dataset.where({x:1});
+            d1 = dataset.where({x: 1});
 
         it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "andGroupedOr", [{a:1},{y:2}]));
+            assert.throws(comb.hitch(dataset, "andGroupedOr", [
+                {a: 1},
+                {y: 2}
+            ]));
         });
 
         it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
-            assert.equal(d1.andGroupedOr([['y',2],['y',3]]).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 2) OR (y = 3)))");
+            assert.equal(d1.andGroupedOr([
+                ['y', 2],
+                ['y', 3]
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 2) OR (y = 3)))");
+        });
+    });
+
+    it.describe("#andGroupedAnd", function (it) {
+        var dataset = new Dataset().from("test"),
+            d1 = dataset.where({x: 1});
+
+        it.should("raise if no filter exists", function () {
+            assert.throws(comb.hitch(dataset, "andGroupedAnd", [
+                {a: 1},
+                {y: 2}
+            ]));
+        });
+
+        it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
+            assert.equal(d1.andGroupedAnd([
+                ['y', 2],
+                ['y', 3]
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) AND (y = 2) AND (y = 3))");
         });
 
     });
 
     it.describe("#orGroupedAnd", function (it) {
         var dataset = new Dataset().from("test"),
-            d1 = dataset.where({x:1});
+            d1 = dataset.where({x: 1});
 
         it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "orGroupedAnd", [{a:1},{y:2}]));
+            assert.throws(comb.hitch(dataset, "orGroupedAnd", [
+                {a: 1},
+                {y: 2}
+            ]));
         });
 
         it.should("add an additional expression of ANDed conditions wrapped in parens to the where clause", function () {
-            assert.equal(d1.orGroupedAnd([['x',2],['y',3]]).sql, "SELECT * FROM test WHERE ((x = 1) OR ((x = 2) AND (y = 3)))");
+            assert.equal(d1.orGroupedAnd([
+                ['x', 2],
+                ['y', 3]
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) OR ((x = 2) AND (y = 3)))");
+        });
+
+    });
+
+    it.describe("#orGroupedOr", function (it) {
+        var dataset = new Dataset().from("test"),
+            d1 = dataset.where({x: 1, y: "z"});
+
+        it.should("raise if no filter exists", function () {
+            assert.throws(comb.hitch(dataset, "orGroupedAnd", [
+                {a: 1},
+                {y: 2}
+            ]));
+        });
+
+        it.should("add an additional expression of ANDed conditions wrapped in parens to the where clause", function () {
+            assert.equal(d1.orGroupedOr([
+                ['x', 2],
+                ['y', 3]
+            ]).sql, "SELECT * FROM test WHERE (((x = 1) AND (y = 'z')) OR (x = 2) OR (y = 3))");
         });
 
     });
 
     it.describe("#and", function (it) {
         var dataset = new Dataset().from("test"),
-            d1 = dataset.where({x:1});
+            d1 = dataset.where({x: 1});
 
         it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "and", {a:1}));
+            assert.throws(comb.hitch(dataset, "and", {a: 1}));
         });
 
         it.should("add an alternative expression to the where clause", function () {
-            assert.equal(d1.and({y:2}).sql, "SELECT * FROM test WHERE ((x = 1) AND (y = 2))");
+            assert.equal(d1.and({y: 2}).sql, "SELECT * FROM test WHERE ((x = 1) AND (y = 2))");
         });
 
         it.should("accept all forms of filters", function () {
             assert.equal(d1.and("y > ?", 2).sql, 'SELECT * FROM test WHERE ((x = 1) AND (y > 2))');
-            assert.equal(d1.and({yy:{gt:3}}).sql, 'SELECT * FROM test WHERE ((x = 1) AND (yy > 3))');
+            assert.equal(d1.and({yy: {gt: 3}}).sql, 'SELECT * FROM test WHERE ((x = 1) AND (yy > 3))');
         });
 
         it.should("correctly add parens to give predictable results", function () {
-            assert.equal(d1.and({y:2}).or({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) AND (y = 2)) OR (z = 3))');
-            assert.equal(d1.or({y:2}).and({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) OR (y = 2)) AND (z = 3))');
+            assert.equal(d1.and({y: 2}).or({z: 3}).sql, 'SELECT * FROM test WHERE (((x = 1) AND (y = 2)) OR (z = 3))');
+            assert.equal(d1.or({y: 2}).and({z: 3}).sql, 'SELECT * FROM test WHERE (((x = 1) OR (y = 2)) AND (z = 3))');
         });
 
     });
@@ -510,11 +561,11 @@ it.describe("Dataset queries",function (it) {
         var ds = new Dataset().from("test");
 
         it.should("correctly negate the expression when one condition is given", function () {
-            assert.equal(ds.exclude({region:'Asia'}).selectSql, "SELECT * FROM test WHERE (region != 'Asia')");
+            assert.equal(ds.exclude({region: 'Asia'}).selectSql, "SELECT * FROM test WHERE (region != 'Asia')");
         });
 
         it.should("take multiple conditions as a hash and express the logic correctly in SQL", function () {
-            assert.equal(ds.exclude({region:'Asia', name:'Japan'}).selectSql, "SELECT * FROM test WHERE ((region != 'Asia') OR (name != 'Japan'))");
+            assert.equal(ds.exclude({region: 'Asia', name: 'Japan'}).selectSql, "SELECT * FROM test WHERE ((region != 'Asia') OR (name != 'Japan'))");
         });
 
         it.should("parenthesize a single string condition correctly", function () {
@@ -526,11 +577,11 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("correctly parenthesize when it is used twice", function () {
-            assert.equal(ds.exclude({region:'Asia'}).exclude({name:'Japan'}).selectSql, "SELECT * FROM test WHERE ((region != 'Asia') AND (name != 'Japan'))");
+            assert.equal(ds.exclude({region: 'Asia'}).exclude({name: 'Japan'}).selectSql, "SELECT * FROM test WHERE ((region != 'Asia') AND (name != 'Japan'))");
         });
 
         it.should("support proc expressions", function () {
-            assert.equal(ds.exclude({id:{lt:6}}).selectSql, 'SELECT * FROM test WHERE (id >= 6)');
+            assert.equal(ds.exclude({id: {lt: 6}}).selectSql, 'SELECT * FROM test WHERE (id >= 6)');
         });
     });
 
@@ -557,7 +608,7 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test");
         var grouped = dataset.group(sql.region).select(sql.region, sql.population.sum(), sql.gdp.avg());
         var d1 = grouped.having(sql.sum("population").gt(10));
-        var d2 = grouped.having({region:'Asia'});
+        var d2 = grouped.having({region: 'Asia'});
         var columns = "region, sum(population), avg(gdp)";
 
         it.should("just clone if given an empty argument", function () {
@@ -588,7 +639,7 @@ it.describe("Dataset queries",function (it) {
 
         it.should("raise when trying to generate an update statement", function () {
             assert.throws(function () {
-                dataset.updateSql({id:0});
+                dataset.updateSql({id: 0});
             });
         });
 
@@ -621,7 +672,7 @@ it.describe("Dataset queries",function (it) {
 
         it.should("raise when trying to generate an update statement", function () {
             assert.throws(function () {
-                dataset.updateSql({id:0});
+                dataset.updateSql({id: 0});
             });
         });
 
@@ -646,7 +697,7 @@ it.describe("Dataset queries",function (it) {
         it.should("specify the grouping in generated SELECT statement", function () {
             assert.equal(dataset.selectSql, "SELECT * FROM test GROUP BY type_id");
             assert.equal(dataset.groupBy("a", "b").selectSql, "SELECT * FROM test GROUP BY a, b");
-            assert.equal(dataset.groupBy({type_id:null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
+            assert.equal(dataset.groupBy({type_id: null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
         });
 
         it.should("ungroup when passed null, empty, or no arguments", function () {
@@ -660,7 +711,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("be aliased as #group", function () {
-            assert.equal(dataset.group({type_id:null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
+            assert.equal(dataset.group({type_id: null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
         });
     });
 
@@ -739,7 +790,7 @@ it.describe("Dataset queries",function (it) {
 
         it.should("not modify literal strings", function () {
             assert.equal(dataset.literal(sql['col1 + 2']), 'col1 + 2');
-            assert.equal(dataset.updateSql({a:sql['a + 2']}), 'UPDATE test SET a = a + 2');
+            assert.equal(dataset.updateSql({a: sql['a + 2']}), 'UPDATE test SET a = a + 2');
         });
 
         it.should("convert literals properly", function () {
@@ -770,7 +821,7 @@ it.describe("Dataset queries",function (it) {
             assert.equal(dataset.literal(null), "NULL");
             assert.equal(dataset.literal(true), "'t'");
             assert.equal(dataset.literal(false), "'f'");
-            assert.equal(dataset.literal({a:"b"}), "(a = 'b')");
+            assert.equal(dataset.literal({a: "b"}), "(a = 'b')");
             assert.throws(comb.hitch(dataset, "literal", /a/));
         });
     });
@@ -785,7 +836,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("format a Dataset as a subquery if it has had options set", function () {
-            assert.equal(dataset.from(dataset.from("a").where({a:1})).selectSql, "SELECT * FROM (SELECT * FROM a WHERE (a = 1)) AS t1");
+            assert.equal(dataset.from(dataset.from("a").where({a: 1})).selectSql, "SELECT * FROM (SELECT * FROM a WHERE (a = 1)) AS t1");
         });
 
         it.should("automatically alias sub-queries", function () {
@@ -798,7 +849,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept a hash for aliasing", function () {
-            assert.equal(dataset.from({a:"b"}).sql, "SELECT * FROM a AS b");
+            assert.equal(dataset.from({a: "b"}).sql, "SELECT * FROM a AS b");
             assert.equal(dataset.from(dataset.from("a").group("b").as("c")).sql, "SELECT * FROM (SELECT * FROM a GROUP BY b) AS c");
         });
 
@@ -851,13 +902,13 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept a hash for AS values", function () {
-            assert.equal(dataset.select({name:'n', "__ggh":'age'}).sql, "SELECT name AS n, __ggh AS age FROM test");
+            assert.equal(dataset.select({name: 'n', "__ggh": 'age'}).sql, "SELECT name AS n, __ggh AS age FROM test");
         });
 
         it.should("accept arbitrary objects and literalize them correctly", function () {
             assert.equal(dataset.select(1, "a", "\'t\'").sql, "SELECT 1, a, 't' FROM test");
             assert.equal(dataset.select(null, sql.sum("t"), "x___y").sql, "SELECT NULL, sum(t), x AS y FROM test");
-            assert.equal(dataset.select(null, 1, {x:"y"}).sql, "SELECT NULL, 1, x AS y FROM test");
+            assert.equal(dataset.select(null, 1, {x: "y"}).sql, "SELECT NULL, 1, x AS y FROM test");
         });
 
         it.should("accept a block that yields a virtual row", function () {
@@ -976,7 +1027,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept :nulls options for asc and desc", function () {
-            assert.equal(dataset.order(sql.name.asc({nulls:"last"}), sql.price.desc({nulls:"first"})).sql, 'SELECT * FROM test ORDER BY name ASC NULLS LAST, price DESC NULLS FIRST');
+            assert.equal(dataset.order(sql.name.asc({nulls: "last"}), sql.price.desc({nulls: "first"})).sql, 'SELECT * FROM test ORDER BY name ASC NULLS LAST, price DESC NULLS FIRST');
         });
 
         it.should("overrun a previous ordering", function () {
@@ -988,7 +1039,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept a hash as an expression", function () {
-            assert.equal(dataset.order({name:null}).sql, 'SELECT * FROM test ORDER BY (name IS NULL)');
+            assert.equal(dataset.order({name: null}).sql, 'SELECT * FROM test ORDER BY (name IS NULL)');
         });
 
         it.should("accept a nil to remove ordering", function () {
@@ -1039,7 +1090,7 @@ it.describe("Dataset queries",function (it) {
     it.describe("#unfiltered", function (it) {
         var dataset = new Dataset().from("test");
         it.should("remove filtering from the dataset", function () {
-            assert.equal(dataset.filter({score:1}).unfiltered().sql, 'SELECT * FROM test');
+            assert.equal(dataset.filter({score: 1}).unfiltered().sql, 'SELECT * FROM test');
         });
     });
 
@@ -1075,7 +1126,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("work with named placeholders", function () {
-            assert.equal(dataset.withSql('SELECT {x} FROM test', {x:1}).sql, 'SELECT 1 FROM test');
+            assert.equal(dataset.withSql('SELECT {x} FROM test', {x: 1}).sql, 'SELECT 1 FROM test');
         });
     });
 
@@ -1162,7 +1213,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handles NULLS ordering correctly when reversing", function () {
-            assert.equal(dataset.reverseOrder(sql.name.asc({nulls:"first"}), sql.price.desc({nulls:"last"})).sql, 'SELECT * FROM test ORDER BY name DESC NULLS LAST, price ASC NULLS FIRST');
+            assert.equal(dataset.reverseOrder(sql.name.asc({nulls: "first"}), sql.price.desc({nulls: "last"})).sql, 'SELECT * FROM test ORDER BY name DESC NULLS LAST, price ASC NULLS FIRST');
         });
 
         it.should("reverse a previous ordering if no arguments are given", function () {
@@ -1322,11 +1373,11 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("use the user-specified alias", function () {
-            assert.equal(ds.fromSelf({alias:"someName"}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName');
+            assert.equal(ds.fromSelf({alias: "someName"}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName');
         });
 
         it.should("use the user-specified alias for joins", function () {
-            assert.equal(ds.fromSelf({alias:"someName"}).innerJoin("posts", {alias:sql.identifier("name")}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName INNER JOIN posts ON (posts.alias = someName.name)');
+            assert.equal(ds.fromSelf({alias: "someName"}).innerJoin("posts", {alias: sql.identifier("name")}).sql, 'SELECT * FROM (SELECT name FROM test LIMIT 1) AS someName INNER JOIN posts ON (posts.alias = someName.name)');
         });
     });
 
@@ -1335,7 +1386,7 @@ it.describe("Dataset queries",function (it) {
         d.quoteIdentifiers = true;
 
         it.should("format the JOIN clause properly", function () {
-            assert.equal(d.joinTable("leftOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable("leftOuter", "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         });
 
 
@@ -1348,33 +1399,33 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("include WHERE clause if applicable", function () {
-            assert.equal(d.filter(sql.price.sqlNumber.lt(100)).joinTable("rightOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") WHERE ("price" < 100)');
+            assert.equal(d.filter(sql.price.sqlNumber.lt(100)).joinTable("rightOuter", "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") WHERE ("price" < 100)');
         });
 
 
         it.should("include ORDER BY clause if applicable", function () {
-            assert.equal(d.order("stamp").joinTable("fullOuter", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") ORDER BY "stamp"');
+            assert.equal(d.order("stamp").joinTable("fullOuter", "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id") ORDER BY "stamp"');
         });
 
 
         it.should("support multiple joins", function () {
-            assert.equal(d.joinTable("inner", "b", {itemsId:sql.identifier("id")}).joinTable("leftOuter", "c", {b_id:sql.identifier("b__id")}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
+            assert.equal(d.joinTable("inner", "b", {itemsId: sql.identifier("id")}).joinTable("leftOuter", "c", {b_id: sql.identifier("b__id")}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
         });
 
 
         it.should("support arbitrary join types", function () {
-            assert.equal(d.joinTable("magic", "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" MAGIC JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable("magic", "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" MAGIC JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         });
 
 
         it.should("support many join methods", function () {
-            assert.equal(d.leftOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.rightOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.fullOuterJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.innerJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.leftJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.rightJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
-            assert.equal(d.fullJoin("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.leftOuterJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.rightOuterJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.fullOuterJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL OUTER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.innerJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.leftJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.rightJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" RIGHT JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.fullJoin("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" FULL JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
             assert.equal(d.naturalJoin("categories").sql, 'SELECT * FROM "items" NATURAL JOIN "categories"');
             assert.equal(d.naturalLeftJoin("categories").sql, 'SELECT * FROM "items" NATURAL LEFT JOIN "categories"');
             assert.equal(d.naturalRightJoin("categories").sql, 'SELECT * FROM "items" NATURAL RIGHT JOIN "categories"');
@@ -1384,11 +1435,11 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("raise an error if additional arguments are provided to join methods that don't take conditions", function () {
-            assert.throws(d, "naturalJoin", "categories", {id:sql.identifier("id")});
-            assert.throws(d, "naturalLeftJoin", "categories", {id:sql.identifier("id")});
-            assert.throws(d, "naturalRightJoin", "categories", {id:sql.identifier("id")});
-            assert.throws(d, "naturalFullJoin", "categories", {id:sql.identifier("id")});
-            assert.throws(d, "crossJoin", "categories", {id:sql.identifier("id")});
+            assert.throws(d, "naturalJoin", "categories", {id: sql.identifier("id")});
+            assert.throws(d, "naturalLeftJoin", "categories", {id: sql.identifier("id")});
+            assert.throws(d, "naturalRightJoin", "categories", {id: sql.identifier("id")});
+            assert.throws(d, "naturalFullJoin", "categories", {id: sql.identifier("id")});
+            assert.throws(d, "crossJoin", "categories", {id: sql.identifier("id")});
         });
 
 
@@ -1407,78 +1458,78 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("default to a plain join if nil is used for the type", function () {
-            assert.equal(d.joinTable(null, "categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items"  JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.joinTable(null, "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items"  JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         });
 
 
         it.should("use an inner join for Dataset.join", function () {
-            assert.equal(d.join("categories", {categoryId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
+            assert.equal(d.join("categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
         });
 
 
         it.should("support aliased tables using a string", function () {
-            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, 'p').sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
+            assert.equal(d.from('stats').join('players', {id: sql.identifier("playerId")}, 'p').sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
         });
 
 
         it.should("support aliased tables using the :table_alias option", function () {
-            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, {tableAlias:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
+            assert.equal(d.from('stats').join('players', {id: sql.identifier("playerId")}, {tableAlias: "p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" AS "p" ON ("p"."id" = "stats"."playerId")');
         });
 
 
         it.should("support using an alias for the FROM when doing the first join with unqualified condition columns", function () {
-            var ds = new MockDataset().from({foo:"f"});
+            var ds = new MockDataset().from({foo: "f"});
             ds.quoteIdentifiers = true;
-            assert.equal(ds.joinTable("inner", "bar", {id:sql.identifier("barId")}).sql, 'SELECT * FROM "foo" AS "f" INNER JOIN "bar" ON ("bar"."id" = "f"."barId")');
+            assert.equal(ds.joinTable("inner", "bar", {id: sql.identifier("barId")}).sql, 'SELECT * FROM "foo" AS "f" INNER JOIN "bar" ON ("bar"."id" = "f"."barId")');
         });
 
 
         it.should("support implicit schemas in from table strings", function () {
-            assert.equal(d.from("s__t").join("u__v", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" INNER JOIN "u"."v" ON ("u"."v"."id" = "s"."t"."playerId")');
+            assert.equal(d.from("s__t").join("u__v", {id: sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" INNER JOIN "u"."v" ON ("u"."v"."id" = "s"."t"."playerId")');
         });
 
 
         it.should("support implicit aliases in from table strings", function () {
-            assert.equal(d.from("t___z").join("v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "t" AS "z" INNER JOIN "v" AS "y" ON ("y"."id" = "z"."playerId")');
-            assert.equal(d.from("s__t___z").join("u__v___y", {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" AS "z" INNER JOIN "u"."v" AS "y" ON ("y"."id" = "z"."playerId")');
+            assert.equal(d.from("t___z").join("v___y", {id: sql.identifier("playerId")}).sql, 'SELECT * FROM "t" AS "z" INNER JOIN "v" AS "y" ON ("y"."id" = "z"."playerId")');
+            assert.equal(d.from("s__t___z").join("u__v___y", {id: sql.identifier("playerId")}).sql, 'SELECT * FROM "s"."t" AS "z" INNER JOIN "u"."v" AS "y" ON ("y"."id" = "z"."playerId")');
         });
 
 
         it.should("support AliasedExpressions", function () {
-            assert.equal(d.from(sql.s.as("t")).join(sql.u.as("v"), {id:sql.identifier("playerId")}).sql, 'SELECT * FROM "s" AS "t" INNER JOIN "u" AS "v" ON ("v"."id" = "t"."playerId")');
+            assert.equal(d.from(sql.s.as("t")).join(sql.u.as("v"), {id: sql.identifier("playerId")}).sql, 'SELECT * FROM "s" AS "t" INNER JOIN "u" AS "v" ON ("v"."id" = "t"."playerId")');
         });
 
 
         it.should("support the 'implicitQualifierOption", function () {
-            assert.equal(d.from('stats').join('players', {id:sql.identifier("playerId")}, {implicitQualifier:"p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" ON ("players"."id" = "p"."playerId")');
+            assert.equal(d.from('stats').join('players', {id: sql.identifier("playerId")}, {implicitQualifier: "p"}).sql, 'SELECT * FROM "stats" INNER JOIN "players" ON ("players"."id" = "p"."playerId")');
         });
 
 
         it.should("allow for arbitrary conditions in the JOIN clause", function () {
-            assert.equal(d.joinTable("leftOuter", "categories", {status:0}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."status" = 0)');
-            assert.equal(d.joinTable("leftOuter", "categories", {categorizableType:new LiteralString("'Post'")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categorizableType" = \'Post\')');
-            assert.equal(d.joinTable("leftOuter", "categories", {timestamp:new LiteralString("CURRENT_TIMESTAMP")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."timestamp" = CURRENT_TIMESTAMP)');
-            assert.equal(d.joinTable("leftOuter", "categories", {status:[1, 2, 3]}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."status" IN (1, 2, 3))');
+            assert.equal(d.joinTable("leftOuter", "categories", {status: 0}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."status" = 0)');
+            assert.equal(d.joinTable("leftOuter", "categories", {categorizableType: new LiteralString("'Post'")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."categorizableType" = \'Post\')');
+            assert.equal(d.joinTable("leftOuter", "categories", {timestamp: new LiteralString("CURRENT_TIMESTAMP")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."timestamp" = CURRENT_TIMESTAMP)');
+            assert.equal(d.joinTable("leftOuter", "categories", {status: [1, 2, 3]}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN "categories" ON ("categories"."status" IN (1, 2, 3))');
         });
 
 
         it.should("raise error for a table without a source", function () {
-            assert.throws(hitch(new Dataset(), "join", "players", {id:sql.identifier("playerId")}));
+            assert.throws(hitch(new Dataset(), "join", "players", {id: sql.identifier("playerId")}));
         });
 
 
         it.should("support joining datasets", function () {
             var ds = new Dataset().from("categories");
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id")');
-            ds = ds.filter({active:true});
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t1" ON ("t1"."itemId" = "items"."id")');
-            assert.equal(d.fromSelf().joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM (SELECT * FROM "items") AS "t1" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t2" ON ("t2"."itemId" = "t1"."id")');
+            assert.equal(d.joinTable("leftOuter", ds, {itemId: sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id")');
+            ds = ds.filter({active: true});
+            assert.equal(d.joinTable("leftOuter", ds, {itemId: sql.identifier("id")}).sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t1" ON ("t1"."itemId" = "items"."id")');
+            assert.equal(d.fromSelf().joinTable("leftOuter", ds, {itemId: sql.identifier("id")}).sql, 'SELECT * FROM (SELECT * FROM "items") AS "t1" LEFT OUTER JOIN (SELECT * FROM categories WHERE (active IS TRUE)) AS "t2" ON ("t2"."itemId" = "t1"."id")');
         });
 
 
         it.should("support joining datasets and aliasing the join", function () {
             var ds = new Dataset().from("categories");
-            assert.equal(d.joinTable("leftOuter", ds, {"ds__itemId":sql.identifier("id")}, "ds").sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "ds" ON ("ds"."itemId" = "items"."id")');
+            assert.equal(d.joinTable("leftOuter", ds, {"ds__itemId": sql.identifier("id")}, "ds").sql, 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "ds" ON ("ds"."itemId" = "items"."id")');
         });
 
 
@@ -1487,7 +1538,7 @@ it.describe("Dataset queries",function (it) {
             var ds2 = new Dataset().from("nodes").select("name");
             var ds3 = new Dataset().from("attributes").filter(sql.literal("name = 'blah'"));
 
-            assert.equal(d.joinTable("leftOuter", ds, {itemId:sql.identifier("id")}).joinTable("inner", ds2, {nodeId:sql.identifier("id")}).joinTable("rightOuter", ds3, {attributeId:sql.identifier("id")}).sql,
+            assert.equal(d.joinTable("leftOuter", ds, {itemId: sql.identifier("id")}).joinTable("inner", ds2, {nodeId: sql.identifier("id")}).joinTable("rightOuter", ds3, {attributeId: sql.identifier("id")}).sql,
                 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id") ' +
                     'INNER JOIN (SELECT name FROM nodes) AS "t2" ON ("t2"."nodeId" = "t1"."id") ' +
                     'RIGHT OUTER JOIN (SELECT * FROM attributes WHERE (name = \'blah\')) AS "t3" ON ("t3"."attributeId" = "t2"."id")'
@@ -1496,8 +1547,8 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("support joining objects that have a tableName property", function () {
-            var ds = {tableName:"categories"};
-            assert.equal(d.join(ds, {itemId:sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."itemId" = "items"."id")');
+            var ds = {tableName: "categories"};
+            assert.equal(d.join(ds, {itemId: sql.identifier("id")}).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON ("categories"."itemId" = "items"."id")');
         });
 
 
@@ -1552,7 +1603,7 @@ it.describe("Dataset queries",function (it) {
             });
 
 
-            d.from({items:"i"}).join("categories", null, "c", function (joinAlias, lastJoinAlias, joins) {
+            d.from({items: "i"}).join("categories", null, "c", function (joinAlias, lastJoinAlias, joins) {
                 assert.equal(joinAlias, "c");
                 assert.equal(lastJoinAlias, "i");
                 assert.deepEqual(joins, []);
@@ -1609,11 +1660,11 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("combine the block conditions and argument conditions if both given", function () {
-            assert.equal(d.join("categories", {a:sql.identifier("d")},
+            assert.equal(d.join("categories", {a: sql.identifier("d")},
                 function (j, lj, js) {
                     return this.b.qualify(j).eq(this.c.qualify(lj));
                 }).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON (("categories"."a" = "items"."d") AND ("categories"."b" = "items"."c"))');
-            assert.equal(d.join("categories", {a:sql.identifier("d")},
+            assert.equal(d.join("categories", {a: sql.identifier("d")},
                 function (j, lj, js) {
                     return this.b.qualify(j).gt(this.c.qualify(lj));
                 }).sql,
@@ -1622,15 +1673,15 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("prefer explicit aliases over implicit", function () {
-            assert.equal(d.from("items___i").join("categories___c", {categoryId:sql.identifier("id")}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
-            assert.equal(d.from(sql.items.as("i")).join(sql.categories.as("c"), {categoryId:sql.identifier("id")}, {tableAlias:"c2", implicitQualifier:"i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
+            assert.equal(d.from("items___i").join("categories___c", {categoryId: sql.identifier("id")}, {tableAlias: "c2", implicitQualifier: "i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
+            assert.equal(d.from(sql.items.as("i")).join(sql.categories.as("c"), {categoryId: sql.identifier("id")}, {tableAlias: "c2", implicitQualifier: "i2"}).sql, 'SELECT * FROM "items" AS "i" INNER JOIN "categories" AS "c2" ON ("c2"."categoryId" = "i2"."id")');
         });
 
 
         it.should("not allow insert, update, delete, or truncate", function () {
-            var ds = d.join("categories", {a:"d"});
+            var ds = d.join("categories", {a: "d"});
             assert.throws(hitch(ds, "insertSql"));
-            assert.throws(hitch(ds, "updateSql", {a:1}));
+            assert.throws(hitch(ds, "updateSql", {a: 1}));
             assert.throws(function () {
                 return ds.deleteSql;
             });
@@ -1661,7 +1712,7 @@ it.describe("Dataset queries",function (it) {
         it.should("use DISTINCT ON if columns are given and DISTINCT ON is supported", function () {
             dataset.supportsDistinctOn = true;
             assert.equal(dataset.distinct("a", "b").sql, 'SELECT DISTINCT ON (a, b) name FROM test');
-            assert.equal(dataset.distinct(sql.stamp.cast("integer"), {nodeId:null}).sql, 'SELECT DISTINCT ON (CAST(stamp AS integer), (nodeId IS NULL)) name FROM test');
+            assert.equal(dataset.distinct(sql.stamp.cast("integer"), {nodeId: null}).sql, 'SELECT DISTINCT ON (CAST(stamp AS integer), (nodeId IS NULL)) name FROM test');
         });
 
         it.should("do a subselect for count", function () {
@@ -1707,9 +1758,9 @@ it.describe("Dataset queries",function (it) {
 
     it.describe("#set", function (it) {
         var ds = new (comb.define(patio.Dataset, {
-            instance:{
+            instance: {
 
-                update:function () {
+                update: function () {
                     this.lastSql = this.updateSql.apply(this, arguments);
                 }
             }
@@ -1717,47 +1768,47 @@ it.describe("Dataset queries",function (it) {
 
 
         it.should("act as alias to update", function () {
-            ds.set({x:3});
+            ds.set({x: 3});
             assert.equal(ds.lastSql, 'UPDATE items SET x = 3');
         });
     });
 
     it.describe("compound operations", function (it) {
-        var a = new Dataset().from("a").filter({z:1}),
-            b = new Dataset().from("b").filter({z:2});
+        var a = new Dataset().from("a").filter({z: 1}),
+            b = new Dataset().from("b").filter({z: 2});
 
         it.should("support UNION and UNION ALL", function () {
             assert.equal(a.union(b).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) UNION SELECT * FROM b WHERE (z = 2)) AS t1");
             assert.equal(b.union(a, true).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) UNION ALL SELECT * FROM a WHERE (z = 1)) AS t1");
-            assert.equal(b.union(a, {all:true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) UNION ALL SELECT * FROM a WHERE (z = 1)) AS t1");
+            assert.equal(b.union(a, {all: true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) UNION ALL SELECT * FROM a WHERE (z = 1)) AS t1");
         });
 
         it.should("support INTERSECT and INTERSECT ALL", function () {
             assert.equal(a.intersect(b).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) INTERSECT SELECT * FROM b WHERE (z = 2)) AS t1");
             assert.equal(b.intersect(a, true).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) INTERSECT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
-            assert.equal(b.intersect(a, {all:true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) INTERSECT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
+            assert.equal(b.intersect(a, {all: true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) INTERSECT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
         });
 
         it.should("support EXCEPT and EXCEPT ALL", function () {
             assert.equal(a.except(b).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) EXCEPT SELECT * FROM b WHERE (z = 2)) AS t1");
             assert.equal(b.except(a, true).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) EXCEPT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
-            assert.equal(b.except(a, {all:true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) EXCEPT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
+            assert.equal(b.except(a, {all: true}).sql, "SELECT * FROM (SELECT * FROM b WHERE (z = 2) EXCEPT ALL SELECT * FROM a WHERE (z = 1)) AS t1");
         });
 
         it.should("support alias option for specifying identifier", function () {
-            assert.equal(a.union(b, {alias:"xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) UNION SELECT * FROM b WHERE (z = 2)) AS xx");
-            assert.equal(a.intersect(b, {alias:"xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) INTERSECT SELECT * FROM b WHERE (z = 2)) AS xx");
-            assert.equal(a.except(b, {alias:"xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) EXCEPT SELECT * FROM b WHERE (z = 2)) AS xx");
+            assert.equal(a.union(b, {alias: "xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) UNION SELECT * FROM b WHERE (z = 2)) AS xx");
+            assert.equal(a.intersect(b, {alias: "xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) INTERSECT SELECT * FROM b WHERE (z = 2)) AS xx");
+            assert.equal(a.except(b, {alias: "xx"}).sql, "SELECT * FROM (SELECT * FROM a WHERE (z = 1) EXCEPT SELECT * FROM b WHERE (z = 2)) AS xx");
         });
 
         it.should("support {fromSelf : false} option to not wrap the compound in a SELECT * FROM (...)", function () {
-            assert.equal(b.union(a, {fromSelf:false}).sql, "SELECT * FROM b WHERE (z = 2) UNION SELECT * FROM a WHERE (z = 1)");
-            assert.equal(b.intersect(a, {fromSelf:false}).sql, "SELECT * FROM b WHERE (z = 2) INTERSECT SELECT * FROM a WHERE (z = 1)");
-            assert.equal(b.except(a, {fromSelf:false}).sql, "SELECT * FROM b WHERE (z = 2) EXCEPT SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.union(a, {fromSelf: false}).sql, "SELECT * FROM b WHERE (z = 2) UNION SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.intersect(a, {fromSelf: false}).sql, "SELECT * FROM b WHERE (z = 2) INTERSECT SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.except(a, {fromSelf: false}).sql, "SELECT * FROM b WHERE (z = 2) EXCEPT SELECT * FROM a WHERE (z = 1)");
 
-            assert.equal(b.union(a, {fromSelf:false, all:true}).sql, "SELECT * FROM b WHERE (z = 2) UNION ALL SELECT * FROM a WHERE (z = 1)");
-            assert.equal(b.intersect(a, {fromSelf:false, all:true}).sql, "SELECT * FROM b WHERE (z = 2) INTERSECT ALL SELECT * FROM a WHERE (z = 1)");
-            assert.equal(b.except(a, {fromSelf:false, all:true}).sql, "SELECT * FROM b WHERE (z = 2) EXCEPT ALL SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.union(a, {fromSelf: false, all: true}).sql, "SELECT * FROM b WHERE (z = 2) UNION ALL SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.intersect(a, {fromSelf: false, all: true}).sql, "SELECT * FROM b WHERE (z = 2) INTERSECT ALL SELECT * FROM a WHERE (z = 1)");
+            assert.equal(b.except(a, {fromSelf: false, all: true}).sql, "SELECT * FROM b WHERE (z = 2) EXCEPT ALL SELECT * FROM a WHERE (z = 1)");
         });
 
         it.should("raise an InvalidOperation if INTERSECT or EXCEPT is used and they are not supported", function () {
@@ -1814,11 +1865,11 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle implicitly qualified strings", function () {
-            assert.equal(ds.updateSql({items__a:sql.b}), "UPDATE items SET items.a = b");
+            assert.equal(ds.updateSql({items__a: sql.b}), "UPDATE items SET items.a = b");
         });
 
         it.should("accept hash with string keys", function () {
-            assert.equal(ds.updateSql({c:"d"}), "UPDATE items SET c = 'd'");
+            assert.equal(ds.updateSql({c: "d"}), "UPDATE items SET c = 'd'");
         });
 
         it.should("accept array subscript references", function () {
@@ -1826,7 +1877,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("accept array subscript references as hash and string", function () {
-            assert.equal(ds.updateSql(sql.day.sqlSubscript(1).eq("d"), {c:"d"}, "a=b"), "UPDATE items SET day[1] = 'd', c = 'd', a=b");
+            assert.equal(ds.updateSql(sql.day.sqlSubscript(1).eq("d"), {c: "d"}, "a=b"), "UPDATE items SET day[1] = 'd', c = 'd', a=b");
         });
     });
 
@@ -1855,37 +1906,37 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("support the :all_patterns option", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns: true}).sql,
                 "SELECT * FROM posts WHERE (((title LIKE 'abc') OR (body LIKE 'abc')) AND ((title LIKE 'def') OR (body LIKE 'def')))");
         });
 
         it.should("support the :allColumns option", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allColumns:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allColumns: true}).sql,
                 "SELECT * FROM posts WHERE (((title LIKE 'abc') OR (title LIKE 'def')) AND ((body LIKE 'abc') OR (body LIKE 'def')))");
         });
 
         it.should("support the :case_insensitive option", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {caseInsensitive:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {caseInsensitive: true}).sql,
                 "SELECT * FROM posts WHERE ((title ILIKE 'abc') OR (title ILIKE 'def') OR (body ILIKE 'abc') OR (body ILIKE 'def'))");
         });
 
         it.should("support the :all_patterns and :allColumns options together", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns:true, allColumns:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns: true, allColumns: true}).sql,
                 "SELECT * FROM posts WHERE ((title LIKE 'abc') AND (body LIKE 'abc') AND (title LIKE 'def') AND (body LIKE 'def'))");
         });
 
         it.should("support the :all_patterns and :case_insensitive options together", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns:true, caseInsensitive:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns: true, caseInsensitive: true}).sql,
                 "SELECT * FROM posts WHERE (((title ILIKE 'abc') OR (body ILIKE 'abc')) AND ((title ILIKE 'def') OR (body ILIKE 'def')))");
         });
 
         it.should("support the :allColumns and :case_insensitive options together", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allColumns:true, caseInsensitive:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allColumns: true, caseInsensitive: true}).sql,
                 "SELECT * FROM posts WHERE (((title ILIKE 'abc') OR (title ILIKE 'def')) AND ((body ILIKE 'abc') OR (body ILIKE 'def')))");
         });
 
         it.should("support the :all_patterns, :allColumns, and :caseInsensitive options together", function () {
-            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns:true, allColumns:true, caseInsensitive:true}).sql,
+            assert.equal(ds.grep(["title", "body"], ['abc', 'def'], {allPatterns: true, allColumns: true, caseInsensitive: true}).sql,
                 "SELECT * FROM posts WHERE ((title ILIKE 'abc') AND (body ILIKE 'abc') AND (title ILIKE 'def') AND (body ILIKE 'def'))");
         });
 
@@ -1905,42 +1956,42 @@ it.describe("Dataset queries",function (it) {
 
 
     it.describe("#setDefaults", function (it) {
-        var ds = new Dataset().from("items").setDefaults({x:1});
+        var ds = new Dataset().from("items").setDefaults({x: 1});
 
         it.should("set the default values for inserts", function () {
             assert.equal(ds.insertSql(), "INSERT INTO items (x) VALUES (1)");
-            assert.equal(ds.insertSql({x:2}), "INSERT INTO items (x) VALUES (2)");
-            assert.equal(ds.insertSql({y:2}), "INSERT INTO items (x, y) VALUES (1, 2)");
-            assert.equal(ds.setDefaults({y:2}).insertSql(), "INSERT INTO items (x, y) VALUES (1, 2)");
-            assert.equal(ds.setDefaults({x:2}).insertSql(), "INSERT INTO items (x) VALUES (2)");
+            assert.equal(ds.insertSql({x: 2}), "INSERT INTO items (x) VALUES (2)");
+            assert.equal(ds.insertSql({y: 2}), "INSERT INTO items (x, y) VALUES (1, 2)");
+            assert.equal(ds.setDefaults({y: 2}).insertSql(), "INSERT INTO items (x, y) VALUES (1, 2)");
+            assert.equal(ds.setDefaults({x: 2}).insertSql(), "INSERT INTO items (x) VALUES (2)");
         });
 
         it.should("set the default values for updates", function () {
             assert.equal(ds.updateSql(), "UPDATE items SET x = 1");
-            assert.equal(ds.updateSql({x:2}), "UPDATE items SET x = 2");
-            assert.equal(ds.updateSql({y:2}), "UPDATE items SET x = 1, y = 2");
-            assert.equal(ds.setDefaults({y:2}).updateSql(), "UPDATE items SET x = 1, y = 2");
-            assert.equal(ds.setDefaults({x:2}).updateSql(), "UPDATE items SET x = 2");
+            assert.equal(ds.updateSql({x: 2}), "UPDATE items SET x = 2");
+            assert.equal(ds.updateSql({y: 2}), "UPDATE items SET x = 1, y = 2");
+            assert.equal(ds.setDefaults({y: 2}).updateSql(), "UPDATE items SET x = 1, y = 2");
+            assert.equal(ds.setDefaults({x: 2}).updateSql(), "UPDATE items SET x = 2");
         });
     });
 
     it.describe("#setOverrides", function (it) {
-        var ds = new Dataset().from("items").setOverrides({x:1});
+        var ds = new Dataset().from("items").setOverrides({x: 1});
 
         it.should("override the given values for inserts", function () {
             assert.equal(ds.insertSql(), "INSERT INTO items (x) VALUES (1)");
-            assert.equal(ds.insertSql({x:2}), "INSERT INTO items (x) VALUES (1)");
-            assert.equal(ds.insertSql({y:2}), "INSERT INTO items (y, x) VALUES (2, 1)");
-            assert.equal(ds.setOverrides({y:2}).insertSql(), "INSERT INTO items (x, y) VALUES (1, 2)");
-            assert.equal(ds.setOverrides({x:2}).insertSql(), "INSERT INTO items (x) VALUES (2)");
+            assert.equal(ds.insertSql({x: 2}), "INSERT INTO items (x) VALUES (1)");
+            assert.equal(ds.insertSql({y: 2}), "INSERT INTO items (y, x) VALUES (2, 1)");
+            assert.equal(ds.setOverrides({y: 2}).insertSql(), "INSERT INTO items (x, y) VALUES (1, 2)");
+            assert.equal(ds.setOverrides({x: 2}).insertSql(), "INSERT INTO items (x) VALUES (2)");
         });
 
         it.should("override the given values for updates", function () {
             assert.equal(ds.updateSql(), "UPDATE items SET x = 1");
-            assert.equal(ds.updateSql({x:2}), "UPDATE items SET x = 1");
-            assert.equal(ds.updateSql({y:2}), "UPDATE items SET y = 2, x = 1");
-            assert.equal(ds.setOverrides({y:2}).updateSql(), "UPDATE items SET x = 1, y = 2");
-            assert.equal(ds.setOverrides({x:2}).updateSql(), "UPDATE items SET x = 2");
+            assert.equal(ds.updateSql({x: 2}), "UPDATE items SET x = 1");
+            assert.equal(ds.updateSql({y: 2}), "UPDATE items SET y = 2, x = 1");
+            assert.equal(ds.setOverrides({y: 2}).updateSql(), "UPDATE items SET x = 1, y = 2");
+            assert.equal(ds.setOverrides({x: 2}).updateSql(), "UPDATE items SET x = 2");
         });
     });
 
@@ -1979,11 +2030,11 @@ it.describe("Dataset queries",function (it) {
     it.describe("#alwaysQualify", function (it) {
         var dataset = new Dataset().from("test");
         it.should("qualify to the .firstSourceAlias if a table is not specified", function () {
-            assert.equal(dataset.alwaysQualify().filter({id:1}).sql, "SELECT test.* FROM test WHERE (test.id = 1)");
+            assert.equal(dataset.alwaysQualify().filter({id: 1}).sql, "SELECT test.* FROM test WHERE (test.id = 1)");
         });
 
         it.should("qualify to the table if a table is specified", function () {
-            assert.equal(dataset.alwaysQualify("someTable").filter({id:1}).sql, "SELECT someTable.* FROM test WHERE (someTable.id = 1)");
+            assert.equal(dataset.alwaysQualify("someTable").filter({id: 1}).sql, "SELECT someTable.* FROM test WHERE (someTable.id = 1)");
         });
 
         it.should("not qualify to the given table if withSql is used", function () {
@@ -2000,15 +2051,15 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle the SELECT, order, where, having, and group options/clauses", function () {
-            assert.equal(ds.select("a").filter({a:1}).order("a").group("a").having("a").qualifyToFirstSource().sql, 'SELECT t.a FROM t WHERE (t.a = 1) GROUP BY t.a HAVING t.a ORDER BY t.a');
+            assert.equal(ds.select("a").filter({a: 1}).order("a").group("a").having("a").qualifyToFirstSource().sql, 'SELECT t.a FROM t WHERE (t.a = 1) GROUP BY t.a HAVING t.a ORDER BY t.a');
         });
 
         it.should("handle the SELECT using a table.* if all columns are currently selected", function () {
-            assert.equal(ds.filter({a:1}).order("a").group("a").having("a").qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.a = 1) GROUP BY t.a HAVING t.a ORDER BY t.a');
+            assert.equal(ds.filter({a: 1}).order("a").group("a").having("a").qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.a = 1) GROUP BY t.a HAVING t.a ORDER BY t.a');
         });
 
         it.should("handle hashes in SELECT option", function () {
-            assert.equal(ds.select({a:"b"}).qualifyToFirstSource().sql, 'SELECT t.a AS b FROM t');
+            assert.equal(ds.select({a: "b"}).qualifyToFirstSource().sql, 'SELECT t.a AS b FROM t');
         });
 
         it.should("handle strings", function () {
@@ -2016,11 +2067,11 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle arrays", function () {
-            assert.equal(ds.filter({a:[sql.b, sql.c]}).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.a IN (t.b, t.c))');
+            assert.equal(ds.filter({a: [sql.b, sql.c]}).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.a IN (t.b, t.c))');
         });
 
         it.should("handle hashes", function () {
-            assert.equal(ds.select(sql["case"]({b:{c:1}}, false)).qualifyToFirstSource().sql, "SELECT (CASE WHEN t.b THEN (t.c = 1) ELSE 'f' END) FROM t");
+            assert.equal(ds.select(sql["case"]({b: {c: 1}}, false)).qualifyToFirstSource().sql, "SELECT (CASE WHEN t.b THEN (t.c = 1) ELSE 'f' END) FROM t");
         });
 
         it.should("handle Identifiers", function () {
@@ -2036,7 +2087,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle CaseExpressions", function () {
-            assert.equal(ds.filter(sql["case"]({a:sql.b}, sql.c, sql.d)).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (CASE t.d WHEN t.a THEN t.b ELSE t.c END)');
+            assert.equal(ds.filter(sql["case"]({a: sql.b}, sql.c, sql.d)).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (CASE t.d WHEN t.a THEN t.b ELSE t.c END)');
         });
 
 
@@ -2065,7 +2116,7 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("handle PlaceholderLiteralStrings with named placeholders", function () {
-            assert.equal(ds.filter('{a} > {b}', {a:sql.c, b:1}).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.c > 1)');
+            assert.equal(ds.filter('{a} > {b}', {a: sql.c, b: 1}).qualifyToFirstSource().sql, 'SELECT t.* FROM t WHERE (t.c > 1)');
         });
 
 
@@ -2102,18 +2153,18 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should("with and withRecursive should take an args option", function () {
-            assert.equal(ds["with"]("t", db.from("x"), {args:["b"]}).sql, 'WITH t(b) AS (SELECT * FROM x) SELECT * FROM t');
-            assert.equal(ds.withRecursive("t", db.from("x"), db.from("t"), {args:["b", "c"]}).sql, 'WITH t(b, c) AS (SELECT * FROM x UNION ALL SELECT * FROM t) SELECT * FROM t');
+            assert.equal(ds["with"]("t", db.from("x"), {args: ["b"]}).sql, 'WITH t(b) AS (SELECT * FROM x) SELECT * FROM t');
+            assert.equal(ds.withRecursive("t", db.from("x"), db.from("t"), {args: ["b", "c"]}).sql, 'WITH t(b, c) AS (SELECT * FROM x UNION ALL SELECT * FROM t) SELECT * FROM t');
         });
 
         it.should("withRecursive should take an unionAll : false option", function () {
-            assert.equal(ds.withRecursive("t", db.from("x"), db.from("t"), {unionAll:false}).sql, 'WITH t AS (SELECT * FROM x UNION SELECT * FROM t) SELECT * FROM t');
+            assert.equal(ds.withRecursive("t", db.from("x"), db.from("t"), {unionAll: false}).sql, 'WITH t AS (SELECT * FROM x UNION SELECT * FROM t) SELECT * FROM t');
         });
 
         it.should("with and withRecursive should raise an error unless the dataset supports CTEs", function () {
             ds.supportsCte = false;
-            assert.throws(hitch(ds, "with", db.from("x"), {args:["b"]}));
-            assert.throws(hitch(ds, "withRecursive", db.from("x"), db.from("t"), {args:["b", "c"]}));
+            assert.throws(hitch(ds, "with", db.from("x"), {args: ["b"]}));
+            assert.throws(hitch(ds, "withRecursive", db.from("x"), db.from("t"), {args: ["b", "c"]}));
         });
     });
 
@@ -2145,111 +2196,111 @@ it.describe("Dataset queries",function (it) {
         });
 
         it.should('support logic operators ', function () {
-            assert.equal(ds.eq({x:0}).sql, "SELECT * FROM test WHERE (x = 0)");
-            assert.equal(ds.find({x:0}).sql, "SELECT * FROM test WHERE (x = 0)");
-            assert.equal(ds.eq({x:1}).sql, "SELECT * FROM test WHERE (x = 1)");
-            assert.equal(ds.find({x:1}).sql, "SELECT * FROM test WHERE (x = 1)");
+            assert.equal(ds.eq({x: 0}).sql, "SELECT * FROM test WHERE (x = 0)");
+            assert.equal(ds.find({x: 0}).sql, "SELECT * FROM test WHERE (x = 0)");
+            assert.equal(ds.eq({x: 1}).sql, "SELECT * FROM test WHERE (x = 1)");
+            assert.equal(ds.find({x: 1}).sql, "SELECT * FROM test WHERE (x = 1)");
 
-            assert.equal(ds.neq({x:0}).sql, "SELECT * FROM test WHERE (x != 0)");
-            assert.equal(ds.find({x:{neq:0}}).sql, "SELECT * FROM test WHERE (x != 0)");
-            assert.equal(ds.neq({x:1}).sql, "SELECT * FROM test WHERE (x != 1)");
-            assert.equal(ds.find({x:{neq:1}}).sql, "SELECT * FROM test WHERE (x != 1)");
+            assert.equal(ds.neq({x: 0}).sql, "SELECT * FROM test WHERE (x != 0)");
+            assert.equal(ds.find({x: {neq: 0}}).sql, "SELECT * FROM test WHERE (x != 0)");
+            assert.equal(ds.neq({x: 1}).sql, "SELECT * FROM test WHERE (x != 1)");
+            assert.equal(ds.find({x: {neq: 1}}).sql, "SELECT * FROM test WHERE (x != 1)");
 
-            assert.equal(ds.gt({x:0}).sql, "SELECT * FROM test WHERE (x > 0)");
-            assert.equal(ds.find({x:{gt:0}}).sql, "SELECT * FROM test WHERE (x > 0)");
-            assert.equal(ds.gte({x:0}).sql, "SELECT * FROM test WHERE (x >= 0)");
-            assert.equal(ds.find({x:{gte:0}}).sql, "SELECT * FROM test WHERE (x >= 0)");
+            assert.equal(ds.gt({x: 0}).sql, "SELECT * FROM test WHERE (x > 0)");
+            assert.equal(ds.find({x: {gt: 0}}).sql, "SELECT * FROM test WHERE (x > 0)");
+            assert.equal(ds.gte({x: 0}).sql, "SELECT * FROM test WHERE (x >= 0)");
+            assert.equal(ds.find({x: {gte: 0}}).sql, "SELECT * FROM test WHERE (x >= 0)");
 
-            assert.equal(ds.gt({x:1}).sql, "SELECT * FROM test WHERE (x > 1)");
-            assert.equal(ds.find({x:{gt:1}}).sql, "SELECT * FROM test WHERE (x > 1)");
-            assert.equal(ds.gte({x:1}).sql, "SELECT * FROM test WHERE (x >= 1)");
-            assert.equal(ds.find({x:{gte:1}}).sql, "SELECT * FROM test WHERE (x >= 1)");
+            assert.equal(ds.gt({x: 1}).sql, "SELECT * FROM test WHERE (x > 1)");
+            assert.equal(ds.find({x: {gt: 1}}).sql, "SELECT * FROM test WHERE (x > 1)");
+            assert.equal(ds.gte({x: 1}).sql, "SELECT * FROM test WHERE (x >= 1)");
+            assert.equal(ds.find({x: {gte: 1}}).sql, "SELECT * FROM test WHERE (x >= 1)");
 
-            assert.equal(ds.lt({x:0}).sql, "SELECT * FROM test WHERE (x < 0)");
-            assert.equal(ds.find({x:{lt:0}}).sql, "SELECT * FROM test WHERE (x < 0)");
-            assert.equal(ds.lte({x:0}).sql, "SELECT * FROM test WHERE (x <= 0)");
-            assert.equal(ds.find({x:{lte:0}}).sql, "SELECT * FROM test WHERE (x <= 0)");
+            assert.equal(ds.lt({x: 0}).sql, "SELECT * FROM test WHERE (x < 0)");
+            assert.equal(ds.find({x: {lt: 0}}).sql, "SELECT * FROM test WHERE (x < 0)");
+            assert.equal(ds.lte({x: 0}).sql, "SELECT * FROM test WHERE (x <= 0)");
+            assert.equal(ds.find({x: {lte: 0}}).sql, "SELECT * FROM test WHERE (x <= 0)");
 
-            assert.equal(ds.lt({x:1}).sql, "SELECT * FROM test WHERE (x < 1)");
-            assert.equal(ds.find({x:{lt:1}}).sql, "SELECT * FROM test WHERE (x < 1)");
-            assert.equal(ds.lte({x:1}).sql, "SELECT * FROM test WHERE (x <= 1)");
-            assert.equal(ds.find({x:{lte:1}}).sql, "SELECT * FROM test WHERE (x <= 1)");
+            assert.equal(ds.lt({x: 1}).sql, "SELECT * FROM test WHERE (x < 1)");
+            assert.equal(ds.find({x: {lt: 1}}).sql, "SELECT * FROM test WHERE (x < 1)");
+            assert.equal(ds.lte({x: 1}).sql, "SELECT * FROM test WHERE (x <= 1)");
+            assert.equal(ds.find({x: {lte: 1}}).sql, "SELECT * FROM test WHERE (x <= 1)");
 
-            assert.equal(ds.find({x:{lt:1, gt:10}}).sql, "SELECT * FROM test WHERE ((x < 1) AND (x > 10))");
+            assert.equal(ds.find({x: {lt: 1, gt: 10}}).sql, "SELECT * FROM test WHERE ((x < 1) AND (x > 10))");
         });
 
         it.should("support like ", function () {
 
             assert.equal(ds.like("title", 'javasScript').sql,
                 "SELECT * FROM test WHERE ((title LIKE 'javasScript'))");
-            assert.equal(ds.find({title:{like:'javasScript'}}).sql,
+            assert.equal(ds.find({title: {like: 'javasScript'}}).sql,
                 "SELECT * FROM test WHERE (title LIKE 'javasScript')");
-            assert.equal(ds.find({title:{iLike:'javasScript'}}).sql,
+            assert.equal(ds.find({title: {iLike: 'javasScript'}}).sql,
                 "SELECT * FROM test WHERE (title ILIKE 'javasScript')");
 
-            assert.equal(ds.find({title:{like:/javasScript/i}}).sql,
+            assert.equal(ds.find({title: {like: /javasScript/i}}).sql,
                 "SELECT * FROM test WHERE (title ~* 'javasScript')");
-            assert.equal(ds.find({title:{iLike:/javasScript/}}).sql,
+            assert.equal(ds.find({title: {iLike: /javasScript/}}).sql,
                 "SELECT * FROM test WHERE (title ~* 'javasScript')");
         });
 
         it.should("support between/notBetween", function () {
-            assert.equal(ds.between({x:[1, 2]}).sql, "SELECT * FROM test WHERE ((x >= 1) AND (x <= 2))");
-            assert.equal(ds.find({x:{between:[1, 2]}}).sql, "SELECT * FROM test WHERE ((x >= 1) AND (x <= 2))");
+            assert.equal(ds.between({x: [1, 2]}).sql, "SELECT * FROM test WHERE ((x >= 1) AND (x <= 2))");
+            assert.equal(ds.find({x: {between: [1, 2]}}).sql, "SELECT * FROM test WHERE ((x >= 1) AND (x <= 2))");
             assert.throws(function () {
-                ds.between({x:"a"});
+                ds.between({x: "a"});
             });
 
-            assert.equal(ds.notBetween({x:[1, 2]}).sql, "SELECT * FROM test WHERE ((x < 1) OR (x > 2))");
-            assert.equal(ds.find({x:{notBetween:[1, 2]}}).sql, "SELECT * FROM test WHERE ((x < 1) OR (x > 2))");
+            assert.equal(ds.notBetween({x: [1, 2]}).sql, "SELECT * FROM test WHERE ((x < 1) OR (x > 2))");
+            assert.equal(ds.find({x: {notBetween: [1, 2]}}).sql, "SELECT * FROM test WHERE ((x < 1) OR (x > 2))");
             assert.throws(function () {
-                ds.notBetween({x:"a"});
+                ds.notBetween({x: "a"});
             });
         });
 
 
         it.should('support is/isNot', function () {
-            assert.equal(ds.is({flag:true}).sql, "SELECT * FROM test WHERE (flag IS TRUE)");
+            assert.equal(ds.is({flag: true}).sql, "SELECT * FROM test WHERE (flag IS TRUE)");
             assert.equal(ds.isTrue("flag").sql, "SELECT * FROM test WHERE (flag IS TRUE)");
             assert.equal(ds.isTrue("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS TRUE) AND (otherFlag IS TRUE))");
-            assert.equal(ds.is({flag:false}).sql, "SELECT * FROM test WHERE (flag IS FALSE)");
+            assert.equal(ds.is({flag: false}).sql, "SELECT * FROM test WHERE (flag IS FALSE)");
             assert.equal(ds.isFalse("flag").sql, "SELECT * FROM test WHERE (flag IS FALSE)");
             assert.equal(ds.isFalse("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS FALSE) AND (otherFlag IS FALSE))");
-            assert.equal(ds.is({flag:null}).sql, "SELECT * FROM test WHERE (flag IS NULL)");
+            assert.equal(ds.is({flag: null}).sql, "SELECT * FROM test WHERE (flag IS NULL)");
             assert.equal(ds.isNull("flag").sql, "SELECT * FROM test WHERE (flag IS NULL)");
             assert.equal(ds.isNull("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS NULL) AND (otherFlag IS NULL))");
-            assert.equal(ds.is({flag:true, otherFlag:false, yetAnotherFlag:null}).sql,
+            assert.equal(ds.is({flag: true, otherFlag: false, yetAnotherFlag: null}).sql,
                 'SELECT * FROM test WHERE ((flag IS TRUE) AND (otherFlag IS FALSE) AND (yetAnotherFlag IS NULL))');
 
-            assert.equal(ds.find({flag:{is:true}}).sql, "SELECT * FROM test WHERE (flag IS TRUE)");
-            assert.equal(ds.find({flag:{is:false}}).sql, "SELECT * FROM test WHERE (flag IS FALSE)");
-            assert.equal(ds.find({flag:{is:null}}).sql, "SELECT * FROM test WHERE (flag IS NULL)");
-            assert.equal(ds.find({flag:{is:true}, otherFlag:{is:false}, yetAnotherFlag:{is:null}}).sql,
+            assert.equal(ds.find({flag: {is: true}}).sql, "SELECT * FROM test WHERE (flag IS TRUE)");
+            assert.equal(ds.find({flag: {is: false}}).sql, "SELECT * FROM test WHERE (flag IS FALSE)");
+            assert.equal(ds.find({flag: {is: null}}).sql, "SELECT * FROM test WHERE (flag IS NULL)");
+            assert.equal(ds.find({flag: {is: true}, otherFlag: {is: false}, yetAnotherFlag: {is: null}}).sql,
                 'SELECT * FROM test WHERE ((flag IS TRUE) AND (otherFlag IS FALSE) AND (yetAnotherFlag IS NULL))');
 
-            assert.equal(ds.find({"flag,otherFlag":{isNot:null}}).sql, "SELECT * FROM test WHERE ((flag IS NOT NULL) AND (otherFlag IS NOT NULL))");
+            assert.equal(ds.find({"flag,otherFlag": {isNot: null}}).sql, "SELECT * FROM test WHERE ((flag IS NOT NULL) AND (otherFlag IS NOT NULL))");
 
-            assert.equal(ds.isNot({flag:true}).sql, "SELECT * FROM test WHERE (flag IS NOT TRUE)");
+            assert.equal(ds.isNot({flag: true}).sql, "SELECT * FROM test WHERE (flag IS NOT TRUE)");
             assert.equal(ds.isNotTrue("flag").sql, "SELECT * FROM test WHERE (flag IS NOT TRUE)");
             assert.equal(ds.isNotTrue("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS NOT TRUE) AND (otherFlag IS NOT TRUE))");
-            assert.equal(ds.isNot({flag:false}).sql, "SELECT * FROM test WHERE (flag IS NOT FALSE)");
+            assert.equal(ds.isNot({flag: false}).sql, "SELECT * FROM test WHERE (flag IS NOT FALSE)");
             assert.equal(ds.isNotFalse("flag").sql, "SELECT * FROM test WHERE (flag IS NOT FALSE)");
             assert.equal(ds.isNotFalse("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS NOT FALSE) AND (otherFlag IS NOT FALSE))");
-            assert.equal(ds.isNot({flag:null}).sql, "SELECT * FROM test WHERE (flag IS NOT NULL)");
+            assert.equal(ds.isNot({flag: null}).sql, "SELECT * FROM test WHERE (flag IS NOT NULL)");
             assert.equal(ds.isNotNull("flag").sql, "SELECT * FROM test WHERE (flag IS NOT NULL)");
             assert.equal(ds.isNotNull("flag", "otherFlag").sql, "SELECT * FROM test WHERE ((flag IS NOT NULL) AND (otherFlag IS NOT NULL))");
-            assert.equal(ds.isNot({flag:true, otherFlag:false, yetAnotherFlag:null}).sql,
+            assert.equal(ds.isNot({flag: true, otherFlag: false, yetAnotherFlag: null}).sql,
                 "SELECT * FROM test WHERE ((flag IS NOT TRUE) AND (otherFlag IS NOT FALSE) AND (yetAnotherFlag IS NOT NULL))");
 
-            assert.equal(ds.find({flag:{isNot:true}}).sql, "SELECT * FROM test WHERE (flag IS NOT TRUE)");
-            assert.equal(ds.find({flag:{isNot:false}}).sql, "SELECT * FROM test WHERE (flag IS NOT FALSE)");
-            assert.equal(ds.find({flag:{isNot:null}}).sql, "SELECT * FROM test WHERE (flag IS NOT NULL)");
-            assert.equal(ds.find({flag:{isNot:true}, otherFlag:{isNot:false}, yetAnotherFlag:{isNot:null}}).sql,
+            assert.equal(ds.find({flag: {isNot: true}}).sql, "SELECT * FROM test WHERE (flag IS NOT TRUE)");
+            assert.equal(ds.find({flag: {isNot: false}}).sql, "SELECT * FROM test WHERE (flag IS NOT FALSE)");
+            assert.equal(ds.find({flag: {isNot: null}}).sql, "SELECT * FROM test WHERE (flag IS NOT NULL)");
+            assert.equal(ds.find({flag: {isNot: true}, otherFlag: {isNot: false}, yetAnotherFlag: {isNot: null}}).sql,
                 "SELECT * FROM test WHERE ((flag IS NOT TRUE) AND (otherFlag IS NOT FALSE) AND (yetAnotherFlag IS NOT NULL))");
 
-            assert.equal(ds.find({flag:{isNot:true}, otherFlag:{is:false}, yetAnotherFlag:{isNot:null}}).sql,
+            assert.equal(ds.find({flag: {isNot: true}, otherFlag: {is: false}, yetAnotherFlag: {isNot: null}}).sql,
                 "SELECT * FROM test WHERE ((flag IS NOT TRUE) AND (otherFlag IS FALSE) AND (yetAnotherFlag IS NOT NULL))");
-            assert.equal(ds.find({flag:{is:true}, otherFlag:{isNot:false}, yetAnotherFlag:{is:null}}).sql,
+            assert.equal(ds.find({flag: {is: true}, otherFlag: {isNot: false}, yetAnotherFlag: {is: null}}).sql,
                 "SELECT * FROM test WHERE ((flag IS TRUE) AND (otherFlag IS NOT FALSE) AND (yetAnotherFlag IS NULL))");
 
 

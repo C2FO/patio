@@ -1,3 +1,8 @@
+# v0.2.9
+
+* Updated model to store transformed values in the changed hash
+* Update docs for pr [#82](https://github.com/C2FO/patio/pull/82)
+
 # 0.2.8
 
 * Updated listener to strip generated quotes.
