@@ -409,7 +409,7 @@ it.describe("Dataset queries",function (it) {
                 }).sql, "SELECT * FROM test WHERE (((name < 'b') AND (table.id = 1)) OR is_active(blah, xx, x.y_z))");
         });
 
-        it.should("eval the block in the context of sql if sql isnt an arugment", function () {
+        it.should("eval the block in the context of sql if sql isnt an argument", function () {
             var x = null;
             dataset.filter(function (r) {
                 x = this;
@@ -450,6 +450,34 @@ it.describe("Dataset queries",function (it) {
         it.should("correctly add parens to give predictable results", function () {
             assert.equal(d1.filter({y:2}).or({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) AND (y = 2)) OR (z = 3))');
             assert.equal(d1.or({y:2}).filter({z:3}).sql, 'SELECT * FROM test WHERE (((x = 1) OR (y = 2)) AND (z = 3))');
+        });
+
+    });
+
+    it.describe("#andGroupedOr", function (it) {
+        var dataset = new Dataset().from("test"),
+            d1 = dataset.where({x:1});
+
+        it.should("raise if no filter exists", function () {
+            assert.throws(comb.hitch(dataset, "andGroupedOr", [{a:1},{y:2}]));
+        });
+
+        it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
+            assert.equal(d1.andGroupedOr([['y',2],['y',3]]).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 2) OR (y = 3)))");
+        });
+
+    });
+
+    it.describe("#orGroupedAnd", function (it) {
+        var dataset = new Dataset().from("test"),
+            d1 = dataset.where({x:1});
+
+        it.should("raise if no filter exists", function () {
+            assert.throws(comb.hitch(dataset, "orGroupedAnd", [{a:1},{y:2}]));
+        });
+
+        it.should("add an additional expression of ANDed conditions wrapped in parens to the where clause", function () {
+            assert.equal(d1.orGroupedAnd([['x',2],['y',3]]).sql, "SELECT * FROM test WHERE ((x = 1) OR ((x = 2) AND (y = 3)))");
         });
 
     });
@@ -2256,4 +2284,3 @@ it.describe("Dataset queries",function (it) {
     it.afterAll(comb.hitch(patio, "disconnect"));
 
 }).as(module);
-
