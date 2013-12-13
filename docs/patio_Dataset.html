@@ -1195,6 +1195,34 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#andGroupedAnd">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                andGroupedAnd
+
+                            </a></li>
+                            
+                            <li><a href="./patio_Dataset.html#andGroupedOr">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                andGroupedOr
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#avg">
                                 
                                 
@@ -2253,6 +2281,34 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#orGroupedAnd">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                orGroupedAnd
+
+                            </a></li>
+                            
+                            <li><a href="./patio_Dataset.html#orGroupedOr">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                orGroupedOr
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#order">
                                 
                                 
@@ -3047,8 +3103,8 @@
 
 
 
-    <p><p>Class that is used for querying/retirving datasets from a database.</p>
-<p> Dynamically genertated methods include
+    <p><p>Class that is used for querying/retrieving datasets from a database.</p>
+<p> Dynamically generated methods include
 <ul>
     <li>Join methods from <a href='./patio_Dataset.html#'> patio.Dataset.CONDITIONED_JOIN_TYPES</a> and
         <a href='./patio_Dataset.html#'>  patio.Dataset.UNCONDITIONED_JOIN_TYPES</a>, these methods handle the type call
@@ -4137,6 +4193,8 @@ function (clause){
     
         <li> <em>cb</em>  : </li>
     
+        <li> <em>joinCond</em>  : </li>
+    
      </ul>
 
 
@@ -4145,10 +4203,10 @@ function (clause){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (expr,cb){
+function (expr,cb,joinCond){
    expr = (isUndefined(expr) || isNull(expr) || (isArray(expr) &amp;&amp; !expr.length)) ? null : expr;
    if (expr &amp;&amp; cb) {
-       return new BooleanExpression(&quot;AND&quot;, this._filterExpr(expr), this._filterExpr(cb))
+       return new BooleanExpression(joinCond || &quot;AND&quot;, this._filterExpr(expr, null, joinCond), this._filterExpr(cb, null, joinCond))
    } else if (cb) {
        expr = cb
    }
@@ -4163,15 +4221,15 @@ function (expr,cb){
            if (isString(first)) {
                return new PlaceHolderLiteralString(first, expr.slice(1), true);
            } else if (Expression.isConditionSpecifier(expr)) {
-               return BooleanExpression.fromValuePairs(expr)
+               return BooleanExpression.fromValuePairs(expr, joinCond)
            } else {
-               return BooleanExpression.fromArgs([&quot;AND&quot;].concat(expr.map(function (e) {
-                   return this._filterExpr(e);
+               return BooleanExpression.fromArgs([joinCond || &quot;AND&quot;].concat(expr.map(function (e) {
+                   return this._filterExpr(e, null, joinCond);
                }, this)));
            }
        }
    } else if (isFunction(expr)) {
-       return this._filterExpr(expr.call(sql, sql));
+       return this._filterExpr(expr.call(sql, sql), null, joinCond);
    } else if (isBoolean(expr)) {
        return new BooleanExpression(&quot;NOOP&quot;, expr);
    } else if (isString(expr)) {
@@ -4179,7 +4237,7 @@ function (expr,cb){
    } else if (isInstanceOf(expr, LiteralString)) {
        return new LiteralString(&quot;(&quot; + expr + &quot;)&quot;);
    } else if (isHash(expr)) {
-       return BooleanExpression.fromValuePairs(expr);
+       return BooleanExpression.fromValuePairs(expr, joinCond);
    } else {
        throw new QueryError(&quot;Invalid filter argument&quot;);
    }
@@ -6613,7 +6671,7 @@ DB.from(&quot;items&quot;).alwaysQualify(&quot;i&quot;).filter({id : 1});
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (table){
-   return this.mergeOptions({alwaysQualify:table || this.firstSourceAlias});
+   return this.mergeOptions({alwaysQualify: table || this.firstSourceAlias});
            
 }
     </pre>
@@ -6657,7 +6715,7 @@ DB.from(&quot;table&quot;).filter(&quot;a&quot;).and(&quot;b&quot;).sql;
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condtion added to the WHERE/HAVING clause added.</p>
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition added to the WHERE/HAVING clause added.</p>
 </li>
     
     </ul>
@@ -6679,6 +6737,162 @@ function (){
    var tOpts = this.__opts, clauseObj = tOpts[tOpts.having ? &quot;having&quot; : &quot;where&quot;];
    if (clauseObj) {
        return this.filter.apply(this, arguments);
+   } else {
+       throw new QueryError(&quot;No existing filter found&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="andGroupedAnd"></a>
+    <h3>
+        andGroupedAnd
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p>
+    <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;or group&#39; added to the WHERE/HAVING clause.</p>
+</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
+</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var tOpts = this.__opts,
+       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+       clauseObj = tOpts[clause];
+   if (clauseObj) {
+       var args = argsToArray(arguments);
+       args = args.length == 1 ? args[0] : args;
+       var opts = {};
+       opts[clause] = new BooleanExpression(&quot;AND&quot;, clauseObj, this._filterExpr(args, null, &quot;AND&quot;));
+       return this.mergeOptions(opts);
+   } else {
+       throw new QueryError(&quot;No existing filter found&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="andGroupedOr"></a>
+    <h3>
+        andGroupedOr
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p>
+    <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;or group&#39; added to the WHERE/HAVING clause.</p>
+</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
+</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var tOpts = this.__opts,
+       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+       clauseObj = tOpts[clause];
+   if (clauseObj) {
+       var args = argsToArray(arguments);
+       args = args.length == 1 ? args[0] : args;
+       var opts = {};
+       opts[clause] = new BooleanExpression(&quot;AND&quot;, clauseObj, this._filterExpr(args, null, &quot;OR&quot;));
+       return this.mergeOptions(opts);
    } else {
        throw new QueryError(&quot;No existing filter found&quot;);
    }
@@ -7159,7 +7373,7 @@ function (op,args){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (type,dataset,options){
-   var ds = this._compoundFromSelf().mergeOptions({compounds:(array.toArray(this.__opts.compounds || [])).concat([
+   var ds = this._compoundFromSelf().mergeOptions({compounds: (array.toArray(this.__opts.compounds || [])).concat([
        [type, dataset._compoundFromSelf(), options.all]
    ])});
    return options.fromSelf === false ? ds : ds.fromSelf(options);
@@ -7343,7 +7557,7 @@ function (args){
    args = args.map(function (a) {
        return isString(a) ? new Identifier(a) : a;
    });
-   return this.mergeOptions({distinct:args});
+   return this.mergeOptions({distinct: args});
            
 }
     </pre>
@@ -7494,7 +7708,7 @@ DB.from(&quot;items&quot;).except(DB.from(&quot;other_items&quot;),
 function (dataset,opts){
    opts = isUndefined(opts) ? {} : opts;
    if (!isHash(opts)) {
-       opts = {all:true};
+       opts = {all: true};
    }
    if (!this.supportsIntersectExcept) {
        throw new QueryError(&quot;EXCEPT not supoorted&quot;);
@@ -8233,7 +8447,7 @@ function (source){
            sources.push(s);
        }
    }, this);
-   var o = {from:sources.length ? sources : null}
+   var o = {from: sources.length ? sources : null}
    if (tableAliasNum) {
        o.numDatasetSources = tableAliasNum;
    }
@@ -8854,9 +9068,9 @@ function (columns,patterns,opts){
            return BooleanExpression.fromArgs(
                [(opts.allColumns ? &quot;AND&quot; : &quot;OR&quot;)]
                    .concat(array.toArray(columns)
-                   .map(function (c) {
-                       return StringExpression.like(c, pat, opts);
-                   })));
+                       .map(function (c) {
+                           return StringExpression.like(c, pat, opts);
+                       })));
        });
        return this.filter(BooleanExpression.fromArgs([opts.allPatterns ? &quot;AND&quot; : &quot;OR&quot;].concat(conds)));
    } else {
@@ -8930,7 +9144,7 @@ DB.from(&quot;items&quot;).group(&quot;id&quot;)
 function (columns){
    columns = argsToArray(arguments);
    var stringToIdentifier = this.stringToIdentifier.bind(this)
-   return this.mergeOptions({group:(array.compact(columns).length == 0 ? null : columns.map(function (c) {
+   return this.mergeOptions({group: (array.compact(columns).length == 0 ? null : columns.map(function (c) {
        return isString(c) ? stringToIdentifier(c) : c;
    }))});
            
@@ -9797,7 +10011,7 @@ DB.from(&quot;items&quot;).intersect(DB.from(&quot;other_items&quot;), {alias : 
 function (dataset,opts){
    opts = isUndefined(opts) ? {} : opts;
    if (!isHash(opts)) {
-       opts = {all:opts};
+       opts = {all: opts};
    }
    if (!this.supportsIntersectExcept) {
        throw new QueryError(&quot;INTERSECT not supported&quot;);
@@ -10855,7 +11069,7 @@ function (type,table,expr,options,cb){
        }
        join = new JoinOnClause(expr, type, table, tableAlias);
    }
-   var opts = {join:(this.__opts.join || []).concat([join]), lastJoinedTable:tableName};
+   var opts = {join: (this.__opts.join || []).concat([join]), lastJoinedTable: tableName};
    if (tableAliasNum) {
        opts.numDatasetSources = tableAliasNum;
    }
@@ -11099,7 +11313,7 @@ function (limit,offset){
    if (isNumber(limit) &amp;&amp; limit &amp;lt; 1) {
        throw new QueryError(&quot;Limit must be &gt;= 1&quot;);
    }
-   var opts = {limit:limit};
+   var opts = {limit: limit};
    if (offset) {
        if (isString(offset) || isInstanceOf(offset, LiteralString)) {
            offset = parseInt(&quot;&quot; + offset, 10);
@@ -11274,7 +11488,7 @@ DB.from(&quot;items&quot;).lockStyle(&#x27;FOR SHARE&#x27;) # SELECT * FROM item
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (style){
-   return this.mergeOptions({lock:style});
+   return this.mergeOptions({lock: style});
            
 }
     </pre>
@@ -12150,7 +12364,7 @@ DB.from(&quot;items&quot;).filter(&quot;a&quot;).or(&quot;b&quot;)
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condtion added to the WHERE/HAVING clause added.</p>
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition added to the WHERE/HAVING clause added.</p>
 </li>
     
     </ul>
@@ -12175,7 +12389,152 @@ function (){
        var args = argsToArray(arguments);
        args = args.length == 1 ? args[0] : args;
        var opts = {};
-       opts[clause] = new BooleanExpression(&quot;OR&quot;, clauseObj, this._filterExpr(args))
+       opts[clause] = new BooleanExpression(&quot;OR&quot;, clauseObj, this._filterExpr(args));
+       return this.mergeOptions(opts);
+   } else {
+       throw new QueryError(&quot;No existing filter found&quot;);
+   }
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="orGroupedAnd"></a>
+    <h3>
+        orGroupedAnd
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Adds to the where/having clause with an OR a group of ANDed conditions wrapped in parens</p>
+<p>
+    <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).filter({id, [1,2,3]}).orGroupedAnd([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((id IN (1, 2, 3)) OR ((price &gt; 0) AND (price &lt; 10)))
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;and group&#39; added to the WHERE/HAVING clause.</p>
+</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
+</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   return this.or.apply(this, arguments);
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="orGroupedOr"></a>
+    <h3>
+        orGroupedOr
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p>
+    <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
+</p>
+
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+        </pre>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;or group&#39; added to the WHERE/HAVING clause.</p>
+</li>
+    
+    </ul>
+
+
+    <em>Throws</em>
+    <ul>
+    
+        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
+</li>
+    
+    </ul>
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var tOpts = this.__opts,
+       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+       clauseObj = tOpts[clause];
+   if (clauseObj) {
+       var args = argsToArray(arguments);
+       args = args.length == 1 ? args[0] : args;
+       var opts = {};
+       opts[clause] = new BooleanExpression(&quot;OR&quot;, clauseObj, this._filterExpr(args, null, &quot;OR&quot;));
        return this.mergeOptions(opts);
    } else {
        throw new QueryError(&quot;No existing filter found&quot;);
@@ -12282,7 +12641,7 @@ function (args){
    } else {
        order = null;
    }
-   return this.mergeOptions({order:order});
+   return this.mergeOptions({order: order});
            
 }
     </pre>
@@ -13266,7 +13625,7 @@ function (values){
    } else {
        args = argsToArray(arguments);
    }
-   return this.mergeOptions({returning:args.map(function (v) {
+   return this.mergeOptions({returning: args.map(function (v) {
        return isString(v) ? sql.stringToIdentifier(v) : v;
    })});
            
@@ -13578,7 +13937,7 @@ function (args){
            select.push(c);
        }
    }, this);
-   return this.mergeOptions({select:select});
+   return this.mergeOptions({select: select});
            
 }
     </pre>
@@ -13622,7 +13981,7 @@ function (args){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.mergeOptions({select:null});
+   return this.mergeOptions({select: null});
            
 }
     </pre>
@@ -14153,7 +14512,7 @@ DB.from(&quot;items&quot;).setDefaults({a : &#x27;a&#x27;, c : &#x27;c&#x27;}).i
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (hash){
-   return this.mergeOptions({defaults:merge({}, this.__opts.defaults || {}, hash)});
+   return this.mergeOptions({defaults: merge({}, this.__opts.defaults || {}, hash)});
            
 }
     </pre>
@@ -14280,7 +14639,7 @@ DB.from(&quot;items&quot;).setOverrides({a : &#x27;a&#x27;, c : &#x27;c&#x27;}).
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (hash){
-   return this.mergeOptions({overrides:merge({}, this.__opts.overrides || {}, hash)});
+   return this.mergeOptions({overrides: merge({}, this.__opts.overrides || {}, hash)});
            
 }
     </pre>
@@ -14892,7 +15251,7 @@ DB.from(&quot;items&quot;).group(&quot;a&quot;).having({a : 1}).where(&quot;b&qu
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.mergeOptions({where:null, having:null});
+   return this.mergeOptions({where: null, having: null});
            
 }
     </pre>
@@ -14979,7 +15338,7 @@ DB.from(&quot;t&quot;).group(&quot;a&quot;).having({a : 1}).where(&quot;b&quot;)
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.mergeOptions({group:null, having:null});
+   return this.mergeOptions({group: null, having: null});
            
 }
     </pre>
@@ -15063,7 +15422,7 @@ DB.from(&quot;items&quot;).union(DB.from(&quot;otherItems&quot;), {alias : &quot
 function (dataset,opts){
    opts = isUndefined(opts) ? {} : opts;
    if (!isHash(opts)) {
-       opts = {all:opts};
+       opts = {all: opts};
    }
    return this.compoundClone(&quot;union&quot;, dataset, opts);
            
@@ -15115,7 +15474,7 @@ DB.from(&quot;t&quot;).limit(10, 20).unlimited().sql;
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.mergeOptions({limit:null, offset:null});
+   return this.mergeOptions({limit: null, offset: null});
            
 }
     </pre>
@@ -15518,7 +15877,7 @@ function (name,dataset,opts){
        throw new QueryError(&quot;this dataset does not support common table expressions&quot;);
    }
    return this.mergeOptions({
-       &quot;with&quot;:(this.__opts[&quot;with&quot;] || []).concat([merge(opts || {}, {name:this.stringToIdentifier(name), dataset:dataset})])
+       &quot;with&quot;: (this.__opts[&quot;with&quot;] || []).concat([merge(opts || {}, {name: this.stringToIdentifier(name), dataset: dataset})])
    });
            
 }
@@ -15614,8 +15973,8 @@ function (name,nonRecursive,recursive,opts){
        throw new QueryError(&quot;This dataset does not support common table expressions&quot;);
    }
    opts = opts || {};
-   var wit = (this.__opts[&quot;with&quot;] || []).concat([merge(opts, {recursive:true, name:this.stringToIdentifier(name), dataset:nonRecursive.union(recursive, {all:opts.unionAll != false, fromSelf:false})})]);
-   return this.mergeOptions({&quot;with&quot;:wit});
+   var wit = (this.__opts[&quot;with&quot;] || []).concat([merge(opts, {recursive: true, name: this.stringToIdentifier(name), dataset: nonRecursive.union(recursive, {all: opts.unionAll != false, fromSelf: false})})]);
+   return this.mergeOptions({&quot;with&quot;: wit});
            
 }
     </pre>
@@ -15679,7 +16038,7 @@ function (sql){
    if (args.length) {
        sql = new PlaceHolderLiteralString(sql, args)
    }
-   return this.mergeOptions({sql:sql});
+   return this.mergeOptions({sql: sql});
            
 }
     </pre>
