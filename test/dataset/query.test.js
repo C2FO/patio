@@ -458,8 +458,8 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test"),
             d1 = dataset.where({x:1});
 
-        it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "andGroupedOr", [{a:1},{y:2}]));
+        it.should("build a new where clause with each argument ORed if there isn't already a clause for the ds", function () {
+            assert.equal(dataset.andGroupedOr([{a:1},{b:2},{c:3}]).sql, "SELECT * FROM test WHERE ((a = 1) OR (b = 2) OR (c = 3))");
         });
 
         it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
