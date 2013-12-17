@@ -458,11 +458,11 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test"),
             d1 = dataset.where({x: 1});
 
-        it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "andGroupedOr", [
-                {a: 1},
-                {y: 2}
-            ]));
+        it.should("add a new where clause, if none exists, with each condition separated by OR", function () {
+            assert.equal(dataset.andGroupedOr([
+                {y: 2},
+                {y: 3}
+            ]).sql, "SELECT * FROM test WHERE ((y = 2) OR (y = 3))");
         });
 
         it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
@@ -477,11 +477,11 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test"),
             d1 = dataset.where({x: 1});
 
-        it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "andGroupedAnd", [
+        it.should("add a new where clause, if none exists, with each condition separated by AND", function () {
+            assert.equal(dataset.andGroupedAnd([
                 {a: 1},
                 {y: 2}
-            ]));
+            ]).sql, "SELECT * FROM test WHERE ((a = 1) AND (y = 2))");
         });
 
         it.should("add an alternate expression of ORed conditions wrapped in parens to the where clause", function () {
@@ -497,11 +497,11 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test"),
             d1 = dataset.where({x: 1});
 
-        it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "orGroupedAnd", [
+        it.should("add a new where clause, if none exists, with each condition separated by AND", function () {
+            assert.equal(dataset.orGroupedAnd([
                 {a: 1},
                 {y: 2}
-            ]));
+            ]).sql, "SELECT * FROM test WHERE ((a = 1) AND (y = 2))");
         });
 
         it.should("add an additional expression of ANDed conditions wrapped in parens to the where clause", function () {
@@ -517,11 +517,11 @@ it.describe("Dataset queries",function (it) {
         var dataset = new Dataset().from("test"),
             d1 = dataset.where({x: 1, y: "z"});
 
-        it.should("raise if no filter exists", function () {
-            assert.throws(comb.hitch(dataset, "orGroupedAnd", [
-                {a: 1},
+        it.should("add a new clause, if none exists, with each condition separated by OR", function () {
+            assert.equal(dataset.orGroupedOr([
+                {y: 1},
                 {y: 2}
-            ]));
+            ]).sql, "SELECT * FROM test WHERE ((y = 1) OR (y = 2))");
         });
 
         it.should("add an additional expression of ANDed conditions wrapped in parens to the where clause", function () {
