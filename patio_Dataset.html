@@ -527,6 +527,18 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#_addGroupedCondition">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                _addGroupedCondition
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#_compoundFromSelf">
                                 
                                 
@@ -3938,6 +3950,97 @@ function (t){
 
 
   
+    <a name="_addGroupedCondition"></a>
+    <h3>
+        _addGroupedCondition
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p></p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&quot;items&quot;).filter({id, [1,2,3]})._addGroupedCondition(&quot;AND&quot;, &quot;OR&quot;, [{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+
+DB.from(&quot;items&quot;)._addGroupedCondition(&quot;AND&quot;, &quot;OR&quot;, [{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((price &lt; 0) OR (price &gt; 10))
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>addedByBool</em>  : </li>
+    
+        <li> <em>groupedByBool</em>  : </li>
+    
+        <li> <em>If</em> <code>String</code> : <p>there is an existing where/having clause, this arg will join the new condition group to it. &quot;AND&quot; if undef. Should be &quot;AND&quot; or &quot;OR&quot;</p>
+</li>
+    
+        <li> <em>The</em> <code>String</code> : <p>conditions will be joined this. Same expectations as the first param.</p>
+</li>
+    
+        <li> <em>See</em>  : <p><a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</p>
+</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition group added to the WHERE/HAVING clause.</p>
+</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (addedByBool,groupedByBool){
+   groupedByBool = isUndefined(groupedByBool) ? &quot;AND&quot; : groupedByBool;
+   var tOpts = this.__opts,
+       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+       clauseObj = tOpts[clause];
+   var args = argsToArray(arguments, 2);
+   args = args.length == 1 ? args[0] : args;
+   var opts = {};
+   if (clauseObj) {
+       addedByBool = isUndefined(addedByBool) ? &quot;AND&quot; : addedByBool;
+       opts[clause] = new BooleanExpression(addedByBool, clauseObj, this._filterExpr(args, null, groupedByBool));
+   } else {
+       opts[clause] = this._filterExpr(args, null, groupedByBool);
+   }
+   return this.mergeOptions(opts);
+           
+}
+    </pre>
+    
+
+
+  
     <a name="_compoundFromSelf"></a>
     <h3>
         _compoundFromSelf
@@ -6696,7 +6799,7 @@ function (table){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds a futher filter to an existing filter using AND. This method is identical to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
+<p><p>Adds a further filter to an existing filter using AND. This method is identical to <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>
 except it expects an existing filter.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
@@ -6764,7 +6867,8 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p><p>Adds a group of ANDed conditions wrapped in parens to an existing where/having clause by an AND. If there isn&#39;t
+yet a clause, a where clause is created with the ANDed conditions</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -6773,51 +6877,47 @@ function (){
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedAnd([{price: {gt : 0}}, {price: {lt: 10}]).sql;
      //=&gt; SELECT
               *
           FROM
               items
           WHERE
-              ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+              ((id IN (1, 2, 3)) AND ((price &gt; 0) AND (price &lt; 10)))
+
+DB.from(&quot;items&quot;).andGroupedAnd([{price: {gt : 0}}, {price: {lt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((price &gt; 0) AND (price &lt; 10))
         </pre>
 
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>filterExp</em>  : </li>
+    
+     </ul>
 
 
     <em>Returns</em>
     <ul>
     
-        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;or group&#39; added to the WHERE/HAVING clause.</p>
+        <li> <code>patio.Dataset</code> <p>a cloned dataset with the condition &#39;and group&#39; added to the WHERE/HAVING clause.</p>
 </li>
     
     </ul>
 
-
-    <em>Throws</em>
-    <ul>
-    
-        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
-</li>
-    
-    </ul>
 
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   var tOpts = this.__opts,
-       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
-       clauseObj = tOpts[clause];
-   if (clauseObj) {
-       var args = argsToArray(arguments);
-       args = args.length == 1 ? args[0] : args;
-       var opts = {};
-       opts[clause] = new BooleanExpression(&quot;AND&quot;, clauseObj, this._filterExpr(args, null, &quot;AND&quot;));
-       return this.mergeOptions(opts);
-   } else {
-       throw new QueryError(&quot;No existing filter found&quot;);
-   }
+function (filterExp){
+   return this._addGroupedCondition(&quot;AND&quot;, &quot;AND&quot;, filterExp);
            
 }
     </pre>
@@ -6842,7 +6942,8 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p><p>Adds a group of ORed conditions wrapped in parens, connected to an existing where/having clause by an AND.
+If the where/having clause doesn&#39;t yet exist, a where clause is created with the ORed group.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -6858,8 +6959,23 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}
               items
           WHERE
               ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+
+DB.from(&quot;items&quot;).andGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((price &lt; 0) OR (price &gt; 10))
         </pre>
 
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>filterExp</em>  : </li>
+    
+     </ul>
 
 
     <em>Returns</em>
@@ -6871,31 +6987,12 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}
     </ul>
 
 
-    <em>Throws</em>
-    <ul>
-    
-        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
-</li>
-    
-    </ul>
-
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   var tOpts = this.__opts,
-       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
-       clauseObj = tOpts[clause];
-   if (clauseObj) {
-       var args = argsToArray(arguments);
-       args = args.length == 1 ? args[0] : args;
-       var opts = {};
-       opts[clause] = new BooleanExpression(&quot;AND&quot;, clauseObj, this._filterExpr(args, null, &quot;OR&quot;));
-       return this.mergeOptions(opts);
-   } else {
-       throw new QueryError(&quot;No existing filter found&quot;);
-   }
+function (filterExp){
+   return this._addGroupedCondition(&quot;AND&quot;, &quot;OR&quot;, filterExp);
            
 }
     </pre>
@@ -12418,7 +12515,8 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds to the where/having clause with an OR a group of ANDed conditions wrapped in parens</p>
+<p><p>Adds a group of ANDed conditions wrapped in parens to an existing where/having clause by an OR. If there isn&#39;t
+a where/having clause, a where clause is created with the ANDed conditions.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -12434,6 +12532,14 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).orGroupedAnd([{price: {lt : 0}}
               items
           WHERE
               ((id IN (1, 2, 3)) OR ((price &gt; 0) AND (price &lt; 10)))
+
+DB.from(&quot;items&quot;).orGroupedAnd([{price: {gt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((price &gt; 0) AND (price &lt; 10))
         </pre>
 
 
@@ -12447,20 +12553,23 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).orGroupedAnd([{price: {lt : 0}}
     </ul>
 
 
-    <em>Throws</em>
-    <ul>
-    
-        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
-</li>
-    
-    </ul>
-
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.or.apply(this, arguments);
+   var tOpts = this.__opts,
+               clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+               clauseObj = tOpts[clause];
+               if (clauseObj) {
+                   return this.or.apply(this, arguments);
+               } else {
+                   var args = argsToArray(arguments);
+                   args = args.length == 1 ? args[0] : args;
+                   var opts = {};
+                   opts[clause] = this._filterExpr(args, null, &quot;AND&quot;);
+                   return this.mergeOptions(opts);
+               }
            
 }
     </pre>
@@ -12485,7 +12594,8 @@ function (){
 <hr/>
 <em>Defined dataset/query.js</em>
 
-<p><p>Adds to the where/having clause with an AND a group of ORed conditions wrapped in parens</p>
+<p><p>Adds a group of ORed conditions wrapped in parens to an existing having/where clause with an OR. If there isn&#39;t
+already a clause, a where clause is created with the ORed group.</p>
 <p>
     <b>For parameter types see <a href='./patio_Dataset.html#filter'> patio.Dataset#filter</a>.</b>
 </p>
@@ -12501,8 +12611,23 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}
               items
           WHERE
               ((id IN (1, 2, 3)) AND ((price &lt; 0) OR (price &gt; 10)))
+
+DB.from(&quot;items&quot;).orGroupedOr([{price: {lt : 0}}, {price: {gt: 10}]).sql;
+     //=&gt; SELECT
+              *
+          FROM
+              items
+          WHERE
+              ((price &lt; 0) OR (price &gt; 10))
         </pre>
 
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>filterExp</em>  : </li>
+    
+     </ul>
 
 
     <em>Returns</em>
@@ -12514,31 +12639,12 @@ DB.from(&quot;items&quot;).filter({id, [1,2,3]}).andGroupedOr([{price: {lt : 0}}
     </ul>
 
 
-    <em>Throws</em>
-    <ul>
-    
-        <li> <code>patio.QueryError</code> <p>If no WHERE?HAVING clause exists.</p>
-</li>
-    
-    </ul>
-
 
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   var tOpts = this.__opts,
-       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
-       clauseObj = tOpts[clause];
-   if (clauseObj) {
-       var args = argsToArray(arguments);
-       args = args.length == 1 ? args[0] : args;
-       var opts = {};
-       opts[clause] = new BooleanExpression(&quot;OR&quot;, clauseObj, this._filterExpr(args, null, &quot;OR&quot;));
-       return this.mergeOptions(opts);
-   } else {
-       throw new QueryError(&quot;No existing filter found&quot;);
-   }
+function (filterExp){
+   return this._addGroupedCondition(&quot;OR&quot;, &quot;OR&quot;, filterExp);
            
 }
     </pre>
