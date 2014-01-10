@@ -903,6 +903,7 @@ it.describe("Dataset queries",function (it) {
 
         it.should("accept a hash for AS values", function () {
             assert.equal(dataset.select({name: 'n', "__ggh": 'age'}).sql, "SELECT name AS n, __ggh AS age FROM test");
+            assert.equal(dataset.select({test__name: "n"}).sql, 'SELECT test.name AS n FROM test');
         });
 
         it.should("accept arbitrary objects and literalize them correctly", function () {
