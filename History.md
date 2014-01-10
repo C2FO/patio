@@ -1,3 +1,12 @@
+# v0.2.12
+
+* Patio migrate missingArgument undefined [#89](https://github.com/C2FO/patio/pull/89)
+* Using stirngToIdentifier on hash keys in `select()` for doing aliases [#87](https://github.com/C2FO/patio/pull/87)
+
+* v0.2.11
+
+* Updated 'grouped' methods to handle cases where they are called without an existing clause on the DS, and regenerated docs.
+
 # v0.2.9
 
 * Updated model to store transformed values in the changed hash
