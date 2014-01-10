@@ -30,9 +30,10 @@ program.command("migrate")
     .option('--camelize [boolean]', 'force camel casing', false)
     .option('-us, --underscore [boolean]', 'force underscore', false)
     .action(function (program) {
+        var self = this;
         ["directory", "uri"].forEach(function (arg) {
             if (comb.isUndefined(program[arg])) {
-                program.missingArgument(arg);
+                self.missingArgument(arg);
             }
         });
 
