@@ -1,3 +1,8 @@
+# v0.2.13
+
+* Updated `multiInsert` to support the returning of results.
+* Updated the postgres adapter to not change strings with double `_` to identifiers.
+
 # v0.2.12
 
 * Patio migrate missingArgument undefined [#89](https://github.com/C2FO/patio/pull/89)

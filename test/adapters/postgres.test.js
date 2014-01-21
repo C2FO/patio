@@ -169,11 +169,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     d.lock('EXCLUSIVE',function () {
                         return d.insert({name: 'a'});
                     }).then(function () {
-                            assert.deepEqual(PG_DB.sqls, [ "BEGIN",
-                                "LOCK TABLE  test IN EXCLUSIVE MODE",
-                                "INSERT INTO test (name) VALUES ('a') RETURNING *",
-                                "COMMIT" ]);
-                        }).classic(next);
+                        assert.deepEqual(PG_DB.sqls, [ "BEGIN",
+                            "LOCK TABLE  test IN EXCLUSIVE MODE",
+                            "INSERT INTO test (name) VALUES ('a') RETURNING *",
+                            "COMMIT" ]);
+                    }).classic(next);
                 });
 
                 it.should("lock table if inside a transaction", function (next) {
@@ -183,11 +183,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                             d.insert.bind(d, {name: 'a'})
                         ]);
                     }).then(function () {
-                            assert.deepEqual(PG_DB.sqls, [ "BEGIN",
-                                "LOCK TABLE  test IN EXCLUSIVE MODE",
-                                "INSERT INTO test (name) VALUES ('a') RETURNING *",
-                                "COMMIT" ]);
-                        }).classic(next);
+                        assert.deepEqual(PG_DB.sqls, [ "BEGIN",
+                            "LOCK TABLE  test IN EXCLUSIVE MODE",
+                            "INSERT INTO test (name) VALUES ('a') RETURNING *",
+                            "COMMIT" ]);
+                    }).classic(next);
                 });
             });
 
@@ -218,14 +218,14 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                                 );
                             }
                         ]).then(function (res) {
-                            res = res[2];
-                            assert.deepEqual(res, [
-                                [20, 30],
-                                [30, 20],
-                                [20],
-                                [30]
-                            ]);
-                        }).classic(next);
+                        res = res[2];
+                        assert.deepEqual(res, [
+                            [20, 30],
+                            [30, 20],
+                            [20],
+                            [30]
+                        ]);
+                    }).classic(next);
                 });
             });
 
@@ -255,6 +255,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                 });
 
             });
+
+            it.should("not covert strings with double _ to identifers", function () {
+                var ds = PG_DB.from("test3");
+                assert.deepEqual(ds.literal("a__B"), "'a__B'");
+            })
 
         });
 
@@ -368,21 +373,21 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         return db.createTable("posts",function () {
                             this.primaryKey("a", {type: "integer"});
                         }).then(function () {
-                                assert.deepEqual(PG_DB.sqls, [
-                                    "CREATE TABLE posts (a serial PRIMARY KEY)"
-                                ]);
-                            });
+                            assert.deepEqual(PG_DB.sqls, [
+                                "CREATE TABLE posts (a serial PRIMARY KEY)"
+                            ]);
+                        });
                     },
                     resetDb,
                     function () {
                         return db.forceCreateTable("posts",function () {
                             this.primaryKey("a", {type: "bigint"});
                         }).then(function () {
-                                assert.deepEqual(PG_DB.sqls, [
-                                    "DROP TABLE posts",
-                                    "CREATE TABLE posts (a bigserial PRIMARY KEY)"
-                                ]);
-                            });
+                            assert.deepEqual(PG_DB.sqls, [
+                                "DROP TABLE posts",
+                                "CREATE TABLE posts (a bigserial PRIMARY KEY)"
+                            ]);
+                        });
                     }
                 ]);
             });
@@ -458,11 +463,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     this.geom("box");
                     this.spatialIndex(["geom"]);
                 }).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            'CREATE TABLE posts (geom box)',
-                            'CREATE  INDEX posts_geom_index ON posts USING gist (geom)'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'CREATE TABLE posts (geom box)',
+                        'CREATE  INDEX posts_geom_index ON posts USING gist (geom)'
+                    ]);
+                });
             });
 
             it.should("support indexes with index type", function () {
@@ -470,11 +475,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     this.title("varchar", {size: 5});
                     this.index("title", {type: 'hash'});
                 }).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            'CREATE TABLE posts (title varchar(5))',
-                            'CREATE  INDEX posts_title_index ON posts USING hash (title)'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'CREATE TABLE posts (title varchar(5))',
+                        'CREATE  INDEX posts_title_index ON posts USING hash (title)'
+                    ]);
+                });
             });
 
             it.should("support unique indexes with index type", function () {
@@ -482,11 +487,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     this.title("varchar", {size: 5});
                     this.index("title", {type: 'btree', unique: true})
                 }).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            'CREATE TABLE posts (title varchar(5))',
-                            'CREATE UNIQUE INDEX posts_title_index ON posts USING btree (title)'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'CREATE TABLE posts (title varchar(5))',
+                        'CREATE UNIQUE INDEX posts_title_index ON posts USING btree (title)'
+                    ]);
+                });
             });
 
             it.should("support partial indexes", function () {
@@ -494,11 +499,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     this.title("varchar", {size: 5});
                     this.index("title", {where: {title: '5'}});
                 }).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            'CREATE TABLE posts (title varchar(5))',
-                            'CREATE  INDEX posts_title_index ON posts  (title) WHERE (title = \'5\')'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'CREATE TABLE posts (title varchar(5))',
+                        'CREATE  INDEX posts_title_index ON posts  (title) WHERE (title = \'5\')'
+                    ]);
+                });
             });
 
             it.should("support identifiers for table names in indicies", function () {
@@ -506,11 +511,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     this.title("varchar", {size: 5});
                     this.index("title", {where: {title: '5'}});
                 }).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            'CREATE TABLE posts (title varchar(5))',
-                            'CREATE  INDEX posts_title_index ON posts  (title) WHERE (title = \'5\')'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'CREATE TABLE posts (title varchar(5))',
+                        'CREATE  INDEX posts_title_index ON posts  (title) WHERE (title = \'5\')'
+                    ]);
+                });
             });
 
             it.should("support renaming tables", function () {
@@ -520,11 +525,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     }),
                     db.renameTable.bind(db, "posts1", "posts")
                 ]).then(function () {
-                        assert.deepEqual(db.sqls, [
-                            "CREATE TABLE posts1 (a serial PRIMARY KEY)",
-                            "ALTER TABLE posts1 RENAME TO posts"
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        "CREATE TABLE posts1 (a serial PRIMARY KEY)",
+                        "ALTER TABLE posts1 RENAME TO posts"
+                    ]);
+                });
             });
 
             it.describe("#import", function (it) {
@@ -596,11 +601,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         return db.refreshMaterializedView("mtr").chain(function () {
                             assert.deepEqual(db.sqls, ["REFRESH MATERIALIZED VIEW mtr"]);
                         }).chain(function () {
-                                db.sqls = [];
-                                return db.refreshMaterializedView("mtr", {noData: true}).chain(function () {
-                                    assert.deepEqual(db.sqls, ["REFRESH MATERIALIZED VIEW mtr WITH NO DATA"]);
-                                });
+                            db.sqls = [];
+                            return db.refreshMaterializedView("mtr", {noData: true}).chain(function () {
+                                assert.deepEqual(db.sqls, ["REFRESH MATERIALIZED VIEW mtr WITH NO DATA"]);
                             });
+                        });
                     }
                 });
 
@@ -631,11 +636,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                             ret.errback(e);
                         }
                     }).chain(function () {
-                            debugger;
-                            assert.isTrue("myChannel" in db.__listeners);
-                            assert.deepEqual(db.sqls, ['LISTEN myChannel']);
-                            return db.notify("myChannel", {msg: "hello"});
-                        }).addErrback(ret);
+                        debugger;
+                        assert.isTrue("myChannel" in db.__listeners);
+                        assert.deepEqual(db.sqls, ['LISTEN myChannel']);
+                        return db.notify("myChannel", {msg: "hello"});
+                    }).addErrback(ret);
                     return ret;
                 });
 
