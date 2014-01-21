@@ -3342,7 +3342,7 @@ each column (e.g. database type), see {@link patio.Database#schema}.
    if (this.__columns) {
        return asyncArray(this.__columns);
    } else {
-       var ds = this.unfiltered().unordered().mergeOptions({distinct:null, limit:1});
+       var ds = this.unfiltered().unordered().mergeOptions({distinct: null, limit: 1});
        return asyncArray(ds.forEach().chain(function () {
            return (this.__columns = ds.__columns || []);
        }.bind(this)));
@@ -3800,7 +3800,7 @@ function (op,obj){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (opts){
-   return merge({server:this.__opts.server || &quot;default&quot;}, opts || {});
+   return merge({server: this.__opts.server || &quot;default&quot;}, opts || {});
            
 }
     </pre>
@@ -7919,7 +7919,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (sql,opts){
-   return this.db.execute(sql, merge({server:this.__opts.server || &quot;readOnly&quot;}, opts || {}));
+   return this.db.execute(sql, merge({server: this.__opts.server || &quot;readOnly&quot;}, opts || {}));
            
 }
     </pre>
@@ -9621,46 +9621,43 @@ function (columns,values,opts,cb){
        opts = null;
    }
    opts = opts || {};
-   var ret;
+   var ret, self = this;
    if (isInstanceOf(values, Dataset)) {
-       ret = this.db.transaction(hitch(this, function () {
-           return this.insert(columns, values);
-       }));
+       ret = this.db.transaction(function () {
+           return self.insert(columns, values);
+       });
    } else {
-       ret = new Promise();
        if (!values.length) {
-           ret.callback();
+           ret = new Promise().callback();
        } else if (!columns.length) {
            throw new QueryError(&quot;Invalid columns in import&quot;);
        }
-       var sliceSize = opts.commitEvery || opts.slice;
+       var sliceSize = opts.commitEvery || opts.slice, result = [];
        if (sliceSize) {
-           var offset = 0;
-           var execute = function () {
-               if (offset &gt;= values.length) {
-                   ret.callback();
-                   return;
-               }
-               this.db.transaction(opts, hitch(this, function () {
-                   return when(this.multiInsertSql(columns, values.slice(offset, sliceSize + offset)).map(hitch(this, function (st) {
-                       return this.executeDui(st);
-                   })));
-               })).then(hitch(this, function () {
-                   offset += sliceSize;
-                   execute();
-               }), ret);
-           }.bind(this);
-           execute();
+           ret = asyncArray(partition(values, sliceSize)).forEach(function (entries, offset) {
+               offset = (offset * sliceSize);
+               return self.db.transaction(opts, function () {
+                   return when(self.multiInsertSql(columns, entries).map(function (st, index) {
+                       return self.executeDui(st).chain(function (res) {
+                           result[offset + index] = res;
+                       });
+                   }));
+               });
+           }, 1);
        } else {
            var statements = this.multiInsertSql(columns, values);
            ret = this.db.transaction(function () {
-               return when(statements.map(function (st) {
-                   return this.executeDui(st);
-               }.bind(this)));
-           }.bind(this));
+               return when(statements.map(function (st, index) {
+                   return self.executeDui(st).chain(function (res) {
+                       result[index] = res;
+                   });
+               }));
+           });
        }
    }
-   return ret.classic(cb).promise();
+   return ret.chain(function () {
+       return flatten(result);
+   }).classic(cb).promise();
            
 }
     </pre>
@@ -13599,9 +13596,9 @@ function (column,cb){
    this.__aggregateDataset()
        .select(sql.min(this.stringToIdentifier(column)).as(&quot;v1&quot;), sql.max(this.stringToIdentifier(column)).as(&quot;v2&quot;))
        .first()
-       .then(function (r) {
+       .chain(function (r) {
            ret.callback(r.v1, r.v2);
-       }, ret);
+       }, ret.errback);
    return ret.classic(cb).promise();
            
 }
@@ -14807,7 +14804,7 @@ DB.from(&quot;test&quot;).singleRecord().then(function(r) {
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   return this.mergeOptions({limit:1}).all().chain(function (r) {
+   return this.mergeOptions({limit: 1}).all().chain(function (r) {
        return r &amp;&amp; r.length ? r[0] : null;
    }).classic(cb).promise();
            
@@ -15156,8 +15153,8 @@ function (includeColumnTitles,cb){
                return r[c] || &quot;&quot;;
            }).join(&quot;, &quot;));
        }).chain(function () {
-               return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
-           });
+           return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
+       });
    }.bind(this)).classic(cb).promise();
            
 }
@@ -15241,13 +15238,11 @@ function (keyColumn,valueColumn,cb){
        valueColumn = null;
    }
    var k = this.__hashIdentifierToName(keyColumn), v = this.__hashIdentifierToName(valueColumn);
-   var mapPromise = this.map(function (r) {
+   return this.map(function (r) {
        map[r[k]] = v ? r[v] : r;
-   });
-   mapPromise.then(function () {
-       ret.callback(map);
-   }, ret);
-   return ret.classic(cb).promise();
+   }).chain(function () {
+       return map;
+   }).classic(cb).promise();
            
 }
     </pre>
