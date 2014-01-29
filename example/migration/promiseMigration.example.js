@@ -4,31 +4,33 @@ patio.camelize = true;
 var DB = patio.createConnection("mysql://test:testpass@localhost:3306/sandbox");
 new comb.logging.BasicConfigurator().configure();
 comb.logging.Logger.getRootLogger().level = "info";
-var disconnectErr = function(err){
+var disconnectErr = function (err) {
     patio.logError(err);
     patio.disconnect();
 };
 
-var checkTables = function(){
-    return DB.from("employees").forEach(
-        function(employee){
+var checkTables = function () {
+    return DB.from("employees")
+        .forEach(function (employee) {
             console.log(format("{id} {firstName} {middleInitial} {lastName}  was hired {[yyy-MM-dd]hireDate}", employee));
             return employee;
-        }).then(function(employees){
-            assert.equal(employees.length, 5);
         })
+        .chain(function (employees) {
+            assert.equal(employees.length, 5);
+        });
 }
 
-var migrate = function(){
-    var directory = __dirname + "/promise_migration";
-    patio.migrate(DB, directory).then(function(){
+
+var directory = __dirname + "/promise_migration";
+patio.migrate(DB, directory)
+    .chain(function () {
         console.log("Done migrating up");
-        checkTables().then(function(){
-            patio.migrate(DB, directory, {target:-1}).then(function(){
-                console.log("\nDone migrating down");
-                patio.disconnect();
-            }, disconnectErr);
-        }, disconnectErr);
+        return checkTables();
+    })
+    .chain(function () {
+        return patio.migrate(DB, directory, {target: -1});
+    })
+    .chain(function () {
+        console.log("\nDone migrating down");
+        patio.disconnect();
     }, disconnectErr);
-};
-migrate();

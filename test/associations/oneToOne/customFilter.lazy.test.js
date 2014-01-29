@@ -12,16 +12,16 @@ it.describe("One To One lazy with custom filter", function (it) {
     var Works, Employee;
     it.beforeAll(function () {
         Works = patio.addModel("works", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
                     this.manyToOne("employee");
                 }
             }
         });
         Employee = patio.addModel("employee", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
                     this.oneToOne("works", function (ds) {
                         return ds.filter(function () {
@@ -54,27 +54,25 @@ it.describe("One To One lazy with custom filter", function (it) {
         });
 
 
-        it.should("save nested models when using new", function (next) {
+        it.should("save nested models when using new", function () {
             var employee = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            employee.save().then(function () {
-                employee.works.then(function (works) {
+            return employee.save().chain(function () {
+                return employee.works.chain(function (works) {
                     assert.equal(works.companyName, "Google");
                     assert.equal(works.salary, 100000);
-                    next();
-                }, next);
-                next();
-            }, next);
+                });
+            });
         });
     });
 
@@ -86,66 +84,63 @@ it.describe("One To One lazy with custom filter", function (it) {
                 hitch(Works, "remove"),
                 function () {
                     return new Employee({
-                        lastName:"last" + 1,
-                        firstName:"first" + 1,
-                        midInitial:"m",
-                        gender:gender[1 % 2],
-                        street:"Street " + 1,
-                        city:"City " + 1,
-                        works:{
-                            companyName:"Google",
-                            salary:100000
+                        lastName: "last" + 1,
+                        firstName: "first" + 1,
+                        midInitial: "m",
+                        gender: gender[1 % 2],
+                        street: "Street " + 1,
+                        city: "City " + 1,
+                        works: {
+                            companyName: "Google",
+                            salary: 100000
                         }
                     }).save();
                 }
             ]);
         });
 
-        it.should("load associations when querying", function (next) {
-            comb.when(Employee.one(), Works.one()).then(function (res) {
+        it.should("load associations when querying", function () {
+            return comb.when(Employee.one(), Works.one()).chain(function (res) {
                 var emp = res[0], work = res[1];
                 var empWorks = emp.works, worksEmp = work.employee;
                 assert.isPromiseLike(empWorks);
                 assert.isPromiseLike(worksEmp);
-                comb.when(empWorks, worksEmp).then(function (res) {
+                return comb.when(empWorks, worksEmp).chain(function (res) {
                     assert.instanceOf(res[1], Employee);
                     assert.instanceOf(res[0], Works);
-                    next();
-                }, next);
-            }, next);
+                });
+            });
         });
 
-        it.should("allow the removing of associations", function (next) {
-            Employee.one().then(function (emp) {
+        it.should("allow the removing of associations", function () {
+            return Employee.one().chain(function (emp) {
                 emp.works = null;
-                emp.save().then(function (emp) {
-                    emp.works.then(function (works) {
+                return emp.save().chain(function (emp) {
+                    return emp.works.chain(function (works) {
                         assert.isNull(works);
-                        Works.one().then(function (works) {
+                        return Works.one().chain(function (works) {
                             assert.isNotNull(works);
-                            works.employee.then(function (emp) {
+                            return works.employee.chain(function (emp) {
                                 assert.isNotNull(works.employee);
-                                next();
-                            }, next);
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
+                            });
+                        });
+                    });
+                });
+            });
         });
 
-        it.should("apply the filter", function (next) {
-            Employee.one().then(function (emp) {
-                emp.works.then(function (works) {
-                    works.save({salary:10}).then(function () {
-                        emp.reload().then(function () {
-                            emp.works.then(function (works) {
+        it.should("apply the filter", function () {
+            return Employee.one().chain(function (emp) {
+                return emp.works.chain(function (works) {
+                    return works.save({salary: 10}).chain(function () {
+                        return emp.reload().chain(function () {
+                            return emp.works.chain(function (works) {
                                 assert.isNull(works);
-                                next();
-                            }, next);
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
+                            });
+                        });
+                    });
+                });
+            });
         });
 
     });
@@ -158,54 +153,52 @@ it.describe("One To One lazy with custom filter", function (it) {
             );
         });
 
-        it.should("allow the setting of associations", function (next) {
+        it.should("allow the setting of associations", function () {
             var emp = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1
             });
-            emp.save().then(function () {
-                emp.works.then(function (works) {
+            return emp.save().chain(function () {
+                return emp.works.chain(function (works) {
                     assert.isNull(works);
                     emp.works = {
-                        companyName:"Google",
-                        salary:100000
+                        companyName: "Google",
+                        salary: 100000
                     };
-                    emp.save().then(function () {
-                        emp.works.then(function (works) {
+                    return emp.save().chain(function () {
+                        return emp.works.chain(function (works) {
                             assert.instanceOf(works, Works);
-                            next();
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
+                        });
+                    });
+                });
+            });
         });
 
-        it.should("not delete association when deleting the reciprocal side", function (next) {
+        it.should("not delete association when deleting the reciprocal side", function () {
             var e = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            e.save().then(function () {
-                e.remove().then(function () {
-                    comb.when(Employee.all(), Works.all()).then(function (res) {
+            return e.save().chain(function () {
+                return e.remove().chain(function () {
+                    return comb.when(Employee.all(), Works.all()).chain(function (res) {
                         assert.lengthOf(res[0], 0);
                         assert.lengthOf(res[1], 1);
-                        next();
-                    }, next);
-                }, next);
-            }, next);
+                    });
+                });
+            });
         });
 
     });
@@ -213,4 +206,4 @@ it.describe("One To One lazy with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

@@ -493,20 +493,6 @@
 
                             </a></li>
                             
-                            <li><a href="./patio.html#import">
-                                
-                                
-                                <span class="label label-label">F</span>
-                                
-                                
-                                
-                                <span class="label label-success">P</span>
-                                
-                                
-                                import
-
-                            </a></li>
-                            
                             <li><a href="./patio.html#logDebug">
                                 
                                 
@@ -1024,8 +1010,7 @@ var connectPromise = patio.connectAndExecute(CONNECT_STRING, function (db) {
      });
 });
 
-connectPromise.then(function (db) {
-     DB = db;
+connectPromise.chain(function (db) {
      //do more stuff!
  });
         </pre>
@@ -1121,7 +1106,7 @@ var DB = patio.createConnection(CONNECT_STRING);
 DB.createTable(&quot;myTable&quot;, function(){
    this.name(&quot;text&quot;);
    this.value(&quot;integer&quot;);
-}).then(function(){
+}).chain(function(){
     //tables created!!!
 });
         </pre>
@@ -1214,14 +1199,14 @@ function (options){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (cb){
-   var ret = Database.disconnect(cb);
-   ret.classic(hitch(this, function (err) {
+   var ret = Database.disconnect(cb), self = this;
+   ret.classic(function (err) {
        if (err) {
-           this.emit(&quot;error&quot;, err);
+           self.emit(&quot;error&quot;, err);
        } else {
-           this.emit(&quot;disconnect&quot;);
+           self.emit(&quot;disconnect&quot;);
        }
-   }));
+   });
    return ret.promise();
            
 }
@@ -1270,7 +1255,7 @@ var Test1 = patio.addModel(DB1.from("test");
 var Test2 = patio.addModel(DB2.from("test");
 
 //sync the models
-patio.syncModels().then(function(){
+patio.syncModels().chain(function(){
      //now you can use them
      var test1Model = new Test1();
      var test2Model = new Test2();
@@ -1302,102 +1287,6 @@ patio.syncModels().then(function(){
     <pre class="prettyprint linenums lang-js">
 function (name,db){
    return model.getModel(name, db);
-           
-}
-    </pre>
-    
-
-
-  
-    <a name="import"></a>
-    <h3>
-        import
-        
-        
-        <span class="label label-label">Function</span>
-        
-        
-                
-         <span class="label label-success">Public</span>
-                
-        
-   </h3>
-
-<hr/>
-<em>Defined index.js</em>
-
-<p><p>Allows for the importing of multiple models so you do not have to worry about the promise that is returned from create model,
-or a directory if an index.js file is used.</p>
-<p>
-    To import a group of model files you can do the following:
-<pre class='prettyprint linenums lang-js'>
-
-patio.import(<strong>dirname + &quot;/models/Flight.js&quot;,
-             </strong>dirname + &quot;/models/Airport.js&quot;,
-             <strong>dirname + &quot;/models/Airplane.js&quot;).then(function(Flight, Airport, Airplane){
-                 //...
-             });
-
-patio.import(</strong>dirname + &quot;/models/Flight.js&quot;,
-             <strong>dirname + &quot;/models/Airport.js&quot;,
-             </strong>dirname + &quot;/models/Airplane.js&quot;).then(function(){
-                 var Flight = patio.getModel(&quot;flight&quot;),
-                     Airport = patio.getModel(&quot;airport&quot;),
-                     Airplane = patio.getModel(&quot;airplane&quot;);
-             });
-     </pre>
-    Another approach is to create an index.js file inside of a directory that requires all of the models needed.
-    then use <a href='./patio.html#import'> patio#import</a> on that file.
-    <pre class="code">
-patio.import(__dirname + &quot;/models&quot;).then(function(){
-     var Flight = patio.getModel(&quot;flight&quot;),
-         Airport = patio.getModel(&quot;airport&quot;),
-         Airplane = patio.getModel(&quot;airplane&quot;);
-});
-
-</pre>
-</p>
-
-</p>
-
-
-    <em>Arguments</em>
-    <ul>
-    
-        <li> <em>files</em>  : <p>a single or list of files to import.</p>
-</li>
-    
-        <li> <em>cb?</em>  : <p>an optional callback to call when importing is complete</p>
-</li>
-    
-     </ul>
-
-
-    <em>Returns</em>
-    <ul>
-    
-        <li> <code>Promise</code> <p>returns a promise that will be resolved when all models in the imported files
-have been loaded.</p>
-</li>
-    
-    </ul>
-
-
-
-    
-    <em>Source</em>
-    <pre class="prettyprint linenums lang-js">
-function (files,cb){
-   files = argsToArray(arguments);
-   if (isFunction(files[files.length])) {
-       cb = files.pop();
-   } else {
-       cb = null;
-   }
-   files.map(function (file) {
-       require(file);
-   });
-   return model.syncModels(cb).promise();
            
 }
     </pre>
@@ -1726,7 +1615,7 @@ In order to run a migraton all one has to do is call patio.migrate(DB, directory
 
 <pre class="code">
  var DB = patio.connect(&quot;my://connection/string&quot;);
- patio.migrate(DB, __dirname + &quot;/migrations&quot;).then(function(){
+ patio.migrate(DB, __dirname + &quot;/migrations&quot;).chain(function(){
      console.log(&quot;migrations finished&quot;);
  });
 </pre>
@@ -1839,7 +1728,7 @@ var User = patio.addModel(&quot;user&quot;);
 var Blog = patio.addModel(&quot;blog&quot;);
 
 //using promise api
-patio.syncModels().then(function(){
+patio.syncModels().chain(function(){
     var user = new User();
 }, function(error){
    console.log(err);

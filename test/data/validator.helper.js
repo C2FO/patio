@@ -32,9 +32,7 @@ var dropTableAndDisconnect = function () {
 };
 
 exports.createSchemaAndSync = function (underscore) {
-    var ret = new comb.Promise();
-    createTables(underscore).chain(comb.hitch(patio, "syncModels"), ret).then(ret);
-    return ret;
+    return createTables(underscore).chain(comb.hitch(patio, "syncModels"));
 };
 
 

@@ -6,9 +6,9 @@ var patio = require("../../../index"),
 
 
 patio.addModel("flight", {
-    plugins:[expressPlugin],
-    instance:{
-        toObject:function () {
+    plugins: [expressPlugin],
+    instance: {
+        toObject: function () {
             var obj = this._super(arguments);
             obj.weekdays = this.weekdaysArray;
             obj.legs = this.legs.map(function (l) {
@@ -17,61 +17,49 @@ patio.addModel("flight", {
             return obj;
         },
 
-        _setWeekdays:function (weekdays) {
+        _setWeekdays: function (weekdays) {
             this.weekdaysArray = weekdays.split(",");
             return weekdays;
         }
     },
 
-    static:{
+    static: {
 
-        init:function () {
+        init: function () {
             this._super(arguments);
             this.oneToMany("legs", {
-                model:"flightLeg",
-                orderBy:"scheduledDepartureTime",
-                fetchType:this.fetchType.EAGER
+                model: "flightLeg",
+                orderBy: "scheduledDepartureTime",
+                fetchType: this.fetchType.EAGER
             });
 
             this.addRoute("/flights/:airline", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.byAirline(params.airline).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
-                        return flight.toObject();
-                    }));
-                }, comb.hitch(ret, "errback"));
-                return  ret;
+                return this.byAirline(params.airline).chain(function (flights) {
+                    return comb(flights).invoke("toObject");
+                });
             }));
             this.addRoute("/flights/departs/:airportCode", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.departsFrom(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
-                        return flight.toObject();
-                    }));
-                }, comb.hitch(ret, "errback"));
-                return  ret;
+                return this.departsFrom(params.airportCode).chain(function (flights) {
+                    return comb(flights).invoke("toObject");
+                });
             }));
             this.addRoute("/flights/arrives/:airportCode", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.arrivesAt(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
-                        return flight.toObject();
-                    }));
-                }, comb.hitch(ret, "errback"));
-                return  ret;
+                return this.arrivesAt(params.airportCode).chain(function (flights) {
+                    return comb(flights).invoke("toObject");
+                });
             }));
         },
 
-        byAirline:function (airline) {
-            return this.filter({airline:airline}).all();
+        byAirline: function (airline) {
+            return this.filter({airline: airline}).all();
         },
 
-        arrivesAt:function (airportCode) {
-            return this.join(FlightLeg.select("flightId").filter({arrivalCode:airportCode}).distinct(), {flightId:sql.id}).all();
+        arrivesAt: function (airportCode) {
+            return this.join(FlightLeg.select("flightId").filter({arrivalCode: airportCode}).distinct(), {flightId: sql.id}).all();
         },
 
-        departsFrom:function (airportCode) {
-            return this.join(FlightLeg.select("flightId").filter({departureCode:airportCode}).distinct(), {flightId:sql.id}).all();
+        departsFrom: function (airportCode) {
+            return this.join(FlightLeg.select("flightId").filter({departureCode: airportCode}).distinct(), {flightId: sql.id}).all();
         },
 
     }

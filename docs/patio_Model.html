@@ -1060,8 +1060,8 @@ function (type,name,options,filter){
        filter = options;
        options = {};
    }
-   this.__associations = this.__associations || {manyToMany:{}, oneToMany:{}, manyToOne:{}, oneToOne:{}};
-   var assoc = new associations[type](comb.merge({model:name}, options), this.patio, filter);
+   this.__associations = this.__associations || {manyToMany: {}, oneToMany: {}, manyToOne: {}, oneToOne: {}};
+   var assoc = new associations[type](comb.merge({model: name}, options), this.patio, filter);
    assoc.inject(this, name);
    this.__associations[type][name] = assoc;
    this.emit(&quot;associate&quot;, type, this);
@@ -1200,12 +1200,12 @@ function (id){
         <pre class="prettyprint linenums lang-js">
 var User = patio.getModel(&quot;user&quot;);
 
-User.findById(1).then(function(userOne){
+User.findById(1).chain(function(userOne){
 
 });
 
 //assume the primary key is a compostie of first_name and last_name
-User.findById([&quot;greg&quot;, &quot;yukon&quot;]).then(function(userOne){
+User.findById([&quot;greg&quot;, &quot;yukon&quot;]).chain(function(userOne){
 
 });
         </pre>
@@ -1235,7 +1235,7 @@ User.findById([&quot;greg&quot;, &quot;yukon&quot;]).then(function(userOne){
     <pre class="prettyprint linenums lang-js">
 function (id){
    var pk = this.primaryKey;
-   pk = pk.length == 1 ? pk[0] : pk;
+   pk = pk.length === 1 ? pk[0] : pk;
    var q = {};
    if (isArray(id) &amp;&amp; isArray(pk)) {
        if (id.length === pk.length) {
@@ -1295,9 +1295,10 @@ does not exist then a new one is created as passed back.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (q){
-   return this.find(q).chain(hitch(this, function (res) {
-       return res || this.create(q);
-   }));
+   var self = this;
+   return this.find(q).chain(function (res) {
+       return res || self.create(q);
+   });
            
 }
     </pre>
@@ -1699,9 +1700,8 @@ function (q,options){
    options = options || {};
    var loadEach = isBoolean(options.load) ? options.load : true;
    //first find all records so we call alert the middleware for each model
-   return this._checkTransaction(options, hitch(this, function () {
-       var ds = this.dataset;
-       ds = ds.filter.call(ds, q);
+   var ds = this.dataset.filter(q);
+   return this._checkTransaction(options, function () {
        if (loadEach) {
            return ds.map(function (r) {
                //todo this sucks find a better way!
@@ -1710,7 +1710,7 @@ function (q,options){
        } else {
            return ds.remove();
        }
-   }));
+   });
            
 }
     </pre>
@@ -1776,13 +1776,12 @@ removing the model.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (id,options){
-   return this._checkTransaction(options, hitch(this, function () {
-       return this.findById(id).chain(function (model) {
-           if (model) {
-               return model.remove(options);
-           }
+   var self = this;
+   return this._checkTransaction(options, function () {
+       return self.findById(id).chain(function (model) {
+           return model ? model.remove(options) : null;
        });
-   }));
+   });
            
 }
     </pre>
@@ -1852,7 +1851,7 @@ Student.save([
          gpa:1.9,
          classYear:&quot;Freshman&quot;
      }
-]).then(function(users){
+]).chain(function(users){
     //work with the users
 });
 
@@ -1894,17 +1893,19 @@ saving the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (items,options){
    options = options || {};
-   var isArr = isArray(items);
-   return this._checkTransaction(options, hitch(this, function () {
-       return asyncArray(items).map(function (o) {
-           if (!isInstanceOf(o, this)) {
-               o = new this(o);
-           }
-           return o.save(null, options);
-       }, this).chain(function (res) {
+   var isArr = isArray(items), Self = this;
+   return this._checkTransaction(options, function () {
+       return asyncArray(items)
+           .map(function (o) {
+               if (!isInstanceOf(o, Self)) {
+                   o = new Self(o);
+               }
+               return o.save(null, options);
+           })
+           .chain(function (res) {
                return isArr ? res : res[0];
            });
-   }));
+   });
            
 }
     </pre>
@@ -1990,14 +1991,13 @@ updating the models.</p>
     <pre class="prettyprint linenums lang-js">
 function (vals,/*?object*/query,options){
    options = options || {};
-   var args = comb(arguments).toArray();
-   return this._checkTransaction(options, hitch(this, function () {
-       var dataset = this.dataset;
+   var dataset = this.dataset;
+   return this._checkTransaction(options, function () {
        if (!isUndefined(query)) {
            dataset = dataset.filter(query);
        }
        return dataset.update(vals);
-   }));
+   });
            
 }
     </pre>
@@ -2071,7 +2071,7 @@ model.</p>
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-myModel.reload().then(function(model){
+myModel.reload().chain(function(model){
    //model === myModel
 });
         </pre>
@@ -2093,10 +2093,11 @@ myModel.reload().then(function(model){
     <pre class="prettyprint linenums lang-js">
 function (){
    if (!this.__isNew) {
+       var self = this;
        return this.dataset.naked().filter(this._getPrimaryKeyQuery()).one().chain(function (values) {
-           this.__setFromDb(values, true);
-           return this;
-       }.bind(this));
+           self.__setFromDb(values, true);
+           return self;
+       });
    } else {
        return when(this);
    }
@@ -2216,13 +2217,13 @@ and the model&#39;s isNew flag is set to true.</p>
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-myModel.remove().then(function(){
+myModel.remove().chain(function(){
     //model is deleted
     assert.isTrue(myModel.isNew);
 });
 
 //dont use a transaction to remove this model
-myModel.remove({transaction : false}).then(function(){
+myModel.remove({transaction : false}).chain(function(){
     //model is deleted
     assert.isTrue(myModel.isNew);
 });
@@ -2258,21 +2259,23 @@ removing the model.</p>
 function (options){
    if (this.synced) {
        if (!this.__isNew) {
-           return this._checkTransaction(options, hitch(this, function () {
-               return serial([
-                   this._hook.bind(this, &quot;pre&quot;, &quot;remove&quot;, [options]),
-                   this._remove.bind(this, options),
-                   this._hook.bind(this, &quot;post&quot;, &quot;remove&quot;, [options]),
-                   function () {
-                       this._clearPrimaryKeys();
-                       this.__isNew = true;
-                       if (this._static.emitOnRemove) {
-                           this.emit(&quot;remove&quot;, this);
-                           this._static.emit(&quot;remove&quot;, this);
+           var self = this;
+           return this._checkTransaction(options, function () {
+               return self.__callHooks(&quot;remove&quot;, [options], function () {
+                   return self._remove(options);
+               })
+                   .chain(function () {
+                       self._clearPrimaryKeys();
+                       self.__isNew = true;
+                       if (self._static.emitOnRemove) {
+                           self.emit(&quot;remove&quot;, this);
+                           self._static.emit(&quot;remove&quot;, this);
                        }
-                   }.bind(this)
-               ]).chain(this);
-           }));
+                   })
+                   .chain(function () {
+                       return self;
+                   });
+           });
        } else {
            return when(0);
        }
@@ -2313,7 +2316,7 @@ someModel.save({
      myVal1 : "newValue1",
      myVal2 : "newValue2",
      myVal3 : "newValue3"
-}).then(function(){
+}).chain(function(){
      //do something
 }, errorHandler);
 
@@ -2329,7 +2332,7 @@ someModel.myVal2 = "newValue2";
 someModel.myVal3 = "newValue3";
 
 //update model with current values
-someModel.save().then(function(){
+someModel.save().chain(function(){
     //do something
 });
 
@@ -2391,23 +2394,27 @@ precedence over <a href='./patio_Model.html#.reloadOnSave'> patio.Model.reloadOn
 function (vals,options){
    if (this.synced) {
        if (this.__isNew) {
-           return this._checkTransaction(options, hitch(this, function () {
+           var self = this;
+           return this._checkTransaction(options, function () {
                if (isHash(vals)) {
-                   this.__set(vals);
+                   self.__set(vals);
                }
-               return serial([
-                   this._hook.bind(this, &quot;pre&quot;, &quot;save&quot;, [options]),
-                   this._save.bind(this, options),
-                   this._hook.bind(this, &quot;post&quot;, &quot;save&quot;, [options]),
-                   this._saveReload.bind(this, options),
-                   function () {
-                       if (this._static.emitOnSave) {
-                           this.emit(&quot;save&quot;, this);
-                           this._static.emit(&quot;save&quot;, this);
+               return self.__callHooks(&quot;save&quot;, [options], function () {
+                   return self._save(options);
+               })
+                   .chain(function () {
+                       return self._saveReload(options);
+                   })
+                   .chain(function () {
+                       if (self._static.emitOnSave) {
+                           self.emit(&quot;save&quot;, self);
+                           self._static.emit(&quot;save&quot;, self);
                        }
-                   }.bind(this)
-               ]).chain(this);
-           }));
+                   })
+                   .chain(function () {
+                       return self;
+                   });
+           });
        } else {
            return this.update(vals, options);
        }
@@ -2642,7 +2649,7 @@ someModel.update({
      myVal1 : "newValue1",
      myVal2 : "newValue2",
      myVal3 : "newValue3"
-}).then(function(){
+}).chain(function(){
      //do something
 }, errorHandler);
 
@@ -2658,7 +2665,7 @@ someModel.myVal2 = "newValue2";
 someModel.myVal3 = "newValue3";
 
 //update model with current values
-someModel.update().then(function(){
+someModel.update().chain(function(){
     //do something
 });
 
@@ -2719,26 +2726,28 @@ precedence over <a href='./patio_Model.html#.reloadOnUpdate'> patio.Model.reload
 function (vals,options){
    if (this.synced) {
        if (!this.__isNew) {
-           return this._checkTransaction(options, hitch(this, function () {
+           var self = this;
+           return this._checkTransaction(options, function () {
                if (isHash(vals)) {
-                   this.__set(vals);
+                   self.__set(vals);
                }
-               var saveChange = !isEmpty(this.__changed);
-               return serial([
-                   this._hook.bind(this, &quot;pre&quot;, &quot;update&quot;, [options]),
-                   function () {
-                       return saveChange ? this._update(options) : null;
-                   }.bind(this),
-                   this._hook.bind(this, &quot;post&quot;, &quot;update&quot;, [options]),
-                   this._updateReload.bind(this, options),
-                   function () {
-                       if (this._static.emitOnUpdate) {
-                           this.emit(&quot;update&quot;, this);
-                           this._static.emit(&quot;update&quot;, this);
+               var saveChange = !isEmpty(self.__changed);
+               return self.__callHooks(&quot;update&quot;, [options], function () {
+                   return saveChange ? self._update(options) : null;
+               })
+                   .chain(function () {
+                       return self._updateReload(options);
+                   })
+                   .chain(function () {
+                       if (self._static.emitOnUpdate) {
+                           self.emit(&quot;update&quot;, self);
+                           self._static.emit(&quot;update&quot;, self);
                        }
-                   }.bind(this)
-               ]).chain(this);
-           }));
+                   })
+                   .chain(function () {
+                       return self;
+                   });
+           });
        } else if (this.__isNew &amp;&amp; this.__isChanged) {
            return this.save(vals, options);
        } else {

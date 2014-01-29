@@ -570,7 +570,7 @@ function (name,table,condition,opts){
    if (name) {
        name = sql.stringToIdentifier(name);
        if (table &amp;&amp; condition) {
-           opts = comb.merge({joinType:&quot;left&quot;, table:table, condition:condition, column:name}, opts);
+           opts = comb.merge({joinType: &quot;left&quot;, table: table, condition: condition, column: name}, opts);
            this._mappedColumns[name] = opts;
        } else {
            throw new ModelError(&quot;mapped column requires a table and join condition&quot;);

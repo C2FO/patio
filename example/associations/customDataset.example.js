@@ -5,17 +5,17 @@ var patio = require("../../index"),
 
 patio.camelize = true;
 
-patio.configureLogging({"patio":{level:"ERROR"}});
+patio.configureLogging({"patio": {level: "ERROR"}});
 var DB = patio.connect("mysql://test:testpass@localhost:3306/sandbox");
 
 //define the BiologicalFather model
 var BiologicalFather = patio.addModel("biologicalFather", {
-    static:{
-        init:function () {
+    static: {
+        init: function () {
             this._super(arguments);
             this.oneToMany("children");
-            this.oneToMany("letterBChildren", {model:"child", fetchType:this.fetchType.EAGER, dataset:function () {
-                return this.db.from("child").filter({name:{like:"B%"}, biologicalFatherId:this.id});
+            this.oneToMany("letterBChildren", {model: "child", fetchType: this.fetchType.EAGER, dataset: function () {
+                return this.db.from("child").filter({name: {like: "B%"}, biologicalFatherId: this.id});
             }});
         }
     }
@@ -24,8 +24,8 @@ var BiologicalFather = patio.addModel("biologicalFather", {
 
 //define Child  model
 var Child = patio.addModel("child", {
-    static:{
-        init:function () {
+    static: {
+        init: function () {
             this._super(arguments);
             this.manyToOne("biologicalFather");
         }
@@ -52,7 +52,7 @@ var createTables = function () {
             return DB.createTable("child", function () {
                 this.primaryKey("id");
                 this.name(String);
-                this.foreignKey("biologicalFatherId", "biologicalFather", {key:"id"});
+                this.foreignKey("biologicalFatherId", "biologicalFather", {key: "id"});
             });
         },
         function () {
@@ -64,23 +64,22 @@ var createTables = function () {
 var createData = function () {
     //create some data
     return BiologicalFather.save([
-        {name:"Fred", children:[
-            {name:"Bobby"},
-            {name:"Alice"},
-            {name:"Susan"}
+        {name: "Fred", children: [
+            {name: "Bobby"},
+            {name: "Alice"},
+            {name: "Susan"}
         ]},
-        {name:"Ben"},
-        {name:"Bob"},
-        {name:"Scott", children:[
-            {name:"Brad"}
+        {name: "Ben"},
+        {name: "Bob"},
+        {name: "Scott", children: [
+            {name: "Brad"}
         ]}
     ]);
 };
 
-comb.serial([
-    createTables,
-    createData,
-    function () {
+createTables()
+    .chain(createData)
+    .chain(function () {
         return BiologicalFather.forEach(function (father) {
             //you use a promise now because this is not an
             //executeInOrderBlock
@@ -90,7 +89,7 @@ comb.serial([
                     return child.name;
                 }));
             }
-            return father.children.then(function (children) {
+            return father.children.chain(function (children) {
                 console.log(father.name + " has " + children.length + " children");
                 if (children.length) {
                     console.log("The children's names are " + children.map(function (child) {
@@ -99,18 +98,14 @@ comb.serial([
                 }
             });
         });
-    },
-    function () {
-        var ret = new comb.Promise();
-        Child.findById(1).then(function (child) {
-            child.biologicalFather.then(function (father) {
+    })
+    .chain(function () {
+        return Child.findById(1).chain(function (child) {
+            return child.biologicalFather.chain(function (father) {
                 console.log(child.name + " father is " + father.name);
-               ret.callback();
-            }, ret);
-        }, ret);
-        return ret;
-    }
-
-]).then(comb.hitch(patio, "disconnect"), errorHandler);
+            });
+        });
+    })
+    .chain(comb.hitch(patio, "disconnect"), errorHandler);
 
 

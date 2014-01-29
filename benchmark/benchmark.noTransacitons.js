@@ -3,22 +3,20 @@ var DB;
 
 exports.createTableAndModel = function (connect) {
     DB = patio.connect(connect);
-    var ret = new comb.Promise();
-    DB.forceCreateTable("patioEntry",
+    return DB.forceCreateTable("patioEntry",
         function () {
             this.primaryKey("id");
             this.column("number", "integer");
             this.column("string", String);
-        }).then(function () {
+        }).chain(function () {
             var PatioEntry = patio.addModel("patioEntry");
             PatioEntry.useTransactions = false;
             PatioEntry.reloadOnSave = false;
             PatioEntry.reloadOnUpdate = false;
             PatioEntry.typecastOnAssignment = false;
             PatioEntry.typecastOnLoad = false;
-            patio.syncModels().then(ret);
-        }, ret);
-    return ret;
+            return patio.syncModels();
+        });
 };
 
 exports.disconnect = function () {

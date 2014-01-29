@@ -4,33 +4,36 @@ var patio = require("../../../index"), comb = require("comb");
  * Very simple express routing for a model
  * */
 module.exports = exports = comb.define(null, {
-    static:{
+    static: {
 
-        addRoute:function (route, cb) {
+        addRoute: function (route, cb) {
             this.routes.push(["get", route, cb]);
         },
 
-        findByIdRoute:function (params) {
+        findByIdRoute: function (params) {
             var ret = new comb.Promise();
-            this.findById(params.id).then(function (model) {
-                ret.callback(model ? model.toObject() : {error:"Could not find a model with id " + id});
-            }, comb.hitch(ret, "errback"));
-            return ret;
+            return this.findById(params.id).chain(function (model) {
+                if (model) {
+                    return model.toObject();
+                } else {
+                    throw new Error("Could not find a model with id " + id);
+                }
+            });
         },
 
-        removeByIdRoute:function (params) {
+        removeByIdRoute: function (params) {
             return this.removeById(params.id);
         },
 
-        __routeProxy:function (cb) {
+        __routeProxy: function (cb) {
             return function (req, res) {
-                comb.when(cb(req.params)).then(comb.hitch(res, "send"), function (err) {
-                    res.send({error:err.message});
+                comb.when(cb(req.params)).chain(comb.hitch(res, "send"), function (err) {
+                    res.send({error: err.message});
                 });
             }
         },
 
-        route:function (app) {
+        route: function (app) {
             var routes = this.routes;
             for (var i in routes) {
                 var route = routes[i];
@@ -38,8 +41,8 @@ module.exports = exports = comb.define(null, {
             }
         },
 
-        getters:{
-            routes:function () {
+        getters: {
+            routes: function () {
                 if (comb.isUndefined(this.__routes)) {
                     var routes = this.__routes = [
                         ["get", "/" + this.tableName + "/:id", comb.hitch(this, "findByIdRoute")],

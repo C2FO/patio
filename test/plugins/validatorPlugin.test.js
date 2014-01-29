@@ -8,7 +8,7 @@ var it = require('it'),
     Promise = comb.Promise,
     hitch = comb.hitch;
 
-it.describe("patio.plugins.ValidatorPlugin",function (it) {
+it.describe("patio.plugins.ValidatorPlugin", function (it) {
     var Model;
     it.beforeAll(function () {
         return helper.createSchemaAndSync(true);
@@ -29,21 +29,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({date: new Date(2005, 1, 1)});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.isTrue(!!err[0].message.match(/date must be after/));
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({date: new Date(2007, 1, 1)}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({date: new Date(2007, 1, 1)}).save();
         });
 
-        it.should("not throw an error if not defined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if not defined", function () {
+            return new Model().save();
         });
     });
 
@@ -58,20 +57,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({date: new Date(2007, 1, 1)});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.isTrue(!!err[0].message.match(/date must be before/));
-                next();
             });
         });
-        it.should("not throw an error if valid", function (next) {
-            new Model({date: new Date(2005, 1, 1)}).save().classic(next);
+
+        it.should("not throw an error if valid", function () {
+            return new Model({date: new Date(2005, 1, 1)}).save();
         });
 
-        it.should("not throw an error if not defined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if not defined", function () {
+            return new Model().save();
         });
     });
 
@@ -85,16 +84,15 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
-            var m = new Model()
+        it.should("throw an error if invalid", function () {
+            var m = new Model();
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be defined.");
-                next();
             });
         });
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELLO"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELLO"}).save();
         });
 
     });
@@ -109,16 +107,15 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({str: "HELLO"})
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str cannot be defined.");
-                next();
             });
         });
-        it.should("not throw an error if valid", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model().save();
         });
 
     });
@@ -133,16 +130,15 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({str: null});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str cannot be null.");
-                next();
             });
         });
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELLO"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELLO"}).save();
         });
     });
     it.describe("#isNull", function (it) {
@@ -155,16 +151,15 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({str: "HELLO"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be null got HELLO.");
-                next();
             });
         });
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: null}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: null}).save();
         });
     });
     it.describe("#isEq", function (it) {
@@ -178,26 +173,24 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({str: "HELL"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must === HELLO got HELL.");
-                next();
             });
         });
 
-        it.should("throw an error if invalid with objects", function (next) {
+        it.should("throw an error if invalid with objects", function () {
             var m = new Model({str: "HELLO", date: new Date(2005, 1, 1)});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.isTrue(err[0].message.match(/date must ===/) !== null);
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELLO", date: new Date(2006, 1, 1)}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELLO", date: new Date(2006, 1, 1)}).save();
         });
     });
     it.describe("#isNeq", function (it) {
@@ -211,26 +204,24 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid", function (next) {
+        it.should("throw an error if invalid", function () {
             var m = new Model({str: "HELLO"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must !== HELLO.");
-                next();
             });
         });
 
-        it.should("throw an error if invalid with objects", function (next) {
+        it.should("throw an error if invalid with objects", function () {
             var m = new Model({str: "HELL", date: new Date(2006, 1, 1)})
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.isTrue(err[0].message.match(/date must !==/) !== null);
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELL", date: new Date(2005, 1, 1)}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELL", date: new Date(2005, 1, 1)}).save();
         });
     });
     it.describe("#isLike", function (it) {
@@ -244,30 +235,28 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "HELL"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be like HELLO got HELL.");
-                next();
             });
         });
 
-        it.should("throw an error if invalid with regexp", function (next) {
+        it.should("throw an error if invalid with regexp", function () {
             var m = new Model({str2: "hell"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str2 must be like /HELLO/i got hell.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELLO", str2: "hello"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELLO", str2: "hello"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isNotLike", function (it) {
@@ -281,30 +270,28 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "HELLO"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must not be like HELLO.");
-                next();
             });
         });
 
-        it.should("throw an error if invalid with regexp", function (next) {
+        it.should("throw an error if invalid with regexp", function () {
             var m = new Model({str2: "hello"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str2 must not be like /HELLO/i.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "HELL", str2: "hell"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "HELL", str2: "hell"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isLt", function (it) {
@@ -317,21 +304,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({num: 10});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num must be < 10 got 10.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({num: 9}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({num: 9}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -345,21 +331,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({num: 10});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num must be > 10 got 10.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({num: 11}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({num: 11}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isLte", function (it) {
@@ -372,21 +357,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({num: 11});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num must be <= 10 got 11.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({num: 9}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({num: 9}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isGte", function (it) {
@@ -399,21 +383,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({num: 9});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num must be >= 10 got 9.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({num: 10}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({num: 10}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isIn", function (it) {
@@ -432,21 +415,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             });
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "d"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be in a,b,c got d.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "a"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "a"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -466,21 +448,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             });
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "a"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str cannot be in a,b,c got a.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            new Model({str: "d"}).save().classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "d"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -494,24 +475,23 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({macAddress: "a"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "macAddress must be a valid MAC address got a.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
+        it.should("not throw an error if valid", function () {
+            return comb.when(
                 new Model({macAddress: "00-00-00-00-00-00"}).save(),
                 new Model({macAddress: "00:00:00:00:00:00"}).save()
-            ).classic(next);
+            );
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isIpAddress", function (it) {
@@ -524,24 +504,23 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({ipAddress: "192.168.1.1.1.1.1"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "ipAddress must be a valid IPv4 or IPv6 address got 192.168.1.1.1.1.1.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
+        it.should("not throw an error if valid", function () {
+            return comb.when(
                 new Model({ipAddress: "192.168.1.1"}).save(),
                 new Model({ipAddress: "2001:0db8:85a3:0000:0000:8a2e:0370:7334"}).save()
-            ).classic(next);
+            );
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isIpV4Address", function (it) {
@@ -554,23 +533,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({ipAddress: "2001:0db8:85a3:0000:0000:8a2e:0370:7334"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "ipAddress must be a valid IPv4 address got 2001:0db8:85a3:0000:0000:8a2e:0370:7334.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({ipAddress: "192.168.1.1"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({ipAddress: "192.168.1.1"}).save()
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isIpV6Address", function (it) {
@@ -583,23 +559,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({ipAddress: "192.168.1.1"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "ipAddress must be a valid IPv6 address got 192.168.1.1.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({ipAddress: "2001:0db8:85a3:0000:0000:8a2e:0370:7334"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({ipAddress: "2001:0db8:85a3:0000:0000:8a2e:0370:7334"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
     it.describe("#isUUID", function (it) {
@@ -612,23 +585,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({uuid: "fa25a170-edb1-11e1-aff1-0800200c9a6"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "uuid must be a valid UUID got fa25a170-edb1-11e1-aff1-0800200c9a6");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({uuid: "fa25a170-edb1-11e1-aff1-0800200c9a66"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({uuid: "fa25a170-edb1-11e1-aff1-0800200c9a66"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -642,23 +612,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "me@me"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be a valid Email Address got me@me");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "me@me.com"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "me@me.com"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -673,23 +640,21 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "http://test"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be a valid url got http://test");
-                next();
+
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "http://localhost"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "http://localhost"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -703,23 +668,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "123Test"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be a only letters got 123Test");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "test"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "test"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -733,23 +695,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "Test_"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be a alphanumeric got Test_");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "test123"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "test123"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -764,32 +723,28 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "123456789"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must have a length between 10.");
-                next();
             });
         });
 
-        it.should("throw an error if string not to long", function (next) {
+        it.should("throw an error if string not to long", function () {
             var m = new Model({str2: "1234567891111"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str2 must have a length between 7 and 10.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "1234567891", str2: "11111111"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "1234567891", str2: "11111111"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -804,23 +759,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "A"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be lowercase got A.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "b"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "b"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -834,23 +786,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "a"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be uppercase got a.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "B"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "B"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -864,23 +813,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: "A"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be empty got A.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: ""}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: ""}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -894,23 +840,20 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("throw an error if invalid with string", function (next) {
+        it.should("throw an error if invalid with string", function () {
             var m = new Model({str: ""});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must not be empty.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "A"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "A"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
     });
 
@@ -923,55 +866,48 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             Model.validate("str").isNotEmpty().isAlpha().isLike(/hello/);
             return  Model.sync();
         });
-        it.should("throw an error if string is empty", function (next) {
+        it.should("throw an error if string is empty", function () {
             var m = new Model({str: ""});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must not be empty.");
-                next();
             });
         });
 
-        it.should("throw an error if the string is not alpha", function (next) {
+        it.should("throw an error if the string is not alpha", function () {
             var m = new Model({str: "1"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be a only letters got 1");
-                next();
             });
         });
 
-        it.should("throw an error if the string is not like /hello/", function (next) {
+        it.should("throw an error if the string is not like /hello/", function () {
             var m = new Model({str: "hell"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "str must be like /hello/ got hell.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
-                new Model({str: "hello"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid", function () {
+            return new Model({str: "hello"}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
-        it.should("not validate on save if validate is false", function (next) {
-            comb.when(
-                new Model({str: "hell"}).save(null, {validate: false})
-            ).classic(next);
+        it.should("not validate on save if validate is false", function () {
+            return new Model({str: "hell"}).save(null, {validate: false});
         });
 
-        it.should("not validate on update if validate is false", function (next) {
-            Model.save(null).chain(function (model) {
+        it.should("not validate on update if validate is false", function () {
+            return Model.save(null).chain(function (model) {
                 model.str = "hell";
                 assert.isFalse(model.isValid());
                 return model.update(null, {validate: false});
-            }).classic(next);
+            });
         });
     });
 
@@ -991,39 +927,36 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("allow adding a check function", function (next) {
+        it.should("allow adding a check function", function () {
             var m = new Model({num: 1, num2: 2});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num must be even got 1.");
-                next();
             });
         });
 
-        it.should("allow adding a check function", function (next) {
+        it.should("allow adding a check function", function () {
             var m = new Model({num2: null});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num2 cannot be null.");
-                next();
             });
         });
 
-        it.should("allow adding a check function", function (next) {
+        it.should("allow adding a check function", function () {
             var m = new Model({num2: 1});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "num2 must be even got 1.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid", function (next) {
-            comb.when(
+        it.should("not throw an error if valid", function () {
+            return comb.when(
                 new Model({num: null, num2: 2}).save(),
                 new Model({num: 2, num2: 2}).save(),
                 new Model({num2: 2}).save()
-            ).classic(next);
+            );
         });
     });
 
@@ -1044,31 +977,27 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             return  Model.sync();
         });
 
-        it.should("allow mass validation", function (next) {
-            comb.serial([
+        it.should("allow mass validation", function () {
+            return comb.serial([
                 function () {
-                    var m = new Model({num: 1, num2: 2}), ret = new comb.Promise();
+                    var m = new Model({num: 1, num2: 2});
                     assert.isFalse(m.isValid());
-                    m.save().then(ret.errback.bind(ret), function (err) {
+                    return m.save().chain(assert.fail, function (err) {
                         assert.equal(err[0].message, "num must be even got 1.");
-                        ret.callback();
                     });
-                    return ret;
                 },
                 function () {
-                    var m = new Model({num2: null}), ret = new comb.Promise();
+                    var m = new Model({num2: null});
                     assert.isFalse(m.isValid());
-                    m.save().then(ret.errback.bind(ret), function (err) {
+                    return m.save().chain(assert.fail, function (err) {
                         assert.equal(err[0].message, "num2 cannot be null.");
-                        ret.callback();
                     });
                 },
-                function (next) {
-                    var m = new Model({num2: 1}), ret = new comb.Promise();
+                function () {
+                    var m = new Model({num2: 1});
                     assert.isFalse(m.isValid());
-                    m.save().then(ret.errback.bind(ret), function (err) {
+                    return m.save().chain(assert.fail, function (err) {
                         assert.equal(err[0].message, "num2 must be even got 1.");
-                        ret.callback();
                     });
                 },
                 function () {
@@ -1078,7 +1007,7 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
                         new Model({num2: 2}).save()
                     );
                 }
-            ]).classic(next);
+            ]);
         });
 
     });
@@ -1089,34 +1018,29 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
             Model = patio.addModel("validator", {
                 plugins: [ValidatorPlugin]
             });
-            Model.validate("col1").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  false });
-            Model.validate("col2").isEq("HELLO",{ onlyDefined: true, onlyNotNull:  true  });
+            Model.validate("col1").isEq("HELLO", { onlyDefined: true, onlyNotNull: false });
+            Model.validate("col2").isEq("HELLO", { onlyDefined: true, onlyNotNull: true  });
             return  Model.sync();
         });
 
-        it.should("throw an error if required field is null", function (next) {
+        it.should("throw an error if required field is null", function () {
             var m = new Model({col1: null, col2: "HELLO"});
             assert.isFalse(m.isValid());
-            m.save().then(next, function (err) {
+            return m.save().chain(assert.fail, function (err) {
                 assert.equal(err[0].message, "col1 must === HELLO got null.");
-                next();
             });
         });
 
-        it.should("not throw an error if valid and not null", function (next) {
-            comb.when(
-                new Model({col1: "HELLO", col2: "HELLO"}).save()
-            ).classic(next);
+        it.should("not throw an error if valid and not null", function () {
+            return new Model({col1: "HELLO", col2: "HELLO"}).save();
         });
 
-        it.should("not throw an error if valid and optional fields are null", function (next) {
-            comb.when(
-                new Model({col1: "HELLO", col2: null}).save()
-            ).classic(next);
+        it.should("not throw an error if valid and optional fields are null", function () {
+            return new Model({col1: "HELLO", col2: null}).save();
         });
 
-        it.should("not throw an error if values are undefined", function (next) {
-            new Model().save().classic(next);
+        it.should("not throw an error if values are undefined", function () {
+            return new Model().save();
         });
 
     });
@@ -1124,5 +1048,4 @@ it.describe("patio.plugins.ValidatorPlugin",function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
-
+});

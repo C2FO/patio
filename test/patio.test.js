@@ -28,13 +28,13 @@ var getTimeZoneOffset = function (date) {
 };
 
 
-it.describe("patio",function (it) {
+it.describe("patio", function (it) {
 
     var DummyDataset, DummyDatabase;
     it.beforeAll(function () {
         DummyDataset = comb.define(patio.Dataset, {
-            instance:{
-                first:function () {
+            instance: {
+                first: function () {
                     var ret = new comb.Promise();
                     if (this.__opts.from[0] === "a") {
                         ret.errback();
@@ -46,29 +46,29 @@ it.describe("patio",function (it) {
             }
         });
         DummyDatabase = comb.define(patio.Database, {
-            instance:{
-                constructor:function () {
+            instance: {
+                constructor: function () {
                     this._super(arguments);
                     this.sqls = [];
                     this.identifierInputMethod = null;
                     this.identifierOutputMethod = null;
                 },
 
-                createConnection:function (options) {
+                createConnection: function (options) {
                     this.connected = true;
                     return new comb.Promise().callback({});
                 },
 
-                closeConnection:function (conn) {
+                closeConnection: function (conn) {
                     this.connected = false;
                     return new comb.Promise().callback();
                 },
 
-                validate:function (conn) {
+                validate: function (conn) {
                     return new Promise().callback(true);
                 },
 
-                execute:function (sql, opts) {
+                execute: function (sql, opts) {
                     this.pool.getConnection();
                     var ret = new comb.Promise();
                     this.sqls.push(sql);
@@ -76,32 +76,35 @@ it.describe("patio",function (it) {
                     return ret;
                 },
 
-                executeError:function () {
-                    var ret = new comb.Promise();
-                    this.execute.apply(this, arguments).then(comb.hitch(ret, 'errback'), comb.hitch(ret, 'errback'));
-                    return ret;
+                executeError: function () {
+                    return this.execute.apply(this, arguments).chain(
+                        function () {
+                            throw new Error();
+                        }, function () {
+                            throw new Error();
+                        })
                 },
 
-                reset:function () {
+                reset: function () {
                     this.sqls = [];
                 },
 
-                transaction:function (opts, cb) {
+                transaction: function (opts, cb) {
                     var ret = new comb.Promise();
                     cb();
                     ret.callback();
                     return ret;
                 },
 
-                getters:{
-                    dataset:function () {
+                getters: {
+                    dataset: function () {
                         return new DummyDataset(this);
                     }
                 }
             },
 
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this.setAdapterType("dummydb");
                 }
             }
@@ -386,4 +389,4 @@ it.describe("patio",function (it) {
         return patio.disconnect();
     });
 
-}).as(module);
+});

@@ -6,36 +6,35 @@ var it = require('it'),
     helper = require("../data/timestampPlugin.helper.js"),
     Employee;
 
-it.describe("Timestamp custom columns",function (it) {
+it.describe("Timestamp custom columns", function (it) {
 
     var emp;
     it.beforeAll(function () {
         Employee = patio.addModel("employee", {
-            plugins:[patio.plugins.TimeStampPlugin],
+            plugins: [patio.plugins.TimeStampPlugin],
 
-            "static":{
-                init:function () {
-                    this.timestamp({updated:"updatedAt", created:"createdAt"});
+            "static": {
+                init: function () {
+                    this.timestamp({updated: "updatedAt", created: "createdAt"});
                 }
             }
         });
         return helper.createSchemaAndSync(true);
     });
 
-    it.beforeEach(function (next) {
-        Employee.remove().then(function () {
-            Employee.save({
-                firstname:"doug",
-                lastname:"martin",
-                midinitial:null,
-                gender:"M",
-                street:"1 nowhere st.",
-                city:"NOWHERE"
-            }).then(function (e) {
+    it.beforeEach(function () {
+        return Employee.remove().chain(function () {
+            return Employee.save({
+                firstname: "doug",
+                lastname: "martin",
+                midinitial: null,
+                gender: "M",
+                street: "1 nowhere st.",
+                city: "NOWHERE"
+            }).chain(function (e) {
                     emp = e;
-                    next();
-                }, next);
-        }, next);
+                });
+        });
     });
 
     it.should("set created column on insertSql", function () {
@@ -55,13 +54,12 @@ it.describe("Timestamp custom columns",function (it) {
     it.should("set updated column", function (next) {
         setTimeout(function () {
             emp.firstname = "dave";
-            emp.save().then(function () {
+            return emp.save().chain(function () {
                 //force reload
                 assert.isNotNull(emp.updatedAt);
                 assert.instanceOf(emp.updatedAt, patio.SQL.DateTime);
                 assert.notDeepEqual(emp.updatedAt, emp.createdAt);
-                next();
-            });
+            }).classic(next);
         }, 1000);
     });
 
@@ -69,4 +67,4 @@ it.describe("Timestamp custom columns",function (it) {
         return helper.dropModels();
     });
 
-}).as(module);
+});

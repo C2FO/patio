@@ -68,7 +68,7 @@ function createTables() {
     ]);
 };                                                                                               
                                                                                                                                        
- createTables().then(function () {                                                                                                     
+ createTables().chain(function () {
     patio.disconnect();                                                                                                                 
 }, errorHandler);                                                                                                                      
 ```   
@@ -135,7 +135,7 @@ Now we can query the states and capitals we created.
 State.order("name").forEach(function (state) {
 	//if you return a promise here it will prevent the foreach from
 	//resolving until all inner processing has finished.
-	return state.capital.then(function (capital) {
+	return state.capital.chain(function (capital) {
     	console.log("%s's capital is %s.", state.name, capital.name);
 	});
 });
@@ -145,7 +145,7 @@ State.order("name").forEach(function (state) {
 Capital.order("name").forEach(function (capital) {
 	//if you return a promise here it will prevent the foreach from
 	//resolving until all inner processing has finished.
-	return capital.state.then(function (state) {
+	return capital.state.chain(function (state) {
 		console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
 	});
 });

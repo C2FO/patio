@@ -428,13 +428,13 @@ var DB = patio.createConnection({
 <ul>
 <li><a href="./patio.html#disconnect">patio.disconnect</a> which disconnects all databases currently connected.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>patio.disconnect().then(function(){
+<pre class='prettyprint linenums lang-js'><code>patio.disconnect().chain(function(){
     //all databases are disconnected all queued queries have finished
 });</code></pre>
 <ul>
 <li><a href="./patio_Database.html#disconnect">patio.Database#disconnect</a> which disconnects only that database.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>DB.disconnect().then(function(){
+<pre class='prettyprint linenums lang-js'><code>DB.disconnect().chain(function(){
     //database is disconnected and all queued queries have finished
 });</code></pre>
 

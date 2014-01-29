@@ -400,9 +400,9 @@ var createSchema = function(){
 
 //connect and create schema
 connectAndCreateSchema()
-    .then(function(){
+    .chain(function(){
         //sync the model so it can be used
-        patio.syncModels().then(function(){
+        return patio.syncModels().chain(function(){
              var myUser = new User({
                  firstName : &quot;Bob&quot;,
                  lastName : &quot;Yukon&quot;,
@@ -410,12 +410,11 @@ connectAndCreateSchema()
                  dateOfBirth : new Date(1980, 8, 29)
              });
             //save the user
-            myUser.save().then(function(user){
+            return myUser.save().chain(function(user){
                 console.log(format(&quot;%s %s&#39;s id is %d&quot;, user.firstName, user.lastName, user.id));
-                disconnect();
-            }, disconnectError);
-        }, disconnectError);
-}, disconnectError);</code></pre>
+            });
+        });
+}).chain(disconnect, disconnectError);</code></pre>
 <p>The flow for the above example is as follows:</p>
 <ul>
 <li>Connects to a database and creates the &quot;user&quot; table.</li></li>
@@ -539,18 +538,18 @@ myUser.updated = &quot;2004-02-01 12:12:12&quot; //would not be auto converted t
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;)
 
 //you must sync the model before using it 
-User.sync().then(function(User){
+User.sync().chain(function(User){
     var myUser = new User({
         firstName : &quot;Bob&quot;,
         lastName : &quot;Yukon&quot;,
         password : &quot;password&quot;,
         dateOfBirth : new Date(1980, 8, 29)
     });
-    myUser.save().then(function(){
+    return myUser.save().chain(function(){
         console.log(format(&quot;%s %s was created at %s&quot;, myUser.firstName, myUser.lastName, myUser.created.toString()));
         console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser.firstName, myUser.lastName, myUser.id));
-    }, disconnectError);
-});</code></pre>
+    });
+}).chain(disconnect, disconnectError);</code></pre>
 <p>You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to use a custom query as the base for a particular model.</p>
 <pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
 var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
@@ -558,7 +557,7 @@ var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
 var User1 = patio.addModel(DB1.from(&quot;user&quot;));
 //user table in db2
 var User2 = patio.addModel(DB2.from(&quot;user&quot;));
-patio.syncModels().then(function(User1,User2){
+patio.syncModels().chain(function(User1,User2){
     var myUser1 = new User1({
         firstName : &quot;Bob1&quot;,
         lastName : &quot;Yukon1&quot;,
@@ -571,7 +570,7 @@ patio.syncModels().then(function(User1,User2){
         password : &quot;password&quot;,
         dateOfBirth : new Date(1980, 8, 29)
     });
-    comb.when(myUser1.save(), myUser2.save(), function(saved){
+    return comb.when(myUser1.save(), myUser2.save()).chain(function(saved){
          console.log(format(&quot;%s %s was created at %s&quot;, myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
          console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser1.firstName, myUser1.lastName, myUser1.id));
 
@@ -595,7 +594,7 @@ patio.syncModels().then(function(User1,User2){
     }
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : &quot;bob&quot;,
         lastName : &quot;yukon&quot;
@@ -614,7 +613,7 @@ patio.syncModels().then(function(User){
     }
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : &quot;bob&quot;,
         lastName : &quot;yukon&quot;,
@@ -637,7 +636,7 @@ patio.syncModels().then(function(User){
     }
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : &quot;bob&quot;,
         lastName : &quot;yukon&quot;,
@@ -645,7 +644,7 @@ patio.syncModels().then(function(User){
     });
     console.log(myUser.roles); //[&#39;admin&#39;, &#39;user&#39;,&#39;groupAdmin&#39;];
     //INSERT INTO `user` (`first_name`, `last_name`, `roles`) VALUES (&#39;bob&#39;, &#39;yukon&#39;, &#39;admin,user,groupAdmin&#39;)
-    myUser.save(); 
+    return myUser.save();
 });</code></pre>
 <h2>Model hooks</h2>
 <p>Each model has the following hooks</p>
@@ -779,7 +778,7 @@ Student.save([
           gpa:1.9,
           classYear:&quot;Freshman&quot;
       }
- ]).then(function(users){
+ ]).chain(function(users){
    //All users have been saved
  }, disconnectError);</code></pre>
 <p>When saving a group of models the save method will use a transaction unless the <code>useTransactions</code> property is set to false. You can manually override the useTransactions property by passing in an additional options parameter with a transaction value set to false.</p>
@@ -797,7 +796,7 @@ Student.save([
           gpa:3.689,
           classYear:&quot;Sophomore&quot;
       }
- ], {transaction : false}).then(function(users){
+ ], {transaction : false}).chain(function(users){
      //work with the users
  });</code></pre>
 <p>If you have an instance of a model then you can use the <a href="./patio_Model.html#save">save</a> method on the instance of the model.</p>
@@ -808,7 +807,7 @@ Student.save([
      dateOfBirth : new Date(1980, 8, 29)
 });
 //save the user
-myUser.save().then(function(user){
+myUser.save().chain(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
 <p>You can also pass in values into the save method to set before saving.</p>
@@ -819,7 +818,7 @@ myUser.save({
      lastName : &quot;Yukon&quot;,
      password : &quot;password&quot;,
      dateOfBirth : new Date(1980, 8, 29)
- }).then(function(user){
+ }).chain(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
 <p>You can also pass in an options object to override options such as using a transaction.</p>
@@ -830,7 +829,7 @@ myUser.save({
      lastName : &quot;Yukon&quot;,
      password : &quot;password&quot;,
      dateOfBirth : new Date(1980, 8, 29)
- }, {transaction : false}).then(function(user){
+ }, {transaction : false}).chain(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
 <h3>Reading</h3>
@@ -851,7 +850,7 @@ User.forEach(funciton(user){
    //create a blog for each user
    return new Blog({userId : user.id}).save();
 
-}).then(function(users){
+}).chain(function(users){
    //all users and blogs have been saved
 }, disconnectError);</code></pre>
 <ul>
@@ -859,46 +858,46 @@ User.forEach(funciton(user){
 </ul>
 <pre class='prettyprint linenums lang-js'><code>User.map(function(user){
    return user.firstName;
-}).then(function(names){
+}).chain(function(names){
     console.log(&quot;User names are %s&quot;, names);
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#all">all</a></li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>User.all().then(function(users){
+<pre class='prettyprint linenums lang-js'><code>User.all().chain(function(users){
    console.log(users.length);
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#filter">filter</a></li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//find all users where first names begin with bo case insensitive
-User.filter({firstName : /^bo/i}).all().then(function(){
+User.filter({firstName : /^bo/i}).all().chain(function(){
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#one">one</a></li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code>User.filter({id : 1}).one().then(function(user){
+<pre class='prettyprint linenums lang-js'><code>User.filter({id : 1}).one().chain(function(user){
    console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patioDataset.html#first">first</a></li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user WHERE first_name = &#39;bob&#39; ORDER BY last_name LIMIT 1
-User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).first().then(function(user){
+User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).first().chain(function(user){
    console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#last">last</a></li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>//SELECT * FROM user WHERE first_name = &#39;bob&#39; ORDER BY last_name DESC LIMIT 1
-User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).last().then(function(user){
+User.filter({firstName : &quot;bob&quot;}).order(&quot;lastName&quot;).last().chain(function(user){
    console.log(&quot;%d - %s %s&quot;, user.id, user.firstName, user.lastName);
 }, disconnectError);</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#isEmpty">isEmpty</a></li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>
-User.isEmpty().then(function(isEmpty){
+User.isEmpty().chain(function(isEmpty){
    if(isEmpty){
       console.log(&quot;user table is empty&quot;);
    }else{
@@ -926,7 +925,7 @@ User.update({password : null}, {lastAccess : {lte : comb.yearsAgo(1)}});</code><
     //until all updates have completed
     return user.update({fullName : user.firstName + &quot; &quot; + user.lastName});
 });
-updateUsers.then(function(){
+updateUsers.chain(function(){
     //updates finished
 });</code></pre>
 <p>as with save you can pass in an options object to prevent default behavior such as transactions.</p>
@@ -935,7 +934,7 @@ updateUsers.then(function(){
     //until all updates have completed
     return user.update({fullName : user.firstName + &quot; &quot; + user.lastName}, {transaction : false});
 });
-updateUsers.then(function(){
+updateUsers.chain(function(){
     //updates finished
 });</code></pre>
 <h3>Deleting</h3>
@@ -955,13 +954,13 @@ User.remove(null, {transaction : false});</code></pre>
 <p>If you have an instance of a model and you want to remove it you can use the <a href="./patio_Model.remove">remove</a> instance method.</p>
 <pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove();
-}).then(function(){
+}).chain(function(){
     //removed
 });</code></pre>
 <p>To prevent the default transaction behavior pass in the transaction option</p>
 <pre class='prettyprint linenums lang-js'><code>User.forEach(function(user){
     return user.remove({transaction : false});
-}).then(function(){
+}).chain(function(){
     //removed
 });</code></pre>
 

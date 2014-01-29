@@ -159,8 +159,7 @@ If you perform more complex actions you may need to should use the Promise api. 
  //Up function used to migrate up a version
 exports.up = function(db) {
     //create a new table
-    var ret = new comb.Promise();
-    comb.when(
+    return comb.when(
         db.renameTable("employees", "employeesOld"),
         db.createTable("employees", function(table){
             this.primaryKey("id");
@@ -169,15 +168,13 @@ exports.up = function(db) {
             this.hireDate(Date);
             this.middleInitial("char", {size:1});
         })
-    ).then(function(){
-        db.from("employeesOld").map(function(employee){
+    ).chain(function(){
+        return db.from("employeesOld").map(function(employee){
                 return comb.merge(employee, {hireDate:new Date()});
-        }).then(function(employees){
-                db.from("employees").multiInsert(employees)
-                    .then(ret);
+        }).chain(function(employees){
+                return db.from("employees").multiInsert(employees)
             }, ret);
-    }, ret);
-    return ret;
+    });
 };
 
  //Down function used to migrate down version
@@ -209,7 +206,7 @@ In order to run a migraton there are two options:
 
 ```
   var DB = patio.connect("my://connection/string");
-  patio.migrate(DB, __dirname + "/migrations").then(function(){
+  patio.migrate(DB, __dirname + "/migrations").chain(function(){
       console.log("migrations finished");
   }, errorHandler);
 ```

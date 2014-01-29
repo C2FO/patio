@@ -24,20 +24,20 @@ var createTables = function () {
         },
         function () {
             return DB.createTable("manager", function () {
-                this.foreignKey("id", "employee", {key:"id"});
+                this.foreignKey("id", "employee", {key: "id"});
                 this.numStaff("integer");
             });
         },
         function () {
             return DB.createTable("executive", function () {
-                this.foreignKey("id", "manager", {key:"id"});
+                this.foreignKey("id", "manager", {key: "id"});
                 this.numManagers("integer");
             });
         },
         function () {
             return DB.createTable("staff", function () {
-                this.foreignKey("id", "employee", {key:"id"});
-                this.foreignKey("managerId", "manager", {key:"id"});
+                this.foreignKey("id", "employee", {key: "id"});
+                this.foreignKey("managerId", "manager", {key: "id"});
             });
         }
     ]);
@@ -45,12 +45,10 @@ var createTables = function () {
 
 
 var dropTableAndDisconnect = function () {
-    return comb.serial([
-        function () {
-            return DB.forceDropTable(["staff", "executive", "manager", "employee"]);
-        },
-        comb.hitch(patio, "disconnect")
-    ]);
+    return DB.forceDropTable(["staff", "executive", "manager", "employee"])
+        .chain(function () {
+            return patio.disconnect();
+        });
 };
 
 var dropTableAndDisconnectErr = function (err) {
@@ -58,14 +56,14 @@ var dropTableAndDisconnectErr = function (err) {
     return dropTableAndDisconnect();
 };
 
-createTables().then(function () {
-    patio.syncModels().then(function () {
+createTables().chain(function () {
+    patio.syncModels().chain(function () {
         comb.when(
-            new Employee({name:"Bob"}).save(),
-            new Staff({name:"Greg"}).save(),
-            new Manager({name:"Jane"}).save(),
-            new Executive({name:"Sue"}).save()
-        ).then(function () {
+                new Employee({name: "Bob"}).save(),
+                new Staff({name: "Greg"}).save(),
+                new Manager({name: "Jane"}).save(),
+                new Executive({name: "Sue"}).save()
+            ).chain(function () {
                 Employee.forEach(
                     function (emp) {
                         console.log("Employees %d", emp.id);
@@ -75,7 +73,7 @@ createTables().then(function () {
                         console.log("\tinstanceof Staff? ", emp instanceof Staff);
                         console.log("\tinstanceof Manager? ", emp instanceof Manager);
                         console.log("\tinstanceof Executive? ", emp instanceof Executive);
-                    }).then(dropTableAndDisconnect, dropTableAndDisconnectErr);
+                    }).chain(dropTableAndDisconnect, dropTableAndDisconnectErr);
             }, dropTableAndDisconnectErr);
     }, dropTableAndDisconnectErr);
 }, dropTableAndDisconnectErr);

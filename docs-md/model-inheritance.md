@@ -65,8 +65,8 @@ when(
     new Staff({name:"Greg"}).save(),
     new Manager({name:"Jane"}).save(),
     new Executive({name:"Sue"}).save()
-).then(function(){
-      Employee.all().then(function(emps){
+).chain(function(){
+      return Employee.all().chain(function(emps){
           var bob = emps[0], greg = emps[1], jane = emps[2], sue = emps[3];
           console.log(bob instanceof Employee); //true
           console.log(greg instanceof Employee);  //true

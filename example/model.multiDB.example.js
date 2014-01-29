@@ -34,7 +34,7 @@ var connectAndCreateSchema = function () {
                     this.lastName(String);
                     this.password(String);
                     this.dateOfBirth(Date);
-                    this.isVerified(Boolean, {"default":false})
+                    this.isVerified(Boolean, {"default": false})
                     this.created(sql.TimeStamp);
                     this.updated(sql.DateTime);
                 }),
@@ -45,7 +45,7 @@ var connectAndCreateSchema = function () {
                     this.lastName(String);
                     this.password(String);
                     this.dateOfBirth(Date);
-                    this.isVerified(Boolean, {"default":false})
+                    this.isVerified(Boolean, {"default": false})
                     this.created(sql.TimeStamp);
                     this.updated(sql.DateTime);
                 })
@@ -56,28 +56,27 @@ var connectAndCreateSchema = function () {
 };
 
 //connect and create schema
-connectAndCreateSchema()
-    .then(function () {
-        var myUser1 = new User1({
-            firstName:"Bob1",
-            lastName:"Yukon1",
-            password:"password",
-            dateOfBirth:new Date(1980, 8, 29)
-        });
-        var myUser2 = new User2({
-            firstName:"Bob2",
-            lastName:"Yukon2",
-            password:"password",
-            dateOfBirth:new Date(1980, 8, 29)
-        });
-        comb.when(myUser1.save(), myUser2.save(), function () {
-            console.log(format("%s %s was created at %s", myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
-            console.log(format("%s %s's id is %d", myUser1.firstName, myUser1.lastName, myUser1.id));
+connectAndCreateSchema().chain(function () {
+    var myUser1 = new User1({
+        firstName: "Bob1",
+        lastName: "Yukon1",
+        password: "password",
+        dateOfBirth: new Date(1980, 8, 29)
+    });
+    var myUser2 = new User2({
+        firstName: "Bob2",
+        lastName: "Yukon2",
+        password: "password",
+        dateOfBirth: new Date(1980, 8, 29)
+    });
+    comb.when(myUser1.save(), myUser2.save(), function () {
+        console.log(format("%s %s was created at %s", myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
+        console.log(format("%s %s's id is %d", myUser1.firstName, myUser1.lastName, myUser1.id));
 
-            console.log(format("%s %s was created at %s", myUser2.firstName, myUser2.lastName, myUser2.created.toString()));
-            console.log(format("%s %s's id is %d", myUser2.firstName, myUser2.lastName, myUser2.id));
-            disconnect();
-        }, disconnectError);
-        //save the user
+        console.log(format("%s %s was created at %s", myUser2.firstName, myUser2.lastName, myUser2.created.toString()));
+        console.log(format("%s %s's id is %d", myUser2.firstName, myUser2.lastName, myUser2.id));
+        disconnect();
     }, disconnectError);
+    //save the user
+}, disconnectError);
 

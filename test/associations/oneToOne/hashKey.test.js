@@ -7,25 +7,24 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
-
 var gender = ["M", "F"];
 it.describe("One To One with a hash as the key", function (it) {
 
     var Works, Employee;
     it.beforeAll(function () {
         Works = patio.addModel("works", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
-                    this.manyToOne("employee", {key : {employeeId : "id"}});
+                    this.manyToOne("employee", {key: {employeeId: "id"}});
                 }
             }
         });
         Employee = patio.addModel("employee", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
-                    this.oneToOne("works", {key : {id : "employeeId"}});
+                    this.oneToOne("works", {key: {id: "employeeId"}});
                 }
             }
         });
@@ -52,26 +51,25 @@ it.describe("One To One with a hash as the key", function (it) {
         });
 
 
-        it.should("save nested models when using new", function (next) {
+        it.should("save nested models when using new", function () {
             var employee = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            employee.save().then(function () {
-                employee.works.then(function (works) {
+            return employee.save().chain(function () {
+                return employee.works.chain(function (works) {
                     assert.equal(works.companyName, "Google");
                     assert.equal(works.salary, 100000);
-                    next();
                 });
-            }, next);
+            });
         });
     });
 
@@ -83,58 +81,60 @@ it.describe("One To One with a hash as the key", function (it) {
                 hitch(Works, "remove"),
                 function () {
                     return new Employee({
-                        lastName:"last" + 1,
-                        firstName:"first" + 1,
-                        midInitial:"m",
-                        gender:gender[1 % 2],
-                        street:"Street " + 1,
-                        city:"City " + 1,
-                        works:{
-                            companyName:"Google",
-                            salary:100000
+                        lastName: "last" + 1,
+                        firstName: "first" + 1,
+                        midInitial: "m",
+                        gender: gender[1 % 2],
+                        street: "Street " + 1,
+                        city: "City " + 1,
+                        works: {
+                            companyName: "Google",
+                            salary: 100000
                         }
                     }).save();
                 }
             ]);
         });
 
-        it.should("not load associations when querying", function (next) {
-            comb.when(Employee.one(), Works.one()).then(function (res) {
+        it.should("not load associations when querying", function () {
+            return comb.when(Employee.one(), Works.one()).chain(function (res) {
                 var emp = res[0], work = res[1];
                 var workPromise = emp.works, empPromise = work.employee;
                 assert.isPromiseLike(workPromise);
                 assert.isPromiseLike(empPromise);
-                comb.when(empPromise, workPromise).then(function (res) {
+                return comb.when(empPromise, workPromise).chain(function (res) {
                     var emp = res[0], work = res[1];
                     assert.instanceOf(emp, Employee);
                     assert.instanceOf(work, Works);
-                    next();
-                }, next);
-
-            }, next);
+                });
+            });
         });
 
-        it.should("allow the removing of associations", function (next) {
-            Employee.one().then(function (emp) {
-                emp.works = null;
-                emp.save().then(function (emp) {
-                    emp.works.then(function (works) {
-                        assert.isNull(works);
-                        Works.one().then(function (work) {
-                            assert.isNotNull(work);
-                            work.employee.then(function (emp) {
-                                assert.isNull(emp);
-                                next();
-                            }, next);
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
+        it.should("allow the removing of associations", function () {
+            return Employee.one()
+                .chain(function (emp) {
+                    emp.works = null;
+                    return emp.save();
+                })
+                .chain(function (emp) {
+                    return emp.works;
+                })
+                .chain(function (works) {
+                    assert.isNull(works);
+                    return Works.one();
+                })
+                .chain(function (work) {
+                    assert.isNotNull(work);
+                    return work.employee;
+                })
+                .chain(function (emp) {
+                    assert.isNull(emp);
+                });
         });
 
     });
 
-    it.context(function(){
+    it.context(function () {
         it.beforeEach(function () {
             return comb.when(
                 Works.remove(),
@@ -142,54 +142,56 @@ it.describe("One To One with a hash as the key", function (it) {
             );
         });
 
-        it.should("allow the setting of associations", function (next) {
+        it.should("allow the setting of associations", function () {
             var emp = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1
             });
-            emp.save().then(function () {
-                emp.works.then(function (works) {
+            return emp.save()
+                .chain(function () {
+                    return emp.works;
+                })
+                .chain(function (works) {
                     assert.isNull(works);
                     emp.works = {
-                        companyName:"Google",
-                        salary:100000
+                        companyName: "Google",
+                        salary: 100000
                     };
-                    emp.save().then(function () {
-                        emp.works.then(function (works) {
-                            assert.instanceOf(works, Works);
-                            next();
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
+                    return emp.save();
+                })
+                .chain(function () {
+                    return emp.works;
+                })
+                .chain(function (works) {
+                    assert.instanceOf(works, Works);
+                });
         });
 
-        it.should("not delete association when deleting the reciprocal side", function(next){
+        it.should("not delete association when deleting the reciprocal side", function () {
             var e = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            e.save().then(function(){
-                e.remove().then(function(){
-                    comb.when(Employee.all(), Works.all()).then(function(res){
+            return e.save().chain(function () {
+                return e.remove().chain(function () {
+                    return comb.when(Employee.all(), Works.all()).chain(function (res) {
                         assert.lengthOf(res[0], 0);
                         assert.lengthOf(res[1], 1);
-                        next();
-                    }, next);
-                }, next);
-            }, next);
+                    });
+                });
+            });
         });
 
     });
@@ -197,4 +199,4 @@ it.describe("One To One with a hash as the key", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

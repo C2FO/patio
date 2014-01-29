@@ -425,8 +425,8 @@ function createTables() {
      ]);
 };
 
-createTables().then(function () {
-     patio.disconnect();
+createTables().chain(function () {
+     return patio.disconnect();
 }, errorHandler);</code></pre>
 <p>Next lets create some models for the tables created.</p>
 <pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
@@ -462,14 +462,14 @@ return comb.when(
 <pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function (state) {
      //if you return a promise here it will prevent the foreach from
      //resolving until all inner processing has finished.
-     return state.capital.then(function (capital) {
+     return state.capital.chain(function (capital) {
          console.log(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name);
      });
 });</code></pre>
 <pre class='prettyprint linenums lang-js'><code>Capital.order(&quot;name&quot;).forEach(function (capital) {
      //if you return a promise here it will prevent the foreach from
      //resolving until all inner processing has finished.
-     return capital.state.then(function (state) {
+     return capital.state.chain(function (state) {
          console.log(comb.string.format(&quot;%s is the capital of %s.&quot;, capital.name, state.name));
      });
 });</code></pre>
