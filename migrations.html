@@ -468,8 +468,7 @@ exports.down = function(db) {
 <pre class='prettyprint linenums lang-js'><code> //Up function used to migrate up a version
 exports.up = function(db) {
     //create a new table
-    var ret = new comb.Promise();
-    comb.when(
+    return comb.when(
         db.renameTable(&quot;employees&quot;, &quot;employeesOld&quot;),
         db.createTable(&quot;employees&quot;, function(table){
             this.primaryKey(&quot;id&quot;);
@@ -478,15 +477,13 @@ exports.up = function(db) {
             this.hireDate(Date);
             this.middleInitial(&quot;char&quot;, {size:1});
         })
-    ).then(function(){
-        db.from(&quot;employeesOld&quot;).map(function(employee){
+    ).chain(function(){
+        return db.from(&quot;employeesOld&quot;).map(function(employee){
                 return comb.merge(employee, {hireDate:new Date()});
-        }).then(function(employees){
-                db.from(&quot;employees&quot;).multiInsert(employees)
-                    .then(ret);
+        }).chain(function(employees){
+                return db.from(&quot;employees&quot;).multiInsert(employees)
             }, ret);
-    }, ret);
-    return ret;
+    });
 };
 
  //Down function used to migrate down version
@@ -510,7 +507,7 @@ exports.down = function(db) {
 <li><strong>current</strong> : the version that the database is currently at if the current version is not provided it is retrieved from the database.</li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>  var DB = patio.connect(&quot;my://connection/string&quot;);
-  patio.migrate(DB, __dirname + &quot;/migrations&quot;).then(function(){
+  patio.migrate(DB, __dirname + &quot;/migrations&quot;).chain(function(){
       console.log(&quot;migrations finished&quot;);
   }, errorHandler);</code></pre>
 <h3>Patio Executable</h3>

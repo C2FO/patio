@@ -3335,7 +3335,7 @@ If you are looking for all columns for a single table and maybe some information
 each column (e.g. database type), see {@link patio.Database#schema}.
 
 <pre class="code">
- DB.from("table").columns.then(function(columns){
+ DB.from("table").columns.chain(function(columns){
        // => ["id", "name"]
   });
 </pre></td><td><code>function (){
@@ -6667,13 +6667,13 @@ If a block is given, the array is iterated over after all items have been loaded
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT * FROM table
-DB.from(&quot;table&quot;).all().then(function(res){
+DB.from(&quot;table&quot;).all().chain(function(res){
      //res === [{id : 1, ...}, {id : 2, ...}, ...];
 });
 // Iterate over all rows in the table
 var myArr = [];
 var rowPromise = DB.from(&quot;table&quot;).all(function(row){ myArr.push(row);});
-rowPromise.then(function(rows){
+rowPromise.chain(function(rows){
    //=&gt; rows == myArr;
 });
         </pre>
@@ -6705,8 +6705,10 @@ rowPromise.then(function(rows){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (block,cb){
-   var a = [];
-   var ret = asyncArray(this.forEach().chain(this.postLoad.bind(this)));
+   var self = this;
+   var ret = asyncArray(this.forEach().chain(function (records) {
+       return self.postLoad(records);
+   }));
    if (block) {
        ret = ret.forEach(block);
    }
@@ -7023,7 +7025,7 @@ function (filterExp){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT avg(number) FROM table LIMIT 1
-DB.from(&quot;table&quot;).avg(&quot;number&quot;).then(function(avg){
+DB.from(&quot;table&quot;).avg(&quot;number&quot;).chain(function(avg){
      // avg === 3
 });
         </pre>
@@ -7544,7 +7546,7 @@ function (constant){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT COUNT(*) AS count FROM table LIMIT 1
-DB.from(&quot;table&quot;).count().then(function(count){
+DB.from(&quot;table&quot;).count().chain(function(count){
     //count === 3;
 });
         </pre>
@@ -8696,20 +8698,20 @@ function (f){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT id FROM table LIMIT 1
- DB.from(&quot;table&quot;).get(&quot;id&quot;).then(function(val){
+ DB.from(&quot;table&quot;).get(&quot;id&quot;).chain(function(val){
   // val === 3
  });
 
 
 // SELECT sum(id) FROM table LIMIT 1
-ds.get(sql.sum(&quot;id&quot;)).then(function(val){
+ds.get(sql.sum(&quot;id&quot;)).chain(function(val){
      // val === 6;
 });
 
 // SELECT sum(id) FROM table LIMIT 1
 ds.get(function(){
      return this.sum(&quot;id&quot;);
-}).then(function(val){
+}).chain(function(val){
      // val === 6;
 });
         </pre>
@@ -8783,7 +8785,7 @@ var p = comb.executeInOrder(ds, function(ds){
   var graphedDs = ds.graph("albums", {artist_id : "id"});
   return graphedDs.first();
 });
-p.then(function(obj){
+p.chain(function(obj){
    //obj == {artists : {
                  id : artists.id,
                  name : artists.name
@@ -8898,9 +8900,9 @@ function (dataset,joinConditions,options,block){
        raiseAliasError(options);
    }
    // Use a from_self if this is already a joined table
-   var ds = (!thisOptsGraph &amp;&amp; (thisOpts.from.length &gt; 1 || thisOpts.join)) ? this.fromSelf({alias:options.fromSelfAlias || this.firstSourceAlias}) : this;
+   var ds = (!thisOptsGraph &amp;&amp; (thisOpts.from.length &gt; 1 || thisOpts.join)) ? this.fromSelf({alias: options.fromSelfAlias || this.firstSourceAlias}) : this;
    // Join the table early in order to avoid cloning the dataset twice
-   ds = ds.joinTable(options.joinType || &quot;leftOuter&quot;, table, joinConditions, {tableAlias:tableAlias, implicitQualifier:options.implicitQualifier}, block);
+   ds = ds.joinTable(options.joinType || &quot;leftOuter&quot;, table, joinConditions, {tableAlias: tableAlias, implicitQualifier: options.implicitQualifier}, block);
    var opts = ds.__opts;
    // Whether to include the table in the result set
    var addTable = isBoolean(options.select) ? options.select : true;
@@ -8908,7 +8910,7 @@ function (dataset,joinConditions,options,block){
    var addColumns = isUndefinedOrNull(opts.graphAliases);
    // Setup the initial graph data structure if it doesn&#x27;t exist
    var graph;
-   var populateGraphPromise = new Promise();
+   var populateGraphPromise;
    if (isUndefinedOrNull((graph = opts.graph))) {
        var master = this._toTableName(ds.firstSourceAlias);
        (master == tableAlias) &amp;&amp; raiseAliasError(options);
@@ -8924,20 +8926,21 @@ function (dataset,joinConditions,options,block){
        // has been used.
        if (addColumns) {
            var select = opts.select = [];
-           this.columns.then(hitch(this, function (cols) {
+           populateGraphPromise = this.columns.chain(function (cols) {
                cols.forEach(function (column) {
                    columnAliases[column] = [master, column];
                    select.push(new sql.QualifiedIdentifier(master, column));
                });
-               populateGraphPromise.callback(graph);
-           }), ret);
+               return graph;
+           });
        } else {
-           populateGraphPromise.callback(graph);
+           populateGraphPromise = new Promise().callback(graph);
        }
    } else {
-       populateGraphPromise.callback(graph);
+       populateGraphPromise = new Promise().callback(graph);
    }
-   populateGraphPromise.then(hitch(this, function (graph) {
+   return populateGraphPromise.chain(function (graph) {
+       var ret;
        // Add the table alias to the list of aliases
        // Even if it isn&#x27;t been used in the result set,
        // we add a key for it with a nil value so we can check if it
@@ -8957,7 +8960,7 @@ function (dataset,joinConditions,options,block){
            }
            // If the column hasn&#x27;t been used yet, don&#x27;t alias it.
            // If it has been used, try tableColumn.
-           dsColPromise.then(hitch(this, function (cols) {
+           ret = dsColPromise.chain(function (cols) {
                cols.forEach(function (column) {
                    var colAlias, identifier;
                    if (columnAliases[column]) {
@@ -8971,13 +8974,13 @@ function (dataset,joinConditions,options,block){
                    columnAliases[colAlias] = [tableAlias, column];
                    select.push(identifier);
                });
-               ret.callback(ds);
-           }), ret);
+               return ds;
+           });
        } else {
-           ret.callback(ds);
+           ret = ds;
        }
-   }), ret);
-   return ret.promise();
+       return ret;
+   });
            
 }
     </pre>
@@ -9240,9 +9243,9 @@ DB.from(&quot;items&quot;).group(&quot;id&quot;)
     <pre class="prettyprint linenums lang-js">
 function (columns){
    columns = argsToArray(arguments);
-   var stringToIdentifier = this.stringToIdentifier.bind(this)
+   var self = this;
    return this.mergeOptions({group: (array.compact(columns).length == 0 ? null : columns.map(function (c) {
-       return isString(c) ? stringToIdentifier(c) : c;
+       return isString(c) ? self.stringToIdentifier(c) : c;
    }))});
            
 }
@@ -10144,7 +10147,7 @@ for the given column.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT (max(id) - min(id)) FROM table LIMIT 1
-  DB.from(&quot;table&quot;).interval(&quot;id&quot;).then(function(interval){
+  DB.from(&quot;table&quot;).interval(&quot;id&quot;).chain(function(interval){
      //(e.g) interval === 6
   });
         </pre>
@@ -10337,7 +10340,7 @@ false otherwise.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT 1 FROM table LIMIT 1
-DB.from(&quot;table&quot;).isEmpty().then(function(isEmpty){
+DB.from(&quot;table&quot;).isEmpty().chain(function(isEmpty){
   // isEmpty === false
 });
         </pre>
@@ -11240,12 +11243,12 @@ unless you have an unambiguous order.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT * FROM table ORDER BY id DESC LIMIT 1
- DB.from(&quot;table&quot;).order(&quot;id&quot;).last().then(function(lastItem){
+ DB.from(&quot;table&quot;).order(&quot;id&quot;).last().chain(function(lastItem){
      //...(e.g lastItem === {id : 10})
  });
 
  // SELECT * FROM table ORDER BY id ASC LIMIT 2
-  DB.from(&quot;table&quot;).order(sql.id.desc()).last(2).then(function(lastItems){
+  DB.from(&quot;table&quot;).order(sql.id.desc()).last(2).chain(function(lastItems){
      //...(e.g lastItems === [{id : 1}, {id : 2});
  });
         </pre>
@@ -11737,14 +11740,14 @@ given).</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT * FROM table
-DB.from(&quot;table&quot;).map(&quot;id&quot;).then(function(ids){
+DB.from(&quot;table&quot;).map(&quot;id&quot;).chain(function(ids){
   // e.g. ids === [1, 2, 3, ...]
 });
 
  // SELECT * FROM table
 DB.from(&quot;table&quot;).map(function(r){
      return r.id * 2;
-}).then(function(ids){
+}).chain(function(ids){
     // e.g. ids === [2, 4, 6, ...]
 });
         </pre>
@@ -11809,7 +11812,7 @@ function (column,cb){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT max(id) FROM table LIMIT 1
-DB.from(&quot;table&quot;).max(&quot;id&quot;).then(function(max){
+DB.from(&quot;table&quot;).max(&quot;id&quot;).chain(function(max){
   // e.g. max === 10.
 });
         </pre>
@@ -11942,7 +11945,7 @@ function (opts){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT min(id) FROM table LIMIT 1
-DB.from(&quot;table&quot;).min(&quot;id&quot;).then(function(min){
+DB.from(&quot;table&quot;).min(&quot;id&quot;).chain(function(min){
   // e.g. max === 0.
 });
         </pre>
@@ -12013,12 +12016,12 @@ See <a href='./patio_Dataset.html#import'> patio.Dataset#import</a> for more inf
         <pre class="prettyprint linenums lang-js">
 // INSERT INTO table (x) VALUES (1)
 // INSERT INTO table (x) VALUES (2)
-DB.from(&quot;table&quot;).multiInsert([{x : 1}, {x : 2}]).then(function(){
+DB.from(&quot;table&quot;).multiInsert([{x : 1}, {x : 2}]).chain(function(){
     //...do something
 })
 
 //commit every 50 inserts
-DB.from(&quot;table&quot;).multiInsert([{x : 1}, {x : 2},....], {commitEvery : 50}).then(function(){
+DB.from(&quot;table&quot;).multiInsert([{x : 1}, {x : 2},....], {commitEvery : 50}).chain(function(){
     //...do something
 });
         </pre>
@@ -12169,10 +12172,10 @@ ds.rowCb = function(r){
     r.a = r.a * 2;
 }
 
-ds.all().then(function(ret){
+ds.all().chain(function(ret){
      //ret === [{a : 4}, {a : 6}]
 });
-ds.naked().all().then(function(ret){
+ds.naked().all().chain(function(ret){
      //ret ===  [{a : 2}, {a : 3}];
 });
         </pre>
@@ -12556,17 +12559,17 @@ DB.from(&quot;items&quot;).orGroupedAnd([{price: {gt : 0}}, {price: {gt: 10}]).s
     <pre class="prettyprint linenums lang-js">
 function (){
    var tOpts = this.__opts,
-               clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
-               clauseObj = tOpts[clause];
-               if (clauseObj) {
-                   return this.or.apply(this, arguments);
-               } else {
-                   var args = argsToArray(arguments);
-                   args = args.length == 1 ? args[0] : args;
-                   var opts = {};
-                   opts[clause] = this._filterExpr(args, null, &quot;AND&quot;);
-                   return this.mergeOptions(opts);
-               }
+       clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
+       clauseObj = tOpts[clause];
+   if (clauseObj) {
+       return this.or.apply(this, arguments);
+   } else {
+       var args = argsToArray(arguments);
+       args = args.length == 1 ? args[0] : args;
+       var opts = {};
+       opts[clause] = this._filterExpr(args, null, &quot;AND&quot;);
+       return this.mergeOptions(opts);
+   }
            
 }
     </pre>
@@ -13559,7 +13562,7 @@ given column.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT max(id) AS v1, min(id) AS v2 FROM table LIMIT 1
- DB.from(&quot;table&quot;).range(&quot;id&quot;).then(function(min, max){
+ DB.from(&quot;table&quot;).range(&quot;id&quot;).chain(function(min, max){
      //e.g min === 1 AND max === 10
  });
         </pre>
@@ -13631,7 +13634,7 @@ number of records deleted, but that is adapter dependent.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // DELETE * FROM table
-DB.from(&quot;table&quot;).remove().then(function(numDeleted){
+DB.from(&quot;table&quot;).remove().chain(function(numDeleted){
     //numDeleted === 3
 });
         </pre>
@@ -14189,7 +14192,7 @@ values.  Similar to <a href='./patio_Dataset.html#toHash'> patio.Dataset#toHash<
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT id, name FROM table
- DB.from(&quot;table&quot;).selectHash(&quot;id&quot;, &quot;name&quot;).then(function(hash){
+ DB.from(&quot;table&quot;).selectHash(&quot;id&quot;, &quot;name&quot;).chain(function(hash){
   // e.g {1 : &#x27;a&#x27;, 2 : &#x27;b&#x27;, ...}
  });
         </pre>
@@ -14227,12 +14230,13 @@ as the key and the valueColumn as the value.</p>
 function (keyColumn,valueColumn,cb){
    var map = {}, args = comb.argsToArray(arguments);
    cb = isFunction(args[args.length - 1]) ? args.pop() : null;
-   var ret = new Promise();
    var k = this.__hashIdentifierToName(keyColumn),
        v = this.__hashIdentifierToName(valueColumn);
    return this.select.apply(this, args).map(function (r) {
        map[r[k]] = v ? r[v] : r;
-   }).chain(map).classic(cb).promise();
+   }).chain(function () {
+           return map;
+       }).classic(cb).promise();
            
 }
     </pre>
@@ -14333,14 +14337,14 @@ the contents of the resulting array are undefined.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT id FROM table
- DB.from(&quot;table&quot;).selectMap(&quot;id&quot;).then(function(selectMap){
+ DB.from(&quot;table&quot;).selectMap(&quot;id&quot;).chain(function(selectMap){
   // e,g. selectMap === [3, 5, 8, 1, ...]
 });
 
 // SELECT abs(id) FROM table
 DB.from(&quot;table&quot;).selectMap(function(){
      return this.abs(&quot;id&quot;);
-}).then(function(selectMap){
+}).chain(function(selectMap){
   //e.g selectMap === [3, 5, 8, 1, ...]
 });
         </pre>
@@ -14476,14 +14480,14 @@ function (cols){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT id FROM table ORDER BY id
-DB.from(&quot;table&quot;).selectOrderMap(&quot;id&quot;).then(function(mappedIds){
+DB.from(&quot;table&quot;).selectOrderMap(&quot;id&quot;).chain(function(mappedIds){
   //e.g. [1, 2, 3, 4, ...]
 });
 
  // SELECT abs(id) FROM table ORDER BY abs(id)
  DB.from(&quot;table&quot;).selectOrderMap(function(){
          return this.abs(&quot;id&quot;);
- }).then(function(mappedIds){
+ }).chain(function(mappedIds){
      //e.g. [1, 2, 3, 4, ...]
  });
         </pre>
@@ -14659,7 +14663,7 @@ var p = comb.executeInOrder(ds, function(ds){
                       forty_two : [&quot;albums&quot;, &quot;fourtwo&quot;, 42]).first();
 });
 
-p.then(function(obj){
+p.chain(function(obj){
    //obj == {artists : {name : artists.name}, albums : {name : albums.name, fourtwo : 42}}
 });
         </pre>
@@ -14775,7 +14779,7 @@ this method.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 //&#x27;SELECT * FROM test LIMIT 1&#x27;
-DB.from(&quot;test&quot;).singleRecord().then(function(r) {
+DB.from(&quot;test&quot;).singleRecord().chain(function(r) {
     //e.g r === {id : 1, name : &quot;firstName&quot;}
 });
         </pre>
@@ -14839,7 +14843,7 @@ Returns null if dataset is empty.  Users should generally use
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 //&#x27;SELECT * FROM test LIMIT 1&#x27;
-DB.from(&quot;test&quot;).singleValue().then(function(r) {
+DB.from(&quot;test&quot;).singleValue().chain(function(r) {
     //e.g r === 1
 });
         </pre>
@@ -15019,7 +15023,7 @@ function (s){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT sum(id) FROM table LIMIT 1
-DB.from(&quot;table&quot;).sum(&quot;id&quot;).then(function(sum){
+DB.from(&quot;table&quot;).sum(&quot;id&quot;).chain(function(sum){
   // e.g sum === 55
 });
         </pre>
@@ -15091,7 +15095,7 @@ includeColumnTitles argument.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT * FROM table
- DB.from(&quot;table&quot;).toCsv().then(function(csv){
+ DB.from(&quot;table&quot;).toCsv().chain(function(csv){
      console.log(csv);
      //outputs
        id,name
@@ -15100,7 +15104,7 @@ includeColumnTitles argument.</p>
  });
 
    // SELECT * FROM table
- DB.from(&quot;table&quot;).toCsv(false).then(function(csv){
+ DB.from(&quot;table&quot;).toCsv(false).chain(function(csv){
      console.log(csv);
      //outputs
        1,Jim
@@ -15153,8 +15157,8 @@ function (includeColumnTitles,cb){
                return r[c] || &quot;&quot;;
            }).join(&quot;, &quot;));
        }).chain(function () {
-           return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
-       });
+               return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
+           });
    }.bind(this)).classic(cb).promise();
            
 }
@@ -15189,12 +15193,12 @@ is not given or null, uses the entire hash as the value.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // SELECT * FROM table
- DB.from(&quot;table&quot;).toHash(&quot;id&quot;, &quot;name&quot;).then(function(hash){
+ DB.from(&quot;table&quot;).toHash(&quot;id&quot;, &quot;name&quot;).chain(function(hash){
    // {1 : &#x27;Jim&#x27;, 2 : &#x27;Bob&#x27;, ...}
  });
 
 // SELECT * FROM table
-DB.from(&quot;table&quot;).toHash(&quot;id&quot;).then(function(hash){
+DB.from(&quot;table&quot;).toHash(&quot;id&quot;).chain(function(hash){
   // {1 : {id : 1, name : &#x27;Jim&#x27;}, 2 : {id : 2, name : &#x27;Bob&#x27;}, ...}
 });
         </pre>
@@ -15241,8 +15245,8 @@ function (keyColumn,valueColumn,cb){
    return this.map(function (r) {
        map[r[k]] = v ? r[v] : r;
    }).chain(function () {
-       return map;
-   }).classic(cb).promise();
+           return map;
+       }).classic(cb).promise();
            
 }
     </pre>
@@ -15273,7 +15277,7 @@ function (keyColumn,valueColumn,cb){
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // TRUNCATE table
-DB.from(&quot;table&quot;).truncate().then(function(){
+DB.from(&quot;table&quot;).truncate().chain(function(){
     //...do something
 });
         </pre>
@@ -15389,7 +15393,7 @@ related to the current graph (if any).</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.mergeOptions({graph:null});
+   return this.mergeOptions({graph: null});
            
 }
     </pre>
@@ -15744,12 +15748,12 @@ number of rows updated, but that is adapter dependent.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 // UPDATE table SET x = NULL
- DB.from(&quot;table&quot;).update({x : null}).then(function(numRowsUpdated){
+ DB.from(&quot;table&quot;).update({x : null}).chain(function(numRowsUpdated){
      //e.g. numRowsUpdated === 10
  });
 
 // UPDATE table SET x = (x + 1), y = 0
-DB.from(&quot;table&quot;).update({ x : sql.x.plus(1), y : 0}).then(function(numRowsUpdated){
+DB.from(&quot;table&quot;).update({ x : sql.x.plus(1), y : 0}).chain(function(numRowsUpdated){
   // e.g. numRowsUpdated === 10
 });
         </pre>

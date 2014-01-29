@@ -575,7 +575,7 @@ DB.createTable(&quot;child&quot;, function(){
      //define Child  model
 var Child = patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;);
 
-patio.syncModels().then(function(){
+patio.syncModels().chain(function(){
  BiologicalFather.save([
            {name:&quot;Fred&quot;, children:[
                    {name:&quot;Bobby&quot;},
@@ -593,17 +593,17 @@ patio.syncModels().then(function(){
 <p>Above we created a BiologicalFather and Child model. The BiologicalFather has a static initializer(init) that sets up the oneToMany association with the Child. The Child also has a static initializer that sets up the ManyToOne association with the BiologicalFather. When saving <a href="./patio_Model.html">Models</a>s that have associations in you can nest the associations directly.</p>
 <p>You can query each model by:</p>
 <pre class='prettyprint linenums lang-js'><code>//syncModels only needs to be performed once
-patio.syncModels().then(function(){
-    Child.findById(1).then(function(child){
+patio.syncModels().chain(function(){
+    Child.findById(1).chain(function(child){
         //lazy association so it returns a promise.
-        child.biologicalFather.then(function(father){
+        child.biologicalFather.chain(function(father){
              //father.name === &quot;fred&quot;
         }, errorHandler);
     });
 
-    BiologicalFather.findById(1).then(function(father){
+    BiologicalFather.findById(1).chain(function(father){
         //lazy association so it returns a promise.
-        father.children.then(function(children){
+        father.children.chain(function(children){
             //children.length === 3
         }, errorHandler);
     });
@@ -614,8 +614,8 @@ patio.syncModels().then(function(){
 var Child = patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {fetchType : this.fetchType.EAGER});
 
 //sync the models
-patio.syncModels().then(funciton(){
-     Child.findById(1).then(function(child){
+patio.syncModels().chain(funciton(){
+     Child.findById(1).chain(function(child){
          var father = child.biologicalFather;
          //father.name === &quot;fred&quot;
          //father.children.length === 3
@@ -684,15 +684,15 @@ when(
     texas.save(),
     lincoln.save(),
     austin.save()
-).then(function(){
+).chain(function(){
     nebraska.capital = lincoln;
     texas.capital = austin;
-    when(nebraska.save(), texas.save()).then(function(){
+    when(nebraska.save(), texas.save()).chain(function(){
        //states and capitals are now saved
        Capital.forEach(function(capital){
            //returning the state promise from here will prevent the forEach from resolving until the 
            //state hash been fetched
-               return capital.state.then(function(state){
+               return capital.state.chain(function(state){
                    console.log(&quot;%s&#39;s capital is %s, state.name, capital.name);
                });
        });
@@ -728,11 +728,11 @@ var texas = new State({
 when(
     nebraska.save(),
     texas.save(),
-).then(function(){
+).chain(function(){
     Capital.forEach(function(capital){
         //returning the state promise from here will prevent the forEach from resolving until the 
         //state hash been fetched
-        return capital.state.then(function(state){
+        return capital.state.chain(function(state){
             console.log(&quot;%s&#39;s capital is %s, state.name, capital.name);
         });
     });    
@@ -742,7 +742,7 @@ when(
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
 
-    return state.capital.then(function(capital){
+    return state.capital.chain(function(capital){
             console.log(comb.string.format(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name));
     })
 });
@@ -750,7 +750,7 @@ when(
 Capital.order(&quot;name&quot;).forEach(function(capital){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
-    return capital.state.then(function(state){
+    return capital.state.chain(function(state){
             console.log(comb.string.format(&quot;%s is the capital of %s.&quot;, capital.name, state.name));
     })
 });</code></pre>
@@ -901,7 +901,7 @@ filter to create the association.</p>
  ]);</code></pre>
 <p>You can manually associate them by assigning the associations.</p>
 <pre class='prettyprint linenums lang-js'><code>//Retrieve All classes and students
-comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quot;, &quot;lastName&quot;).all()).then(function(results) {
+comb.when(Class.order(&quot;name&quot;).all(), Student.order(&quot;firstName&quot;, &quot;lastName&quot;).all()).chain(function(results) {
     var classes = results[0], students = results[1];
     students.map(function(student, i) {
         student.enroll(i === 0 ? classes : classes.slice(1));
@@ -954,7 +954,7 @@ Class.order(&quot;name&quot;).forEach(function(cls) {
      //Load the LAZY loaded aboveAverageStudents, averageStudents and belowAverageStudents students.
      //The for each will not resolve the final promise until the when promise has
      //resolved.
-    return when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents).then(function(res) {
+    return when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents).chain(function(res) {
           var aboveAverage = createStudentArrayString(res[0]),
             average = createStudentArrayString(res[1]);
             belowAverage = createStudentArrayString(res[2]);

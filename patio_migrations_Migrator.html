@@ -499,11 +499,11 @@ See <a href='./patio.html#migrate'> patio#migrate</a></p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 var DB = patio.connect(&quot;my://connection/string&quot;);
-patio. migrate(DB, __dirname + &quot;/timestamp_migration&quot;).then(function(){
+patio. migrate(DB, __dirname + &quot;/timestamp_migration&quot;).chain(function(){
     console.log(&quot;done migrating!&quot;);
 });
 
-patio. migrate(DB, __dirname + &quot;/timestamp_migration&quot;, {target : 0}).then(function(){
+patio. migrate(DB, __dirname + &quot;/timestamp_migration&quot;, {target : 0}).chain(function(){
     console.log(&quot;done migrating down!&quot;);
 });
         </pre>
@@ -560,9 +560,8 @@ function (db,directory,opts,cb){
        opts = opts || {};
    }
    opts = opts || {};
-   var ret = new Promise();
-   return this.__getMigrator(directory).chain(function (migrator) {
-       return new migrator(db, directory, opts).run();
+   return this.__getMigrator(directory).chain(function (Migrator) {
+       return new Migrator(db, directory, opts).run();
    }).classic(cb);
            
 }
