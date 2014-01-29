@@ -1,3 +1,10 @@
+# v0.2.14
+
+* Converted uses of `.then` to `.chain`
+* Refactored code to not use `.bind` or `hitch` for performance.
+   * Test ran in `~15sec` before now `~10sec`
+* Overall performace increases
+
 # v0.2.13
 
 * Updated `multiInsert` to support the returning of results.

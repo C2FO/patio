@@ -43,9 +43,9 @@ var createSchema = function(){
 
 //connect and create schema
 connectAndCreateSchema()
-    .then(function(){
+    .chain(function(){
         //sync the model so it can be used
-	    patio.syncModels().then(function(){
+	    return patio.syncModels().chain(function(){
 	         var myUser = new User({
     	         firstName : "Bob",
         	     lastName : "Yukon",
@@ -53,12 +53,11 @@ connectAndCreateSchema()
 	             dateOfBirth : new Date(1980, 8, 29)
     	     });
         	//save the user
-	        myUser.save().then(function(user){
+	        return myUser.save().chain(function(user){
     	        console.log(format("%s %s's id is %d", user.firstName, user.lastName, user.id));
-        	    disconnect();
-	        }, disconnectError);
-        }, disconnectError);
-}, disconnectError);
+	        });
+        });
+}).chain(disconnect, disconnectError);
 ```
 The flow for the above example is as follows:
 	
@@ -208,18 +207,18 @@ To create a Model class to use within your code you use the [patio.addModel](.pa
 var User = patio.addModel("user")
 
 //you must sync the model before using it 
-User.sync().then(function(User){
+User.sync().chain(function(User){
     var myUser = new User({
         firstName : "Bob",
         lastName : "Yukon",
         password : "password",
         dateOfBirth : new Date(1980, 8, 29)
     });
-    myUser.save().then(function(){
+    return myUser.save().chain(function(){
         console.log(format("%s %s was created at %s", myUser.firstName, myUser.lastName, myUser.created.toString()));
         console.log(format("%s %s's id is %d", myUser.firstName, myUser.lastName, myUser.id));
-    }, disconnectError);
-});
+    });
+}).chain(disconnect, disconnectError);
 ```
                 
 You may also use a dataset when adding a model. You might use this if you are using multiple databases. Or want to use a custom query as the base for a particular model.
@@ -231,7 +230,7 @@ var DB2 = patio.createConnection("my://connection/string2");
 var User1 = patio.addModel(DB1.from("user"));
 //user table in db2
 var User2 = patio.addModel(DB2.from("user"));
-patio.syncModels().then(function(User1,User2){
+patio.syncModels().chain(function(User1,User2){
     var myUser1 = new User1({
         firstName : "Bob1",
         lastName : "Yukon1",
@@ -244,7 +243,7 @@ patio.syncModels().then(function(User1,User2){
         password : "password",
         dateOfBirth : new Date(1980, 8, 29)
     });
-    comb.when(myUser1.save(), myUser2.save(), function(saved){
+    return comb.when(myUser1.save(), myUser2.save()).chain(function(saved){
          console.log(format("%s %s was created at %s", myUser1.firstName, myUser1.lastName, myUser1.created.toString()));
          console.log(format("%s %s's id is %d", myUser1.firstName, myUser1.lastName, myUser1.id));
 
@@ -275,7 +274,7 @@ var User = patio.addModel("user", {
     }
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : "bob",
         lastName : "yukon"
@@ -300,7 +299,7 @@ var User = patio.addModel("user", {
 	}
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : "bob",
         lastName : "yukon",
@@ -329,7 +328,7 @@ var User = patio.addModel("user", {
 	}
 });
 
-patio.syncModels().then(function(User){
+patio.syncModels().chain(function(User){
     var myUser = new User({
         firstName : "bob",
         lastName : "yukon",
@@ -337,7 +336,7 @@ patio.syncModels().then(function(User){
     });
     console.log(myUser.roles); //['admin', 'user','groupAdmin'];
     //INSERT INTO `user` (`first_name`, `last_name`, `roles`) VALUES ('bob', 'yukon', 'admin,user,groupAdmin')
-    myUser.save(); 
+    return myUser.save();
 });
 ```
 
@@ -494,7 +493,7 @@ Student.save([
           gpa:1.9,
           classYear:"Freshman"
       }
- ]).then(function(users){
+ ]).chain(function(users){
    //All users have been saved
  }, disconnectError);
 ```
@@ -516,7 +515,7 @@ Student.save([
           gpa:3.689,
           classYear:"Sophomore"
       }
- ], {transaction : false}).then(function(users){
+ ], {transaction : false}).chain(function(users){
      //work with the users
  });
 ```
@@ -531,7 +530,7 @@ var myUser = new User({
      dateOfBirth : new Date(1980, 8, 29)
 });
 //save the user
-myUser.save().then(function(user){
+myUser.save().chain(function(user){
     //the save is complete
 }, disconnectError);
 ```
@@ -546,7 +545,7 @@ myUser.save({
      lastName : "Yukon",
      password : "password",
      dateOfBirth : new Date(1980, 8, 29)
- }).then(function(user){
+ }).chain(function(user){
     //the save is complete
 }, disconnectError);
 ```
@@ -561,7 +560,7 @@ myUser.save({
      lastName : "Yukon",
      password : "password",
      dateOfBirth : new Date(1980, 8, 29)
- }, {transaction : false}).then(function(user){
+ }, {transaction : false}).chain(function(user){
     //the save is complete
 }, disconnectError);
 ```
@@ -588,7 +587,7 @@ User.forEach(funciton(user){
    //create a blog for each user
    return new Blog({userId : user.id}).save();
 
-}).then(function(users){
+}).chain(function(users){
    //all users and blogs have been saved
 }, disconnectError);
 
@@ -599,7 +598,7 @@ User.forEach(funciton(user){
 ```
 User.map(function(user){
    return user.firstName;
-}).then(function(names){
+}).chain(function(names){
     console.log("User names are %s", names);
 }, disconnectError);
 ```
@@ -607,7 +606,7 @@ User.map(function(user){
 * [all](./patio_Dataset.html#all)
 
 ```
-User.all().then(function(users){
+User.all().chain(function(users){
    console.log(users.length);
 }, disconnectError);
 ```
@@ -616,14 +615,14 @@ User.all().then(function(users){
 
 ```
 //find all users where first names begin with bo case insensitive
-User.filter({firstName : /^bo/i}).all().then(function(){
+User.filter({firstName : /^bo/i}).all().chain(function(){
 }, disconnectError);
 ```
 
 * [one](./patio_Dataset.html#one)
 
 ```
-User.filter({id : 1}).one().then(function(user){
+User.filter({id : 1}).one().chain(function(user){
    console.log("%d - %s %s", user.id, user.firstName, user.lastName);
 }, disconnectError);
 ```
@@ -632,7 +631,7 @@ User.filter({id : 1}).one().then(function(user){
 
 ```
 //SELECT * FROM user WHERE first_name = 'bob' ORDER BY last_name LIMIT 1
-User.filter({firstName : "bob"}).order("lastName").first().then(function(user){
+User.filter({firstName : "bob"}).order("lastName").first().chain(function(user){
    console.log("%d - %s %s", user.id, user.firstName, user.lastName);
 }, disconnectError);
 ```
@@ -641,7 +640,7 @@ User.filter({firstName : "bob"}).order("lastName").first().then(function(user){
 
 ```
 //SELECT * FROM user WHERE first_name = 'bob' ORDER BY last_name DESC LIMIT 1
-User.filter({firstName : "bob"}).order("lastName").last().then(function(user){
+User.filter({firstName : "bob"}).order("lastName").last().chain(function(user){
    console.log("%d - %s %s", user.id, user.firstName, user.lastName);
 }, disconnectError);
 ```
@@ -650,7 +649,7 @@ User.filter({firstName : "bob"}).order("lastName").last().then(function(user){
 
 ```
 
-User.isEmpty().then(function(isEmpty){
+User.isEmpty().chain(function(isEmpty){
    if(isEmpty){
       console.log("user table is empty");
    }else{
@@ -696,7 +695,7 @@ var updateUsers = User.forEach(function(user){
     //until all updates have completed
     return user.update({fullName : user.firstName + " " + user.lastName});
 });
-updateUsers.then(function(){
+updateUsers.chain(function(){
     //updates finished
 });
 ```
@@ -709,7 +708,7 @@ var updateUsers = User.forEach(function(user){
     //until all updates have completed
     return user.update({fullName : user.firstName + " " + user.lastName}, {transaction : false});
 });
-updateUsers.then(function(){
+updateUsers.chain(function(){
     //updates finished
 });
 ```
@@ -751,7 +750,7 @@ If you have an instance of a model and you want to remove it you can use the [re
 ```
 User.forEach(function(user){
     return user.remove();
-}).then(function(){
+}).chain(function(){
     //removed
 });
 ```
@@ -761,7 +760,7 @@ To prevent the default transaction behavior pass in the transaction option
 ```
 User.forEach(function(user){
     return user.remove({transaction : false});
-}).then(function(){
+}).chain(function(){
     //removed
 });
 ```

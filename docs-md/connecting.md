@@ -83,7 +83,7 @@ To disconnect from a database you can use:
 * [patio.disconnect](./patio.html#disconnect) which disconnects all databases currently connected.
 
 ```
-patio.disconnect().then(function(){
+patio.disconnect().chain(function(){
     //all databases are disconnected all queued queries have finished
 });
 ```
@@ -91,7 +91,7 @@ patio.disconnect().then(function(){
 * [patio.Database#disconnect](./patio_Database.html#disconnect) which disconnects only that database.
 
 ```
-DB.disconnect().then(function(){
+DB.disconnect().chain(function(){
     //database is disconnected and all queued queries have finished
 });
 ```                

@@ -6,31 +6,30 @@ var it = require('it'),
     helper = require("../data/timestampPlugin.helper.js");
 
 
-it.describe("Timestamp updateOnCreate",function (it) {
+it.describe("Timestamp updateOnCreate", function (it) {
 
     var emp, Employee;
     it.beforeAll(function () {
         Employee = patio.addModel("employee", {
-            plugins:[patio.plugins.TimeStampPlugin]
+            plugins: [patio.plugins.TimeStampPlugin]
         });
-        Employee.timestamp({updateOnCreate:true});
+        Employee.timestamp({updateOnCreate: true});
         return helper.createSchemaAndSync();
     });
 
-    it.beforeEach(function (next) {
-        Employee.remove().then(function () {
-            Employee.save({
-                firstname:"doug",
-                lastname:"martin",
-                midinitial:null,
-                gender:"M",
-                street:"1 nowhere st.",
-                city:"NOWHERE"
-            }).then(function (e) {
+    it.beforeEach(function () {
+        return Employee.remove().chain(function () {
+            return Employee.save({
+                firstname: "doug",
+                lastname: "martin",
+                midinitial: null,
+                gender: "M",
+                street: "1 nowhere st.",
+                city: "NOWHERE"
+            }).chain(function (e) {
                     emp = e;
-                    next();
-                }, next);
-        }, next);
+                });
+        });
     });
 
     it.should("set created column", function () {
@@ -49,17 +48,16 @@ it.describe("Timestamp updateOnCreate",function (it) {
     it.should("set updated column", function (next) {
         setTimeout(function () {
             emp.firstname = "dave";
-            emp.save().then(function () {
+            emp.save().chain(function () {
                 //force reload
                 assert.isNotNull(emp.updated);
                 assert.instanceOf(emp.updated, patio.SQL.DateTime);
                 assert.notDeepEqual(emp.updated, emp.created);
-                next();
-            });
+            }).classic(next);
         }, 1000);
     });
 
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

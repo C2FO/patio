@@ -6,25 +6,24 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
-
 var gender = ["M", "F"];
 
 it.describe("One To One eager with custom filter", function (it) {
     var Works, Employee;
     it.beforeAll(function () {
         Works = patio.addModel("works", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
-                    this.manyToOne("employee", {fetchType:this.fetchType.EAGER});
+                    this.manyToOne("employee", {fetchType: this.fetchType.EAGER});
                 }
             }
         });
         Employee = patio.addModel("employee", {
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this._super(arguments);
-                    this.oneToOne("works", {fetchType:this.fetchType.EAGER}, function (ds) {
+                    this.oneToOne("works", {fetchType: this.fetchType.EAGER}, function (ds) {
                         return ds.filter(function () {
                             return this.salary.gte(100000.00);
                         });
@@ -55,25 +54,24 @@ it.describe("One To One eager with custom filter", function (it) {
         });
 
 
-        it.should("save nested models when using new", function (next) {
+        it.should("save nested models when using new", function () {
             var employee = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            employee.save().then(function () {
+            return employee.save().chain(function () {
                 var works = employee.works;
                 assert.equal(works.companyName, "Google");
                 assert.equal(works.salary, 100000);
-                next();
-            }, next);
+            });
         });
     });
 
@@ -85,54 +83,51 @@ it.describe("One To One eager with custom filter", function (it) {
                 hitch(Works, "remove"),
                 function () {
                     return new Employee({
-                        lastName:"last" + 1,
-                        firstName:"first" + 1,
-                        midInitial:"m",
-                        gender:gender[1 % 2],
-                        street:"Street " + 1,
-                        city:"City " + 1,
-                        works:{
-                            companyName:"Google",
-                            salary:100000
+                        lastName: "last" + 1,
+                        firstName: "first" + 1,
+                        midInitial: "m",
+                        gender: gender[1 % 2],
+                        street: "Street " + 1,
+                        city: "City " + 1,
+                        works: {
+                            companyName: "Google",
+                            salary: 100000
                         }
                     }).save();
                 }
             ]);
         });
 
-        it.should("load associations when querying", function (next) {
-            comb.when(Employee.one(), Works.one()).then(function (res) {
+        it.should("load associations when querying", function () {
+            return comb.when(Employee.one(), Works.one()).chain(function (res) {
                 var emp = res[0], work = res[1];
                 var empWorks = emp.works, worksEmp = work.employee;
                 assert.instanceOf(worksEmp, Employee);
                 assert.instanceOf(empWorks, Works);
-                next();
-            }, next);
+            });
         });
 
-        it.should("allow the removing of associations", function (next) {
-            Employee.one().then(function (emp) {
+        it.should("allow the removing of associations", function () {
+            return Employee.one().chain(function (emp) {
                 emp.works = null;
-                emp.save().then(function (emp) {
+                return emp.save().chain(function (emp) {
                     assert.isNull(emp.works);
-                    Works.one().then(function (work) {
+                    return Works.one().chain(function (work) {
                         assert.isNotNull(work);
                         assert.isNull(work.employee);
-                        next();
-                    }, next);
-                }, next);
-            }, next);
+                    });
+                });
+            });
         });
 
-        it.should("apply the filter", function (next) {
-            Employee.one().then(function (emp) {
-                emp.works.save({salary:10}).then(function () {
-                    emp.reload().then(function () {
+        it.should("apply the filter", function () {
+            return Employee.one().chain(function (emp) {
+                return emp.works.save({salary: 10}).chain(function () {
+                    return emp.reload().chain(function () {
                         assert.isNull(emp.works);
-                        next();
-                    }, next);
-                }, next);
-            }, next);
+                    });
+                });
+            });
         });
 
     });
@@ -145,51 +140,48 @@ it.describe("One To One eager with custom filter", function (it) {
             );
         });
 
-        it.should("allow the setting of associations", function (next) {
+        it.should("allow the setting of associations", function () {
             var emp = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1
             });
-            emp.save().then(function () {
+            return emp.save().chain(function () {
                 assert.isNull(emp.works);
                 emp.works = {
-                    companyName:"Google",
-                    salary:100000
+                    companyName: "Google",
+                    salary: 100000
                 };
-                emp.save().then(function () {
+                return emp.save().chain(function () {
                     assert.instanceOf(emp.works, Works);
-                    next();
-                }, next);
-
-            }, next);
+                });
+            });
         });
 
-        it.should("not delete association when deleting the reciprocal side", function (next) {
+        it.should("not delete association when deleting the reciprocal side", function () {
             var e = new Employee({
-                lastName:"last" + 1,
-                firstName:"first" + 1,
-                midInitial:"m",
-                gender:gender[1 % 2],
-                street:"Street " + 1,
-                city:"City " + 1,
-                works:{
-                    companyName:"Google",
-                    salary:100000
+                lastName: "last" + 1,
+                firstName: "first" + 1,
+                midInitial: "m",
+                gender: gender[1 % 2],
+                street: "Street " + 1,
+                city: "City " + 1,
+                works: {
+                    companyName: "Google",
+                    salary: 100000
                 }
             });
-            e.save().then(function () {
-                e.remove().then(function () {
-                    comb.when(Employee.all(), Works.all()).then(function (res) {
+            return e.save().chain(function () {
+                return e.remove().chain(function () {
+                    return comb.when(Employee.all(), Works.all()).chain(function (res) {
                         assert.lengthOf(res[0], 0);
                         assert.lengthOf(res[1], 1);
-                        next();
-                    }, next);
-                }, next);
-            }, next);
+                    });
+                });
+            });
         });
 
     });
@@ -197,4 +189,4 @@ it.describe("One To One eager with custom filter", function (it) {
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

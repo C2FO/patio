@@ -31,7 +31,7 @@ The [findById](./patio_Model.html#.findById) is the easiest method to use to fin
 
 ```
 // Find user with primary key (id) 1
-User.findById(1).then(function(user){
+User.findById(1).chain(function(user){
     // SELECT * FROM user WHERE id = 1
 }, errorHandler);
 ```
@@ -43,7 +43,7 @@ User.findById(1).then(function(user){
 If you just want the first record in the dataset use [first](./patio_Dataset.html#first).
 
 ```
-User.first().then(function(user){
+User.first().chain(function(user){
     // SELECT * FROM user LIMIT 1
 }, errorHandler);
 ```
@@ -51,11 +51,11 @@ User.first().then(function(user){
 Any options you pass to first will be used as a filter:
 
 ```
-User.first({name : 'Bob'}).then(function(bob){
+User.first({name : 'Bob'}).chain(function(bob){
     // SELECT * FROM user WHERE (name = 'Bob') LIMIT 1
 }, errorHandler);
 var sql = patio.sql;
-User.first(sql.name.like('B%')).then(function(user){
+User.first(sql.name.like('B%')).chain(function(user){
     // SELECT * FROM user WHERE (name LIKE 'B%') LIMIT 1
 }, errorHandler);
 ```
@@ -69,7 +69,7 @@ If you want the last record in the dataset use [last](./patio_Dataset.html#last)
 **Note:** that last is not necessarily going to give you the last record in the dataset unless you give the dataset an unambiguous order.
 
 ```
- User.order("name").last().then(function(user){
+ User.order("name").last().chain(function(user){
      // SELECT * FROM user ORDER BY name DESC LIMIT 1
 }, errorHandler);
 ```
@@ -78,7 +78,7 @@ If you want the last record in the dataset use [last](./patio_Dataset.html#last)
 Sometimes, instead of wanting an entire row, you only want the value of a specific column. For this [get](./patio_Dataset.html#get) is the method you want:
 
 ```
-User.get("name").then(function(name){
+User.get("name").chain(function(name){
     // SELECT name FROM user LIMIT 1
 }, errorHandler);
 ```
@@ -90,7 +90,7 @@ User.get("name").then(function(name){
 If you want an array of all of the rows associated with the dataset you should use the [all](./patio_Dataset.html#all) method:
 
 ```
-User.all().then(function(users){
+User.all().chain(function(users){
     // SELECT * FROM user
 }, errorHandlers);
 ```
@@ -117,7 +117,7 @@ var forEachPromise = User.forEach(function(user){
     if(user.isVerified){
         return user.update({isVerified : false});
     }
-}).then(function(){
+}).chain(function(){
     //all user updated
 }, errorHandler);
 ```               
@@ -129,7 +129,7 @@ rows.
 // SELECT * FROM user
 User.map(function(user){
     return user.name;
-}).then(function(userNames){
+}).chain(function(userNames){
     console.log(userNames);
 }, errorHandler);
 ```
@@ -142,7 +142,7 @@ var mapPromise = User.map(function(user){
     return Blogs.filter({userId : userId}).map(function(blog){
           return blog.title;
     });
-}).then(function(userBlogTitles){
+}).chain(function(userBlogTitles){
     userBlogTitles.forEach(function(blogTitles){
         console.log(blogTitles);
     });
@@ -151,7 +151,7 @@ var mapPromise = User.map(function(user){
 [map](./patio_Dataset.html#map) method also can take an arugment other than a function this is useful if you just want to select a list of column values.
 
 ```               
-User.map("name").then(function(userNames){
+User.map("name").chain(function(userNames){
     // SELECT * FROM user
 }, errorHandler);
 ```
@@ -159,7 +159,7 @@ User.map("name").then(function(userNames){
 ###[selectMap](./patio_Dataset.html#selectMap)  
 
 ```
-User.selectMap("name").then(function(names){
+User.selectMap("name").chain(function(names){
     // SELECT name FROM user
 }, errorHandler);
 ```
@@ -167,7 +167,7 @@ User.selectMap("name").then(function(names){
 ###[selectOrderMap](./patio_Dataset.html#selectOrderMap)
 
 ```
-User.selectOrderMap("name").then(function(){
+User.selectOrderMap("name").chain(function(){
     // SELECT name FROM user ORDER BY name
 }, errorHandler);
 ```
@@ -177,7 +177,7 @@ User.selectOrderMap("name").then(function(){
 patio makes it easy to take an SQL query and return it as a plain object, using the [toHash](./patio_Dataset.html) method:
 
 ```
-User.toHash("name", "id").then(function(nameIdMap){
+User.toHash("name", "id").chain(function(nameIdMap){
     // SELECT * FROM user
     //{"Bob Yukon":1,"Suzy Yukon":2}
 }, errorHandler);
@@ -187,7 +187,7 @@ User.toHash("name", "id").then(function(nameIdMap){
 The [toHash](./patio_Dataset.html#toHash) method uses the first column as the key and the second column as the value. So if you swap the two arguments the hash will have its keys and values transposed:
 
 ```
-User.toHash("id", "name").then(function(nameIdMap){
+User.toHash("id", "name").chain(function(nameIdMap){
     // SELECT * FROM user
     //{"1":"Bob Yukon","2":"Suzy Yukon"}
 }, errorHandler);
@@ -196,7 +196,7 @@ User.toHash("id", "name").then(function(nameIdMap){
 If you provide only one argument to [toHash](./patio_Dataset.html#toHash), it uses the entire object or model object as the value:
 
 ```
-Users.toHash("name").then(function(){
+Users.toHash("name").chain(function(){
     // SELECT * FROM user
     //{"Bob Yukon":{"name":"Bob Yukon"},"Suzy Yukon":{"name":"Suzy Yukon"}}
 }):
@@ -206,7 +206,7 @@ Users.toHash("name").then(function(){
 **Note**: [toHash](./patio_Dataset.html#toHash) selects all columns. However, [selectHash](./patio_Dataset.html#selectHash) will only select the columns specified.
 
 ```
-User.selectHash("name", "id").then(function(){
+User.selectHash("name", "id").chain(function(){
     // SELECT name, id FROM user
     //{bob : 1, suzy : 2}
 });
@@ -543,7 +543,7 @@ User.select("id", "name");
 
 ```
 // SELECT name FROM user LIMIT 1                    
-User.select("name").first().then(function(user){
+User.select("name").first().chain(function(user){
     //user.id === null                    
 });
 ```
@@ -901,13 +901,13 @@ You can also use placeholders:
 To test if there are any records in the database use the isEmpty method
 
 ```
- User.isEmpty().then(function(isEmpty){
+ User.isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user LIMIT 1
  }, errorHandler);
- User.filter({id : 0}).isEmpty().then(function(isEmpty){
+ User.filter({id : 0}).isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user WHERE id = 0 LIMIT 1
  },errorHandler);
- User.filter(sql.name.like('B%')).isEmpty().then(function(isEmpty){
+ User.filter(sql.name.like('B%')).isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user WHERE name LIKE 'B%' LIMIT 1
  },errorHandler);
 
@@ -919,7 +919,7 @@ There are dataset methods for each of the following aggregate calculations:
 * [count](./patio_Dataset.html#count) : count just returns the number of records in the dataset.
  
 ```
- User.count().then(function(count){
+ User.count().chain(function(count){
     // SELECT COUNT(*) AS count FROM user LIMIT 1
  });
 ```
@@ -927,7 +927,7 @@ There are dataset methods for each of the following aggregate calculations:
 * [sum](./patio_Dataset.html#sum) : makes a sum aggregate function call for the column.
 
 ```
- User.sum("id").then(function(){
+ User.sum("id").chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });
 
@@ -936,7 +936,7 @@ There are dataset methods for each of the following aggregate calculations:
 * [avg](./patio_Dataset.html#avg): makes a avg aggregate function call for the column.
 
 ```
- User.avg("id").then(function(){
+ User.avg("id").chain(function(){
     // SELECT avg(id) FROM user LIMIT 1
  });
 ```
@@ -944,7 +944,7 @@ There are dataset methods for each of the following aggregate calculations:
 * [min](./patio_Dataset.html#min) : makes a min aggregate function call for the column.
 
 ```
- User.min("id").then(function(){
+ User.min("id").chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });
 ```
@@ -952,7 +952,7 @@ There are dataset methods for each of the following aggregate calculations:
 * [max](./patio_Dataset.html#max): makes a max aggregate function call for the column.
 
 ```
- User.max("id").then(function(){
+ User.max("id").chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });
 ```

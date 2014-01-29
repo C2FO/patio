@@ -588,11 +588,13 @@ module.exports = comb.define(null, {});</code></pre>
          *Helper method to find a model by id and handle any errors
          */
         findByIdRoute:function (params) {
-            var ret = new comb.Promise();
-            this.findById(params.id).then(function (model) {
-                ret.callback(model ? model.toObject() : {error:&quot;Could not find a model with id &quot; + id});
-            }, ret);
-            return ret;
+            return this.findById(params.id).chain(function (model) {
+                if(model){
+                    return model.toObject();
+                }else{
+                    throw new Error(&quot;Could not find a model with id &quot;);
+                }
+            });
         },
 
 
@@ -619,11 +621,13 @@ module.exports = comb.define(null, {
          *Helper method to find a model by id and handle any errors
          */
         findByIdRoute:function (params) {
-            var ret = new comb.Promise();
-            this.findById(params.id).then(function (model) {
-                ret.callback(model ? model.toObject() : {error:&quot;Could not find a model with id &quot; + id});
-            }, ret);
-            return ret.promise();
+            return this.findById(params.id).chain(function (model) {
+                if(model){
+                    return model.toObject();
+                }else{
+                    throw new Error(&quot;Could not find a model with id &quot; + id);
+                }
+            });
         },
 
         /**
@@ -638,7 +642,7 @@ module.exports = comb.define(null, {
         */
         __routeProxy:function (cb) {
             return function (req, res) {
-                comb.when(cb(req.params)).then(res.send.bind(res), function (err) {
+                comb.when(cb(req.params)).chain(res.send.bind(res), function (err) {
                     res.send({error:err.message});
                 });
             }
@@ -687,31 +691,25 @@ module.exports = patio.addModel(&quot;flight&quot;, {
             this._super(arguments);
             //add new routes using the addRoute method on the Express Plugin
             this.addRoute(&quot;/flights/:airline&quot;, comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.byAirline(params.airline).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return this.byAirline(params.airline).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
             this.addRoute(&quot;/flights/departs/:airportCode&quot;, comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.departsFrom(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return this.departsFrom(params.airportCode).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
             this.addRoute(&quot;/flights/arrives/:airportCode&quot;, comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.arrivesAt(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return  this.arrivesAt(params.airportCode).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
         },
 

@@ -26,21 +26,21 @@ var createSchema = function () {
                 return when(
                     DB.createTable("airport", function () {
                         this.primaryKey("id");
-                        this.airportCode(String, {size:4, allowNull:false, unique:true});
-                        this.name(String, {allowNull:false});
-                        this.city(String, {allowNull:false});
-                        this.state(String, {size:2, allowNull:false});
+                        this.airportCode(String, {size: 4, allowNull: false, unique: true});
+                        this.name(String, {allowNull: false});
+                        this.city(String, {allowNull: false});
+                        this.state(String, {size: 2, allowNull: false});
                     }),
                     DB.createTable("airplaneType", function () {
                         this.primaryKey("id");
-                        this.name(String, {allowNull:false});
-                        this.maxSeats(Number, {size:3, allowNull:false});
-                        this.company(String, {allowNull:false});
+                        this.name(String, {allowNull: false});
+                        this.maxSeats(Number, {size: 3, allowNull: false});
+                        this.company(String, {allowNull: false});
                     }),
                     DB.createTable("flight", function () {
                         this.primaryKey("id");
-                        this.weekdays(String, {size:2, allowNull:false});
-                        this.airline(String, {allowNull:false});
+                        this.weekdays(String, {size: 2, allowNull: false});
+                        this.airline(String, {allowNull: false});
                     })
                 );
             },
@@ -48,21 +48,21 @@ var createSchema = function () {
                 //create our join tables
                 return when(
                     DB.createTable("canLand", function () {
-                        this.foreignKey("airplaneTypeId", "airplaneType", {key:"id"});
-                        this.foreignKey("airportId", "airport", {key:"airportCode", type:String, size:4});
+                        this.foreignKey("airplaneTypeId", "airplaneType", {key: "id"});
+                        this.foreignKey("airportId", "airport", {key: "airportCode", type: String, size: 4});
                     }),
                     DB.createTable("airplane", function () {
                         this.primaryKey("id");
-                        this.totalNoOfSeats(Number, {size:3, allowNull:false});
-                        this.foreignKey("typeId", "airplaneType", {key:"id"});
+                        this.totalNoOfSeats(Number, {size: 3, allowNull: false});
+                        this.foreignKey("typeId", "airplaneType", {key: "id"});
                     }),
                     DB.createTable("flightLeg", function () {
                         this.primaryKey("id");
                         this.scheduledDepartureTime("time");
                         this.scheduledArrivalTime("time");
-                        this.foreignKey("departureCode", "airport", {key:"airportCode", type:String, size:4});
-                        this.foreignKey("arrivalCode", "airport", {key:"airportCode", type:String, size:4});
-                        this.foreignKey("flightId", "flight", {key:"id"});
+                        this.foreignKey("departureCode", "airport", {key: "airportCode", type: String, size: 4});
+                        this.foreignKey("arrivalCode", "airport", {key: "airportCode", type: String, size: 4});
+                        this.foreignKey("flightId", "flight", {key: "id"});
                     })
                 );
             },
@@ -72,25 +72,26 @@ var createSchema = function () {
                     this.date("date");
                     this.arrTime("datetime");
                     this.depTime("datetime");
-                    this.foreignKey("airplaneId", "airplane", {key:"id"});
-                    this.foreignKey("flightLegId", "flightLeg", {key:"id"});
+                    this.foreignKey("airplaneId", "airplane", {key: "id"});
+                    this.foreignKey("flightLegId", "flightLeg", {key: "id"});
                 });
             }
         ]);
     });
 };
 
-createSchema().then(function () {
-    var ds = DB.from('airport');
-
-    ds.multiInsert([
-        {airportCode:"OMA", name:"Eppley Airfield", city:"Omaha", state:"NE"},
-        {airportCode:"ABR", name:"Aberdeen", city:"Aberdeen", state:"SD"},
-        {airportCode:"ASE", name:"Aspen Pitkin County Airport", city:"Aspen", state:"CO"}
-    ]).then(function () {
-            ds.forEach(function (airport) {
-                console.log(airport.airportCode);
-            }).then(patio.disconnect.bind(patio), errorHandler);
-        }, errorHandler);
-
-}, errorHandler);
+createSchema()
+    .chain(function () {
+        var ds = DB.from('airport');
+        return ds.multiInsert([
+            {airportCode: "OMA", name: "Eppley Airfield", city: "Omaha", state: "NE"},
+            {airportCode: "ABR", name: "Aberdeen", city: "Aberdeen", state: "SD"},
+            {airportCode: "ASE", name: "Aspen Pitkin County Airport", city: "Aspen", state: "CO"}
+        ]);
+    })
+    .chain(function () {
+        return ds.forEach(function (airport) {
+            console.log(airport.airportCode);
+        });
+    })
+    .chain(patio.disconnect.bind(patio), errorHandler);

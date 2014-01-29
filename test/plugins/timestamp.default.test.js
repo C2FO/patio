@@ -11,10 +11,10 @@ it.describe("Timestamp default columns", function (it) {
     var emp, Employee;
     it.beforeAll(function () {
         Employee = patio.addModel("employee", {
-            plugins:[patio.plugins.TimeStampPlugin],
+            plugins: [patio.plugins.TimeStampPlugin],
 
-            "static":{
-                init:function () {
+            "static": {
+                init: function () {
                     this.timestamp();
                 }
             }
@@ -23,19 +23,18 @@ it.describe("Timestamp default columns", function (it) {
     });
 
     it.beforeEach(function (next) {
-        Employee.remove().then(function () {
-            Employee.save({
-                firstname:"doug",
-                lastname:"martin",
-                midinitial:null,
-                gender:"M",
-                street:"1 nowhere st.",
-                city:"NOWHERE"
-            }).then(function (e) {
+        return Employee.remove().chain(function () {
+            return Employee.save({
+                firstname: "doug",
+                lastname: "martin",
+                midinitial: null,
+                gender: "M",
+                street: "1 nowhere st.",
+                city: "NOWHERE"
+            }).chain(function (e) {
                     emp = e;
-                    next();
-                }, next);
-        }, next);
+                });
+        });
     });
 
     it.should("set created column on insertSql", function () {
@@ -55,17 +54,16 @@ it.describe("Timestamp default columns", function (it) {
     it.should("set updated column", function (next) {
         setTimeout(function () {
             emp.firstname = "dave";
-            emp.save().then(function () {
+            emp.save().chain(function () {
                 //force reload
                 assert.isNotNull(emp.updated);
                 assert.instanceOf(emp.updated, patio.SQL.DateTime);
                 assert.notDeepEqual(emp.updated, emp.createdAt);
-                next();
-            });
+            }).classic(next);
         }, 1000);
     });
 
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

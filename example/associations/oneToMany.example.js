@@ -16,8 +16,8 @@ var disconnectError = function (err) {
 
 //define the BiologicalFather model
 var BiologicalFather = patio.addModel("biologicalFather", {
-    static:{
-        init:function () {
+    static: {
+        init: function () {
             this._super(arguments);
             this.oneToMany("children");
         }
@@ -26,21 +26,21 @@ var BiologicalFather = patio.addModel("biologicalFather", {
 
 //define the StepFather model
 var StepFather = patio.addModel("stepFather", {
-    static:{
-        init:function () {
+    static: {
+        init: function () {
             this._super(arguments);
-            this.oneToMany("children");
+            this.oneToMany("children", {key: "name"});
         }
     }
 });
 
 //define Child  model
 var Child = patio.addModel("child", {
-    static:{
-        init:function () {
+    static: {
+        init: function () {
             this._super(arguments);
             this.manyToOne("biologicalFather");
-            this.manyToOne("stepFather");
+            this.manyToOne("stepFather", {key: "name"});
         }
     }
 });
@@ -59,7 +59,7 @@ var createTables = function () {
 
                 DB.createTable("stepFather", function () {
                     this.primaryKey("id");
-                    this.name(String, {unique:true});
+                    this.name(String, {unique: true});
                 })
             );
         },
@@ -67,8 +67,8 @@ var createTables = function () {
             return DB.createTable("child", function () {
                 this.primaryKey("id");
                 this.name(String);
-                this.foreignKey("biologicalFatherId", "biologicalFather", {key:"id"});
-                this.foreignKey("stepFatherId", "stepFather", {key:"name", type:String});
+                this.foreignKey("biologicalFatherId", "biologicalFather", {key: "id"});
+                this.foreignKey("stepFatherId", "stepFather", {key: "name", type: String});
             });
         },
         comb.hitch(patio, "syncModels")
@@ -77,77 +77,78 @@ var createTables = function () {
 };
 
 var createData = function () {
-    return comb.when(
-        BiologicalFather.save([
-            {name:"Fred", children:[
-                {name:"Bobby"},
-                {name:"Alice"},
-                {name:"Susan"}
+    return BiologicalFather
+        .save([
+            {name: "Fred", children: [
+                {name: "Bobby"},
+                {name: "Alice"},
+                {name: "Susan"}
             ]},
-            {name:"Ben"},
-            {name:"Bob"},
-            {name:"Scott", children:[
-                {name:"Brad"}
-            ]}
-        ]),
-        //you could associate the children directly but we wont for this example
-        StepFather.save([
-            {name:"Fred", children:[
-                {name:"Bobby"},
-                {name:"Alice"},
-                {name:"Susan"}
-            ]},
-            {name:"Ben"},
-            {name:"Bob"},
-            {name:"Scott", children:[
-                {name:"Brad"}
+            {name: "Ben"},
+            {name: "Bob"},
+            {name: "Scott", children: [
+                {name: "Brad"}
             ]}
         ])
-    );
+        .chain(function () {
+            //you could associate the children directly but we wont for this example
+            return StepFather.save([
+                {name: "Fred", children: [
+                    {name: "Bobby"},
+                    {name: "Alice"},
+                    {name: "Susan"}
+                ]},
+                {name: "Ben"},
+                {name: "Bob"},
+                {name: "Scott", children: [
+                    {name: "Brad"}
+                ]}
+            ])
+        })
 }
 
 
-createTables().chain(createData, disconnectError).then(function () {
-    comb.serial([
-        function () {
-            return BiologicalFather.forEach(function (father) {
-                //you use a promise now because this is not an
-                //executeInOrderBlock
-                return father.children.then(function (children) {
-                    console.log("Father " + father.name + " has " + children.length + " children");
-                    if (children.length) {
-                        console.log("The children's names are " + children.map(function (child) {
-                            return child.name;
-                        }));
-                    }
+createTables()
+    .chain(createData)
+    .chain(function () {
+        return comb.serial([
+            function () {
+                return BiologicalFather.forEach(function (father) {
+                    //you use a promise now because this is not an
+                    //executeInOrderBlock
+                    return father.children.chain(function (children) {
+                        console.log("Father " + father.name + " has " + children.length + " children");
+                        if (children.length) {
+                            console.log("The children's names are " + children.map(function (child) {
+                                return child.name;
+                            }));
+                        }
+                    });
                 });
-            });
-        },
-        function () {
-            return StepFather.forEach(function (father) {
-                //you use a promise now because this is not an
-                //executeInOrderBlock
-                return father.children.then(function (children) {
-                    console.log("Step father " + father.name + " has " + children.length + " children");
-                    if (children.length) {
-                        console.log("The children's names are " + children.map(function (child) {
-                            return child.name;
-                        }));
-                    }
+            },
+            function () {
+                return StepFather.forEach(function (father) {
+                    //you use a promise now because this is not an
+                    //executeInOrderBlock
+                    return father.children.chain(function (children) {
+                        console.log("Step father " + father.name + " has " + children.length + " children");
+                        if (children.length) {
+                            console.log("The children's names are " + children.map(function (child) {
+                                return child.name;
+                            }));
+                        }
+                    });
                 });
-            });
-        },
-        function () {
-            var ret = new comb.Promise();
-            Child.findById(1).then(function (child) {
-                child.biologicalFather.then(function (father) {
-                    console.log("%s biological father is %s", child.name, father.name);
-                    ret.callback();
-                }, ret);
-            }, ret);
-            return ret;
-        }
-    ]).then(disconnect, disconnectError);
-}, disconnectError);
+            },
+            function () {
+                return Child.findById(1).chain(function (child) {
+                    return child.biologicalFather.chain(function (father) {
+                        console.log("%s biological father is %s", child.name, father.name);
+                    });
+                });
+            }
+        ])
+    })
+    .chain(disconnect, disconnectError);
 
 

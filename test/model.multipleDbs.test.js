@@ -11,41 +11,41 @@ var gender = ["M", "F"];
 
 var DB1, DB2;
 var createTablesAndSync = function () {
-    var ret = new comb.Promise();
-    comb.when(
+    return comb.when(
         DB1.forceCreateTable("employee", function () {
             this.primaryKey("id");
-            this.firstname("string", {length:20, allowNull:false});
-            this.lastname("string", {length:20, allowNull:false});
-            this.midinitial("char", {length:1});
+            this.firstname("string", {length: 20, allowNull: false});
+            this.lastname("string", {length: 20, allowNull: false});
+            this.midinitial("char", {length: 1});
             this.position("integer");
-            this.gender("char", {size : 1});
-            this.street("string", {length:50, allowNull:false});
-            this.city("string", {length:20, allowNull:false});
+            this.gender("char", {size: 1});
+            this.street("string", {length: 50, allowNull: false});
+            this.city("string", {length: 20, allowNull: false});
         }),
         DB2.forceCreateTable("employee", function () {
             this.primaryKey("id");
-            this.firstname("string", {length:20, allowNull:false});
-            this.lastname("string", {length:20, allowNull:false});
-            this.midinitial("char", {length:1});
+            this.firstname("string", {length: 20, allowNull: false});
+            this.lastname("string", {length: 20, allowNull: false});
+            this.midinitial("char", {length: 1});
             this.position("integer");
-            this.gender("char", {size : 1});
-            this.street("string", {length:50, allowNull:false});
-            this.city("string", {length:20, allowNull:false});
+            this.gender("char", {size: 1});
+            this.street("string", {length: 50, allowNull: false});
+            this.city("string", {length: 20, allowNull: false});
         })
-    ).chain(patio.syncModels, ret).then(ret);
-    return ret;
-
+    ).chain(patio.syncModels);
 };
 
-var dropTableAndDisconnect
-    = function () {
-    return comb.executeInOrder(patio, DB1, DB2, function (patio, db1, db2) {
-        db1.forceDropTable("employee");
-        db2.forceDropTable("employee");
-        patio.disconnect();
-        patio.resetIdentifierMethods();
-    });
+var dropTableAndDisconnect = function () {
+    return DB1.forceDropTable("employee")
+        .chain(function () {
+            return DB2.forceDropTable("employee");
+        })
+        .chain(function () {
+            return patio.disconnect();
+        })
+        .chain(function () {
+            return patio.resetIdentifierMethods();
+        });
 };
 
 
@@ -57,18 +57,18 @@ it.describe("Models from mutliple databases", function (it) {
         DB1 = patio.connect(config.DB_URI + "/sandbox");
         DB2 = patio.connect(config.DB_URI + "/sandbox2");
         Employee = patio.addModel((ds1 = DB1.from("employee")), {
-            "static":{
+            "static": {
                 //class methods
-                findByGender:function (gender, callback, errback) {
-                    return this.filter({gender:gender}).all();
+                findByGender: function (gender, callback, errback) {
+                    return this.filter({gender: gender}).all();
                 }
             }
         });
         Employee2 = patio.addModel((ds2 = DB2.from("employee")), {
-            "static":{
+            "static": {
                 //class methods
-                findByGender:function (gender, callback, errback) {
-                    return this.filter({gender:gender}).all();
+                findByGender: function (gender, callback, errback) {
+                    return this.filter({gender: gender}).all();
                 }
             }
         });
@@ -79,21 +79,21 @@ it.describe("Models from mutliple databases", function (it) {
     it.beforeEach(function () {
 
         emp1 = new Employee({
-            firstname:"doug",
-            lastname:"martin",
-            position:1,
-            midinitial:null,
-            gender:"M",
-            street:"1 nowhere st.",
-            city:"NOWHERE"});
+            firstname: "doug",
+            lastname: "martin",
+            position: 1,
+            midinitial: null,
+            gender: "M",
+            street: "1 nowhere st.",
+            city: "NOWHERE"});
         emp2 = new Employee2({
-            firstname:"doug1",
-            lastname:"martin1",
-            position:1,
-            midinitial:null,
-            gender:"F",
-            street:"2 nowhere st.",
-            city:"NOWHERE2"});
+            firstname: "doug1",
+            lastname: "martin1",
+            position: 1,
+            midinitial: null,
+            gender: "F",
+            street: "2 nowhere st.",
+            city: "NOWHERE2"});
         return comb.serial([
             function () {
                 return comb.when(Employee.remove(), Employee2.remove());
@@ -111,7 +111,7 @@ it.describe("Models from mutliple databases", function (it) {
     });
 
 
-    it.should("save models to respective databases", function (next) {
+    it.should("save models to respective databases", function () {
         assert.instanceOf(emp1, Employee);
         assert.equal("doug", emp1.firstname);
         assert.equal("martin", emp1.lastname);
@@ -128,48 +128,44 @@ it.describe("Models from mutliple databases", function (it) {
         assert.equal("2 nowhere st.", emp2.street);
         assert.equal("NOWHERE2", emp2.city);
 
-        comb.when(Employee.count(), Employee2.count()).then(function (res) {
+        return comb.when(Employee.count(), Employee2.count()).chain(function (res) {
             assert.equal(res[0], 1);
             assert.equal(res[1], 1);
-            next();
-        }, next);
+        });
     });
 
-    it.should("retrieve models from respective database", function (next) {
-        comb.when(Employee.all(), Employee2.all()).then(function (res) {
-            var emps1 = res[0], emps2 = res[1];
-            assert.lengthOf(emps1, 1);
-            assert.lengthOf(emps2, 1);
-            next();
-        }, next);
+    it.should("retrieve models from respective database", function () {
+        return comb.when(Employee.all(), Employee2.all()).chain(function (res) {
+            assert.lengthOf(res[0], 1);
+            assert.lengthOf(res[1], 1);
+        });
     });
 
-    it.should("remove models from respective databases", function (next) {
-        comb.when(Employee.all(), Employee2.all()).then(function (res) {
-            var emps1 = res[0], emps2 = res[1];
-            assert.lengthOf(emps1, 1);
-            assert.lengthOf(emps2, 1);
-            Employee.remove().then(function () {
-                comb.when(Employee.all(), Employee2.all()).then(function (res) {
-                    var emps1 = res[0], emps2 = res[1];
-                    assert.lengthOf(emps1, 0);
-                    assert.lengthOf(emps2, 1);
-                    Employee2.remove().then(function () {
-                        comb.when(Employee.all(), Employee2.all()).then(function (res) {
-                            var emps1 = res[0], emps2 = res[1];
-                            assert.lengthOf(emps1, 0);
-                            assert.lengthOf(emps2, 0);
-                            next();
-                        }, next);
-                    }, next);
-                }, next);
-            }, next);
-        }, next);
+    it.should("remove models from respective databases", function () {
+        return comb.when(Employee.all(), Employee2.all())
+            .chain(function (res) {
+                assert.lengthOf(res[0], 1);
+                assert.lengthOf(res[1], 1);
+                return Employee.remove();
+            })
+            .chain(function () {
+                return comb.when(Employee.all(), Employee2.all());
+            })
+            .chain(function (res) {
+                assert.lengthOf(res[0], 0);
+                assert.lengthOf(res[1], 1);
+                return Employee2.remove();
+            })
+            .chain(function () {
+                return comb.when(Employee.all(), Employee2.all());
+            })
+            .chain(function (res) {
+                assert.lengthOf(res[0], 0);
+                assert.lengthOf(res[1], 0);
+            });
+        ;
     });
 
     it.afterAll(dropTableAndDisconnect);
 
-}).as(module);
-
-
-
+});

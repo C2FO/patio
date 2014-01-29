@@ -376,39 +376,39 @@ var User = DB.from(&quot;user&quot;);</code></pre>
 <h3>Using a Primary Key</h3>
 <p>The <a href="./patio_Model.html#.findById">findById</a> is the easiest method to use to find a model instance by its primary key value:</p>
 <pre class='prettyprint linenums lang-js'><code>// Find user with primary key (id) 1
-User.findById(1).then(function(user){
+User.findById(1).chain(function(user){
     // SELECT * FROM user WHERE id = 1
 }, errorHandler);</code></pre>
 <p><strong>Note</strong> If there is no record with the given primary key, the promise will resolve with null.</p>
 <h3><a href="./patio_Dataset.html#first">first</a></h3>
 <p>If you just want the first record in the dataset use <a href="./patio_Dataset.html#first">first</a>.</p>
-<pre class='prettyprint linenums lang-js'><code>User.first().then(function(user){
+<pre class='prettyprint linenums lang-js'><code>User.first().chain(function(user){
     // SELECT * FROM user LIMIT 1
 }, errorHandler);</code></pre>
 <p>Any options you pass to first will be used as a filter:</p>
-<pre class='prettyprint linenums lang-js'><code>User.first({name : &#39;Bob&#39;}).then(function(bob){
+<pre class='prettyprint linenums lang-js'><code>User.first({name : &#39;Bob&#39;}).chain(function(bob){
     // SELECT * FROM user WHERE (name = &#39;Bob&#39;) LIMIT 1
 }, errorHandler);
 var sql = patio.sql;
-User.first(sql.name.like(&#39;B%&#39;)).then(function(user){
+User.first(sql.name.like(&#39;B%&#39;)).chain(function(user){
     // SELECT * FROM user WHERE (name LIKE &#39;B%&#39;) LIMIT 1
 }, errorHandler);</code></pre>
 <h3><a href="./patio_Dataset.html#last">last</a></h3>
 <p>If you want the last record in the dataset use <a href="./patio_Dataset.html#last">last</a>.</p>
 <p><strong>Note:</strong> last will throws an Error if there is no order on the dataset. Because otherwise it would provide the same record as first, and most users would find that confusing.</p>
 <p><strong>Note:</strong> that last is not necessarily going to give you the last record in the dataset unless you give the dataset an unambiguous order.</p>
-<pre class='prettyprint linenums lang-js'><code> User.order(&quot;name&quot;).last().then(function(user){
+<pre class='prettyprint linenums lang-js'><code> User.order(&quot;name&quot;).last().chain(function(user){
      // SELECT * FROM user ORDER BY name DESC LIMIT 1
 }, errorHandler);</code></pre>
 <h3><a href="./patio_Dataset.html#get">get</a></h3>
 <p>Sometimes, instead of wanting an entire row, you only want the value of a specific column. For this <a href="./patio_Dataset.html#get">get</a> is the method you want:</p>
-<pre class='prettyprint linenums lang-js'><code>User.get(&quot;name&quot;).then(function(name){
+<pre class='prettyprint linenums lang-js'><code>User.get(&quot;name&quot;).chain(function(name){
     // SELECT name FROM user LIMIT 1
 }, errorHandler);</code></pre>
 <h2>Reading Multiple Records</h2>
 <h3><a href="./patio_Dataset.html#all">all</a></h3>
 <p>If you want an array of all of the rows associated with the dataset you should use the <a href="./patio_Dataset.html#all">all</a> method:</p>
-<pre class='prettyprint linenums lang-js'><code>User.all().then(function(users){
+<pre class='prettyprint linenums lang-js'><code>User.all().chain(function(users){
     // SELECT * FROM user
 }, errorHandlers);</code></pre>
 <h3>Array methods</h3>
@@ -427,7 +427,7 @@ var forEachPromise = User.forEach(function(user){
     if(user.isVerified){
         return user.update({isVerified : false});
     }
-}).then(function(){
+}).chain(function(){
     //all user updated
 }, errorHandler);</code></pre>
 <p><a href="./patio_Dataset.html#map">map</a>  is like <a href="./patio_Dataset.html#forEach">forEach</a> except that whatever is returning from the block is what the promise is resolved with, as opposed to forEach which always resolves with the original 
@@ -435,7 +435,7 @@ rows.</p>
 <pre class='prettyprint linenums lang-js'><code>// SELECT * FROM user
 User.map(function(user){
     return user.name;
-}).then(function(userNames){
+}).chain(function(userNames){
     console.log(userNames);
 }, errorHandler);</code></pre>
 <p>If you return a promise from the mapping function then the promise from map will not resolve until each promise has resolved.</p>
@@ -444,42 +444,42 @@ var mapPromise = User.map(function(user){
     return Blogs.filter({userId : userId}).map(function(blog){
           return blog.title;
     });
-}).then(function(userBlogTitles){
+}).chain(function(userBlogTitles){
     userBlogTitles.forEach(function(blogTitles){
         console.log(blogTitles);
     });
 }, errorHandler);</code></pre>
 <p><a href="./patio_Dataset.html#map">map</a> method also can take an arugment other than a function this is useful if you just want to select a list of column values.</p>
-<pre class='prettyprint linenums lang-js'><code>User.map(&quot;name&quot;).then(function(userNames){
+<pre class='prettyprint linenums lang-js'><code>User.map(&quot;name&quot;).chain(function(userNames){
     // SELECT * FROM user
 }, errorHandler);</code></pre>
 <h3><a href="./patio_Dataset.html#selectMap">selectMap</a></h3>
-<pre class='prettyprint linenums lang-js'><code>User.selectMap(&quot;name&quot;).then(function(names){
+<pre class='prettyprint linenums lang-js'><code>User.selectMap(&quot;name&quot;).chain(function(names){
     // SELECT name FROM user
 }, errorHandler);</code></pre>
 <h3><a href="./patio_Dataset.html#selectOrderMap">selectOrderMap</a></h3>
-<pre class='prettyprint linenums lang-js'><code>User.selectOrderMap(&quot;name&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code>User.selectOrderMap(&quot;name&quot;).chain(function(){
     // SELECT name FROM user ORDER BY name
 }, errorHandler);</code></pre>
 <h3><a href="./patio_Dataset.html#toHash">toHash</a></h3>
 <p>patio makes it easy to take an SQL query and return it as a plain object, using the <a href="./patio_Dataset.html">toHash</a> method:</p>
-<pre class='prettyprint linenums lang-js'><code>User.toHash(&quot;name&quot;, &quot;id&quot;).then(function(nameIdMap){
+<pre class='prettyprint linenums lang-js'><code>User.toHash(&quot;name&quot;, &quot;id&quot;).chain(function(nameIdMap){
     // SELECT * FROM user
     //{&quot;Bob Yukon&quot;:1,&quot;Suzy Yukon&quot;:2}
 }, errorHandler);</code></pre>
 <p>The <a href="./patio_Dataset.html#toHash">toHash</a> method uses the first column as the key and the second column as the value. So if you swap the two arguments the hash will have its keys and values transposed:</p>
-<pre class='prettyprint linenums lang-js'><code>User.toHash(&quot;id&quot;, &quot;name&quot;).then(function(nameIdMap){
+<pre class='prettyprint linenums lang-js'><code>User.toHash(&quot;id&quot;, &quot;name&quot;).chain(function(nameIdMap){
     // SELECT * FROM user
     //{&quot;1&quot;:&quot;Bob Yukon&quot;,&quot;2&quot;:&quot;Suzy Yukon&quot;}
 }, errorHandler);</code></pre>
 <p>If you provide only one argument to <a href="./patio_Dataset.html#toHash">toHash</a>, it uses the entire object or model object as the value:</p>
-<pre class='prettyprint linenums lang-js'><code>Users.toHash(&quot;name&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code>Users.toHash(&quot;name&quot;).chain(function(){
     // SELECT * FROM user
     //{&quot;Bob Yukon&quot;:{&quot;name&quot;:&quot;Bob Yukon&quot;},&quot;Suzy Yukon&quot;:{&quot;name&quot;:&quot;Suzy Yukon&quot;}}
 }):</code></pre>
 <h3><a href="./patio_Dataset.html#selectHash">selectHash</a></h3>
 <p><strong>Note</strong>: <a href="./patio_Dataset.html#toHash">toHash</a> selects all columns. However, <a href="./patio_Dataset.html#selectHash">selectHash</a> will only select the columns specified.</p>
-<pre class='prettyprint linenums lang-js'><code>User.selectHash(&quot;name&quot;, &quot;id&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code>User.selectHash(&quot;name&quot;, &quot;id&quot;).chain(function(){
     // SELECT name, id FROM user
     //{bob : 1, suzy : 2}
 });</code></pre>
@@ -644,7 +644,7 @@ User.select(&quot;id&quot;, &quot;name&quot;);</code></pre>
 <p><strong>NOTE:</strong> If you are dealing with Model objects, you&#39;ll want to include the primary key if you want to update or remove the object. You&#39;ll also want to include any keys (primary or foreign) related to associations you plan to use.</p>
 <p><strong>NOTE:</strong> If a column is not selected, and you attempt to access it, you will get null:</p>
 <pre class='prettyprint linenums lang-js'><code>// SELECT name FROM user LIMIT 1                    
-User.select(&quot;name&quot;).first().then(function(user){
+User.select(&quot;name&quot;).first().chain(function(user){
     //user.id === null                    
 });</code></pre>
 <p>select replaces any columns previously selected.</p>
@@ -824,13 +824,13 @@ DB.from(&quot;user&quot;).from(&quot;oldUser&quot;);
  DB.from(&quot;user&quot;).withSql(&quot;SELECT * FROM user WHERE id = {id}&quot;, {id : 5});</code></pre>
 <h2>Checking for Records</h2>
 <p>To test if there are any records in the database use the isEmpty method</p>
-<pre class='prettyprint linenums lang-js'><code> User.isEmpty().then(function(isEmpty){
+<pre class='prettyprint linenums lang-js'><code> User.isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user LIMIT 1
  }, errorHandler);
- User.filter({id : 0}).isEmpty().then(function(isEmpty){
+ User.filter({id : 0}).isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user WHERE id = 0 LIMIT 1
  },errorHandler);
- User.filter(sql.name.like(&#39;B%&#39;)).isEmpty().then(function(isEmpty){
+ User.filter(sql.name.like(&#39;B%&#39;)).isEmpty().chain(function(isEmpty){
     // SELECT 1 FROM user WHERE name LIKE &#39;B%&#39; LIMIT 1
  },errorHandler);</code></pre>
 <h2>Aggregate Calculations</h2>
@@ -838,31 +838,31 @@ DB.from(&quot;user&quot;).from(&quot;oldUser&quot;);
 <ul>
 <li><a href="./patio_Dataset.html#count">count</a> : count just returns the number of records in the dataset.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> User.count().then(function(count){
+<pre class='prettyprint linenums lang-js'><code> User.count().chain(function(count){
     // SELECT COUNT(*) AS count FROM user LIMIT 1
  });</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#sum">sum</a> : makes a sum aggregate function call for the column.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> User.sum(&quot;id&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code> User.sum(&quot;id&quot;).chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#avg">avg</a>: makes a avg aggregate function call for the column.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> User.avg(&quot;id&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code> User.avg(&quot;id&quot;).chain(function(){
     // SELECT avg(id) FROM user LIMIT 1
  });</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#min">min</a> : makes a min aggregate function call for the column.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> User.min(&quot;id&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code> User.min(&quot;id&quot;).chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });</code></pre>
 <ul>
 <li><a href="./patio_Dataset.html#max">max</a>: makes a max aggregate function call for the column.</li>
 </ul>
-<pre class='prettyprint linenums lang-js'><code> User.max(&quot;id&quot;).then(function(){
+<pre class='prettyprint linenums lang-js'><code> User.max(&quot;id&quot;).chain(function(){
     // SELECT sum(id) FROM user LIMIT 1
  });</code></pre>
 

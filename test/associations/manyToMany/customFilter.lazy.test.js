@@ -7,11 +7,10 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
-
 var gender = ["M", "F"];
 var cities = ["Omaha", "Lincoln", "Kearney"];
 
-it.describe("Many to Many lazy with filter",function (it) {
+it.describe("Many to Many lazy with filter", function (it) {
 
 
     var Company, Employee;
@@ -57,7 +56,7 @@ it.describe("Many to Many lazy with filter",function (it) {
 
     it.describe("creating a model with associations", function (it) {
 
-        it.should("it should save the associations", function (next) {
+        it.should("it should save the associations", function () {
             var employees = [];
             for (var i = 0; i < 3; i++) {
                 employees.push({
@@ -73,8 +72,8 @@ it.describe("Many to Many lazy with filter",function (it) {
                 companyName: "Google",
                 employees: employees
             });
-            c1.save().then(function () {
-                comb.executeInOrder(Company,
+            return c1.save().chain(function () {
+                return comb.executeInOrder(Company,
                     function (Company) {
                         var company = Company.one();
                         return {
@@ -82,7 +81,7 @@ it.describe("Many to Many lazy with filter",function (it) {
                             omahaEmployees: company.omahaEmployees,
                             lincolnEmployees: company.lincolnEmployees
                         };
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                         var emps = ret.employees;
                         assert.lengthOf(ret.employees, 3);
                         assert.lengthOf(ret.omahaEmployees, 1);
@@ -93,34 +92,31 @@ it.describe("Many to Many lazy with filter",function (it) {
                         assert.isTrue(ret.lincolnEmployees.every(function (emp) {
                             return emp.city.match(/lincoln/i) !== null;
                         }));
-                        next();
-                    }, next);
-            }, next);
+                    });
+            });
         });
 
-        it.should("have child associations when queried", function (next) {
-            Company.one().then(function (company) {
-                company.employees.then(function (emps) {
+        it.should("have child associations when queried", function () {
+            return Company.one().chain(function (company) {
+                return company.employees.chain(function (emps) {
                     assert.lengthOf(emps, 3);
-                    next();
-                }, next);
-            }, next);
+                });
+            });
         });
 
-        it.should("the child associations should also be associated to the parent ", function (next) {
-            comb.executeInOrder(assert, Employee,function (assert, Employee) {
+        it.should("the child associations should also be associated to the parent ", function () {
+            return comb.executeInOrder(assert, Employee,function (assert, Employee) {
                 var emps = Employee.all();
                 assert.lengthOf(emps, 3);
                 return {companies1: emps[0].companies, companies2: emps[1].companies};
-            }).then(function (ret) {
+            }).chain(function (ret) {
                     assert.isTrue(ret.companies1.every(function (c) {
                         return c.companyName === "Google";
                     }));
                     assert.isTrue(ret.companies2.every(function (c) {
                         return c.companyName === "Google";
                     }));
-                    next();
-                }, next);
+                });
         });
 
     });
@@ -134,8 +130,8 @@ it.describe("Many to Many lazy with filter",function (it) {
             });
         });
 
-        it.should("have an add method for filtered datasets", function (next) {
-            Company.one().then(function (company) {
+        it.should("have an add method for filtered datasets", function () {
+            return Company.one().chain(function (company) {
                 var lincolnEmp = new Employee({
                     lastname: "last",
                     firstname: "first",
@@ -152,19 +148,18 @@ it.describe("Many to Many lazy with filter",function (it) {
                     street: "Street",
                     city: "Omaha"
                 });
-                comb.executeInOrder(company,function (company) {
+                return comb.executeInOrder(company,function (company) {
                     company.addOmahaEmployee(omahaEmp);
                     company.addLincolnEmployee(lincolnEmp);
                     return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
-                }).then(function (ret) {
+                }).chain(function (ret) {
                         assert.lengthOf(ret.omahaEmployees, 1);
                         assert.lengthOf(ret.lincolnEmployees, 1);
-                        next();
                     });
-            }, next);
+            });
         });
 
-        it.should("have a add multiple method for filtered associations", function (next) {
+        it.should("have a add multiple method for filtered associations", function () {
             var omahaEmployees = [], lincolnEmployees = [];
             for (var i = 0; i < 3; i++) {
                 omahaEmployees.push({
@@ -186,45 +181,41 @@ it.describe("Many to Many lazy with filter",function (it) {
                     city: "Lincoln"
                 });
             }
-            comb.executeInOrder(Company,
-                function (Company) {
-                    var company = Company.one();
-                    company.addOmahaEmployees(omahaEmployees);
-                    company.addLincolnEmployees(lincolnEmployees);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
-                }).then(function (ret) {
+            return comb.executeInOrder(Company,function (Company) {
+                var company = Company.one();
+                company.addOmahaEmployees(omahaEmployees);
+                company.addLincolnEmployees(lincolnEmployees);
+                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
+            }).chain(function (ret) {
                     assert.lengthOf(ret.omahaEmployees, 3);
                     assert.lengthOf(ret.lincolnEmployees, 3);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("filter many to many relationship to itself", function (next) {
+        it.should("filter many to many relationship to itself", function () {
             var vendors = [], buyers = [];
             for (var i = 0; i < 3; i++) {
                 vendors.push({
-                    companyName:"company" + i
+                    companyName: "company" + i
                 });
             }
             for (i = 3; i < 6; i++) {
                 buyers.push({
-                    companyName:"company" + i
+                    companyName: "company" + i
                 });
             }
-            comb.executeInOrder(Company,
-                function (Company) {
-                    var company = Company.one();
-                    company.addBuyers(buyers);
-                    company.addVendors(vendors);
-                    return {vendors:company.vendorsDataset.filter({companyName:"company0"}).all(), buyers:company.buyers};
-                }).then(function (ret) {
-                    Company.findById(ret.vendors[0].id).then(function(vendor){
+            return comb.executeInOrder(Company,function (Company) {
+                var company = Company.one();
+                company.addBuyers(buyers);
+                company.addVendors(vendors);
+                return {vendors: company.vendorsDataset.filter({companyName: "company0"}).all(), buyers: company.buyers};
+            }).chain(function (ret) {
+                    return Company.findById(ret.vendors[0].id).chain(function (vendor) {
                         assert.lengthOf(ret.vendors, 1);
-                        assert.equal(ret.vendors[0].companyName,vendor.companyName);
+                        assert.equal(ret.vendors[0].companyName, vendor.companyName);
                         assert.lengthOf(ret.buyers, 3);
-                        next();
                     })
-                }, next);
+                });
         });
 
     });
@@ -249,80 +240,72 @@ it.describe("Many to Many lazy with filter",function (it) {
             });
         });
 
-        it.should("the removing of filtered associations and deleting them", function (next) {
-            comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployee(omahaEmps[0], true);
-                    company.removeLincolnEmployee(lincolnEmps[0], true);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).then(function (ret) {
+        it.should("the removing of filtered associations and deleting them", function () {
+            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one();
+                var omahaEmps = company.omahaEmployees;
+                var lincolnEmps = company.lincolnEmployees;
+                company.removeOmahaEmployee(omahaEmps[0], true);
+                company.removeLincolnEmployee(lincolnEmps[0], true);
+                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
+            }).chain(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
                     assert.lengthOf(lincolnEmps, 0);
                     assert.equal(ret.empCount, 1);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("the removing of filtered associations without deleting them", function (next) {
-            comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployee(omahaEmps[0]);
-                    company.removeLincolnEmployee(lincolnEmps[0]);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).then(function (ret) {
+        it.should("the removing of filtered associations without deleting them", function () {
+            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one();
+                var omahaEmps = company.omahaEmployees;
+                var lincolnEmps = company.lincolnEmployees;
+                company.removeOmahaEmployee(omahaEmps[0]);
+                company.removeLincolnEmployee(lincolnEmps[0]);
+                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
+            }).chain(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
                     assert.lengthOf(lincolnEmps, 0);
                     assert.equal(ret.empCount, 3);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("the removing of filtered associations and deleting them", function (next) {
-            comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployees(omahaEmps, true);
-                    company.removeLincolnEmployees(lincolnEmps, true);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).then(function (ret) {
+        it.should("the removing of filtered associations and deleting them", function () {
+            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one();
+                var omahaEmps = company.omahaEmployees;
+                var lincolnEmps = company.lincolnEmployees;
+                company.removeOmahaEmployees(omahaEmps, true);
+                company.removeLincolnEmployees(lincolnEmps, true);
+                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
+            }).chain(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
                     assert.lengthOf(lincolnEmps, 0);
                     assert.equal(ret.empCount, 1);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("the removing of filtered associations without deleting them", function (next) {
-            comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployees(omahaEmps);
-                    company.removeLincolnEmployees(lincolnEmps);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).then(function (ret) {
+        it.should("the removing of filtered associations without deleting them", function () {
+            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
+                var company = Company.one();
+                var omahaEmps = company.omahaEmployees;
+                var lincolnEmps = company.lincolnEmployees;
+                company.removeOmahaEmployees(omahaEmps);
+                company.removeLincolnEmployees(lincolnEmps);
+                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
+            }).chain(function (ret) {
                     var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
                     assert.lengthOf(omahaEmps, 0);
                     assert.lengthOf(lincolnEmps, 0);
                     assert.equal(ret.empCount, 3);
-                    next();
-                }, next);
+                });
         });
     });
 
     it.afterAll(function () {
         return helper.dropModels();
     });
-}).as(module);
+});

@@ -639,7 +639,7 @@ called after the model has been filtered</p>
     <pre class="prettyprint linenums lang-js">
 function (parent){
    var options = this.__opts || {};
-   var ds;
+   var ds, self = this;
    if (!isUndefined((ds = options.dataset)) &amp;&amp; isFunction(ds)) {
        ds = ds.apply(parent, [parent]);
    }
@@ -649,19 +649,22 @@ function (parent){
        ds = this.model.dataset.naked().filter(q);
        var recip = this.model._findAssociation(this);
        recip &amp;&amp; (recip = recip[1]);
-       ds.rowCb = hitch(this, function (item) {
-           var ret = new Promise();
-           var model = this._toModel(item, true);
+       ds.rowCb = function (item) {
+           var model = self._toModel(item, true);
            recip &amp;&amp; recip.__setValue(model, parent);
            //call hook to finish other model associations
-           return model._hook(&quot;post&quot;, &quot;load&quot;).chain(model);
-       });
+           return model._hook(&quot;post&quot;, &quot;load&quot;).chain(function () {
+               return model;
+           });
+       };
    } else if (!ds.rowCb &amp;&amp; this.model) {
-       ds.rowCb = hitch(this, function (item) {
-           var model = this._toModel(item, true);
+       ds.rowCb = function (item) {
+           var model = self._toModel(item, true);
            //call hook to finish other model associations
-           return model._hook(&quot;post&quot;, &quot;load&quot;).chain(model);
-       });
+           return model._hook(&quot;post&quot;, &quot;load&quot;).chain(function () {
+               return model;
+           });
+       };
    }
    return this._setDatasetOptions(ds);
            

@@ -953,16 +953,17 @@ pools to do any calls to reset a connection if it needs to be done.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (obj){
-   this.validate(obj).then(function (valid) {
+   var self = this;
+   this.validate(obj).chain(function (valid) {
        var index;
-       if (this.count &amp;lt;= this.__maxObjects &amp;&amp; valid &amp;&amp; (index = this.__inUseObjects.indexOf(obj)) &gt; -1) {
-           this.__inUseObjects.splice(index, 1);
-           this.__freeObjects.enqueue(obj);
-           this.__checkQueries();
+       if (self.count &amp;lt;= self.__maxObjects &amp;&amp; valid &amp;&amp; (index = self.__inUseObjects.indexOf(obj)) &gt; -1) {
+           self.__inUseObjects.splice(index, 1);
+           self.__freeObjects.enqueue(obj);
+           self.__checkQueries();
        } else {
-           this.removeObject(obj);
+           self.removeObject(obj);
        }
-   }.bind(this));
+   });
            
 }
     </pre>

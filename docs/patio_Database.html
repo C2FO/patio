@@ -1798,7 +1798,10 @@ toLowerCase
              </code></td><td><p>The default String or comb method to use transform identifiers with when
 they are retrieved from the database.</p>
 </td><tr><tr><td>inputIdentifierFunc</td><td>Function</td><td><code>function (){
-   return hitch(this.dataset, this.dataset.inputIdentifier);
+   var ds = this.dataset;
+   return function (ident) {
+       return ds.inputIdentifier(ident);
+   };
                
 }</code></td><td><p>Return a function for the dataset&#39;s <a href='./patio_Dataset.html#inputIdentifierMethod'> patio.Dataset#inputIdentifierMethod</a>.
 Used in metadata parsing to make sure the returned information is in the
@@ -1821,7 +1824,10 @@ correct format.</p>
 for this database.  Used when parsing metadata so that column are
 returned as expected.</p>
 </td><tr><tr><td>outputIdentifierFunc</td><td>Function</td><td><code>function (){
-   return hitch(this.dataset, this.dataset.outputIdentifier);
+   var ds = this.dataset;
+   return function (ident) {
+       return ds.outputIdentifier(ident);
+   };
                
 }</code></td><td><p>Return a function for the dataset&#39;s <a href='./patio_Dataset.html#outputIdentifierMethod'> patio.Dataset#outputIdentifierMethod</a>.
 Used in metadata parsing to make sure the returned information is in the
@@ -1884,7 +1890,7 @@ function (opts){
    this.defaultSchema = opts.defaultSchema || this.defaultSchemaDefault;
    this.preparedStatements = {};
    this.opts = opts;
-   this.pool = ConnectionPool.getPool(opts, this.createConnection.bind(this), this.closeConnection.bind(this), this.validate.bind(this));
+   this.pool = ConnectionPool.getPool(opts, hitch(this, this.createConnection), hitch(this, this.closeConnection), hitch(this, this.validate));
            
 }
             </pre>
@@ -2255,7 +2261,7 @@ function (){
     <pre class="prettyprint linenums lang-js">
 function (table,op){
    var ret = new Promise();
-   var quotedName = op.name ? this.__quoteIdentifier(op.name): null;
+   var quotedName = op.name ? this.__quoteIdentifier(op.name) : null;
    var alterTableOp = null;
    switch (op.op) {
    case &quot;addColumn&quot;:
@@ -2274,7 +2280,7 @@ function (table,op){
        alterTableOp = format(&quot;ALTER COLUMN %s SET DEFAULT %s&quot;, quotedName, this.literal(op[&quot;default&quot;]));
        break;
    case &quot;setColumnNull&quot;:
-       alterTableOp = format(&quot;ALTER COLUMN %s %s NOT NULL&quot;, quotedName, op[&quot;null&quot;] ? &quot;DROP&quot;: &quot;SET&quot;);
+       alterTableOp = format(&quot;ALTER COLUMN %s %s NOT NULL&quot;, quotedName, op[&quot;null&quot;] ? &quot;DROP&quot; : &quot;SET&quot;);
        break;
    case &quot;addIndex&quot;:
        return ret.callback(this.__indexDefinitionSql(table, op)).promise();
@@ -2331,7 +2337,10 @@ function (table,op){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (table,operations){
-   return new PromiseList(operations.map(hitch(this, &quot;__alterTableSql&quot;, table)));
+   var self = this;
+   return new PromiseList(operations.map(function (operation) {
+       return self.__alterTableSql(table, operation);
+   }));
            
 }
     </pre>
@@ -2419,7 +2428,12 @@ function (column){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (generator){
-   return generator.columns.map(hitch(this, &quot;__columnDefinitionSql&quot;)).concat(generator.constraints.map(hitch(this, &quot;__constraintDefinitionSql&quot;))).join(this._static.COMMA_SEPARATOR);
+   var self = this;
+   return generator.columns.map(function (column) {
+       return self.__columnDefinitionSql(column);
+   }).concat(generator.constraints.map(function (constraint) {
+           return self.__constraintDefinitionSql(constraint);
+       })).join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -2545,7 +2559,7 @@ function (column){
     <pre class="prettyprint linenums lang-js">
 function (constraint){
    return format(&quot;FOREIGN KEY %s%s&quot;, this.literal(constraint.columns.map(function (c) {
-       return isString(c) ? sql.stringToIdentifier(c): c;
+       return isString(c) ? sql.stringToIdentifier(c) : c;
    })), this.__columnReferencesSql(constraint));
            
 }
@@ -2586,15 +2600,15 @@ function (constraint){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (constraint){
-   var ret = [constraint.name ? format(&quot;CONSTRAINT %s &quot;, this.__quoteIdentifier(constraint.name)): &quot;&quot;];
+   var ret = [constraint.name ? format(&quot;CONSTRAINT %s &quot;, this.__quoteIdentifier(constraint.name)) : &quot;&quot;];
    switch (constraint.type) {
    case &quot;check&quot;:
        var check = constraint.check;
-       ret.push(format(&quot;CHECK %s&quot;, this.__filterExpr(isArray(check) &amp;&amp; check.length === 1 ? check[0]: check)));
+       ret.push(format(&quot;CHECK %s&quot;, this.__filterExpr(isArray(check) &amp;&amp; check.length === 1 ? check[0] : check)));
        break;
    case &quot;primaryKey&quot;:
        ret.push(format(&quot;PRIMARY KEY %s&quot;, this.literal(constraint.columns.map(function (c) {
-           return isString(c) ? sql.stringToIdentifier(c): c;
+           return isString(c) ? sql.stringToIdentifier(c) : c;
        }))));
        break;
    case &quot;foreignKey&quot;:
@@ -2602,7 +2616,7 @@ function (constraint){
        break;
    case &quot;unique&quot;:
        ret.push(format(&quot;UNIQUE %s&quot;, this.literal(constraint.columns.map(function (c) {
-           return isString(c) ? sql.stringToIdentifier(c): c;
+           return isString(c) ? sql.stringToIdentifier(c) : c;
        }))));
        break;
    default:
@@ -2697,15 +2711,21 @@ function (name,generator,options){
     <pre class="prettyprint linenums lang-js">
 function (name,generator,options){
    var e = options.ignoreIndexErrors;
-   var ret = new Promise();
+   var ret;
    var promises = generator.indexes.map(function (index) {
        var ps = this.__indexSqlList(name, [index]).map(this.executeDdl, this);
        return new PromiseList(ps);
    }, this);
    if (promises.length) {
-       new PromiseList(promises).then(ret, hitch(ret, e ? &quot;callback&quot;: &quot;errback&quot;));
+       ret = new PromiseList(promises).chain(function (res) {
+           return res;
+       }, function (err) {
+           if (!e) {
+               throw err;
+           }
+       });
    } else {
-       ret.callback();
+       ret = new Promise().callback();
    }
    return ret.promise();
            
@@ -2751,7 +2771,7 @@ function (name,generator,options){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,generator,options){
-   return format(&quot;CREATE %sTABLE %s (%s)&quot;, options.temp ? this.temporaryTableSql: &quot;&quot;, this.__quoteSchemaTable(name), this.__columnListSql(generator));
+   return format(&quot;CREATE %sTABLE %s (%s)&quot;, options.temp ? this.temporaryTableSql : &quot;&quot;, this.__quoteSchemaTable(name), this.__columnListSql(generator));
            
 }
     </pre>
@@ -2851,7 +2871,7 @@ function (tableName,columns){
    }
    index.push(table);
    index = index.concat(columns.map(function (c) {
-       return isString(c) ? c: this.literal(c).replace(/\W/g, &quot;&quot;);
+       return isString(c) ? c : this.literal(c).replace(/\W/g, &quot;&quot;);
    }, this));
    index.push(&quot;index&quot;);
    return index.join(this._static.UNDERSCORE);
@@ -2967,8 +2987,6 @@ function (name){
     
         <li> <em>name</em>  : </li>
     
-        <li> <em>opts</em>  : </li>
-    
      </ul>
 
 
@@ -2977,8 +2995,8 @@ function (name){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (name,opts){
-   return format(&quot;DROP VIEW %s&quot;, this.__quoteSchemaTable(name))
+function (name){
+   return format(&quot;DROP VIEW %s&quot;, this.__quoteSchemaTable(name));
            
 }
     </pre>
@@ -3069,8 +3087,8 @@ function (tableName,index){
    } else if (index.where) {
        throw new DatabaseError(&quot;Partial indexes are not supported for this database&quot;);
    } else {
-       return format(&quot;CREATE %sINDEX %s ON %s %s&quot;, index.unique ? &quot;UNIQUE &quot;: &quot;&quot;, this.__quoteIdentifier(indexName), this.__quoteSchemaTable(tableName), this.literal(index.columns.map(function (c) {
-           return isString(c) ? new Identifier(c): c;
+       return format(&quot;CREATE %sINDEX %s ON %s %s&quot;, index.unique ? &quot;UNIQUE &quot; : &quot;&quot;, this.__quoteIdentifier(indexName), this.__quoteSchemaTable(tableName), this.literal(index.columns.map(function (c) {
+           return isString(c) ? new Identifier(c) : c;
        })));
    }
            
@@ -3116,7 +3134,10 @@ for the given table.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (tableName,indexes){
-   return indexes.map(hitch(this, this.__indexDefinitionSql, tableName));
+   var self = this;
+   return indexes.map(function (index) {
+       return self.__indexDefinitionSql(tableName, index);
+   });
            
 }
     </pre>
@@ -3434,7 +3455,7 @@ function (column){
    var type = column.type;
    var meth = &quot;__typeLiteralGeneric&quot;;
    var isStr = isString(type);
-   var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1): null;
+   var proper = isStr ? type.charAt(0).toUpperCase() + type.substr(1) : null;
    if (type === String || (isStr &amp;&amp; type.match(/string/i))) {
        meth += &quot;String&quot;;
    } else if ((isStr &amp;&amp; type.match(/number/i)) || type === Number) {
@@ -3752,7 +3773,7 @@ function (column){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column){
-   return column.size ? format(&quot;numeric(%s)&quot;, array.toArray(column.size).join(&#x27;, &#x27;)): column.isInt ? &quot;integer&quot;: column.isDouble ? &quot;double precision&quot;: &quot;numeric&quot;;
+   return column.size ? format(&quot;numeric(%s)&quot;, array.toArray(column.size).join(&#x27;, &#x27;)) : column.isInt ? &quot;integer&quot; : column.isDouble ? &quot;double precision&quot; : &quot;numeric&quot;;
            
 }
     </pre>
@@ -3792,7 +3813,7 @@ function (column){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (column){
-   return column.text ? &quot;text&quot;: format(&quot;%s(%s)&quot;, column.fixed ? &quot;char&quot;: &quot;varchar&quot;, column.size || 255);
+   return column.text ? &quot;text&quot; : format(&quot;%s(%s)&quot;, column.fixed ? &quot;char&quot; : &quot;varchar&quot;, column.size || 255);
            
 }
     </pre>
@@ -3953,12 +3974,12 @@ function (column){
     <pre class="prettyprint linenums lang-js">
 function (column){
    var type = column.type;
-   type = type === &quot;double&quot; ? &quot;double precision&quot;: type;
+   type = type === &quot;double&quot; ? &quot;double precision&quot; : type;
    if (type === &quot;varchar&quot;) {
-       column.size = isNumber(column.size) ? column.size: 255;
+       column.size = isNumber(column.size) ? column.size : 255;
    }
    var elements = column.size || column.elements;
-   return format(&quot;%s%s%s&quot;, type, elements ? this.literal(toArray(elements)): &quot;&quot;, column.unsigned ? &quot; UNSIGNED&quot;: &quot;&quot;);
+   return format(&quot;%s%s%s&quot;, type, elements ? this.literal(toArray(elements)) : &quot;&quot;, column.unsigned ? &quot; UNSIGNED&quot; : &quot;&quot;);
            
 }
     </pre>
@@ -4163,17 +4184,15 @@ DB.addIndex(&quot;test&quot;, [&quot;one&quot;, &quot;two&quot;]);
 function (table,columns,options){
    options = options || {};
    var ignoreErrors = options.ignoreErrors === true;
-   var ret = new Promise();
-   this.alterTable(table,function () {
+   return this.alterTable(table,function () {
        this.addIndex(columns, options);
-   }).then(ret, function (err) {
+   }).chain(function (res) {
+           return res;
+       }, function (err) {
            if (!ignoreErrors) {
-               ret.errback(err);
-           } else {
-               ret.callback();
+               throw err;
            }
        });
-   return ret.promise();
            
 }
     </pre>
@@ -4343,12 +4362,17 @@ function (name,generator,block){
        block = generator;
        generator = new AlterTableGenerator(this, block);
    }
-   var ret = new Promise();
+   var self = this;
    return this.__alterTableSqlList(name, generator.operations).chain(function (res) {
-       return asyncArray(comb(res).pluck(&quot;1&quot;).flatten()).forEach(function (sql) {
-           return this.executeDdl(sql);
-       }, this).chain(comb(&quot;removeCachedSchema&quot;).bindIgnore(this, name));
-   }.bind(this));
+       return asyncArray(comb(res).pluck(&quot;1&quot;)
+           .flatten())
+           .forEach(function (sql) {
+               return self.executeDdl(sql);
+           })
+           .chain(function () {
+               return self.removeCachedSchema(name);
+           });
+   });
            
 }
     </pre>
@@ -4408,7 +4432,7 @@ DB.castTypeLiteral(Number) //=&gt; numeric
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (type){
-   return this.typeLiteral({type:type});
+   return this.typeLiteral({type: type});
            
 }
     </pre>
@@ -4568,9 +4592,10 @@ function (name,source,opts){
    }
    opts = opts || {};
    opts.replace = true;
+   var self = this;
    return this.executeDdl(this.__createViewSql(name, source, opts)).chain(function () {
-       this.removeCachedSchema(name);
-   }.bind(this));
+       return self.removeCachedSchema(name);
+   });
            
 }
     </pre>
@@ -4674,9 +4699,10 @@ function (name,options,block){
    if (isInstanceOf(options, SchemaGenerator)) {
        options = {generator: options};
    }
-   var generator = options.generator || new SchemaGenerator(this, block);
-   return this.__createTableFromGenerator(name, generator, options)
-       .chain(comb(&quot;__createTableIndexesFromGenerator&quot;).bindIgnore(this, name, generator, options));
+   var generator = options.generator || new SchemaGenerator(this, block), self = this;
+   return this.__createTableFromGenerator(name, generator, options).chain(function () {
+       return self.__createTableIndexesFromGenerator(name, generator, options);
+   });
            
 }
     </pre>
@@ -4726,12 +4752,12 @@ function (name,options,block){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,options,block){
-   var ret = new Promise();
+   var self = this;
    return this.tableExists(name).chain(function (exists) {
        if (!exists) {
-           return this.createTable(name, options, block);
+           return self.createTable(name, options, block);
        }
-   }.bind(this));
+   });
            
 }
     </pre>
@@ -4835,7 +4861,14 @@ function (name,source,opts){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return this.pool.endAll().then(this.onDisconnect.bind(this, this));
+   var self = this;
+   return this.pool.endAll()
+       .chain(function () {
+           return self.onDisconnect(self);
+       })
+       .chain(function () {
+           return null;
+       });
            
 }
     </pre>
@@ -5044,15 +5077,15 @@ function (names){
    if (!isArray(names)) {
        names = comb(arguments).toArray();
    }
-   return serial(names.filter(function (t) {
+   names = names.filter(function (t) {
        return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
-   }).map(function (name) {
-           return function () {
-               return this.executeDdl(this.__dropTableSql(name)).chain(function () {
-                   return this.removeCachedSchema(name);
-               }.bind(this));
-           }.bind(this);
-       }.bind(this)));
+   });
+   var self = this;
+   return asyncArray(names).forEach(function (name) {
+       return self.executeDdl(self.__dropTableSql(name)).chain(function () {
+           return self.removeCachedSchema(name);
+       });
+   }, 1);
            
 }
     </pre>
@@ -5124,7 +5157,9 @@ function (names,opts){
            return self.executeDdl(self.__dropViewSql(name, opts)).chain(function () {
                self.removeCachedSchema(name);
            });
-       }, null, 1).chain(null);
+       }, null, 1).chain(function () {
+               return null;
+           });
    } else {
        var args = argsToArray(arguments);
        if (comb.isHash(args[args.length - 1])) {
@@ -5361,7 +5396,7 @@ it is used to iterate over the records:</p>
 </pre>
 If a block is not given then <a href='./patio_Database.html#fetch'> patio.Database#fetch</a> method returns a <a href='./patio_Dataset.html#'> patio.Dataset</a> instance:
 <pre class="code">
-  DB.fetch('SELECT * FROM items').all().then(function(records){
+  DB.fetch('SELECT * FROM items').all().chain(function(records){
      //do something with the records.
   });
 </pre>
@@ -5369,7 +5404,7 @@ If a block is not given then <a href='./patio_Database.html#fetch'> patio.Databa
 <p><a href='./patio_Database.html#fetch'> patio.Database#fetch</a> can also perform parameterized queries for protection against SQL
 injection:</p>
 <pre class="code">
-  DB.fetch('SELECT * FROM items WHERE name = ?', myName).all().then(function(records){
+  DB.fetch('SELECT * FROM items WHERE name = ?', myName).all().chain(function(records){
      //do something with the records.
   });
 </pre>
@@ -5406,18 +5441,18 @@ and processed through the block.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (args,block){
-   var ret = new Promise();
+   var ret;
    args = argsToArray(arguments);
    block = isFunction(args[args.length - 1]) ? args.pop() : null;
    var ds = this.dataset.withSql.apply(this.dataset, args);
    if (block) {
-       ds.forEach(block).then(function () {
-           ret.callback(ds);
-       }, ret);
-       return ret.promise();
+       ret = ds.forEach(block).chain(function () {
+           return ds;
+       }).promise();
    } else {
-       return ds;
+       ret = ds;
    }
+   return ret;
            
 }
     </pre>
@@ -5477,7 +5512,10 @@ function (args,block){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,options,block){
-   return this.dropTable(name).chainBoth(comb(&quot;createTable&quot;).bindIgnore(this, name, options, block));
+   var self = this;
+   return this.dropTable(name).chainBoth(function () {
+       return self.createTable(name, options, block);
+   });
            
 }
     </pre>
@@ -5539,25 +5577,24 @@ DB.dropTable(&quot;a&quot;, &quot;bb&quot;, &quot;ccc&quot;);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (names){
-   var ret = new Promise();
    if (!isArray(names)) {
        names = comb(arguments).toArray();
    }
    names = names.filter(function (t) {
        return isString(t) || isInstanceOf(t, Identifier, QualifiedIdentifier);
    });
-   var l = names.length;
+   var l = names.length, ret = new Promise(), self = this;
    var drop = function (i) {
        if (i &amp;lt; l) {
            var name = names[i++];
-           this.executeDdl(this.__dropTableSql(name)).both(hitch(this, function () {
-               this.removeCachedSchema(name);
+           self.executeDdl(self.__dropTableSql(name)).both(function () {
+               self.removeCachedSchema(name);
                drop(i);
-           }));
+           });
        } else {
            ret.callback();
        }
-   }.bind(this);
+   };
    drop(0);
    return ret.promise();
            
@@ -5700,7 +5737,7 @@ function (){
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-DB.indexes(&quot;artists&quot;).then(function(indexes){
+DB.indexes(&quot;artists&quot;).chain(function(indexes){
     //e.g. indexes === {artists_name_ukey : {columns : [name], unique : true}};
   })
         </pre>
@@ -6031,7 +6068,7 @@ function (){
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-DB.schema(&quot;artists&quot;).then(function(){
+DB.schema(&quot;artists&quot;).chain(function(){
      DB.removeCachedSchema(&quot;artists&quot;);
 });
         </pre>
@@ -6193,9 +6230,10 @@ comb.executeInOrder(DB, function(DB){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,newName){
-   return this.executeDdl(this.__renameTableSql(name, newName)).chain(hitch(this, function () {
-       this.removeCachedSchema(name);
-   })).promise();
+   var self = this;
+   return this.executeDdl(this.__renameTableSql(name, newName)).chain(function () {
+       self.removeCachedSchema(name);
+   }).promise();
            
 }
     </pre>
@@ -6285,7 +6323,7 @@ function (sql,opts){
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-DB.schema(&quot;artists&quot;).then(function(schema){
+DB.schema(&quot;artists&quot;).chain(function(schema){
     //example schema
     {
      id :  {
@@ -6367,24 +6405,23 @@ function (table,opts){
        delete this.schemas[quotedName];
    }
    if (this.schemas[quotedName]) {
-       ret.callback(this.schemas[quotedName]);
-       return ret;
+       ret = this.schemas[quotedName];
    } else {
-       this.schemaParseTable(tableName, opts).then(hitch(this, function (cols) {
-           var schema = {};
+       var self = this;
+       ret = this.schemas[quotedName] = this.schemaParseTable(tableName, opts).chain(function (cols) {
            if (!cols || cols.length === 0) {
-               ret.errback(new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;));
+               throw new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;)
            } else {
+               var schema = {};
                cols.forEach(function (c) {
                    var name = c[0];
                    c = c[1];
-                   c.jsDefault = this.__columnSchemaToJsDefault(c[&quot;default&quot;], c.type);
+                   c.jsDefault = self.__columnSchemaToJsDefault(c[&quot;default&quot;], c.type);
                    schema[name] = c;
-               }, this);
-               this.schemas[quotedName] = schema;
-               ret.callback(schema);
+               });
+               return schema;
            }
-       }), ret);
+       });
    }
    return ret.promise();
            
@@ -6685,7 +6722,7 @@ comb.executeInOrder(DB, function(DB){
          table1Exists : DB.tableExists(&quot;table1&quot;),
          table2Exists : DB.tableExists(&quot;table2&quot;)
    };
-}).then(function(ret){
+}).chain(function(ret){
      //ret.table1Exists === true
      //ret.table2Exists === false
 });
@@ -6719,13 +6756,11 @@ comb.executeInOrder(DB, function(DB){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (table,cb){
-   var ret = new Promise().classic(cb);
-   this.from(table).first().then(function () {
-       ret.callback(true);
-   }, function () {
-       ret.callback(false);
-   });
-   return ret.promise();
+   return this.from(table).first().chain(function () {
+       return true;
+   },function () {
+       return false;
+   }).classic(cb).promise();
            
 }
     </pre>
@@ -6756,7 +6791,7 @@ should be implemented by the adapter.</p>
 
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
-DB.tables().then(function(tables){
+DB.tables().chain(function(tables){
    //e.g. tables === [&quot;table1&quot;, &quot;table2&quot;, &quot;table3&quot;];
 });
         </pre>
@@ -6953,10 +6988,10 @@ function (opts,cb){
        this.__alreadyInTransaction = true;
        return this.__transaction(null, opts, cb);
    } else {
-       var ret = new Promise();
-       var transaction = hitch(this, function () {
-           this.__transaction(null, opts, cb).then(ret);
-       });
+       var ret = new Promise(), self = this;
+       var transaction = function () {
+           self.__transaction(null, opts, cb).chain(ret.callback, ret.errback);
+       };
        this.__transactionQueue.enqueue(transaction);
        return ret.promise();
    }

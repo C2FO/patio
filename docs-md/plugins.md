@@ -325,11 +325,13 @@ module.exports = comb.define(null, {
          *Helper method to find a model by id and handle any errors
          */
         findByIdRoute:function (params) {
-            var ret = new comb.Promise();
-            this.findById(params.id).then(function (model) {
-                ret.callback(model ? model.toObject() : {error:"Could not find a model with id " + id});
-            }, ret);
-            return ret;
+            return this.findById(params.id).chain(function (model) {
+                if(model){
+                    return model.toObject();
+                }else{
+                    throw new Error("Could not find a model with id ");
+                }
+            });
         },
  
 			      
@@ -362,11 +364,13 @@ module.exports = comb.define(null, {
          *Helper method to find a model by id and handle any errors
          */
         findByIdRoute:function (params) {
-            var ret = new comb.Promise();
-            this.findById(params.id).then(function (model) {
-                ret.callback(model ? model.toObject() : {error:"Could not find a model with id " + id});
-            }, ret);
-            return ret.promise();
+            return this.findById(params.id).chain(function (model) {
+                if(model){
+                    return model.toObject();
+                }else{
+                    throw new Error("Could not find a model with id " + id);
+                }
+            });
         },
 
 		/**
@@ -381,7 +385,7 @@ module.exports = comb.define(null, {
 		*/
         __routeProxy:function (cb) {
             return function (req, res) {
-                comb.when(cb(req.params)).then(res.send.bind(res), function (err) {
+                comb.when(cb(req.params)).chain(res.send.bind(res), function (err) {
                     res.send({error:err.message});
                 });
             }
@@ -435,31 +439,25 @@ module.exports = patio.addModel("flight", {
             this._super(arguments);
             //add new routes using the addRoute method on the Express Plugin
             this.addRoute("/flights/:airline", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.byAirline(params.airline).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return this.byAirline(params.airline).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
             this.addRoute("/flights/departs/:airportCode", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.departsFrom(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return this.departsFrom(params.airportCode).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
             this.addRoute("/flights/arrives/:airportCode", comb.hitch(this, function (params) {
-                var ret = new comb.Promise();
-                this.arrivesAt(params.airportCode).then(function (flights) {
-                    ret.callback(flights.map(function (flight) {
+                return  this.arrivesAt(params.airportCode).chain(function (flights) {
+                    return flights.map(function (flight) {
                         return flight.toObject();
-                    }));
-                }, ret);
-                return  ret.promise();
+                    });
+                });
             }));
         },
 

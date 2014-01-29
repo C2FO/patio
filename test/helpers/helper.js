@@ -6,21 +6,21 @@ var comb = require("comb"),
 patio.quoteIdentifiers = false;
 
 var MockDataset = comb.define(Dataset, {
-    instance : {
-        insert : function() {
+    instance: {
+        insert: function () {
             return this.db.execute(this.insertSql.apply(this, arguments));
         },
 
-        update : function() {
+        update: function () {
             return this.db.execute(this.updateSql.apply(this, arguments));
         },
 
-        fetchRows : function(sql, cb) {
+        fetchRows: function (sql, cb) {
             this.db.execute(sql);
-            return comb.async.array({id : 1, x : 1});
+            return comb.async.array({id: 1, x: 1});
         },
 
-        _quotedIdentifier : function(c) {
+        _quotedIdentifier: function (c) {
             return '"' + c + '"';
         }
 
@@ -29,8 +29,8 @@ var MockDataset = comb.define(Dataset, {
 
 var MockDB = comb.define(Database, {
 
-    instance : {
-        constructor : function() {
+    instance: {
+        constructor: function () {
             this._super(arguments);
             this.type = this._static.type;
             this.quoteIdentifiers = false;
@@ -41,42 +41,41 @@ var MockDB = comb.define(Database, {
             this.createdCount = 0;
         },
 
-        createConnection : function() {
+        createConnection: function () {
             this.createdCount++;
             return {
-                query : function(sql) {
+                query: function (sql) {
                     return new comb.Promise().callback(sql);
                 }
             }
         },
 
-        closeConnection : function() {
+        closeConnection: function () {
             this.closedCount++;
             return new comb.Promise().callback();
         },
 
-        validate : function() {
+        validate: function () {
             return new comb.Promise().callback(true);
         },
 
-        execute : function(sql, opts) {
+        execute: function (sql, opts) {
             var ret = new comb.Promise();
             this.sqls.push(sql);
             ret.callback();
             return ret;
         },
 
-        reset : function() {
+        reset: function () {
             this.sqls = [];
         },
 
-        transaction : function(opts, cb) {
-            var ret = new comb.Promise();
-            return comb.when(cb()).then(ret);
+        transaction: function (opts, cb) {
+            return comb.when(cb());
         },
 
-        getters : {
-            dataset : function() {
+        getters: {
+            dataset: function () {
                 return new MockDataset(this);
             }
         }
@@ -87,15 +86,15 @@ var MockDB = comb.define(Database, {
 MockDB.setAdapterType("mau");
 
 comb.define(Database, {
-    instance : {
-        constructor : function() {
+    instance: {
+        constructor: function () {
             this._super(arguments);
             this.identifierInputMethod = null;
             this.identifierOutputMethod = null;
             this.sqls = [];
         },
 
-        execute : function(sql, opts) {
+        execute: function (sql, opts) {
             var ret = new comb.Promise();
             this.sqls.push(sql);
             ret.callback();

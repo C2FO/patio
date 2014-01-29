@@ -36,23 +36,23 @@ var simpleTransaction = function (db) {
         var ds = db.from("user");
         return comb.when(
             ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             }),
             ds.insert({
-                firstName:"Greg",
-                lastName:"Kilosky",
-                password:"password",
-                dateOfBirth:new Date(1988, 7, 19)
+                firstName: "Greg",
+                lastName: "Kilosky",
+                password: "password",
+                dateOfBirth: new Date(1988, 7, 19)
             }),
 
             ds.insert({
-                firstName:"Jane",
-                lastName:"Gorgenson",
-                password:"password",
-                dateOfBirth:new Date(1956, 1, 3)
+                firstName: "Jane",
+                lastName: "Gorgenson",
+                password: "password",
+                dateOfBirth: new Date(1956, 1, 3)
             })
         );
     })
@@ -64,25 +64,25 @@ var nestedTransaction = function (db) {
         var ds = db.from("user");
         return comb.when(
             ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             }),
             db.transaction(function () {
                 comb.when(
                     ds.insert({
-                        firstName:"Greg",
-                        lastName:"Kilosky",
-                        password:"password",
-                        dateOfBirth:new Date(1988, 7, 19)
+                        firstName: "Greg",
+                        lastName: "Kilosky",
+                        password: "password",
+                        dateOfBirth: new Date(1988, 7, 19)
                     }),
                     db.transaction(function () {
                         ds.insert({
-                            firstName:"Jane",
-                            lastName:"Gorgenson",
-                            password:"password",
-                            dateOfBirth:new Date(1956, 1, 3)
+                            firstName: "Jane",
+                            lastName: "Gorgenson",
+                            password: "password",
+                            dateOfBirth: new Date(1956, 1, 3)
                         });
                     })
                 );
@@ -97,34 +97,31 @@ var multipleTransactions = function (db) {
     return comb.when(
         db.transaction(function () {
             return ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             });
         }),
         db.transaction(function () {
             return ds.insert({
-                firstName:"Greg",
-                lastName:"Kilosky",
-                password:"password",
-                dateOfBirth:new Date(1988, 7, 19)
+                firstName: "Greg",
+                lastName: "Kilosky",
+                password: "password",
+                dateOfBirth: new Date(1988, 7, 19)
             });
         }),
         db.transaction(function () {
-            var ret = new comb.Promise();
             return ds.insert({
-                firstName:"Jane",
-                lastName:"Gorgenson",
-                password:"password",
-                dateOfBirth:new Date(1956, 1, 3)
+                firstName: "Jane",
+                lastName: "Gorgenson",
+                password: "password",
+                dateOfBirth: new Date(1956, 1, 3)
             }).chain(function () {
-                    return ds.all(
-                        function (user) {
-                            return ds.where({id:user.id}).update({firstName:user.firstName + 1});
-                        }).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"));
-                }, comb.hitch(ret, "errback"));
-            return ret;
+                    return ds.all(function (user) {
+                        return ds.where({id: user.id}).update({firstName: user.firstName + 1});
+                    })
+                });
         }));
 };
 
@@ -132,39 +129,36 @@ var multipleTransactionsError = function (db) {
     var ds = db.from("user");
     console.log("\n\n********MULTIPLE TRANSACTION(ROLLBACK)*********");
     var ret = new comb.Promise();
-    comb.when(
+    return comb.when(
         db.transaction(function () {
             return ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             });
         }),
         db.transaction(function () {
             return ds.insert({
-                firstName:"Greg",
-                lastName:"Kilosky",
-                password:"password",
-                dateOfBirth:new Date(1988, 7, 19)
+                firstName: "Greg",
+                lastName: "Kilosky",
+                password: "password",
+                dateOfBirth: new Date(1988, 7, 19)
             });
         }),
         db.transaction(function () {
-            var ret = new comb.Promise();
-            ds.insert({
-                firstName:"Jane",
-                lastName:"Gorgenson",
-                password:"password",
-                dateOfBirth:new Date(1956, 1, 3)
+            return ds.insert({
+                firstName: "Jane",
+                lastName: "Gorgenson",
+                password: "password",
+                dateOfBirth: new Date(1956, 1, 3)
             }).chain(function () {
-                    return ds.all(
-                        function (user) {
-                            return ds.where({id:user.id}).update({firstName:user.firstName + 1});
-                        }).then(comb.hitch(ret, "errback"), comb.hitch(ret, "callback"));
-                }, comb.hitch(ret, "errback"));
-            return ret;
-        })).then(comb.hitch(ret, "errback"), comb.hitch(ret, "callback"));
-    return ret;
+                    return ds.all(function (user) {
+                        return ds.where({id: user.id}).update({firstName: user.firstName + 1});
+                    })
+                });
+        })
+    );
 };
 
 var inOrderTransaction = function (db) {
@@ -173,26 +167,26 @@ var inOrderTransaction = function (db) {
     return comb.executeInOrder(db, function (db) {
         db.transaction(function () {
             return ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             });
         });
         db.transaction(function () {
             return ds.insert({
-                firstName:"Greg",
-                lastName:"Kilosky",
-                password:"password",
-                dateOfBirth:new Date(1988, 7, 19)
+                firstName: "Greg",
+                lastName: "Kilosky",
+                password: "password",
+                dateOfBirth: new Date(1988, 7, 19)
             });
         });
         db.transaction(function () {
             return ds.insert({
-                firstName:"Jane",
-                lastName:"Gorgenson",
-                password:"password",
-                dateOfBirth:new Date(1956, 1, 3)
+                firstName: "Jane",
+                lastName: "Gorgenson",
+                password: "password",
+                dateOfBirth: new Date(1956, 1, 3)
             });
         });
     });
@@ -201,94 +195,95 @@ var inOrderTransaction = function (db) {
 var errorTransaciton = function (db) {
     var ds = db.from("user");
     console.log("\n\n********THROW ERROR TRANSACTION(ROLLBACK)*********");
-    var ret = new comb.Promise();
-    db.transaction(function () {
+    return db.transaction(function () {
         var ds = db.from("user");
-        return comb.when(
-            ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
-            }),
-            db.transaction(function () {
-                return ds.insert({
-                    firstName:"Greg",
-                    lastName:"Kilosky",
-                    password:"password",
-                    dateOfBirth:new Date(1988, 7, 19)
-                }).chain(function () {
-                        throw "Error";
-                        return db.transaction(function () {
-                            return ds.insert({
-                                firstName:"Jane",
-                                lastName:"Gorgenson",
-                                password:"password",
-                                dateOfBirth:new Date(1956, 1, 3)
+        return ds.insert({
+            firstName: "Bob",
+            lastName: "Yukon",
+            password: "password",
+            dateOfBirth: new Date(1980, 8, 29)
+        }).chain(function () {
+                return db.transaction(function () {
+                    return ds.insert({
+                        firstName: "Greg",
+                        lastName: "Kilosky",
+                        password: "password",
+                        dateOfBirth: new Date(1988, 7, 19)
+                    }).chain(function () {
+                            throw "Error";
+                            return db.transaction(function () {
+                                return ds.insert({
+                                    firstName: "Jane",
+                                    lastName: "Gorgenson",
+                                    password: "password",
+                                    dateOfBirth: new Date(1956, 1, 3)
+                                });
                             });
                         });
-                    });
+                })
             })
-        );
-    }).then(comb.hitch(ret, "errback"), function () {
-            ds.count().then(
-                function (count) {
-                    patio.logInfo(format("COUNT = " + count));
-                    ret.callback();
-                }).addErrback(comb.hitch(ret, "errback"));
+
+    }).chain(function(){
+            throw new Error("unexpected error");
+        }, function () {
+            return ds.count().chain(function (count) {
+                patio.logInfo(format("COUNT = " + count));
+            });
         });
-    return ret;
 };
 
 var errorCallbackTransaciton = function (db) {
     var ds = db.from("user");
     console.log("\n\n********ERRBACK TRANSACTION(ROLLBACK)*********");
-    var ret = new comb.Promise();
-    db.transaction(function () {
+    return db.transaction(function () {
         var ds = db.from("user");
-        return comb.when(
-            ds.insert({
-                firstName:"Bob",
-                lastName:"Yukon",
-                password:"password",
-                dateOfBirth:new Date(1980, 8, 29)
-            }),
-            db.transaction(function () {
-                return comb.when(
-                    ds.insert({
-                        firstName:"Greg",
-                        lastName:"Kilosky",
-                        password:"password",
-                        dateOfBirth:new Date(1988, 7, 19)
-                    }),
-                    db.transaction(function () {
-                        ds.insert({
-                            firstName:"Jane",
-                            lastName:"Gorgenson",
-                            password:"password",
-                            dateOfBirth:new Date(1956, 1, 3)
-                        });
-                        return new comb.Promise().errback("err");
-                    })
-                );
+        return ds
+            .insert({
+                firstName: "Bob",
+                lastName: "Yukon",
+                password: "password",
+                dateOfBirth: new Date(1980, 8, 29)
             })
-        );
-    }).then(comb.hitch(ret, "errback"), function () {
-            ds.count().then(function (count) {
+            .chain(function () {
+                return db.transaction(function () {
+                    return ds
+                        .insert({
+                            firstName: "Greg",
+                            lastName: "Kilosky",
+                            password: "password",
+                            dateOfBirth: new Date(1988, 7, 19)
+                        })
+                        .chain(function () {
+                            return db.transaction(function () {
+                                return ds.insert({
+                                    firstName: "Jane",
+                                    lastName: "Gorgenson",
+                                    password: "password",
+                                    dateOfBirth: new Date(1956, 1, 3)
+                                })
+                                    .chain(function () {
+                                        return new comb.Promise().errback("err");
+                                    });
+                            })
+                        });
+                });
+            });
+    }).chain(function () {
+            throw new Error("unexpected error");
+        }, function () {
+            return ds.count().chain(function (count) {
                 patio.logInfo(format("COUNT = " + count));
-                ret.callback();
-            }).addErrback(comb.hitch(ret, "errback"));
+            });
         });
-    return ret;
 };
 
 
 var connectAndExecute = function (cb) {
-    var ret = new comb.Promise();
-    connectAndCreateSchema().then(function (db) {
-        cb(db).chain(disconnect, disconnectError).then(comb.hitch(ret, "callback"), comb.hitch(ret, "errback"))
-    }, disconnectError);
-    return ret;
+    return connectAndCreateSchema()
+        .chain(function (db) {
+            return cb(db);
+        })
+        .chain(disconnect, disconnectError);
 };
 
 connectAndExecute(multipleTransactions)

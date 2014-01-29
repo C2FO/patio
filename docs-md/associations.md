@@ -294,7 +294,7 @@ You could represent the OneToMany association as follows:
      //define Child  model
 var Child = patio.addModel("child").manyToOne("biologicalFather");
 
-patio.syncModels().then(function(){
+patio.syncModels().chain(function(){
  BiologicalFather.save([
            {name:"Fred", children:[
                    {name:"Bobby"},
@@ -317,17 +317,17 @@ You can query each model by:
 
 ```
 //syncModels only needs to be performed once
-patio.syncModels().then(function(){
-	Child.findById(1).then(function(child){
+patio.syncModels().chain(function(){
+	Child.findById(1).chain(function(child){
     	//lazy association so it returns a promise.
-	    child.biologicalFather.then(function(father){
+	    child.biologicalFather.chain(function(father){
     	     //father.name === "fred"
 	    }, errorHandler);
 	});
 
-	BiologicalFather.findById(1).then(function(father){
+	BiologicalFather.findById(1).chain(function(father){
     	//lazy association so it returns a promise.
-	    father.children.then(function(children){
+	    father.children.chain(function(children){
     	    //children.length === 3
 	    }, errorHandler);
 	});
@@ -343,8 +343,8 @@ var BiologicalFather = patio.addModel("biologicalFather").oneToMany("children", 
 var Child = patio.addModel("child").manyToOne("biologicalFather", {fetchType : this.fetchType.EAGER});
 
 //sync the models
-patio.syncModels().then(funciton(){
-     Child.findById(1).then(function(child){
+patio.syncModels().chain(funciton(){
+     Child.findById(1).chain(function(child){
          var father = child.biologicalFather;
          //father.name === "fred"
          //father.children.length === 3
@@ -432,15 +432,15 @@ when(
 	texas.save(),
 	lincoln.save(),
 	austin.save()
-).then(function(){
+).chain(function(){
 	nebraska.capital = lincoln;
 	texas.capital = austin;
-	when(nebraska.save(), texas.save()).then(function(){
+	when(nebraska.save(), texas.save()).chain(function(){
 	   //states and capitals are now saved
 	   Capital.forEach(function(capital){
 		   //returning the state promise from here will prevent the forEach from resolving until the 
 		   //state hash been fetched
-	   		return capital.state.then(function(state){
+	   		return capital.state.chain(function(state){
 	   			console.log("%s's capital is %s, state.name, capital.name);
 	   		});
 	   });
@@ -481,11 +481,11 @@ var texas = new State({
 when(
 	nebraska.save(),
 	texas.save(),
-).then(function(){
+).chain(function(){
 	Capital.forEach(function(capital){
 		//returning the state promise from here will prevent the forEach from resolving until the 
 		//state hash been fetched
-		return capital.state.then(function(state){
+		return capital.state.chain(function(state){
 			console.log("%s's capital is %s, state.name, capital.name);
 		});
 	});	
@@ -500,7 +500,7 @@ State.order("name").forEach(function(state){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
         
-    return state.capital.then(function(capital){
+    return state.capital.chain(function(capital){
             console.log(comb.string.format("%s's capital is %s.", state.name, capital.name));
     })
 });
@@ -508,7 +508,7 @@ State.order("name").forEach(function(state){
 Capital.order("name").forEach(function(capital){
     //if you return a promise here it will prevent the foreach from
     //resolving until all inner processing has finished.
-    return capital.state.then(function(state){
+    return capital.state.chain(function(state){
             console.log(comb.string.format("%s is the capital of %s.", capital.name, state.name));
     })
 });
@@ -681,7 +681,7 @@ You can manually associate them by assigning the associations.
 
 ```
 //Retrieve All classes and students
-comb.when(Class.order("name").all(), Student.order("firstName", "lastName").all()).then(function(results) {
+comb.when(Class.order("name").all(), Student.order("firstName", "lastName").all()).chain(function(results) {
     var classes = results[0], students = results[1];
     students.map(function(student, i) {
         student.enroll(i === 0 ? classes : classes.slice(1));
@@ -741,7 +741,7 @@ Class.order("name").forEach(function(cls) {
      //Load the LAZY loaded aboveAverageStudents, averageStudents and belowAverageStudents students.
      //The for each will not resolve the final promise until the when promise has
      //resolved.
-    return when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents).then(function(res) {
+    return when(cls.aboveAverageStudents, cls.averageStudents, cls.belowAverageStudents).chain(function(res) {
       	var aboveAverage = createStudentArrayString(res[0]),
         	average = createStudentArrayString(res[1]);
             belowAverage = createStudentArrayString(res[2]);

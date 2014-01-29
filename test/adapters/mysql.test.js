@@ -7,7 +7,7 @@ var it = require('it'),
     format = comb.string.format,
     hitch = comb.hitch;
 
-if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage') {
+if (process.env.PATIO_DB === "mysql" || process.env.NODE_ENV === 'test-coverage') {
     it.describe("patio.adapters.Mysql", function (it) {
 
         var SQL_BEGIN = 'BEGIN';
@@ -15,7 +15,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
         var SQL_COMMIT = 'COMMIT',
             MYSQL_DB;
 
-        it.beforeAll(function (next) {
+        it.beforeAll(function () {
             patio.quoteIdentifiers = false;
             MYSQL_DB = patio.connect(config.MYSQL_URI + "/sandbox");
 
@@ -32,15 +32,12 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 this.sqls.push(sql.trim());
                 return origExecute.apply(this, arguments);
             };
-            MYSQL_DB.forceCreateTable("test2",function () {
+            return MYSQL_DB.forceCreateTable("test2",function () {
                 this.name("text");
                 this.value("integer");
-            }).chainBoth(hitch(MYSQL_DB, "dropTable", "items"))
-                .chainBoth(hitch(MYSQL_DB, "dropTable", "dolls"))
-                .chainBoth(hitch(MYSQL_DB, "dropTable", "booltest"))
-                .both(function () {
-                    next();
-                });
+            }).chainBoth(hitch(MYSQL_DB, "forceDropTable", "items"))
+                .chainBoth(hitch(MYSQL_DB, "forceDropTable", "dolls"))
+                .chainBoth(hitch(MYSQL_DB, "forceDropTable", "booltest"));
         });
 
 
@@ -55,7 +52,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
 
             });
 
-            it.should("allow the the specification of options", function (next) {
+            it.should("allow the the specification of options", function () {
                 return db.createTable("dolls", {engine: "MyISAM", charset: "latin2"},function () {
                     this.name("text");
                 }).chain(function () {
@@ -63,7 +60,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     });
             });
 
-            it.should("create create a temporary table when temp options is set to true", function (next) {
+            it.should("create create a temporary table when temp options is set to true", function () {
                 return db.createTable("tmp_dolls", {temp: true, engine: "MyISAM", charset: "latin2"},function () {
                     this.name("text");
                 }).chain(function () {
@@ -72,7 +69,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
 
             });
 
-            it.should("not use default for string {text : true}", function (next) {
+            it.should("not use default for string {text : true}", function () {
                 return db.createTable("dolls",function () {
                     this.name("string", {text: true, "default": "blah"});
                 }).chain(function () {
@@ -80,7 +77,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     });
             });
 
-            it.should("not create the autoIncrement attribute if it is specified", function (next) {
+            it.should("not create the autoIncrement attribute if it is specified", function () {
                 return comb.serial([
                         function () {
                             return db.createTable("dolls", function () {
@@ -99,15 +96,15 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
 
             });
 
-            it.should("create blob types", function (next) {
-                comb.serial([
+            it.should("create blob types", function () {
+                return comb.serial([
                         function () {
                             return db.createTable("dolls", {engine: "MyISAM", charset: "latin2"}, function () {
                                 this.name(Buffer);
                             });
                         },
                         hitch(db, "schema", "dolls")
-                    ]).then(function (res) {
+                    ]).chain(function (res) {
                         var schema = res[1];
                         assert.deepEqual(db.sqls, ["CREATE TABLE dolls (name blob) ENGINE=MyISAM DEFAULT CHARSET=latin2", "DESCRIBE dolls"]);
                         assert.deepEqual(schema, {
@@ -120,81 +117,80 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 type: 'blob',
                                 jsDefault: null }
                         });
-                        next();
-                    }, next);
+                    });
             });
         });
 
-        it.should("provide server version", function (next) {
-            MYSQL_DB.serverVersion().then(function (version) {
+        it.should("provide server version", function () {
+            return MYSQL_DB.serverVersion().chain(function (version) {
                 assert.isTrue(version >= 4000);
-                next();
-            }, next);
+            });
         });
 
-        it.should("handle the creation and dropping of InnoDB tables with foreigh keys", function (next) {
-            MYSQL_DB.forceCreateTable("test_innodb", {engine: "InnoDB"},function () {
+        it.should("handle the creation and dropping of InnoDB tables with foreigh keys", function () {
+            return MYSQL_DB.forceCreateTable("test_innodb", {engine: "InnoDB"}, function () {
                 this.primaryKey("id");
                 this.foreignKey("fk", "test_innodb", {key: "id"});
-            }).classic(next);
+            });
         });
 
-        it.should("support forShare", function (next) {
-            var cb = hitch(this, "callback", null), eb = hitch(this, "callback");
-            MYSQL_DB.transaction(function () {
-                return MYSQL_DB.from("test2").forShare().all().classic(function (err, res) {
+        it.should("support forShare", function () {
+            return MYSQL_DB.transaction(function () {
+                return MYSQL_DB.from("test2").forShare().all().chain(function (res) {
                     assert.lengthOf(res, 0);
-                    next();
                 });
             });
         });
 
 
-        it.should("convert tinyint to bool", function (next) {
-            MYSQL_DB.createTable("booltest",function () {
+        it.should("convert tinyint to bool", function () {
+            return MYSQL_DB.createTable("booltest",function () {
                 this.column("b", "tinyint(1)");
                 this.column("i", "tinyint(4)");
-            }).then(hitch(this, function () {
-                    MYSQL_DB.schema("booltest", {reload: true})
-                        .then(function (schema) {
+            }).chain(function () {
+                    return MYSQL_DB.schema("booltest", {reload: true})
+                        .chain(function (schema) {
                             assert.deepEqual(schema, {
                                 b: {type: "boolean", autoIncrement: false, allowNull: true, primaryKey: false, "default": null, jsDefault: null, dbType: "tinyint(1)"},
                                 i: {type: "integer", autoIncrement: false, allowNull: true, primaryKey: false, "default": null, jsDefault: null, dbType: "tinyint(4)"}
                             });
-                            next();
-                        }, next);
-                }), next);
+                        });
+                });
         });
 
-        it.should("return tinyint(1)s as boolean values and tinyint(4) as integers ", function (next) {
-            var resultSets = [];
+        it.should("return tinyint(1)s as boolean values and tinyint(4) as integers ", function () {
             var ds = MYSQL_DB.from("booltest");
-            comb.executeInOrder(ds,function (ds) {
-                var results = [];
-                ds.remove();
-                ds.insert({b: true, i: 10});
-                results.push(ds.all());
-                ds.remove();
-                ds.insert({b: false, i: 10});
-                results.push(ds.all());
-                ds.remove();
-                ds.insert({b: true, i: 1});
-                results.push(ds.all());
-                return results;
-            }).then(function (resultSet) {
-                    assert.deepEqual(resultSet, [
-                        [
-                            {b: true, i: 10}
-                        ],
-                        [
-                            {b: false, i: 10}
-                        ],
-                        [
-                            {b: true, i: 1}
-                        ]
+            return ds.remove()
+                .chain(function () {
+                    return ds.insert({b: true, i: 10}).chain(function () {
+                        return ds.all();
+                    });
+                })
+                .chain(function (res) {
+                    assert.deepEqual(res, [
+                        {b: true, i: 10}
                     ]);
-                    next();
-                }, next);
+                    return ds.remove().chain(function () {
+                        return ds.insert({b: false, i: 10}).chain(function () {
+                            return ds.all();
+                        });
+                    });
+                })
+                .chain(function (res) {
+                    assert.deepEqual(res, [
+                        {b: false, i: 10}
+                    ]);
+                    return ds.remove().chain(function () {
+                        return ds.insert({b: true, i: 1}).chain(function () {
+                            return ds.all();
+                        });
+                    });
+                })
+                .chain(function (res) {
+                    assert.deepEqual(res, [
+                        {b: true, i: 1}
+                    ]);
+                });
         });
 
 
@@ -204,7 +200,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 return MYSQL_DB.createTable("items",function () {
                     this.name("string");
                     this.value("integer");
-                }).then(hitch(this, function () {
+                }).chain(hitch(this, function () {
                         MYSQL_DB.sqls.length = 0;
                         d = MYSQL_DB.from("items");
                     }));
@@ -246,26 +242,29 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 assert.equal(d.limit(10).updateSql({value: 1}), 'UPDATE items SET value = 1 LIMIT 10');
             });
 
-            it.should("support regexes", function (next) {
-                comb.executeInOrder(d,function (ds) {
-                    ds.insert({name: "abc", value: 1});
-                    ds.insert({name: "bcd", value: 1});
-                    return [ds.filter({name: /bc/}).count(), ds.filter({name: /^bc/}).count()];
-                }).then(function (res) {
+            it.should("support regexes", function () {
+                return d.insert({name: "abc", value: 1})
+                    .chain(function () {
+                        return d.insert({name: "bcd", value: 1});
+                    })
+                    .chain(function () {
+                        return comb.when(d.filter({name: /bc/}).count(), d.filter({name: /^bc/}).count());
+                    }).chain(function (res) {
                         assert.deepEqual(res, [2, 1]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("correctly literalize strings with comment backslashes in them", function (next) {
-                comb.executeInOrder(d,function (d) {
-                    d.remove();
-                    d.insert({name: ":\\"});
-                    return d.first().name;
-                }).then(function (name) {
-                        assert.equal(name, ":\\");
-                        next();
-                    }, next);
+            it.should("correctly literalize strings with comment backslashes in them", function () {
+                return d.remove()
+                    .chain(function () {
+                        return d.insert({name: ":\\"});
+                    })
+                    .chain(function () {
+                        return d.first();
+                    })
+                    .chain(function (rec) {
+                        assert.equal(rec.name, ":\\");
+                    })
             });
 
         });
@@ -280,24 +279,24 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
             }).groupBy(sql.minute(sql.from_unixtime("ack"))).sql, "SELECT `market`, minute(from_unixtime(`ack`)) AS `minute` FROM `orders` WHERE ((`ack` > " + d.literal(ackStamp) + ") AND (`market` = 'ICE')) GROUP BY minute(from_unixtime(`ack`))");
         });
 
-        it.should("support distinct", function (next) {
+        it.should("support distinct", function () {
             var db = MYSQL_DB,
                 ds = db.from("a");
-            comb.executeInOrder(db, ds,function (db, ds) {
-                db.forceCreateTable("a", function () {
-                    this.a("integer");
-                    this.b("integer");
+            return db.forceCreateTable("a",function () {
+                this.a("integer");
+                this.b("integer");
+            }).chain(function () {
+                    return comb.when(ds.insert(20, 10), ds.insert(30, 10));
+                })
+                .chain(function () {
+                    return comb.when(ds.order("b", "a").distinct().map("a"), ds.order("b", sql.a.desc()).distinct().map("a"));
+                })
+                .chain(function (res) {
+                    return db.dropTable("a").chain(function () {
+                        assert.deepEqual(res[0], [20, 30]);
+                        assert.deepEqual(res[1], [30, 20]);
+                    });
                 });
-                ds.insert(20, 10);
-                ds.insert(30, 10);
-                var ret = [ds.order("b", "a").distinct().map("a"), ds.order("b", sql.a.desc()).distinct().map("a")];
-                db.dropTable("a");
-                return ret;
-            }).then(function (res) {
-                    assert.deepEqual(res[0], [20, 30]);
-                    assert.deepEqual(res[1], [30, 20]);
-                    next();
-                }, next);
         });
 
         it.describe("MySQL join expressions", function (it) {
@@ -366,49 +365,57 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
             });
         });
 
-        it.should("support addColumn operations", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
-                db.addColumn("test2", "xyz", "text");
-                var ds = db.from("test2");
-                var columns = ds.columns;
-                ds.insert({name: "mmm", value: "111", xyz: '000'});
-                return {columns: columns, first: ds.first().xyz};
-            }).then(function (res) {
-                    assert.deepEqual(res.columns, ["name", "value", "xyz"]);
-                    assert.equal(res.first, "000");
-                    next();
-                }, next);
+        it.should("support addColumn operations", function () {
+            var ds = MYSQL_DB.from("test2");
+            return MYSQL_DB.addColumn("test2", "xyz", "text")
+                .chain(function () {
+                    return comb.when(ds.columns, ds.insert({name: "mmm", value: "111", xyz: '000'}))
+                })
+                .chain(function (res) {
+                    assert.deepEqual(res[0], ["name", "value", "xyz"]);
+                    return ds.first();
+                })
+                .chain(function (res) {
+                    assert.equal(res.xyz, "000");
+                });
         });
 
-        it.should("support dropColumn operations", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
-                db.dropColumn("test2", "xyz", "text");
-                return {columns: db.from("test2").columns};
-            }).then(function (res) {
-                    assert.deepEqual(res.columns, ["name", "value"]);
-                    next();
-                }, next);
+        it.should("support dropColumn operations", function () {
+            return MYSQL_DB.dropColumn("test2", "xyz", "text")
+                .chain(function () {
+                    return MYSQL_DB.from("test2").columns;
+                })
+                .chain(function (columns) {
+                    assert.deepEqual(columns, ["name", "value"]);
+                });
         });
 
-        it.should("support renameColumn operations", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
-                db.from("test2").remove();
-                db.addColumn("test2", "xyz", "text");
-                db.from("test2").insert({name: "mmm", value: 111, xyz: "gggg"});
-                var col1 = db.from("test2").columns;
-                db.renameColumn("test2", "xyz", "zyx", {type: "text"});
-                var col2 = db.from("test2").columns;
-                return {col1: col1, col2: col2, first: db.from("test2").first().zyx};
-            }).then(function (res) {
-                    assert.deepEqual(res.col1, ["name", "value", "xyz"]);
-                    assert.deepEqual(res.col2, ["name", "value", "zyx"]);
-                    assert.equal(res.first, "gggg");
-                    next();
-                }, next);
+        it.should("support renameColumn operations", function () {
+            var db = MYSQL_DB;
+            return comb.when(
+                    db.from("test2").remove(),
+                    db.addColumn("test2", "xyz", "text")
+                ).chain(function () {
+                    return db.from("test2").insert({name: "mmm", value: 111, xyz: "gggg"});
+                })
+                .chain(function () {
+                    return db.from("test2").columns;
+                })
+                .chain(function (col1) {
+                    assert.deepEqual(col1, ["name", "value", "xyz"]);
+                    return db.renameColumn("test2", "xyz", "zyx", {type: "text"});
+                })
+                .chain(function () {
+                    return comb.when(db.from("test2").columns, db.from("test2").first());
+                })
+                .chain(function (res) {
+                    assert.deepEqual(res[0], ["name", "value", "zyx"]);
+                    assert.equal(res[1].zyx, "gggg");
+                });
         });
 
-        it.should("support renameColumn operations with types like varchar", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
+        it.should("support renameColumn operations with types like varchar", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
                 db.from("test2").remove();
                 db.addColumn("test2", "tre", "text");
                 db.from("test2").insert({name: "mmm", value: 111, tre: "gggg"});
@@ -416,16 +423,15 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 db.renameColumn("test2", "tre", "ert", {type: "varchar", size: 255});
                 var col2 = db.from("test2").columns;
                 return {col1: col1, col2: col2, first: db.from("test2").first().ert};
-            }).then(function (res) {
+            }).chain(function (res) {
                     assert.deepEqual(res.col1, ["name", "value", "zyx", "tre"]);
                     assert.deepEqual(res.col2, ["name", "value", "zyx", "ert"]);
                     assert.equal(res.first, "gggg");
-                    next();
-                }, next);
+                });
         });
 
-        it.should("support setColumntype operation", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
+        it.should("support setColumntype operation", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
                 db.from("test2").remove();
                 db.addColumn("test2", "xyz", "float");
                 db.from("test2").insert({name: "mmm", value: 111, xyz: 56.78});
@@ -433,40 +439,37 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 db.setColumnType("test2", "xyz", "integer");
                 var after = db.from("test2").first().xyz;
                 return {before: before, after: after};
-            }).then(function (res) {
+            }).chain(function (res) {
                     assert.equal(res.before, 56.78);
                     assert.equal(res.after, 57);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("support addIndex operation", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
+        it.should("support addIndex operation", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
                 db.from("test2").remove();
                 var emptyIndexes = db.indexes("test2");
                 db.addIndex("test2", "value");
                 var indexes = db.indexes("test2");
                 return {indexes: indexes, emptyIndexes: emptyIndexes};
-            }).then(function (res) {
+            }).chain(function (res) {
                     assert.isNotNull(res.indexes.test2_value_index);
                     assert.isTrue(comb.isEmpty(res.emptyIndexes));
-                    next();
-                }, next);
+                });
 
 
         });
 
-        it.should("support addForeignKey", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
+        it.should("support addForeignKey", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
                 db.from("test2").remove();
                 db.alterTable("test2", function () {
                     this.addForeignKey("value2", "test2", {key: "value"});
                 });
                 return db.from("test2").columns;
-            }).then(function (columns) {
+            }).chain(function (columns) {
                     assert.deepEqual(columns, ["name", "value", "zyx", "ert", "xyz", "value2"]);
-                    next();
-                }, next);
+                });
         });
 
         it.describe("A MySQL database with table options", function (it) {
@@ -485,44 +488,41 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 });
             });
 
-            it.should("allow to pass custom options (engine, charset, collate) for table creation", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("allow to pass custom options (engine, charset, collate) for table creation", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", {engine: 'MyISAM', charset: 'latin1', collate: 'latin1_swedish_ci'}, function () {
                         this.size("integer");
                         this.name("text");
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, ["CREATE TABLE items (size integer, name text) ENGINE=MyISAM DEFAULT CHARSET=latin1 DEFAULT COLLATE=latin1_swedish_ci"]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("use default options (engine, charset, collate) for table creation", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("use default options (engine, charset, collate) for table creation", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.size("integer");
                         this.name("text");
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, ["CREATE TABLE items (size integer, name text) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci"]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("not use default options (engine, charset, collate) for table creation", function (next) {
+            it.should("not use default options (engine, charset, collate) for table creation", function () {
 
-                comb.executeInOrder(db,function (db) {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", {engine: null, charset: null, collate: null}, function () {
                         this.size("integer");
                         this.name("text");
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, ["CREATE TABLE items (size integer, name text)"]);
-                        next();
-                    }, next);
+                    });
             });
 
             it.afterAll(function () {
@@ -547,34 +547,32 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 });
             });
 
-            it.should("support defaults for boolean columns", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("support defaults for boolean columns", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.active1(Boolean, {"default": true});
                         this.active2(Boolean, {"default": false});
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, ["CREATE TABLE items (active1 tinyint(1) DEFAULT 1, active2 tinyint(1) DEFAULT 0)"]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("correctly format CREATE TABLE statements with foreign keys", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("correctly format CREATE TABLE statements with foreign keys", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.primaryKey("id");
                         this.foreignKey("p_id", "items", {key: "id", "null": false, onUpdate: "cascade", onDelete: "cascade"});
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, ["CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT, p_id integer NOT NULL, FOREIGN KEY (p_id) REFERENCES items(id) ON DELETE CASCADE ON UPDATE CASCADE)"]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("correctly format ALTER TABLE statements with foreign keys", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("correctly format ALTER TABLE statements with foreign keys", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.primaryKey("id");
                     });
@@ -582,17 +580,16 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         this.addForeignKey("p_id", "items", {key: "id", "null": false, onDelete: "cascade"});
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, [
                             'CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT)',
                             'ALTER TABLE items ADD COLUMN p_id integer NOT NULL',
                             'ALTER TABLE items ADD FOREIGN KEY (p_id) REFERENCES items(id) ON DELETE CASCADE']);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("have renameColumn support keep existing options", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have renameColumn support keep existing options", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.id(String, {"null": false, "default": "blah"});
                     });
@@ -603,7 +600,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     var ds = db.from("items");
                     ds.insert();
                     return {sqls: sqls, items: ds.all()};
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls.sqls, [
                             "CREATE TABLE items (id varchar(255) NOT NULL DEFAULT 'blah')",
                             "DESCRIBE items",
@@ -612,11 +609,10 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         assert.deepEqual(sqls.items, [
                             {nid: "blah"}
                         ]);
-                        next();
-                    }, next);
+                    });
             });
-            it.should("have setColumnType support keep existing options", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have setColumnType support keep existing options", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.id("integer", {"null": false, "default": 5});
                     });
@@ -627,7 +623,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     var ds = db.from("items");
                     ds.insert(Math.pow(2, 40));
                     return {sqls: sqls, items: ds.all()};
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls.sqls, [
                             "CREATE TABLE items (id integer NOT NULL DEFAULT 5)",
                             "DESCRIBE items",
@@ -636,12 +632,11 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         assert.deepEqual(sqls.items, [
                             {id: Math.pow(2, 40)}
                         ]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("have setColumnType pass through options", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have setColumnType pass through options", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.id("integer");
                         this.list("enum", {elements: ["one"]});
@@ -651,20 +646,18 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         this.setColumnType("list", "enum", {elements: ["two"]});
                     });
                     return db.sqls.slice(0);
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls, [
                             "CREATE TABLE items (id integer, list enum('one'))",
-                            "DESCRIBE items",
                             "DESCRIBE items",
                             "ALTER TABLE items CHANGE COLUMN id id int(8) UNSIGNED NULL",
                             "ALTER TABLE items CHANGE COLUMN list list enum('two') NULL"
                         ]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("have setColumnDefault keep existing options", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have setColumnDefault keep existing options", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.createTable("items", function () {
                         this.id("integer", {"null": false, "default": 5});
                     });
@@ -675,7 +668,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     var ds = db.from("items");
                     ds.insert();
                     return {sqls: sqls, items: ds.all()};
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls.sqls, [
                             "CREATE TABLE items (id integer NOT NULL DEFAULT 5)",
                             "DESCRIBE items",
@@ -684,12 +677,11 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         assert.deepEqual(sqls.items, [
                             {id: 6}
                         ]);
-                        next();
-                    }, next);
+                    });
             });
 
-            it.should("have setAllowNull keep existing options", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have setAllowNull keep existing options", function () {
+                return comb.executeInOrder(db,function (db) {
                     db.sqls = [];
                     db.createTable("items", function () {
                         this.id("integer", {"null": false, "default": 5});
@@ -701,7 +693,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     var ds = db.from("items");
                     ds.insert();
                     return {sqls: sqls, items: ds.all()};
-                }).then(function (sqls) {
+                }).chain(function (sqls) {
                         assert.deepEqual(sqls.sqls, [
                             "CREATE TABLE items (id integer NOT NULL DEFAULT 5)",
                             "DESCRIBE items",
@@ -710,11 +702,10 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         assert.deepEqual(sqls.items, [
                             {id: 5}
                         ]);
-                        next();
-                    }, next);
+                    });
             });
-            it.should("have accept raw SQL when using db.run", function (next) {
-                comb.executeInOrder(db,function (db) {
+            it.should("have accept raw SQL when using db.run", function () {
+                return comb.executeInOrder(db,function (db) {
                     var res = [];
                     db.createTable("items", function () {
                         this.name("string");
@@ -727,66 +718,62 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                     db.run("DELETE FROM items");
                     res.push(db.from("items").first());
                     return res;
-                }).then(function (res) {
+                }).chain(function (res) {
                         assert.deepEqual(res, [
                             [],
                             {name: 'tutu', value: 1234},
                             null
                         ]);
-                        next();
-                    }, next);
+                    });
             });
         });
 
-        it.should("support group queries", function (next) {
-            comb.executeInOrder(MYSQL_DB,
-                function (db) {
-                    var ds = db.from("test2");
-                    ds.remove();
-                    ds.insert({name: 11, value: 10});
-                    ds.insert({name: 11, value: 20});
-                    ds.insert({name: 11, value: 30});
-                    ds.insert({name: 12, value: 10});
-                    ds.insert({name: 12, value: 20});
-                    ds.insert({name: 13, value: 30});
-                    var ds2 = db.fetch("SELECT name FROM test2 WHERE name = '11' GROUP BY name");
-                    var count = ds2.count();
-                    var ds3 = db.from("test2").select("name").where({name: 11}).group("name");
-                    return {count1: count, count2: ds3.count()};
-                }).then(function (res) {
+        it.should("support group queries", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
+                var ds = db.from("test2");
+                ds.remove();
+                ds.insert({name: 11, value: 10});
+                ds.insert({name: 11, value: 20});
+                ds.insert({name: 11, value: 30});
+                ds.insert({name: 12, value: 10});
+                ds.insert({name: 12, value: 20});
+                ds.insert({name: 13, value: 30});
+                var ds2 = db.fetch("SELECT name FROM test2 WHERE name = '11' GROUP BY name");
+                var count = ds2.count();
+                var ds3 = db.from("test2").select("name").where({name: 11}).group("name");
+                return {count1: count, count2: ds3.count()};
+            }).chain(function (res) {
                     assert.equal(res.count1, 1);
                     assert.equal(res.count2, 1);
-                    next();
-                }, next);
+                });
 
         });
 
 
-        it.should("support fulltext indexes and fullTextSearch", function (next) {
-            comb.executeInOrder(MYSQL_DB,
-                function (db) {
-                    db.forceDropTable("posts");
-                    db.sqls = [];
-                    db.sqls = [];
-                    db.createTable("posts", {engine: "MyISAM"}, function () {
-                        this.title("text");
-                        this.body("text");
-                        this.fullTextIndex("title");
-                        this.fullTextIndex(["title", "body"]);
-                    });
-                    var ret = {};
-                    ret.sqls = db.sqls.slice(0);
-                    db.from("posts").insert({title: 'node server', body: 'y'});
-                    db.from("posts").insert({title: 'patio', body: 'query'});
-                    db.from("posts").insert({title: 'node bode', body: 'x'});
-                    db.sqls = [];
-                    ret.ret1 = db.from("posts").fullTextSearch("title", "server").all()[0];
-                    ret.ret2 = db.from("posts").fullTextSearch(["title", "body"], ['patio', 'query']).all()[0];
-                    ret.ret3 = db.from("posts").fullTextSearch("title", '+node -server', {boolean: true}).all()[0];
-                    ret.sqls2 = db.sqls.slice(0);
-                    db.dropTable("posts");
-                    return ret;
-                }).then(function (sqls) {
+        it.should("support fulltext indexes and fullTextSearch", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
+                db.forceDropTable("posts");
+                db.sqls = [];
+                db.sqls = [];
+                db.createTable("posts", {engine: "MyISAM"}, function () {
+                    this.title("text");
+                    this.body("text");
+                    this.fullTextIndex("title");
+                    this.fullTextIndex(["title", "body"]);
+                });
+                var ret = {};
+                ret.sqls = db.sqls.slice(0);
+                db.from("posts").insert({title: 'node server', body: 'y'});
+                db.from("posts").insert({title: 'patio', body: 'query'});
+                db.from("posts").insert({title: 'node bode', body: 'x'});
+                db.sqls = [];
+                ret.ret1 = db.from("posts").fullTextSearch("title", "server").all()[0];
+                ret.ret2 = db.from("posts").fullTextSearch(["title", "body"], ['patio', 'query']).all()[0];
+                ret.ret3 = db.from("posts").fullTextSearch("title", '+node -server', {boolean: true}).all()[0];
+                ret.sqls2 = db.sqls.slice(0);
+                db.dropTable("posts");
+                return ret;
+            }).chain(function (sqls) {
                     assert.deepEqual(sqls.sqls, [
                         "CREATE TABLE posts (title text, body text) ENGINE=MyISAM",
                         "CREATE FULLTEXT INDEX posts_title_index ON posts (title)",
@@ -800,32 +787,29 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         "SELECT * FROM posts WHERE (MATCH (title, body) AGAINST ('patio query'))",
                         "SELECT * FROM posts WHERE (MATCH (title) AGAINST ('+node -server' IN BOOLEAN MODE))"
                     ]);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("support spatial indexes", function (next) {
-            comb.executeInOrder(MYSQL_DB,
-                function (db) {
-                    db.sqls = [];
-                    db.createTable("posts", {engine: "MyISAM"}, function () {
-                        this.geom("point", {allowNull: false});
-                        this.spatialIndex(["geom"]);
-                    });
-                    var sqls = db.sqls.slice(0);
-                    db.dropTable("posts");
-                    return sqls;
-                }).then(function (sqls) {
+        it.should("support spatial indexes", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
+                db.sqls = [];
+                db.createTable("posts", {engine: "MyISAM"}, function () {
+                    this.geom("point", {allowNull: false});
+                    this.spatialIndex(["geom"]);
+                });
+                var sqls = db.sqls.slice(0);
+                db.dropTable("posts");
+                return sqls;
+            }).chain(function (sqls) {
                     assert.deepEqual(sqls, [
                         "CREATE TABLE posts (geom point NOT NULL) ENGINE=MyISAM",
                         "CREATE SPATIAL INDEX posts_geom_index ON posts (geom)"
                     ]);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("support indexes types", function (next) {
-            comb.executeInOrder(MYSQL_DB,function (db) {
+        it.should("support indexes types", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
                 db.sqls = [];
                 db.createTable("posts", function () {
                     this.id("integer");
@@ -834,50 +818,45 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                 var sqls = db.sqls.slice(0);
                 db.dropTable("posts");
                 return sqls;
-            }).then(function (sqls) {
+            }).chain(function (sqls) {
                     assert.deepEqual(sqls, [
                         "CREATE TABLE posts (id integer)",
                         "CREATE INDEX posts_id_index USING btree ON posts (id)"
                     ]);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("support unique indexes using types", function (next) {
-            comb.executeInOrder(MYSQL_DB,
-                function (db) {
-                    db.sqls = [];
-                    db.createTable("posts", function () {
-                        this.id("integer");
-                        this.index("id", {type: "btree", unique: true});
-                    });
-                    var sqls = db.sqls.slice(0);
-                    db.dropTable("posts");
-                    return sqls;
-                }).then(function (sqls) {
+        it.should("support unique indexes using types", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
+                db.sqls = [];
+                db.createTable("posts", function () {
+                    this.id("integer");
+                    this.index("id", {type: "btree", unique: true});
+                });
+                var sqls = db.sqls.slice(0);
+                db.dropTable("posts");
+                return sqls;
+            }).chain(function (sqls) {
                     assert.deepEqual(sqls, [
                         "CREATE TABLE posts (id integer)",
                         "CREATE UNIQUE INDEX posts_id_index USING btree ON posts (id)"
                     ]);
-                    next();
-                }, next);
+                });
         });
 
-        it.should("not dump partial indexes", function (next) {
-            comb.executeInOrder(MYSQL_DB,
-                function (db) {
-                    db.sqls = [];
-                    db.createTable("posts", function () {
-                        this.id("text");
-                    });
-                    db.run("CREATE INDEX posts_id_index ON posts (id(10))");
-                    var ret = db.indexes("posts");
-                    db.dropTable("posts");
-                    return ret;
-                }).then(function (indexes) {
+        it.should("not dump partial indexes", function () {
+            return comb.executeInOrder(MYSQL_DB,function (db) {
+                db.sqls = [];
+                db.createTable("posts", function () {
+                    this.id("text");
+                });
+                db.run("CREATE INDEX posts_id_index ON posts (id(10))");
+                var ret = db.indexes("posts");
+                db.dropTable("posts");
+                return ret;
+            }).chain(function (indexes) {
                     assert.isTrue(comb.isEmpty(indexes));
-                    next();
-                }, next);
+                });
         });
         it.context(function (it) {
 
@@ -900,66 +879,62 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
 
             it.describe("#insert", function (it) {
 
-                it.should("insert record with default values when no arguments given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("insert record with default values when no arguments given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.insert();
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: null, value: null, image: null}
                             ]);
                             assert.deepEqual(ret.sql, [
                                 "INSERT INTO items () VALUES ()"
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("insert record with default values when empty hash given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("insert record with default values when empty hash given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.insert({});
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: null, value: null, image: null}
                             ]);
                             assert.deepEqual(ret.sql, [
                                 "INSERT INTO items () VALUES ()"
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("insert record with default values when empty array given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("insert record with default values when empty array given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.insert([]);
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: null, value: null, image: null}
                             ]);
                             assert.deepEqual(ret.sql, [
                                 "INSERT INTO items () VALUES ()"
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
             });
 
             it.describe("#onDuplicateKeyUpdate", function (it) {
-                it.should("work with regular inserts", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
-
+                it.should("work with regular inserts", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         db.addIndex("items", "name", {unique: true});
                         db.sqls = [];
                         d.insert({name: "abc", value: 1});
                         d.onDuplicateKeyUpdate("name", {value: 6}).insert({name: "abc", value: 1});
                         d.onDuplicateKeyUpdate("name", {value: 6}).insert({name: "def", value: 2});
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'abc', value: 6, image: null},
                                 {id: null, name: 'def', value: 2, image: null}
@@ -969,18 +944,17 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT INTO items (name, value) VALUES ('abc', 1) ON DUPLICATE KEY UPDATE name=VALUES(name), value=6",
                                 "INSERT INTO items (name, value) VALUES ('def', 2) ON DUPLICATE KEY UPDATE name=VALUES(name), value=6"
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
-                it.should("add the ON DUPLICATE KEY UPDATE and columns specified when args are given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("add the ON DUPLICATE KEY UPDATE and columns specified when args are given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.onDuplicateKeyUpdate("value")["import"](["name", "value"], [
                             ['abc', 1],
                             ['def', 2]
                         ]);
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'abc', value: 1, image: null},
                                 {id: null, name: 'def', value: 2, image: null}
@@ -989,21 +963,20 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 SQL_BEGIN,
                                 "INSERT INTO items (name, value) VALUES ('abc', 1), ('def', 2) ON DUPLICATE KEY UPDATE value=VALUES(value)",
                                 SQL_COMMIT]);
-                            next();
-                        }, next);
+                        });
                 });
 
             });
 
             it.describe("#multiInsert", function (it) {
-                it.should("insert multiple records in a single statement", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("insert multiple records in a single statement", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.multiInsert([
                             {name: "abc"},
                             {name: 'def'}
                         ]);
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'abc', value: null, image: null},
                                 {id: null, name: 'def', value: null, image: null}
@@ -1013,13 +986,12 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT INTO items (name) VALUES ('abc'), ('def')",
                                 SQL_COMMIT
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("split the list of records into batches if commitEvery option is given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("split the list of records into batches if commitEvery option is given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         d.multiInsert([
                             {value: 1},
                             {value: 2},
@@ -1027,7 +999,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                             {value: 4}
                         ], {commitEvery: 2});
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: null, value: 1, image: null},
                                 {id: null, name: null, value: 2, image: null},
@@ -1042,13 +1014,12 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT INTO items (value) VALUES (3), (4)",
                                 SQL_COMMIT
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("split the list of records into batches if slice option is given", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("split the list of records into batches if slice option is given", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         db.sqls = [];
                         d.multiInsert([
                             {value: 1},
@@ -1057,7 +1028,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                             {value: 4}
                         ], {slice: 2});
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: null, value: 1, image: null},
                                 {id: null, name: null, value: 2, image: null},
@@ -1072,21 +1043,20 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT INTO items (value) VALUES (3), (4)",
                                 SQL_COMMIT
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
             });
 
             it.describe("#import", function (it) {
-                it.should("support inserting using columns and values arrays", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("support inserting using columns and values arrays", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         db.sqls = [];
                         d["import"](["name", "value"], [
                             ["abc", 1],
                             ["def", 2]
                         ]);
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'abc', value: 1, image: null},
                                 {id: null, name: "def", value: 2, image: null}
@@ -1096,21 +1066,20 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT INTO items (name, value) VALUES ('abc', 1), ('def', 2)",
                                 SQL_COMMIT
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
             });
 
             it.describe("#insertIgnore", function (it) {
-                it.should("add the IGNORE keyword when inserting", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("add the IGNORE keyword when inserting", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         db.sqls = [];
                         d.insertIgnore().multiInsert([
                             {name: "abc"},
                             {name: "def"}
                         ]);
                         return {sql: db.sqls.slice(0), all: d.all()};
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'abc', value: null, image: null},
                                 {id: null, name: "def", value: null, image: null}
@@ -1120,30 +1089,27 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 "INSERT IGNORE INTO items (name) VALUES ('abc'), ('def')",
                                 SQL_COMMIT
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
-                it.should("add the IGNORE keyword for single inserts", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,
-                        function (db, d) {
-                            db.sqls = [];
-                            d.insertIgnore().insert({name: "ghi"});
-                            return {sql: db.sqls.slice(0), all: d.all()};
-                        }).then(function (ret) {
+                it.should("add the IGNORE keyword for single inserts", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                        db.sqls = [];
+                        d.insertIgnore().insert({name: "ghi"});
+                        return {sql: db.sqls.slice(0), all: d.all()};
+                    }).chain(function (ret) {
                             assert.deepEqual(ret.all, [
                                 {id: null, name: 'ghi', value: null, image: null}
                             ]);
                             assert.deepEqual(ret.sql, ["INSERT IGNORE INTO items (name) VALUES ('ghi')"]);
-                            next();
-                        }, next);
+                        });
                 });
             });
 
             it.describe("#replace", function (it) {
 
-                it.should("use default values if they exist", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("use default values if they exist", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         db.alterTable("items", function () {
                             this.setColumnDefault("id", 1);
                             this.setColumnDefault("value", 2);
@@ -1156,7 +1122,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         d.replace({});
                         ret.push(d.all());
                         return ret;
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret, [
                                 [
                                     {id: 1, name: null, value: 2, image: null}
@@ -1168,13 +1134,12 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                     {id: 1, name: null, value: 2, image: null}
                                 ]
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("use default values if they exist", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("use default values if they exist", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         var ret = [];
                         d.replace([1, "hello", 2, new Buffer("test")]);
                         ret.push(d.all());
@@ -1183,7 +1148,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                         d.replace(d);
                         ret.push(d.all());
                         return ret;
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret, [
                                 [
                                     {id: 1, name: "hello", value: 2, image: new Buffer("test")}
@@ -1195,34 +1160,31 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                     {id: 1, name: "hello", value: 2, image: new Buffer("test")}
                                 ]
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("create a record if the condition is not met", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,
-                        function (db, d) {
-                            d.replace({id: 111, value: 333, image: null});
-                            return d.all();
-                        }).then(function (ret) {
+                it.should("create a record if the condition is not met", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                        d.replace({id: 111, value: 333, image: null});
+                        return d.all();
+                    }).chain(function (ret) {
                             assert.deepEqual(ret, [
                                 {id: 111, name: null, value: 333, image: null}
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
 
 
-                it.should("update a record if the condition is met", function (next) {
-                    comb.executeInOrder(MYSQL_DB, d,function (db, d) {
+                it.should("update a record if the condition is met", function () {
+                    return comb.executeInOrder(MYSQL_DB, d,function (db, d) {
                         var ret = [];
                         d.replace({id: 111, value: null});
                         ret.push(d.all());
                         d.replace({id: 111, value: 333});
                         ret.push(d.all());
                         return ret;
-                    }).then(function (ret) {
+                    }).chain(function (ret) {
                             assert.deepEqual(ret, [
                                 [
                                     {id: 111, name: null, value: null, image: null}
@@ -1231,8 +1193,7 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                     {id: 111, name: null, value: 333, image: null}
                                 ]
                             ]);
-                            next();
-                        }, next);
+                        });
                 });
             });
 
@@ -1268,46 +1229,35 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
         });
 
         it.describe("date/time conversions", function (it) {
-            it.should("throw an exception when a bad date/time is used and convertInvalidDateTime is false", function (next) {
+            it.should("throw an exception when a bad date/time is used and convertInvalidDateTime is false", function () {
                 patio.mysql.convertInvalidDateTime = false;
-                var ret = new comb.Promise();
-                MYSQL_DB.fetch("SELECT CAST('0000-00-00' AS date)").singleValue().then(function (res) {
-                    ret.errback("err");
-                }, function () {
-                    MYSQL_DB.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue().then(function () {
-                        ret.errback("err");
-                    }, function () {
-                        MYSQL_DB.fetch("SELECT CAST('25:00:00' AS time)").singleValue().then(function () {
-                            ret.errback("err");
-                        }, function (err) {
+                return MYSQL_DB.fetch("SELECT CAST('0000-00-00' AS date)").singleValue().chain(assert.fail, function () {
+                    return MYSQL_DB.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue().chain(assert.fail, function () {
+                        return MYSQL_DB.fetch("SELECT CAST('25:00:00' AS time)").singleValue().chain(assert.fail, function () {
                             patio.mysql.convertInvalidDateTime = false;
-                            ret.callback();
                         });
                     });
                 });
-                ret.classic(next);
             });
 
-            it.should("not use a null value bad date/time is used and convertInvalidDateTime is null", function (next) {
-                comb.executeInOrder(MYSQL_DB, patio,
-                    function (db, patio) {
-                        patio.mysql.convertInvalidDateTime = null;
-                        var ret = [];
-                        ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
-                        ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
-                        ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
-                        patio.mysql.convertInvalidDateTime = false;
-                        return ret;
-                    }).then(function (res) {
+            it.should("not use a null value bad date/time is used and convertInvalidDateTime is null", function () {
+                return comb.executeInOrder(MYSQL_DB, patio,function (db, patio) {
+                    patio.mysql.convertInvalidDateTime = null;
+                    var ret = [];
+                    ret.push(db.fetch("SELECT CAST('0000-00-00' AS date)").singleValue());
+                    ret.push(db.fetch("SELECT CAST('0000-00-00 00:00:00' AS datetime)").singleValue());
+                    ret.push(db.fetch("SELECT CAST('25:00:00' AS time)").singleValue());
+                    patio.mysql.convertInvalidDateTime = false;
+                    return ret;
+                }).chain(function (res) {
                         assert.deepEqual(res, [null, null, null]);
-                        next();
-                    }, next);
+                    });
             });
 
 
-            it.should("not use a null value bad date/time is used and convertInvalidDateTime is string || String", function (next) {
+            it.should("not use a null value bad date/time is used and convertInvalidDateTime is string || String", function () {
                 var db = MYSQL_DB;
-                comb.serial([
+                return comb.serial([
                         function () {
                             patio.mysql.convertInvalidDateTime = String;
                             return comb.when(
@@ -1332,30 +1282,28 @@ if (process.env.PATIO_DB === "mysql"  || process.env.NODE_ENV === 'test-coverage
                                 db.fetch("SELECT CAST('25:00:00' AS time)").singleValue()
                             );
                         }
-                    ]).then(function (res) {
+                    ]).chain(function (res) {
                         patio.mysql.convertInvalidDateTime = false;
                         res = comb.array.flatten(res);
                         assert.deepEqual(res, ['0000-00-00', '0000-00-00 00:00:00', '25:00:00', '0000-00-00', '0000-00-00 00:00:00', '25:00:00', '0000-00-00', '0000-00-00 00:00:00', '25:00:00']);
-                        next();
-                    }, next);
+                    });
 
             });
 
-            it.should("handle CURRENT_TIMESTAMP as a default value", function (next) {
-
-                comb.serial([
+            it.should("handle CURRENT_TIMESTAMP as a default value", function () {
+                return comb.serial([
                     function () {
                         return MYSQL_DB.alterTable("items", function () {
                             this.addColumn("timestamp", sql.TimeStamp, {"default": sql.CURRENT_TIMESTAMP});
                         });
                     },
                     function () {
-                        return MYSQL_DB.schema("items").then(function (schema) {
+                        return MYSQL_DB.schema("items").chain(function (schema) {
                             assert.equal(schema.timestamp["default"], "CURRENT_TIMESTAMP");
                             assert.isNull(schema.timestamp.jsDefault);
                         });
                     }
-                ]).classic(next);
+                ]);
 
             });
 
