@@ -554,129 +554,6 @@ This is useful when combined with dataset filtering
 
 
 
-    
-    <em>Source</em>
-    <pre class="prettyprint linenums lang-js">
-{
-    /**@lends patio.sql*/
-    /**
-     * Returns a {@link patio.sql.Identifier}, {@link patio.sql.QualifiedIdentifier},
-     * or {@link patio.sql.ALiasedExpression} depending on the format of the string
-     * passed in.
-     *
-     * &amp;lt;ul&gt;
-     *      &amp;lt;li&gt;For columns : table__column___alias.&amp;lt;/li&gt;
-     *      &amp;lt;li&gt;For tables : schema__table___alias.&amp;lt;/li&gt;
-     * &amp;lt;/ul&gt;
-     * each portion of the identifier is optional. See example below
-     *
-     * @example
-     *
-     * patio.sql.identifier(&quot;a&quot;) //= &gt; new patio.sql.Identifier(&quot;a&quot;);
-     * patio.sql.identifier(&quot;table__column&quot;); //=&gt; new patio.sql.QualifiedIdentifier(table, column);
-     * patio.sql.identifier(&quot;table__column___alias&quot;);
-     *      //=&gt; new patio.sql.AliasedExpression(new patio.sql.QualifiedIdentifier(table, column), alias);
-     *
-     * @param {String} name the name to covert to an an {@link patio.sql.Identifier}, {@link patio.sql.QualifiedIdentifier},
-     * or {@link patio.sql.AliasedExpression}.
-     *
-     * @return  {patio.sql.Identifier|patio.sql.QualifiedIdentifier|patio.sql.AliasedExpression} an identifier generated based on the name string.
-     */
-    identifier:function (s) {
-        return sql.stringToIdentifier(s);
-    },
-    /**
-     * @see patio.sql.identifier
-     */
-    stringToIdentifier:function (name) {
-        !Dataset &amp;&amp; (Dataset = require(&quot;./dataset&quot;));
-        return new Dataset().stringToIdentifier(name);
-    },
-    /**
-     * Creates a {@link patio.sql.LiteralString} or {@link patio.sql.PlaceHolderLiteralString}
-     * depending on the arguments passed in. If a single string is passed in then
-     * it is assumed to be a {@link patio.sql.LiteralString}. If more than one argument is
-     * passed in then it is assumed to be a {@link patio.sql.PlaceHolderLiteralString}.
-     *
-     * @example
-     *
-     * //a literal string that will be placed in an SQL query with out quoting.
-     * patio.sql.literal(&quot;a&quot;); //=&gt; new patio.sql.LiteralString(&#x27;a&#x27;);
-     *
-     * //a placeholder string that will have ? replaced with the {@link patio.Dataset#literal} version of
-     * //the arugment and replaced in the string.
-     * patio.sql.literal(&quot;a = ?&quot;, 1)  //=&gt; a = 1
-     * patio.sql.literal(&quot;a = ?&quot;, &quot;b&quot;); //=&gt; a = &#x27;b&#x27;
-     * patio.sql.literal(&quot;a = {a} AND b = {b}&quot;, {a : 1, b : 2}); //=&gt; a = 1 AND b = 2
-     *
-     * @param {String ...} s variable number of arguments where the first argument
-     * is a string. If multiple arguments are passed it is a assumed to be a {@link patio.sql.PlaceHolderLiteralString}
-     *
-     * @return {patio.sql.LiteralString|patio.sql.PlaceHolderLiteralString} an expression that can be used as an argument
-     * for {@link patio.Dataset} query methods.
-     */
-    literal:function (s) {
-        var args = argsToArray(arguments);
-        return args.length &gt; 1 ? PlaceHolderLiteralString.fromArgs(args) : new LiteralString(s);
-    },
-    /**
-     * Returns a {@link patio.sql.CaseExpression}. See {@link patio.sql.CaseExpression} for argument types.
-     *
-     * @example
-     *
-     * sql[&quot;case&quot;]({a:sql.b}, sql.c, sql.d); //=&gt; (CASE t.d WHEN t.a THEN t.b ELSE t.c END)
-     *
-     */
-    &quot;case&quot;:function (hash, /*args**/opts) {
-        var args = argsToArray(arguments, 1);
-        return CaseExpression.fromArgs([hashToArray(hash)].concat(args));
-    },
-    /**
-     * Creates a {@link patio.sql.StringExpression}
-     *
-     * Return a {@link patio.sql.StringExpression} representing an SQL string made up of the
-     * concatenation of this array&#x27;s elements.  If an joiner is passed
-     * it is used in between each element of the array in the SQL
-     * concatenation.
-     *
-     * @example
-     *   patio.sql.sqlStringJoin([&quot;a&quot;]); //=&gt; a
-     *   //you can use sql.* as a shortcut to get an identifier
-     *   patio.sql.sqlStringJoin([sql.identifier(&quot;a&quot;), sql.b]);//=&gt; a || b
-     *   patio.sql.sqlStringJoin([sql.a, &#x27;b&#x27;]) # SQL: a || &#x27;b&#x27;
-     *   patio.sql.sqlStringJoin([&#x27;a&#x27;, sql.b], &#x27; &#x27;); //=&gt; &#x27;a&#x27; || &#x27; &#x27; || b
-     */
-    sqlStringJoin:function (arr, joiner) {
-        joiner = joiner || null;
-        var args;
-        arr = arr.map(function (a) {
-            return isInstanceOf(a, Expression, LiteralString, Boolean) || isNull(a) ? a : sql.stringToIdentifier(a)
-        });
-        if (joiner) {
-            var newJoiner = [];
-            for (var i = 0; i &amp;lt; arr.length; i++) {
-                newJoiner.push(joiner);
-            }
-            args = array.flatten(array.zip(arr, newJoiner));
-            args.pop();
-        } else {
-            args = arr;
-        }
-        args = args.map(function (a) {
-            return isInstanceOf(a, Expression, LiteralString, Boolean) || isNull(a) ? a : &quot;&quot; + a;
-        });
-        return StringExpression.fromArgs([&quot;||&quot;].concat(args));
-    },
-    Year:Year,
-    TimeStamp:TimeStamp,
-    Time:Time,
-    DateTime:DateTime,
-    Float:Float,
-    Decimal:Decimal
-}
-    </pre>
-    
-
     <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>NegativeBooleanConstant</td><td>declaration</td><td><code>define(BooleanConstant, {</code></td><td><p>Represents inverse boolean constants (currently only NOTNULL). A
 special class to allow for special behavior.</p>
 </td><tr></table>
@@ -931,7 +808,7 @@ function (arr,joiner){
    joiner = joiner || null;
    var args;
    arr = arr.map(function (a) {
-       return isInstanceOf(a, Expression, LiteralString, Boolean) || isNull(a) ? a : sql.stringToIdentifier(a)
+       return isInstanceOf(a, Expression, LiteralString, Boolean) || isNull(a) ? a : sql.stringToIdentifier(a);
    });
    if (joiner) {
        var newJoiner = [];

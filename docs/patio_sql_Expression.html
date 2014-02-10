@@ -471,13 +471,6 @@
     
     
     
-        
-            <em>Source</em>
-            <pre class="prettyprint linenums lang-js">
-define(null, {
-            </pre>
-      
-    
 
   
     <a name=".fromArgs"></a>
@@ -531,9 +524,9 @@ QualifiedIdentifier.fromArgs([&quot;table&quot;, &quot;column&quot;]);
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (args){
-   var ret;
+   var ret, Self = this;
    try {
-       ret = new this();
+       ret = new Self();
    } catch (ignore) {
    }
    this.apply(ret, args);

@@ -554,7 +554,7 @@ function (expression,descending,opts){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return new OrderedExpression(this.__expression, false, {nulls:this.__nulls});
+   return new OrderedExpression(this.__expression, false, {nulls: this.__nulls});
            
 }
     </pre>
@@ -597,7 +597,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return new OrderedExpression(this.__expression, true, {nulls:this.__nulls});
+   return new OrderedExpression(this.__expression, true, {nulls: this.__nulls});
            
 }
     </pre>
@@ -641,7 +641,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return new OrderedExpression(this.__expression, !this.__descending, {nulls:this._static.INVERT_NULLS[this.__nulls] || this.__nulls});
+   return new OrderedExpression(this.__expression, !this.__descending, {nulls: this._static.INVERT_NULLS[this.__nulls] || this.__nulls});
            
 }
     </pre>

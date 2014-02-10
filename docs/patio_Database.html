@@ -6395,7 +6395,6 @@ function (table,opts){
    if (!isFunction(this.schemaParseTable)) {
        throw new Error(&quot;Schema parsing is not implemented on this database&quot;);
    }
-   var ret = new Promise();
    opts = opts || {};
    var schemaParts = this.__schemaAndTable(table);
    var sch = schemaParts[0], tableName = schemaParts[1];
@@ -6404,26 +6403,21 @@ function (table,opts){
    if (opts.reload) {
        delete this.schemas[quotedName];
    }
-   if (this.schemas[quotedName]) {
-       ret = this.schemas[quotedName];
-   } else {
-       var self = this;
-       ret = this.schemas[quotedName] = this.schemaParseTable(tableName, opts).chain(function (cols) {
-           if (!cols || cols.length === 0) {
-               throw new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;)
-           } else {
-               var schema = {};
-               cols.forEach(function (c) {
-                   var name = c[0];
-                   c = c[1];
-                   c.jsDefault = self.__columnSchemaToJsDefault(c[&quot;default&quot;], c.type);
-                   schema[name] = c;
-               });
-               return schema;
-           }
-       });
-   }
-   return ret.promise();
+   var self = this;
+   return this.schemaParseTable(tableName, opts).chain(function (cols) {
+       if (!cols || cols.length === 0) {
+           throw new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;)
+       } else {
+           var schema = {};
+           cols.forEach(function (c) {
+               var name = c[0];
+               c = c[1];
+               c.jsDefault = self.__columnSchemaToJsDefault(c[&quot;default&quot;], c.type);
+               schema[name] = c;
+           });
+           return schema;
+       }
+   });
            
 }
     </pre>

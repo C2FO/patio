@@ -1,3 +1,8 @@
+#v0.2.15
+
+* Updated patio migrate to use an exit code of `1` if the migration fails. [#92](https://github.com/C2FO/patio/issues/92)
+* Fixed the use of hashes in `andGrouped*` methods.
+
 # v0.2.14
 
 * Converted uses of `.then` to `.chain`

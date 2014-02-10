@@ -472,13 +472,6 @@ in a boolean value in SQL.</p>
     
     
     
-        
-            <em>Source</em>
-            <pre class="prettyprint linenums lang-js">
-define([ComplexExpression, BooleanMethods], {
-            </pre>
-      
-    
 
   
     <a name=".__filterObject"></a>
@@ -522,6 +515,8 @@ Dataset._filterObject({a : 1}) //=&gt; WHERE (a = 1)
         <li> <em>[key= <code>null</code>]</em>  : <p>the key that the hash corresponds to</p>
 </li>
     
+        <li> <em>op</em>  : </li>
+    
      </ul>
 
 
@@ -538,13 +533,13 @@ Dataset._filterObject({a : 1}) //=&gt; WHERE (a = 1)
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (expr,key){
+function (expr,key,op){
    var pairs = [], opts, newKey;
    var twoArityOperators = this.TWO_ARITY_OPERATORS;
    for (var k in expr) {
        var v = expr[k];
        if (isHash(v)) { //its a hash too filter it too!
-           pairs.push(this.__filterObject(v, k));
+           pairs.push(this.__filterObject(v, k, op));
        } else if (key &amp;&amp; (twoArityOperators[k.toUpperCase()] || k.match(/between/i))) {
            //its a two arrity operator (e.g. &#x27;=&#x27;, &#x27;&gt;&#x27;)
            newKey = isString(key) ? key.split(&quot;,&quot;) : [key];
@@ -553,7 +548,7 @@ function (expr,key){
                //(e.g. {&quot;col1,col2&quot; : 1}) =&gt; WHERE (col1 = 1 AND col2 = 1)
                pairs = pairs.concat(newKey.map(function (k) {
                    //filter each column with the expression
-                   return this.__filterObject(expr, k);
+                   return this.__filterObject(expr, k, op);
                }, this));
            } else {
                newKey = [sql.stringToIdentifier(newKey[0])];
@@ -562,7 +557,7 @@ function (expr,key){
                    pairs.push(StringExpression.like.apply(StringExpression, (newKey.concat(isArray(v) ? v : [v]))));
                } else if (k.match(/^iLike$/)) {
                    //its a like clause {col : {iLike : &quot;hello&quot;}}
-                   pairs.push(StringExpression.like.apply(StringExpression, (newKey.concat(isArray(v) ? v : [v]).concat({caseInsensitive:true}))));
+                   pairs.push(StringExpression.like.apply(StringExpression, (newKey.concat(isArray(v) ? v : [v]).concat({caseInsensitive: true}))));
                } else if (k.match(/between/i)) {
                    //its a like clause {col : {between : [1,10]}}
                    var between = sql.stringToIdentifier(newKey[0]).between(v);
@@ -590,7 +585,7 @@ function (expr,key){
    }
    //if the total of pairs is one then we just return the first element
    //otherwise we join them all with an AND
-   return pairs.length == 1 ? pairs[0] : BooleanExpression.fromArgs([&quot;AND&quot;].concat(pairs));
+   return pairs.length == 1 ? pairs[0] : BooleanExpression.fromArgs([op || &quot;AND&quot;].concat(pairs));
            
 }
     </pre>
@@ -675,14 +670,14 @@ function (a,op,negate){
    var pairArr = [];
    var isArr = isArray(a) &amp;&amp; Expression.isConditionSpecifier(a);
    if (isHash(a)) {
-       pairArr.push(this.__filterObject(a));
+       pairArr.push(this.__filterObject(a, null, op));
    } else {
        for (var k in a) {
            var v = isArr ? a[k][1] : a[k], ret;
            k = isArr ? a[k][0] : k;
            if (isArray(v) || isInstanceOf(v, Dataset)) {
                k = isArray(k) ? k.map(function (i) {
-                   return isString(i) ? sql.stringToIdentifier(i) : i
+                   return isString(i) ? sql.stringToIdentifier(i) : i;
                }) : isString(k) ? sql.stringToIdentifier(k) : k;
                ret = new BooleanExpression(&quot;IN&quot;, k, v);
            } else if (isInstanceOf(v, NegativeBooleanConstant)) {
@@ -692,7 +687,7 @@ function (a,op,negate){
            } else if (isNull(v) || isBoolean(v)) {
                ret = new BooleanExpression(&quot;IS&quot;, k, v);
            } else if (isHash(v)) {
-               ret = BooleanExpression.__filterObject(v, k);
+               ret = BooleanExpression.__filterObject(v, k, op);
            } else if (isRegExp(v)) {
                ret = StringExpression.like(sql.stringToIdentifier(k), v);
            } else {
@@ -767,7 +762,7 @@ BooleanExpression.invert(sql.a) //=&gt; NOT &quot;a&quot;
 function (expression){
    if (isInstanceOf(expression, BooleanExpression)) {
        var op = expression.op, newArgs;
-       if (op == &quot;AND&quot; || op == &quot;OR&quot;) {
+       if (op === &quot;AND&quot; || op === &quot;OR&quot;) {
            newArgs = [OPERTATOR_INVERSIONS[op]].concat(expression.args.map(function (arg) {
                return BooleanExpression.invert(arg);
            }));

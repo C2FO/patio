@@ -561,7 +561,7 @@ be used instead of this class directly.</p>
             <pre class="prettyprint linenums lang-js">
 function (op){
    if (op) {
-       var args = argsToArray(arguments,1 );
+       var args = argsToArray(arguments, 1);
        //make a copy of the args
        var origArgs = args.slice(0);
        args.forEach(function (a, i) {
@@ -572,25 +572,25 @@ function (op){
        op = op.toUpperCase();
        if (N_ARITY_OPERATORS.hasOwnProperty(op)) {
            if (args.length &amp;lt; 1) {
-               throw new ExpressionError(&quot;The &quot; + op + &quot; operator requires at least 1 argument&quot;)
+               throw new ExpressionError(&quot;The &quot; + op + &quot; operator requires at least 1 argument&quot;);
            }
            var oldArgs = args.slice(0);
            args = [];
            oldArgs.forEach(function (a) {
-               a instanceof ComplexExpression &amp;&amp; a.op == op ? args = args.concat(a.args) : args.push(a);
+               a instanceof ComplexExpression &amp;&amp; a.op === op ? args = args.concat(a.args) : args.push(a);
            });
        } else if (TWO_ARITY_OPERATORS.hasOwnProperty(op)) {
-           if (args.length != 2) {
+           if (args.length !== 2) {
                throw new ExpressionError(&quot;The &quot; + op + &quot; operator requires precisely 2 arguments&quot;);
            }
            //With IN/NOT IN, even if the second argument is an array of two element arrays,
            //don&#x27;t convert it into a boolean expression, since it&#x27;s definitely being used
            //as a value list.
            if (IN_OPERATORS[op]) {
-               args[1] = origArgs[1]
+               args[1] = origArgs[1];
            }
        } else if (ONE_ARITY_OPERATORS.hasOwnProperty(op)) {
-           if (args.length != 1) {
+           if (args.length !== 1) {
                throw new ExpressionError(&quot;The &quot; + op + &quot; operator requires only one argument&quot;);
            }
        } else {

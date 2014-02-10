@@ -14,7 +14,7 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
-it.describe("Dataset queries",function (it) {
+it.describe("Dataset queries", function (it) {
     patio.identifierInputMethod = null;
     patio.identifierOutputMethod = null;
 
@@ -470,6 +470,10 @@ it.describe("Dataset queries",function (it) {
                 ['y', 2],
                 ['y', 3]
             ]).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 2) OR (y = 3)))");
+        });
+
+        it.should("work with hashes", function () {
+            assert.equal(d1.andGroupedOr({y: "z", z: "y"}).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 'z') OR (z = 'y')))");
         });
     });
 
@@ -2335,4 +2339,4 @@ it.describe("Dataset queries",function (it) {
 
     it.afterAll(comb.hitch(patio, "disconnect"));
 
-}).as(module);
+});

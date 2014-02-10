@@ -650,6 +650,7 @@ if (process.env.PATIO_DB === "mysql" || process.env.NODE_ENV === 'test-coverage'
                         assert.deepEqual(sqls, [
                             "CREATE TABLE items (id integer, list enum('one'))",
                             "DESCRIBE items",
+                            "DESCRIBE items",
                             "ALTER TABLE items CHANGE COLUMN id id int(8) UNSIGNED NULL",
                             "ALTER TABLE items CHANGE COLUMN list list enum('two') NULL"
                         ]);
