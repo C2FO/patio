@@ -3689,7 +3689,7 @@ function (obj,invert){
            throw new QueryError(&quot;Between requires an array for the value&quot;);
        }
    }
-   var ret = pairs.length == 1 ? pairs[0] : BooleanExpression.fromArgs([&quot;AND&quot;].concat(pairs))
+   var ret = pairs.length === 1 ? pairs[0] : BooleanExpression.fromArgs([&quot;AND&quot;].concat(pairs));
    return invert ? BooleanExpression.invert(ret) : ret;
            
 }
@@ -3760,7 +3760,7 @@ function (op,obj){
            pairs.push(new BooleanExpression(op, new Identifier(pair[0]), pair[1]));
        });
    }
-   return pairs.length == 1 ? pairs[0] : BooleanExpression.fromArgs([&quot;AND&quot;].concat(pairs));
+   return pairs.length === 1 ? pairs[0] : BooleanExpression.fromArgs([&quot;AND&quot;].concat(pairs));
            
 }
     </pre>
@@ -4025,7 +4025,7 @@ function (addedByBool,groupedByBool){
        clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;),
        clauseObj = tOpts[clause];
    var args = argsToArray(arguments, 2);
-   args = args.length == 1 ? args[0] : args;
+   args = args.length === 1 ? args[0] : args;
    var opts = {};
    if (clauseObj) {
        addedByBool = isUndefined(addedByBool) ? &quot;AND&quot; : addedByBool;
@@ -4253,8 +4253,8 @@ function (clause){
    if (cond.length &amp;&amp; isFunction(cond[cond.length - 1])) {
        cb = cond.pop();
    }
-   cond = cond.length == 1 ? cond[0] : cond
-   if ((cond == null || cond == undefined || cond === &quot;&quot;) || (isArray(cond) &amp;&amp; cond.length == 0 &amp;&amp; !cb) || (isObject(cond) &amp;&amp; isEmpty(cond) &amp;&amp; !cb)) {
+   cond = cond.length === 1 ? cond[0] : cond;
+   if ((cond == null || cond === undefined || cond === &quot;&quot;) || (isArray(cond) &amp;&amp; cond.length === 0 &amp;&amp; !cb) || (isObject(cond) &amp;&amp; isEmpty(cond) &amp;&amp; !cb)) {
        return this.mergeOptions();
    } else {
        cond = this._filterExpr(cond, cb);
@@ -4309,9 +4309,9 @@ function (clause){
 function (expr,cb,joinCond){
    expr = (isUndefined(expr) || isNull(expr) || (isArray(expr) &amp;&amp; !expr.length)) ? null : expr;
    if (expr &amp;&amp; cb) {
-       return new BooleanExpression(joinCond || &quot;AND&quot;, this._filterExpr(expr, null, joinCond), this._filterExpr(cb, null, joinCond))
+       return new BooleanExpression(joinCond || &quot;AND&quot;, this._filterExpr(expr, null, joinCond), this._filterExpr(cb, null, joinCond));
    } else if (cb) {
-       expr = cb
+       expr = cb;
    }
    if (isInstanceOf(expr, Expression)) {
        if (isInstanceOf(expr, NumericExpression, StringExpression)) {
@@ -4324,7 +4324,7 @@ function (expr,cb,joinCond){
            if (isString(first)) {
                return new PlaceHolderLiteralString(first, expr.slice(1), true);
            } else if (Expression.isConditionSpecifier(expr)) {
-               return BooleanExpression.fromValuePairs(expr, joinCond)
+               return BooleanExpression.fromValuePairs(expr, joinCond);
            } else {
                return BooleanExpression.fromArgs([joinCond || &quot;AND&quot;].concat(expr.map(function (e) {
                    return this._filterExpr(e, null, joinCond);
@@ -7875,7 +7875,7 @@ function (){
    cond = this._filterExpr.call(this, cond);
    cond = BooleanExpression.invert(cond);
    if (clauseObj) {
-       cond = new BooleanExpression(&quot;AND&quot;, clauseObj, cond)
+       cond = new BooleanExpression(&quot;AND&quot;, clauseObj, cond);
    }
    var opts = {};
    opts[clause] = cond;
@@ -8541,16 +8541,16 @@ function (source){
                sources.push(new AliasedExpression(new Identifier(i), s[i]));
            }
        } else if (isString(s)) {
-           sources.push(this.stringToIdentifier(s))
+           sources.push(this.stringToIdentifier(s));
        } else {
            sources.push(s);
        }
    }, this);
-   var o = {from: sources.length ? sources : null}
+   var o = {from: sources.length ? sources : null};
    if (tableAliasNum) {
        o.numDatasetSources = tableAliasNum;
    }
-   return this.mergeOptions(o)
+   return this.mergeOptions(o);
            
 }
     </pre>
@@ -8622,7 +8622,7 @@ function (opts){
    var fs = {};
    var nonSqlOptions = this._static.NON_SQL_OPTIONS;
    Object.keys(this.__opts).forEach(function (k) {
-       if (nonSqlOptions.indexOf(k) == -1) {
+       if (nonSqlOptions.indexOf(k) === -1) {
            fs[k] = null;
        }
    });
@@ -9244,7 +9244,7 @@ DB.from(&quot;items&quot;).group(&quot;id&quot;)
 function (columns){
    columns = argsToArray(arguments);
    var self = this;
-   return this.mergeOptions({group: (array.compact(columns).length == 0 ? null : columns.map(function (c) {
+   return this.mergeOptions({group: (array.compact(columns).length === 0 ? null : columns.map(function (c) {
        return isString(c) ? self.stringToIdentifier(c) : c;
    }))});
            
@@ -9529,7 +9529,7 @@ DB.from(&quot;items&quot;).group(&quot;sum&quot;).having({sum : 10}).sql;
     <pre class="prettyprint linenums lang-js">
 function (){
    var cond = argsToArray(arguments).map(function (s) {
-       return isString(s) &amp;&amp; s !== &#x27;&#x27; ? this.stringToIdentifier(s) : s
+       return isString(s) &amp;&amp; s !== &#x27;&#x27; ? this.stringToIdentifier(s) : s;
    }, this);
    return this._filter.apply(this, [&quot;having&quot;].concat(cond));
            
@@ -10240,7 +10240,7 @@ function (){
    if (!(having || where)) {
        throw new QueryError(&quot;No current filter&quot;);
    }
-   var o = {}
+   var o = {};
    if (having) {
        o.having = BooleanExpression.invert(having);
    }
@@ -11093,7 +11093,7 @@ function (type,table,expr,options,cb){
    expr = isUndefined(expr) ? null : expr, options = isUndefined(options) ? {} : options;
    var h;
    var usingJoin = isArray(expr) &amp;&amp; expr.length &amp;&amp; expr.every(function (x) {
-       return isString(x) || isInstanceOf(x, Identifier)
+       return isString(x) || isInstanceOf(x, Identifier);
    });
    if (usingJoin &amp;&amp; !this.supportsJoinUsing) {
        h = {};
@@ -11128,7 +11128,7 @@ function (type,table,expr,options,cb){
        } else {
            table = isString(table) ? this.stringToIdentifier(table) : table;
            var parts = this._splitAlias(table), implicitTableAlias = parts[1];
-           table = parts[0]
+           table = parts[0];
            tableAlias = tableAlias || implicitTableAlias;
            tableName = tableAlias || table;
        }
@@ -11147,7 +11147,7 @@ function (type,table,expr,options,cb){
            var newExpr = [];
            for (var i in expr) {
                var val = expr[i];
-               if (isArray(val) &amp;&amp; val.length == 2) {
+               if (isArray(val) &amp;&amp; val.length === 2) {
                    i = val[0], val = val[1];
                }
                var k = this.qualifiedColumnName(i, tableName), v;
@@ -11400,7 +11400,7 @@ function (limit,offset){
    if (this.__opts.sql) {
        return this.fromSelf().limit(limit, offset);
    }
-   if (isArray(limit) &amp;&amp; limit.length == 2) {
+   if (isArray(limit) &amp;&amp; limit.length === 2) {
        offset = limit[0];
        limit = limit[1] - limit[0] + 1;
    }
@@ -12484,7 +12484,7 @@ function (){
    var clause = (tOpts.having ? &quot;having&quot; : &quot;where&quot;), clauseObj = tOpts[clause];
    if (clauseObj) {
        var args = argsToArray(arguments);
-       args = args.length == 1 ? args[0] : args;
+       args = args.length === 1 ? args[0] : args;
        var opts = {};
        opts[clause] = new BooleanExpression(&quot;OR&quot;, clauseObj, this._filterExpr(args));
        return this.mergeOptions(opts);
@@ -12565,7 +12565,7 @@ function (){
        return this.or.apply(this, arguments);
    } else {
        var args = argsToArray(arguments);
-       args = args.length == 1 ? args[0] : args;
+       args = args.length === 1 ? args[0] : args;
        var opts = {};
        opts[clause] = this._filterExpr(args, null, &quot;AND&quot;);
        return this.mergeOptions(opts);
@@ -16078,7 +16078,7 @@ function (name,nonRecursive,recursive,opts){
        throw new QueryError(&quot;This dataset does not support common table expressions&quot;);
    }
    opts = opts || {};
-   var wit = (this.__opts[&quot;with&quot;] || []).concat([merge(opts, {recursive: true, name: this.stringToIdentifier(name), dataset: nonRecursive.union(recursive, {all: opts.unionAll != false, fromSelf: false})})]);
+   var wit = (this.__opts[&quot;with&quot;] || []).concat([merge(opts, {recursive: true, name: this.stringToIdentifier(name), dataset: nonRecursive.union(recursive, {all: opts.unionAll !== false, fromSelf: false})})]);
    return this.mergeOptions({&quot;with&quot;: wit});
            
 }
@@ -16141,7 +16141,7 @@ DB.from(&quot;items&quot;).withSql(&#x27;SELECT * FROM foo&#x27;)
 function (sql){
    var args = argsToArray(arguments).slice(1);
    if (args.length) {
-       sql = new PlaceHolderLiteralString(sql, args)
+       sql = new PlaceHolderLiteralString(sql, args);
    }
    return this.mergeOptions({sql: sql});
            

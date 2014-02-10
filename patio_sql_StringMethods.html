@@ -514,7 +514,7 @@ sql.a.iLike(&quot;A%&quot;); //=&gt; &quot;a&quot; LIKE &#x27;A%&#x27;
 function (expression){
    expression = argsToArray(arguments);
    return StringExpression.like.apply(StringExpression, [this].concat(expression).concat([
-       {caseInsensitive:true}
+       {caseInsensitive: true}
    ]));
            
 }

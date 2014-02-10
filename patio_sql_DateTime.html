@@ -421,9 +421,9 @@ JSON.stringify(dateTime); //=&gt; &#x27;2009-11-10 10:10:10&#x27;
             <pre class="prettyprint linenums lang-js">
 function (y,m,d,h,min,s,ms){
    var args = argsToArray(arguments);
-   if(args.length === 0){
+   if (args.length === 0) {
        this.date = new Date();
-   }else if (isDate(y)) {
+   } else if (isDate(y)) {
        this.date = y;
    } else {
        var date = new Date(1970, 0, 1, 0, 0, 0);

@@ -568,7 +568,7 @@ sql.x.between([1,2]).invert() =&gt; //=&gt; WHERE ((x &lt; 1) OR (x &gt; 10))
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (items){
-   return new BooleanExpression(&quot;AND&quot;, new BooleanExpression(&quot;gte&quot;, this, items[0]), new BooleanExpression(&quot;lte&quot;, this, items[1]))
+   return new BooleanExpression(&quot;AND&quot;, new BooleanExpression(&quot;gte&quot;, this, items[0]), new BooleanExpression(&quot;lte&quot;, this, items[1]));
            
 }
     </pre>
