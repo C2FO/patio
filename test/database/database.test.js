@@ -429,11 +429,14 @@ it.describe("Database", function (it) {
                         table.primaryKey("id", "integer", {"null": false});
                         table.column("name", "text");
                         table.column("image", Buffer, {"null": false});
+                        table.column("age", "integer");
                         table.index("name", {unique: true});
+                        table.check({name: "Bob"});
+                        table.constraint("age", {age : {gt: 0}});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
-                                'CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL)',
-                                'CREATE UNIQUE INDEX test_name_index ON test (name)'
+                                "CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL, age integer, CHECK (name = 'Bob'), CONSTRAINT age CHECK (age > 0))",
+                                "CREATE UNIQUE INDEX test_name_index ON test (name)"
                             ]);
                         });
                 },
@@ -509,6 +512,10 @@ it.describe("Database", function (it) {
                 table.addIndex("fff", {unique: true});
                 table.dropIndex("ggg");
                 table.addForeignKey(["aaa"], "table");
+                table.addConstraint("valid_name", sql.name.like('A%'));
+                table.addConstraint("other_valid_name", function() {
+                    return sql.name2.like('A%');
+                });
             }).chain(function () {
                     assert.deepEqual(db.sqls, [
                         'ALTER TABLE xyz ADD COLUMN aaa text UNIQUE NOT NULL',
@@ -518,7 +525,9 @@ it.describe("Database", function (it) {
                         "ALTER TABLE xyz ALTER COLUMN hhh SET DEFAULT 'abcd'",
                         'CREATE UNIQUE INDEX xyz_fff_index ON xyz (fff)',
                         'DROP INDEX xyz_ggg_index',
-                        "ALTER TABLE xyz ADD FOREIGN KEY (aaa) REFERENCES table"
+                        "ALTER TABLE xyz ADD FOREIGN KEY (aaa) REFERENCES table",
+                        "ALTER TABLE xyz ADD CONSTRAINT valid_name CHECK (name LIKE 'A%')",
+                        "ALTER TABLE xyz ADD CONSTRAINT other_valid_name CHECK (name2 LIKE 'A%')"
                     ]);
                 });
         });
