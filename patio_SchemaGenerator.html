@@ -921,7 +921,7 @@ with the given block or args.</p>
     <em>Example</em>
         <pre class="prettyprint linenums lang-js">
 DB.createTable(&quot;test&quot;, function(){
-     this.constraint(&quot;blah&quot;, {num : {between : [1,5])
+     this.constraint(&quot;blah&quot;, {num : {between : [1,5]}})
              //=&gt; CONSTRAINT blah CHECK num &gt;= 1 AND num &lt;= 5
      this.check(&quot;foo&quot;, function(){
          return this.num.gt(5);
