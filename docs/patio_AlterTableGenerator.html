@@ -885,8 +885,8 @@ DB.alterTable(&quot;test&quot;, function(){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name){
-   var args = argsToArray(arguments);
-   var block = isFunction(args[args.length - 1]) ? args.pop() : null;
+   var args = argsToArray(arguments).slice(1);
+   var block = isFunction(args[args.length - 1]) ? args[args.length - 1]() : null;
    this.operations.push({op:&quot;addConstraint&quot;, name:name, type:&quot;check&quot;, check:block || args});
            
 }

@@ -1,3 +1,7 @@
+# v0.2.16
+
+* Fixed constraint creation to accept a function when creating or altering constraints.
+
 #v0.2.15
 
 * Updated patio migrate to use an exit code of `1` if the migration fails. [#92](https://github.com/C2FO/patio/issues/92)
