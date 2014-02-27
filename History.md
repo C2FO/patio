@@ -1,3 +1,8 @@
+# v0.2.17
+
+* Changed to use use `pg.js`
+* Removed the storing of columns in datasets
+
 # v0.2.16
 
 * Fixed constraint creation to accept a function when creating or altering constraints.
