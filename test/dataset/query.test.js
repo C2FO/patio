@@ -830,6 +830,13 @@ it.describe("Dataset queries", function (it) {
         });
     });
 
+    it.describe("#json", function (it) {
+        var dataset = new Dataset().from("test");
+        it.should("convert json properly", function () {
+            assert.throws(comb.hitch(dataset, "literal", sql.json("{test:'Hello world'}")));
+        });
+    });
+
     it.describe("#from", function (it) {
         var dataset = new Dataset();
 
