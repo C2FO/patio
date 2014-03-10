@@ -61,6 +61,12 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         this.name(String, {size: 20});
                         this.value("bytea");
                     });
+                },
+                function () {
+                    return PG_DB.forceCreateTable("test5", function () {
+                        this.value("integer");
+                        this.json("json");
+                    });
                 }
             ]);
         });
@@ -123,6 +129,20 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                 assert.isNotNull(d.insertSql({x: sql.identifier("y")}).match(/^INSERT INTO "test" \("x"\) VALUES \("y"\)( RETURNING NULL)?$/));
 
             });
+
+
+            it.should("convert json properly from string", function () {
+                assert.equal(d.literal(sql.json(JSON.stringify({test: 'Hello world'}))), "'{\"test\":\"Hello world\"}'");
+            });
+
+            it.should("convert json properly from object", function () {
+                assert.equal(d.literal(sql.json({test: 'Hello world'})), "'{\"test\":\"Hello world\"}'");
+            });
+
+            it.should("convert json properly from object", function () {
+                assert.equal(d.literal(sql.json({test: "SDF ASDFLALA\"\">ALERT(1)(DUWHB)"})), "'{\"test\":\"SDF ASDFLALA\\\"\\\">ALERT(1)(DUWHB)\"}'");
+            });
+
 
             it.should("quote fields correctly when reversing the order if quoting identifiers", function () {
                 d.quoteIdentifiers = true;
@@ -259,8 +279,24 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
             it.should("not covert strings with double _ to identifers", function () {
                 var ds = PG_DB.from("test3");
                 assert.deepEqual(ds.literal("a__B"), "'a__B'");
-            })
+            });
 
+            it.describe("with json field", function () {
+                var d;
+                it.beforeEach(function () {
+                    d = PG_DB.from("test5");
+                    return d.remove();
+                });
+
+                it.should("store json", function () {
+                    var json = {test: "test\""};
+                    return d.insert({value: 1, json: sql.json(json)}).chain(function () {
+                        return d.filter({value: 1}).select("json").returning("json").first().chain(function (result) {
+                            assert.deepEqual({json:json}, result);
+                        });
+                    })
+                });
+            });
         });
 
         it.describe("A postgres database", function (it) {
