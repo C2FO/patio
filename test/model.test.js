@@ -5,7 +5,8 @@ var it = require('it'),
     sql = patio.SQL,
     comb = require("comb-proxy"),
     EventEmitter = require("events").EventEmitter,
-    hitch = comb.hitch;
+    hitch = comb.hitch,
+    config = require("./test.config");
 
 var gender = ["M", "F"];
 
@@ -38,6 +39,10 @@ it.describe("patio.Model", function (it) {
             texttype: "text data",
             blobtype: "blob data"
         });
+        if (config.DB_TYPE === "pg") {
+            emp.jsontype = {a: "b"};
+            assert.instanceOf(emp.jsontype, sql.Json);
+        }
         assert.isString(emp.firstname);
         assert.isString(emp.lastname);
         assert.isNumber(emp.position);
@@ -331,7 +336,7 @@ it.describe("patio.Model", function (it) {
         var emp;
         it.beforeEach(function () {
             return Employee.remove().chain(function () {
-                return (emp = Employee.create({
+                var values = {
                     firstname: "doug",
                     lastname: "martin",
                     position: 21,
@@ -339,7 +344,11 @@ it.describe("patio.Model", function (it) {
                     gender: "M",
                     street: "1 nowhere st.",
                     city: "NOWHERE"
-                })).save();
+                };
+                if (config.DB_TYPE === "pg") {
+                    values.jsontype = {a: "b"};
+                }
+                return (emp = Employee.create(values)).save();
             });
         });
 
@@ -385,7 +394,11 @@ it.describe("patio.Model", function (it) {
         });
 
         it.should("have insertSql property", function () {
-            assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
+            if (config.DB_TYPE === "pg") {
+                assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`"]jsontype[`"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, '\{"a":"b"\}', 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
+            } else {
+                assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
+            }
         });
 
         it.should("have the updateSql property", function () {

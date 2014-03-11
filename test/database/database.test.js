@@ -432,7 +432,7 @@ it.describe("Database", function (it) {
                         table.column("age", "integer");
                         table.index("name", {unique: true});
                         table.check({name: "Bob"});
-                        table.constraint("age", {age : {gt: 0}});
+                        table.constraint("age", {age: {gt: 0}});
                     }).chain(function () {
                             assert.deepEqual(db.sqls, [
                                 "CREATE TABLE test (id integer NOT NULL PRIMARY KEY AUTOINCREMENT, name text, image blob NOT NULL, age integer, CHECK (name = 'Bob'), CONSTRAINT age CHECK (age > 0))",
@@ -513,7 +513,7 @@ it.describe("Database", function (it) {
                 table.dropIndex("ggg");
                 table.addForeignKey(["aaa"], "table");
                 table.addConstraint("valid_name", sql.name.like('A%'));
-                table.addConstraint("other_valid_name", function() {
+                table.addConstraint("other_valid_name", function () {
                     return sql.name2.like('A%');
                 });
             }).chain(function () {
@@ -1146,7 +1146,10 @@ it.describe("Database", function (it) {
             assert.deepEqual(db.typecastValue("datetime", "2011-10-5 10:10:10"), new sql.DateTime(2011, 9, 5, 10, 10, 10));
             assert.deepEqual(db.typecastValue("timestamp", "2011-10-5 10:10:10"), new sql.DateTime(2011, 9, 5, 10, 10, 10));
             assert.deepEqual(db.typecastValue("year", "2011"), new sql.Year(2011));
-
+            assert.deepEqual(db.typecastValue("json", JSON.stringify({a: "b"})), {a: "b"});
+            assert.deepEqual(db.typecastValue("json", {a: "b"}), {a: "b"});
+            assert.instanceOf(db.typecastValue("json", JSON.stringify({a: "b"})), sql.Json);
+            assert.instanceOf(db.typecastValue("json", {a: "b"}), sql.Json);
         });
 
         it.should("throw an InvalidValue when given an invalid value", function () {
@@ -1159,6 +1162,8 @@ it.describe("Database", function (it) {
             assert.throws(hitch(db, "typecastValue", "date", {}));
             assert.throws(hitch(db, "typecastValue", "time", "v"));
             assert.throws(hitch(db, "typecastValue", "dateTime", "z"));
+            assert.throws(hitch(db, "typecastValue", "json", "z"));
+            assert.throws(hitch(db, "typecastValue", "json", true));
         });
 
     });
@@ -1190,6 +1195,7 @@ it.describe("Database", function (it) {
             assert.equal(typeLiteral(sql.Year), "year");
             assert.equal(typeLiteral(Date, {yearOnly: true}), "year");
             assert.equal(typeLiteral(Boolean), "boolean");
+            assert.equal(typeLiteral(sql.Json), "json");
 
         });
 
@@ -1212,6 +1218,7 @@ it.describe("Database", function (it) {
             assert.equal(typeLiteral("year"), "year");
             assert.equal(typeLiteral("date", {yearOnly: true}), "year");
             assert.equal(typeLiteral("boolean"), "boolean");
+            assert.equal(typeLiteral("json"), "json");
         });
 
         it.should("support user defined types", function () {
@@ -1404,5 +1411,3 @@ it.describe("Database", function (it) {
 
     it.afterAll(comb.hitch(patio, "disconnect"));
 });
-
-//it.run();
