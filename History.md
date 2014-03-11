@@ -1,4 +1,4 @@
-# v0.2.19
+# v0.3.0
 
 * Added more in depth support for the `JSON` datatype.
   * Databases now natively support the JSON datatype.
