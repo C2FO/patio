@@ -292,7 +292,7 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     var json = {test: "test\""};
                     return d.insert({value: 1, json: sql.json(json)}).chain(function () {
                         return d.filter({value: 1}).select("json").returning("json").first().chain(function (result) {
-                            assert.deepEqual({json:json}, result);
+                            assert.deepEqual({json: json}, result);
                         });
                     })
                 });

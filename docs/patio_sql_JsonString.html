@@ -362,84 +362,67 @@
 
 
 
-<h1>Connecting to a database</h1>
-<h2><a href="./patio.html#createConnection">patio.createConnection</a></h2>
-<p>When using <a href="./patio.html#createConnection">patio.createConnection</a> to connect a database there are two types of parameters you can use.</p>
-<h3>Connetion URI</h3>
-<p>This is a well formed URI that will be used to connect to the database.</p>
-<p><strong>Currently supported databases</strong></p>
-<ul>
-<li><code>pg</code> : example <code>pg://test:testpass@localhost:5432/test</code></li>
-<li><code>mysql</code> : example <code>mysql://test:testpass@localhost:3306/test</code></li>
-</ul>
-<p><strong>Query options</strong></p>
-<ul>
-<li><code>maxConnections</code> : maximum number of connections to keep in the pool</li>
-<li><code>minConnections</code> : minimum number of connections to keep in the pool</li>
-</ul>
-<p><strong>Note:</strong> All other options will be passed to the underlying driver see the driver documentation for additional options.</p>
-<ul>
-<li><a href="https://github.com/felixge/node-mysql">mysql</a></li>
-<li><a href="https://github.com/brianc/node-postgres">postgres</a></li>
-</ul>
-<pre class='prettyprint linenums lang-js'><code>//Create a connection to a mysql database at localhost port 3306, with the username test, password test and
-// 1 connection by default and a max of 10
-var DB = patio.createConnection(&quot;mysql://test:testpass@localhost:3306/test?maxConnections=1&amp;minConnections=10&quot;);</code></pre>
-<h3>Connection Object</h3>
-<p>This is an object to used to connect.</p>
-<p><strong>Currently supported databases</strong></p>
-<ul>
-<li><code>pg</code> : example <code>pg://test:testpass@localhost:5432/test</code></li>
-<li><code>mysql</code> : example <code>mysql://test:testpass@localhost:3306/test</code></li>
-</ul>
-<p><strong>Options</strong></p>
-<ul>
-<li><code>type</code> <ul>
-<li><code>pg</code> : use postgres adapter</li>
-<li><code>mysql</code> : use mysql adapter</li>
-</ul>
-</li>
-<li><code>host</code> : host of the database</li>
-<li><code>port</code> : port the database is accepting connections on</li>
-<li><code>user</code> : user to connect to the database as</li>
-<li><code>password</code> : password</li>
-<li><code>database</code> : database (<code>schema</code>) to connect to</li>
-<li><code>maxConnections</code> : maximum number of connections to keep in the pool</li>
-<li><code>minConnections</code> : minimum number of connections to keep in the pool</li>
-</ul>
-<p><strong>Note:</strong> All other options will be passed to the underlying driver see the driver documentation for additional options.</p>
-<ul>
-<li><a href="https://github.com/felixge/node-mysql">mysql</a></li>
-<li><a href="https://github.com/brianc/node-postgres">postgres</a></li>
-</ul>
-<pre class='prettyprint linenums lang-js'><code>//connect using an object
-var DB = patio.createConnection({
-             host : &quot;localhost&quot;,
-             port : 3306,
-             type : &quot;mysql&quot;,
-             maxConnections : 10,
-             minConnections : 1,
-             user : &quot;test&quot;,
-             password : &quot;testpass&quot;,
-             database : &#39;test&#39;
-});
-    //Create a connection to a mysql database at localhost port 3306, with the username test, password test and
-    // 1 connection by default and a max of 10</code></pre>
-<h2>Disconnecting</h2>
-<p>To disconnect from a database you can use:</p>
-<ul>
-<li><a href="./patio.html#disconnect">patio.disconnect</a> which disconnects all databases currently connected.</li>
-</ul>
-<pre class='prettyprint linenums lang-js'><code>patio.disconnect().chain(function(){
-    //all databases are disconnected all queued queries have finished
-});</code></pre>
-<ul>
-<li><a href="./patio_Database.html#disconnect">patio.Database#disconnect</a> which disconnects only that database.</li>
-</ul>
-<pre class='prettyprint linenums lang-js'><code>DB.disconnect().chain(function(){
-    //database is disconnected and all queued queries have finished
-});</code></pre>
+    <a name=""></a>
+    <div class="navbar subnav navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a href="#" class="brand">
+                patio.sql.JsonString
+                
+                
+                <span class="label label-success">Public</span>
+                
+                
+            </a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".sub-nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
 
+            <div class="nav-collapse sub-nav-collapse">
+
+                <ul class="nav pull-right">
+                    <li><a href="#constructor">Constructor</a></li>
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <p><p>Represents a json string that should be placed into a SQL query literally.</p>
+</p>
+    
+
+    
+        <em>Extends</em>
+        <ul>
+            
+                <li> <a href="./patio_sql_LiteralString.html">patio.sql.LiteralString</a></li>
+            
+        </ul>
+    
+
+    
+    
+
+    <a name="constructor"></a>
+    <h3>Constructor</h3>
+
+    <em>Defined sql.js</em>
+    
+    
+    
+
+  
+  
 <hr>
 
 Documentation generated using <a href="https://github.com/doug-martin/coddoc">coddoc</a>.

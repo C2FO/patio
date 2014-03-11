@@ -300,6 +300,8 @@
                             
                             <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
                             
+                            <li><a href="./patio_sql_JsonString.html">patio.sql.JsonString</a></li>
+                            
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
                             <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
@@ -414,6 +416,21 @@
                                 
                                 
                                 identifier
+                            </a></li>
+                            
+                            <li><a href="./patio_sql.html#.json">
+                                
+                                <span class="label label-info">S</span>
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                json
                             </a></li>
                             
                             <li><a href="./patio_sql.html#.literal">
@@ -675,6 +692,69 @@ patio.sql.identifier(&quot;table__column___alias&quot;);
     <pre class="prettyprint linenums lang-js">
 function (s){
    return sql.stringToIdentifier(s);
+       
+}
+    </pre>
+    
+
+
+    
+        <a name=".json"></a>
+    <h3>
+        json
+        
+        <span class="label label-info">Static</span>
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined sql.js</em>
+
+<p><p>Creates a <a href='./patio_sql_Json.html#'> patio.sql.Json</a>
+depending on the arguments passed in. If a single string is passed in then
+it is assumed that it&#39;s a valid json string. If an objects passed in it will stringify
+it.</p>
+</p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>s</em>  : </li>
+    
+        <li> <em>An</em> <code>String or Object ...</code> : <p>object or string.</p>
+</li>
+    
+     </ul>
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>patio.sql.Json</code> <p>an expression that can be used as an argument
+for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</p>
+</li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (s){
+   if (!isString(s)) {
+       s = JSON.stringify(s);
+   }
+   return new JsonString(s);
        
 }
     </pre>
