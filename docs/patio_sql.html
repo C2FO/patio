@@ -300,7 +300,7 @@
                             
                             <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
                             
-                            <li><a href="./patio_sql_JsonString.html">patio.sql.JsonString</a></li>
+                            <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
@@ -728,7 +728,7 @@ it.</p>
     <em>Arguments</em>
     <ul>
     
-        <li> <em>s</em>  : </li>
+        <li> <em>json</em>  : </li>
     
         <li> <em>An</em> <code>String or Object ...</code> : <p>object or string.</p>
 </li>
@@ -750,11 +750,19 @@ for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</p>
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (s){
-   if (!isString(s)) {
-       s = JSON.stringify(s);
+function (json){
+   var ret = json;
+   if (isString(ret)) {
+       ret = JSON.parse(ret);
    }
-   return new JsonString(s);
+   if (isUndefinedOrNull(ret)) {
+       ret = null;
+   } else if (isObject(ret)) {
+       ret = new Json(ret);
+   } else {
+       throw new Error(&quot;Invalid value for json &quot; + ret);
+   }
+   return ret;
        
 }
     </pre>

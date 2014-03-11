@@ -34,11 +34,14 @@ exports.loadModels = function() {
 };
 
 exports.dropModels = function () {
-    return comb.executeInOrder(patio, DB1, DB2, function (patio, db1, db2) {
-        db1.forceDropTable("employee");
-        db2.forceDropTable("employee");
-        patio.disconnect();
-        patio.identifierInputMethod = null;
-        patio.identifierOutputMethod = null;
-    });
+    return  DB1.forceDropTable("employee")
+        .chain(function(){
+            return DB2.forceDropTable("employee")
+        })
+        .chain(function () {
+            return patio.disconnect();
+        })
+        .chain(function () {
+            patio.resetIdentifierMethods();
+        });
 };

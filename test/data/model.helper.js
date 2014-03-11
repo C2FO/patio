@@ -1,5 +1,5 @@
 var patio = require("index"),
-    config = require("../test.config.js"),
+    config = require("../test.config"),
     comb = require("comb-proxy");
 
 var DB;
@@ -9,6 +9,7 @@ var createTables = function (underscore) {
     DB = patio.connect(config.DB_URI + "/sandbox");
     return DB.forceCreateTable("employee", function () {
         this.primaryKey("id");
+        config.DB_TYPE === "pg" && this[underscore ? "json_type" : "jsontype"]("json");
         this[underscore ? "first_name" : "firstname"]("string", {size: 20, allowNull: false});
         this[underscore ? "last_name" : "lastname"]("string", {size: 20, allowNull: false});
         this[underscore ? "mid_initial" : "midinitial"]("char", {size: 1});
@@ -24,11 +25,13 @@ var createTables = function (underscore) {
 
 
 var dropTableAndDisconnect = function () {
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable("employee");
-        patio.disconnect();
-        patio.resetIdentifierMethods();
-    });
+    return  DB.forceDropTable("employee")
+        .chain(function () {
+            return patio.disconnect();
+        })
+        .chain(function () {
+            patio.resetIdentifierMethods();
+        });
 };
 
 exports.createSchemaAndSync = function (underscore) {

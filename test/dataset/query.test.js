@@ -11,7 +11,8 @@ var it = require('it'),
     LiteralString = sql.LiteralString,
     QualifiedIdentifier = sql.QualifiedIdentifier,
     comb = require("comb"),
-    hitch = comb.hitch;
+    hitch = comb.hitch,
+    DB_TYPE = require("../test.config").DB_TYPE;
 
 
 it.describe("Dataset queries", function (it) {
@@ -828,13 +829,14 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.literal({a: "b"}), "(a = 'b')");
             assert.throws(comb.hitch(dataset, "literal", /a/));
         });
-    });
 
-    it.describe("#json", function (it) {
-        var dataset = new Dataset().from("test");
-        it.should("convert json properly", function () {
-            assert.throws(comb.hitch(dataset, "literal", sql.json("{test:'Hello world'}")));
-        });
+        if (DB_TYPE !== "pg") {
+            it.should("throw an error when converting JSON", function () {
+                assert.throws(function () {
+                    dataset.literal(sql.json({hello: "world"}));
+                });
+            });
+        }
     });
 
     it.describe("#from", function (it) {

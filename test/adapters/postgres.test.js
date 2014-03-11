@@ -127,16 +127,11 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
 
                 assert.isNotNull(d.insertSql({value: 333}).match(/^INSERT INTO "test" \("value"\) VALUES \(333\)( RETURNING NULL)?$/));
                 assert.isNotNull(d.insertSql({x: sql.identifier("y")}).match(/^INSERT INTO "test" \("x"\) VALUES \("y"\)( RETURNING NULL)?$/));
-
             });
 
 
             it.should("convert json properly from string", function () {
-                assert.equal(d.literal(sql.json(JSON.stringify({test: 'Hello world'}))), "'{\"test\":\"Hello world\"}'");
-            });
-
-            it.should("convert json properly from object", function () {
-                assert.equal(d.literal(sql.json({test: 'Hello world'})), "'{\"test\":\"Hello world\"}'");
+                assert.equal(d.literal(sql.json(JSON.stringify({test: "SDF ASDFLALA\"\">ALERT(1)(DUWHB)"}))), "'{\"test\":\"SDF ASDFLALA\\\"\\\">ALERT(1)(DUWHB)\"}'");
             });
 
             it.should("convert json properly from object", function () {
@@ -293,6 +288,7 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     return d.insert({value: 1, json: sql.json(json)}).chain(function () {
                         return d.filter({value: 1}).select("json").returning("json").first().chain(function (result) {
                             assert.deepEqual({json: json}, result);
+                            assert.instanceOf(result.json, patio.sql.Json)
                         });
                     })
                 });
@@ -663,7 +659,6 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         try {
                             assert.deepEqual(msg, {msg: "hello"});
                             db.unListen("myChannel").chain(function () {
-                                debugger;
                                 assert.deepEqual(db.sqls, ['LISTEN myChannel', "NOTIFY myChannel , '{\"msg\":\"hello\"}'", "UNLISTEN myChannel"]);
                                 assert.deepEqual(db.__listeners, {});
                                 ret.callback();
@@ -672,7 +667,6 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                             ret.errback(e);
                         }
                     }).chain(function () {
-                            debugger;
                             assert.isTrue("myChannel" in db.__listeners);
                             assert.deepEqual(db.sqls, ['LISTEN myChannel']);
                             return db.notify("myChannel", {msg: "hello"});

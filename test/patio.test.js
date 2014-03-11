@@ -32,84 +32,86 @@ it.describe("patio", function (it) {
 
     var DummyDataset, DummyDatabase;
     it.beforeAll(function () {
-        DummyDataset = comb.define(patio.Dataset, {
-            instance: {
-                first: function () {
-                    var ret = new comb.Promise();
-                    if (this.__opts.from[0] === "a") {
-                        ret.errback();
-                    } else {
+        return patio.disconnect().chain(function () {
+            DummyDataset = comb.define(patio.Dataset, {
+                instance: {
+                    first: function () {
+                        var ret = new comb.Promise();
+                        if (this.__opts.from[0] === "a") {
+                            ret.errback();
+                        } else {
+                            ret.callback();
+                        }
+                        return ret;
+                    }
+                }
+            });
+            DummyDatabase = comb.define(patio.Database, {
+                instance: {
+                    constructor: function () {
+                        this._super(arguments);
+                        this.sqls = [];
+                        this.identifierInputMethod = null;
+                        this.identifierOutputMethod = null;
+                    },
+
+                    createConnection: function (options) {
+                        this.connected = true;
+                        return new comb.Promise().callback({});
+                    },
+
+                    closeConnection: function (conn) {
+                        this.connected = false;
+                        return new comb.Promise().callback();
+                    },
+
+                    validate: function (conn) {
+                        return new Promise().callback(true);
+                    },
+
+                    execute: function (sql, opts) {
+                        this.pool.getConnection();
+                        var ret = new comb.Promise();
+                        this.sqls.push(sql);
                         ret.callback();
+                        return ret;
+                    },
+
+                    executeError: function () {
+                        return this.execute.apply(this, arguments).chain(
+                            function () {
+                                throw new Error();
+                            }, function () {
+                                throw new Error();
+                            })
+                    },
+
+                    reset: function () {
+                        this.sqls = [];
+                    },
+
+                    transaction: function (opts, cb) {
+                        var ret = new comb.Promise();
+                        cb();
+                        ret.callback();
+                        return ret;
+                    },
+
+                    getters: {
+                        dataset: function () {
+                            return new DummyDataset(this);
+                        }
                     }
-                    return ret;
-                }
-            }
-        });
-        DummyDatabase = comb.define(patio.Database, {
-            instance: {
-                constructor: function () {
-                    this._super(arguments);
-                    this.sqls = [];
-                    this.identifierInputMethod = null;
-                    this.identifierOutputMethod = null;
                 },
 
-                createConnection: function (options) {
-                    this.connected = true;
-                    return new comb.Promise().callback({});
-                },
-
-                closeConnection: function (conn) {
-                    this.connected = false;
-                    return new comb.Promise().callback();
-                },
-
-                validate: function (conn) {
-                    return new Promise().callback(true);
-                },
-
-                execute: function (sql, opts) {
-                    this.pool.getConnection();
-                    var ret = new comb.Promise();
-                    this.sqls.push(sql);
-                    ret.callback();
-                    return ret;
-                },
-
-                executeError: function () {
-                    return this.execute.apply(this, arguments).chain(
-                        function () {
-                            throw new Error();
-                        }, function () {
-                            throw new Error();
-                        })
-                },
-
-                reset: function () {
-                    this.sqls = [];
-                },
-
-                transaction: function (opts, cb) {
-                    var ret = new comb.Promise();
-                    cb();
-                    ret.callback();
-                    return ret;
-                },
-
-                getters: {
-                    dataset: function () {
-                        return new DummyDataset(this);
+                "static": {
+                    init: function () {
+                        this.setAdapterType("dummydb");
                     }
                 }
-            },
-
-            "static": {
-                init: function () {
-                    this.setAdapterType("dummydb");
-                }
-            }
+            });
+            patio.resetIdentifierMethods();
         });
-        patio.resetIdentifierMethods();
     });
 
     it.should("have constants", function () {
@@ -130,7 +132,7 @@ it.describe("patio", function (it) {
     it.should("connect to a database ", function () {
         var DB1 = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
         assert.instanceOf(DB1, DummyDatabase);
-        assert.strictEqual(DB1, patio.defaultDatabase);
+        assert.isTrue(DB1 === patio.defaultDatabase);
         var DB2 = patio.createConnection("dummyDB://test:testpass@localhost/dummySchema");
         assert.instanceOf(DB2, DummyDatabase);
         var DB3;

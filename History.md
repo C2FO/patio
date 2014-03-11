@@ -1,3 +1,10 @@
+# v0.2.19
+
+* Added more in depth support for the `JSON` datatype.
+  * Databases now natively support the JSON datatype.
+  * Values are type casted to a JSON datatype when used with a model.
+
+
 # v0.2.18
 
 * Added new `patio.sql.json` type for storing JSON datatypes.
