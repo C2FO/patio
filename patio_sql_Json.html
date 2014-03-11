@@ -367,7 +367,7 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="#" class="brand">
-                patio.sql.QualifiedIdentifier
+                patio.sql.Json
                 
                 
                 <span class="label label-success">Public</span>
@@ -385,32 +385,8 @@
                 <ul class="nav pull-right">
                     <li><a href="#constructor">Constructor</a></li>
                     
-                    <li><a href="#instanceProperties">Instance Properties</a></li>
                     
                     
-                    
-                    
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Instance Methods<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            
-                            <li><a href="./patio_sql_QualifiedIdentifier.html#toString">
-                                
-                                
-                                <span class="label label-label">F</span>
-                                
-                                
-                                
-                                <span class="label label-success">P</span>
-                                
-                                
-                                toString
-
-                            </a></li>
-                            
-                        </ul>
-                    </li>
                     
                 </ul>
             </div>
@@ -421,28 +397,13 @@
 
 
 
-    <p><p>Represents a qualified identifier (column with table or table with schema).</p>
+    <p><p>Represents a json object that should be placed into a SQL query literally.</p>
 </p>
     
 
     
-        <em>Extends</em>
-        <ul>
-            
-                <li> <a href="./patio_sql_GenericExpression.html">patio.sql.GenericExpression</a></li>
-            
-                <li> <a href="./patio_sql_QualifyingMethods.html">patio.sql.QualifyingMethods</a></li>
-            
-        </ul>
-    
 
     
-    
-        <a name="instanceProperties"></a>
-        <em>Instance Properties</em>
-        <table class='table table-bordered table-striped'><tr><td>Property</td><td>Type</td><td>Default Value</td><td>Description</td></tr><tr><td>column</td><td></td><td></td><td><p><b>READ ONLY</b> he column or table to qualify.</p>
-</td><tr><tr><td>table</td><td></td><td></td><td><p><b>READ ONLY</b> the table or schema to qualify the column or table to.</p>
-</td><tr></table>
     
 
     <a name="constructor"></a>
@@ -455,71 +416,12 @@
         
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
-function (table,column){
-   this.__table = table;
-   this.__column = column;
-           
-}
+define({
             </pre>
       
     
 
   
-  
-    <a name="toString"></a>
-    <h3>
-        toString
-        
-        
-        <span class="label label-label">Function</span>
-        
-        
-                
-         <span class="label label-success">Public</span>
-                
-        
-   </h3>
-
-<hr/>
-<em>Defined sql.js</em>
-
-<p><p>Converts the <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a> to a string.</p>
-</p>
-
-
-    <em>Arguments</em>
-    <ul>
-    
-        <li> <em>ds?</em>  : <p>dataset used to created the SQL fragment, if
-the dataset is ommited then the default <a href='./patio_Dataset.html#'> patio.Dataset</a> implementation is used.</p>
-</li>
-    
-     </ul>
-
-
-    <em>Returns</em>
-    <ul>
-    
-        <li>  <p>String the SQL version of the <a href='./patio_sql_QualifiedIdentifier.html#'> patio.sql.QualifiedIdentifier</a>.</p>
-</li>
-    
-    </ul>
-
-
-
-    
-    <em>Source</em>
-    <pre class="prettyprint linenums lang-js">
-function (ds){
-   !Dataset &amp;&amp; (Dataset = require(&quot;./dataset&quot;));
-   ds = ds || new Dataset();
-   return ds.qualifiedIdentifierSql(this);
-           
-}
-    </pre>
-    
-
-
   
 <hr>
 

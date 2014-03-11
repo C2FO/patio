@@ -300,7 +300,7 @@
                             
                             <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
                             
-                            <li><a href="./patio_sql_JsonString.html">patio.sql.JsonString</a></li>
+                            <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
@@ -903,6 +903,18 @@
                                 <span class="label label-important">P</span>
                                 
                                 __typeLiteralGenericFloat
+
+                            </a></li>
+                            
+                            <li><a href="./patio_Database.html#__typeLiteralGenericJson">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                <span class="label label-important">P</span>
+                                
+                                __typeLiteralGenericJson
 
                             </a></li>
                             
@@ -3480,6 +3492,8 @@ function (column){
        meth += &quot;Boolean&quot;;
    } else if ((isStr &amp;&amp; type.match(/buffer/i)) || type === Buffer) {
        meth += &quot;Blob&quot;;
+   } else if ((isStr &amp;&amp; type.match(/json/i)) || type === Json) {
+       meth += &quot;Json&quot;;
    } else if (isStr &amp;&amp; isFunction(this[meth + proper])) {
        meth += proper;
    } else {
@@ -3736,6 +3750,46 @@ function (column){
     <pre class="prettyprint linenums lang-js">
 function (column){
    return &quot;double precision&quot;;
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="__typeLiteralGenericJson"></a>
+    <h3>
+        __typeLiteralGenericJson
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+        <span class="label label-important">Private</span>
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schema.js</em>
+
+<p></p>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>column</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (column){
+   return &quot;json&quot;;
            
 }
     </pre>

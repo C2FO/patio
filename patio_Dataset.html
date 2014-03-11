@@ -300,7 +300,7 @@
                             
                             <li><a href="./patio_sql_JoinUsingClause.html">patio.sql.JoinUsingClause</a></li>
                             
-                            <li><a href="./patio_sql_JsonString.html">patio.sql.JsonString</a></li>
+                            <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
@@ -11553,7 +11553,7 @@ DB.from(&quot;items&quot;).literal(&quot;abc&#x27;def\\&quot;) //=&gt; &quot;&#x
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (v){
-   if (isInstanceOf(v, JsonString)) {
+   if (isInstanceOf(v, Json)) {
        return this._literalJson(v);
    } else if (isInstanceOf(v, LiteralString)) {
        return &quot;&quot; + v;
@@ -11561,14 +11561,11 @@ function (v){
        return this._literalString(v);
    } else if (isNumber(v)) {
        return this._literalNumber(v);
-   }
-   else if (isInstanceOf(v, Expression)) {
+   } else if (isInstanceOf(v, Expression)) {
        return this._literalExpression(v);
-   }
-   else if (isInstanceOf(v, Dataset)) {
+   } else if (isInstanceOf(v, Dataset)) {
        return this._literalDataset(v);
-   }
-   else if (isArray(v)) {
+   } else if (isArray(v)) {
        return this._literalArray(v);
    } else if (isInstanceOf(v, sql.Year)) {
        return this._literalYear(v);
@@ -11582,11 +11579,9 @@ function (v){
        return this._literalBuffer(v);
    } else if (isNull(v)) {
        return this._literalNull();
-   }
-   else if (isBoolean(v)) {
+   } else if (isBoolean(v)) {
        return this._literalBoolean(v);
-   }
-   else if (isHash(v)) {
+   } else if (isHash(v)) {
        return this._literalObject(v);
    } else {
        return this._literalOther(v);
