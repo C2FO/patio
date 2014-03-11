@@ -1,3 +1,7 @@
+# v0.2.18
+
+* Added new `patio.sql.json` type for storing JSON datatypes.
+
 # v0.2.17
 
 * Changed to use use `pg.js`
