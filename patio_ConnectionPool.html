@@ -551,10 +551,10 @@
 function (options){
    options = options || {};
    if (!options.createConnection || !isFunction(options.createConnection)) {
-       throw &quot;patio.adapters.clients.ConnectionPool : create connection CB required.&quot;;
+       throw new Error(&quot;patio.adapters.clients.ConnectionPool : create connection CB required.&quot;);
    }
    if (!options.closeConnection || !isFunction(options.closeConnection)) {
-       throw &quot;patio.adapters.clients.ConnectionPool : close connection CB required.&quot;;
+       throw new Error(&quot;patio.adapters.clients.ConnectionPool : close connection CB required.&quot;);
    }
    options.minObjects = parseInt(options.minConnections || 0, 10);
    options.maxObjects = parseInt(options.maxConnections || 10, 10);
