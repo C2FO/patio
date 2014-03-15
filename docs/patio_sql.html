@@ -760,7 +760,7 @@ function (json){
    } else if (isObject(ret)) {
        ret = new Json(ret);
    } else {
-       throw new Error(&quot;Invalid value for json &quot; + ret);
+       throw new ExpressionError(&quot;Invalid value for json &quot; + ret);
    }
    return ret;
        
