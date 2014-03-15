@@ -1,3 +1,7 @@
+# v0.3.1
+
+* Normalized thrown errors.
+
 # v0.3.0
 
 * Added more in depth support for the `JSON` datatype.

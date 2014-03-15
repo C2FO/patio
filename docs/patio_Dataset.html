@@ -4837,7 +4837,7 @@ function (v){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (v){
-   throw new Error(&quot;Json not supported.&quot;);
+   throw new QueryError(&quot;Json not supported.&quot;);
            
 }
     </pre>
@@ -5034,7 +5034,7 @@ function (v){
    if (isFunction(v.sqlLiteral)) {
        return v.sqlLiteral(this);
    } else {
-       throw string.format(&quot;can&#x27;t express %j as a SQL literal&quot;, [v]);
+       throw new QueryError(string.format(&quot;can&#x27;t express %j as a SQL literal&quot;, [v]));
    }
            
 }
