@@ -1,3 +1,7 @@
+# 0.4.0
+
+* Added support for redshift database.
+
 # v0.3.1
 
 * Normalized thrown errors.

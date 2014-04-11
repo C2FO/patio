@@ -159,6 +159,7 @@ Capital.order("name").forEach(function (capital) {
 * Supported Databases                                                                                                                                        
   * MySQL
   * Postgres
+  * Redshift
 * [Models](http://c2fo.github.com/patio/models.html)
   * [Associations](http://c2fo.github.com/patio/associations.html)
   * [Inheritance](http://c2fo.github.com/patio/model-inheritance.html)
