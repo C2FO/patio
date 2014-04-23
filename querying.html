@@ -408,6 +408,28 @@ User.first(sql.name.like(&#39;B%&#39;)).chain(function(user){
     // SELECT name FROM user LIMIT 1
 }, errorHandler);</code></pre>
 <h2>Reading Multiple Records</h2>
+<h3><a href="./patio_Dataset.html#stream">stream</a></h3>
+<p>This method allows you to stream records from a database. This is useful if you have too much data to process in memory.</p>
+<pre class='prettyprint linenums lang-js'><code>User
+    .stream()
+    .on(&quot;data&quot;, function(record){
+       //
+    })
+    .on(&quot;error&quot;, errorHandler)
+    .on(&quot;end&quot;, function(){
+        console.log(&quot;all done&quot;)
+    });</code></pre>
+<p>Stream also supports <code>pause</code> and <code>resume</code></p>
+<pre class='prettyprint linenums lang-js'><code>var stream = User
+    .stream()
+    .on(&quot;data&quot;, function(record){
+       stream.pause(); //you wont get anymore records until resume is called.
+
+    })
+    .on(&quot;error&quot;, errorHandler)
+    .on(&quot;end&quot;, function(){
+        console.log(&quot;all done&quot;)
+    });</code></pre>
 <h3><a href="./patio_Dataset.html#all">all</a></h3>
 <p>If you want an array of all of the rows associated with the dataset you should use the <a href="./patio_Dataset.html#all">all</a> method:</p>
 <pre class='prettyprint linenums lang-js'><code>User.all().chain(function(users){
