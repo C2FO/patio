@@ -275,11 +275,11 @@ it.describe("patio.Model", function (it) {
                     return emp.id;
                 });
                 return comb.when(
-                        Employee.map("id"),
-                        Employee.order("position").map(function (e) {
-                            return e.firstname + " " + e.lastname;
-                        })
-                    )
+                    Employee.map("id"),
+                    Employee.order("position").map(function (e) {
+                        return e.firstname + " " + e.lastname;
+                    })
+                )
                     .chain(function (res) {
                         assert.lengthOf(res[0], 20);
                         res[0].forEach(function (id, i) {
@@ -297,11 +297,11 @@ it.describe("patio.Model", function (it) {
                 return Employee.forEach(function (emp) {
                     ret.push(emp);
                 }).chain(function (topic) {
-                        assert.lengthOf(topic, 20);
-                        ret.forEach(function (e) {
-                            assert.instanceOf(e, Employee);
-                        });
+                    assert.lengthOf(topic, 20);
+                    ret.forEach(function (e) {
+                        assert.instanceOf(e, Employee);
                     });
+                });
             });
 
             it.should("support one", function () {
@@ -326,6 +326,22 @@ it.describe("patio.Model", function (it) {
                     assert.instanceOf(emp, Employee);
                     assert.equal(emp.firstname, "first9");
                 });
+            });
+
+            it.should("support stream", function (next) {
+                var ret = [];
+                Employee.stream()
+                    .on("data", function (emp) {
+                        ret.push(emp);
+                    })
+                    .on("error", next)
+                    .on("end", function () {
+                        assert.lengthOf(ret, 20);
+                        ret.forEach(function (e) {
+                            assert.instanceOf(e, Employee);
+                        });
+                        next();
+                    });
             });
 
         });

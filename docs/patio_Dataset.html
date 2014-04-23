@@ -2853,6 +2853,20 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#stream">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                stream
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#stringToIdentifier">
                                 
                                 
@@ -3281,7 +3295,7 @@
 ['all', 'one', 'avg', 'count', 'columns', 'remove', 'forEach', 'isEmpty', 'first',
          'get', 'import', 'insert', 'save', 'insertMultiple', 'saveMultiple', 'interval', 'last',
          'map', 'max', 'min', 'multiInsert', 'range', 'selectHash', 'selectMap', 'selectOrderMap', 'set',
-         'singleRecord', 'singleValue', 'sum', 'toCsv', 'toHash', 'truncate', 'update']
+         'singleRecord', 'singleValue', 'sum', 'toCsv', 'toHash', 'truncate', 'update', 'stream']
          </code></td><td><p>List of action methods avaiable on the dataset.</p>
 </td><tr><tr><td><em>AND_SEPARATOR</em></td><td>property</td><td><code>" AND "</code></td><td><p>Default SQL AND separator.</p>
 </td><tr><tr><td><em>BOOL_FALSE</em></td><td>property</td><td><code>"'f'"</code></td><td><p>Default SQL boolean false operator.</p>
@@ -8140,6 +8154,8 @@ function (sql,opts){
     
         <li> <em>sql</em>  : </li>
     
+        <li> <em>opts</em>  : </li>
+    
      </ul>
 
 
@@ -8148,8 +8164,15 @@ function (sql,opts){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql){
-   throw new NotImplemented(&quot;fetchRows must be implemented by the adapter&quot;);
+function (sql,opts){
+   opts = opts || {};
+   var ret;
+   if (opts.stream) {
+       ret = this.fetchStreamedRows(sql, opts);
+   } else {
+       ret = this.fetchPromisedRows(sql, opts);
+   }
+   return ret;
            
 }
     </pre>
@@ -14294,8 +14317,8 @@ function (keyColumn,valueColumn,cb){
    return this.select.apply(this, args).map(function (r) {
        map[r[k]] = v ? r[v] : r;
    }).chain(function () {
-           return map;
-       }).classic(cb).promise();
+       return map;
+   }).classic(cb).promise();
            
 }
     </pre>
@@ -14942,6 +14965,71 @@ function (cb){
 
 
   
+    <a name="stream"></a>
+    <h3>
+        stream
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/actions.js</em>
+
+<p><p>Returns a <a href="http://nodejs.org/api/stream.html">Stream</a> for streaming data from the database.</p>
+<pre class='prettyprint linenums lang-js'><code>User
+  .stream()
+  .on(&quot;data&quot;, function(record){
+      console.log(record);
+   })
+  .on(&quot;error&quot;, errorHandler)
+  .on(&quot;end&quot;, function(){
+     console.log(&quot;all done&quot;)
+  });</code></pre>
+</p>
+
+
+
+    <em>Returns</em>
+    <ul>
+    
+        <li> <code>Stream</code> </li>
+    
+    </ul>
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (){
+   var queryStream = this.fetchRows(this.selectSql, {stream: true}), rowCb, ret;
+   if ((rowCb = this.rowCb)) {
+       ret = new TransformStream({objectMode: true});
+       ret._transform = function (data, encoding, done) {
+           when(rowCb(data)).chain(function (data) {
+               ret.push(data);
+               done();
+           }, done);
+       };
+       pipeAll(queryStream, ret);
+   } else {
+       ret = queryStream;
+   }
+   return ret;
+           
+}
+    </pre>
+    
+
+
+  
     <a name="stringToIdentifier"></a>
     <h3>
         stringToIdentifier
@@ -15216,8 +15304,8 @@ function (includeColumnTitles,cb){
                return r[c] || &quot;&quot;;
            }).join(&quot;, &quot;));
        }).chain(function () {
-               return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
-           });
+           return vals.join(&quot;\r\n&quot;) + &quot;\r\n&quot;;
+       });
    }.bind(this)).classic(cb).promise();
            
 }
@@ -15304,8 +15392,8 @@ function (keyColumn,valueColumn,cb){
    return this.map(function (r) {
        map[r[k]] = v ? r[v] : r;
    }).chain(function () {
-           return map;
-       }).classic(cb).promise();
+       return map;
+   }).classic(cb).promise();
            
 }
     </pre>

@@ -1024,7 +1024,7 @@ function (conn){
        ret.callback(true);
        return ret;
    } else {
-       return this.__validateConnectionCB();
+       return this.__validateConnectionCB(conn);
    }
            
 }

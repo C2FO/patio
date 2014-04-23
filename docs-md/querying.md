@@ -85,6 +85,38 @@ User.get("name").chain(function(name){
 
 ##Reading Multiple Records
 
+###[stream](./patio_Dataset.html#stream)
+
+This method allows you to stream records from a database. This is useful if you have too much data to process in memory.
+
+```
+User
+    .stream()
+    .on("data", function(record){
+       //
+    })
+    .on("error", errorHandler)
+    .on("end", function(){
+        console.log("all done")
+    });
+```
+
+Stream also supports `pause` and `resume`
+
+```
+var stream = User
+    .stream()
+    .on("data", function(record){
+       stream.pause(); //you wont get anymore records until resume is called.
+
+    })
+    .on("error", errorHandler)
+    .on("end", function(){
+        console.log("all done")
+    });
+```
+
+
 ###[all](./patio_Dataset.html#all)
 
 If you want an array of all of the rows associated with the dataset you should use the [all](./patio_Dataset.html#all) method:

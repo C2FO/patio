@@ -364,117 +364,207 @@
 
 
   <p><a href="http://travis-ci.org/C2FO/patio"><img src="https://secure.travis-ci.org/C2FO/patio.png" alt="Build Status"></a></p>
+<h1><a href="http://c2fo.github.com/patio">Patio</a></h1>
 <p>Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.</p>
-<h3>Why Use Patio?</h3>
-
-<p>
-Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.
-</p>
-<p>
-If you want to use <a href="./models.html">ORM</a> functionality you can. If you dont you can just use the
-<a href="./DDL.html">Database</a> and <a href="./querying.html">Datasets</a> as a querying API, and if you need to
-you can <a href="./patio_Database.html#run">write plain SQL</a>.
-</p>
-
-
-<h3>Getting Started</h3>
+<h3>Installation</h3>
 <p>To install patio run</p>
 <p><code>npm install comb patio</code></p>
 <p>If you want to use the patio executable for migrations</p>
 <p><code>npm install -g patio</code></p>
-<p>Create some tables.</p>
-<pre class='prettyprint linenums lang-js'><code>var patio = require(&quot;patio&quot;),
-comb = require(&quot;comb&quot;),
-when = comb.when,
-serial = comb.serial;
+<h3>Why Use Patio?</h3>
+<p>Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             </p>
+<p>If you want to use the <a href="http://c2fo.github.com/patio/models.html">ORM</a> functionality you can. If you don&#39;t you can just use the <a href="http://c2fo.github.com/patio/DDL.html">Database</a> and <a href="http://c2fo.github.com/patio/querying.html">Datasets</a> as a querying API, and if you need to you can <a href="http://c2fo.github.com/patio/patio_Database.html#run">write plain SQL</a></p>
+<h3>Concepts</h3>
+<ol>
+<li><p>Model definitions are defined by the tables in the database.</p>
+<p> As you add models the definition is automatically defined from the table definition. This is particularly useful when you want to define your model from a schema designed using another tool (i.e. ActiveRecord, Sequel, etc...)</p>
+</li>
+<li><p>Patio tries to stay out of your way when querying.</p>
+<p> When you define a model you still have the freedom to do any type of query you want.</p>
+<p> Only want certain columns?</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> MyModel.select(&quot;id&quot;, &quot;name&quot;, &quot;created&quot;).forEach(function(record){
+     //record only has the id, name, and created columns
+ });</code></pre>
+<p> You want to join with another table?</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> MyModel.join(&quot;otherTable&quot;, {id: patio.sql.identifier(&quot;myModelId&quot;}).forEach(function(record){
+     //Record has columns from your join table now!
+ });</code></pre>
+<p> You want to run raw SQL?</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> MyModel.db.run(&quot;select * from my_model where name = &#39;Bob&#39;&quot;).all().chain(function(records){
+     //all records with a name that equals bob.
+ });</code></pre>
+<p> You want to just query the database and not use a model?</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> var DB = patio.connect(&quot;pg://test:test@127.0.0.1:5432/test_db&quot;);
+ DB.from(&quot;myTable&quot;).filter({id: [1,2,3]}).all().function(records){
+    //records with id IN (1,2,3)
+ });</code></pre>
+</li>
+</ol>
+<h3>Getting Started</h3>
+<p>All the code for this example can be found <a href="https://github.com/C2FO/patio/tree/master/example/readme-example">here</a></p>
+<ol>
+<li><p>Create a new database</p>
+<p> PostgreSQL</p>
+<pre class='prettyprint linenums lang-js'><code> psql -c &quot;CREATE DATABASE reademe_example&quot;</code></pre>
+<p> MySQL</p>
+<pre class='prettyprint linenums lang-js'><code> mysql -e &quot;CREATE DATABASE readme_example&quot;</code></pre>
+</li>
+<li><p>Create a migration</p>
+<pre class='prettyprint linenums lang-js'><code> mkdir migration
+ patio migration-file -n createInitialTables ./migration</code></pre>
+<p> This will add a migration name <code>createdInitialTables</code> in your migration directory.</p>
+</li>
+<li><p>Add the following code to your migration</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> module.exports = {
+     //up is called when you migrate your database up
+     up: function (db) {
+         //create a table called state;
+         return db
+             .createTable(&quot;state&quot;, function () {
+                 this.primaryKey(&quot;id&quot;);
+                 this.name(String);
+                 this.population(&quot;integer&quot;);
+                 this.founded(Date);
+                 this.climate(String);
+                 this.description(&quot;text&quot;);
+             })
+             .chain(function () {
+                 //create another table called capital
+                 return db.createTable(&quot;capital&quot;, function () {
+                     this.primaryKey(&quot;id&quot;);
+                     this.population(&quot;integer&quot;);
+                     this.name(String);
+                     this.founded(Date);
+                     this.foreignKey(&quot;stateId&quot;, &quot;state&quot;, {key: &quot;id&quot;, onDelete: &quot;CASCADE&quot;});
+                 });
+             });
+     },
 
+     //down is called when you migrate your database down
+     down: function (db) {
+         //drop the state and capital tables
+         return db.dropTable(&quot;capital&quot;, &quot;state&quot;);
+     }
+ };</code></pre>
+</li>
+<li><p>Run your migration</p>
+<pre class='prettyprint linenums lang-js'><code> patio migrate -v --camelize -u &quot;&lt;DB_CONNECTION_STRING&gt;&quot; -d ./migration</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Connect and query!</p>
+<pre class='prettyprint linenums lang-js'><code class="lang-javascript"> var patio = require(&quot;patio&quot;);
 
-//set all db name to camelize
-patio.camelize = true;
-patio.configureLogging();
-//connect to the db
-var DB = patio.connect(&lt;CONNECTION_URI&gt;);
+ //set camelize = true if you want snakecase database columns as camelcase
+ patio.camelize = true;
+ patio.connect(&quot;pg://postgres@127.0.0.1:5432/readme_example&quot;);
 
-function errorHandler(error) {
-     console.log(error);
-     patio.disconnect();
-};
+ //define a State model with a relationship to capital
+ var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
 
-function createTables() {
-     return comb.serial([
-          function () {
-               return DB.forceDropTable([&quot;capital&quot;, &quot;state&quot;]);
-          },
-          function () {
-               return DB.createTable(&quot;state&quot;, function () {
-                    this.primaryKey(&quot;id&quot;);
-                    this.name(String)
-                    this.population(&quot;integer&quot;);
-                    this.founded(Date);
-                    this.climate(String);
-                    this.description(&quot;text&quot;);
-               });
-          },
-          function () {
-               return DB.createTable(&quot;capital&quot;, function () {
-                    this.primaryKey(&quot;id&quot;);
-                    this.population(&quot;integer&quot;);
-                    this.name(String);
-                    this.founded(Date);
-                    this.foreignKey(&quot;stateId&quot;, &quot;state&quot;, {key:&quot;id&quot;});
-               });
-          }
-     ]);
-};
+ //define a Capital model with a relationship to State
+ var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);
 
-createTables().chain(function () {
-     return patio.disconnect();
-}, errorHandler);</code></pre>
-<p>Next lets create some models for the tables created.</p>
-<pre class='prettyprint linenums lang-js'><code>var State = patio.addModel(&quot;state&quot;).oneToOne(&quot;capital&quot;);
-var Capital = patio.addModel(&quot;capital&quot;).manyToOne(&quot;state&quot;);</code></pre>
-<p>Next you&#39;ll need to sync your models. <strong>Note</strong>: The sync operation returns a promise.</p>
-<pre class='prettyprint linenums lang-js'><code>patio.syncModels();</code></pre>
-<p>Save some data to query.</p>
-<pre class='prettyprint linenums lang-js'><code>//comb.when waits for the save operation to complete
-return comb.when(
-     State.save({
-          name:&quot;Nebraska&quot;,
-          population:1796619,
-          founded:new Date(1867, 2, 4),
-          climate:&quot;continental&quot;,
-          capital:{
-               name:&quot;Lincoln&quot;,
-               founded:new Date(1856, 0, 1),
-               population:258379
+ //save a state
+ State
+     .save({
+         name: &quot;Nebraska&quot;,
+         population: 1796619,
+         founded: new Date(1867, 2, 4),
+         climate: &quot;continental&quot;,
+         //notice the capital relationship is inline
+         capital: {
+             name: &quot;Lincoln&quot;,
+             founded: new Date(1856, 0, 1),
+             population: 258379
          }
-     }),
-     Capital.save({
-          name:&quot;Austin&quot;,
-          founded:new Date(1835, 0, 1),
-          population:790390,
-          state:{
-               name:&quot;Texas&quot;,
-               population:25674681,
-               founded:new Date(1845, 11, 29)
-          }
      })
-);</code></pre>
-<p>Now we can query the states and capitals we created.</p>
-<pre class='prettyprint linenums lang-js'><code>State.order(&quot;name&quot;).forEach(function (state) {
-     //if you return a promise here it will prevent the foreach from
-     //resolving until all inner processing has finished.
-     return state.capital.chain(function (capital) {
-         console.log(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name);
-     });
-});</code></pre>
-<pre class='prettyprint linenums lang-js'><code>Capital.order(&quot;name&quot;).forEach(function (capital) {
-     //if you return a promise here it will prevent the foreach from
-     //resolving until all inner processing has finished.
-     return capital.state.chain(function (state) {
-         console.log(comb.string.format(&quot;%s is the capital of %s.&quot;, capital.name, state.name));
-     });
-});</code></pre>
+     .chain(function () {
+         //save a Capital
+         return Capital.save({
+             name: &quot;Austin&quot;,
+             founded: new Date(1835, 0, 1),
+             population: 790390,
+             //define the state inline
+             state: {
+                 name: &quot;Texas&quot;,
+                 population: 25674681,
+                 founded: new Date(1845, 11, 29)
+             }
+         });
+     })
+     .chain(function () {
+         //Query all the states by name
+         return State.order(&quot;name&quot;).forEach(function (state) {
+             //Get the associated capital
+             return state.capital.chain(function (capital) {
+                 console.log(&quot;%s&#39;s capital is %s.&quot;, state.name, capital.name);
+             });
+         });
+     })
+     .chain(process.exit, function (err) {
+         console.log(err)
+         process.exit(1);
+     });</code></pre>
+</li>
+</ol>
+<h3>Guides</h3>
+<ul>
+<li><a href="http://c2fo.github.com/patio/migrations.html">Migrations</a></li>
+<li><a href="http://c2fo.github.com/patio/models.html">Models</a><ul>
+<li><a href="http://c2fo.github.com/patio/associations.html">Associations</a></li>
+<li><a href="http://c2fo.github.com/patio/model-inheritance.html">Inheritance</a></li>
+<li><a href="http://c2fo.github.com/patio/validation.html">Validation</a></li>
+<li><a href="http://c2fo.github.com/patio/plugins.html">Plugins</a></li>
+</ul>
+</li>
+<li><a href="http://c2fo.github.com/patio/querying.html">Querying</a></li>
+<li><a href="http://c2fo.github.com/patio/DDL.html">DDL</a></li>
+<li><a href="http://c2fo.github.com/patio/logging.html">Logging</a></li>
+</ul>
+<h3>Features</h3>
+<ul>
+<li>Comprehensive documentation with examples.</li>
+<li>&gt; 80% test coverage</li>
+<li>Support for connection URIs</li>
+<li>Supported Databases<ul>
+<li>MySQL</li>
+<li>Postgres</li>
+<li>Redshift</li>
+</ul>
+</li>
+<li><a href="http://c2fo.github.com/patio/models.html">Models</a><ul>
+<li><a href="http://c2fo.github.com/patio/associations.html">Associations</a></li>
+<li><a href="http://c2fo.github.com/patio/model-inheritance.html">Inheritance</a></li>
+<li><a href="http://c2fo.github.com/patio/validation.html">Validation</a></li>
+<li><a href="http://c2fo.github.com/patio/plugins.html">Plugins</a></li>
+</ul>
+</li>
+<li>Simple adapter extensions</li>
+<li><a href="http://c2fo.github.com/patio/migrations.html">Migrations</a><ul>
+<li>Integer and Timestamp based.</li>
+</ul>
+</li>
+<li>Powerful <a href="http://c2fo.github.com/patio/querying.html">Querying</a> API</li>
+<li><a href="http://c2fo.github.com/patio/patio_Database.html#transaction">Transactions</a> with<ul>
+<li>Savepoints</li>
+<li>Isolation Levels</li>
+<li>Two phase commits</li>
+</ul>
+</li>
+<li>SQL Datatype casting</li>
+<li>Full database CRUD operations<ul>
+<li><a href="http://c2fo.github.com/patio/patio_Database.html#createTable">createTable</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Database.html#alterTable">alterTable</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Database.html#dropTable">dropTable</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Dataset.html#insert">insert</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Dataset.html#multiInsert">multiInsert</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Dataset.html#update">update</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Dataset.html#remove">remove</a></li>
+<li><a href="http://c2fo.github.com/patio/patio_Dataset.html#filter">query</a></li>
+</ul>
+</li>
+</ul>
 
 
 <hr>

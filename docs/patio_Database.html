@@ -5259,9 +5259,7 @@ function (names,opts){
     
         <li> <em>sql</em>  : </li>
     
-        <li> <em>options</em>  : </li>
-    
-        <li> <em>cb</em>  : </li>
+        <li> <em>opts</em>  : </li>
     
         <li> <em>conn</em>  : </li>
     
@@ -5273,8 +5271,14 @@ function (names,opts){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (sql,options,cb,conn){
-   throw new NotImplemented(&quot;execute should be implemented by adapter&quot;);
+function (sql,opts,conn){
+   var ret;
+   if (opts.stream) {
+       ret = this.__executeStreamed(sql, opts, conn);
+   } else {
+       ret = this.__executePromised(sql, opts, conn);
+   }
+   return ret;
            
 }
     </pre>
@@ -6462,7 +6466,7 @@ function (table,opts){
    var self = this;
    return this.schemaParseTable(tableName, opts).chain(function (cols) {
        if (!cols || cols.length === 0) {
-           throw new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;)
+           throw new Error(&quot;Error parsing schema, &quot; + table + &quot; no columns returns, table probably doesnt exist&quot;);
        } else {
            var schema = {};
            cols.forEach(function (c) {
@@ -6808,7 +6812,7 @@ comb.executeInOrder(DB, function(DB){
 function (table,cb){
    return this.from(table).first().chain(function () {
        return true;
-   },function () {
+   }, function () {
        return false;
    }).classic(cb).promise();
            
@@ -6994,6 +6998,10 @@ DB.transaction(function(d) {
         <li> <em>cb</em>  : <p>a function used to perform the transaction. This function is called in the scope of the database by default so one can use this. The funciton is also called with the database as the first argument, and a function to be called when the tranaction is complete. If you return a promise from the transaction block then you do not need to call the done cb.</p>
 </li>
     
+        <li> <em>opts.isolated?</em> <code>String</code> : <p>This will ensure that the transaction will be run on its own connection and
+              not part of another transaction if one is already in progress.</p>
+</li>
+    
         <li> <em>opts.isolation?</em> <code>String</code> : <p>The transaction isolation level to use for this transaction,
               should be &quot;uncommitted&quot;, &quot;committed&quot;, &quot;repeatable&quot;, or &quot;serializable&quot;,
               used if given and the database/adapter supports customizable
@@ -7034,17 +7042,14 @@ function (opts,cb){
    } else {
        opts = opts || {};
    }
+   var ret;
    if (!this.__alreadyInTransaction) {
        this.__alreadyInTransaction = true;
-       return this.__transaction(null, opts, cb);
+       ret = this.__transaction(null, opts, cb);
    } else {
-       var ret = new Promise(), self = this;
-       var transaction = function () {
-           self.__transaction(null, opts, cb).chain(ret.callback, ret.errback);
-       };
-       this.__transactionQueue.enqueue(transaction);
-       return ret.promise();
+       ret = this.__enqueueTransaction(opts, cb);
    }
+   return ret.promise();
            
 }
     </pre>
