@@ -435,6 +435,7 @@ function (){
    //the will be blank because of recursive dependencies.
    !patio &amp;&amp; (patio = require(&quot;../index&quot;));
    !Dataset &amp;&amp; (Dataset = patio.Dataset);
+   this.outputIdentifier = hitch(this, this.outputIdentifier);
    this._super(arguments);
            
 }

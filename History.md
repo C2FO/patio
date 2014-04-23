@@ -1,3 +1,16 @@
+#0.5.0
+
+* Added a new `stream` method to allow the streaming of large datasets from the database.
+* Added a new `isolate` option to `db.transaction` to ensure that the transaction is not nested inside of a concurrently running transaction.
+* Added more indepth error handling to connections on all database adapters.
+* Refactored `fetchRows`, and `execute` to be common between adapters.
+* Updated Readme with better examples.
+
+
+# 0.4.1
+
+* Added error handling on connection errors and reconnects if a connection errors
+
 # 0.4.0
 
 * Added support for redshift database.

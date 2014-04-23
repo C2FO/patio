@@ -9,6 +9,9 @@ test:
 	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix \
 	&& export PATIO_DB=pg && ./node_modules/it/bin/it -r dotmatrix
 
+test-mysql:
+	export NODE_PATH=lib:$(NODE_PATH) && export NODE_ENV=test \
+	&& export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix
 test-pg:
 	export NODE_PATH=lib:$(NODE_PATH) && export NODE_ENV=test \
 	&& export PATIO_DB=pg && ./node_modules/it/bin/it -r dotmatrix

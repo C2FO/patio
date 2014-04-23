@@ -18,6 +18,8 @@ it.describe("patio.adapters.Redshift", function (it) {
     };
 
     it.beforeAll(function () {
+        patio.resetIdentifierMethods();
+        patio.camelize = false;
         patio.quoteIdentifiers = false;
         //patio.configureLogging();
         PG_DB = patio.connect(config.REDSHIFT_URI + "/sandbox");
@@ -87,6 +89,7 @@ it.describe("patio.adapters.Redshift", function (it) {
 
 
     it.afterAll(function () {
+        patio.resetIdentifierMethods();
         return patio.disconnect();
     });
 });
