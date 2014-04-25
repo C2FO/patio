@@ -1,3 +1,8 @@
+#0.5.1
+
+* Update `comb` to `v0.3.0`
+* Fixed issues with `savepoints` and update transaction to conform with docs. [#110](https://github.com/C2FO/patio/pull/110)
+
 #0.5.0
 
 * Added a new `stream` method to allow the streaming of large datasets from the database.
