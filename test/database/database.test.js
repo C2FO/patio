@@ -762,7 +762,7 @@ it.describe("Database", function (it) {
 
         });
 
-        it.describe("isolate options", function (it) {
+        it.describe("isolated options", function (it) {
 
             it.beforeAll(function(){
                 db.supportsTransactionIsolationLevels = false;
@@ -786,9 +786,9 @@ it.describe("Database", function (it) {
                 db.reset();
                 return comb.when(
                     createTransaction(db, "a", 0, 1000),
-                    createTransaction(db, "b", 500, 0, {isolate: true}),
-                    createTransaction(db, "c", 500, 0, {isolate: true}),
-                    createTransaction(db, "d", 500, 0, {isolate: true})
+                    createTransaction(db, "b", 500, 0, {isolated: true}),
+                    createTransaction(db, "c", 500, 0, {isolated: true}),
+                    createTransaction(db, "d", 500, 0, {isolated: true})
                 ).chain(function () {
                         assert.deepEqual(db.sqls, [
                             'BEGIN', "DROP TABLE a", 'COMMIT',
@@ -802,9 +802,9 @@ it.describe("Database", function (it) {
             it.should("not isolate inner transaction unless specified", function () {
                 db.reset();
                 return comb.when(
-                    createTransaction(db, "a", 0, 600, {isolate: true}),
+                    createTransaction(db, "a", 0, 600, {isolated: true}),
                     createTransaction(db, "b", 500, 0),
-                    createTransaction(db, "c", 0, 700, {isolate: true}),
+                    createTransaction(db, "c", 0, 700, {isolated: true}),
                     createTransaction(db, "d", 800, 0)
                 ).chain(function () {
                         assert.deepEqual(db.sqls, [
@@ -814,11 +814,11 @@ it.describe("Database", function (it) {
                     });
             });
 
-            it.should("isolate transactions with isolate = true returned from an inner transaction", function () {
+            it.should("isolate transactions with isolated = true returned from an inner transaction", function () {
                 db.reset();
                 return db.transaction(function () {
                     return db.run("DROP TABLE a").chain(function () {
-                        db.transaction({isolate: true}, function () {
+                        db.transaction({isolated: true}, function () {
                             return db.run("DROP TABLE b");
                         }).chain(function () {
                             assert.deepEqual(db.sqls, [
