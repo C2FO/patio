@@ -1,6 +1,10 @@
+#0.5.3
+
+* Fixed issue with `logError` in transactions.
+
 #0.5.2
 
-* Fixed issue witch `streams` in transactions.
+* Fixed issue with `streams` in transactions.
 
 #0.5.1
 
