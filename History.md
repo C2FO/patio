@@ -1,3 +1,7 @@
+#0.5.2
+
+* Fixed issue witch `streams` in transactions.
+
 #0.5.1
 
 * Update `comb` to `v0.3.0`
