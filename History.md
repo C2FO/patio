@@ -1,3 +1,8 @@
+#0.5.4
+
+* Updated to `errback` the query promise when an error is caught.
+* Fixed issue with setting the `handleRowDescription` on a patio query.
+
 #0.5.3
 
 * Fixed issue with `logError` in transactions.
