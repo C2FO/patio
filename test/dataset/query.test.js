@@ -473,8 +473,22 @@ it.describe("Dataset queries", function (it) {
             ]).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 2) OR (y = 3)))");
         });
 
-        it.should("work with hashes", function () {
+        it.should("ORs conditions when a single hash is passed", function () {
             assert.equal(d1.andGroupedOr({y: "z", z: "y"}).sql, "SELECT * FROM test WHERE ((x = 1) AND ((y = 'z') OR (z = 'y')))");
+        });
+
+        it.should("add a new where clause, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(dataset.andGroupedOr([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE (((a = 2) AND (b = 1)) OR ((a = 3) AND (b = 0)))");
+        });
+
+        it.should("add an additional expression, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(d1.andGroupedOr([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) AND (((a = 2) AND (b = 1)) OR ((a = 3) AND (b = 0))))");
         });
     });
 
@@ -494,6 +508,24 @@ it.describe("Dataset queries", function (it) {
                 ['y', 2],
                 ['y', 3]
             ]).sql, "SELECT * FROM test WHERE ((x = 1) AND (y = 2) AND (y = 3))");
+        });
+
+        it.should("ANDs conditions when a single hash is passed", function () {
+            assert.equal(d1.andGroupedAnd({y: "z", z: "y"}).sql, "SELECT * FROM test WHERE ((x = 1) AND (y = 'z') AND (z = 'y'))");
+        });
+
+        it.should("add a new where clause, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(dataset.andGroupedAnd([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE ((a = 2) AND (b = 1) AND (a = 3) AND (b = 0))");
+        });
+
+        it.should("add an additional expression, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(d1.andGroupedAnd([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) AND (a = 2) AND (b = 1) AND (a = 3) AND (b = 0))");
         });
 
     });
@@ -516,6 +548,24 @@ it.describe("Dataset queries", function (it) {
             ]).sql, "SELECT * FROM test WHERE ((x = 1) OR ((x = 2) AND (y = 3)))");
         });
 
+        it.should("ANDs conditions when a single hash is passed", function () {
+            assert.equal(d1.orGroupedAnd({y: "z", z: "y"}).sql, "SELECT * FROM test WHERE ((x = 1) OR ((y = 'z') AND (z = 'y')))");
+        });
+
+        it.should("add a new where clause, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(dataset.orGroupedAnd([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE ((a = 2) AND (b = 1) AND (a = 3) AND (b = 0))");
+        });
+
+        it.should("add an additional expression, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(d1.orGroupedAnd([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE ((x = 1) OR ((a = 2) AND (b = 1) AND (a = 3) AND (b = 0)))");
+        });
+
     });
 
     it.describe("#orGroupedOr", function (it) {
@@ -534,6 +584,24 @@ it.describe("Dataset queries", function (it) {
                 ['x', 2],
                 ['y', 3]
             ]).sql, "SELECT * FROM test WHERE (((x = 1) AND (y = 'z')) OR (x = 2) OR (y = 3))");
+        });
+
+        it.should("ORs conditions when a single hash is passed", function () {
+            assert.equal(d1.orGroupedOr({a: 1, b: 2}).sql, "SELECT * FROM test WHERE (((x = 1) AND (y = 'z')) OR (a = 1) OR (b = 2))");
+        });
+
+        it.should("add a new where clause, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(dataset.orGroupedOr([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE (((a = 2) AND (b = 1)) OR ((a = 3) AND (b = 0)))");
+        });
+
+        it.should("add an additional expression, handle multiple anded expressions in an array of hashes", function () {
+            assert.equal(d1.orGroupedOr([
+                {a: 2, b: 1},
+                {a: 3, b: 0}
+            ]).sql, "SELECT * FROM test WHERE (((x = 1) AND (y = 'z')) OR ((a = 2) AND (b = 1)) OR ((a = 3) AND (b = 0)))");
         });
 
     });
