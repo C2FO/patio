@@ -1,3 +1,7 @@
+#0.6.0
+
+* Fixed issue where grouped expressions with arrays and hashes as items, the expressions generated from the hashes are anded and each array item is ORed properly [#115](https://github.com/C2FO/patio/pull/115)
+
 #0.5.4
 
 * Updated to `errback` the query promise when an error is caught.
