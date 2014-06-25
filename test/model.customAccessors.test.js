@@ -39,7 +39,9 @@ it.describe("A model with custom accessors",function (it) {
             }
         });
 
-        return patio.syncModels();
+        return CustomSettersEmployee.sync().chain(function() {
+            return CustomGettersEmployee.sync();
+        });
     });
 
     it.beforeEach(function () {
