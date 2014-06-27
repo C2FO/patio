@@ -105,8 +105,11 @@ it.describe("Models from mutliple databases", function (it) {
 
     it.describe("patio", function (it) {
         it.should("retrive models by database", function () {
+            // check for both methods of retrieving the model
             assert.strictEqual(patio.getModel(ds1), Employee);
             assert.strictEqual(patio.getModel(ds2), Employee2);
+            assert.strictEqual(patio.getModel("employee",DB1), Employee);
+            assert.strictEqual(patio.getModel("employee",DB2), Employee2);
         });
     });
 
