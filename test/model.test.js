@@ -437,10 +437,16 @@ it.describe("patio.Model", function (it) {
         assert.equal(m.firstname, "dougie");
     });
 
+    it.should("throw an error when setting a non nullable column to null", function () {
+        var m = new Employee({otherVal: "otherVal", firstname: "dougie"}, true);
+        try {
+            m.street = null;
+        } catch (e) {
+            assert.equal(e.message, "Model error : null is not allowed for the street column on model employee");
+        }
+    });
+
     it.afterAll(function () {
         return helper.dropModels();
     });
-
-
 });
-

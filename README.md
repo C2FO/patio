@@ -12,6 +12,26 @@ If you want to use the patio executable for migrations
 
 `npm install -g patio`
 
+###Running Tests
+
+To run the tests 
+
+```
+make test
+```
+
+To run just the postgres tests
+
+```
+make test-pg
+```
+
+To run just the mysql tests
+
+```
+make test-mysql
+```
+
 ###Why Use Patio?
                                                                                                                                                              
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
