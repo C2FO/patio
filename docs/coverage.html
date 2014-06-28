@@ -256,10 +256,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.70</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>22488</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>88.72</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>22485</span>
                     <span class='cov-label'>LOC</span><span class='cov-value'>5540</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>626</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>625</span>
                 </div>
             </td>
         </tr>
@@ -954,7 +954,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>3</span><code>                try {</code></li>
 <li class='green'><span class='hits'>3</span><code>                    this.connection.setMaxListeners(0);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    var fields = [];</code></li>
-<li class='green'><span class='hits'>3</span><code>                    query = new QueryStream(query);</code></li>
+<li class='green'><span class='hits'>3</span><code>                    query = new QueryStream(query, null, {batchSize: 1, highWaterMark: 1});</code></li>
 <li class='green'><span class='hits'>3</span><code>                    ret = this.connection.query(query);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    var orig = ret.handleRowDescription;</code></li>
 <li class='green'><span class='hits'>3</span><code>                    ret.handleRowDescription = function (msg) {</code></li>
@@ -3492,7 +3492,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *                               different databases.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        getModel: function (name, db) {</code></li>
-<li class='green'><span class='hits'>77</span><code>            return model.getModel(name, db);</code></li>
+<li class='green'><span class='hits'>79</span><code>            return model.getModel(name, db);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -3763,7 +3763,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @default []</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            DATABASES: function () {</code></li>
-<li class='green'><span class='hits'>641</span><code>                return Database.DATABASES;</code></li>
+<li class='green'><span class='hits'>645</span><code>                return Database.DATABASES;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
 <li class='green'><span class=''> </span><code>             * Returns the default database. This is the first database created using {@link patio#connect}.</code></li>
@@ -3772,7 +3772,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @default null</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            defaultDatabase: function () {</code></li>
-<li class='green'><span class='hits'>342</span><code>                return this.DATABASES.length ? this.DATABASES[0] : null;</code></li>
+<li class='green'><span class='hits'>344</span><code>                return this.DATABASES.length ? this.DATABASES[0] : null;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            Database: function () {</code></li>
@@ -4839,13 +4839,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return the typecasted value.</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        typecastValue: function (columnType, value) {</code></li>
-<li class='green'><span class='hits'>30708</span><code>            if (isNull(value) || isUndefined(value)) {</code></li>
+<li class='green'><span class='hits'>30709</span><code>            if (isNull(value) || isUndefined(value)) {</code></li>
 <li class='green'><span class='hits'>6472</span><code>                return null;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>24236</span><code>            var meth = "__typecastValue" + columnType.charAt(0).toUpperCase() + columnType.substr(1).toLowerCase();</code></li>
-<li class='green'><span class='hits'>24236</span><code>            try {</code></li>
-<li class='green'><span class='hits'>24236</span><code>                if (isFunction(this[meth])) {</code></li>
-<li class='green'><span class='hits'>24236</span><code>                    return this[meth](value);</code></li>
+<li class='green'><span class='hits'>24237</span><code>            var meth = "__typecastValue" + columnType.charAt(0).toUpperCase() + columnType.substr(1).toLowerCase();</code></li>
+<li class='green'><span class='hits'>24237</span><code>            try {</code></li>
+<li class='green'><span class='hits'>24237</span><code>                if (isFunction(this[meth])) {</code></li>
+<li class='green'><span class='hits'>24237</span><code>                    return this[meth](value);</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    return value;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
@@ -5020,7 +5020,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        // Typecast the value to a String</code></li>
 <li class='green'><span class=''> </span><code>        __typecastValueString: function (value) {</code></li>
-<li class='green'><span class='hits'>17339</span><code>            return "" + value;</code></li>
+<li class='green'><span class='hits'>17340</span><code>            return "" + value;</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
@@ -6829,11 +6829,11 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {Boolean} hasSelectSource true if this dataset already has a select sources.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor:function (db, opts) {</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this.db = db;</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this.__opts = {};</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this.__rowCb = null;</code></li>
-<li class='green'><span class='hits'>27044</span><code>            if (db) {</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this.db = db;</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this.__opts = {};</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this.__rowCb = null;</code></li>
+<li class='green'><span class='hits'>27015</span><code>            if (db) {</code></li>
 <li class='green'><span class='hits'>13649</span><code>                this.__quoteIdentifiers = db.quoteIdentifiers;</code></li>
 <li class='green'><span class='hits'>13649</span><code>                this.__identifierInputMethod = db.identifierInputMethod;</code></li>
 <li class='green'><span class='hits'>13649</span><code>                this.__identifierOutputMethod = db.identifierOutputMethod;</code></li>
@@ -6931,20 +6931,20 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * &lt;/ul&gt;</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        _splitString:function (s) {</code></li>
-<li class='green'><span class='hits'>13053</span><code>            var ret, m;</code></li>
-<li class='green'><span class='hits'>13053</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
+<li class='green'><span class='hits'>13063</span><code>            var ret, m;</code></li>
+<li class='green'><span class='hits'>13063</span><code>            if ((m = s.match(this._static.COLUMN_REF_RE1)) !== null) {</code></li>
 <li class='green'><span class='hits'>175</span><code>                ret = m.slice(1);</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>12878</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
+<li class='green'><span class='hits'>12888</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE2)) !== null) {</code></li>
 <li class='green'><span class='hits'>24</span><code>                ret = [null, m[1], m[2]];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>12854</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
+<li class='green'><span class='hits'>12864</span><code>            else if ((m = s.match(this._static.COLUMN_REF_RE3)) !== null) {</code></li>
 <li class='green'><span class='hits'>2178</span><code>                ret = [m[1], m[2], null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>            else {</code></li>
-<li class='green'><span class='hits'>10676</span><code>                ret = [null, s, null];</code></li>
+<li class='green'><span class='hits'>10686</span><code>                ret = [null, s, null];</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>13053</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>13063</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -6965,19 +6965,19 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            firstSourceAlias:function () {</code></li>
-<li class='green'><span class='hits'>486</span><code>                var source = this.__opts.from;</code></li>
-<li class='green'><span class='hits'>486</span><code>                if (isUndefinedOrNull(source) || !source.length) {</code></li>
+<li class='green'><span class='hits'>488</span><code>                var source = this.__opts.from;</code></li>
+<li class='green'><span class='hits'>488</span><code>                if (isUndefinedOrNull(source) || !source.length) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                    throw new DatasetError("No source specified for the query");</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>484</span><code>                source = source[0];</code></li>
-<li class='green'><span class='hits'>484</span><code>                if (isInstanceOf(source, AliasedExpression)) {</code></li>
+<li class='green'><span class='hits'>486</span><code>                source = source[0];</code></li>
+<li class='green'><span class='hits'>486</span><code>                if (isInstanceOf(source, AliasedExpression)) {</code></li>
 <li class='green'><span class='hits'>20</span><code>                    return source.alias;</code></li>
-<li class='green'><span class='hits'>464</span><code>                } else if (isString(source)) {</code></li>
+<li class='green'><span class='hits'>466</span><code>                } else if (isString(source)) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    var parts = this._splitString(source);</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    var alias = parts[2];</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    return alias ? alias : source;</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>464</span><code>                    return source;</code></li>
+<li class='green'><span class='hits'>466</span><code>                    return source;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7055,10 +7055,10 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>87.39</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>1122</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>333</span>
-                    <span class='cov-label'>Missed</span><span class='cov-value'>42</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>87.65</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>1118</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>332</span>
+                    <span class='cov-label'>Missed</span><span class='cov-value'>41</span>
                 </div>
             </td>
         </tr>
@@ -7095,11 +7095,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>1</span><code>var MODELS = new HashTable();</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var applyColumnTransformMethod = function (val, meth) {</code></li>
-<li class='green'><span class='hits'>912</span><code>    return !isUndefinedOrNull(meth) ? isFunction(val[meth]) ? val[meth] : isFunction(comb[meth]) ? comb[meth](val) : val : val;</code></li>
-<li class='green'><span class=''> </span><code>};</code></li>
-<li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1</span><code>var checkAndTransformName = function (name) {</code></li>
-<li class='green'><span class='hits'>163</span><code>    return isString(name) ? applyColumnTransformMethod(name, Model.camelize === true ? "camelize" : Model.underscore === true ? "underscore" : null) : name;</code></li>
+<li class='green'><span class='hits'>757</span><code>    return !isUndefinedOrNull(meth) ? isFunction(val[meth]) ? val[meth] : isFunction(comb[meth]) ? comb[meth](val) : val : val;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var Model = define([QueryPlugin, Middleware], {</code></li>
@@ -7254,24 +7250,24 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>2788</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>2788</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>2788</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>2788</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>2788</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>2788</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>2788</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>2788</span><code>                if (fromDb) {</code></li>
-<li class='green'><span class='hits'>1534</span><code>                    this._hook("pre", "load");</code></li>
-<li class='green'><span class='hits'>1534</span><code>                    this.__isNew = false;</code></li>
-<li class='green'><span class='hits'>1534</span><code>                    this.__setFromDb(options, true);</code></li>
-<li class='green'><span class='hits'>1534</span><code>                    if (this._static.emitOnLoad) {</code></li>
-<li class='green'><span class='hits'>1534</span><code>                        this.emit("load", this);</code></li>
-<li class='green'><span class='hits'>1534</span><code>                        this._static.emit("load", this);</code></li>
+<li class='green'><span class='hits'>2795</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>2795</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>2795</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>2795</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>2795</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>2795</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>2795</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>2795</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>1535</span><code>                    this._hook("pre", "load");</code></li>
+<li class='green'><span class='hits'>1535</span><code>                    this.__isNew = false;</code></li>
+<li class='green'><span class='hits'>1535</span><code>                    this.__setFromDb(options, true);</code></li>
+<li class='green'><span class='hits'>1535</span><code>                    if (this._static.emitOnLoad) {</code></li>
+<li class='green'><span class='hits'>1535</span><code>                        this.emit("load", this);</code></li>
+<li class='green'><span class='hits'>1535</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1254</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1254</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1260</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1260</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -7279,31 +7275,31 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set: function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1378</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1378</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1378</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1384</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1384</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1384</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6011</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6011</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6011</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1378</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1384</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb: function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>2718</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>2718</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>2718</span><code>            var schema = this.schema;</code></li>
-<li class='green'><span class='hits'>2718</span><code>            Object.keys(values).forEach(function (column) {</code></li>
-<li class='green'><span class='hits'>23831</span><code>                var value = values[column];</code></li>
+<li class='green'><span class='hits'>2719</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>2719</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>2719</span><code>            var schema = this.schema;</code></li>
+<li class='green'><span class='hits'>2719</span><code>            Object.keys(values).forEach(function (column) {</code></li>
+<li class='green'><span class='hits'>23833</span><code>                var value = values[column];</code></li>
 <li class='green'><span class=''> </span><code>                // Typecast value retrieved from db</code></li>
-<li class='green'><span class='hits'>23831</span><code>                if (schema.hasOwnProperty(column)) {</code></li>
-<li class='green'><span class='hits'>23830</span><code>                    this.__values[column] = this._typeCastValue(column, value, ignore);</code></li>
+<li class='green'><span class='hits'>23833</span><code>                if (schema.hasOwnProperty(column)) {</code></li>
+<li class='green'><span class='hits'>23831</span><code>                    this.__values[column] = this._typeCastValue(column, value, ignore);</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1</span><code>                    this[column] = value;</code></li>
+<li class='green'><span class='hits'>2</span><code>                    this[column] = value;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>2718</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>2719</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7369,8 +7365,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        _setColumnValue: function (name, val) {</code></li>
-<li class='green'><span class='hits'>6851</span><code>            var ignore = this.__ignore;</code></li>
-<li class='green'><span class='hits'>6851</span><code>            val = this._typeCastValue(name, val, ignore);</code></li>
+<li class='green'><span class='hits'>6852</span><code>            var ignore = this.__ignore;</code></li>
+<li class='green'><span class='hits'>6852</span><code>            val = this._typeCastValue(name, val, ignore);</code></li>
 <li class='green'><span class='hits'>6851</span><code>            var setterFunc = this["_set" + name.charAt(0).toUpperCase() + name.substr(1)];</code></li>
 <li class='green'><span class='hits'>6851</span><code>            var columnValue = isFunction(setterFunc) ? setterFunc.call(this, val, ignore) : val;</code></li>
 <li class='green'><span class='hits'>6851</span><code>            this._addColumnToIsChanged(name, columnValue);</code></li>
@@ -7385,25 +7381,25 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        //typecast_value method, so database adapters can override/augment the handling</code></li>
 <li class='green'><span class=''> </span><code>        //for database specific column types.</code></li>
 <li class='green'><span class=''> </span><code>        _typeCastValue: function (column, value, fromDatabase) {</code></li>
-<li class='green'><span class='hits'>30681</span><code>            var colSchema, clazz = this._static;</code></li>
-<li class='green'><span class='hits'>30681</span><code>            if (((fromDatabase &amp;&amp; clazz.typecastOnLoad) || (!fromDatabase &amp;&amp; clazz.typecastOnAssignment)) &amp;&amp; !isUndefinedOrNull(this.schema) &amp;&amp; !isUndefinedOrNull((colSchema = this.schema[column]))) {</code></li>
-<li class='green'><span class='hits'>30681</span><code>                var type = colSchema.type;</code></li>
-<li class='green'><span class='hits'>30681</span><code>                if (value === "" &amp;&amp; clazz.typecastEmptyStringToNull === true &amp;&amp; !isUndefinedOrNull(type) &amp;&amp; ["string", "blob"].indexOf(type) === -1) {</code></li>
+<li class='green'><span class='hits'>30683</span><code>            var colSchema, clazz = this._static;</code></li>
+<li class='green'><span class='hits'>30683</span><code>            if (((fromDatabase &amp;&amp; clazz.typecastOnLoad) || (!fromDatabase &amp;&amp; clazz.typecastOnAssignment)) &amp;&amp; !isUndefinedOrNull(this.schema) &amp;&amp; !isUndefinedOrNull((colSchema = this.schema[column]))) {</code></li>
+<li class='green'><span class='hits'>30683</span><code>                var type = colSchema.type;</code></li>
+<li class='green'><span class='hits'>30683</span><code>                if (value === "" &amp;&amp; clazz.typecastEmptyStringToNull === true &amp;&amp; !isUndefinedOrNull(type) &amp;&amp; ["string", "blob"].indexOf(type) === -1) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                    value = null;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>30681</span><code>                var raiseOnError = clazz.raiseOnTypecastError;</code></li>
-<li class='green'><span class='hits'>30681</span><code>                if (raiseOnError === true &amp;&amp; isUndefinedOrNull(value) &amp;&amp; colSchema.allowNull === false) {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("null is not allowed for the " + column + " column.");</code></li>
+<li class='green'><span class='hits'>30683</span><code>                var raiseOnError = clazz.raiseOnTypecastError;</code></li>
+<li class='green'><span class='hits'>30683</span><code>                if (raiseOnError === true &amp;&amp; isUndefinedOrNull(value) &amp;&amp; colSchema.allowNull === false) {</code></li>
+<li class='green'><span class='hits'>1</span><code>                    throw new ModelError("null is not allowed for the " + column + " column on model " + clazz.tableName);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>30681</span><code>                try {</code></li>
-<li class='green'><span class='hits'>30681</span><code>                    value = clazz.db.typecastValue(type, value);</code></li>
+<li class='green'><span class='hits'>30682</span><code>                try {</code></li>
+<li class='green'><span class='hits'>30682</span><code>                    value = clazz.db.typecastValue(type, value);</code></li>
 <li class='green'><span class=''> </span><code>                } catch (e) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    if (raiseOnError === true) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                        throw e;</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>30681</span><code>            return value;</code></li>
+<li class='green'><span class='hits'>30682</span><code>            return value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -7475,8 +7471,8 @@ td.cov-stats {
 <li class='red'><span class='nohits'>0</span><code>            return emitter.listeners.apply(emitter, arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code>        emit: function () {</code></li>
-<li class='green'><span class='hits'>9983</span><code>            var emitter = this.__emitter;</code></li>
-<li class='green'><span class='hits'>9983</span><code>            return emitter.emit.apply(emitter, arguments);</code></li>
+<li class='green'><span class='hits'>9984</span><code>            var emitter = this.__emitter;</code></li>
+<li class='green'><span class='hits'>9984</span><code>            return emitter.emit.apply(emitter, arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7534,7 +7530,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            schema: function () {</code></li>
-<li class='green'><span class='hits'>70091</span><code>                return this._static.schema;</code></li>
+<li class='green'><span class='hits'>70096</span><code>                return this._static.schema;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            columns: function () {</code></li>
@@ -7542,7 +7538,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced: function () {</code></li>
-<li class='green'><span class='hits'>11510</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>11517</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -7693,10 +7689,10 @@ td.cov-stats {
 <li class='green'><span class='hits'>3</span><code>                            return when(supers.map(function (sup) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                                return sup.sync();</code></li>
 <li class='green'><span class=''> </span><code>                            })).chain(function () {</code></li>
-<li class='green'><span class='hits'>3</span><code>                                    self.synced = true;</code></li>
-<li class='green'><span class='hits'>3</span><code>                                    supers.forEach(self.inherits, self);</code></li>
-<li class='green'><span class='hits'>3</span><code>                                    return self;</code></li>
-<li class='green'><span class=''> </span><code>                                });</code></li>
+<li class='green'><span class='hits'>3</span><code>                                self.synced = true;</code></li>
+<li class='green'><span class='hits'>3</span><code>                                supers.forEach(self.inherits, self);</code></li>
+<li class='green'><span class='hits'>3</span><code>                                return self;</code></li>
+<li class='green'><span class=''> </span><code>                            });</code></li>
 <li class='green'><span class=''> </span><code>                        } else {</code></li>
 <li class='green'><span class='hits'>83</span><code>                            self.synced = true;</code></li>
 <li class='green'><span class='hits'>83</span><code>                            return self;</code></li>
@@ -7769,7 +7765,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>2455</span><code>            var retVal = null, errored = false, self = this;</code></li>
 <li class='green'><span class='hits'>2455</span><code>            return this.sync().chain(function () {</code></li>
 <li class='green'><span class='hits'>2455</span><code>                if (self.useTransaction(opts)) {</code></li>
-<li class='green'><span class='hits'>2455</span><code>                    return self.db.transaction(opts,function () {</code></li>
+<li class='green'><span class='hits'>2455</span><code>                    return self.db.transaction(opts, function () {</code></li>
 <li class='green'><span class='hits'>2455</span><code>                        return when(cb()).chain(function (val) {</code></li>
 <li class='green'><span class='hits'>2410</span><code>                            retVal = val;</code></li>
 <li class='green'><span class=''> </span><code>                        }, function (err) {</code></li>
@@ -7777,18 +7773,18 @@ td.cov-stats {
 <li class='green'><span class='hits'>45</span><code>                            errored = true;</code></li>
 <li class='green'><span class=''> </span><code>                        });</code></li>
 <li class='green'><span class=''> </span><code>                    }).chain(function () {</code></li>
-<li class='green'><span class='hits'>2455</span><code>                            if (errored) {</code></li>
-<li class='green'><span class='hits'>45</span><code>                                throw retVal;</code></li>
-<li class='green'><span class=''> </span><code>                            } else {</code></li>
-<li class='green'><span class='hits'>2410</span><code>                                return retVal;</code></li>
-<li class='green'><span class=''> </span><code>                            }</code></li>
-<li class='green'><span class=''> </span><code>                        }, function (err) {</code></li>
-<li class='green'><span class='hits'>45</span><code>                            if (errored) {</code></li>
-<li class='green'><span class='hits'>45</span><code>                                throw retVal;</code></li>
-<li class='green'><span class=''> </span><code>                            } else {</code></li>
-<li class='red'><span class='nohits'>0</span><code>                                throw err;</code></li>
-<li class='green'><span class=''> </span><code>                            }</code></li>
-<li class='green'><span class=''> </span><code>                        });</code></li>
+<li class='green'><span class='hits'>2455</span><code>                        if (errored) {</code></li>
+<li class='green'><span class='hits'>45</span><code>                            throw retVal;</code></li>
+<li class='green'><span class=''> </span><code>                        } else {</code></li>
+<li class='green'><span class='hits'>2410</span><code>                            return retVal;</code></li>
+<li class='green'><span class=''> </span><code>                        }</code></li>
+<li class='green'><span class=''> </span><code>                    }, function (err) {</code></li>
+<li class='green'><span class='hits'>45</span><code>                        if (errored) {</code></li>
+<li class='green'><span class='hits'>45</span><code>                            throw retVal;</code></li>
+<li class='green'><span class=''> </span><code>                        } else {</code></li>
+<li class='red'><span class='nohits'>0</span><code>                            throw err;</code></li>
+<li class='green'><span class=''> </span><code>                        }</code></li>
+<li class='green'><span class=''> </span><code>                    });</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    return when(cb());</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
@@ -7856,7 +7852,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        _defineColumnSetter: function (name) {</code></li>
 <li class='green'><span class=''> </span><code>            /*Adds a setter to an object*/</code></li>
 <li class='green'><span class='hits'>757</span><code>            this.prototype.__defineSetter__(name, function (val) {</code></li>
-<li class='green'><span class='hits'>6851</span><code>                this._setColumnValue(name, val);</code></li>
+<li class='green'><span class='hits'>6852</span><code>                this._setColumnValue(name, val);</code></li>
 <li class='green'><span class=''> </span><code>            });</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7916,7 +7912,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type {Boolean}</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            camelize: function (camelize) {</code></li>
-<li class='green'><span class='hits'>156</span><code>                return  this.__camelize;</code></li>
+<li class='green'><span class='hits'>1</span><code>                return  this.__camelize;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7929,7 +7925,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type {Boolean}</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            underscore: function (underscore) {</code></li>
-<li class='green'><span class='hits'>3</span><code>                return this.__underscore;</code></li>
+<li class='green'><span class='hits'>1</span><code>                return this.__underscore;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -7942,7 +7938,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type String</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            tableName: function () {</code></li>
-<li class='green'><span class='hits'>4645</span><code>                return this.__tableName;</code></li>
+<li class='green'><span class='hits'>4646</span><code>                return this.__tableName;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -7952,14 +7948,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type patio.Database</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            db: function () {</code></li>
-<li class='green'><span class='hits'>33372</span><code>                var db = this.__db;</code></li>
-<li class='green'><span class='hits'>33372</span><code>                if (!db) {</code></li>
+<li class='green'><span class='hits'>33373</span><code>                var db = this.__db;</code></li>
+<li class='green'><span class='hits'>33373</span><code>                if (!db) {</code></li>
 <li class='green'><span class='hits'>45</span><code>                    db = this.__db = patio.defaultDatabase;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>33372</span><code>                if (!db) {</code></li>
+<li class='green'><span class='hits'>33373</span><code>                if (!db) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("patio has not been connected to a database");</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>33372</span><code>                return db;</code></li>
+<li class='green'><span class='hits'>33373</span><code>                return db;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            /**</code></li>
@@ -8008,8 +8004,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>             * @type Object</code></li>
 <li class='green'><span class=''> </span><code>             */</code></li>
 <li class='green'><span class=''> </span><code>            schema: function () {</code></li>
-<li class='green'><span class='hits'>70095</span><code>                if (this.synced) {</code></li>
-<li class='green'><span class='hits'>70095</span><code>                    return this.__schema;</code></li>
+<li class='green'><span class='hits'>70100</span><code>                if (this.synced) {</code></li>
+<li class='green'><span class='hits'>70100</span><code>                    return this.__schema;</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                    throw new ModelError("Model has not been synced yet");</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
@@ -8075,23 +8071,24 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code>}</code></li>
 <li class='green'><span class=''> </span><code></code></li>
+<li class='green'><span class='hits'>1</span><code>var allModels = [];</code></li>
 <li class='green'><span class=''> </span><code>/**@ignore*/</code></li>
 <li class='green'><span class='hits'>1</span><code>exports.create = function (name, supers, modelOptions) {</code></li>
 <li class='green'><span class='hits'>86</span><code>    if (!patio) {</code></li>
 <li class='green'><span class='hits'>1</span><code>        (patio = require("./index"));</code></li>
 <li class='green'><span class='hits'>1</span><code>        patio.on("disconnect", function () {</code></li>
+<li class='green'><span class='hits'>36</span><code>            allModels.length = 0;</code></li>
 <li class='green'><span class='hits'>36</span><code>            MODELS.clear();</code></li>
 <li class='green'><span class=''> </span><code>        });</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>86</span><code>    var db, ds, tableName;</code></li>
-<li class='green'><span class='hits'>86</span><code>    var key, modelKey;</code></li>
+<li class='green'><span class='hits'>86</span><code>    var db, ds, tableName, modelKey;</code></li>
 <li class='green'><span class='hits'>86</span><code>    if (isString(name)) {</code></li>
 <li class='green'><span class='hits'>80</span><code>        tableName = name;</code></li>
-<li class='green'><span class='hits'>80</span><code>        key = db = patio.defaultDatabase || "default";</code></li>
+<li class='green'><span class='hits'>80</span><code>        db = patio.defaultDatabase || "default";</code></li>
 <li class='green'><span class='hits'>6</span><code>    } else if (isInstanceOf(name, patio.Dataset)) {</code></li>
 <li class='green'><span class='hits'>6</span><code>        ds = name;</code></li>
-<li class='green'><span class='hits'>6</span><code>        tableName = ds.firstSourceAlias;</code></li>
-<li class='green'><span class='hits'>6</span><code>        key = db = ds.db;</code></li>
+<li class='green'><span class='hits'>6</span><code>        tableName = ds.firstSourceAlias.toString();</code></li>
+<li class='green'><span class='hits'>6</span><code>        db = ds.db;</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class='hits'>86</span><code>    var hasSuper = false;</code></li>
 <li class='green'><span class='hits'>86</span><code>    if (isHash(supers) || isUndefinedOrNull(supers)) {</code></li>
@@ -8106,7 +8103,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>86</span><code>    var model;</code></li>
-<li class='green'><span class='hits'>86</span><code>    checkAndAddDBToTable(key, MODELS);</code></li>
+<li class='green'><span class='hits'>86</span><code>    checkAndAddDBToTable(db, MODELS);</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>86</span><code>    var DEFAULT_PROTO = {instance: {}, "static": {}};</code></li>
 <li class='green'><span class='hits'>86</span><code>    modelOptions = merge(DEFAULT_PROTO, modelOptions || {});</code></li>
@@ -8127,44 +8124,43 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>86</span><code>    if (!(MODELS.get(key).contains(checkAndTransformName(name)))) {</code></li>
-<li class='green'><span class='hits'>53</span><code>        MODELS.get(key).set(name, model);</code></li>
+<li class='green'><span class='hits'>86</span><code>    allModels.push(model);</code></li>
+<li class='green'><span class='hits'>86</span><code>    if (!(MODELS.get(db).contains(tableName))) {</code></li>
+<li class='green'><span class='hits'>51</span><code>        MODELS.get(db).set(tableName, model);</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
 <li class='green'><span class='hits'>86</span><code>    return model;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.syncModels = function (cb) {</code></li>
-<li class='green'><span class='hits'>31</span><code>    return asyncArray(MODELS.entrySet).map(function (entry) {</code></li>
-<li class='green'><span class='hits'>30</span><code>        var value = entry.value;</code></li>
-<li class='green'><span class='hits'>30</span><code>        return asyncArray(value.entrySet).map(function (m) {</code></li>
-<li class='green'><span class='hits'>53</span><code>            return m.value.sync();</code></li>
-<li class='green'><span class=''> </span><code>        }, 1);</code></li>
+<li class='green'><span class='hits'>31</span><code>    return asyncArray(allModels).forEach(function (model) {</code></li>
+<li class='green'><span class='hits'>53</span><code>        return model.sync();</code></li>
 <li class='green'><span class=''> </span><code>    }, 1).classic(cb).promise();</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var checkAndGetModel = function (db, name) {</code></li>
-<li class='green'><span class='hits'>152</span><code>    var ret;</code></li>
-<li class='green'><span class='hits'>152</span><code>    if (MODELS.contains(db)) {</code></li>
-<li class='green'><span class='hits'>77</span><code>        ret = MODELS.get(db).get(checkAndTransformName(name));</code></li>
+<li class='green'><span class='hits'>154</span><code>    var ret;</code></li>
+<li class='green'><span class='hits'>154</span><code>    if (MODELS.contains(db)) {</code></li>
+<li class='green'><span class='hits'>79</span><code>        ret = MODELS.get(db).get(name);</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>152</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>154</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.getModel = function (name, db) {</code></li>
-<li class='green'><span class='hits'>80</span><code>    var ret = null;</code></li>
-<li class='green'><span class='hits'>80</span><code>    if (isDefined(name)) {</code></li>
-<li class='green'><span class='hits'>80</span><code>        !patio &amp;&amp; (patio = require("./index"));</code></li>
-<li class='green'><span class='hits'>80</span><code>        if (isFunction(name)) {</code></li>
+<li class='green'><span class='hits'>82</span><code>    var ret = null;</code></li>
+<li class='green'><span class='hits'>82</span><code>    if (isDefined(name)) {</code></li>
+<li class='green'><span class='hits'>82</span><code>        !patio &amp;&amp; (patio = require("./index"));</code></li>
+<li class='green'><span class='hits'>82</span><code>        if (isFunction(name)) {</code></li>
 <li class='green'><span class='hits'>3</span><code>            ret = name;</code></li>
 <li class='green'><span class=''> </span><code>        } else {</code></li>
-<li class='green'><span class='hits'>77</span><code>            if (!db &amp;&amp; isInstanceOf(name, patio.Dataset)) {</code></li>
+<li class='green'><span class='hits'>79</span><code>            if (!db &amp;&amp; isInstanceOf(name, patio.Dataset)) {</code></li>
 <li class='green'><span class='hits'>2</span><code>                db = name.db;</code></li>
+<li class='green'><span class='hits'>2</span><code>                name = name.firstSourceAlias.toString();</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>77</span><code>            var defaultDb = patio.defaultDatabase;</code></li>
-<li class='green'><span class='hits'>77</span><code>            if (db) {</code></li>
-<li class='green'><span class='hits'>51</span><code>                ret = checkAndGetModel(db, name);</code></li>
-<li class='green'><span class='hits'>51</span><code>                if (!ret &amp;&amp; db === defaultDb) {</code></li>
+<li class='green'><span class='hits'>79</span><code>            var defaultDb = patio.defaultDatabase;</code></li>
+<li class='green'><span class='hits'>79</span><code>            if (db) {</code></li>
+<li class='green'><span class='hits'>53</span><code>                ret = checkAndGetModel(db, name);</code></li>
+<li class='green'><span class='hits'>53</span><code>                if (!ret &amp;&amp; db === defaultDb) {</code></li>
 <li class='green'><span class='hits'>49</span><code>                    ret = checkAndGetModel("default", name);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
@@ -8178,10 +8174,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        ret = name;</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>80</span><code>    if (isUndefinedOrNull(ret)) {</code></li>
+<li class='green'><span class='hits'>82</span><code>    if (isUndefinedOrNull(ret)) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        throw new ModelError("Model " + name + " has not been registered with patio");</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
-<li class='green'><span class='hits'>80</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>82</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li></ol></pre></div>
@@ -9514,18 +9510,18 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>1249</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1249</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>1249</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>1249</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>1249</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>3</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        };</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>1249</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>1262</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>663</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>663</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>657</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9535,8 +9531,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>1249</span><code>    ret["__proto__"] = ident;</code></li>
-<li class='green'><span class='hits'>1249</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>1262</span><code>    ret["__proto__"] = ident;</code></li>
+<li class='green'><span class='hits'>1262</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -10015,7 +10011,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>1249</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>1262</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10827,13 +10823,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs: function (args) {</code></li>
-<li class='green'><span class='hits'>2648</span><code>            var ret, Self = this;</code></li>
-<li class='green'><span class='hits'>2648</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2648</span><code>                ret = new Self();</code></li>
+<li class='green'><span class='hits'>2661</span><code>            var ret, Self = this;</code></li>
+<li class='green'><span class='hits'>2661</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2661</span><code>                ret = new Self();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2648</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2648</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2661</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2661</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11636,7 +11632,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function (value) {</code></li>
-<li class='green'><span class='hits'>15953</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>15979</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11648,15 +11644,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return String the SQL version of the {@link patio.sql.Identifier}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        toString: function (ds) {</code></li>
-<li class='green'><span class='hits'>19892</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
-<li class='green'><span class='hits'>19892</span><code>            ds = ds || new Dataset();</code></li>
-<li class='green'><span class='hits'>19892</span><code>            return ds.quoteIdentifier(this);</code></li>
+<li class='green'><span class='hits'>19863</span><code>            !Dataset &amp;&amp; (Dataset = require("./dataset"));</code></li>
+<li class='green'><span class='hits'>19863</span><code>            ds = ds || new Dataset();</code></li>
+<li class='green'><span class='hits'>19863</span><code>            return ds.quoteIdentifier(this);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        getters: {</code></li>
 <li class='green'><span class=''> </span><code>            value: function () {</code></li>
-<li class='green'><span class='hits'>23097</span><code>                return this.__value;</code></li>
+<li class='green'><span class='hits'>23058</span><code>                return this.__value;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    }</code></li>
@@ -12965,10 +12961,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
 <li class='green'><span class=''> </span><code>            //We initialize these here because otherwise</code></li>
 <li class='green'><span class=''> </span><code>            //the will be blank because of recursive dependencies.</code></li>
-<li class='green'><span class='hits'>27044</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
-<li class='green'><span class='hits'>27044</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this.outputIdentifier = hitch(this, this.outputIdentifier);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            !patio &amp;&amp; (patio = require("../index"));</code></li>
+<li class='green'><span class='hits'>27015</span><code>            !Dataset &amp;&amp; (Dataset = patio.Dataset);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this.outputIdentifier = hitch(this, this.outputIdentifier);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -13776,18 +13772,18 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * quote the name with {@link patio.dataset._Sql#_quotedIdentifier}.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        quoteIdentifier: function (name) {</code></li>
-<li class='green'><span class='hits'>31682</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
+<li class='green'><span class='hits'>31653</span><code>            if (isInstanceOf(name, LiteralString)) {</code></li>
 <li class='green'><span class='hits'>93</span><code>                return name;</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
-<li class='green'><span class='hits'>31589</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
-<li class='green'><span class='hits'>20224</span><code>                    name = name.value;</code></li>
+<li class='green'><span class='hits'>31560</span><code>                if (isInstanceOf(name, Identifier)) {</code></li>
+<li class='green'><span class='hits'>20195</span><code>                    name = name.value;</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
-<li class='green'><span class='hits'>31589</span><code>                name = this.inputIdentifier(name);</code></li>
-<li class='green'><span class='hits'>31589</span><code>                if (this.quoteIdentifiers) {</code></li>
+<li class='green'><span class='hits'>31560</span><code>                name = this.inputIdentifier(name);</code></li>
+<li class='green'><span class='hits'>31560</span><code>                if (this.quoteIdentifiers) {</code></li>
 <li class='green'><span class='hits'>25073</span><code>                    name = this._quotedIdentifier(name)</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>31589</span><code>            return name;</code></li>
+<li class='green'><span class='hits'>31560</span><code>            return name;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -13797,9 +13793,9 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * identifierOutputMethod.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        inputIdentifier: function (v) {</code></li>
-<li class='green'><span class='hits'>31761</span><code>            var i = this.__identifierInputMethod;</code></li>
-<li class='green'><span class='hits'>31761</span><code>            v = v.toString(this);</code></li>
-<li class='green'><span class='hits'>31761</span><code>            return !isUndefinedOrNull(i) ?</code></li>
+<li class='green'><span class='hits'>31732</span><code>            var i = this.__identifierInputMethod;</code></li>
+<li class='green'><span class='hits'>31732</span><code>            v = v.toString(this);</code></li>
+<li class='green'><span class='hits'>31732</span><code>            return !isUndefinedOrNull(i) ?</code></li>
 <li class='green'><span class=''> </span><code>                isFunction(v[i]) ?</code></li>
 <li class='green'><span class=''> </span><code>                    v[i]() :</code></li>
 <li class='green'><span class=''> </span><code>                    isFunction(comb[i]) ?</code></li>
@@ -13847,13 +13843,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        schemaAndTable: function (tableName) {</code></li>
 <li class='green'><span class='hits'>2231</span><code>            var sch = this.db ? this.db.defaultSchema || null : null;</code></li>
 <li class='green'><span class='hits'>2231</span><code>            if (isString(tableName)) {</code></li>
-<li class='green'><span class='hits'>792</span><code>                var parts = this._splitString(tableName);</code></li>
-<li class='green'><span class='hits'>792</span><code>                var s = parts[0], table = parts[1];</code></li>
-<li class='green'><span class='hits'>792</span><code>                return [s || sch, table];</code></li>
-<li class='green'><span class='hits'>1439</span><code>            } else if (isInstanceOf(tableName, QualifiedIdentifier)) {</code></li>
+<li class='green'><span class='hits'>802</span><code>                var parts = this._splitString(tableName);</code></li>
+<li class='green'><span class='hits'>802</span><code>                var s = parts[0], table = parts[1];</code></li>
+<li class='green'><span class='hits'>802</span><code>                return [s || sch, table];</code></li>
+<li class='green'><span class='hits'>1429</span><code>            } else if (isInstanceOf(tableName, QualifiedIdentifier)) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                return [tableName.table, tableName.column]</code></li>
-<li class='green'><span class='hits'>1436</span><code>            } else if (isInstanceOf(tableName, Identifier)) {</code></li>
-<li class='green'><span class='hits'>1436</span><code>                return [null, tableName.value];</code></li>
+<li class='green'><span class='hits'>1426</span><code>            } else if (isInstanceOf(tableName, Identifier)) {</code></li>
+<li class='green'><span class='hits'>1426</span><code>                return [null, tableName.value];</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new QueryError("table should be a QualifiedIdentifier, Identifier, or String");</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
@@ -16009,7 +16005,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code> * @param {String} message the message to show.</code></li>
 <li class='green'><span class=''> </span><code> */</code></li>
 <li class='green'><span class='hits'>1</span><code>patio.ModelError = function(message) {</code></li>
-<li class='green'><span class='hits'>2</span><code>  return new Error("Model error : " + message);</code></li>
+<li class='green'><span class='hits'>3</span><code>  return new Error("Model error : " + message);</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>/**</code></li>
@@ -16091,10 +16087,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
-<li class='green'><span class='hits'>27044</span><code>            if (!Dataset) {</code></li>
+<li class='green'><span class='hits'>27015</span><code>            if (!Dataset) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                Dataset = require("../index").Dataset;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -17398,10 +17394,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
-<li class='green'><span class='hits'>2788</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>2682</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>2795</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>2686</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2788</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>2795</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload: function () {</code></li>
@@ -18419,17 +18415,17 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
-<li class='green'><span class='hits'>27044</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._super(arguments);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>189308</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>189308</span><code>                    this[type + "Join"] = hitch(this, conditionedJoin, type);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._static.CONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>189105</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>189105</span><code>                    this[type + "Join"] = hitch(this, conditionedJoin, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
-<li class='green'><span class='hits'>135220</span><code>                if (!this[type + "Join"]) {</code></li>
-<li class='green'><span class='hits'>135220</span><code>                    this[type + "Join"] = hitch(this, unConditionJoin, type);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._static.UNCONDITIONED_JOIN_TYPES.forEach(function (type) {</code></li>
+<li class='green'><span class='hits'>135075</span><code>                if (!this[type + "Join"]) {</code></li>
+<li class='green'><span class='hits'>135075</span><code>                    this[type + "Join"] = hitch(this, unConditionJoin, type);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
@@ -21096,8 +21092,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @ignore</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
-<li class='green'><span class='hits'>27044</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
-<li class='green'><span class='hits'>27044</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            !Dataset &amp;&amp; (Dataset = require("../index").Dataset);</code></li>
+<li class='green'><span class='hits'>27015</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -21818,8 +21814,8 @@ td.cov-stats {
             <td class="cov-stats">
                 <div>
                     <span class='cov-label'>Coverage</span><span class='cov-value'>100.00</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>207</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>60</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>208</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>61</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>0</span>
                 </div>
             </td>
@@ -21926,7 +21922,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>7041</span><code>                        self.logDebug("Duration: % 6dms; %s", new Date() - start, sql);</code></li>
 <li class='green'><span class='hits'>7041</span><code>                        spreadArgs(ret.callback, arguments);</code></li>
 <li class='green'><span class=''> </span><code>                    }, function (err) {</code></li>
-<li class='green'><span class='hits'>72</span><code>                        err = new QueryError(format("%s: %s", err.message, sql));</code></li>
+<li class='green'><span class='hits'>72</span><code>                        var details = err.detail;</code></li>
+<li class='green'><span class='hits'>72</span><code>                        err = new QueryError(format("%s%s: %s", err.message, details ? " DETAIL('" + details + "')" : "", sql));</code></li>
 <li class='green'><span class='hits'>72</span><code>                        self.logError(err);</code></li>
 <li class='green'><span class='hits'>72</span><code>                        ret.errback(err);</code></li>
 <li class='green'><span class=''> </span><code>                    }).addErrback(ret.errback);</code></li>
@@ -22076,7 +22073,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            // Whether this dataset quotes identifiers.</code></li>
 <li class='green'><span class=''> </span><code>            /**@ignore*/</code></li>
 <li class='green'><span class=''> </span><code>            quoteIdentifiers: function () {</code></li>
-<li class='green'><span class='hits'>45458</span><code>                return this.__quoteIdentifiers;</code></li>
+<li class='green'><span class='hits'>45429</span><code>                return this.__quoteIdentifiers;</code></li>
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            // Whether this dataset will provide accurate number of rows matched for</code></li>
