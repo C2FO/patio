@@ -1,3 +1,7 @@
+# 0.8.0
+
+* Removed `\` escaping in postgres adapter as it is not the default in versions >= 9.1
+
 #0.7.0
 
 * Fix for issue [#121](https://github.com/C2FO/patio/issues/121) added the table name to the error thrown.
