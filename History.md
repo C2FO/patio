@@ -1,3 +1,8 @@
+# 0.8.1
+
+* Added Array support for JSON datatypes.
+
+
 # 0.8.0
 
 * Removed `\` escaping in postgres adapter as it is not the default in versions >= 9.1
