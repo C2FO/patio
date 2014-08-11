@@ -302,6 +302,8 @@
                             
                             <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
+                            <li><a href="./patio_sql_JsonArray.html">patio.sql.JsonArray</a></li>
+                            
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
                             <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
@@ -2446,8 +2448,8 @@ function (generator){
    return generator.columns.map(function (column) {
        return self.__columnDefinitionSql(column);
    }).concat(generator.constraints.map(function (constraint) {
-           return self.__constraintDefinitionSql(constraint);
-       })).join(this._static.COMMA_SEPARATOR);
+       return self.__constraintDefinitionSql(constraint);
+   })).join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -3426,7 +3428,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (tableName){
-   return  this.__schemaUtiltyDataset.schemaAndTable(tableName);
+   return this.__schemaUtiltyDataset.schemaAndTable(tableName);
            
 }
     </pre>
@@ -4240,15 +4242,15 @@ DB.addIndex(&quot;test&quot;, [&quot;one&quot;, &quot;two&quot;]);
 function (table,columns,options){
    options = options || {};
    var ignoreErrors = options.ignoreErrors === true;
-   return this.alterTable(table,function () {
+   return this.alterTable(table, function () {
        this.addIndex(columns, options);
    }).chain(function (res) {
-           return res;
-       }, function (err) {
-           if (!ignoreErrors) {
-               throw err;
-           }
-       });
+       return res;
+   }, function (err) {
+       if (!ignoreErrors) {
+           throw err;
+       }
+   });
            
 }
     </pre>
@@ -5214,8 +5216,8 @@ function (names,opts){
                self.removeCachedSchema(name);
            });
        }, null, 1).chain(function () {
-               return null;
-           });
+           return null;
+       });
    } else {
        var args = argsToArray(arguments);
        if (comb.isHash(args[args.length - 1])) {
@@ -5899,9 +5901,7 @@ function (v){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   if (LOGGER.isDebug) {
-       LOGGER.debug.apply(LOGGER, arguments);
-   }
+   LOGGER.debug.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -5944,9 +5944,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (error){
-   if (LOGGER.isError) {
-       LOGGER.error.apply(LOGGER, arguments);
-   }
+   LOGGER.error.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -5982,9 +5980,7 @@ function (error){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   if (LOGGER.isFatal) {
-       LOGGER.fatal.apply(LOGGER, arguments);
-   }
+   LOGGER.fatal.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -6020,9 +6016,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   if (LOGGER.isInfo) {
-       LOGGER.info.apply(LOGGER, arguments);
-   }
+   LOGGER.info.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -6058,9 +6052,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   if (LOGGER.isTrace) {
-       LOGGER.trace.apply(LOGGER, arguments);
-   }
+   LOGGER.trace.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -6096,9 +6088,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   if (LOGGER.isWarn) {
-       LOGGER.warn.apply(LOGGER, arguments);
-   }
+   LOGGER.warn.apply(LOGGER, arguments);
            
 }
     </pre>
@@ -6549,6 +6539,8 @@ function (dbType){
        ret = &quot;enum&quot;;
    } else if (dbType.match(/^set/i)) {
        ret = &quot;set&quot;;
+   } else if (dbType.match(/^json/i)) {
+       ret = &quot;json&quot;;
    }
    return ret;
            

@@ -302,6 +302,8 @@
                             
                             <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
+                            <li><a href="./patio_sql_JsonArray.html">patio.sql.JsonArray</a></li>
+                            
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
                             <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
@@ -752,15 +754,19 @@ for <a href='./patio_Dataset.html#'> patio.Dataset</a> query methods.</p>
     <pre class="prettyprint linenums lang-js">
 function (json){
    var ret = json;
-   if (isString(ret)) {
-       ret = JSON.parse(ret);
-   }
-   if (isUndefinedOrNull(ret)) {
-       ret = null;
-   } else if (isObject(ret)) {
-       ret = new Json(ret);
-   } else {
-       throw new ExpressionError(&quot;Invalid value for json &quot; + ret);
+   if (!(isInstanceOf(ret, Json, JsonArray))) {
+       if (isString(ret)) {
+           ret = JSON.parse(ret);
+       }
+       if (isUndefinedOrNull(ret)) {
+           ret = null;
+       } else if (isArray(ret)) {
+           ret = new JsonArray(ret);
+       } else if (isObject(ret)) {
+           ret = new Json(ret);
+       } else {
+           throw new ExpressionError(&quot;Invalid value for json &quot; + ret);
+       }
    }
    return ret;
        

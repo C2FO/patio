@@ -42,6 +42,8 @@ it.describe("patio.Model", function (it) {
         if (config.DB_TYPE === "pg") {
             emp.jsontype = {a: "b"};
             assert.instanceOf(emp.jsontype, sql.Json);
+            emp.jsonarray = [{a: "b"}];
+            assert.instanceOf(emp.jsonarray, sql.JsonArray);
         }
         assert.isString(emp.firstname);
         assert.isString(emp.lastname);
@@ -69,6 +71,10 @@ it.describe("patio.Model", function (it) {
             texttype: "text data",
             blobtype: "blob data"
         });
+        if (config.DB_TYPE === "pg") {
+            emp.jsontype = {a: "b"};
+            emp.jsonarray = [{a: "b"}];
+        }
         return emp.save().chain(function () {
             assert.instanceOf(emp, Employee);
             assert.equal(emp.firstname, "doug");
@@ -80,6 +86,10 @@ it.describe("patio.Model", function (it) {
             assert.deepEqual(emp.buffertype, new Buffer("buffer data"));
             assert.deepEqual(emp.texttype, "text data");
             assert.deepEqual(emp.blobtype, new Buffer("blob data"));
+            if (config.DB_TYPE === "pg") {
+                assert.instanceOf(emp.jsontype, sql.Json);
+                assert.instanceOf(emp.jsonarray, sql.JsonArray);
+            }
         });
     });
 
@@ -159,8 +169,9 @@ it.describe("patio.Model", function (it) {
         var emps;
         it.beforeEach(function () {
             emps = [];
+            var emp;
             for (var i = 0; i < 20; i++) {
-                emps.push(new Employee({
+                emp = new Employee({
                     lastname: "last" + i,
                     firstname: "first" + i,
                     position: i,
@@ -168,7 +179,12 @@ it.describe("patio.Model", function (it) {
                     gender: gender[i % 2],
                     street: "Street s" + i,
                     city: "City " + i
-                }));
+                });
+                if (config.DB_TYPE === "pg") {
+                    emp.jsontype = {a: "b"};
+                    emp.jsonarray = [{a: "b"}];
+                }
+                emps.push(emp);
             }
             return comb.executeInOrder(Employee, function (emp) {
                 emp.truncate();
@@ -192,6 +208,10 @@ it.describe("patio.Model", function (it) {
             return Employee.findById(emps[0].id).chain(function (emp) {
                 assert.instanceOf(emp, Employee);
                 assert.equal(emp.id, emps[0].id);
+                if (config.DB_TYPE === "pg") {
+                    assert.instanceOf(emp.jsontype, sql.Json);
+                    assert.instanceOf(emp.jsonarray, sql.JsonArray);
+                }
             });
         });
 
@@ -363,6 +383,7 @@ it.describe("patio.Model", function (it) {
                 };
                 if (config.DB_TYPE === "pg") {
                     values.jsontype = {a: "b"};
+                    values.jsonarray = [{a: "b"}];
                 }
                 return (emp = Employee.create(values)).save();
             });
@@ -411,7 +432,7 @@ it.describe("patio.Model", function (it) {
 
         it.should("have insertSql property", function () {
             if (config.DB_TYPE === "pg") {
-                assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`"]jsontype[`"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, '\{"a":"b"\}', 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
+                assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`"]jsontype[`"], [`"]jsonarray[`"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, '\{"a":"b"\}', '\[\{"a":"b"\}\]', 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
             } else {
                 assert.isTrue(emp.insertSql.match(/INSERT INTO [`|"]employee[`|"] \([`|"]id[`|"], [`|"]firstname[`|"], [`|"]lastname[`|"], [`|"]midinitial[`|"], [`|"]position[`|"], [`|"]gender[`|"], [`|"]street[`|"], [`|"]city[`|"], [`|"]buffertype[`|"], [`|"]texttype[`|"], [`|"]blobtype[`|"]\) VALUES \(\d+, 'doug', 'martin', NULL, 21, 'M', '1 nowhere st.', 'NOWHERE', NULL, NULL, NULL\)/) !== null);
             }

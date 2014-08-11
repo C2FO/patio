@@ -10,6 +10,7 @@ var createTables = function (underscore) {
     return DB.forceCreateTable("employee", function () {
         this.primaryKey("id");
         config.DB_TYPE === "pg" && this[underscore ? "json_type" : "jsontype"]("json");
+        config.DB_TYPE === "pg" && this[underscore ? "json_array" : "jsonarray"]("json");
         this[underscore ? "first_name" : "firstname"]("string", {size: 20, allowNull: false});
         this[underscore ? "last_name" : "lastname"]("string", {size: 20, allowNull: false});
         this[underscore ? "mid_initial" : "midinitial"]("char", {size: 1});
@@ -25,7 +26,7 @@ var createTables = function (underscore) {
 
 
 var dropTableAndDisconnect = function () {
-    return  DB.forceDropTable("employee")
+    return DB.forceDropTable("employee")
         .chain(function () {
             return patio.disconnect();
         })

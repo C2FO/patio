@@ -88,12 +88,40 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
         it.should("correctly parse the schema", function () {
             return comb.when(PG_DB.schema("test3"), PG_DB.schema("test4")).chain(function (schemas) {
                 assert.deepEqual(schemas[0], {
-                    "value": {type: "integer", allowNull: true, "default": null, jsDefault: null, dbType: "integer", primaryKey: false},
-                    "time": {type: "datetime", allowNull: true, "default": null, jsDefault: null, dbType: "timestamp without time zone", primaryKey: false}
+                    "value": {
+                        type: "integer",
+                        allowNull: true,
+                        "default": null,
+                        jsDefault: null,
+                        dbType: "integer",
+                        primaryKey: false
+                    },
+                    "time": {
+                        type: "datetime",
+                        allowNull: true,
+                        "default": null,
+                        jsDefault: null,
+                        dbType: "timestamp without time zone",
+                        primaryKey: false
+                    }
                 });
                 assert.deepEqual(schemas[1], {
-                    "name": {type: "string", allowNull: true, "default": null, jsDefault: null, dbType: "character varying(20)", primaryKey: false},
-                    "value": {type: "blob", allowNull: true, "default": null, jsDefault: null, dbType: "bytea", primaryKey: false}
+                    "name": {
+                        type: "string",
+                        allowNull: true,
+                        "default": null,
+                        jsDefault: null,
+                        dbType: "character varying(20)",
+                        primaryKey: false
+                    },
+                    "value": {
+                        type: "blob",
+                        allowNull: true,
+                        "default": null,
+                        jsDefault: null,
+                        dbType: "bytea",
+                        primaryKey: false
+                    }
                 });
             });
         });
@@ -176,7 +204,7 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     d.insert({name: "bcd"}),
                     d.insert({name: "bcd", value: 2})
                 ).chain(function () {
-                        return  when(
+                        return when(
                             d.order(sql.value.asc({nulls: "first"}), "name").selectMap("name"),
                             d.order(sql.value.asc({nulls: "last"}), "name").selectMap("name"),
                             d.order(sql.value.asc({nulls: "first"}), "name").reverse().selectMap("name")
@@ -193,10 +221,10 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     return d.lock('EXCLUSIVE', function () {
                         return d.insert({name: 'a'});
                     }).chain(function () {
-                        assert.deepEqual(PG_DB.sqls, [ "BEGIN",
+                        assert.deepEqual(PG_DB.sqls, ["BEGIN",
                             "LOCK TABLE  test IN EXCLUSIVE MODE",
                             "INSERT INTO test (name) VALUES ('a') RETURNING *",
-                            "COMMIT" ]);
+                            "COMMIT"]);
                     });
                 });
 
@@ -207,10 +235,10 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                             d.insert.bind(d, {name: 'a'})
                         ]);
                     }).chain(function () {
-                        assert.deepEqual(PG_DB.sqls, [ "BEGIN",
+                        assert.deepEqual(PG_DB.sqls, ["BEGIN",
                             "LOCK TABLE  test IN EXCLUSIVE MODE",
                             "INSERT INTO test (name) VALUES ('a') RETURNING *",
-                            "COMMIT" ]);
+                            "COMMIT"]);
                     });
                 });
             });
@@ -297,6 +325,15 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         return d.filter({value: 1}).select("json").returning("json").first().chain(function (result) {
                             assert.deepEqual({json: json}, result);
                             assert.instanceOf(result.json, patio.sql.Json);
+                        });
+                    });
+                });
+
+                it.should("store json as an array", function () {
+                    var json = [{test: "test\""}];
+                    return d.insert({value: 1, json: sql.json(json)}).chain(function () {
+                        return d.filter({value: 1}).select("json").returning("json").first().chain(function (result) {
+                            assert.instanceOf(result.json, patio.sql.JsonArray);
                         });
                     });
                 });
