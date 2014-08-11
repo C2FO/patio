@@ -302,6 +302,8 @@
                             
                             <li><a href="./patio_sql_Json.html">patio.sql.Json</a></li>
                             
+                            <li><a href="./patio_sql_JsonArray.html">patio.sql.JsonArray</a></li>
+                            
                             <li><a href="./patio_sql_LiteralString.html#.constructor">patio.sql.LiteralString.constructor</a></li>
                             
                             <li><a href="./patio_sql_NoBooleanInputMethods.html">patio.sql.NoBooleanInputMethods</a></li>
@@ -5101,10 +5103,10 @@ function (v){
    var table = parts[0], column = parts[1], alias = parts[2];
    if (!alias) {
        return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : &quot;&#x27;&quot;
-           + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
+       + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
    } else {
        return this.literal(new AliasedExpression(column
-           &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
+       &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
    }
            
 }
@@ -7380,7 +7382,7 @@ function (expr,type){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (ca){
-   return  string.format(&quot;%s.*&quot;, this.quoteSchemaTable(ca.table));
+   return string.format(&quot;%s.*&quot;, this.quoteSchemaTable(ca.table));
            
 }
     </pre>
@@ -7449,7 +7451,7 @@ function (op,args){
            if (emptyValArray) {
                if (op == &quot;IN&quot;) {
                    return this.literal(BooleanExpression.fromValuePairs(cols.map(function (x) {
-                       return  [x, x];
+                       return [x, x];
                    }), &quot;AND&quot;, true));
                } else {
                    return this.literal({1: 1});
@@ -11584,7 +11586,7 @@ DB.from(&quot;items&quot;).literal(&quot;abc&#x27;def\\&quot;) //=&gt; &quot;&#x
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (v){
-   if (isInstanceOf(v, Json)) {
+   if (isInstanceOf(v, Json, JsonArray)) {
        return this._literalJson(v);
    } else if (isInstanceOf(v, LiteralString)) {
        return &quot;&quot; + v;
