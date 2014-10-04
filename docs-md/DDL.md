@@ -77,7 +77,7 @@ Add a column to the DDL.
  DB.createTable("test", function(){
      this.column("num", "integer");
          //=> num INTEGER
-     this.column('name", String, {allowNull : false, "default" : "a");
+     this.column("name", String, {allowNull : false, "default" : "a");
          //=> name varchar(255) NOT NULL DEFAULT 'a'
      this.column("ip", "inet");
          //=> ip inet
