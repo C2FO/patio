@@ -1124,7 +1124,8 @@ function (type,name,options,filter){
     <pre class="prettyprint linenums lang-js">
 function (values){
    //load an object from an object
-   return new this(values, false);
+   var Self = this;
+   return new Self(values, false);
            
 }
     </pre>

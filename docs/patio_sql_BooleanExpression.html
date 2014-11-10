@@ -538,6 +538,7 @@ Dataset._filterObject({a : 1}) //=&gt; WHERE (a = 1)
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (expr,key,op){
+   /*jshint loopfunc:true*/
    var pairs = [], opts, newKey;
    var twoArityOperators = this.TWO_ARITY_OPERATORS;
    for (var k in expr) {
@@ -565,7 +566,7 @@ function (expr,key,op){
                } else if (k.match(/between/i)) {
                    //its a like clause {col : {between : [1,10]}}
                    var between = sql.stringToIdentifier(newKey[0]).between(v);
-                   k == &quot;notBetween&quot; &amp;&amp; (between = between.not());
+                   k === &quot;notBetween&quot; &amp;&amp; (between = between.not());
                    pairs.push(between);
                } else {
                    //otherwise is just a boolean expressio
@@ -578,7 +579,7 @@ function (expr,key,op){
            //we&#x27;re not a twoarity operator
            //so we create a boolean expression out of it
            newKey = k.split(&quot;,&quot;);
-           if (newKey.length == 1) {
+           if (newKey.length === 1) {
                newKey = sql.stringToIdentifier(newKey[0]);
            }
            opts = [
@@ -589,7 +590,7 @@ function (expr,key,op){
    }
    //if the total of pairs is one then we just return the first element
    //otherwise we join them all with an AND
-   return pairs.length == 1 ? pairs[0] : BooleanExpression.fromArgs([op || &quot;AND&quot;].concat(pairs));
+   return pairs.length === 1 ? pairs[0] : BooleanExpression.fromArgs([op || &quot;AND&quot;].concat(pairs));
            
 }
     </pre>
@@ -680,9 +681,7 @@ function (a,op,negate){
            var v = isArr ? a[k][1] : a[k], ret;
            k = isArr ? a[k][0] : k;
            if (isArray(v) || isInstanceOf(v, Dataset)) {
-               k = isArray(k) ? k.map(function (i) {
-                   return isString(i) ? sql.stringToIdentifier(i) : i;
-               }) : isString(k) ? sql.stringToIdentifier(k) : k;
+               k = isArray(k) ? k.map(sql.stringToIdentifier) : sql.stringToIdentifier(k);
                ret = new BooleanExpression(&quot;IN&quot;, k, v);
            } else if (isInstanceOf(v, NegativeBooleanConstant)) {
                ret = new BooleanExpression(&quot;ISNOT&quot;, k, v.constant);
@@ -702,7 +701,7 @@ function (a,op,negate){
        }
    }
    //if We just have one then return the first otherwise create a new Boolean expression
-   return pairArr.length == 1 ? pairArr[0] : BooleanExpression.fromArgs([op].concat(pairArr));
+   return pairArr.length === 1 ? pairArr[0] : BooleanExpression.fromArgs([op].concat(pairArr));
            
 }
     </pre>

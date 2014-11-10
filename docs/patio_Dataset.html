@@ -3374,7 +3374,8 @@ each column (e.g. database type), see {@link patio.Database#schema}.
    } else {
        var ds = this.unfiltered().unordered().mergeOptions({distinct: null, limit: 1});
        return asyncArray(ds.forEach().chain(function () {
-           return (this.__columns = ds.__columns || []);
+           var columns = this.__columns = ds.__columns || [];
+           return columns;
        }.bind(this)));
    }
                
@@ -3501,7 +3502,7 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (args){
-   return args.join(this._static.COMMA_SEPARATOR)
+   return args.join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -3651,7 +3652,7 @@ column names. If the array is empty, a wildcard (*) is returned.</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (columns){
-   return (!columns || columns.length == 0) ? this._static.WILDCARD : this.__expressionList(columns);
+   return (!columns || columns.length === 0) ? this._static.WILDCARD : this.__expressionList(columns);
            
 }
     </pre>
@@ -4465,11 +4466,9 @@ and converts to uppercase/</p>
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (joinType){
-   return (joinType || &quot;&quot;).replace(/([a-z]+)|([A-Z][a-z]+)/g,
-       function (m) {
+   return (joinType || &quot;&quot;).replace(/([a-z]+)|([A-Z][a-z]+)/g, function (m) {
            return m.toUpperCase() + &quot; &quot;;
-       }
-   ).trimRight() + &quot; JOIN&quot;;
+       }).trimRight() + &quot; JOIN&quot;;
            
 }
     </pre>
@@ -4943,7 +4942,7 @@ function (){
     <pre class="prettyprint linenums lang-js">
 function (num){
    var ret = &quot;&quot; + num;
-   if (isNaN(num) || num == Infinity) {
+   if (isNaN(num) || num === Infinity) {
        ret = string.format(&quot;&#x27;%s&#x27;&quot;, ret);
    }
    return ret;
@@ -5100,14 +5099,22 @@ function (v){
     <pre class="prettyprint linenums lang-js">
 function (v){
    var parts = this._splitString(v);
-   var table = parts[0], column = parts[1], alias = parts[2];
+   var table = parts[0], column = parts[1], alias = parts[2], ret;
    if (!alias) {
-       return column &amp;&amp; table ? this._literalExpression(QualifiedIdentifier.fromArgs([table, column])) : &quot;&#x27;&quot;
-       + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;
+       if (column &amp;&amp; table) {
+           ret = this._literalExpression(QualifiedIdentifier.fromArgs([table, column]));
+       } else {
+           ret = &quot;&#x27;&quot; + v.replace(/\\/g, &quot;\\\\&quot;).replace(/&#x27;/g, &quot;&#x27;&#x27;&quot;) + &quot;&#x27;&quot;;
+       }
    } else {
-       return this.literal(new AliasedExpression(column
-       &amp;&amp; table ? QualifiedIdentifier.fromArgs([table, column]) : new Identifier(column), alias));
+       if (column &amp;&amp; table) {
+           ret = new AliasedExpression(QualifiedIdentifier.fromArgs([table, column]), alias);
+       } else {
+           ret = new AliasedExpression(new Identifier(column), alias);
+       }
+       ret = this.literal(ret);
    }
+   return ret;
            
 }
     </pre>
@@ -5203,7 +5210,7 @@ function (v){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (v){
-   return this.formatTimestamp(v, this._static.TIMESTAMP_FORMAT)
+   return this.formatTimestamp(v, this._static.TIMESTAMP_FORMAT);
            
 }
     </pre>
@@ -5307,7 +5314,7 @@ function (opts){
            o.push(i);
        }
    }
-   return !(intersect(compact(o), opts).length == 0);
+   return intersect(compact(o), opts).length !== 0;
            
 }
     </pre>
@@ -5803,7 +5810,7 @@ function (){
 function (){
    var lock = this.__opts.lock, ret = [];
    if (lock) {
-       if (lock == &quot;update&quot;) {
+       if (lock === &quot;update&quot;) {
            ret.push(this._static.FOR_UPDATE);
        } else {
            ret.push(&quot; &quot;, lock);
@@ -6043,9 +6050,9 @@ function (source){
        throw new QueryError(&quot;No source specified for the query&quot;);
    }
    return &quot; &quot; + source.map(
-       function (s) {
-           return this.__tableRef(s);
-       }, this).join(this._static.COMMA_SEPARATOR);
+           function (s) {
+               return this.__tableRef(s);
+           }, this).join(this._static.COMMA_SEPARATOR);
            
 }
     </pre>
@@ -6493,15 +6500,15 @@ function (){
    var values = this.__opts.values, defs = this.__opts.defaults, overrides = this.__opts.overrides;
    var st = [&quot; SET &quot;];
    if (isArray(values)) {
-       var v = [], mergedDefsAndOverrides = false, length = values.length;
+       var v = [], mergedDefsAndOverrides = false, length = values.length, ident, val;
        for (var i = 0; i &amp;lt; length; i++) {
-           var val = values[i];
+           val = values[i];
            if (isHash(val)) {
                mergedDefsAndOverrides = true;
                val = merge({}, defs || {}, val);
                val = merge({}, val, overrides || {});
                for (var j in val) {
-                   var ident = this.stringToIdentifier(j);
+                   ident = this.stringToIdentifier(j);
                    v.push(this.quoteIdentifier(ident) + &quot; = &quot; + this.literal(val[j]));
                }
            } else if (isInstanceOf(val, Expression)) {
@@ -6511,10 +6518,10 @@ function (){
            }
        }
        if (!mergedDefsAndOverrides) {
-           var val = merge({}, defs || {});
+           val = merge({}, defs || {});
            val = merge({}, val, overrides || {});
-           for (var i in val) {
-               var ident = this.stringToIdentifier(i);
+           for (i in val) {
+               ident = this.stringToIdentifier(i);
                v.push(this.quoteIdentifier(ident) + &quot; = &quot; + this.literal(val[i]));
            }
        }
@@ -7246,7 +7253,7 @@ function (obj){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (constant){
-   return this.literal(constant)
+   return this.literal(constant);
            
 }
     </pre>
@@ -7425,7 +7432,7 @@ function (ca){
     <pre class="prettyprint linenums lang-js">
 function (op,args){
    var newOp;
-   var isOperators = this._static.IS_OPERATORS, isLiterals = this._static.IS_LITERALS;
+   var isOperators = this._static.IS_OPERATORS, isLiterals = this._static.IS_LITERALS, l;
    if ((newOp = isOperators[op]) != null) {
        var r = args[1], v = isNull(r) ? isLiterals.NULL : isLiterals[r];
        if (r == null || this.supportsIsTrue) {
@@ -7434,22 +7441,22 @@ function (op,args){
            }
            l = args[0];
            return string.format(&quot;(%s %s %s)&quot;, isString(l) ? l : this.literal(l), newOp, v);
-       } else if (op == &quot;IS&quot;) {
+       } else if (op === &quot;IS&quot;) {
            return this.complexExpressionSql(&quot;EQ&quot;, args);
        } else {
            return this.complexExpressionSql(&quot;OR&quot;,
                [BooleanExpression.fromArgs([&quot;NEQ&quot;].concat(args)), new BooleanExpression(&quot;IS&quot;, args[0],
                    null)]);
        }
-   } else if ([&quot;IN&quot;, &quot;NOTIN&quot;].indexOf(op) != -1) {
+   } else if ([&quot;IN&quot;, &quot;NOTIN&quot;].indexOf(op) !== -1) {
        var cols = args[0], vals = args[1], colArray = isArray(cols), valArray = false, emptyValArray = false;
        if (isArray(vals)) {
            valArray = true;
-           emptyValArray = vals.length == 0;
+           emptyValArray = vals.length === 0;
        }
        if (colArray) {
            if (emptyValArray) {
-               if (op == &quot;IN&quot;) {
+               if (op === &quot;IN&quot;) {
                    return this.literal(BooleanExpression.fromValuePairs(cols.map(function (x) {
                        return [x, x];
                    }), &quot;AND&quot;, true));
@@ -7459,9 +7466,9 @@ function (op,args){
            } else if (!this.supportsMultipleColumnIn) {
                if (valArray) {
                    var expr = BooleanExpression.fromArgs([&quot;OR&quot;].concat(vals.map(function (vs) {
-                       return BooleanExpression.fromValuePairs(array.zip(cols, vs))
+                       return BooleanExpression.fromValuePairs(array.zip(cols, vs));
                    })));
-                   return this.literal(op == &quot;IN&quot; ? expr : expr.invert())
+                   return this.literal(op === &quot;IN&quot; ? expr : expr.invert());
                }
            } else {
                //If the columns and values are both arrays, use _arraySql instead of
@@ -7474,7 +7481,7 @@ function (op,args){
        }
        else {
            if (emptyValArray) {
-               if (op == &quot;IN&quot;) {
+               if (op === &quot;IN&quot;) {
                    return this.literal(BooleanExpression.fromValuePairs([
                        [cols, cols]
                    ], &quot;AND&quot;, true));
@@ -7487,14 +7494,14 @@ function (op,args){
            }
        }
    } else if ((newOp = this._static.TWO_ARITY_OPERATORS[op]) != null) {
-       var l = args[0];
+       l = args[0];
        return format(&quot;(%s %s %s)&quot;, isString(l) ? l : this.literal(l), newOp,
            this.literal(args[1]));
    } else if ((newOp = this._static.N_ARITY_OPERATORS[op]) != null) {
        return string.format(&quot;(%s)&quot;, args.map(this.literal, this).join(&quot; &quot; + newOp + &quot; &quot;));
-   } else if (op == &quot;NOT&quot;) {
+   } else if (op === &quot;NOT&quot;) {
        return string.format(&quot;NOT %s&quot;, this.literal(args[0]));
-   } else if (op == &quot;NOOP&quot;) {
+   } else if (op === &quot;NOOP&quot;) {
        return this.literal(args[0]);
    } else {
        throw new QueryError(&quot;Invalid operator &quot; + op);
@@ -8761,8 +8768,8 @@ function (opts){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (f){
-   var args = f.args
-   return string.format(&quot;%s%s&quot;, f.f, args.length == 0 ? &#x27;()&#x27; : this.literal(args));
+   var args = f.args;
+   return string.format(&quot;%s%s&quot;, f.f, args.length === 0 ? &#x27;()&#x27; : this.literal(args));
            
 }
     </pre>
@@ -9008,7 +9015,7 @@ function (dataset,joinConditions,options,block){
    var populateGraphPromise;
    if (isUndefinedOrNull((graph = opts.graph))) {
        var master = this._toTableName(ds.firstSourceAlias);
-       (master == tableAlias) &amp;&amp; raiseAliasError(options);
+       (&quot;&quot; + master === &quot;&quot; + tableAlias) &amp;&amp; raiseAliasError(options);
        // Master hash storing all .graph related information
        graph = opts.graph = {};
        // Associates column aliases back to tables and columns
@@ -9130,7 +9137,7 @@ function (cb){
        return e[0];
    });
    datasets = datasets.map(function (e) {
-       return [e[0], e[1], e[1].rowCb]
+       return [e[0], e[1], e[1].rowCb];
    });
    // Use the manually set graph aliases, if any, otherwise
    // use the ones automatically created by .graph
@@ -9154,8 +9161,8 @@ function (cb){
            var ta = d[0], ds = d[1], dsCb = d[2];
            var g = graph[ta];
            if (!isEmpty(g) &amp;&amp; Object.keys(g).some(function (x) {
-               return !isUndefinedOrNull(g[x]);
-           })) {
+                   return !isUndefinedOrNull(g[x]);
+               })) {
                graph[ta] = dsCb ? dsCb(g) : g;
            } else {
                graph[ta] = null;
@@ -10103,10 +10110,10 @@ function (values){
        }
        break;
    case 2 :
-       var v0 = values[0], v1 = values[1]
+       var v0 = values[0], v1 = values[1];
        if (isArray(v0) &amp;&amp; isArray(v1) || isInstanceOf(v1, Dataset, LiteralString)) {
            columns = v0, values = v1;
-           if (isArray(values) &amp;&amp; columns.length != values.length) {
+           if (isArray(values) &amp;&amp; columns.length !== values.length) {
                throw new QueryError(&quot;Different number of values and columns given to insertSql&quot;);
            }
        }
@@ -10975,14 +10982,13 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (jc){
-   var table = jc.table
-   var tableAlias = jc.tableAlias
+   var table = jc.table,
+       tableAlias = jc.tableAlias;
    if (table === tableAlias) {
        tableAlias = null;
    }
    var tref = this.__tableRef(table);
-   return string.format(&quot; %s %s&quot;, this._joinTypeSql(jc.joinType),
-       tableAlias ? this.__asSql(tref, tableAlias) : tref);
+   return string.format(&quot; %s %s&quot;, this._joinTypeSql(jc.joinType), tableAlias ? this.__asSql(tref, tableAlias) : tref);
            
 }
     </pre>
@@ -11872,7 +11878,7 @@ DB.from(&quot;table&quot;).map(function(r){
     <pre class="prettyprint linenums lang-js">
 function (column,cb){
    var ret = this.forEach();
-   column &amp;&amp; (ret = ret[isFunction(column) ? &quot;map&quot; : &quot;pluck&quot;](column))
+   column &amp;&amp; (ret = ret[isFunction(column) ? &quot;map&quot; : &quot;pluck&quot;](column));
    return ret.classic(cb).promise();
            
 }
@@ -12002,8 +12008,8 @@ function (opts){
    ds.identifierOutputMethod = this.identifierOutputMethod;
    var columnChangeOpts = this._static.COLUMN_CHANGE_OPTS;
    if (Object.keys(opts).some(function (o) {
-       return columnChangeOpts.indexOf(o) !== -1;
-   })) {
+           return columnChangeOpts.indexOf(o) !== -1;
+       })) {
        dsOpts.columns = null;
    }
    return ds;
@@ -12228,7 +12234,7 @@ This method is used by <a href='./patio_dataset.html#multiInsert'> patio.dataset
     <pre class="prettyprint linenums lang-js">
 function (columns,values){
    return values.map(function (r) {
-       return this.insertSql(columns, r)
+       return this.insertSql(columns, r);
    }, this);
            
 }
@@ -12508,7 +12514,7 @@ function (){
    }
    var ret = this;
    if (args.length) {
-       ret = ret.filter.apply(ret, args)
+       ret = ret.filter.apply(ret, args);
    }
    return ret.singleRecord(cb);
            
@@ -13049,7 +13055,7 @@ function (){
 function (oe){
    var s = string.format(&quot;%s %s&quot;, this.literal(oe.expression), oe.descending ? &quot;DESC&quot; : &quot;ASC&quot;);
    if (oe.nulls) {
-       s = string.format(&quot;%s NULLS %s&quot;, s, oe.nulls == &quot;first&quot; ? &quot;FIRST&quot; : &quot;LAST&quot;);
+       s = string.format(&quot;%s NULLS %s&quot;, s, oe.nulls === &quot;first&quot; ? &quot;FIRST&quot; : &quot;LAST&quot;);
    }
    return s;
            
@@ -13091,7 +13097,7 @@ function (oe){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (v){
-   (v == &#x27;&#x27; &amp;&amp; (v = &#x27;untitled&#x27;));
+   (v === &#x27;&#x27; &amp;&amp; (v = &#x27;untitled&#x27;));
    var i = this.__identifierOutputMethod;
    return !isUndefinedOrNull(i) ?
        isFunction(v[i]) ?
@@ -13270,7 +13276,7 @@ dataset.qualifiedColumnName(&quot;ccc__b&quot;, &quot;items&quot;));
 function (column,table){
    if (isString(column)) {
        var parts = this._splitString(column);
-       var columnTable = parts[0], alias = parts[2], tableAlias;
+       var columnTable = parts[0], alias = parts[2], schema, tableAlias;
        column = parts[1];
        if (!columnTable) {
            if (isInstanceOf(table, Identifier)) {
@@ -13282,7 +13288,8 @@ function (column,table){
                tableAlias = table;
            } else {
                parts = this._splitString(table);
-               var schema = parts[0], tableAlias = parts[2];
+               schema = parts[0];
+               tableAlias = parts[2];
                table = parts[1];
                if (schema) {
                    tableAlias = new Identifier(tableAlias) || new QualifiedIdentifier(schema, table);
@@ -13335,12 +13342,17 @@ function (column,table){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (qcr){
-   return [qcr.table, qcr.column].map(
-       function (x) {
-           return [QualifiedIdentifier, Identifier, String].some(function (c) {
-               return x instanceof c
-           }) ? this.literal(x) : this.quoteIdentifier(x)
-       }, this).join(&#x27;.&#x27;);
+   return [qcr.table, qcr.column].map(function (x) {
+       var isLiteral = [QualifiedIdentifier, Identifier, String].some(function (c) {
+           return x instanceof c;
+       }), ret;
+       if (isLiteral) {
+           ret = this.literal(x);
+       } else {
+           ret = this.quoteIdentifier(x);
+       }
+       return ret;
+   }, this).join(&#x27;.&#x27;);
            
 }
     </pre>
@@ -13576,7 +13588,7 @@ function (name){
        }
        name = this.inputIdentifier(name);
        if (this.quoteIdentifiers) {
-           name = this._quotedIdentifier(name)
+           name = this._quotedIdentifier(name);
        }
    }
    return name;
@@ -14042,7 +14054,7 @@ function (tableName){
        var s = parts[0], table = parts[1];
        return [s || sch, table];
    } else if (isInstanceOf(tableName, QualifiedIdentifier)) {
-       return [tableName.table, tableName.column]
+       return [tableName.table, tableName.column];
    } else if (isInstanceOf(tableName, Identifier)) {
        return [null, tableName.value];
    } else {
@@ -15099,14 +15111,19 @@ ds.stringToIdentifier(&quot;table__column___alias&quot;);
     <pre class="prettyprint linenums lang-js">
 function (name){
    if (isString(name)) {
-       var parts = this._splitString(name);
-       var schema = parts[0], table = parts[1], alias = parts[2];
-       return (schema &amp;&amp; table &amp;&amp; alias
-           ? new AliasedExpression(new QualifiedIdentifier(schema, table), alias)
-           : (schema &amp;&amp; table
-           ? new QualifiedIdentifier(schema, table)
-           : (table &amp;&amp; alias
-           ? new AliasedExpression(new Identifier(table), alias) : new Identifier(table))));
+       var parts = this._splitString(name),
+           schema = parts[0], table = parts[1], alias = parts[2],
+           identifier;
+       if (schema &amp;&amp; table &amp;&amp; alias) {
+           identifier = new AliasedExpression(new QualifiedIdentifier(schema, table), alias);
+       } else if (schema &amp;&amp; table) {
+           identifier = new QualifiedIdentifier(schema, table);
+       } else if (table &amp;&amp; alias) {
+           identifier = new AliasedExpression(new Identifier(table), alias);
+       } else {
+           identifier = new Identifier(table);
+       }
+       return identifier;
    } else {
        return name;
    }
@@ -15855,7 +15872,7 @@ function (tableAlias){
    var usedAliases = [], from, join;
    if ((from = this.__opts.from) != null) {
        usedAliases = usedAliases.concat(from.map(function (n) {
-           return this._toTableName(n)
+           return this._toTableName(n);
        }, this));
    }
    if ((join = this.__opts.join) != null) {
@@ -15867,11 +15884,11 @@ function (tableAlias){
            }
        }, this));
    }
-   if (usedAliases.indexOf(tableAlias) != -1) {
+   if (usedAliases.indexOf(tableAlias) !== -1) {
        var base = tableAlias, i = 0;
        do {
            tableAlias = string.format(&quot;%s%d&quot;, base, i++);
-       } while (usedAliases.indexOf(tableAlias) != -1)
+       } while (usedAliases.indexOf(tableAlias) !== -1);
    }
    return tableAlias;
            
@@ -16012,9 +16029,14 @@ DB.from(&quot;items&quot;).updateSql({price : 100, category : &#x27;software&#x2
     <pre class="prettyprint linenums lang-js">
 function (values){
    values = argsToArray(arguments);
-   if (this.__opts.sql) return this._staticSql(this.__opts.sql);
-   this.__checkModificationAllowed();
-   return this.mergeOptions({values: values})._updateSql();
+   var update;
+   if (this.__opts.sql) {
+       update = this._staticSql(this.__opts.sql);
+   } else {
+       this.__checkModificationAllowed();
+       update = this.mergeOptions({values: values})._updateSql();
+   }
+   return update;
            
 }
     </pre>

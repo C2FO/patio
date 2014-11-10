@@ -1989,7 +1989,7 @@ function (connectionString,opts){
            this.DATABASES.push(adapter);
            return adapter;
        } else {
-           throw DatabaseError(type + &quot; adapter was not found&quot;);
+           throw new DatabaseError(type + &quot; adapter was not found&quot;);
        }
    } else {
        throw new DatabaseError(&quot;Options required when connecting.&quot;);
@@ -6523,7 +6523,7 @@ function (dbType){
        ret = &quot;year&quot;;
    } else if (dbType.match(/^((small)?datetime|timestamp( with(out)? time zone)?)$/i)) {
        ret = &quot;datetime&quot;;
-   } else if (dbType.match(/^time( with(out)? timezone)?$/i)) {
+   } else if (dbType.match(/^time( with(out)? time zone)?$/i)) {
        ret = &quot;time&quot;;
    } else if (dbType.match(/^(bit|boolean)$/i)) {
        ret = &quot;boolean&quot;;

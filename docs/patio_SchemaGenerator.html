@@ -1128,7 +1128,7 @@ function (columns,opts){
     <pre class="prettyprint linenums lang-js">
 function (name){
    return this.columns.some(function (c) {
-       return c.name == name
+       return c.name === name;
    });
            
 }

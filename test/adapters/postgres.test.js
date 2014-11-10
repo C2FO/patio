@@ -54,7 +54,8 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                 function () {
                     return PG_DB.forceCreateTable("test3", function () {
                         this.value("integer");
-                        this.time(sql.TimeStamp);
+                        this.timestamp(sql.TimeStamp);
+                        this.time(sql.Time);
                     });
                 },
                 function () {
@@ -96,12 +97,20 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                         dbType: "integer",
                         primaryKey: false
                     },
-                    "time": {
+                    "timestamp": {
                         type: "datetime",
                         allowNull: true,
                         "default": null,
                         jsDefault: null,
                         dbType: "timestamp without time zone",
+                        primaryKey: false
+                    },
+                    "time": {
+                        type: "time",
+                        allowNull: true,
+                        "default": null,
+                        jsDefault: null,
+                        dbType: "time without time zone",
                         primaryKey: false
                     }
                 });
@@ -288,24 +297,45 @@ if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
                     return d.remove();
                 });
 
-                it.should("store milliseconds in the fime fields for Timestamp objects", function () {
+                it.should("store milliseconds in the timestamp fields for Timestamp objects", function () {
                     var t = new sql.TimeStamp(new Date());
-                    return d.insert({value: 1, time: t}).chain(function () {
-                        return d.filter({value: 1}).select("time").returning("time").first().chain(function (res) {
-                            assert.equal(res.time.getMilliseconds(), t.getMilliseconds());
+                    return d.insert({value: 1, timestamp: t}).chain(function () {
+                        return d.filter({value: 1}).select("timestamp").returning("timestamp").first().chain(function (res) {
+                            assert.equal(res.timestamp.getMilliseconds(), t.getMilliseconds());
                         });
                     });
                 });
 
-                it.should("store milliseconds in the time fields for DateTime objects", function () {
+                it.should("store milliseconds in the timestamp fields for DateTime objects", function () {
                     var t = new sql.DateTime(new Date());
-                    return d.insert({value: 1, time: t}).chain(function () {
-                        return d.filter({value: 1}).select("time").first().chain(function (res) {
-                            assert.equal(res.time.getMilliseconds(), t.getMilliseconds());
+                    return d.insert({value: 1, timestamp: t}).chain(function () {
+                        return d.filter({value: 1}).select("timestamp").first().chain(function (res) {
+                            assert.equal(res.timestamp.getMilliseconds(), t.getMilliseconds());
                         });
                     });
                 });
             });
+
+            it.describe("with time field", function (it) {
+                var d;
+                it.beforeEach(function () {
+                    d = PG_DB.from("test3");
+                    return d.remove();
+                });
+
+                it.should("store milliseconds in the time fields for Time objects", function () {
+                    var t = new sql.Time(12, 12, 12, 12);
+                    return d.insert({value: 1, time: t}).chain(function () {
+                        return d.filter({value: 1}).select("time").returning("time").first().chain(function (res) {
+                            assert.equal(res.time.getHours(), 12);
+                            assert.equal(res.time.getMinutes(), 12);
+                            assert.equal(res.time.getSeconds(), 12);
+                            assert.equal(res.time.getMilliseconds(), 12);
+                        });
+                    });
+                });
+            });
+
 
             it.should("not covert strings with double _ to identifers", function () {
                 var ds = PG_DB.from("test3");
