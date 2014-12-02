@@ -257,8 +257,8 @@ td.cov-stats {
             <td class="cov-stats">
                 <div>
                     <span class='cov-label'>Coverage</span><span class='cov-value'>88.77</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>22563</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>5592</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>22576</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>5593</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>628</span>
                 </div>
             </td>
@@ -404,7 +404,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        createObject: function () {</code></li>
-<li class='green'><span class='hits'>79</span><code>            return this.createConnection();</code></li>
+<li class='green'><span class='hits'>80</span><code>            return this.createConnection();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -416,7 +416,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>38</span><code>            this.__ending = true;</code></li>
 <li class='green'><span class='hits'>38</span><code>            var conn, fQueue = this.__freeObjects, count = this.count, ps = [];</code></li>
 <li class='green'><span class='hits'>38</span><code>            while ((conn = this.__freeObjects.dequeue()) !== undefined) {</code></li>
-<li class='green'><span class='hits'>64</span><code>                ps.push(this.closeConnection(conn));</code></li>
+<li class='green'><span class='hits'>65</span><code>                ps.push(this.closeConnection(conn));</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class='hits'>38</span><code>            var inUse = this.__inUseObjects;</code></li>
 <li class='green'><span class='hits'>38</span><code>            for (var i = inUse.length - 1; i &gt;= 0; i--) {</code></li>
@@ -448,7 +448,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * Override to create connections to insert into this ConnectionPool.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        createConnection: function () {</code></li>
-<li class='green'><span class='hits'>79</span><code>            return this.__createConnectionCB(this._options);</code></li>
+<li class='green'><span class='hits'>80</span><code>            return this.__createConnectionCB(this._options);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -458,7 +458,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {comb.Promise} called back when the connection is closed.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        closeConnection: function (conn) {</code></li>
-<li class='green'><span class='hits'>69</span><code>            return this.__closeConnectionCB(conn);</code></li>
+<li class='green'><span class='hits'>70</span><code>            return this.__closeConnectionCB(conn);</code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
 <li class='green'><span class=''> </span><code>    },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
@@ -810,9 +810,9 @@ td.cov-stats {
             </td>
             <td class="cov-stats">
                 <div>
-                    <span class='cov-label'>Coverage</span><span class='cov-value'>76.55</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>1036</span>
-                    <span class='cov-label'>LOC</span><span class='cov-value'>435</span>
+                    <span class='cov-label'>Coverage</span><span class='cov-value'>76.61</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>1038</span>
+                    <span class='cov-label'>LOC</span><span class='cov-value'>436</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>102</span>
                 </div>
             </td>
@@ -862,7 +862,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    patio, DS,</code></li>
 <li class='green'><span class=''> </span><code>    stream = require("stream"),</code></li>
 <li class='green'><span class=''> </span><code>    PassThroughStream = stream.PassThrough,</code></li>
-<li class='green'><span class=''> </span><code>    pipeAll = require("../utils").pipeAll;</code></li>
+<li class='green'><span class=''> </span><code>    pipeAll = require("../utils").pipeAll,</code></li>
+<li class='green'><span class=''> </span><code>    hashPick = comb.hash.pick;</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var getPatio = function () {</code></li>
 <li class='green'><span class='hits'>898</span><code>    return patio || (patio = require("../index.js"));</code></li>
@@ -946,22 +947,23 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        constructor: function (conn) {</code></li>
-<li class='green'><span class='hits'>63</span><code>            this.connection = conn;</code></li>
+<li class='green'><span class='hits'>64</span><code>            this.connection = conn;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        closeConnection: function () {</code></li>
-<li class='green'><span class='hits'>62</span><code>            this.closed = true;</code></li>
-<li class='green'><span class='hits'>62</span><code>            this.connection.end();</code></li>
-<li class='green'><span class='hits'>62</span><code>            return new Promise().callback().promise();</code></li>
+<li class='green'><span class='hits'>63</span><code>            this.closed = true;</code></li>
+<li class='green'><span class='hits'>63</span><code>            this.connection.end();</code></li>
+<li class='green'><span class='hits'>63</span><code>            return new Promise().callback().promise();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class=''> </span><code>        stream: function (query) {</code></li>
+<li class='green'><span class=''> </span><code>        stream: function (query, opts) {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var ret;</code></li>
 <li class='green'><span class='hits'>3</span><code>            if (!this.closed) {</code></li>
 <li class='green'><span class='hits'>3</span><code>                try {</code></li>
+<li class='green'><span class='hits'>3</span><code>                    opts = hashPick(opts || {}, ["batchSize", "highWaterMark"]);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    this.connection.setMaxListeners(0);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    var fields = [];</code></li>
-<li class='green'><span class='hits'>3</span><code>                    query = new QueryStream(query, null, {batchSize: 1, highWaterMark: 1});</code></li>
+<li class='green'><span class='hits'>3</span><code>                    query = new QueryStream(query, null, opts);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    ret = this.connection.query(query);</code></li>
 <li class='green'><span class='hits'>3</span><code>                    var orig = ret.handleRowDescription;</code></li>
 <li class='green'><span class='hits'>3</span><code>                    ret.handleRowDescription = function (msg) {</code></li>
@@ -1308,22 +1310,22 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        createConnection: function (opts) {</code></li>
-<li class='green'><span class='hits'>63</span><code>            delete opts.query;</code></li>
-<li class='green'><span class='hits'>63</span><code>            var self = this, ret;</code></li>
-<li class='green'><span class='hits'>63</span><code>            var conn = new pg.Client(merge({}, opts, {typeCast: false}));</code></li>
-<li class='green'><span class='hits'>63</span><code>            conn.on("error", function (err) {</code></li>
+<li class='green'><span class='hits'>64</span><code>            delete opts.query;</code></li>
+<li class='green'><span class='hits'>64</span><code>            var self = this, ret;</code></li>
+<li class='green'><span class='hits'>64</span><code>            var conn = new pg.Client(merge({}, opts, {typeCast: false}));</code></li>
+<li class='green'><span class='hits'>64</span><code>            conn.on("error", function (err) {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                self.logWarn("Connection from " + self.uri + " errored removing from pool and reconnecting");</code></li>
 <li class='red'><span class='nohits'>0</span><code>                self.logWarn(err.stack);</code></li>
 <li class='red'><span class='nohits'>0</span><code>                ret.errored = true;</code></li>
 <li class='red'><span class='nohits'>0</span><code>                self.pool.removeConnection(ret);</code></li>
 <li class='green'><span class=''> </span><code>            });</code></li>
-<li class='green'><span class='hits'>63</span><code>            conn.connect();</code></li>
-<li class='green'><span class='hits'>63</span><code>            ret = new Connection(conn);</code></li>
-<li class='green'><span class='hits'>63</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>64</span><code>            conn.connect();</code></li>
+<li class='green'><span class='hits'>64</span><code>            ret = new Connection(conn);</code></li>
+<li class='green'><span class='hits'>64</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        closeConnection: function (conn) {</code></li>
-<li class='green'><span class='hits'>62</span><code>            return conn.closeConnection();</code></li>
+<li class='green'><span class='hits'>63</span><code>            return conn.closeConnection();</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        validate: function (conn) {</code></li>
@@ -7273,14 +7275,14 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @borrows patio.Dataset#leftJoin as leftJoin</code></li>
 <li class='green'><span class=''> </span><code>         * */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function (options, fromDb) {</code></li>
-<li class='green'><span class='hits'>2781</span><code>            if (this.synced) {</code></li>
-<li class='green'><span class='hits'>2781</span><code>                this.__emitter = new EventEmitter();</code></li>
-<li class='green'><span class='hits'>2781</span><code>                this._super(arguments);</code></li>
-<li class='green'><span class='hits'>2781</span><code>                this.patio = patio || require("./index");</code></li>
-<li class='green'><span class='hits'>2781</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
-<li class='green'><span class='hits'>2781</span><code>                this.__changed = {};</code></li>
-<li class='green'><span class='hits'>2781</span><code>                this.__values = {};</code></li>
-<li class='green'><span class='hits'>2781</span><code>                if (fromDb) {</code></li>
+<li class='green'><span class='hits'>2791</span><code>            if (this.synced) {</code></li>
+<li class='green'><span class='hits'>2791</span><code>                this.__emitter = new EventEmitter();</code></li>
+<li class='green'><span class='hits'>2791</span><code>                this._super(arguments);</code></li>
+<li class='green'><span class='hits'>2791</span><code>                this.patio = patio || require("./index");</code></li>
+<li class='green'><span class='hits'>2791</span><code>                fromDb = isBoolean(fromDb) ? fromDb : false;</code></li>
+<li class='green'><span class='hits'>2791</span><code>                this.__changed = {};</code></li>
+<li class='green'><span class='hits'>2791</span><code>                this.__values = {};</code></li>
+<li class='green'><span class='hits'>2791</span><code>                if (fromDb) {</code></li>
 <li class='green'><span class='hits'>1535</span><code>                    this._hook("pre", "load");</code></li>
 <li class='green'><span class='hits'>1535</span><code>                    this.__isNew = false;</code></li>
 <li class='green'><span class='hits'>1535</span><code>                    this.__setFromDb(options, true);</code></li>
@@ -7289,8 +7291,8 @@ td.cov-stats {
 <li class='green'><span class='hits'>1535</span><code>                        this._static.emit("load", this);</code></li>
 <li class='green'><span class=''> </span><code>                    }</code></li>
 <li class='green'><span class=''> </span><code>                } else {</code></li>
-<li class='green'><span class='hits'>1246</span><code>                    this.__isNew = true;</code></li>
-<li class='green'><span class='hits'>1246</span><code>                    this.__set(options);</code></li>
+<li class='green'><span class='hits'>1256</span><code>                    this.__isNew = true;</code></li>
+<li class='green'><span class='hits'>1256</span><code>                    this.__set(options);</code></li>
 <li class='green'><span class=''> </span><code>                }</code></li>
 <li class='green'><span class=''> </span><code>            } else {</code></li>
 <li class='red'><span class='nohits'>0</span><code>                throw new ModelError("Model " + this.tableName + " has not been synced");</code></li>
@@ -7298,15 +7300,15 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __set: function (values, ignore) {</code></li>
-<li class='green'><span class='hits'>1370</span><code>            values = values || {};</code></li>
-<li class='green'><span class='hits'>1370</span><code>            this.__ignore = ignore === true;</code></li>
-<li class='green'><span class='hits'>1370</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
+<li class='green'><span class='hits'>1380</span><code>            values = values || {};</code></li>
+<li class='green'><span class='hits'>1380</span><code>            this.__ignore = ignore === true;</code></li>
+<li class='green'><span class='hits'>1380</span><code>            Object.keys(values).forEach(function (attribute) {</code></li>
 <li class='green'><span class='hits'>6019</span><code>                var value = values[attribute];</code></li>
 <li class='green'><span class=''> </span><code>                //check if the column is a constrained value and is allowed to be set</code></li>
 <li class='green'><span class='hits'>6019</span><code>                !ignore &amp;&amp; this._checkIfColumnIsConstrained(attribute);</code></li>
 <li class='green'><span class='hits'>6019</span><code>                this[attribute] = value;</code></li>
 <li class='green'><span class=''> </span><code>            }, this);</code></li>
-<li class='green'><span class='hits'>1370</span><code>            this.__ignore = false;</code></li>
+<li class='green'><span class='hits'>1380</span><code>            this.__ignore = false;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        __setFromDb: function (values, ignore) {</code></li>
@@ -7561,7 +7563,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>            },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>            synced: function () {</code></li>
-<li class='green'><span class='hits'>11511</span><code>                return this._static.synced;</code></li>
+<li class='green'><span class='hits'>11521</span><code>                return this._static.synced;</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        }</code></li>
@@ -9535,18 +9537,18 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var virtualRow = function (name) {</code></li>
-<li class='green'><span class='hits'>1233</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var DOUBLE_UNDERSCORE = '__';</code></li>
 <li class='green'><span class=''> </span><code></code></li>
-<li class='green'><span class='hits'>1233</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
-<li class='green'><span class='hits'>1233</span><code>    var table = parts[0], column = parts[1];</code></li>
-<li class='green'><span class='hits'>1233</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
-<li class='green'><span class='hits'>1233</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var parts = name.split(DOUBLE_UNDERSCORE);</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var table = parts[0], column = parts[1];</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var ident = column ? QualifiedIdentifier.fromArgs([table, column]) : Identifier.fromArgs([name]);</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var prox = methodMissing(ident, function (m) {</code></li>
 <li class='green'><span class='hits'>3</span><code>        return function () {</code></li>
 <li class='green'><span class='hits'>3</span><code>            var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>3</span><code>            return SQLFunction.fromArgs([m, name].concat(args));</code></li>
 <li class='green'><span class=''> </span><code>        };</code></li>
 <li class='green'><span class=''> </span><code>    }, column ? QualifiedIdentifier : Identifier);</code></li>
-<li class='green'><span class='hits'>1233</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
+<li class='green'><span class='hits'>1236</span><code>    var ret = createFunctionWrapper(prox, function (m) {</code></li>
 <li class='green'><span class='hits'>663</span><code>        var args = argsToArray(arguments);</code></li>
 <li class='green'><span class='hits'>663</span><code>        if (args.length) {</code></li>
 <li class='green'><span class='hits'>657</span><code>            return SQLFunction.fromArgs([name].concat(args));</code></li>
@@ -9556,8 +9558,8 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>    }, function () {</code></li>
 <li class='red'><span class='nohits'>0</span><code>        return SQLFunction.fromArgs(arguments);</code></li>
 <li class='green'><span class=''> </span><code>    });</code></li>
-<li class='green'><span class='hits'>1233</span><code>    ret["__proto__"] = ident;</code></li>
-<li class='green'><span class='hits'>1233</span><code>    return ret;</code></li>
+<li class='green'><span class='hits'>1236</span><code>    ret["__proto__"] = ident;</code></li>
+<li class='green'><span class='hits'>1236</span><code>    return ret;</code></li>
 <li class='green'><span class=''> </span><code>};</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var DATE_METHODS = ["getDate", "getDay", "getFullYear", "getHours", "getMilliseconds", "getMinutes", "getMonth", "getSeconds",</code></li>
@@ -10040,7 +10042,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>exports.sql = methodMissing(sql, function (name) {</code></li>
-<li class='green'><span class='hits'>1233</span><code>    return virtualRow(name);</code></li>
+<li class='green'><span class='hits'>1236</span><code>    return virtualRow(name);</code></li>
 <li class='green'><span class=''> </span><code>});</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>1</span><code>var OPERTATOR_INVERSIONS = {</code></li>
@@ -10852,13 +10854,13 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @return {patio.sql.Expression} an expression.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        fromArgs: function (args) {</code></li>
-<li class='green'><span class='hits'>2632</span><code>            var ret, Self = this;</code></li>
-<li class='green'><span class='hits'>2632</span><code>            try {</code></li>
-<li class='green'><span class='hits'>2632</span><code>                ret = new Self();</code></li>
+<li class='green'><span class='hits'>2635</span><code>            var ret, Self = this;</code></li>
+<li class='green'><span class='hits'>2635</span><code>            try {</code></li>
+<li class='green'><span class='hits'>2635</span><code>                ret = new Self();</code></li>
 <li class='green'><span class=''> </span><code>            } catch (ignore) {</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2632</span><code>            this.apply(ret, args);</code></li>
-<li class='green'><span class='hits'>2632</span><code>            return ret;</code></li>
+<li class='green'><span class='hits'>2635</span><code>            this.apply(ret, args);</code></li>
+<li class='green'><span class='hits'>2635</span><code>            return ret;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -11660,7 +11662,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         * @property {String} value &lt;b&gt;READ ONLY&lt;/b&gt; the column or table this identifier represents.</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function (value) {</code></li>
-<li class='green'><span class='hits'>16426</span><code>            this.__value = value;</code></li>
+<li class='green'><span class='hits'>16432</span><code>            this.__value = value;</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        /**</code></li>
@@ -14823,7 +14825,7 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>                };</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class='hits'>5</span><code>                ret = this.__logAndExecute(sql, opts, function () {</code></li>
-<li class='green'><span class='hits'>5</span><code>                    return conn.stream(sql);</code></li>
+<li class='green'><span class='hits'>5</span><code>                    return conn.stream(sql, opts);</code></li>
 <li class='green'><span class=''> </span><code>                });</code></li>
 <li class='green'><span class='hits'>5</span><code>                ret.on("end", cleanUp);</code></li>
 <li class='green'><span class='hits'>5</span><code>                ret.on("error", cleanUp);</code></li>
@@ -14850,7 +14852,7 @@ td.cov-stats {
 <li class='green'><span class='hits'>6746</span><code>            var self = this, ret;</code></li>
 <li class='green'><span class='hits'>6746</span><code>            if (conn) {</code></li>
 <li class='green'><span class='hits'>5282</span><code>                ret = this.__logAndExecute(sql, opts, function () {</code></li>
-<li class='green'><span class='hits'>5277</span><code>                    return conn[opts.stream ? "stream" : "query"](sql);</code></li>
+<li class='green'><span class='hits'>5277</span><code>                    return conn[opts.stream ? "stream" : "query"](sql, opts);</code></li>
 <li class='green'><span class=''> </span><code>                });</code></li>
 <li class='green'><span class='hits'>5282</span><code>                ret.both(function () {</code></li>
 <li class='green'><span class='hits'>5282</span><code>                    var ret = self._returnConnection(conn);</code></li>
@@ -16125,7 +16127,7 @@ td.cov-stats {
             <td class="cov-stats">
                 <div>
                     <span class='cov-label'>Coverage</span><span class='cov-value'>96.77</span>
-                    <span class='cov-label'>SLOC</span><span class='cov-value'>1280</span>
+                    <span class='cov-label'>SLOC</span><span class='cov-value'>1291</span>
                     <span class='cov-label'>LOC</span><span class='cov-value'>217</span>
                     <span class='cov-label'>Missed</span><span class='cov-value'>7</span>
                 </div>
@@ -16197,12 +16199,23 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *   .on("end", function(){</code></li>
 <li class='green'><span class=''> </span><code>         *      console.log("all done")</code></li>
 <li class='green'><span class=''> </span><code>         *   });</code></li>
-<li class='green'><span class=''> </span><code>         *```</code></li>
 <li class='green'><span class=''> </span><code>         *</code></li>
+<li class='green'><span class=''> </span><code>         * //postgres options</code></li>
+<li class='green'><span class=''> </span><code>         * User</code></li>
+<li class='green'><span class=''> </span><code>         *   .stream({batchSize: 100, highWaterMark: 1000})</code></li>
+<li class='green'><span class=''> </span><code>         *   .on("data", function(record){</code></li>
+<li class='green'><span class=''> </span><code>         *       console.log(record);</code></li>
+<li class='green'><span class=''> </span><code>         *    })</code></li>
+<li class='green'><span class=''> </span><code>         *   .on("error", errorHandler)</code></li>
+<li class='green'><span class=''> </span><code>         *   .on("end", function(){</code></li>
+<li class='green'><span class=''> </span><code>         *      console.log("all done")</code></li>
+<li class='green'><span class=''> </span><code>         *   });</code></li>
+<li class='green'><span class=''> </span><code>         *```</code></li>
+<li class='green'><span class=''> </span><code>         * @param {Object} opts an object to pass to the adapters connection stream implementation</code></li>
 <li class='green'><span class=''> </span><code>         * @return {Stream}</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
-<li class='green'><span class=''> </span><code>        stream: function () {</code></li>
-<li class='green'><span class='hits'>5</span><code>            var queryStream = this.fetchRows(this.selectSql, {stream: true}), rowCb, ret;</code></li>
+<li class='green'><span class=''> </span><code>        stream: function (opts) {</code></li>
+<li class='green'><span class='hits'>5</span><code>            var queryStream = this.fetchRows(this.selectSql, merge(opts || {}, {stream: true})), rowCb, ret;</code></li>
 <li class='green'><span class='hits'>5</span><code>            if ((rowCb = this.rowCb)) {</code></li>
 <li class='green'><span class='hits'>1</span><code>                ret = new TransformStream({objectMode: true});</code></li>
 <li class='green'><span class='hits'>1</span><code>                ret._transform = function (data, encoding, done) {</code></li>
@@ -17484,10 +17497,10 @@ td.cov-stats {
 <li class='green'><span class=''> </span><code>         *</code></li>
 <li class='green'><span class=''> </span><code>         */</code></li>
 <li class='green'><span class=''> </span><code>        constructor: function () {</code></li>
-<li class='green'><span class='hits'>2781</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
-<li class='green'><span class='hits'>2679</span><code>                this.__associations = {};</code></li>
+<li class='green'><span class='hits'>2791</span><code>            if (comb.isUndefinedOrNull(this.__associations)) {</code></li>
+<li class='green'><span class='hits'>2684</span><code>                this.__associations = {};</code></li>
 <li class='green'><span class=''> </span><code>            }</code></li>
-<li class='green'><span class='hits'>2781</span><code>            this._super(arguments);</code></li>
+<li class='green'><span class='hits'>2791</span><code>            this._super(arguments);</code></li>
 <li class='green'><span class=''> </span><code>        },</code></li>
 <li class='green'><span class=''> </span><code></code></li>
 <li class='green'><span class=''> </span><code>        reload: function () {</code></li>

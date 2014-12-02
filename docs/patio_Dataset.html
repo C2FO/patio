@@ -15013,9 +15013,28 @@ function (cb){
   .on(&quot;error&quot;, errorHandler)
   .on(&quot;end&quot;, function(){
      console.log(&quot;all done&quot;)
+  });
+
+//postgres options
+User
+  .stream({batchSize: 100, highWaterMark: 1000})
+  .on(&quot;data&quot;, function(record){
+      console.log(record);
+   })
+  .on(&quot;error&quot;, errorHandler)
+  .on(&quot;end&quot;, function(){
+     console.log(&quot;all done&quot;)
   });</code></pre>
 </p>
 
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>opts</em>  : <p>an object to pass to the adapters connection stream implementation</p>
+</li>
+    
+     </ul>
 
 
     <em>Returns</em>
@@ -15030,8 +15049,8 @@ function (cb){
     
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
-function (){
-   var queryStream = this.fetchRows(this.selectSql, {stream: true}), rowCb, ret;
+function (opts){
+   var queryStream = this.fetchRows(this.selectSql, merge(opts || {}, {stream: true})), rowCb, ret;
    if ((rowCb = this.rowCb)) {
        ret = new TransformStream({objectMode: true});
        ret._transform = function (data, encoding, done) {

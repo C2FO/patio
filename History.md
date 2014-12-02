@@ -2,7 +2,8 @@
 
 * Fixed issue with `time` db type in postgres adapter
 * Added grunt
-* Updated dependecies for mysql and postgres
+* Updated dependencies for mysql and postgres
+* Added support for setting `batchSize` and `highWaterMark` when using the `stream` dataset method
 
 # 0.8.1
 
@@ -18,7 +19,7 @@
 * Fix for issue [#121](https://github.com/C2FO/patio/issues/121) added the table name to the error thrown.
 * Merged [#120](https://github.com/C2FO/patio/pull/120) this allows tables registered with DB to be looked up properly.
    * This will break any `getModel` call where a table with the same name is added twice.
-* Added documentation about running tests.   
+* Added documentation about running tests.
 
 #0.6.1
 
