@@ -424,7 +424,7 @@ DB.createTable(&quot;test&quot;, function () {
 <pre class='prettyprint linenums lang-js'><code> DB.createTable(&quot;test&quot;, function(){
      this.column(&quot;num&quot;, &quot;integer&quot;);
          //=&gt; num INTEGER
-     this.column(&#39;name&quot;, String, {allowNull : false, &quot;default&quot; : &quot;a&quot;);
+     this.column(&quot;name&quot;, String, {allowNull : false, &quot;default&quot; : &quot;a&quot;);
          //=&gt; name varchar(255) NOT NULL DEFAULT &#39;a&#39;
      this.column(&quot;ip&quot;, &quot;inet&quot;);
          //=&gt; ip inet

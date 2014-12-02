@@ -717,7 +717,7 @@ function (model){
    //if we have them return them;
    if (this.associationLoaded(model)) {
        var assoc = this.getAssociation(model);
-       return this.isEager() ? assoc : when(assoc)
+       return this.isEager() ? assoc : when(assoc);
    } else if (model.isNew) {
        return null;
    } else {
@@ -1220,15 +1220,15 @@ function (parent,name){
    var self = this;
    this.parent = parent;
    var parentProto = parent.prototype;
-   parentProto.__defineGetter__(name, function () {
-       return  self._getter(this);
+   parentProto[&quot;__defineGetter__&quot;](name, function () {
+       return self._getter(this);
    });
-   parentProto.__defineGetter__(this.associatedDatasetName, function () {
-       return  self._filter(this);
+   parentProto[&quot;__defineGetter__&quot;](this.associatedDatasetName, function () {
+       return self._filter(this);
    });
    if (!this.readOnly &amp;&amp; this.createSetter) {
        //define a setter because we arent read only
-       parentProto.__defineSetter__(name, function (vals) {
+       parentProto[&quot;__defineSetter__&quot;](name, function (vals) {
            self._setter(vals, this);
        });
    }

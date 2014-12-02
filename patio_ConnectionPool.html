@@ -608,8 +608,6 @@ function (){
            def.callback(conn);
        } else {
            throw new Error(&quot;UNEXPECTED ERROR&quot;);
-           //we didnt get a conneciton so assume we&#x27;re out.
-           break;
        }
        fc--;
    }
@@ -700,7 +698,7 @@ function (conn){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   return  this.__createConnectionCB(this._options);
+   return this.__createConnectionCB(this._options);
            
 }
     </pre>
@@ -746,7 +744,7 @@ function (){
 function (){
    this.__ending = true;
    var conn, fQueue = this.__freeObjects, count = this.count, ps = [];
-   while ((conn = this.__freeObjects.dequeue()) != undefined) {
+   while ((conn = this.__freeObjects.dequeue()) !== undefined) {
        ps.push(this.closeConnection(conn));
    }
    var inUse = this.__inUseObjects;
@@ -798,12 +796,12 @@ function (){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (){
-   var ret = new Promise();
+   var ret = new Promise(), conn;
    if (this.count &gt; this.__maxObjects) {
        this.__deferredQueue.enqueue(ret);
    } else {
        //todo override getObject to make async so creating a connetion can execute setup sql
-       var conn = this.getObject();
+       conn = this.getObject();
        if (!conn) {
            //we need to deffer it
            this.__deferredQueue.enqueue(ret);

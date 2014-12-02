@@ -598,8 +598,8 @@ Expression.isConditionSpecifier([[&quot;a&quot;, &quot;b&quot;, &quot;e&quot;], 
     <pre class="prettyprint linenums lang-js">
 function (obj){
    return isHash(obj) || (isArray(obj) &amp;&amp; obj.length &amp;&amp; obj.every(function (i) {
-       return isArray(i) &amp;&amp; i.length === 2;
-   }));
+           return isArray(i) &amp;&amp; i.length === 2;
+       }));
            
 }
     </pre>

@@ -798,7 +798,7 @@ function (){
  DB.createTable("test", function(){
      this.column("num", "integer");
          //=> num INTEGER
-     this.column('name", String, {allowNull : false, "default" : "a");
+     this.column("name", String, {allowNull : false, "default" : "a");
          //=> name varchar(255) NOT NULL DEFAULT 'a'
      this.column("ip", "inet");
          //=> ip inet
@@ -1128,7 +1128,7 @@ function (columns,opts){
     <pre class="prettyprint linenums lang-js">
 function (name){
    return this.columns.some(function (c) {
-       return c.name == name
+       return c.name === name;
    });
            
 }

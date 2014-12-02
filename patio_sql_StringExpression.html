@@ -462,13 +462,6 @@ LIKE expression.</p>
     
     
     
-        
-            <em>Source</em>
-            <pre class="prettyprint linenums lang-js">
-define([ComplexExpression, StringMethods, StringConcatenationMethods, InequalityMethods, NoBooleanInputMethods], {
-            </pre>
-      
-    
 
   
     <a name=".like"></a>
@@ -543,9 +536,9 @@ function (l){
        var r, rre, rci;
        var ceArr = likeElement(ce);
        r = ceArr[0], rre = ceArr[1], rci = ceArr[2];
-       return new BooleanExpression(likeMap[&quot;&quot; + (lre || rre) + (lci || rci)], l, r)
+       return new BooleanExpression(likeMap[&quot;&quot; + (lre || rre) + (lci || rci)], l, r);
    }, this);
-   return args.length == 1 ? args[0] : BooleanExpression.fromArgs([&quot;OR&quot;].concat(args));
+   return args.length === 1 ? args[0] : BooleanExpression.fromArgs([&quot;OR&quot;].concat(args));
            
 }
     </pre>
