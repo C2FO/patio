@@ -1173,7 +1173,7 @@ See <a href='./patio_SchemaGenerator.html#index'> patio.SchemaGenerator#index</a
     <pre class="prettyprint linenums lang-js">
 function (columns,opts){
    opts = opts || {};
-   this.addIndex(columns, merge({}, {type:&quot;spatial&quot;}, opts))
+   this.addIndex(columns, merge({}, {type:&quot;spatial&quot;}, opts));
            
 }
     </pre>
@@ -1609,7 +1609,7 @@ DB.alterTable(&quot;artist&quot;, function(){
     <em>Source</em>
     <pre class="prettyprint linenums lang-js">
 function (name,type,opts){
-   opts = opts || {}
+   opts = opts || {};
    this.operations.push(merge({op:&quot;setColumnType&quot;, name:name, type:type}, opts));
            
 }

@@ -1,3 +1,9 @@
+# 0.9.0
+
+* Fixed issue with `time` db type in postgres adapter
+* Added grunt
+* Updated dependecies for mysql and postgres
+
 # 0.8.1
 
 * Added Array support for JSON datatypes.

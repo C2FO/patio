@@ -463,7 +463,7 @@ function (str,args,parens){
    parens = parens || false;
    var v;
    this.__str = str;
-   this.__args = isArray(args) &amp;&amp; args.length == 1 &amp;&amp; isHash((v = args[0])) ? v : args;
+   this.__args = isArray(args) &amp;&amp; args.length === 1 &amp;&amp; isHash((v = args[0])) ? v : args;
    this.__parens = parens;
            
 }

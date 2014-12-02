@@ -1,4 +1,8 @@
+addons:
+  postgresql: "9.3"
+
 before_script:
+  - npm install -g grunt-cli
   - mysql -e 'create database sandbox;'
   - mysql -e 'create database sandbox2;'
   - psql -c 'create database sandbox;' -U postgres

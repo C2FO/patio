@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "0.8.1",
+    "version": "0.9.0",
     "keywords": [
         "ORM",
         "object relation mapper",
@@ -29,19 +29,24 @@
     "author": "Doug Martin (http://c2fo.github.com)",
     "main": "index.js",
     "dependencies": {
-        "mysql": "2.0.0-alpha9",
-        "pg.js": "2.11.1",
+        "mysql": "2.5.3",
+        "pg.js": "3.6.2",
         "comb": "~0.3.0",
         "comb-proxy": ">=0.0.3",
         "hive-cache": "0.0.3",
         "commander": "0.5.1",
         "validator": "~1.5.1",
-        "pg-query-stream": "0.4.2"
+        "pg-query-stream": "0.7.0",
+        "pg-types": "1.4.0"
     },
     "scripts": {
-        "test": "make test-travis"
+        "test": "grunt test"
     },
     "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-exec": "^0.4.6",
+        "grunt-it": "^0.3.1",
         "it": "0.2.7"
     },
     "directories": {
