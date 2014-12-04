@@ -1,3 +1,8 @@
+# 0.9.1
+
+* Updated `pg` module
+* Fixed issue where connection would hang in postgres adapter
+
 # 0.9.0
 
 * Fixed issue with `time` db type in postgres adapter
