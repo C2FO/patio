@@ -1,3 +1,7 @@
+# 0.9.2
+
+* Updated `comb` module
+
 # 0.9.1
 
 * Updated `pg` module
