@@ -952,6 +952,11 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.from("abc__def___d").selectSql, "SELECT * FROM abc.def AS d");
             assert.equal(dataset.from("abc___def").selectSql, "SELECT * FROM abc AS def");
         });
+
+        it.should("accept literal string", function () {
+            assert.equal(dataset.from(sql.literal("abc_def")).selectSql, "SELECT * FROM abc_def");
+            assert.equal(dataset.from(sql.literal("abc__def")).selectSql, "SELECT * FROM abc__def");
+        });
     });
 
     it.describe("#select", function (it) {

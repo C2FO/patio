@@ -1,3 +1,7 @@
+# 0.9.3
+
+* Allow for `literal` in dataset `from` clause
+
 # 0.9.2
 
 * Updated `comb` module
@@ -230,16 +234,16 @@
 * Updated docs new docs layout
 * Updated docs
   * Updated logging.md to use new comb logging API
-  * updated associations.md to use chaning api 
+  * updated associations.md to use chaning api
   * Added examples to model.md for new getter functionality and added a setter and getter example
   * Added Model Validation page and added validation to plugins page.
   * Updated index.html page
 * New Tests for both custom getters and setters
-* Changed tests to run both mysql and postgres 
+* Changed tests to run both mysql and postgres
 * Bug fixes
   * Fixed bug where custom datasets for model definition would not work
   * Changed the storage of model classes so patio.getModel will always work even with datasets.
-   
+
 
 # 0.0.9 / 2012-08-16
 
@@ -257,7 +261,7 @@
 
 * Updated Docs now using [coddoc](http://github.com/doug-martin/coddoc) for doc generation
   * Documented Plugins
-  * Updated docs for new Model definitions   
+  * Updated docs for new Model definitions
 * Migrated tests to use [it](http://github.com/doug-martin/it)
 * Added sync models
   * patio.addModel does not return a promise anymore instead use `patio.syncModel` to sync models with the database
@@ -267,7 +271,7 @@
 * More test coverage
 * Bug Fixes
   * Fixed issue where transaction connection would not always be used on databases
-* Added Events to patio     
+* Added Events to patio
 
 # 0.0.5 / 2012-02-02
 
@@ -282,7 +286,7 @@
    * Added findOrCreate method to query plugin
    * Fixed reload method to clear and reload associations
    * upped comb version to v0.0.9
-   
+
 
 # 0.0.3 / 2012-02-09
 
