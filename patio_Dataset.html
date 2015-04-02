@@ -14057,6 +14057,8 @@ function (tableName){
        return [tableName.table, tableName.column];
    } else if (isInstanceOf(tableName, Identifier)) {
        return [null, tableName.value];
+   } else if (isInstanceOf(tableName, LiteralString)) {
+       return [null, tableName];
    } else {
        throw new QueryError(&quot;table should be a QualifiedIdentifier, Identifier, or String&quot;);
    }
