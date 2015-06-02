@@ -364,10 +364,10 @@
 
 
 
-<h1 id="plugins">Plugins</h1>
+<h1>Plugins</h1>
 <p>One of the powerful features of the <code>patio</code> <a href="./models.html">Model</a> api is plugins. Plugins allow developers to easily extend models to do extra functionality.</p>
-<h2 id="built-in-plugins">Built In Plugins</h2>
-<h3 id="-patio-plugins-timestampplugin-patio_plugins_timestampplugin-html-"><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></h3>
+<h2>Built In Plugins</h2>
+<h3><a href="./patio_plugins_TimeStampPlugin.html">patio.plugins.TimeStampPlugin</a></h3>
 <p>This plugin adds timestamp functionality to models. (i.e updated and created).</p>
 <p><strong>Options</strong></p>
 <ul>
@@ -441,9 +441,9 @@
         }                                                                                                         
     }                                                                                                             
 });</code></pre>
-<h3 id="-patio-plugins-classtableinhertiance-patio_plugins_classtableinhertiance-html-"><a href="./patio_plugins_ClassTableInhertiance.html">patio.plugins.ClassTableInhertiance</a></h3>
+<h3><a href="./patio_plugins_ClassTableInhertiance.html">patio.plugins.ClassTableInhertiance</a></h3>
 <p>See <a href="./model-inheritance.html">inheritance</a> page.</p>
-<h3 id="-patio-plugins-columnmapper-patio_plugins_columnmapper-html-"><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></h3>
+<h3><a href="./patio_plugins_ColumnMapper.html">patio.plugins.ColumnMapper</a></h3>
 <p>Add a mapped column from another table. This is useful if there columns on<br>another table but you do not want to load the association every time.                                                                    </p>
 <p>For example assume we have an employee and works table. Well we might want the salary from the works table,<br>but do not want to add it to the employee table.                                                                                         </p>
 <p><b>NOTE:</b> mapped columns are READ ONLY.                                                                                               </p>
@@ -481,7 +481,7 @@ employee.update(null, {reloadMapped : false});</code></pre>
 <li><code>joinType</code> : The join type to use when gathering the properties. Defaults to <code>left</code>.</li>
 <li><code>column</code> : The column on the remote table that should be used. This is useful if you want to mapped column named something differently. Defaults to <code>null</code><br>as the local copy.  </li>
 </ul>
-<h3 id="-patio-plugins-validatorplugin-patio_plugins_validatorplugin-html-"><a href="./patio_plugins_ValidatorPlugin.html">patio.plugins.ValidatorPlugin</a></h3>
+<h3><a href="./patio_plugins_ValidatorPlugin.html">patio.plugins.ValidatorPlugin</a></h3>
 <p>A validation plugin for patio models. This plugin adds a <code>validate</code> method to each <a href="./patio_Model.html">Model</a>
 class that adds it as a plugin. This plugin does not include most typecast checks as <code>patio</code> already checks
 types upon column assignment.                                                                                                                              </p>
@@ -568,9 +568,9 @@ Model.validateOnUpdate = false;</code></pre>
 
 
 
-<h2 id="writing-your-own-plugins">Writing your own plugins</h2>
+<h2>Writing your own plugins</h2>
 <p>Writing your own custom plugin easy!</p>
-<h3 id="example-express-plugin">Example Express plugin</h3>
+<h3>Example Express plugin</h3>
 <p>The following is a simple express plugin to expose routes for models.</p>
 <ol>
 <li>Define your plugin</li>
@@ -734,7 +734,7 @@ module.exports = patio.addModel(&quot;flight&quot;, {
 <p>Now route the model.</p>
 <pre class='prettyprint linenums lang-js'><code>var app = express.createServer();
 Flight.route(app);</code></pre>
-<h3 id="example-logging-plugin">Example Logging Plugin</h3>
+<h3>Example Logging Plugin</h3>
 <p>The folowing plugin adds a logger to each model that uses the plugin. And adds convenience methods for logging.</p>
 <pre class='prettyprint linenums lang-js'><code>
 var comb = require(&quot;comb&quot;), 

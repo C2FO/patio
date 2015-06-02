@@ -364,9 +364,9 @@
 
 
 
-<h1 id="migrations">Migrations</h1>
+<h1>Migrations</h1>
 <p>Migrates the database using migration files found in the supplied directory.</p>
-<h2 id="integer-migrations">Integer Migrations</h2>
+<h2>Integer Migrations</h2>
 <p>Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations. In order for patio to determine which versions the file must have the naming format &quot;{versionnumber}.someFileName.js&quot; where versionNumber is a integer <strong>starting at 0</strong> representing the version number.</p>
 <p><strong>NOTE:</strong> The reason the version number comes first is that most file viewers and IDE&#39;s sort files alphabetically and this makes for quicker migration lookup.</p>
 <p><strong>NOTE:</strong> With integer migrations missing versions are not allowed.</p>
@@ -382,7 +382,7 @@
 <p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.</p>
 <pre class='prettyprint linenums lang-js'><code>0.createEmployee.js
 1.alterEmployeeNameColumn.js</code></pre>
-<h2 id="timestamp-migrations">Timestamp Migrations</h2>
+<h2>Timestamp Migrations</h2>
 <p>Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially with development teams. This is because Timestamp migrations:</p>
 <ul>
 <li>Do not require consecutive version numbers</li>
@@ -409,15 +409,15 @@
 <p>In order to easily identify where certain schema alterations have taken place it is a good idea to provide a brief but meaningful migration name.</p>
 <pre class='prettyprint linenums lang-js'><code> 1328035161.createEmployee.js
  1328035360.alterEmployeeNameColumn.js</code></pre>
-<h2 id="mixed-migrations">Mixed Migrations</h2>
+<h2>Mixed Migrations</h2>
 <p>If you start with IntegerBased migrations and decide to transition to Timestamp migrations the patio will attempt to merge the two migrations. It does this by ordering the files based off of the versionNumber order. So Integerbase migrations will come first. If the version number in any file with a version number lower than or equal to the current verion will be inserted into the schema_migration table and and file with a version greater will be applied up the the supplied target, or greatest version number and will be inserted into the database.</p>
-<h2 id="migration-files">Migration Files</h2>
+<h2>Migration Files</h2>
 <p>Migration files are files with an up and down method.</p>
-<h3 id="exports-up">exports.up</h3>
+<h3>exports.up</h3>
 <p>The up function is called when applying the migration. The up function typically contains create and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.</p>
-<h3 id="exports-down">exports.down</h3>
+<h3>exports.down</h3>
 <p>The down function is called when rolling back the migration. The down function typically contains drop and alter table statements. See <a href="./DDL.html">DDL</a> for more examples and operations that are available.</p>
-<h2 id="example-migration-file">Example migration file</h2>
+<h2>Example migration file</h2>
 <pre class='prettyprint linenums lang-js'><code>var comb = require(&quot;comb&quot;),
       when = comb.when;
 
@@ -497,9 +497,9 @@ exports.down = function(db) {
     });
 };</code></pre>
 <p>First we wait for both the rename and createTable action to complete, and then we perform some database actions and finally resolve.</p>
-<h2 id="running-migrations">Running migrations</h2>
+<h2>Running migrations</h2>
 <p>In order to run a migraton there are two options:</p>
-<h3 id="-patio-migrate-patio-html-migrate-"><a href="./patio.html#migrate">patio.migrate</a></h3>
+<h3><a href="./patio.html#migrate">patio.migrate</a></h3>
 <p><strong>Available options</strong></p>
 <ul>
 <li><strong>column</strong> : the column in the table that version information should be stored.</li>
@@ -514,7 +514,7 @@ exports.down = function(db) {
   patio.migrate(DB, __dirname + &quot;/migrations&quot;).chain(function(){
       console.log(&quot;migrations finished&quot;);
   }, errorHandler);</code></pre>
-<h3 id="patio-executable">Patio Executable</h3>
+<h3>Patio Executable</h3>
 <p>patio comes with an executable script that can be used to run the migrations</p>
 <pre class='prettyprint linenums lang-js'><code>patio -u some://connection/string -d ./migrations/</code></pre>
 <p><strong>script options</strong></p>

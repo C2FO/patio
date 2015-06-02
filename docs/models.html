@@ -364,7 +364,7 @@
 
 
 
-<h1 id="models">Models</h1>
+<h1>Models</h1>
 <p>Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.</p>
 <p>When defining a model it is assumed that the database table already exists. So before defining a model you must create the table/s that the model requires to function including associations. To create a model you must <a href="./patio.html#connect">connect</a> to a database.</p>
 <p>An example model definition flow.</p>
@@ -431,7 +431,7 @@ connectAndCreateSchema()
 </li>
 <li>The final output should be &quot;BobYukon&#39;s id is 1&quot;.</li>
 </ul>
-<h2 id="options">Options</h2>
+<h2>Options</h2>
 <p>Models some options that allow for the customization of the way a model be haves when interacting
 with the database.</p>
 <ul>
@@ -537,7 +537,7 @@ myUser.updated = &quot;2004-02-01 12:12:12&quot; //would not be auto converted t
         reloadOnUpdate : false
     }
 });</code></pre>
-<h2 id="creating-a-model">Creating a model</h2>
+<h2>Creating a model</h2>
 <p>To create a Model class to use within your code you use the <a href=".patio.html#addModel">patio.addModel</a> method. </p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;)
 
@@ -582,8 +582,8 @@ patio.syncModels().chain(function(User1,User2){
          console.log(format(&quot;%s %s&#39;s id is %d&quot;, myUser2.firstName, myUser2.lastName, myUser2.id));
     });
 });</code></pre>
-<h2 id="custom-setters-and-getters">Custom setters and getters</h2>
-<h3 id="setters">Setters</h3>
+<h2>Custom setters and getters</h2>
+<h3>Setters</h3>
 <p>patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.</p>
 <p>For example if you wanted to ensure proper case and first and last name of a user:</p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
@@ -606,7 +606,7 @@ patio.syncModels().chain(function(User){
     console.log(myUser.firstName); //Bob
     console.log(myUser.lastName);  //Yukon
 });</code></pre>
-<h3 id="getters">Getters</h3>
+<h3>Getters</h3>
 <p>Custom getters can be used to change values returned from the database but not alter the value when persisting. </p>
 <p>For example if you wanted to return a value as an array but persist as a string you could do the following.</p>
 <pre class='prettyprint linenums lang-js'><code>var User = patio.addModel(&quot;user&quot;, {
@@ -650,7 +650,7 @@ patio.syncModels().chain(function(User){
     //INSERT INTO `user` (`first_name`, `last_name`, `roles`) VALUES (&#39;bob&#39;, &#39;yukon&#39;, &#39;admin,user,groupAdmin&#39;)
     return myUser.save();
 });</code></pre>
-<h2 id="model-hooks">Model hooks</h2>
+<h2>Model hooks</h2>
 <p>Each model has the following hooks</p>
 <ul>
 <li>pre<ul>
@@ -702,7 +702,7 @@ patio.syncModels().chain(function(User){
         }
     }
  });</code></pre>
-<h2 id="using-a-model">Using a model</h2>
+<h2>Using a model</h2>
 <p>If you define a model you can either use the Models constructor directly.</p>
 <pre class='prettyprint linenums lang-js'><code>//define the model
 var User = patio.addModel(&quot;user&quot;);
@@ -726,7 +726,7 @@ patio.syncModels(function(err){
        var user = new User();
    }
 })</code></pre>
-<h3 id="mutli-database-models">Mutli Database Models</h3>
+<h3>Mutli Database Models</h3>
 <p>If you are working with multiple databases and your model&#39;s table is not in the <a href="&quot;./patio.html#defaultDatabase&quot;">patio.defaultDatabase</a> (the first database you connected to) then you will need to pass in the database the model&#39;s table is in.</p>
 <pre class='prettyprint linenums lang-js'><code>var DB1 = patio.createConnection(&quot;my://connection/string&quot;);
 var DB2 = patio.createConnection(&quot;my://connection/string2&quot;);
@@ -742,7 +742,7 @@ patio.syncModels(function(err){
            user2 = new User2();
    }
 });</code></pre>
-<h3 id="creating">Creating</h3>
+<h3>Creating</h3>
 <p>The static <a href="./patio_Model.html#.save">save</a> can be used for saving a group of models at once. <strong>Note</strong> this method is not any more efficient than creating a model using new, just less verbose.</p>
 <pre class='prettyprint linenums lang-js'><code>var Student = patio.getModel(&quot;student&quot;);
 Student.save([
@@ -836,7 +836,7 @@ myUser.save({
  }, {transaction : false}).chain(function(user){
     //the save is complete
 }, disconnectError);</code></pre>
-<h3 id="reading">Reading</h3>
+<h3>Reading</h3>
 <p>The Model contains static methods for all of the datasets methods listed in <a href="./patio_Dataset.html#.ACTION_METHODS">patio.Dataset.ACTION_METHODS</a> as well as all the methods listed in <a href="./patio_Dataset.html#.QUERY_METHODS">patio.Dataset.QUERY_METHODS</a>.</p>
 <p>Some of the most commonly used methods are:</p>
 <ul>
@@ -908,7 +908,7 @@ User.isEmpty().chain(function(isEmpty){
       console.log(&quot;user table is not empty&quot;);
    }
 }, disconnectError);</code></pre>
-<h3 id="updating">Updating</h3>
+<h3>Updating</h3>
 <p>The static <a href="./patio_Model.html#.update">update</a> can be used for updating a batch of models.</p>
 <pre class='prettyprint linenums lang-js'><code> //BEGIN
  //UPDATE `user` SET `password` = NULL
@@ -941,7 +941,7 @@ updateUsers.chain(function(){
 updateUsers.chain(function(){
     //updates finished
 });</code></pre>
-<h3 id="deleting">Deleting</h3>
+<h3>Deleting</h3>
 <p>The static <a href="./patio_Model.html#.remove">remove</a> can be used for removing a batch of models. <strong>Note</strong> this method is not anymore efficient just a convenience.</p>
 <pre class='prettyprint linenums lang-js'><code>//remove all models
 User.remove();</code></pre>
