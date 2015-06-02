@@ -364,8 +364,8 @@
 
 
 
-<h1 id="associations">Associations</h1>
-<h2 id="supported-association-types">Supported Association types</h2>
+<h1>Associations</h1>
+<h2>Supported Association types</h2>
 <ul>
 <li><p><strong>oneToMany</strong> : Foreign key in associated model&#39;s table points to this model&#39;s primary key. Each current model object can be associated with more than one associated model objects. Each associated model object can be associated with only one current model object.</p>
 </li>
@@ -376,7 +376,7 @@
 <li><p><strong>manyToMany</strong> : A join table is used that has a foreign key that points to this model&#39;s primary key and a foreign key that points to the associated model&#39;s primary key. Each current model object can be associated with many associated model objects, and each associated model object can be associated with many current model objects.</li></p>
 </li>
 </ul>
-<h2 id="options">Options</h2>
+<h2>Options</h2>
 <ul>
 <li><strong>model</strong> : The associated class or its name. If not given, uses the association&#39;s name, which is singularized unless the type is <code>MANY_TO_ONE</code>  or <code>ONE_TO_ONE</code> . For example, suppose we have the tables father and child, father being oneToMany with children. Yo would not need to specify the model for the following.</li>
 </ul>
@@ -429,7 +429,7 @@ patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {readOnly : t
 <li><strong>select</strong> : the columns to select. Defaults to the associated class&#39;s tableName.* in a <code>MANY_TO_MANY</code>  association, which means it doesn&#39;t include the attributes from the join table. If you want to include the join table attributes, you can use this option, but beware that the join table attributes can clash with attributes from the model table, so you should alias any attributes that have the same name in both the join table and the associated table.</li>
 </ul>
 <pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;).manyToMany(&quot;students&quot;, {select : [&quot;firstName&quot;, &quot;lastName&quot;]});</code></pre>
-<h3 id="manytoone-additional-options-">ManyToOne additional options:</h3>
+<h3>ManyToOne additional options:</h3>
 <ul>
 <li><strong>key</strong> : foreignKey in current model&#39;s table that references associated model&#39;s primary key. Defaults to : &quot;{tableName}Id&quot;. Can use an array of strings for a composite key association.</li>
 </ul>
@@ -458,14 +458,14 @@ patio.addModel(&quot;child&quot;).manyToOne(&quot;biologicalFather&quot;, {key :
 patio.addModel(&quot;stepFather&quot;).oneToMany(&quot;children&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});
 
 patio.addModel(&quot;child&quot;).manyToOne(&quot;stepFather&quot;, {key : &quot;stepFatherKey&quot;, primaryKey : &quot;name&quot;});</code></pre>
-<h3 id="onetomany-and-onetoone-additional-options-">OneToMany and OneToOne additional options:</h3>
+<h3>OneToMany and OneToOne additional options:</h3>
 <ul>
 <li><strong>key</strong> : foreign key in associated model&#39;s table that references current model&#39;s primary key, as a symbol. Defaults to &quot;{thisTableName}Id&quot;. Can use an array of columns for a composite key association. <strong>For examples see the ManyToOne examples above</strong>.</li>
 </ul>
 <ul>
 <li>primaryKey : column in the current table that <strong>key</strong> option references. Defaults to primary key of the current table. Can use an array of strings for a composite key association. <strong>For examples see the ManyToOne examples above</strong>.</li>
 </ul>
-<h3 id="manytomany-additional-options-">ManyToMany additional options:</h3>
+<h3>ManyToMany additional options:</h3>
 <ul>
 <li><strong>joinTable</strong> : name of table that includes the foreign keys to both the current model and the associated model. Defaults to the name of current model and name of associated model, pluralized, sorted, and camelized.</li>
 </ul>
@@ -527,7 +527,7 @@ patio.addModel(&quot;student&quot;)
         rightPrimaryKey:[&quot;name&quot;, &quot;subject&quot;],
         rightKey:[&quot;nameKey&quot;, &quot;subjectKey&quot;],
     });</code></pre>
-<h2 id="filter-block">Filter Block</h2>
+<h2>Filter Block</h2>
 <p>You may also pass a function to the association to perform additional filtering on the dataset.</p>
 <p>Assume the student/class relation ship defined above with the conventional keys and jointable</p>
 <pre class='prettyprint linenums lang-js'><code>patio.addModel(&quot;class&quot;)
@@ -550,7 +550,7 @@ patio.addModel(&quot;student&quot;)
     .manyToMany(&quot;sprintClasses&quot;, {model : &quot;class&quot;}, function(ds){
         return ds.filter({semester : &quot;SPRING&quot;});
     });</code></pre>
-<h2 id="-onetomany-patio_model-html-onetomany-"><a href="./patio_Model.html#.oneToMany">oneToMany</a></h2>
+<h2><a href="./patio_Model.html#.oneToMany">oneToMany</a></h2>
 <p>One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many <a href="./patio_Model.html">Model</a> is the parent, and the many to one model is the child.</p>
 <p>For example consider a BiologicalFather and his children. The father can have many children, but a child can have only one Biological Father.</p>
 <p>Assuming you have the following table structure:</p>
@@ -627,7 +627,7 @@ patio.syncModels().chain(funciton(){
 }, errorHandler);</code></pre>
 <p>When working with eager associations the eagerly loaded association will be fetched on the load of a model.</p>
 <p><strong>Note:</strong> one should choose wisely when <code>EAGER</code>ly loading associations as it can severly inhibit performance.</p>
-<h3 id="-onetoone-patio_model-html-onetoone-"><a href="./patio_Model.html#.oneToOne">oneToOne</a></h3>
+<h3><a href="./patio_Model.html#.oneToOne">oneToOne</a></h3>
 <p>Similar to <code>ONE_TO_MANY</code>  in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to <code>MANY_TO_ONE</code> , except that the <code>ONE_TO_ONE</code>  setter method saves the passed object.</p>
 <p>The reciprocal association to a ONE TO ONE is a MANY TO ONE. This be because in a one to one relationship the MANY TO ONE model&#39;s table contains the foreign key that references the ONE TO ONE (the parent) models table.</p>
 <p>For example consider the following schema for states and their capitals.</p>
@@ -760,7 +760,7 @@ Capital.order(&quot;name&quot;).forEach(function(capital){
 });</code></pre>
 <p><strong>Note:</strong> when retrieving the state and captial properties they return a Promise because the properties are
 lazy loaded. To change this set the <strong>fetchType</strong> to <strong>EAGER</strong>.</p>
-<h3 id="-manytomany-patio_model-html-manytomany-"><a href="./patio_Model.html#.manyToMany">manyToMany</a></h3>
+<h3><a href="./patio_Model.html#.manyToMany">manyToMany</a></h3>
 <p>A join table is used that has a foreign key that points to this model&#39;s primary key and a foreign key that
 points to the associated model&#39;s primary key. Each current model object can be associated with many associated
 model objects, and each associated model object can be associated with many current model objects.</p>

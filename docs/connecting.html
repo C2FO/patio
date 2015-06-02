@@ -364,10 +364,10 @@
 
 
 
-<h1 id="connecting-to-a-database">Connecting to a database</h1>
-<h2 id="-patio-createconnection-patio-html-createconnection-"><a href="./patio.html#createConnection">patio.createConnection</a></h2>
+<h1>Connecting to a database</h1>
+<h2><a href="./patio.html#createConnection">patio.createConnection</a></h2>
 <p>When using <a href="./patio.html#createConnection">patio.createConnection</a> to connect a database there are two types of parameters you can use.</p>
-<h3 id="connetion-uri">Connetion URI</h3>
+<h3>Connetion URI</h3>
 <p>This is a well formed URI that will be used to connect to the database.</p>
 <p><strong>Currently supported databases</strong></p>
 <ul>
@@ -387,7 +387,7 @@
 <pre class='prettyprint linenums lang-js'><code>//Create a connection to a mysql database at localhost port 3306, with the username test, password test and
 // 1 connection by default and a max of 10
 var DB = patio.createConnection(&quot;mysql://test:testpass@localhost:3306/test?maxConnections=1&amp;minConnections=10&quot;);</code></pre>
-<h3 id="connection-object">Connection Object</h3>
+<h3>Connection Object</h3>
 <p>This is an object to used to connect.</p>
 <p><strong>Currently supported databases</strong></p>
 <ul>
@@ -427,7 +427,7 @@ var DB = patio.createConnection({
 });
     //Create a connection to a mysql database at localhost port 3306, with the username test, password test and
     // 1 connection by default and a max of 10</code></pre>
-<h2 id="disconnecting">Disconnecting</h2>
+<h2>Disconnecting</h2>
 <p>To disconnect from a database you can use:</p>
 <ul>
 <li><a href="./patio.html#disconnect">patio.disconnect</a> which disconnects all databases currently connected.</li>

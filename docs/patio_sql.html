@@ -526,7 +526,7 @@ This is useful when combined with dataset filtering
  ds.filter({a:[sql.b, sql.c]}).sql;
      //=&gt; SELECT <em> FROM t WHERE (a IN (b, c))
 
- ds.select(sql<a href="{b:{c:1}}, false">&quot;case&quot;</a>).sql;
+ ds.select(sql[&quot;case&quot;]({b:{c:1}}, false)).sql;
      //=&gt; SELECT (CASE WHEN b THEN (c = 1) ELSE &#39;f&#39; END) FROM t
 
  ds.select(sql.a).qualifyToFirstSource().sql;
@@ -538,7 +538,7 @@ This is useful when combined with dataset filtering
  ds.select(sql.a.as(&quot;b&quot;)).sql;
      //=&gt; SELECT a AS b FROM t
 
- ds.filter(sql<a href="{a:sql.b}, sql.c, sql.d">&quot;case&quot;</a>).sql
+ ds.filter(sql[&quot;case&quot;]({a:sql.b}, sql.c, sql.d)).sql
      //=&gt; SELECT <em> FROM t WHERE (CASE d WHEN a THEN b ELSE c END)
 
  ds.filter(sql.a.cast(&quot;boolean&quot;)).sql;

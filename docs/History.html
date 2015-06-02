@@ -364,35 +364,35 @@
 
 
 
-<h1 id="0-9-3">0.9.3</h1>
+<h1>0.9.3</h1>
 <ul>
 <li>Allow for <code>literal</code> in dataset <code>from</code> clause</li>
 </ul>
-<h1 id="0-9-2">0.9.2</h1>
+<h1>0.9.2</h1>
 <ul>
 <li>Updated <code>comb</code> module</li>
 </ul>
-<h1 id="0-9-1">0.9.1</h1>
+<h1>0.9.1</h1>
 <ul>
 <li>Updated <code>pg</code> module</li>
 <li>Fixed issue where connection would hang in postgres adapter</li>
 </ul>
-<h1 id="0-9-0">0.9.0</h1>
+<h1>0.9.0</h1>
 <ul>
 <li>Fixed issue with <code>time</code> db type in postgres adapter</li>
 <li>Added grunt</li>
 <li>Updated dependencies for mysql and postgres</li>
 <li>Added support for setting <code>batchSize</code> and <code>highWaterMark</code> when using the <code>stream</code> dataset method</li>
 </ul>
-<h1 id="0-8-1">0.8.1</h1>
+<h1>0.8.1</h1>
 <ul>
 <li>Added Array support for JSON datatypes.</li>
 </ul>
-<h1 id="0-8-0">0.8.0</h1>
+<h1>0.8.0</h1>
 <ul>
 <li>Removed <code>\</code> escaping in postgres adapter as it is not the default in versions &gt;= 9.1</li>
 </ul>
-<h1 id="0-7-0">0.7.0</h1>
+<h1>0.7.0</h1>
 <ul>
 <li>Fix for issue <a href="https://github.com/C2FO/patio/issues/121">#121</a> added the table name to the error thrown.</li>
 <li>Merged <a href="https://github.com/C2FO/patio/pull/120">#120</a> this allows tables registered with DB to be looked up properly.<ul>
@@ -401,34 +401,34 @@
 </li>
 <li>Added documentation about running tests.</li>
 </ul>
-<h1 id="0-6-1">0.6.1</h1>
+<h1>0.6.1</h1>
 <ul>
 <li>Added details for logging if the err.detail exists.</li>
 <li>Changed streaming highWaterMark</li>
 </ul>
-<h1 id="0-6-0">0.6.0</h1>
+<h1>0.6.0</h1>
 <ul>
 <li>Fixed issue where grouped expressions with arrays and hashes as items, the expressions generated from the hashes are anded and each array item is ORed properly <a href="https://github.com/C2FO/patio/pull/115">#115</a></li>
 </ul>
-<h1 id="0-5-4">0.5.4</h1>
+<h1>0.5.4</h1>
 <ul>
 <li>Updated to <code>errback</code> the query promise when an error is caught.</li>
 <li>Fixed issue with setting the <code>handleRowDescription</code> on a patio query.</li>
 </ul>
-<h1 id="0-5-3">0.5.3</h1>
+<h1>0.5.3</h1>
 <ul>
 <li>Fixed issue with <code>logError</code> in transactions.</li>
 </ul>
-<h1 id="0-5-2">0.5.2</h1>
+<h1>0.5.2</h1>
 <ul>
 <li>Fixed issue with <code>streams</code> in transactions.</li>
 </ul>
-<h1 id="0-5-1">0.5.1</h1>
+<h1>0.5.1</h1>
 <ul>
 <li>Update <code>comb</code> to <code>v0.3.0</code></li>
 <li>Fixed issues with <code>savepoints</code> and update transaction to conform with docs. <a href="https://github.com/C2FO/patio/pull/110">#110</a></li>
 </ul>
-<h1 id="0-5-0">0.5.0</h1>
+<h1>0.5.0</h1>
 <ul>
 <li>Added a new <code>stream</code> method to allow the streaming of large datasets from the database.</li>
 <li>Added a new <code>isolate</code> option to <code>db.transaction</code> to ensure that the transaction is not nested inside of a concurrently running transaction.</li>
@@ -436,19 +436,19 @@
 <li>Refactored <code>fetchRows</code>, and <code>execute</code> to be common between adapters.</li>
 <li>Updated Readme with better examples.</li>
 </ul>
-<h1 id="0-4-1">0.4.1</h1>
+<h1>0.4.1</h1>
 <ul>
 <li>Added error handling on connection errors and reconnects if a connection errors</li>
 </ul>
-<h1 id="0-4-0">0.4.0</h1>
+<h1>0.4.0</h1>
 <ul>
 <li>Added support for redshift database.</li>
 </ul>
-<h1 id="v0-3-1">v0.3.1</h1>
+<h1>v0.3.1</h1>
 <ul>
 <li>Normalized thrown errors.</li>
 </ul>
-<h1 id="v0-3-0">v0.3.0</h1>
+<h1>v0.3.0</h1>
 <ul>
 <li>Added more in depth support for the <code>JSON</code> datatype.<ul>
 <li>Databases now natively support the JSON datatype.</li>
@@ -456,25 +456,25 @@
 </ul>
 </li>
 </ul>
-<h1 id="v0-2-18">v0.2.18</h1>
+<h1>v0.2.18</h1>
 <ul>
 <li>Added new <code>patio.sql.json</code> type for storing JSON datatypes.</li>
 </ul>
-<h1 id="v0-2-17">v0.2.17</h1>
+<h1>v0.2.17</h1>
 <ul>
 <li>Changed to use use <code>pg.js</code></li>
 <li>Removed the storing of columns in datasets</li>
 </ul>
-<h1 id="v0-2-16">v0.2.16</h1>
+<h1>v0.2.16</h1>
 <ul>
 <li>Fixed constraint creation to accept a function when creating or altering constraints.</li>
 </ul>
-<h1 id="v0-2-15">v0.2.15</h1>
+<h1>v0.2.15</h1>
 <ul>
 <li>Updated patio migrate to use an exit code of <code>1</code> if the migration fails. <a href="https://github.com/C2FO/patio/issues/92">#92</a></li>
 <li>Fixed the use of hashes in <code>andGrouped*</code> methods.</li>
 </ul>
-<h1 id="v0-2-14">v0.2.14</h1>
+<h1>v0.2.14</h1>
 <ul>
 <li>Converted uses of <code>.then</code> to <code>.chain</code></li>
 <li>Refactored code to not use <code>.bind</code> or <code>hitch</code> for performance.<ul>
@@ -483,12 +483,12 @@
 </li>
 <li>Overall performace increases</li>
 </ul>
-<h1 id="v0-2-13">v0.2.13</h1>
+<h1>v0.2.13</h1>
 <ul>
 <li>Updated <code>multiInsert</code> to support the returning of results.</li>
 <li>Updated the postgres adapter to not change strings with double <code>_</code> to identifiers.</li>
 </ul>
-<h1 id="v0-2-12">v0.2.12</h1>
+<h1>v0.2.12</h1>
 <ul>
 <li>Patio migrate missingArgument undefined <a href="https://github.com/C2FO/patio/pull/89">#89</a></li>
 <li><p>Using stirngToIdentifier on hash keys in <code>select()</code> for doing aliases <a href="https://github.com/C2FO/patio/pull/87">#87</a></p>
@@ -498,36 +498,36 @@
 <li><p>Updated &#39;grouped&#39; methods to handle cases where they are called without an existing clause on the DS, and regenerated docs.</p>
 </li>
 </ul>
-<h1 id="v0-2-9">v0.2.9</h1>
+<h1>v0.2.9</h1>
 <ul>
 <li>Updated model to store transformed values in the changed hash</li>
 <li>Update docs for pr <a href="https://github.com/C2FO/patio/pull/82">#82</a></li>
 </ul>
-<h1 id="0-2-8">0.2.8</h1>
+<h1>0.2.8</h1>
 <ul>
 <li>Updated listener to strip generated quotes.</li>
 </ul>
-<h1 id="0-2-7">0.2.7</h1>
+<h1>0.2.7</h1>
 <ul>
 <li>Fixed issue with quoted channel names</li>
 </ul>
-<h1 id="0-2-6">0.2.6</h1>
+<h1>0.2.6</h1>
 <ul>
 <li>Updated to use postgres native drivers unless they are not found.</li>
 </ul>
-<h1 id="0-2-5">0.2.5</h1>
+<h1>0.2.5</h1>
 <ul>
 <li>Added support for postgres listen/notify.</li>
 </ul>
-<h1 id="0-2-4-2013-10-23">0.2.4/ 2013-10-23</h1>
+<h1>0.2.4/ 2013-10-23</h1>
 <ul>
 <li>Changed to prevent errors that occur in a transaction from being wrapped in a new error and losing the stack.</li>
 </ul>
-<h1 id="0-2-3-2013-10-22">0.2.3 / 2013-10-22</h1>
+<h1>0.2.3 / 2013-10-22</h1>
 <ul>
 <li>Changed drop view code to ensure that views are dropped in order.</li>
 </ul>
-<h1 id="0-2-2-2013-10-21">0.2.2 / 2013-10-21</h1>
+<h1>0.2.2 / 2013-10-21</h1>
 <ul>
 <li>Added support for postgres 9.3 materialized views.<ul>
 <li><code>createMaterializedView</code>: Create a new materialized view.</li>
@@ -536,26 +536,26 @@
 </ul>
 </li>
 </ul>
-<h1 id="0-2-1-2013-10-16">0.2.1 / 2013-10-16</h1>
+<h1>0.2.1 / 2013-10-16</h1>
 <ul>
 <li>Fixed issue in connection pool where a connection would never be returned to the pool.</li>
 </ul>
-<h1 id="0-2-0-2013-09-30">0.2.0 / 2013-09-30</h1>
+<h1>0.2.0 / 2013-09-30</h1>
 <ul>
 <li>Upgraded <code>pg</code>, <code>mysql</code>, and <code>validator</code>.</li>
 <li>Added a v0.10 build to travis</li>
 <li>Merged issue <a href="https://github.com/C2FO/patio/pull/68">#68</a>.</li>
 </ul>
-<h1 id="0-1-7-2012-12-4">0.1.7 / 2012-12-4</h1>
+<h1>0.1.7 / 2012-12-4</h1>
 <ul>
 <li>Fixed issue where port was not added to connection options.</li>
 </ul>
-<h1 id="0-1-6-2012-11-16">0.1.6 / 2012-11-16</h1>
+<h1>0.1.6 / 2012-11-16</h1>
 <ul>
 <li>Upgraded comb to v0.1.10</li>
 <li>Fixed issue where eager many to one returns a promise if null (@mbenedettini)</li>
 </ul>
-<h1 id="0-1-5-2012-09-20">0.1.5 / 2012-09-20</h1>
+<h1>0.1.5 / 2012-09-20</h1>
 <ul>
 <li>Fixed issue with sql.literal not accepting a single identifier</li>
 <li>Fixed Issue with one to many model if the table is plurarlized</li>
@@ -564,25 +564,25 @@
 <li>updated timestamp plugin to set updated/created when just retreving sql</li>
 <li>Fixed primary key caching issue</li>
 </ul>
-<h1 id="0-1-4-2012-09-20">0.1.4 / 2012-09-20</h1>
+<h1>0.1.4 / 2012-09-20</h1>
 <ul>
 <li>added a rowCB for custom dataset model</li>
 <li>added insert, update and remove sql properties on models</li>
 <li>re-added jscoverage submodule</li>
 </ul>
-<h1 id="0-1-3-2012-09-10">0.1.3 / 2012-09-10</h1>
+<h1>0.1.3 / 2012-09-10</h1>
 <ul>
 <li>Added travis CI</li>
 <li>Code clean up</li>
 <li>Updated comb version</li>
 </ul>
-<h1 id="0-1-2-2012-09-06">0.1.2 / 2012-09-06</h1>
+<h1>0.1.2 / 2012-09-06</h1>
 <ul>
 <li>Updated for new comb api.</li>
 <li>Fixed tests</li>
 <li>Update db.tranaction to require a promise or the callback function to be called.</li>
 </ul>
-<h1 id="0-1-1-2012-08-29">0.1.1 / 2012-08-29</h1>
+<h1>0.1.1 / 2012-08-29</h1>
 <ul>
 <li>new patio.Dataset features<ul>
 <li>sourceList - get all sources as identifiers</li>
@@ -594,7 +594,7 @@
 <li>Fixed issue with patio.Model#_setFromDb where values not in the models table columns would be in accesible, (i.e a join with a model would not show the join columns)</li>
 <li>updated docs</li>
 </ul>
-<h1 id="0-1-0-2012-08-25">0.1.0 / 2012-08-25</h1>
+<h1>0.1.0 / 2012-08-25</h1>
 <ul>
 <li>Added custom getters (mbenedettini)</li>
 <li>Added Validator plugin for models</li>
@@ -617,7 +617,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="0-0-9-2012-08-16">0.0.9 / 2012-08-16</h1>
+<h1>0.0.9 / 2012-08-16</h1>
 <ul>
 <li>Fixed bug where default that are buffers were not handle properly (#35)</li>
 <li>Fixed bug with inheritance loading</li>
@@ -629,7 +629,7 @@
 <li>changed reload of save and update to be invoked after post save and update have been called.</li>
 <li>Merged pull request from @mbenedettini to lazy initialize hive</li>
 </ul>
-<h1 id="0-0-8-2012-07-13">0.0.8 / 2012-07-13</h1>
+<h1>0.0.8 / 2012-07-13</h1>
 <ul>
 <li>Updated Docs now using <a href="http://github.com/doug-martin/coddoc">coddoc</a> for doc generation<ul>
 <li>Documented Plugins</li>
@@ -651,11 +651,11 @@
 </li>
 <li>Added Events to patio</li>
 </ul>
-<h1 id="0-0-5-2012-02-02">0.0.5 / 2012-02-02</h1>
+<h1>0.0.5 / 2012-02-02</h1>
 <ul>
 <li>Made &quot;use strict&quot; compatibile</li>
 </ul>
-<h1 id="0-0-4-2012-02-16">0.0.4 / 2012-02-16</h1>
+<h1>0.0.4 / 2012-02-16</h1>
 <ul>
 <li>Bug Fixes<ul>
 <li>Fixed issue with closing connections in the Connection Pool</li>
@@ -667,7 +667,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="0-0-3-2012-02-09">0.0.3 / 2012-02-09</h1>
+<h1>0.0.3 / 2012-02-09</h1>
 <ul>
 <li>Bug Fixes<ul>
 <li>Fixed issue in associations where options were not being applied correctly</li>
@@ -679,7 +679,7 @@
 </li>
 <li>Docs fixes</li>
 </ul>
-<h1 id="0-0-2-2012-02-04">0.0.2 / 2012-02-04</h1>
+<h1>0.0.2 / 2012-02-04</h1>
 <ul>
 <li>Added new plugin for model inheritance<ul>
 <li>Added new docs</li>
@@ -713,7 +713,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="0-0-1-2012-01-31">0.0.1 / 2012-01-31</h1>
+<h1>0.0.1 / 2012-01-31</h1>
 <ul>
 <li>Initial release</li>
 </ul>
