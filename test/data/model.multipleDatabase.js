@@ -1,4 +1,4 @@
-var patio = require("index"),
+var patio = require("../../lib"),
     config = require("../test.config.js"),
     comb = require("comb-proxy");
 var DB1, DB2;

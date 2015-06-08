@@ -1,7 +1,7 @@
 var it = require('it'),
     assert = require('assert'),
     helper = require("../data/mappedColumnPlugin.helper.js"),
-    patio = require("index"),
+    patio = require("../../lib"),
     sql = patio.sql,
     comb = require("comb"),
     Promise = comb.Promise,

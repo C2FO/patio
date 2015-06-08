@@ -1,7 +1,7 @@
 var it = require("it"),
     assert = require("assert"),
     comb = require("comb"),
-    patio = require("index"),
+    patio = require("../../lib"),
     mocks = require("../helpers/helper.js"),
     MockDB = mocks.MockDatabase;
 

@@ -1,5 +1,5 @@
 var comb = require("comb"),
-    patio = require("index"),
+    patio = require("../../lib"),
     Dataset = patio.Dataset,
     Database = patio.Database;
 

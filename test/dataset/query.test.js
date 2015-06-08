@@ -1,6 +1,6 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../../lib"),
     helper = require("../helpers/helper"),
     MockDatabase = helper.MockDatabase,
     MockDataset = helper.MockDataset,
