@@ -1,3 +1,8 @@
+# 0.9.4
+
+* Add [coveralls.io](https://coveralls.io/r/C2FO/patio?branch=master)
+
+
 # 0.9.3
 
 * Allow for `literal` in dataset `from` clause

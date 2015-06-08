@@ -1,6 +1,6 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../../lib"),
     comb = require("comb"),
     hitch = comb.hitch,
     helper = require("../data/timestampPlugin.helper.js");

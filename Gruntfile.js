@@ -1,6 +1,9 @@
 /*global module:false*/
 module.exports = function (grunt) {
     // Project configuration.
+
+    var DEFAULT_COVERAGE_ARGS = ["cover", "-x", "Gruntfile.js", "--report", "none", "--print", "none", "--include-pid", "grunt", "--", "it"];
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
@@ -11,10 +14,8 @@ module.exports = function (grunt) {
         },
 
         exec: {
-            runMySqlCov: "export NODE_PATH=lib-cov:$NODE_PATH && export NODE_ENV=test-coverage &&  export PATIO_DB=mysql && ./node_modules/it/bin/it -r dotmatrix --cov-html ./docs-md/coverage.html",
-            runPsqlCov: "export NODE_PATH=lib-cov:$NODE_PATH && export NODE_ENV=test-coverage &&  export PATIO_DB=pg && ./node_modules/it/bin/it -r dotmatrix --cov-html ./docs-md/coverage.html",
-            installCoverage: "cd support/jscoverage && ./configure && make && mv jscoverage node-jscoverage",
-            createCoverage: "rm -rf ./lib-cov && node-jscoverage ./lib ./lib-cov",
+            sendToCoveralls: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+            removeCoverage: "rm -rf ./coverage",
             removeDocs: "rm -rf docs/*",
             createDocs: 'coddoc -f multi-html -d ./lib --dir ./docs'
         },
@@ -30,11 +31,10 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('test_mysql', 'set PATIO_DB to mysql', function () {
+    grunt.registerTask("spawn-test", "spawn tests", function (db) {
         var done = this.async();
         var env = process.env;
-        env.NODE_PATH = "./lib";
-        env.PATIO_DB = "mysql";
+        env.PATIO_DB = db;
         grunt.util.spawn({cmd: "grunt", args: ["it"], opts: {stdio: 'inherit', env: env}}, function (err) {
             if (err) {
                 done(false);
@@ -44,12 +44,11 @@ module.exports = function (grunt) {
         });
     });
 
-    grunt.registerTask('test_psql', 'set PATIO_DB to pg', function () {
+    grunt.registerTask("spawn-test-coverage", "spawn tests with coverage", function (db) {
         var done = this.async();
         var env = process.env;
-        env.NODE_PATH = "./lib";
-        env.PATIO_DB = "pg";
-        grunt.util.spawn({cmd: "grunt", args: ["it"], opts: {stdio: 'inherit', env: env}}, function (err) {
+        env.PATIO_DB = db;
+        grunt.util.spawn({cmd: "istanbul", args: DEFAULT_COVERAGE_ARGS, opts: {stdio: 'inherit', env: env}}, function (err) {
             if (err) {
                 done(false);
             } else {
@@ -58,44 +57,47 @@ module.exports = function (grunt) {
         });
     });
 
-    grunt.registerTask('test_psql_cov', 'set PATIO_DB to pg', function () {
-        var done = this.async();
-        var env = process.env;
-        env.NODE_PATH = "./lib-cov";
-        env.NODE_ENV = "test-coverage";
-        env.PATIO_DB = "pg";
-        grunt.util.spawn({cmd: "grunt", args: ["it"], opts: {stdio: 'inherit', env: env}}, function (err) {
-            if (err) {
-                done(false);
-            } else {
-                done();
-            }
-        });
-    });
+    grunt.registerTask("process-coverage", "process coverage obects", function () {
+        var files = grunt.file.expand("./coverage/coverage*.json"),
+            istanbul = require('istanbul'),
+            collector = new istanbul.Collector(),
+            reporter = new istanbul.Reporter(),
+            sync = false,
+            done = this.async();
 
-    grunt.registerTask('test_mysql_cov', 'set PATIO_DB to pg', function () {
-        var done = this.async();
-        var env = process.env;
-        env.NODE_PATH = "./lib-cov";
-        env.NODE_ENV = "test-coverage";
-        env.PATIO_DB = "mysql";
-        grunt.util.spawn({cmd: "grunt", args: ["it"], opts: {stdio: 'inherit', env: env}}, function (err) {
+        files.forEach(function (file) {
+            collector.add(grunt.file.readJSON(file));
+        });
+
+        reporter.add('text');
+        reporter.addAll(['lcovonly']);
+        reporter.write(collector, sync, function (err) {
             if (err) {
-                done(false);
-            } else {
-                done();
+                console.error(err.stack);
+                return done(false);
             }
+            console.log('All reports generated');
+            done();
         });
     });
 
     // Default task.
     grunt.registerTask('default', ['jshint', "test", "test-coverage", "docs"]);
-    grunt.registerTask("test-coverage", ["exec:createCoverage", "exec:runMySqlCov", "exec:runPsqlCov"]);
+
+    grunt.registerTask('test', ['jshint', 'test-mysql', 'test-pg']);
+    grunt.registerTask('test-mysql', ['jshint', "spawn-test:mysql"]);
+    grunt.registerTask('test-pg', ['jshint', "spawn-test:pg"]);
+
+    grunt.registerTask('test-coverage', ['exec:removeCoverage', 'test-mysql-coverage', 'test-pg-coverage', 'process-coverage', 'exec:sendToCoveralls', 'exec:removeCoverage']);
+    grunt.registerTask('test-mysql-coverage', ["spawn-test-coverage:mysql"]);
+    grunt.registerTask('test-pg-coverage', ["spawn-test-coverage:pg"]);
+
     grunt.registerTask("docs", ["exec:removeDocs", "exec:createDocs"]);
+
     grunt.loadNpmTasks('grunt-it');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.registerTask('mysql', ['jshint', 'mysql_env', 'it']);
-    grunt.registerTask('pg', ['jshint', 'test_psql']);
-    grunt.registerTask('test', ['jshint', 'test_mysql', 'test_psql']);
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-coveralls');
+
+
 };

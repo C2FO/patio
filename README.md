@@ -1,4 +1,8 @@
 [![Build Status](https://travis-ci.org/C2FO/patio.svg?branch=master)](https://travis-ci.org/C2FO/patio)
+[![Coverage Status](https://coveralls.io/repos/C2FO/patio/badge.svg?branch=master)](https://coveralls.io/r/C2FO/patio?branch=master)
+
+[![NPM](https://nodei.co/npm/patio.png?downloads=true)](https://nodei.co/npm/patio/)
+
 #[Patio](http://c2fo.github.com/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.

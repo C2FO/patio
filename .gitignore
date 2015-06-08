@@ -6,3 +6,4 @@ lib-cov
 *.project
 .idea
 atlassian-ide-plugin.xml
+.coveralls.yml

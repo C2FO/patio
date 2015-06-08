@@ -1,7 +1,7 @@
 var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/oneToOne.helper.js"),
-    patio = require("index"),
+    patio = require("../../../lib"),
     comb = require("comb"),
     hitch = comb.hitch;
 

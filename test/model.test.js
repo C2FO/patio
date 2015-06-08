@@ -1,7 +1,7 @@
 var it = require('it'),
     assert = require('assert'),
     helper = require("./data/model.helper.js"),
-    patio = require("index"),
+    patio = require("../lib"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
     EventEmitter = require("events").EventEmitter,

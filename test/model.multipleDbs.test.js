@@ -1,6 +1,6 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../lib"),
     events = require("events"),
     sql = patio.SQL,
     config = require("./test.config.js"),

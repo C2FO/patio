@@ -1,6 +1,6 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../../lib"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
     config = require("../test.config.js"),
@@ -9,7 +9,7 @@ var it = require('it'),
     format = comb.string.format,
     hitch = comb.hitch;
 
-if (process.env.PATIO_DB === "pg" || process.env.NODE_ENV === 'test-coverage') {
+if (process.env.PATIO_DB === "pg") {
     it.describe("patio.adapters.Postgres", function (it) {
 
         var PG_DB;

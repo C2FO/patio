@@ -1,6 +1,6 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../../lib"),
     ClassTableInheritance = patio.plugins.ClassTableInheritancePlugin,
     comb = require("comb"),
     hitch = comb.hitch,

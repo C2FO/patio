@@ -1,13 +1,13 @@
 var it = require('it'),
     assert = require('assert'),
-    patio = require("index"),
+    patio = require("../../lib"),
     sql = patio.SQL,
     comb = require("comb-proxy"),
     config = require("../test.config.js"),
     format = comb.string.format,
     hitch = comb.hitch;
 
-if (process.env.PATIO_DB === "mysql" || process.env.NODE_ENV === 'test-coverage') {
+if (process.env.PATIO_DB === "mysql") {
     it.describe("patio.adapters.Mysql", function (it) {
 
         var SQL_BEGIN = 'BEGIN';

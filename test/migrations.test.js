@@ -2,7 +2,7 @@ var it = require('it'),
     assert = require('assert'),
     comb = require("comb"),
     hitch = comb.hitch,
-    patio = require("index");
+    patio = require("../lib");
 
 var patioMigrationVersion = -1, patioMigrationFiles = [];
 
