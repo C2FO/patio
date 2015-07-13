@@ -1,3 +1,8 @@
+# 0.9.5
+
+* Remove `id` key from being created in a JsonArray
+
+
 # 0.9.4
 
 * Add [coveralls.io](https://coveralls.io/r/C2FO/patio?branch=master)

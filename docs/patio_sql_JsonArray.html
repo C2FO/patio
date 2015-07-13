@@ -416,7 +416,16 @@
         
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
-0
+function (arr){
+   if (!this instanceof JsonArray) {
+       return new JsonArray(arr);
+   }
+   Array.call(this);
+   var i = -1, l = arr.length;
+   while (++i &amp;lt; l) {
+       this.push(arr[i]);
+   }
+}
             </pre>
       
     
