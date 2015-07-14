@@ -8,6 +8,8 @@ before_script:
   - psql -c 'create database sandbox;' -U postgres
   - psql -c 'create database sandbox2;' -U postgres
 
+sudo: false
+
 after_script:
   - grunt test-coverage
 

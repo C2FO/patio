@@ -689,6 +689,58 @@ if (process.env.PATIO_DB === "pg") {
                 });
             });
 
+            it.should("create table that inherits from a parent", function () {
+                return db
+                    .createTable("posts", function () {
+                        this.title("text");
+                    })
+                    .chain(function () {
+                        return db.createTable("postsInherit", {inherits: "posts"}, function () {
+
+                        });
+                    })
+                    .chain(function () {
+                        assert.deepEqual(db.sqls, [
+                            "CREATE TABLE posts (title text)",
+                            "CREATE TABLE posts_inherit () INHERITS (posts)"
+                        ]);
+                    })
+                    .chain(function () {
+                        return db.alterTable("postsInherit", function () {
+                            this.noInherit("posts");
+                        });
+                    })
+                    .chain(function () {
+                        return db.forceDropTable("postsInherit");
+                    });
+            });
+
+            it.should("create a table that inherits from a parent with constraints", function () {
+                return db
+                    .createTable("posts", function () {
+                        this.title("text");
+                    })
+                    .chain(function () {
+                        return db.createTable("postsInherit", {inherits: "posts"}, function () {
+                            this.check({title: {eq: "Test"}});
+                        })
+                    })
+                    .chain(function () {
+                        assert.deepEqual(db.sqls, [
+                            "CREATE TABLE posts (title text)",
+                            "CREATE TABLE posts_inherit (CHECK (title = 'Test')) INHERITS (posts)"
+                        ]);
+                    })
+                    .chain(function () {
+                        return db.alterTable("postsInherit", function () {
+                            this.noInherit("posts");
+                        });
+                    })
+                    .chain(function () {
+                        return db.forceDropTable("postsInherit");
+                    });
+            });
+
             it.describe("#import", function (it) {
                 var ds;
                 it.beforeAll(function () {

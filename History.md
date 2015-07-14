@@ -1,6 +1,7 @@
 # 0.9.5
 
 * Remove `id` key from being created in a JsonArray
+* Add table inheritance for Postgres
 
 
 # 0.9.4

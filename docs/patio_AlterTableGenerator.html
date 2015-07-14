@@ -571,6 +571,20 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_AlterTableGenerator.html#noInherit">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                noInherit
+
+                            </a></li>
+                            
                             <li><a href="./patio_AlterTableGenerator.html#renameColumn">
                                 
                                 
@@ -1391,6 +1405,58 @@ DB.alterTable(&quot;albums&quot;, function(){
 function (columns,opts){
    opts = opts || {};
    this.operations.push(merge({op:&quot;dropIndex&quot;, columns:toArray(columns)}, opts));
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="noInherit"></a>
+    <h3>
+        noInherit
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined database/schemaGenerators.js</em>
+
+<p><p>Remove a child table&#39;s inheritance from a parent table.</p>
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.alterTable(&quot;test&quot;, function () {
+     this.noInherit(&quot;parentTable&quot;);
+         //=&gt;ALTER TABLE test NO INHERIT parent_table
+});
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>name</em>  : <p>the name of the table to remove inheritance from.</p>
+</li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (name){
+   this.operations.push({op:&quot;noInherit&quot;, name: name});
            
 }
     </pre>
