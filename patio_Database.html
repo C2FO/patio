@@ -2306,6 +2306,9 @@ function (table,op){
    case &quot;dropConstraint&quot;:
        alterTableOp = format(&quot;DROP CONSTRAINT %s&quot;, quotedName);
        break;
+   case &quot;noInherit&quot;:
+       alterTableOp = format(&quot;NO INHERIT %s&quot;, quotedName);
+       break;
    default :
        throw new DatabaseError(&quot;Invalid altertable operator&quot;);
    }
