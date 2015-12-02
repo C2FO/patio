@@ -1,5 +1,6 @@
 var MYSQL_URI = "mysql://root@127.0.0.1:3306",
     PG_URI = "pg://postgres@127.0.0.1:5432",
+    // PG_URI = "pg://pollenadmin@127.0.0:5432",
     REDSHIFT_URI = "redshift://postgres@127.0.0.1:5432",
     PATIO_DB = process.env.PATIO_DB,
     DB_URI = PATIO_DB === "pg" ? PG_URI : PATIO_DB === "redshift" ? REDSHIFT_URI : MYSQL_URI;

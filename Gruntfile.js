@@ -84,9 +84,9 @@ module.exports = function (grunt) {
     // Default task.
     grunt.registerTask('default', ['jshint', "test", "test-coverage", "docs"]);
 
-    grunt.registerTask('test', ['jshint', 'test-mysql', 'test-pg']);
-    grunt.registerTask('test-mysql', ['jshint', "spawn-test:mysql"]);
-    grunt.registerTask('test-pg', ['jshint', "spawn-test:pg"]);
+    grunt.registerTask('test', ['test-mysql', 'test-pg']);
+    grunt.registerTask('test-mysql', ["spawn-test:mysql"]);
+    grunt.registerTask('test-pg', ["spawn-test:pg"]);
 
     grunt.registerTask('test-coverage', ['exec:removeCoverage', 'test-mysql-coverage', 'test-pg-coverage', 'process-coverage', 'exec:sendToCoveralls', 'exec:removeCoverage']);
     grunt.registerTask('test-mysql-coverage', ["spawn-test-coverage:mysql"]);
@@ -101,4 +101,3 @@ module.exports = function (grunt) {
 
 
 };
-
