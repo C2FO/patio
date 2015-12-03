@@ -131,7 +131,7 @@ it.describe("Dataset queries", function (it) {
         it.should("accept an object that responds to values and returns something other than a hash by using the object itself as a single value", function () {
             var o = new Date(2000, 0, 1);
             o.values = function () {
-                return  this;
+                return this;
             };
             assert.equal(ds.insertSql(o), "INSERT INTO test VALUES ('2000-01-01')");
         });
@@ -309,11 +309,11 @@ it.describe("Dataset queries", function (it) {
 
         it.should("accept ranges", function () {
             assert.equal(dataset.filter({id: {between: [4, 7]}}).sql, 'SELECT * FROM test WHERE ((id >= 4) AND (id <= 7))');
-            assert.equal(dataset.filter({table__id: {between: [4, 7]}}).sql, 'SELECT * FROM test WHERE ((table.id >= 4) AND (table.id <= 7))');
+            assert.equal(dataset.filter({"table__id": {between: [4, 7]}}).sql, 'SELECT * FROM test WHERE ((table.id >= 4) AND (table.id <= 7))');
         });
 
         it.should("accept null", function () {
-            assert.equal(dataset.filter({owner_id: null}).sql, 'SELECT * FROM test WHERE (owner_id IS NULL)');
+            assert.equal(dataset.filter({"owner_id": null}).sql, 'SELECT * FROM test WHERE (owner_id IS NULL)');
         });
 
         it.should("accept a subquery", function () {
@@ -326,20 +326,24 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.filter({id: [1, 2]}).sql, "SELECT * FROM test WHERE (id IN (1, 2))");
             assert.equal(dataset.filter({"id1,id2": d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
             assert.equal(dataset.filter({"id1,id2": []}).sql, "SELECT * FROM test WHERE ((id1 != id1) AND (id2 != id2))");
-            assert.equal(dataset.filter({"id1,id2": [
-                [1, 2],
-                [3, 4]
-            ]}).sql, "SELECT * FROM test WHERE ((id1, id2) IN ((1, 2), (3, 4)))");
+            assert.equal(dataset.filter({
+                "id1,id2": [
+                    [1, 2],
+                    [3, 4]
+                ]
+            }).sql, "SELECT * FROM test WHERE ((id1, id2) IN ((1, 2), (3, 4)))");
 
             assert.equal(dataset.exclude({id: d1.select("id")}).sql, "SELECT * FROM test WHERE (id NOT IN (SELECT id FROM test WHERE (region = 'Asia')))");
             //assert.equal(dataset.exclude({id : []}).sql, "SELECT * FROM test WHERE (1 = 1)");
             assert.equal(dataset.exclude({id: [1, 2]}).sql, "SELECT * FROM test WHERE (id NOT IN (1, 2))");
             assert.equal(dataset.exclude({"id1,id2": d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
             assert.equal(dataset.exclude({"id1,id2": []}).sql, "SELECT * FROM test WHERE (1 = 1)");
-            assert.equal(dataset.exclude({"id1,id2": [
-                [1, 2],
-                [3, 4]
-            ]}).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN ((1, 2), (3, 4)))");
+            assert.equal(dataset.exclude({
+                "id1,id2": [
+                    [1, 2],
+                    [3, 4]
+                ]
+            }).sql, "SELECT * FROM test WHERE ((id1, id2) NOT IN ((1, 2), (3, 4)))");
         });
 
         it.should("accept a subquery for an EXISTS clause", function () {
@@ -406,7 +410,7 @@ it.describe("Dataset queries", function (it) {
             assert.deepEqual(x, sql);
             assert.equal(dataset.filter(
                 function (test) {
-                    return test.name.lt("b").and(test.table__id.eq(1)).or(test.is_active(test.blah, test.xx, test.x__y_z));
+                    return test.name.lt("b").and(test["table__id"].eq(1)).or(test["is_active"](test.blah, test.xx, test["x__y_z"]));
                 }).sql, "SELECT * FROM test WHERE (((name < 'b') AND (table.id = 1)) OR is_active(blah, xx, x.y_z))");
         });
 
@@ -418,8 +422,8 @@ it.describe("Dataset queries", function (it) {
             });
             assert.deepEqual(x, sql);
             assert.equal(dataset.filter(
-                function (test) {
-                    return this.name.lt("b").and(this.table__id.eq(1)).or(this.is_active(this.blah(), this.xx(), this.x__y_z()));
+                function () {
+                    return this.name.lt("b").and(this["table__id"].eq(1)).or(this["is_active"](this.blah(), this.xx(), this["x__y_z"]()));
                 }).sql, "SELECT * FROM test WHERE (((name < 'b') AND (table.id = 1)) OR is_active(blah, xx, x.y_z))");
         });
 
@@ -770,7 +774,7 @@ it.describe("Dataset queries", function (it) {
         it.should("specify the grouping in generated SELECT statement", function () {
             assert.equal(dataset.selectSql, "SELECT * FROM test GROUP BY type_id");
             assert.equal(dataset.groupBy("a", "b").selectSql, "SELECT * FROM test GROUP BY a, b");
-            assert.equal(dataset.groupBy({type_id: null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
+            assert.equal(dataset.groupBy({"type_id": null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
         });
 
         it.should("ungroup when passed null, empty, or no arguments", function () {
@@ -784,7 +788,7 @@ it.describe("Dataset queries", function (it) {
         });
 
         it.should("be aliased as #group", function () {
-            assert.equal(dataset.group({type_id: null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
+            assert.equal(dataset.group({"type_id": null}).selectSql, "SELECT * FROM test GROUP BY (type_id IS NULL)");
         });
     });
 
@@ -829,12 +833,12 @@ it.describe("Dataset queries", function (it) {
         });
 
         it.should("call sqlLiteral with dataset on type if not natively supported and the object responds to it", function () {
-            var a = function () {
+            var A = function () {
             };
-            a.prototype.sqlLiteral = function (ds) {
-                return  "called ";
+            A.prototype.sqlLiteral = function (ds) {
+                return "called ";
             };
-            assert.equal(dataset.literal(new a()), "called ");
+            assert.equal(dataset.literal(new A()), "called ");
         });
 
         it.should("raise an error for unsupported types with no sqlLiteral method", function () {
@@ -979,7 +983,7 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.select('test.d AS e', "test__cc").sql, 'SELECT test.d AS e, test.cc FROM test');
 
             assert.equal(dataset.select("test.*").sql, 'SELECT test.* FROM test');
-            assert.equal(dataset.select(sql.test__name.as("n")).sql, 'SELECT test.name AS n FROM test');
+            assert.equal(dataset.select(sql["test__name"].as("n")).sql, 'SELECT test.name AS n FROM test');
             assert.equal(dataset.select("test__name___n").sql, 'SELECT test.name AS n FROM test');
         });
 
@@ -989,7 +993,7 @@ it.describe("Dataset queries", function (it) {
 
         it.should("accept a hash for AS values", function () {
             assert.equal(dataset.select({name: 'n', "__ggh": 'age'}).sql, "SELECT name AS n, __ggh AS age FROM test");
-            assert.equal(dataset.select({test__name: "n"}).sql, 'SELECT test.name AS n FROM test');
+            assert.equal(dataset.select({"test__name": "n"}).sql, 'SELECT test.name AS n FROM test');
         });
 
         it.should("accept arbitrary objects and literalize them correctly", function () {
@@ -1261,20 +1265,20 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.order("a").orderMore(function (o) {
                 return o.b;
             }).sql, 'SELECT * FROM test ORDER BY a, b');
-            assert.equal(dataset.order("a", "b").orderMore("c", "d",function () {
+            assert.equal(dataset.order("a", "b").orderMore("c", "d", function () {
                 return [this.e, this.f(1, 2)];
             }).sql, 'SELECT * FROM test ORDER BY a, b, c, d, e, f(1, 2)');
             assert.equal(dataset.order("a").orderAppend(function (o) {
                 return o.b;
             }).sql, 'SELECT * FROM test ORDER BY a, b');
-            assert.equal(dataset.order("a", "b").orderAppend("c", "d",function () {
+            assert.equal(dataset.order("a", "b").orderAppend("c", "d", function () {
                 return [this.e, this.f(1, 2)];
             }).sql, 'SELECT * FROM test ORDER BY a, b, c, d, e, f(1, 2)');
 
             assert.equal(dataset.order("a").orderPrepend(function (o) {
                 return o.b;
             }).sql, 'SELECT * FROM test ORDER BY b, a');
-            assert.equal(dataset.order("a", "b").orderPrepend("c", "d",function () {
+            assert.equal(dataset.order("a", "b").orderPrepend("c", "d", function () {
                 return [this.e, this.f(1, 2)];
             }).sql, 'SELECT * FROM test ORDER BY c, d, e, f(1, 2), a, b');
         });
@@ -1496,7 +1500,7 @@ it.describe("Dataset queries", function (it) {
 
 
         it.should("support multiple joins", function () {
-            assert.equal(d.joinTable("inner", "b", {itemsId: sql.identifier("id")}).joinTable("leftOuter", "c", {b_id: sql.identifier("b__id")}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
+            assert.equal(d.joinTable("inner", "b", {itemsId: sql.identifier("id")}).joinTable("leftOuter", "c", {"b_id": sql.identifier("b__id")}).sql, 'SELECT * FROM "items" INNER JOIN "b" ON ("b"."itemsId" = "items"."id") LEFT OUTER JOIN "c" ON ("c"."b_id" = "b"."id")');
         });
 
 
@@ -1519,30 +1523,6 @@ it.describe("Dataset queries", function (it) {
             assert.equal(d.naturalFullJoin("categories").sql, 'SELECT * FROM "items" NATURAL FULL JOIN "categories"');
             assert.equal(d.crossJoin("categories").sql, 'SELECT * FROM "items" CROSS JOIN "categories"');
         });
-
-
-        it.should("raise an error if additional arguments are provided to join methods that don't take conditions", function () {
-            assert.throws(d, "naturalJoin", "categories", {id: sql.identifier("id")});
-            assert.throws(d, "naturalLeftJoin", "categories", {id: sql.identifier("id")});
-            assert.throws(d, "naturalRightJoin", "categories", {id: sql.identifier("id")});
-            assert.throws(d, "naturalFullJoin", "categories", {id: sql.identifier("id")});
-            assert.throws(d, "crossJoin", "categories", {id: sql.identifier("id")});
-        });
-
-
-        it.should("raise an error if blocks are provided to join methods that don't pass them", function () {
-            assert.throws(d, "naturalJoin", "categories", function () {
-            });
-            assert.throws(d, "naturalLeftJoin", "categories", function () {
-            });
-            assert.throws(d, "naturalRightJoin", "categories", function () {
-            });
-            assert.throws(d, "naturalFullJoin", "categories", function () {
-            });
-            assert.throws(d, "crossJoin", "categories", function () {
-            });
-        });
-
 
         it.should("default to a plain join if nil is used for the type", function () {
             assert.equal(d.joinTable(null, "categories", {categoryId: sql.identifier("id")}).sql, 'SELECT * FROM "items"  JOIN "categories" ON ("categories"."categoryId" = "items"."id")');
@@ -1627,8 +1607,8 @@ it.describe("Dataset queries", function (it) {
 
             assert.equal(d.joinTable("leftOuter", ds, {itemId: sql.identifier("id")}).joinTable("inner", ds2, {nodeId: sql.identifier("id")}).joinTable("rightOuter", ds3, {attributeId: sql.identifier("id")}).sql,
                 'SELECT * FROM "items" LEFT OUTER JOIN (SELECT * FROM categories) AS "t1" ON ("t1"."itemId" = "items"."id") ' +
-                    'INNER JOIN (SELECT name FROM nodes) AS "t2" ON ("t2"."nodeId" = "t1"."id") ' +
-                    'RIGHT OUTER JOIN (SELECT * FROM attributes WHERE (name = \'blah\')) AS "t3" ON ("t3"."attributeId" = "t2"."id")'
+                'INNER JOIN (SELECT name FROM nodes) AS "t2" ON ("t2"."nodeId" = "t1"."id") ' +
+                'RIGHT OUTER JOIN (SELECT * FROM attributes WHERE (name = \'blah\')) AS "t3" ON ("t3"."attributeId" = "t2"."id")'
             );
         });
 
@@ -1752,9 +1732,9 @@ it.describe("Dataset queries", function (it) {
                     return this.b.qualify(j).eq(this.c.qualify(lj));
                 }).sql, 'SELECT * FROM "items" INNER JOIN "categories" ON (("categories"."a" = "items"."d") AND ("categories"."b" = "items"."c"))');
             assert.equal(d.join("categories", {a: sql.identifier("d")},
-                function (j, lj, js) {
-                    return this.b.qualify(j).gt(this.c.qualify(lj));
-                }).sql,
+                    function (j, lj, js) {
+                        return this.b.qualify(j).gt(this.c.qualify(lj));
+                    }).sql,
                 'SELECT * FROM "items" INNER JOIN "categories" ON (("categories"."a" = "items"."d") AND ("categories"."b" > "items"."c"))');
         });
 
@@ -1952,7 +1932,7 @@ it.describe("Dataset queries", function (it) {
         });
 
         it.should("handle implicitly qualified strings", function () {
-            assert.equal(ds.updateSql({items__a: sql.b}), "UPDATE items SET items.a = b");
+            assert.equal(ds.updateSql({"items__a": sql.b}), "UPDATE items SET items.a = b");
         });
 
         it.should("accept hash with string keys", function () {

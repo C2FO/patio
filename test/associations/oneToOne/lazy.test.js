@@ -1,33 +1,19 @@
+"use strict";
+
 var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/oneToOne.helper.js"),
     patio = require("../../../lib"),
-    comb = require("comb"),
-    Promise = comb.Promise,
-    hitch = comb.hitch;
-
+    comb = require("comb");
 
 var gender = ["M", "F"];
-it.describe("One To One lazy", function (it) {
+
+it.describe("patio.Model oneToOne lazy", function (it) {
 
     var Works, Employee;
     it.beforeAll(function () {
-        Works = patio.addModel("works", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.manyToOne("employee");
-                }
-            }
-        });
-        Employee = patio.addModel("employee", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.oneToOne("works");
-                }
-            }
-        });
+        Works = patio.addModel("works").manyToOne("employee");
+        Employee = patio.addModel("employee").oneToOne("works");
         return helper.createSchemaAndSync(true);
     });
 
@@ -44,10 +30,7 @@ it.describe("One To One lazy", function (it) {
     it.describe("create a new model with association", function (it) {
 
         it.beforeAll(function () {
-            return comb.when(
-                Employee.remove(),
-                Works.remove()
-            );
+            return comb.when([Employee.remove(), Works.remove()]);
         });
 
 
@@ -78,10 +61,12 @@ it.describe("One To One lazy", function (it) {
     it.context(function (it) {
 
         it.beforeEach(function () {
-            return comb.serial([
-                hitch(Employee, "remove"),
-                hitch(Works, "remove"),
-                function () {
+            return comb
+                .when([
+                    Employee.remove(),
+                    Works.remove()
+                ])
+                .chain(function () {
                     return new Employee({
                         lastName: "last" + 1,
                         firstName: "first" + 1,
@@ -94,22 +79,23 @@ it.describe("One To One lazy", function (it) {
                             salary: 100000
                         }
                     }).save();
-                }
-            ]);
+                });
         });
 
         it.should("not load associations when querying", function () {
-            return comb.when(Employee.one(), Works.one()).chain(function (res) {
-                var emp = res[0], work = res[1];
-                var workPromise = emp.works, empPromise = work.employee;
-                assert.isPromiseLike(workPromise);
-                assert.isPromiseLike(empPromise);
-                return comb.when(empPromise, workPromise).chain(function (res) {
+            return comb.when([Employee.one(), Works.one()])
+                .chain(function (res) {
                     var emp = res[0], work = res[1];
-                    assert.instanceOf(emp, Employee);
-                    assert.instanceOf(work, Works);
+                    var workPromise = emp.works, empPromise = work.employee;
+                    assert.isPromiseLike(workPromise);
+                    assert.isPromiseLike(empPromise);
+                    return comb.when([empPromise, workPromise])
+                        .chain(function (res) {
+                            var emp = res[0], work = res[1];
+                            assert.instanceOf(emp, Employee);
+                            assert.instanceOf(work, Works);
+                        });
                 });
-            });
         });
 
         it.should("allow the removing of associations", function () {
@@ -138,10 +124,7 @@ it.describe("One To One lazy", function (it) {
 
     it.context(function () {
         it.beforeEach(function () {
-            return comb.when(
-                Works.remove(),
-                Employee.remove()
-            );
+            return comb.when([Works.remove(), Employee.remove()]);
         });
 
         it.should("allow the setting of associations", function () {
@@ -191,7 +174,7 @@ it.describe("One To One lazy", function (it) {
                     return e.remove();
                 })
                 .chain(function () {
-                    return comb.when(Employee.all(), Works.all());
+                    return comb.when([Employee.all(), Works.all()]);
                 })
                 .chain(function (res) {
                     assert.lengthOf(res[0], 0);

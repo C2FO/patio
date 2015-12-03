@@ -1,3 +1,4 @@
+"use strict";
 var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToMany.helper.js"),
@@ -8,28 +9,15 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 
-it.describe("Many to Many camelize properties", function (it) {
+it.describe("patio.Model manyToMany camelize properties", function (it) {
 
 
     var Company, Employee;
     it.beforeAll(function () {
-
-        Company = patio.addModel("company", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.manyToMany("employees", {fetchType: this.fetchType.EAGER});
-                }
-            }
-        });
-        Employee = patio.addModel("employee", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.manyToMany("companies", {fetchType: this.fetchType.EAGER});
-                }
-            }
-        });
+        Company = patio.addModel("company");
+        Company.manyToMany("employees", {fetchType: Company.fetchType.EAGER});
+        Employee = patio.addModel("employee");
+        Employee.manyToMany("companies", {fetchType: Employee.fetchType.EAGER});
         return helper.createSchemaAndSync(true);
     });
 
@@ -100,10 +88,10 @@ it.describe("Many to Many camelize properties", function (it) {
 
     it.describe("access children immediately after save operation", function (it) {
         it.beforeAll(function () {
-            return comb.when(
+            return comb.when([
                 Company.remove(),
                 Employee.remove()
-            );
+            ]);
         });
 
         it.should("never return a promise for fetchType eager, parent null", function () {
@@ -112,7 +100,7 @@ it.describe("Many to Many camelize properties", function (it) {
             });
 
             return c1.save().chain(function () {
-                assert.isFalse(comb.isPromiseLike(c1.employees));
+                assert.isFalse(c1.employees instanceof comb.Promise);
                 assert.lengthOf(c1.employees, 0);
             });
         });
@@ -123,9 +111,8 @@ it.describe("Many to Many camelize properties", function (it) {
     it.describe("add methods", function (it) {
 
         it.beforeEach(function () {
-            return comb.executeInOrder(Company, function (Company) {
-                Company.remove();
-                new Company({companyName: "Google"}).save();
+            return Company.remove().chain(function () {
+                return new Company({companyName: "Google"}).save();
             });
         });
 
@@ -139,12 +126,9 @@ it.describe("Many to Many camelize properties", function (it) {
                     street: "Street",
                     city: "City"
                 });
-                return comb.executeInOrder(company,function (company) {
-                    company.addEmployee(emp);
-                    return company;
-                }).chain(function (company) {
-                        assert.lengthOf(company.employees, 1);
-                    });
+                return company.addEmployee(emp).chain(function () {
+                    assert.lengthOf(company.employees, 1);
+                });
             });
         });
         it.should("have a add multiple method", function () {
@@ -159,17 +143,15 @@ it.describe("Many to Many camelize properties", function (it) {
                     city: "City " + i
                 });
             }
-            return comb.executeInOrder(Company,function (Company) {
-                var company = Company.one();
-                company.addEmployees(employees);
-                return company;
-            }).chain(function (company) {
+            return Company.one().chain(function (company) {
+                return company.addEmployees(employees).chain(function () {
                     var emps = company.employees;
                     assert.lengthOf(emps, 3);
                     emps.forEach(function (emp) {
                         assert.instanceOf(emp, Employee);
                     });
                 });
+            });
         });
 
     });
@@ -187,92 +169,107 @@ it.describe("Many to Many camelize properties", function (it) {
             });
         }
         it.beforeEach(function () {
-            return comb.executeInOrder(Company, Employee, function (Company, Employee) {
-                Company.remove();
-                Employee.remove();
-                new Company({companyName: "Google", employees: employees}).save();
+            return comb.when([Company.remove(), Employee.remove()]).chain(function () {
+                return new Company({companyName: "Google", employees: employees}).save();
             });
         });
 
         it.should("the removing of associations and deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var emps = company.employees;
-                company.removeEmployee(emps[0], true);
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    var emps = ret.company.employees;
-                    assert.lengthOf(emps, 2);
-                    assert.equal(ret.empCount, 2);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeEmployee(company.employees[0], true)
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 2);
+                        assert.equal(ret, 2);
+                    });
+            });
+
         });
 
         it.should("allow the removing of associations without deleting", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var emps = company.employees;
-                company.removeEmployee(emps[0]);
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    var emps = ret.company.employees;
-                    assert.lengthOf(emps, 2);
-                    assert.equal(ret.empCount, 3);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeEmployee(company.employees[0])
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 2);
+                        assert.equal(ret, 3);
+                    });
+            });
         });
 
         it.should("allow the removal of multiple associations and deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var emps = company.employees;
-                company.removeEmployees(emps, true);
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    assert.lengthOf(ret.company.employees, 0);
-                    assert.equal(ret.empCount, 0);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeEmployees(company.employees, true)
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 0);
+                        assert.equal(ret, 0);
+                    });
+            });
         });
 
         it.should("allow the removal of multiple associations and not deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var emps = company.employees;
-                company.removeEmployees(emps);
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    assert.lengthOf(ret.company.employees, 0);
-                    assert.equal(ret.empCount, 3);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeEmployees(company.employees)
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 0);
+                        assert.equal(ret, 3);
+                    });
+            });
         });
 
         it.should("allow the removal of all associations and deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one().removeAllEmployees(true).reload();
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    assert.lengthOf(ret.company.employees, 0);
-                    assert.equal(ret.empCount, 0);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeAllEmployees(true)
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 0);
+                        assert.equal(ret, 0);
+                    });
+            });
         });
 
         it.should("allow the removal of all associations and not deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one().removeAllEmployees().reload();
-                return {company: company, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    assert.lengthOf(ret.company.employees, 0);
-                    assert.equal(ret.empCount, 3);
-                });
+            return Company.one().chain(function (company) {
+                return company.removeAllEmployees()
+                    .chain(function () {
+                        return Employee.count();
+                    })
+                    .chain(function (ret) {
+                        var emps = company.employees;
+                        assert.lengthOf(emps, 0);
+                        assert.equal(ret, 3);
+                    });
+            });
         });
     });
 
     it.should("should not delete associations when deleting", function () {
-        return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-            var company = Company.one();
-            company.remove();
-            return Employee.count();
-        }).chain(function (count) {
-                assert.equal(count, 3);
-            });
+        return Company.one().chain(function (company) {
+            return company.remove()
+                .chain(function () {
+                    return Employee.count();
+                })
+                .chain(function (ret) {
+                    assert.equal(ret, 3);
+                });
+        });
     });
 
 

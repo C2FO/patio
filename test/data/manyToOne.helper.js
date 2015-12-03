@@ -1,22 +1,44 @@
+/*jshint -W003*/
+"use strict";
 var patio = require("../../lib"),
     config = require("../test.config.js"),
-    comb = require("comb-proxy");
+    DB;
 
-var DB;
-var createTables = function (underscore) {
-    underscore = !!underscore;
-    patio.resetIdentifierMethods();
+module.exports = {
+    createSchemaAndSync: createSchemaAndSync,
+    dropModels: dropModels
+};
+
+function createSchemaAndSync(underscore) {
+    return createTables(underscore).chain(function () {
+        return patio.syncModels();
+    });
+}
+
+
+function dropModels() {
+    return dropTableAndDisconnect();
+}
+
+function createTables(underscore) {
+    underscore = underscore === true;
+
     if (underscore) {
         patio.camelize = underscore;
+    } else {
+        patio.resetIdentifierMethods();
     }
-    return patio.connectAndExecute(config.DB_URI + "/sandbox",
-        function (db) {
-            db.forceDropTable(["employee", "company"]);
-            db.createTable("company", function (table) {
+
+    DB = patio.connect(config.DB_URI + "/sandbox");
+    return DB.forceDropTable(["employee", "company"])
+        .chain(function () {
+            return DB.createTable("company", function () {
                 this.primaryKey("id");
                 this[underscore ? "company_name" : "companyName"]("string", {size: 20, allowNull: false});
             });
-            db.createTable("employee", function () {
+        })
+        .chain(function () {
+            return DB.createTable("employee", function () {
                 this.primaryKey("id");
                 this[underscore ? "first_name" : "firstname"]("string", {size: 20, allowNull: false});
                 this[underscore ? "last_name" : "lastname"]("string", {size: 20, allowNull: false});
@@ -27,25 +49,15 @@ var createTables = function (underscore) {
                 this.city("string", {size: 20, allowNull: false});
                 this.foreignKey(underscore ? "company_id" : "companyId", "company", {key: "id", onDelete: "cascade"});
             });
-        }).addCallback(function (db) {
-            DB = db;
         });
-};
+}
 
-
-var dropTableAndDisconnect = function () {
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.dropTable(["employee", "company"]);
-        patio.disconnect();
-        patio.resetIdentifierMethods();
-    });
-};
-
-exports.createSchemaAndSync = function (underscore) {
-    return createTables(underscore).chain(comb.hitch(patio, "syncModels"));
-};
-
-
-exports.dropModels = function () {
-    return dropTableAndDisconnect();
-};
+function dropTableAndDisconnect() {
+    return DB.dropTable(["employee", "company"])
+        .chain(function () {
+            return patio.disconnect();
+        })
+        .chain(function () {
+            patio.resetIdentifierMethods();
+        });
+}

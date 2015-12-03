@@ -775,7 +775,7 @@ it.describe("Database", function (it) {
                         var ret = new comb.Promise();
                         setTimeout(function () {
                             db.run("DROP TABLE " + table).chain(ret.callback, ret.errback);
-                        }, timeout2)
+                        }, timeout2);
                         return ret;
                     }).chain(ret.callback, ret.errback);
                 }, timeout1);

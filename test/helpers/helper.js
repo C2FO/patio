@@ -47,7 +47,7 @@ var MockDB = comb.define(Database, {
                 query: function (sql) {
                     return new comb.Promise().callback(sql);
                 }
-            }
+            };
         },
 
         closeConnection: function () {
