@@ -1,40 +1,29 @@
+"use strict";
+
 var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToOne.helper.js"),
     patio = require("../../../lib"),
     sql = patio.sql,
-    comb = require("comb-proxy"),
-    hitch = comb.hitch;
+    comb = require("comb");
 
-var gender = ["M", "F"];
-var cities = ["Omaha", "Lincoln", "Kearney"];
+var gender = ["M", "F"],
+    cities = ["Omaha", "Lincoln", "Kearney"];
 
-it.describe("Many to one lazy with custom filter", function (it) {
+it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
 
     var Company, Employee;
     it.beforeAll(function () {
-        Company = patio.addModel("company", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.oneToMany("employees");
-                    this.oneToMany("omahaEmployees", {model: "employee"}, function (ds) {
-                        return ds.filter(sql.identifier("city").ilike("omaha"));
-                    });
-                    this.oneToMany("lincolnEmployees", {model: "employee"}, function (ds) {
-                        return ds.filter(sql.identifier("city").ilike("lincoln"));
-                    });
-                }
-            }
-        });
-        Employee = patio.addModel("employee", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.manyToOne("company");
-                }
-            }
-        });
+        Company = patio.addModel("company")
+            .oneToMany("employees")
+            .oneToMany("omahaEmployees", {model: "employee"}, function (ds) {
+                return ds.filter(sql.identifier("city").ilike("omaha"));
+            })
+            .oneToMany("lincolnEmployees", {model: "employee"}, function (ds) {
+                return ds.filter(sql.identifier("city").ilike("lincoln"));
+            });
+        Employee = patio.addModel("employee").manyToOne("company");
+
         return helper.createSchemaAndSync();
     });
 
@@ -53,10 +42,10 @@ it.describe("Many to one lazy with custom filter", function (it) {
 
 
         it.beforeAll(function () {
-            return comb.when(
+            return comb.when([
                 Company.remove(),
                 Employee.remove()
-            );
+            ]);
         });
 
         it.should("it should save the associations", function () {
@@ -76,24 +65,24 @@ it.describe("Many to one lazy with custom filter", function (it) {
                 employees: employees
             });
             return c1.save().chain(function () {
-                return comb.executeInOrder(Company,function (Company) {
-                    var company = Company.one();
-                    return {
-                        employees: company.employees,
-                        omahaEmployees: company.omahaEmployees,
-                        lincolnEmployees: company.lincolnEmployees
-                    };
-                }).chain(function (ret) {
-                        assert.lengthOf(ret.employees, 3);
-                        assert.lengthOf(ret.omahaEmployees, 1);
-                        assert.isTrue(ret.omahaEmployees.every(function (emp) {
+                return Company.one().chain(function (company) {
+                    return comb.when([
+                        company.employees,
+                        company.omahaEmployees,
+                        company.lincolnEmployees
+                    ]).chain(function (ret) {
+                        assert.lengthOf(ret[0], 3);
+                        assert.lengthOf(ret[1], 1);
+                        assert.isTrue(ret[1].every(function (emp) {
                             return emp.city.match(/omaha/i) !== null;
                         }));
-                        assert.lengthOf(ret.lincolnEmployees, 1);
-                        assert.isTrue(ret.lincolnEmployees.every(function (emp) {
+                        assert.lengthOf(ret[2], 1);
+                        assert.isTrue(ret[2].every(function (emp) {
                             return emp.city.match(/lincoln/i) !== null;
                         }));
                     });
+                });
+
             });
         });
 
@@ -106,26 +95,27 @@ it.describe("Many to one lazy with custom filter", function (it) {
         });
 
         it.should("the child associations should also be associated to the parent ", function () {
-            return comb.executeInOrder(assert, Employee,function (assert, Employee) {
-                var emps = Employee.all();
+            return Employee.all().chain(function (emps) {
                 assert.lengthOf(emps, 3);
-                return {company1: emps[0].company, company2: emps[1].company};
-            }).chain(function (ret) {
-                    assert.equal(ret.company1.companyName, "Google");
-                    assert.equal(ret.company2.companyName, "Google");
+                return comb.when([
+                    emps[0].company,
+                    emps[1].company
+                ]).chain(function (companies) {
+                    assert.equal(companies[0].companyName, "Google");
+                    assert.equal(companies[1].companyName, "Google");
                 });
+            });
         });
-
     });
 
     it.describe("creating a model many to one association", function (it) {
 
 
         it.beforeAll(function () {
-            return comb.when(
+            return comb.when([
                 Company.remove(),
                 Employee.remove()
-            );
+            ]);
         });
 
         it.should("it should save the associations", function () {
@@ -141,23 +131,21 @@ it.describe("Many to one lazy with custom filter", function (it) {
                 }
             });
             return emp.save().chain(function () {
-                return comb.executeInOrder(emp,function (emp) {
-                    var company = emp.company;
-                    return {
-                        company: company,
-                        employees: company.employees,
-                        omahaEmployees: company.omahaEmployees,
-                        lincolnEmployees: company.lincolnEmployees
-                    };
-                }).chain(function (ret) {
-                        assert.equal(ret.company.companyName, "Google");
-                        assert.lengthOf(ret.employees, 1);
-                        assert.lengthOf(ret.omahaEmployees, 1);
-                        assert.isTrue(ret.omahaEmployees.every(function (emp) {
+                return emp.company.chain(function (company) {
+                    assert.equal(company.companyName, "Google");
+                    return comb.when([
+                        company.employees,
+                        company.omahaEmployees,
+                        company.lincolnEmployees
+                    ]).chain(function (employees) {
+                        assert.lengthOf(employees[0], 1);
+                        assert.lengthOf(employees[1], 1);
+                        assert.isTrue(employees[1].every(function (emp) {
                             return emp.city.match(/omaha/i) !== null;
                         }));
-                        assert.lengthOf(ret.lincolnEmployees, 0);
+                        assert.lengthOf(employees[2], 0);
                     });
+                });
             });
         });
 
@@ -166,9 +154,8 @@ it.describe("Many to one lazy with custom filter", function (it) {
     it.describe("add methods", function (it) {
 
         it.beforeEach(function () {
-            return comb.executeInOrder(Company, function (Company) {
-                Company.remove();
-                new Company({companyName: "Google"}).save();
+            return Company.remove().chain(function () {
+                return new Company({companyName: "Google"}).save();
             });
         });
 
@@ -190,14 +177,19 @@ it.describe("Many to one lazy with custom filter", function (it) {
                     street: "Street",
                     city: "Omaha"
                 });
-                return comb.executeInOrder(company,function (company) {
-                    company.addOmahaEmployee(omahaEmp);
-                    company.addLincolnEmployee(lincolnEmp);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
-                }).chain(function (ret) {
-                        assert.lengthOf(ret.omahaEmployees, 1);
-                        assert.lengthOf(ret.lincolnEmployees, 1);
+
+                return comb.when([
+                    company.addOmahaEmployee(omahaEmp),
+                    company.addLincolnEmployee(lincolnEmp)
+                ]).chain(function () {
+                    return comb.when([
+                        company.omahaEmployees,
+                        company.lincolnEmployees
+                    ]).chain(function (ret) {
+                        assert.lengthOf(ret[0], 1);
+                        assert.lengthOf(ret[1], 1);
                     });
+                });
             });
         });
 
@@ -223,17 +215,21 @@ it.describe("Many to one lazy with custom filter", function (it) {
                     city: "Lincoln"
                 });
             }
-            return comb.executeInOrder(Company,function (Company) {
-                var company = Company.one();
-                company.addOmahaEmployees(omahaEmployees);
-                company.addLincolnEmployees(lincolnEmployees);
-                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees};
-            }).chain(function (ret) {
-                    assert.lengthOf(ret.omahaEmployees, 3);
-                    assert.lengthOf(ret.lincolnEmployees, 3);
+            return Company.one().chain(function (company) {
+                return comb.when([
+                    company.addOmahaEmployees(omahaEmployees),
+                    company.addLincolnEmployees(lincolnEmployees)
+                ]).chain(function () {
+                    return comb.when([
+                        company.omahaEmployees,
+                        company.lincolnEmployees
+                    ]).chain(function (ret) {
+                        assert.lengthOf(ret[0], 3);
+                        assert.lengthOf(ret[1], 3);
+                    });
                 });
+            });
         });
-
     });
 
     it.describe("remove methods", function (it) {
@@ -249,77 +245,100 @@ it.describe("Many to one lazy with custom filter", function (it) {
             });
         }
         it.beforeEach(function () {
-            return comb.executeInOrder(Company, Employee, function (Company, Employee) {
-                Company.remove();
-                Employee.remove();
-                new Company({companyName: "Google", employees: employees}).save();
+            return comb.when([
+                Company.remove(),
+                Employee.remove()
+            ]).chain(function () {
+                return new Company({companyName: "Google", employees: employees}).save();
+            });
+        });
+
+        it.should("the removing of a filtered association and deleting them", function () {
+            return Company.one().chain(function (company) {
+                return comb.when([company.omahaEmployees, company.lincolnEmployees])
+                    .chain(function (emps) {
+                        return comb.when([
+                            company.removeOmahaEmployee(emps[0][0], true),
+                            company.removeLincolnEmployee(emps[1][0], true)
+                        ]);
+                    })
+                    .chain(function () {
+                        return comb.when([company.omahaEmployees, company.lincolnEmployees]);
+                    })
+                    .chain(function (emps) {
+                        return Employee.count().chain(function (count) {
+                            assert.equal(count, 1);
+                            assert.lengthOf(emps[0], 0);
+                            assert.lengthOf(emps[1], 0);
+                        });
+                    });
+            });
+        });
+
+        it.should("the removing of a filtered association without deleting them", function () {
+            return Company.one().chain(function (company) {
+                return comb.when([company.omahaEmployees, company.lincolnEmployees])
+                    .chain(function (emps) {
+                        return comb.when([
+                            company.removeOmahaEmployee(emps[0][0]),
+                            company.removeLincolnEmployee(emps[1][0])
+                        ]);
+                    })
+                    .chain(function () {
+                        return comb.when([company.omahaEmployees, company.lincolnEmployees]);
+                    })
+                    .chain(function (emps) {
+                        return Employee.count().chain(function (count) {
+                            assert.equal(count, 3);
+                            assert.lengthOf(emps[0], 0);
+                            assert.lengthOf(emps[1], 0);
+                        });
+                    });
             });
         });
 
         it.should("the removing of filtered associations and deleting them", function () {
-            return comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployee(omahaEmps[0], true);
-                    company.removeLincolnEmployee(lincolnEmps[0], true);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).chain(function (ret) {
-                    var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
-                    assert.lengthOf(omahaEmps, 0);
-                    assert.lengthOf(lincolnEmps, 0);
-                    assert.equal(ret.empCount, 1);
-                });
+            return Company.one().chain(function (company) {
+                return comb.when([company.omahaEmployees, company.lincolnEmployees])
+                    .chain(function (emps) {
+                        return comb.when([
+                            company.removeOmahaEmployee(emps[0], true),
+                            company.removeLincolnEmployee(emps[1], true)
+                        ]);
+                    })
+                    .chain(function () {
+                        return comb.when([company.omahaEmployees, company.lincolnEmployees]);
+                    })
+                    .chain(function (emps) {
+                        return Employee.count().chain(function (count) {
+                            assert.equal(count, 1);
+                            assert.lengthOf(emps[0], 0);
+                            assert.lengthOf(emps[1], 0);
+                        });
+                    });
+            });
         });
 
         it.should("the removing of filtered associations without deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var omahaEmps = company.omahaEmployees;
-                var lincolnEmps = company.lincolnEmployees;
-                company.removeOmahaEmployee(omahaEmps[0]);
-                company.removeLincolnEmployee(lincolnEmps[0]);
-                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
-                    assert.lengthOf(omahaEmps, 0);
-                    assert.lengthOf(lincolnEmps, 0);
-                    assert.equal(ret.empCount, 3);
-                });
-        });
-
-        it.should("the removing of filtered associations and deleting them", function () {
-            return comb.executeInOrder(Company, Employee,function (Company, Employee) {
-                var company = Company.one();
-                var omahaEmps = company.omahaEmployees;
-                var lincolnEmps = company.lincolnEmployees;
-                company.removeOmahaEmployees(omahaEmps, true);
-                company.removeLincolnEmployees(lincolnEmps, true);
-                return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-            }).chain(function (ret) {
-                    var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
-                    assert.lengthOf(omahaEmps, 0);
-                    assert.lengthOf(lincolnEmps, 0);
-                    assert.equal(ret.empCount, 1);
-                });
-        });
-
-        it.should("the removing of filtered associations without deleting them", function () {
-            comb.executeInOrder(Company, Employee,
-                function (Company, Employee) {
-                    var company = Company.one();
-                    var omahaEmps = company.omahaEmployees;
-                    var lincolnEmps = company.lincolnEmployees;
-                    company.removeOmahaEmployees(omahaEmps);
-                    company.removeLincolnEmployees(lincolnEmps);
-                    return {omahaEmployees: company.omahaEmployees, lincolnEmployees: company.lincolnEmployees, empCount: Employee.count()};
-                }).chain(function (ret) {
-                    var omahaEmps = ret.omahaEmployees, lincolnEmps = ret.lincolnEmployees;
-                    assert.lengthOf(omahaEmps, 0);
-                    assert.lengthOf(lincolnEmps, 0);
-                    assert.equal(ret.empCount, 3);
-                });
+            return Company.one().chain(function (company) {
+                return comb.when([company.omahaEmployees, company.lincolnEmployees])
+                    .chain(function (emps) {
+                        return comb.when([
+                            company.removeOmahaEmployee(emps[0]),
+                            company.removeLincolnEmployee(emps[1])
+                        ]);
+                    })
+                    .chain(function () {
+                        return comb.when([company.omahaEmployees, company.lincolnEmployees]);
+                    })
+                    .chain(function (emps) {
+                        return Employee.count().chain(function (count) {
+                            assert.equal(count, 3);
+                            assert.lengthOf(emps[0], 0);
+                            assert.lengthOf(emps[1], 0);
+                        });
+                    });
+            });
         });
     });
 
@@ -327,5 +346,3 @@ it.describe("Many to one lazy with custom filter", function (it) {
         return helper.dropModels();
     });
 });
-
-

@@ -3,7 +3,6 @@ var it = require('it'),
     patio = require("../../lib"),
     ClassTableInheritance = patio.plugins.ClassTableInheritancePlugin,
     comb = require("comb"),
-    hitch = comb.hitch,
     helper = require("../data/classTableInheritance.helper.js"),
     Employee, Staff, Manager, Executive;
 

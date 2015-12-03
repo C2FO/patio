@@ -83,7 +83,7 @@ it.describe("patio", function (it) {
                                 throw new Error();
                             }, function () {
                                 throw new Error();
-                            })
+                            });
                     },
 
                     reset: function () {
@@ -148,22 +148,22 @@ it.describe("patio", function (it) {
                 DB3 = db;
                 assert.instanceOf(db, DummyDatabase);
                 assert.isTrue(db.connected);
-                assert.deepEqual(db.sqls, [ 'DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)' ]);
+                assert.deepEqual(db.sqls, ['DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)']);
                 assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
             });
     });
 
     it.should("disconnect from a db", function () {
         var DB = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
-        return DB.createTable("test",function () {
+        return DB.createTable("test", function () {
             this.primaryKey("id");
             this.name(String);
             this.age(Number);
         }).chain(function () {
-                assert.isTrue(DB.connected);
-                patio.disconnect();
-                assert.isFalse(DB.connected);
-            });
+            assert.isTrue(DB.connected);
+            patio.disconnect();
+            assert.isFalse(DB.connected);
+        });
     });
 
     it.should("expose core classes", function () {

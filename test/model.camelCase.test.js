@@ -131,7 +131,7 @@ it.describe("A model with camelized properites", function (it) {
             });
         }
         return Employee.truncate().chain(function () {
-            return Employee.save(emps)
+            return Employee.save(emps);
         }).chain(function (employees) {
                 assert.lengthOf(employees, 20);
                 employees.forEach(function (emp, i) {
@@ -308,7 +308,7 @@ it.describe("A model with camelized properites", function (it) {
                 });
                 return Employee.first(id.gt(ids[5]), id.lt(ids[11])).chain(function (emp) {
                     assert.instanceOf(emp, Employee);
-                    assert.equal(emp.id, ids[6])
+                    assert.equal(emp.id, ids[6]);
                 });
             });
 
@@ -389,5 +389,3 @@ it.describe("A model with camelized properites", function (it) {
     });
 
 });
-
-

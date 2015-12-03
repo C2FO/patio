@@ -19,11 +19,11 @@ var it = require('it'),
 
 
 //var ret = (module.exports = new comb.Promise());
-it.describe("Dataset actions",function (it) {
+it.describe("Dataset actions", function (it) {
 
     patio.identifierInputMethod = null;
     patio.identifierOutputMethod = null;
-    var c = comb.define(Dataset, {
+    var C = comb.define(Dataset, {
         instance: {
 
             fetchRows: function (sql, cb) {
@@ -62,7 +62,7 @@ it.describe("Dataset actions",function (it) {
                     // yield a hash with kind as the 1 bit of a number
                     var arr = [];
                     for (var i = 0; i < 10; i++) {
-                        arr.push({kind: i})
+                        arr.push({kind: i});
                     }
                     return comb.async.array(arr);
                 }
@@ -156,7 +156,7 @@ it.describe("Dataset actions",function (it) {
         it.should("return the complete dataset values if nothing is given", function () {
             return dataset.map().chain(function (r) {
                 assert.deepEqual(r, dataset.VALUES);
-                return dataset.map(null,function (err, r) {
+                return dataset.map(null, function (err, r) {
                     assert.isNull(err);
                     assert.deepEqual(r, dataset.VALUES);
                 }).chain();
@@ -213,19 +213,19 @@ it.describe("Dataset actions",function (it) {
     });
 
     it.describe("#count", function (it) {
-        var dataset = new c().from("test");
+        var dataset = new C().from("test");
 
         it.should("format SQL properly", function () {
             return when(
                 dataset.count().chain(function (res) {
                     assert.equal(res, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test LIMIT 1');
                 }),
 
                 dataset.count(function (err, res) {
                     assert.isNull(err);
                     assert.equal(res, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test LIMIT 1');
                 })
             );
         });
@@ -234,28 +234,28 @@ it.describe("Dataset actions",function (it) {
             return when(
                 dataset.filter(sql.abc.sqlNumber.lt(30)).count().chain(function (count) {
                     assert.equal(count, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test WHERE (abc < 30) LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test WHERE (abc < 30) LIMIT 1');
                 }),
                 dataset.filter(sql.abc.sqlNumber.lt(30)).count(function (err, count) {
                     assert.isNull(err);
                     assert.equal(count, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test WHERE (abc < 30) LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test WHERE (abc < 30) LIMIT 1');
                 })
             );
         });
 
         it.should("count properly for datasets with fixed sql", function () {
-            var dataset = new c().from("test");
+            var dataset = new C().from("test");
             dataset.__opts.sql = "select abc from xyz";
             return when(
                 dataset.count().chain(function (count) {
                     assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (select abc from xyz) AS t1 LIMIT 1");
+                    assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (select abc from xyz) AS t1 LIMIT 1");
                 }),
                 dataset.count(function (err, count) {
                     assert.isNull(err);
                     assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (select abc from xyz) AS t1 LIMIT 1");
+                    assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (select abc from xyz) AS t1 LIMIT 1");
                 })
             );
         });
@@ -265,19 +265,19 @@ it.describe("Dataset actions",function (it) {
                 function () {
                     return dataset.union(dataset).count().chain(function (count) {
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 },
                 function () {
                     return dataset.intersect(dataset).count().chain(function (count) {
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 },
                 function () {
                     return dataset.except(dataset).count().chain(function (count) {
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 },
                 function () {
@@ -285,21 +285,21 @@ it.describe("Dataset actions",function (it) {
                     return dataset.union(dataset).count(function (err, count) {
                         assert.isNull(err);
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test UNION SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 },
                 function () {
                     return dataset.intersect(dataset).count(function (err, count) {
                         assert.isNull(err);
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test INTERSECT SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 },
                 function () {
                     return dataset.except(dataset).count(function (err, count) {
                         assert.isNull(err);
                         assert.equal(count, 1);
-                        assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
+                        assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test EXCEPT SELECT * FROM test) AS t1 LIMIT 1");
                     });
                 }
             ]);
@@ -310,13 +310,13 @@ it.describe("Dataset actions",function (it) {
             return when(
                 dataset.limit(5).count().chain(function (count) {
                     assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test LIMIT 5) AS t1 LIMIT 1");
+                    assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test LIMIT 5) AS t1 LIMIT 1");
                 }),
 
                 dataset.limit(5).count(function (err, count) {
                     assert.isNull(err);
                     assert.equal(count, 1);
-                    assert.equal(c.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test LIMIT 5) AS t1 LIMIT 1");
+                    assert.equal(C.sql, "SELECT COUNT(*) AS count FROM (SELECT * FROM test LIMIT 5) AS t1 LIMIT 1");
                 })
             );
 
@@ -327,12 +327,12 @@ it.describe("Dataset actions",function (it) {
                 when(
                     ds.count().chain(function (count) {
                         assert.equal(count, 1);
-                        assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test LEFT OUTER JOIN test AS test2 USING (a) LIMIT 1');
+                        assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test LEFT OUTER JOIN test AS test2 USING (a) LIMIT 1');
                     }),
                     ds.count(function (err, count) {
                         assert.isNull(err);
                         assert.equal(count, 1);
-                        assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM test LEFT OUTER JOIN test AS test2 USING (a) LIMIT 1');
+                        assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM test LEFT OUTER JOIN test AS test2 USING (a) LIMIT 1');
                     })
                 ).classic(next);
             });
@@ -346,7 +346,7 @@ it.describe("Dataset actions",function (it) {
             return when(
                 ds.count().chain(function (count) {
                     assert.equal(count, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM blah LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM blah LIMIT 1');
                 }),
 
                 ds.columns.chain(function (cols) {
@@ -357,7 +357,7 @@ it.describe("Dataset actions",function (it) {
                 ds.count(function (err, count) {
                     assert.isNull(err);
                     assert.equal(count, 1);
-                    assert.equal(c.sql, 'SELECT COUNT(*) AS count FROM blah LIMIT 1');
+                    assert.equal(C.sql, 'SELECT COUNT(*) AS count FROM blah LIMIT 1');
                 })
             );
         });
@@ -365,7 +365,7 @@ it.describe("Dataset actions",function (it) {
     });
 
     it.describe("#isEmpty", function (it) {
-        var C = comb.define(c, {
+        var C2 = comb.define(C, {
             instance: {
                 fetchRows: function (sql, cb) {
                     this._static.sql = sql;
@@ -375,18 +375,18 @@ it.describe("Dataset actions",function (it) {
         });
 
         it.should("return true if records exist in the dataset", function () {
-            var ds = new C().from("test");
+            var ds = new C2().from("test");
             return serial([
                 function () {
                     return ds.isEmpty().chain(function (res) {
                         assert.isFalse(res);
-                        assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
+                        assert.equal(C2.sql, 'SELECT 1 FROM test LIMIT 1');
                     });
                 },
                 function () {
                     return ds.filter(false).isEmpty().chain(function (res) {
                         assert.isTrue(res);
-                        assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
+                        assert.equal(C2.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
                     });
                 },
                 function () {
@@ -394,14 +394,14 @@ it.describe("Dataset actions",function (it) {
                     return ds.isEmpty(function (err, res) {
                         assert.isNull(err);
                         assert.isFalse(res);
-                        assert.equal(C.sql, 'SELECT 1 FROM test LIMIT 1');
+                        assert.equal(C2.sql, 'SELECT 1 FROM test LIMIT 1');
                     });
                 },
                 function () {
                     return ds.filter(false).isEmpty(function (err, res) {
                         assert.isNull(err);
                         assert.isTrue(res);
-                        assert.equal(C.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
+                        assert.equal(C2.sql, "SELECT 1 FROM test WHERE 'f' LIMIT 1");
                     });
                 }
             ]);
@@ -430,7 +430,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return d.insertMultiple(["aa", 5, 3, {1: 2}], null,function (err) {
+                    return d.insertMultiple(["aa", 5, 3, {1: 2}], null, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(d.inserts, ["aa", 5, 3, {1: 2}]);
                     }).chain(function () {
@@ -444,7 +444,7 @@ it.describe("Dataset actions",function (it) {
             var a = ["inevitable", "hello", "the ticking clock"];
             return serial([
                 function () {
-                    return d.insertMultiple(a,function (i) {
+                    return d.insertMultiple(a, function (i) {
                         return i.replace(/l/g, "r");
                     }).chain(function () {
                         assert.deepEqual(d.inserts, ["inevitabre", "herro", "the ticking crock"]);
@@ -712,7 +712,7 @@ it.describe("Dataset actions",function (it) {
                 //with callback
                 function () {
                     d.reset();
-                    return  d.interval("stamp", function (err) {
+                    return d.interval("stamp", function (err) {
                         assert.isNull(err);
                         assert.equal(d.lastSql, "SELECT (max(stamp) - min(stamp)) FROM test LIMIT 1");
                     });
@@ -949,7 +949,7 @@ it.describe("Dataset actions",function (it) {
             var i = Math.floor(Math.random() * 10) + 10;
             return serial([
                 function () {
-                    return d.order("a").first(i,function () {
+                    return d.order("a").first(i, function () {
                         return this.z.sqlNumber.gt(26);
                     }).chain(function (r) {
                         assert.lengthOf(r, i);
@@ -1034,13 +1034,7 @@ it.describe("Dataset actions",function (it) {
                     assert.isNull(err);
                     // assert.equal(r.pop(), 'SELECT * FROM test ORDER BY e ASC, f DESC LIMIT 1');
                 })
-            ).then(function(status){
-                console.log("done?", status);
-                return true;
-            }, function(status){
-                console.log("err?", status);
-                return true;
-            });
+            );
         });
 
 
@@ -1199,11 +1193,11 @@ it.describe("Dataset actions",function (it) {
 
         it.should("work with aliased fields", function () {
             return when(
-                d.get(sql.x__b.as("name")).chain(function (r) {
+                d.get(sql["x__b"].as("name")).chain(function (r) {
                     assert.equal(r, "SELECT x.b AS name FROM test LIMIT 1");
                 }),
                 //with callback
-                d.get(sql.x__b.as("name"), function (err, r) {
+                d.get(sql["x__b"].as("name"), function (err, r) {
                     assert.isNull(err);
                     assert.equal(r, "SELECT x.b AS name FROM test LIMIT 1");
                 })
@@ -1214,7 +1208,7 @@ it.describe("Dataset actions",function (it) {
             return when(
                 d.get(
                     function (o) {
-                        return o.x__b.as("name");
+                        return o["x__b"].as("name");
                     }).chain(function (r) {
                         assert.equal(r, "SELECT x.b AS name FROM test LIMIT 1");
                     }),
@@ -1227,7 +1221,7 @@ it.describe("Dataset actions",function (it) {
                 //with callback
                 d.get(
                     function (o) {
-                        return o.x__b.as("name");
+                        return o["x__b"].as("name");
                     },
                     function (err, r) {
                         assert.isNull(err);
@@ -1248,13 +1242,15 @@ it.describe("Dataset actions",function (it) {
     it.describe("#columns", function (it) {
         var i = 0;
         var arr = ["a", "b", "c"];
-        var dataset = new (comb.define(DummyDataset, { instance: {
-            forEach: function () {
-                var ret = new comb.Promise().callback();
-                this.__columns = this.selectSql + arr[i++];
-                return ret;
+        var dataset = new (comb.define(DummyDataset, {
+            instance: {
+                forEach: function () {
+                    var ret = new comb.Promise().callback();
+                    this.__columns = this.selectSql + arr[i++];
+                    return ret;
+                }
             }
-        } }))().from("items");
+        }))().from("items");
 
 
         it.should("return the value of columns if columns is not null", function (next) {
@@ -1329,9 +1325,9 @@ it.describe("Dataset actions",function (it) {
             return serial([
                 function () {
                     return ds["import"](['x', 'y'], [
-                            [1, 2],
-                            [3, 4]
-                        ]).chain(function (res) {
+                        [1, 2],
+                        [3, 4]
+                    ]).chain(function (res) {
                         assert.deepEqual(res, [
                             'INSERT INTO items (x, y) VALUES (1, 2)',
                             'INSERT INTO items (x, y) VALUES (3, 4)'
@@ -1373,11 +1369,11 @@ it.describe("Dataset actions",function (it) {
             return serial([
                 function () {
                     return ds["import"](
-                            ["x", "y"],
-                            [
-                                [1, 2],
-                                [3, 4]
-                            ]).chain(function (res) {
+                        ["x", "y"],
+                        [
+                            [1, 2],
+                            [3, 4]
+                        ]).chain(function (res) {
                             assert.deepEqual(res, [
                                 'INSERT INTO items (x, y) VALUES (1, 2)',
                                 'INSERT INTO items (x, y) VALUES (3, 4)'
@@ -1428,7 +1424,7 @@ it.describe("Dataset actions",function (it) {
                     }).chain(db.reset.bind(db));
                 },
                 function () {
-                    return ds["import"](["x", "y"], ds2,function (err) {
+                    return ds["import"](["x", "y"], ds2, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1573,7 +1569,8 @@ it.describe("Dataset actions",function (it) {
 
         it.describe("#fetchRows", function (it) {
             it.should("raise an Error", function () {
-                assert.throws(ds, "fetchRows", '', function () {
+                assert.throws(function () {
+                    ds.fetchRows('');
                 });
             });
         });
@@ -1696,10 +1693,6 @@ it.describe("Dataset actions",function (it) {
                 assert.deepEqual(o, {server: "default"});
                 db.executeDui = orig;
             });
-
-            it.should("raise an InvalidOperation exception if the dataset is filtered", function () {
-                assert.throws(ds, "filter", {a: 1});
-            });
         });
 
         it.describe("#execute", function (it) {
@@ -1778,7 +1771,7 @@ it.describe("Dataset actions",function (it) {
                     }).chain(db.reset.bind(db));
                 },
                 function () {
-                    return ds.multiInsert(list,function (err) {
+                    return ds.multiInsert(list, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1832,7 +1825,7 @@ it.describe("Dataset actions",function (it) {
 
 
                     //with callback
-                    return ds.from("sch__tab").multiInsert(list,function (err) {
+                    return ds.from("sch__tab").multiInsert(list, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1845,7 +1838,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
 
-                    return ds.from(sql.tab.qualify("sch")).multiInsert(list,function (err) {
+                    return ds.from(sql.tab.qualify("sch")).multiInsert(list, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1857,7 +1850,7 @@ it.describe("Dataset actions",function (it) {
                     }).chain(db.reset.bind(db));
                 },
                 function () {
-                    return ds.from(new Identifier("sch__tab")).multiInsert(list,function (err) {
+                    return ds.from(new Identifier("sch__tab")).multiInsert(list, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1892,7 +1885,7 @@ it.describe("Dataset actions",function (it) {
                 function () {
 
                     //with callback
-                    return ds.multiInsert(list, {commitEvery: 1},function (err) {
+                    return ds.multiInsert(list, {commitEvery: 1}, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1927,7 +1920,7 @@ it.describe("Dataset actions",function (it) {
                     }).chain(db.reset.bind(db));
                 },
                 function () {
-                    return ds.multiInsert(list, {slice: 2},function (err) {
+                    return ds.multiInsert(list, {slice: 2}, function (err) {
                         assert.isNull(err);
                         assert.deepEqual(db.sqls, [
                             'BEGIN',
@@ -1964,7 +1957,7 @@ it.describe("Dataset actions",function (it) {
                 data: [
                     {a: 1, b: 2, c: 3},
                     {a: 4, b: 5, c: 6},
-                    { a: 7, b: 8, c: 9}
+                    {a: 7, b: 8, c: 9}
                 ],
 
                 __columns: ["a", "b", "c"],
@@ -2013,7 +2006,7 @@ it.describe("Dataset actions",function (it) {
                         {x: 1, y: 2},
                         {x: 3, y: 4},
                         sql
-                    ])
+                    ]);
                 }
             }
         }))().from("items");
@@ -2101,7 +2094,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return ds.selectMap("a",function (err, res) {
+                    return ds.selectMap("a", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a FROM t']);
@@ -2121,7 +2114,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return ds.selectMap("a__b",function (err, res) {
+                    return ds.selectMap("a__b", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a.b FROM t']);
@@ -2140,7 +2133,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return ds.selectMap("a___b",function (err, res) {
+                    return ds.selectMap("a___b", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a AS b FROM t']);
@@ -2159,7 +2152,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return ds.selectMap(sql.literal("a").as("b"),function (err, res) {
+                    return ds.selectMap(sql.literal("a").as("b"), function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a AS b FROM t']);
@@ -2172,7 +2165,7 @@ it.describe("Dataset actions",function (it) {
             return serial([
                 function () {
                     return ds.selectMap(function (t) {
-                        return t.a(t.t__c);
+                        return t.a(t["t__c"]);
                     }).chain(function (res) {
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a(t.c) FROM t']);
@@ -2182,8 +2175,8 @@ it.describe("Dataset actions",function (it) {
                 function () {
                     return ds.selectMap(
                         function (t) {
-                            return t.a(t.t__c);
-                        },function (err, res) {
+                            return t.a(t["t__c"]);
+                        }, function (err, res) {
                             assert.isNull(err);
                             assert.deepEqual(res, [1, 2]);
                             assert.deepEqual(ds.db.sqls, ['SELECT a(t.c) FROM t']);
@@ -2230,7 +2223,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectOrderMap("a",function (err, res) {
+                    return ds.selectOrderMap("a", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a FROM t ORDER BY a']);
@@ -2250,7 +2243,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectOrderMap("a__b",function (err, res) {
+                    return ds.selectOrderMap("a__b", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a.b FROM t ORDER BY a.b']);
@@ -2270,7 +2263,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectOrderMap("a___b",function (err, res) {
+                    return ds.selectOrderMap("a___b", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a AS b FROM t ORDER BY a']);
@@ -2290,7 +2283,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectOrderMap("t__a___b",function (err, res) {
+                    return ds.selectOrderMap("t__a___b", function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT t.a AS b FROM t ORDER BY t.a']);
@@ -2309,7 +2302,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return  ds.selectOrderMap(sql.literal("a").as("b"),function (err, res) {
+                    return ds.selectOrderMap(sql.literal("a").as("b"), function (err, res) {
                         assert.isNull(err);
                         assert.deepEqual(res, [1, 2]);
                         assert.deepEqual(ds.db.sqls, ['SELECT a AS b FROM t ORDER BY a']);
@@ -2324,7 +2317,7 @@ it.describe("Dataset actions",function (it) {
                 function () {
                     return ds.selectOrderMap(
                         function (t) {
-                            return t.a(t.t__c);
+                            return t.a(t["t__c"]);
                         }).chain(function (res) {
                             assert.deepEqual(res, [1, 2]);
                             assert.deepEqual(ds.db.sqls, ['SELECT a(t.c) FROM t ORDER BY a(t.c)']);
@@ -2334,7 +2327,7 @@ it.describe("Dataset actions",function (it) {
                 function () {
                     //with callback
                     return ds.selectOrderMap(function (t) {
-                            return t.a(t.t__c);
+                            return t.a(t["t__c"]);
                         },
                         function (err, res) {
                             assert.isNull(err);
@@ -2385,7 +2378,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectHash("a", "b",function (err, ret) {
+                    return ds.selectHash("a", "b", function (err, ret) {
                         assert.isNull(err);
                         assert.deepEqual(ret, {1: 2, 3: 4});
                         assert.deepEqual(ds.db.sqls, ['SELECT a, b FROM t']);
@@ -2405,7 +2398,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectHash("t__a", "t__b",function (err, ret) {
+                    return ds.selectHash("t__a", "t__b", function (err, ret) {
                         assert.isNull(err);
                         assert.deepEqual(ret, {1: 2, 3: 4});
                         assert.deepEqual(ds.db.sqls, ['SELECT t.a, t.b FROM t']);
@@ -2425,7 +2418,7 @@ it.describe("Dataset actions",function (it) {
                 },
                 function () {
                     //with callback
-                    return ds.selectHash("c___a", "d___b",function (err, ret) {
+                    return ds.selectHash("c___a", "d___b", function (err, ret) {
                         assert.isNull(err);
                         assert.deepEqual(ret, {1: 2, 3: 4});
                         assert.deepEqual(ds.db.sqls, ['SELECT c AS a, d AS b FROM t']);
@@ -2444,7 +2437,7 @@ it.describe("Dataset actions",function (it) {
                     });
                 },
                 function () {
-                    return ds.selectHash("t__c___a", "t__d___b",function (err, ret) {
+                    return ds.selectHash("t__c___a", "t__d___b", function (err, ret) {
                         assert.isNull(err);
                         assert.deepEqual(ret, {1: 2, 3: 4});
                         assert.deepEqual(ds.db.sqls, ['SELECT t.c AS a, t.d AS b FROM t']);

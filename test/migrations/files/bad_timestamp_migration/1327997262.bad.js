@@ -1,5 +1,7 @@
+var comb = require("comb");
+
 exports.up = function (db) {
-    return ret.errback("err");
+    return comb.rejected(new Error("err"));
 };
 
 exports.down = function (db) {

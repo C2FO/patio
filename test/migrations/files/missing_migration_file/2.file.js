@@ -1,2 +1,4 @@
-exports.up = function(){}
-exports.down = function(){}
+exports.up = function () {
+};
+exports.down = function () {
+};

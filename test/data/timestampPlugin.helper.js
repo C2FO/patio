@@ -1,15 +1,44 @@
+/*jshint -W003*/
+"use strict";
+
 var patio = require("../../lib"),
     config = require("../test.config.js"),
-    comb = require("comb-proxy");
+    comb = require("comb"),
+    DB;
 
-var DB;
-var createTables = function (useAt) {
+module.exports = {
+    createSchemaAndSync: createSchemaAndSync,
+    dropModels: dropModels
+};
+
+
+function createSchemaAndSync(useAt) {
+    return createTables(useAt).chain(comb.hitch(patio, "syncModels"));
+}
+
+function dropModels() {
+    return dropTableAndDisconnect();
+}
+
+function dropTableAndDisconnect() {
+    return DB.forceDropTable("employee")
+        .chain(function () {
+            patio.disconnect();
+        })
+        .chain(function () {
+            patio.resetIdentifierMethods();
+        });
+}
+
+function createTables(useAt) {
     useAt = comb.isBoolean(useAt) ? useAt : false;
     patio.resetIdentifierMethods();
-    return patio.connectAndExecute(config.DB_URI + "/sandbox",
-        function (db) {
-            db.forceDropTable(["employee"]);
-            db.createTable("employee", function () {
+
+    DB = patio.connect(config.DB_URI + "/sandbox");
+
+    return DB.forceDropTable(["employee"])
+        .chain(function () {
+            return DB.createTable("employee", function () {
                 this.primaryKey("id");
                 this.firstname("string", {size: 20, allowNull: false});
                 this.lastname("string", {size: 20, allowNull: false});
@@ -21,25 +50,5 @@ var createTables = function (useAt) {
                 this[useAt ? "updatedAt" : "updated"]("datetime");
                 this[useAt ? "createdAt" : "created"]("datetime");
             });
-        }).chain(function (db) {
-            DB = db;
         });
-};
-
-
-var dropTableAndDisconnect = function () {
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable("employee");
-        patio.disconnect();
-        patio.resetIdentifierMethods();
-    });
-};
-
-exports.createSchemaAndSync = function (useAt) {
-    return createTables(useAt).chain(comb.hitch(patio, "syncModels"));
-};
-
-
-exports.dropModels = function () {
-    return dropTableAndDisconnect();
-};
+}

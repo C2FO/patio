@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "0.9.5",
+    "version": "0.10.0",
     "keywords": [
         "ORM",
         "object relation mapper",
@@ -50,7 +50,9 @@
         "grunt-exec": "^0.4.6",
         "grunt-it": "^0.3.1",
         "istanbul": "^0.3.14",
-        "it": "0.2.7"
+        "it": "0.2.7",
+        "jit-grunt": "^0.9.1",
+        "time-grunt": "^1.2.2"
     },
     "directories": {
         "lib": "lib"
@@ -59,6 +61,6 @@
         "patio": "./bin/patio"
     },
     "engines": {
-        "node": ">=0.10.0"
+        "node": ">=4.0.0"
     }
 }
