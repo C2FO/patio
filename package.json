@@ -29,8 +29,8 @@
     "author": "Doug Martin (http://c2fo.github.com)",
     "main": "index.js",
     "dependencies": {
-        "comb": "file:../comb",
-        "comb-proxy": "file:../comb-proxy",
+        "comb": "git://github.com/C2FO/comb.git#node-5",
+        "comb-proxy": "git://github.com/C2FO/comb-proxy.git#node-5",
         "commander": ">=0.5.1",
         "hive-cache": "0.0.3",
         "mysql": "2.5.3",
