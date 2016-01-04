@@ -924,7 +924,7 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
             return Model.sync();
         });
 
-        it.should("allow adding a check function", function () {
+        it.should("validate when num param", function () {
             var m = new Model({num: 1, num2: 2});
             assert.isFalse(m.isValid());
             return m.save().chain(assert.fail, function (err) {
@@ -932,7 +932,7 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
             });
         });
 
-        it.should("allow adding a check function", function () {
+        it.should("validate null properly", function () {
             var m = new Model({num2: null});
             assert.isFalse(m.isValid());
             return m.save().chain(assert.fail, function (err) {
@@ -940,7 +940,7 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
             });
         });
 
-        it.should("allow adding a check function", function () {
+        it.should("validate num2 param", function () {
             var m = new Model({num2: 1});
             assert.isFalse(m.isValid());
             return m.save().chain(assert.fail, function (err) {

@@ -142,7 +142,7 @@ it.describe("Database", function (it) {
             assert.equal(new Database({maxConnections: 4}).pool.maxObjects, 4);
         });
 
-        it.should("respect the quoteIdentifiers option", function () {
+        it.should("respect the quoteIdentifiers option via options", function () {
             var db1 = new Database({quoteIdentifiers: false});
             var db2 = new Database({quoteIdentifiers: true});
             assert.isFalse(db1.quoteIdentifiers);
@@ -183,7 +183,7 @@ it.describe("Database", function (it) {
             assert.equal(new Database().identifierOutputMethod, 'toUpperCase');
         });
 
-        it.should("respect the quoteIdentifiers option", function () {
+        it.should("respect setting the quoteIdentifiers option", function () {
             patio.quoteIdentifiers = true;
             assert.isTrue(new Database().quoteIdentifiers);
             patio.quoteIdentifiers = false;

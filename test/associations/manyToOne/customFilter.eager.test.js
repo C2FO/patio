@@ -262,21 +262,7 @@ it.describe("patio.Model manyToOne eager with custom filter", function (it) {
             });
         });
 
-        it.should("the removing of filtered associations without deleting them", function () {
-            return Company.one().chain(function (company) {
-                return company.removeOmahaEmployee(company.omahaEmployees[0]).chain(function () {
-                    return company.removeLincolnEmployee(company.lincolnEmployees[0]).chain(function () {
-                        return Employee.count().chain(function (count) {
-                            assert.lengthOf(company.omahaEmployees, 0);
-                            assert.lengthOf(company.lincolnEmployees, 0);
-                            assert.equal(count, 3);
-                        });
-                    });
-                });
-            });
-        });
-
-        it.should("the removing of filtered associations and deleting them", function () {
+        it.should("the removing of filtered association and deleting them", function () {
             return Company.one().chain(function (company) {
                 return company.removeOmahaEmployees(company.omahaEmployees, true).chain(function () {
                     return company.removeLincolnEmployees(company.lincolnEmployees, true).chain(function () {
@@ -284,6 +270,20 @@ it.describe("patio.Model manyToOne eager with custom filter", function (it) {
                             assert.lengthOf(company.omahaEmployees, 0);
                             assert.lengthOf(company.lincolnEmployees, 0);
                             assert.equal(count, 1);
+                        });
+                    });
+                });
+            });
+        });
+
+        it.should("the removing of filtered association without deleting them", function () {
+            return Company.one().chain(function (company) {
+                return company.removeOmahaEmployee(company.omahaEmployees[0]).chain(function () {
+                    return company.removeLincolnEmployee(company.lincolnEmployees[0]).chain(function () {
+                        return Employee.count().chain(function (count) {
+                            assert.lengthOf(company.omahaEmployees, 0);
+                            assert.lengthOf(company.lincolnEmployees, 0);
+                            assert.equal(count, 3);
                         });
                     });
                 });

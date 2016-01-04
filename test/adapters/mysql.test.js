@@ -1234,7 +1234,7 @@ if (process.env.PATIO_DB === "mysql") {
                 });
 
 
-                it.should("use default values if they exist", function () {
+                it.should("not use default values if they dont exist", function () {
                     return d.replace([1, "hello", 2, new Buffer("test")])
                         .chain(function () {
                             return d.all();

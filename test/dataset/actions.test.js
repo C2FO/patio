@@ -945,7 +945,7 @@ it.describe("Dataset actions", function (it) {
             );
         });
 
-        it.should("return the first matching record if a block is given without an argument", function () {
+        it.should("return the first matching record when there multiple if a block is given without an argument", function () {
             var i = Math.floor(Math.random() * 10) + 10;
             return serial([
                 function () {

@@ -249,7 +249,7 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
             });
         });
 
-        it.should("the removing of filtered associations and deleting them", function () {
+        it.should("the removing of filtered association by id and deleting them", function () {
             return Company.one().chain(function (company) {
                 return comb
                     .when([
@@ -278,7 +278,7 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
             });
         });
 
-        it.should("the removing of filtered associations without deleting them", function () {
+        it.should("the removing of filtered association without deleting them", function () {
             return Company.one().chain(function (company) {
                 return comb
                     .when([
@@ -307,7 +307,7 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
             });
         });
 
-        it.should("the removing of filtered associations and deleting them", function () {
+        it.should("the removing of filtered association and deleting them", function () {
             return Company.one().chain(function (company) {
                 return comb
                     .when([

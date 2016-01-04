@@ -9,7 +9,7 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 
-it.describe("patio.Model manyToMany camelize properties", function (it) {
+it.describe("patio.Model manyToMany eager camelize properties", function (it) {
 
 
     var Company, Employee;

@@ -71,10 +71,6 @@ it.describe("Dataset queries", function (it) {
             assert.equal(ds.insertSql({c: 'd'}), "INSERT INTO test (c) VALUES ('d')");
         });
 
-        it.should("accept hash with string keys", function () {
-            assert.equal(ds.insertSql({c: 'd'}), "INSERT INTO test (c) VALUES ('d')");
-        });
-
         it.should("accept array subscript references", function () {
             assert.equal(ds.insertSql(sql.day.sqlSubscript(1).eq("d")), "INSERT INTO test (day[1]) VALUES ('d')");
         });
