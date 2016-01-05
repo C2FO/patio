@@ -1480,7 +1480,5 @@ it.describe("Database", function (it) {
 
     });
 
-    it.afterAll(function() {
-        comb.hitch(patio, "disconnect");
-    });
+    it.afterAll(comb.hitch(patio, "disconnect"));
 });
