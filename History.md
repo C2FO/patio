@@ -1,3 +1,7 @@
+# 1.0.0
+
+* Adding Node 4 and 5 support.
+
 # 0.9.5
 
 * Remove `id` key from being created in a JsonArray
