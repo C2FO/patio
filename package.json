@@ -34,9 +34,9 @@
         "commander": ">=0.5.1",
         "hive-cache": "0.0.3",
         "mysql": "2.5.3",
-        "pg": "4.0.0",
-        "pg-query-stream": "0.7.0",
-        "pg-types": "1.6.0",
+        "pg": "4.4.3",
+        "pg-query-stream": "1.0.0",
+        "pg-types": "1.10.0",
         "validator": "~1.5.1"
     },
     "scripts": {

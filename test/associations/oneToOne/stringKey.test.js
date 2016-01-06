@@ -10,7 +10,9 @@ var it = require('it'),
 var gender = ["M", "F"];
 
 it.describe("patio.Model oneToOne with a string as the key", function (it) {
-    var Works, Employee;
+    var Works,
+        Employee;
+        
     it.beforeAll(function () {
         Works = patio.addModel("works").manyToOne("employee", {key: "employeeId"});
         Employee = patio.addModel("employee").oneToOne("works", {key: "employeeId"});

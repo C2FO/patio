@@ -12,6 +12,7 @@ it.describe("patio.Model oneToOne lazy", function (it) {
 
     var Works, Employee;
     it.beforeAll(function () {
+        // Looks like these are happening out of order or something
         Works = patio.addModel("works").manyToOne("employee");
         Employee = patio.addModel("employee").oneToOne("works");
         return helper.createSchemaAndSync(true).chain(function(){
