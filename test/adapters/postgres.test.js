@@ -844,7 +844,6 @@ if (process.env.PATIO_DB === "pg") {
                         called = 0;
 
                     db.listenOnce("myChannel").chain(function (payload) {
-                        console.log("1. called with payload", payload);
                         assert.equal(payload, "hello1");
                         called++;
                         ret.callback();
@@ -860,17 +859,14 @@ if (process.env.PATIO_DB === "pg") {
                         called = 0;
 
                         db.listenOnce("myChannel").chain(function (payload) {
-                            console.log("called again", called);
                             assert.equal(payload, "hello1");
                             called++;
                         });
                         return db.notify("myChannel", "hello1")
                             .chain(function () {
-                                console.log("1. fire 1 notify");
                                 return db.notify("myChannel", "hello2");
                             })
                             .chain(function () {
-                                console.log("2. fire 2 notify");
                                 return db.notify("myChannel", "hello3");
                             })
                             .chain(function () {

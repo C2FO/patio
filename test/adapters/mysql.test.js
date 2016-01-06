@@ -625,16 +625,13 @@ if (process.env.PATIO_DB === "mysql") {
                 return db
                     .createTable("items", function () {
                         this.primaryKey("id");
-                        console.log("1. MAKE the table...");
                     })
                     .chain(function (something) {
-                        console.log("2. MADE the table...");
                         return db.alterTable("items", function () {
                             this.addForeignKey("p_id", "items", {key: "id", "null": false, onDelete: "cascade"});
                         });
                     })
                     .chain(function () {
-                        console.log("3. go assert", db.sqls);
                         assert.deepEqual(db.sqls, [
                             'CREATE TABLE items (id integer PRIMARY KEY AUTO_INCREMENT)',
                             'ALTER TABLE items ADD COLUMN p_id integer NOT NULL',

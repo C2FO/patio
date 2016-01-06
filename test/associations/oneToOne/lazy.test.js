@@ -15,14 +15,11 @@ it.describe("patio.Model oneToOne lazy", function (it) {
         // Looks like these are happening out of order or something
         Works = patio.addModel("works").manyToOne("employee");
         Employee = patio.addModel("employee").oneToOne("works");
-        return helper.createSchemaAndSync(true).chain(function(){
-            console.log("1. schema made");
-        });
+        return helper.createSchemaAndSync(true);
     });
 
 
     it.should("have associations", function () {
-        console.log("2. run the tests");
         assert.deepEqual(Employee.associations, ["works"]);
         assert.deepEqual(Works.associations, ["employee"]);
         var emp = new Employee();

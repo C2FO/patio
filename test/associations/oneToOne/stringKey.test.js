@@ -12,19 +12,14 @@ var gender = ["M", "F"];
 it.describe("patio.Model oneToOne with a string as the key", function (it) {
     var Works,
         Employee;
-        
+
     it.beforeAll(function () {
         Works = patio.addModel("works").manyToOne("employee", {key: "employeeId"});
         Employee = patio.addModel("employee").oneToOne("works", {key: "employeeId"});
-        console.log("1. added the models!");
-        return helper.createSchemaAndSync(true).chain(function(){
-            console.log("2. adding models callback ran");
-            return;
-        });
+        return helper.createSchemaAndSync(true);
     });
 
     it.should("have associations", function () {
-        console.log("3. run test");
         assert.deepEqual(Employee.associations, ["works"]);
         assert.deepEqual(Works.associations, ["employee"]);
         var emp = new Employee();
@@ -36,7 +31,6 @@ it.describe("patio.Model oneToOne with a string as the key", function (it) {
     it.describe("create a new model with association", function (it) {
 
         it.beforeAll(function () {
-            console.log("4. remove the models.");
             return comb.when([Employee.remove(), Works.remove()]);
         });
 

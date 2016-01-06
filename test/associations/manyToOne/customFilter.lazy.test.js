@@ -301,18 +301,15 @@ it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
             return Company.one().chain(function (company) {
                 return comb.when([company.omahaEmployees, company.lincolnEmployees])
                     .chain(function (emps) {
-                        console.log("1. remove them all");
                         return comb.when([
-                            company.removeOmahaEmployee(emps[0], true).chain(function(){console.log("2. Omaha removed!");}),
-                            company.removeLincolnEmployee(emps[1], true).chain(function(){console.log("2 (3). Lincoln removed!");})
+                            company.removeOmahaEmployee(emps[0], true),
+                            company.removeLincolnEmployee(emps[1], true)
                         ]);
                     })
                     .chain(function () {
-                        console.log("3. reload?");
                         return comb.when([company.omahaEmployees, company.lincolnEmployees]);
                     })
                     .chain(function (emps) {
-                        console.log("4. go count them");
                         return Employee.count().chain(function (count) {
                             assert.equal(count, 1);
                             assert.lengthOf(emps[0], 0);
