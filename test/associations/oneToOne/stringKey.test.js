@@ -34,6 +34,7 @@ it.describe("patio.Model oneToOne with a string as the key", function (it) {
     it.describe("create a new model with association", function (it) {
 
         it.beforeAll(function () {
+            console.log("4. remove the models.");
             return comb.when([Employee.remove(), Works.remove()]);
         });
 

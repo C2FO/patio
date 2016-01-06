@@ -188,6 +188,9 @@ it.describe("patio.Model oneToOne lazy", function (it) {
     });
 
     it.afterAll(function () {
-        return helper.dropModels();
+        console.log("1. drop all the models. test/associations/oneToOne/lazy.test.js");
+        return helper.dropModels().chain(function() {
+            console.log("2. dopped the models from lazy test. test/associations/oneToOne/lazy.test.js");
+        });
     });
 });
