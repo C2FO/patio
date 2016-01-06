@@ -14,11 +14,15 @@ it.describe("patio.Model oneToOne with a string as the key", function (it) {
     it.beforeAll(function () {
         Works = patio.addModel("works").manyToOne("employee", {key: "employeeId"});
         Employee = patio.addModel("employee").oneToOne("works", {key: "employeeId"});
-        return helper.createSchemaAndSync(true);
+        console.log("1. added the models!");
+        return helper.createSchemaAndSync(true).chain(function(){
+            console.log("2. adding models callback ran");
+            return;
+        });
     });
 
-
     it.should("have associations", function () {
+        console.log("3. run test");
         assert.deepEqual(Employee.associations, ["works"]);
         assert.deepEqual(Works.associations, ["employee"]);
         var emp = new Employee();
