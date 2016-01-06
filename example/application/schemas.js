@@ -71,8 +71,7 @@ exports.createTables = function () {
 
 
 exports.dropTableAndDisconnect = function () {
-    return comb.executeInOrder(patio, DB, function (patio, db) {
-        db.forceDropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"]);
-        patio.disconnect();
+    return db.forceDropTable(["leg_instance", "flight_leg", "flight", "airplane", "can_land", "airplane_type", "airport"]).chain(function(){
+        return patio.disconnect();
     });
 };
