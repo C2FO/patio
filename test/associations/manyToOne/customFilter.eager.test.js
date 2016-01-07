@@ -11,7 +11,6 @@ var it = require('it'),
 var gender = ["M", "F"],
     cities = ["Omaha", "Lincoln", "Kearney"];
 
-
 it.describe("patio.Model manyToOne eager with custom filter", function (it) {
 
     var Company, Employee;

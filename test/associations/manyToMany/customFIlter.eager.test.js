@@ -123,9 +123,9 @@ it.describe("patio.Model manyToMany eager with filter", function (it) {
                     city: "Omaha"
                 });
                 return comb.when([
-                    company.addOmahaEmployee(omahaEmp),
-                    company.addLincolnEmployee(lincolnEmp)
-                ])
+                        company.addOmahaEmployee(omahaEmp),
+                        company.addLincolnEmployee(lincolnEmp)
+                    ])
                     .chain(function () {
                         assert.lengthOf(company.omahaEmployees, 1);
                         assert.lengthOf(company.lincolnEmployees, 1);
@@ -191,10 +191,10 @@ it.describe("patio.Model manyToMany eager with filter", function (it) {
 
         it.should("the removing of filtered association and deleting them", function () {
             return Company.one().chain(function (company) {
-                return comb.when([
-                    company.removeOmahaEmployee(company.omahaEmployees[0], true),
-                    company.removeLincolnEmployee(company.lincolnEmployees[0], true),
-                ])
+                return company.removeOmahaEmployee(company.omahaEmployees[0], true)
+                    .chain(function () {
+                        return company.removeLincolnEmployee(company.lincolnEmployees[0], true);
+                    })
                     .chain(function () {
                         return Employee.count();
                     })
@@ -208,10 +208,10 @@ it.describe("patio.Model manyToMany eager with filter", function (it) {
 
         it.should("the removing of filtered association without deleting them", function () {
             return Company.one().chain(function (company) {
-                return comb.when([
-                    company.removeOmahaEmployee(company.omahaEmployees[0]),
-                    company.removeLincolnEmployee(company.lincolnEmployees[0]),
-                ])
+                return company.removeOmahaEmployee(company.omahaEmployees[0])
+                    .chain(function () {
+                        return company.removeLincolnEmployee(company.lincolnEmployees[0]);
+                    })
                     .chain(function () {
                         return Employee.count();
                     })
@@ -225,10 +225,10 @@ it.describe("patio.Model manyToMany eager with filter", function (it) {
 
         it.should("the removing of filtered associations and deleting them", function () {
             return Company.one().chain(function (company) {
-                return comb.when([
-                    company.removeOmahaEmployees(company.omahaEmployees, true),
-                    company.removeLincolnEmployees(company.lincolnEmployees, true),
-                ])
+                return company.removeOmahaEmployees(company.omahaEmployees, true)
+                    .chain(function () {
+                        return company.removeLincolnEmployees(company.lincolnEmployees, true);
+                    })
                     .chain(function () {
                         return Employee.count();
                     })
@@ -243,10 +243,10 @@ it.describe("patio.Model manyToMany eager with filter", function (it) {
 
         it.should("the removing of filtered associations without deleting them", function () {
             return Company.one().chain(function (company) {
-                return comb.when([
-                    company.removeOmahaEmployees(company.omahaEmployees),
-                    company.removeLincolnEmployees(company.lincolnEmployees)
-                ])
+                return company.removeOmahaEmployees(company.omahaEmployees)
+                    .chain(function () {
+                        return company.removeLincolnEmployees(company.lincolnEmployees);
+                    })
                     .chain(function () {
                         return Employee.count();
                     })

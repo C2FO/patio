@@ -257,10 +257,9 @@ it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
             return Company.one().chain(function (company) {
                 return comb.when([company.omahaEmployees, company.lincolnEmployees])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0][0], true),
-                            company.removeLincolnEmployee(emps[1][0], true)
-                        ]);
+                        return company.removeOmahaEmployee(emps[0][0], true).chain(function () {
+                            return company.removeLincolnEmployee(emps[1][0], true);
+                        });
                     })
                     .chain(function () {
                         return comb.when([company.omahaEmployees, company.lincolnEmployees]);
@@ -279,10 +278,9 @@ it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
             return Company.one().chain(function (company) {
                 return comb.when([company.omahaEmployees, company.lincolnEmployees])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0][0]),
-                            company.removeLincolnEmployee(emps[1][0])
-                        ]);
+                        return company.removeOmahaEmployee(emps[0][0]).chain(function () {
+                            return company.removeLincolnEmployee(emps[1][0]);
+                        });
                     })
                     .chain(function () {
                         return comb.when([company.omahaEmployees, company.lincolnEmployees]);
@@ -301,10 +299,9 @@ it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
             return Company.one().chain(function (company) {
                 return comb.when([company.omahaEmployees, company.lincolnEmployees])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0], true),
-                            company.removeLincolnEmployee(emps[1], true)
-                        ]);
+                        return company.removeOmahaEmployee(emps[0], true).chain(function () {
+                            return company.removeLincolnEmployee(emps[1], true);
+                        });
                     })
                     .chain(function () {
                         return comb.when([company.omahaEmployees, company.lincolnEmployees]);
@@ -323,10 +320,9 @@ it.describe("patio.Model manyToOne lazy with custom filter", function (it) {
             return Company.one().chain(function (company) {
                 return comb.when([company.omahaEmployees, company.lincolnEmployees])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0]),
-                            company.removeLincolnEmployee(emps[1])
-                        ]);
+                        return company.removeOmahaEmployee(emps[0]).chain(function () {
+                            return company.removeLincolnEmployee(emps[1]);
+                        });
                     })
                     .chain(function () {
                         return comb.when([company.omahaEmployees, company.lincolnEmployees]);

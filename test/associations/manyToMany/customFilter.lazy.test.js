@@ -257,10 +257,9 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
                         company.lincolnEmployees
                     ])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0][0], true),
-                            company.removeLincolnEmployee(emps[1][0], true)
-                        ]);
+                        return company.removeOmahaEmployee(emps[0][0], true).chain(function () {
+                            return company.removeLincolnEmployee(emps[1][0], true);
+                        });
                     })
                     .chain(function () {
                         return comb.when([
@@ -286,10 +285,9 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
                         company.lincolnEmployees
                     ])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployee(emps[0][0]),
-                            company.removeLincolnEmployee(emps[1][0])
-                        ]);
+                        return company.removeOmahaEmployee(emps[0][0]).chain(function () {
+                            return company.removeLincolnEmployee(emps[1][0]);
+                        });
                     })
                     .chain(function () {
                         return comb.when([
@@ -315,10 +313,10 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
                         company.lincolnEmployees
                     ])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployees(emps[0], true),
-                            company.removeLincolnEmployees(emps[1], true)
-                        ]);
+                        return company.removeOmahaEmployees(emps[0], true)
+                            .chain(function () {
+                                return company.removeLincolnEmployees(emps[1], true);
+                            });
                     })
                     .chain(function () {
                         return comb.when([
@@ -344,10 +342,9 @@ it.describe("patio.Model manyToMany lazy with filter", function (it) {
                         company.lincolnEmployees
                     ])
                     .chain(function (emps) {
-                        return comb.when([
-                            company.removeOmahaEmployees(emps[0]),
-                            company.removeLincolnEmployees(emps[1])
-                        ]);
+                        return company.removeOmahaEmployees(emps[0]).chain(function () {
+                            return company.removeLincolnEmployees(emps[1]);
+                        });
                     })
                     .chain(function () {
                         return comb.when([

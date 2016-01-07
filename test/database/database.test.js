@@ -198,12 +198,24 @@ it.describe("Database", function (it) {
         it.should("respect the quoteIndentifiersDefault method if patio.quoteIdentifiers = null", function () {
             patio.quoteIdentifiers = null;
             assert.isTrue(new Database().quoteIdentifiers);
-            var X = comb.define(Database, {instance: {getters: {quoteIdentifiersDefault: function () {
-                return false;
-            }}}});
-            var Y = comb.define(Database, {instance: {getters: {quoteIdentifiersDefault: function () {
-                return true;
-            }}}});
+            var X = comb.define(Database, {
+                instance: {
+                    getters: {
+                        quoteIdentifiersDefault: function () {
+                            return false;
+                        }
+                    }
+                }
+            });
+            var Y = comb.define(Database, {
+                instance: {
+                    getters: {
+                        quoteIdentifiersDefault: function () {
+                            return true;
+                        }
+                    }
+                }
+            });
             assert.isFalse(new X().quoteIdentifiers);
             assert.isTrue(new Y().quoteIdentifiers);
         });
@@ -211,12 +223,24 @@ it.describe("Database", function (it) {
         it.should("respect the identifierInputMethodDefault method if patio.identifierInputMethod = null", function () {
             patio.identifierInputMethod = undefined;
             assert.equal(new Database().identifierInputMethod, "toUpperCase");
-            var X = comb.define(Database, {instance: {getters: {identifierInputMethodDefault: function () {
-                return "toLowerCase";
-            }}}});
-            var Y = comb.define(Database, {instance: {getters: {identifierInputMethodDefault: function () {
-                return "toUpperCase";
-            }}}});
+            var X = comb.define(Database, {
+                instance: {
+                    getters: {
+                        identifierInputMethodDefault: function () {
+                            return "toLowerCase";
+                        }
+                    }
+                }
+            });
+            var Y = comb.define(Database, {
+                instance: {
+                    getters: {
+                        identifierInputMethodDefault: function () {
+                            return "toUpperCase";
+                        }
+                    }
+                }
+            });
             assert.equal(new X().identifierInputMethod, "toLowerCase");
             assert.equal(new Y().identifierInputMethod, "toUpperCase");
         });
@@ -224,12 +248,24 @@ it.describe("Database", function (it) {
         it.should("respect the identifierOutputMethodDefault method if patio.identifierOutputMethod = null", function () {
             patio.identifierOutputMethod = undefined;
             assert.equal(new Database().identifierOutputMethod, "toLowerCase");
-            var X = comb.define(Database, {instance: {getters: {identifierOutputMethodDefault: function () {
-                return "toLowerCase";
-            }}}});
-            var Y = comb.define(Database, {instance: {getters: {identifierOutputMethodDefault: function () {
-                return "toUpperCase";
-            }}}});
+            var X = comb.define(Database, {
+                instance: {
+                    getters: {
+                        identifierOutputMethodDefault: function () {
+                            return "toLowerCase";
+                        }
+                    }
+                }
+            });
+            var Y = comb.define(Database, {
+                instance: {
+                    getters: {
+                        identifierOutputMethodDefault: function () {
+                            return "toUpperCase";
+                        }
+                    }
+                }
+            });
             assert.equal(new X().identifierOutputMethod, "toLowerCase");
             assert.equal(new Y().identifierOutputMethod, "toUpperCase");
         });
@@ -764,7 +800,7 @@ it.describe("Database", function (it) {
 
         it.describe("isolated options", function (it) {
 
-            it.beforeAll(function(){
+            it.beforeAll(function () {
                 db.supportsTransactionIsolationLevels = false;
             });
 
@@ -790,13 +826,13 @@ it.describe("Database", function (it) {
                     createTransaction(db, "c", 500, 0, {isolated: true}),
                     createTransaction(db, "d", 500, 0, {isolated: true})
                 ).chain(function () {
-                        assert.deepEqual(db.sqls, [
-                            'BEGIN', "DROP TABLE a", 'COMMIT',
-                            'BEGIN', "DROP TABLE b", 'COMMIT',
-                            'BEGIN', "DROP TABLE c", 'COMMIT',
-                            'BEGIN', "DROP TABLE d", 'COMMIT'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'BEGIN', "DROP TABLE a", 'COMMIT',
+                        'BEGIN', "DROP TABLE b", 'COMMIT',
+                        'BEGIN', "DROP TABLE c", 'COMMIT',
+                        'BEGIN', "DROP TABLE d", 'COMMIT'
+                    ]);
+                });
             });
 
             it.should("not isolate inner transaction unless specified", function () {
@@ -807,11 +843,11 @@ it.describe("Database", function (it) {
                     createTransaction(db, "c", 0, 700, {isolated: true}),
                     createTransaction(db, "d", 800, 0)
                 ).chain(function () {
-                        assert.deepEqual(db.sqls, [
-                            'BEGIN', "DROP TABLE b", "DROP TABLE a", 'COMMIT',
-                            'BEGIN', "DROP TABLE d", "DROP TABLE c", 'COMMIT'
-                        ]);
-                    });
+                    assert.deepEqual(db.sqls, [
+                        'BEGIN', "DROP TABLE b", "DROP TABLE a", 'COMMIT',
+                        'BEGIN', "DROP TABLE d", "DROP TABLE c", 'COMMIT'
+                    ]);
+                });
             });
 
             it.should("isolate transactions with isolated = true returned from an inner transaction", function () {
@@ -1064,8 +1100,8 @@ it.describe("Database", function (it) {
                 function (r) {
                     return r.sql;
                 }).chain(function (r) {
-                    assert.deepEqual(r, ['select a from b']);
-                });
+                assert.deepEqual(r, ['select a from b']);
+            });
         });
 
         it.should("return a dataset that always uses the given sql for SELECTs", function () {
@@ -1144,8 +1180,8 @@ it.describe("Database", function (it) {
                 db.dropView('sch__test'),
                 db.dropView(sql.test.qualify('sch'))
             ).chain(function () {
-                    assert.deepEqual(db.sqls, ['DROP VIEW test', 'DROP VIEW test', 'DROP VIEW sch.test', 'DROP VIEW sch.test']);
-                }, console.log);
+                assert.deepEqual(db.sqls, ['DROP VIEW test', 'DROP VIEW test', 'DROP VIEW sch.test', 'DROP VIEW sch.test']);
+            }, console.log);
         });
     });
 
@@ -1251,11 +1287,11 @@ it.describe("Database", function (it) {
             assert.equal(typeLiteral(String, {size: 25}), "varchar(25)");
             assert.equal(typeLiteral(Buffer), "blob");
             assert.equal(typeLiteral(Number), "numeric");
-            assert.equal(typeLiteral(Number, {size: 2 }), "numeric(2)");
+            assert.equal(typeLiteral(Number, {size: 2}), "numeric(2)");
             assert.equal(typeLiteral(Number, {isInt: true}), "integer");
-            assert.equal(typeLiteral(Number, {isDouble: true }), "double precision");
-            assert.equal(typeLiteral(sql.Float, {isDouble: true }), "double precision");
-            assert.equal(typeLiteral(sql.Decimal, {isDouble: true }), "double precision");
+            assert.equal(typeLiteral(Number, {isDouble: true}), "double precision");
+            assert.equal(typeLiteral(sql.Float, {isDouble: true}), "double precision");
+            assert.equal(typeLiteral(sql.Decimal, {isDouble: true}), "double precision");
             assert.equal(typeLiteral(Date), "date");
             assert.equal(typeLiteral(sql.Time), "time");
             assert.equal(typeLiteral(Date, {onlyTime: true}), "time");
@@ -1274,11 +1310,11 @@ it.describe("Database", function (it) {
             assert.equal(typeLiteral("string"), "varchar(255)");
             assert.equal(typeLiteral("buffer"), "blob");
             assert.equal(typeLiteral("number"), "numeric");
-            assert.equal(typeLiteral("number", {size: 2 }), "numeric(2)");
+            assert.equal(typeLiteral("number", {size: 2}), "numeric(2)");
             assert.equal(typeLiteral("number", {isInt: true}), "integer");
-            assert.equal(typeLiteral("number", {isDouble: true }), "double precision");
-            assert.equal(typeLiteral("float", {isDouble: true }), "double precision");
-            assert.equal(typeLiteral("decimal", {isDouble: true }), "double precision");
+            assert.equal(typeLiteral("number", {isDouble: true}), "double precision");
+            assert.equal(typeLiteral("float", {isDouble: true}), "double precision");
+            assert.equal(typeLiteral("decimal", {isDouble: true}), "double precision");
             assert.equal(typeLiteral("date"), "date");
             assert.equal(typeLiteral("time"), "time");
             assert.equal(typeLiteral("date", {onlyTime: true}), "time");
@@ -1480,7 +1516,7 @@ it.describe("Database", function (it) {
 
     });
 
-    it.afterAll(function() {
-         comb.hitch(patio, "disconnect");
+    it.afterAll(function () {
+        comb.hitch(patio, "disconnect");
     });
 });

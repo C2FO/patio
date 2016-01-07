@@ -849,34 +849,40 @@ if (process.env.PATIO_DB === "pg") {
                         called++;
                         ret.callback();
                     }, finalPromise.errback);
-                    setTimeout(function () {
-                        comb.when([
-                            db.notify("myChannel", "hello1"),
-                            db.notify("myChannel", "hello2"),
-                            db.notify("myChannel", "hello3"),
-                            ret
-                        ]).chain(function () {
+                    db.notify("myChannel", "hello1")
+                        .chain(function () {
+                            return db.notify("myChannel", "hello2");
+                        })
+                        .chain(function () {
+                            return db.notify("myChannel", "hello3");
+                        })
+                        .chain(function () {
+                            return ret;
+                        })
+                        .chain(function () {
                             assert.equal(called, 1);
                             called = 0;
+                            var ret = new comb.Promise();
                             db.listenOnce("myChannel").chain(function (payload) {
                                 assert.equal(payload, "hello1");
                                 called++;
+                                ret.callback();
                             }, finalPromise.errback);
-                            setTimeout(function () {
-                                return db.notify("myChannel", "hello1")
-                                    .chain(function () {
-                                        return db.notify("myChannel", "hello2");
-                                    })
-                                    .chain(function () {
-                                        return db.notify("myChannel", "hello3");
-                                    })
-                                    .chain(function () {
-                                        assert.equal(called, 1);
-                                        finalPromise.callback();
-                                    }, finalPromise.errback);
-                            }, 500);
-                        }, finalPromise.errback);
-                    }, 500);
+                            return db.notify("myChannel", "hello1")
+                                .chain(function () {
+                                    return db.notify("myChannel", "hello2");
+                                })
+                                .chain(function () {
+                                    return db.notify("myChannel", "hello3");
+                                })
+                                .chain(function () {
+                                    return ret;
+                                })
+                                .chain(function () {
+                                    assert.equal(called, 1);
+                                    finalPromise.callback();
+                                });
+                        }).chain(finalPromise.callback, finalPromise.errback);
                     return finalPromise;
                 });
 
