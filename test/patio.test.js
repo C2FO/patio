@@ -135,20 +135,18 @@ it.describe("patio", function (it) {
         assert.isTrue(DB1 === patio.defaultDatabase);
         var DB2 = patio.createConnection("dummyDB://test:testpass@localhost/dummySchema");
         assert.instanceOf(DB2, DummyDatabase);
-        var DB3;
-        return patio.connectAndExecute("dummyDB://test:testpass@localhost/dummySchema",
-            function (db) {
-                db.dropTable("test");
-                db.createTable("test", function () {
+        var DB3 = patio.connect("dummyDB://test:testpass@localhost/dummySchema");
+        return DB3.dropTable("test")
+            .chain(function () {
+                return DB3.createTable("test", function () {
                     this.primaryKey("id");
                     this.name(String);
                     this.age(Number);
                 });
-            }).chain(function (db) {
-                DB3 = db;
-                assert.instanceOf(db, DummyDatabase);
-                assert.isTrue(db.connected);
-                assert.deepEqual(db.sqls, ['DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)']);
+            })
+            .chain(function () {
+                assert.isTrue(DB3.connected);
+                assert.deepEqual(DB3.sqls, ['DROP TABLE "test"', 'CREATE TABLE "test" ("id" integer PRIMARY KEY AUTOINCREMENT, "name" varchar(255), "age" numeric)']);
                 assert.deepEqual(patio.DATABASES, [DB1, DB2, DB3]);
             });
     });

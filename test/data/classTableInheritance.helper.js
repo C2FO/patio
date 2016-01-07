@@ -15,7 +15,7 @@ module.exports = {
 function dropTableAndDisconnect() {
     return DB.forceDropTable(["staff", "executive", "manager", "employee"])
         .chain(function () {
-            patio.disconnect();
+            return patio.disconnect();
         })
         .chain(function () {
             patio.resetIdentifierMethods();

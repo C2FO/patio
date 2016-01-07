@@ -23,7 +23,7 @@ function dropModels() {
 function dropTableAndDisconnect() {
     return DB.forceDropTable("employee")
         .chain(function () {
-            patio.disconnect();
+            return patio.disconnect();
         })
         .chain(function () {
             patio.resetIdentifierMethods();

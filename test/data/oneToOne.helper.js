@@ -25,7 +25,7 @@ function dropModels() {
 function dropTableAndDisconnect() {
     return DB.dropTable(["works", "employee"])
         .chain(function () {
-            patio.disconnect();
+            return patio.disconnect();
         })
         .chain(function () {
             patio.resetIdentifierMethods();

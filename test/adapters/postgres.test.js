@@ -437,9 +437,9 @@ if (process.env.PATIO_DB === "pg") {
 
             it.should("support column operations", function () {
                 return comb.hitch(db, "forceCreateTable", "test2")(function () {
-                    this.name("text");
-                    this.value("integer");
-                })
+                        this.name("text");
+                        this.value("integer");
+                    })
                     .chain(function () {
                         return db.from("test2").insert();
                     })
@@ -547,11 +547,11 @@ if (process.env.PATIO_DB === "pg") {
 
             it.should("support opclass specification", function () {
                 return db.createTable("posts", function () {
-                    this.title("text");
-                    this.body("text");
-                    this.userId("integer");
-                    this.index("userId", {opclass: "int4_ops", type: "btree"});
-                })
+                        this.title("text");
+                        this.body("text");
+                        this.userId("integer");
+                        this.index("userId", {opclass: "int4_ops", type: "btree"});
+                    })
                     .chain(function () {
                         assert.deepEqual(db.sqls, [
                             'CREATE TABLE posts (title text, body text, user_id integer)',
@@ -563,11 +563,11 @@ if (process.env.PATIO_DB === "pg") {
             it.should("support fulltext indexes and searching", function () {
                 var ds = db.from("posts");
                 return comb.hitch(db, "createTable", "posts")(function () {
-                    this.title("text");
-                    this.body("text");
-                    this.fullTextIndex(["title", "body"]);
-                    this.fullTextIndex("title", {language: 'french'});
-                })
+                        this.title("text");
+                        this.body("text");
+                        this.fullTextIndex(["title", "body"]);
+                        this.fullTextIndex("title", {language: 'french'});
+                    })
                     .chain(function () {
                         assert.deepEqual(db.sqls, [
                             'CREATE TABLE posts (title text, body text)',
@@ -672,8 +672,8 @@ if (process.env.PATIO_DB === "pg") {
 
             it.should("support renaming tables", function () {
                 return comb.hitch(db, "createTable", "posts1")(function () {
-                    this.primaryKey("a");
-                })
+                        this.primaryKey("a");
+                    })
                     .chain(comb.hitch(db, "renameTable", "posts1", "posts"))
                     .chain(function () {
                         assert.deepEqual(db.sqls, [
@@ -841,38 +841,43 @@ if (process.env.PATIO_DB === "pg") {
 
                 it.should("listen once to an event", function () {
                     var ret = new comb.Promise(),
+                        finalPromise = new comb.Promise(),
                         called = 0;
 
                     db.listenOnce("myChannel").chain(function (payload) {
                         assert.equal(payload, "hello1");
                         called++;
                         ret.callback();
-                    });
-
-                    return comb.when([
-                        db.notify("myChannel", "hello1"),
-                        db.notify("myChannel", "hello2"),
-                        db.notify("myChannel", "hello3"),
-                        ret
-                    ]).chain(function () {
-                        assert.equal(called, 1);
-                        called = 0;
-
-                        db.listenOnce("myChannel").chain(function (payload) {
-                            assert.equal(payload, "hello1");
-                            called++;
-                        });
-                        return db.notify("myChannel", "hello1")
-                            .chain(function () {
-                                return db.notify("myChannel", "hello2");
-                            })
-                            .chain(function () {
-                                return db.notify("myChannel", "hello3");
-                            })
-                            .chain(function () {
-                                assert.equal(called, 1);
-                            });
-                    });
+                    }, finalPromise.errback);
+                    setTimeout(function () {
+                        comb.when([
+                            db.notify("myChannel", "hello1"),
+                            db.notify("myChannel", "hello2"),
+                            db.notify("myChannel", "hello3"),
+                            ret
+                        ]).chain(function () {
+                            assert.equal(called, 1);
+                            called = 0;
+                            setTimeout(function () {
+                                db.listenOnce("myChannel").chain(function (payload) {
+                                    assert.equal(payload, "hello1");
+                                    called++;
+                                }, finalPromise.errback);
+                                return db.notify("myChannel", "hello1")
+                                    .chain(function () {
+                                        return db.notify("myChannel", "hello2");
+                                    })
+                                    .chain(function () {
+                                        return db.notify("myChannel", "hello3");
+                                    })
+                                    .chain(function () {
+                                        assert.equal(called, 1);
+                                        finalPromise.callback();
+                                    }, finalPromise.errback);
+                            }, 500);
+                        }, finalPromise.errback);
+                    }, 500);
+                    return finalPromise;
                 });
 
                 it("unlisten should not error if the channel is not found", function () {
