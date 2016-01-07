@@ -858,11 +858,11 @@ if (process.env.PATIO_DB === "pg") {
                         ]).chain(function () {
                             assert.equal(called, 1);
                             called = 0;
+                            db.listenOnce("myChannel").chain(function (payload) {
+                                assert.equal(payload, "hello1");
+                                called++;
+                            }, finalPromise.errback);
                             setTimeout(function () {
-                                db.listenOnce("myChannel").chain(function (payload) {
-                                    assert.equal(payload, "hello1");
-                                    called++;
-                                }, finalPromise.errback);
                                 return db.notify("myChannel", "hello1")
                                     .chain(function () {
                                         return db.notify("myChannel", "hello2");
