@@ -7,6 +7,8 @@ var it = require('it'),
     comb = require("comb"),
     config = require("../test.config.js");
 
+// patio.configureLogging();
+
 if (process.env.PATIO_DB === "pg") {
     it.describe("patio.adapters.Postgres", function (it) {
 
@@ -817,6 +819,7 @@ if (process.env.PATIO_DB === "pg") {
             });
 
             it.describe("#listen, #listenOnce, #notify, and #unListen", function (it) {
+                it.timeout(10000); // timeout if it doesn't work
 
                 it.should("listen to a channel", function () {
                     var ret = new comb.Promise();
@@ -850,41 +853,45 @@ if (process.env.PATIO_DB === "pg") {
                         ret.callback();
                     }, finalPromise.errback);
 
-                    db.notify("myChannel", "hello1")
-                        .chain(function () {
-                            return db.notify("myChannel", "hello2");
-                        })
-                        .chain(function () {
-                            return db.notify("myChannel", "hello3");
-                        })
-                        .chain(function () {
-                            return ret;
-                        })
-                        .chain(function () {
-                            assert.equal(called, 1);
-                            called = 0;
-                            var ret2 = new comb.Promise();
-                            db.listenOnce("myChannel").chain(function (payload) {
-                                assert.equal(payload, "hello1");
-                                called++;
-                                ret2.callback();
-                            }, finalPromise.errback);
+                    call in a second to make sure the listenOnce is setup.
+                    setTimeout(function(){
+                        db.notify("myChannel", "hello1")
+                            .chain(function () {
+                                return db.notify("myChannel", "hello2");
+                            })
+                            .chain(function () {
+                                return db.notify("myChannel", "hello3");
+                            })
+                            .chain(function () {
+                                return ret;
+                            })
+                            .chain(function () {
+                                assert.equal(called, 1);
+                                called = 0;
+                                var ret2 = new comb.Promise();
+                                db.listenOnce("myChannel").chain(function (payload) {
+                                    assert.equal(payload, "hello1");
+                                    called++;
+                                    ret2.callback();
+                                }, finalPromise.errback);
 
-                            return db.notify("myChannel", "hello1")
-                                .chain(function () {
-                                    return db.notify("myChannel", "hello2");
-                                })
-                                .chain(function () {
-                                    return db.notify("myChannel", "hello3");
-                                })
-                                .chain(function () {
-                                    return ret2;
-                                })
-                                .chain(function () {
-                                    assert.equal(called, 1);
-                                    finalPromise.callback();
-                                });
-                        }).chain(finalPromise.callback, finalPromise.errback);
+                                return db.notify("myChannel", "hello1")
+                                    .chain(function () {
+                                        return db.notify("myChannel", "hello2");
+                                    })
+                                    .chain(function () {
+                                        return db.notify("myChannel", "hello3");
+                                    })
+                                    .chain(function () {
+                                        return ret2;
+                                    })
+                                    .chain(function () {
+                                        assert.equal(called, 1);
+                                        finalPromise.callback();
+                                    });
+                            }).chain(finalPromise.callback, finalPromise.errback);
+                        }, 1000);
+
                     return finalPromise;
                 });
 

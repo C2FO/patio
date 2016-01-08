@@ -23,6 +23,9 @@ after_script:
 
 language: node_js
 node_js:
-  - "4"
-  - "5"
+  - "4.2"
+  - "4.1"
+  - "5.1"
+  - "5.2"
+  - "5.3"
   - "stable"
