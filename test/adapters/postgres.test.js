@@ -849,6 +849,7 @@ if (process.env.PATIO_DB === "pg") {
                         called++;
                         ret.callback();
                     }, finalPromise.errback);
+
                     db.notify("myChannel", "hello1")
                         .chain(function () {
                             return db.notify("myChannel", "hello2");
@@ -862,12 +863,13 @@ if (process.env.PATIO_DB === "pg") {
                         .chain(function () {
                             assert.equal(called, 1);
                             called = 0;
-                            var ret = new comb.Promise();
+                            var ret2 = new comb.Promise();
                             db.listenOnce("myChannel").chain(function (payload) {
                                 assert.equal(payload, "hello1");
                                 called++;
-                                ret.callback();
+                                ret2.callback();
                             }, finalPromise.errback);
+
                             return db.notify("myChannel", "hello1")
                                 .chain(function () {
                                     return db.notify("myChannel", "hello2");
@@ -876,7 +878,7 @@ if (process.env.PATIO_DB === "pg") {
                                     return db.notify("myChannel", "hello3");
                                 })
                                 .chain(function () {
-                                    return ret;
+                                    return ret2;
                                 })
                                 .chain(function () {
                                     assert.equal(called, 1);
