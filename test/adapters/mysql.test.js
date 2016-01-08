@@ -593,6 +593,7 @@ if (process.env.PATIO_DB === "mysql") {
             });
 
             it.beforeEach(function () {
+                console.log("1. without this it fails randomly");
                 return db.forceDropTable("items").chain(function () {
                     db.sqls = [];
                 });
@@ -622,7 +623,6 @@ if (process.env.PATIO_DB === "mysql") {
             });
 
             it.should("correctly format ALTER TABLE statements with foreign keys", function () {
-                console.log("1. go alter");
                 return db
                     .createTable("items", function () {
                         this.primaryKey("id");
