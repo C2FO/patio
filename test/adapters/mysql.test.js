@@ -595,7 +595,7 @@ if (process.env.PATIO_DB === "mysql") {
             it.beforeEach(function () {
                 console.log("1. DROP");
                 return db.forceDropTable("items").chain(function () {
-                    console.log("2. DROPPED!!!");
+                    console.log("2. DROPPED!");
                     db.sqls = [];
                 });
             });
