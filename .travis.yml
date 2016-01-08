@@ -1,6 +1,9 @@
 env:
   - CXX=g++-4.8
 
+services:
+  - mysql
+
 addons:
   postgresql: "9.3"
   apt:
@@ -11,6 +14,7 @@ addons:
 
 before_script:
   - npm install -g grunt-cli
+  - mysql --help
   - mysql -e 'create database sandbox;'
   - mysql -e 'create database sandbox2;'
   - psql -c 'create database sandbox;' -U postgres
