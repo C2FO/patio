@@ -853,7 +853,7 @@ if (process.env.PATIO_DB === "pg") {
                         ret.callback();
                     }, finalPromise.errback);
 
-                    call in a second to make sure the listenOnce is setup.
+                    // call in a second to make sure the listenOnce is setup.
                     setTimeout(function(){
                         db.notify("myChannel", "hello1")
                             .chain(function () {
