@@ -593,7 +593,9 @@ if (process.env.PATIO_DB === "mysql") {
             });
 
             it.beforeEach(function () {
+                console.log("1. DROP");
                 return db.forceDropTable("items").chain(function () {
+                    console.log("2. DROPPED!");
                     db.sqls = [];
                 });
             });
@@ -622,12 +624,16 @@ if (process.env.PATIO_DB === "mysql") {
             });
 
             it.should("correctly format ALTER TABLE statements with foreign keys", function () {
+                console.log("1. go alter");
                 return db
                     .createTable("items", function () {
+                        console.log("2. in createtable items");
                         this.primaryKey("id");
                     })
                     .chain(function (something) {
+                        console.log("3. in db alter");
                         return db.alterTable("items", function () {
+                            console.log("4. addForeignKey");
                             this.addForeignKey("p_id", "items", {key: "id", "null": false, onDelete: "cascade"});
                         });
                     })
