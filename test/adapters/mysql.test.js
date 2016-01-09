@@ -41,15 +41,15 @@ if (process.env.PATIO_DB === "mysql") {
                 };
             }
 
-            return new Promise(function (resolve) {
-                return MYSQL_DB.forceCreateTable("test2", function () {
-                    this.name("text");
-                    this.value("integer");
-                }).chain(forceDrop("items"), forceDrop("items"))
-                    .chain(forceDrop("dolls"), forceDrop("dolls"))
-                    .chain(forceDrop("booltest"), forceDrop("booltest"))
-                    .chain(resolve, resolve);
-            });
+            var prom = new comb.Promise();
+
+            return MYSQL_DB.forceCreateTable("test2", function () {
+                this.name("text");
+                this.value("integer");
+            }).chain(forceDrop("items"), forceDrop("items"))
+            .chain(forceDrop("dolls"), forceDrop("dolls"))
+            .chain(forceDrop("booltest"), forceDrop("booltest"))
+            .chain(prom.callback, prom.errback);
         });
 
 
