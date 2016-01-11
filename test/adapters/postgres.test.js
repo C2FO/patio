@@ -7,8 +7,6 @@ var it = require('it'),
     comb = require("comb"),
     config = require("../test.config.js");
 
-// patio.configureLogging();
-
 if (process.env.PATIO_DB === "pg") {
     it.describe("patio.adapters.Postgres", function (it) {
 
