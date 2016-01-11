@@ -19,7 +19,7 @@ it.describe("Model with cache plugin", function (it) {
                     return this.db.execute(this.updateSql.apply(this, arguments));
                 },
 
-                fetchRows: function (sql, cb) {
+                fetchRows: function (sql) {
                     return comb.async.array(this.db.execute(sql));
                 },
 
@@ -39,7 +39,7 @@ it.describe("Model with cache plugin", function (it) {
                     });
                 },
 
-                execute: function (sql, opts) {
+                execute: function (sql) {
                     var ret = new comb.Promise();
                     this.sqls.push(sql);
                     if (sql.match(/select/i)) {
@@ -124,7 +124,7 @@ it.describe("Model with cache plugin", function (it) {
             var cachedModel = Model.cache.get(res.tableName + res.primaryKeyValue);
             assert.deepEqual(mockDb.sqls, ["SELECT * FROM cache LIMIT 1"]);
             mockDb.reset();
-            return res.update({b: false}).chain(function (res, res2) {
+            return res.update({b: false}).chain(function (res) {
                 assert.strictEqual(res, cachedModel);
                 assert.deepEqual(mockDb.sqls, [
                     "UPDATE cache SET b = 'f' WHERE (id = 1)",

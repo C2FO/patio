@@ -31,4 +31,4 @@ exports.down = function (db) {
             this.renameColumn("column5", "column4");
         })
     );
-}
+};

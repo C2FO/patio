@@ -166,7 +166,6 @@ it.describe("Models from mutliple databases", function (it) {
                 assert.lengthOf(res[0], 0);
                 assert.lengthOf(res[1], 0);
             });
-        ;
     });
 
     it.afterAll(dropTableAndDisconnect);

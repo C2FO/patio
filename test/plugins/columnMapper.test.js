@@ -3,9 +3,7 @@ var it = require('it'),
     helper = require("../data/mappedColumnPlugin.helper.js"),
     patio = require("../../lib"),
     sql = patio.sql,
-    comb = require("comb"),
-    Promise = comb.Promise,
-    hitch = comb.hitch;
+    comb = require("comb");
 
 
 var gender = ["M", "F"];
@@ -291,7 +289,7 @@ it.describe("patio.plugins.ColumnMapper", function (it) {
         });
         return employee.save()
             .chain(function () {
-                Employee.reloadOnUpdate = false
+                Employee.reloadOnUpdate = false;
                 assert.equal(employee.salary, 100000);
                 assert.equal(employee.mySalary, 90000);
                 assert.equal(employee.salaryInner, 80000);
