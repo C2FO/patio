@@ -14,7 +14,7 @@ exports.up = function (db) {
             this.renameColumn("column4", "column5");
         })
     );
-}
+};
 
 exports.down = function (db) {
     return comb.when(
@@ -31,4 +31,4 @@ exports.down = function (db) {
             this.renameColumn("column5", "column4");
         })
     );
-}
+};

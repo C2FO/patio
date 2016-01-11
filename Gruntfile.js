@@ -2,12 +2,33 @@
 module.exports = function (grunt) {
     // Project configuration.
 
+    // Automatic module definition loading. Significantly speeds up build cycles
+    require('jit-grunt')(grunt);
+
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+    // Project configuration.
     var DEFAULT_COVERAGE_ARGS = ["cover", "-x", "Gruntfile.js", "--report", "none", "--print", "none", "--include-pid", "grunt", "--", "it"];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        patio: {
+            paths: {
+                root: './',
+                lib: './lib',
+                test: './test'
+            }
+        },
+
         jshint: {
-            src: ["./index.js", "lib/**/*.js", "Gruntfile.js"],
+            src: [
+                "./index.js",
+                "<%= patio.paths.lib %>/**/*.js",
+                "<%= patio.paths.test %>/**/*.js",
+                "Gruntfile.js"
+            ],
             options: {
                 jshintrc: '.jshintrc'
             }
@@ -101,4 +122,3 @@ module.exports = function (grunt) {
 
 
 };
-
