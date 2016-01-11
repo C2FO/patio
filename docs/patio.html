@@ -439,20 +439,6 @@
 
                             </a></li>
                             
-                            <li><a href="./patio.html#connectAndExecute">
-                                
-                                
-                                <span class="label label-label">F</span>
-                                
-                                
-                                
-                                <span class="label label-success">P</span>
-                                
-                                
-                                connectAndExecute
-
-                            </a></li>
-                            
                             <li><a href="./patio.html#createConnection">
                                 
                                 
@@ -971,86 +957,6 @@ function (opts){
     <pre class="prettyprint linenums lang-js">
 function (){
    return this.createConnection.apply(this, arguments);
-           
-}
-    </pre>
-    
-
-
-  
-    <a name="connectAndExecute"></a>
-    <h3>
-        connectAndExecute
-        
-        
-        <span class="label label-label">Function</span>
-        
-        
-                
-         <span class="label label-success">Public</span>
-                
-        
-   </h3>
-
-<hr/>
-<em>Defined index.js</em>
-
-<p><p>This method allows one to connect to a database and immediately execute code.
-For connection options </p>
-</p>
-
-    <em>Example</em>
-        <pre class="prettyprint linenums lang-js">
-var DB;
-var CONNECT_STRING = &quot;dummyDB://test:testpass@localhost/dummySchema&quot;;
-var connectPromise = patio.connectAndExecute(CONNECT_STRING, function (db) {
-     db.dropTable(&quot;test&quot;);
-     db.createTable(&quot;test&quot;, function () {
-         this.primaryKey(&quot;id&quot;);
-         this.name(String);
-         this.age(Number);
-     });
-});
-
-connectPromise.chain(function (db) {
-     //do more stuff!
- });
-        </pre>
-
-
-    <em>Arguments</em>
-    <ul>
-    
-        <li> <em>options</em>  : </li>
-    
-        <li> <em>cb</em>  : <p>the function to callback once connected.</p>
-</li>
-    
-     </ul>
-
-
-    <em>Returns</em>
-    <ul>
-    
-        <li> <code>comb.Promise</code> <p>a promise that is resolved once the database execution has finished.</p>
-</li>
-    
-    </ul>
-
-
-
-    
-    <em>Source</em>
-    <pre class="prettyprint linenums lang-js">
-function (options,cb){
-   if (!isFunction(cb)) {
-       throw new PatioError(&quot;callback must be a function&quot;);
-   }
-   var db = this.createConnection.apply(this, arguments);
-   return executeInOrder(db, patio, function (db, patio) {
-       cb(db, patio);
-       return db;
-   });
            
 }
     </pre>
