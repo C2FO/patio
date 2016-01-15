@@ -62,6 +62,3 @@ it.describe("A model with a custom dataset", function (it) {
         return helper.dropModels();
     });
 });
-
-
-

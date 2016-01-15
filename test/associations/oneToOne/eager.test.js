@@ -1,31 +1,20 @@
+"use strict";
+
 var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/oneToOne.helper.js"),
     patio = require("../../../lib"),
-    comb = require("comb"),
-    hitch = comb.hitch;
-
+    comb = require("comb");
 
 var gender = ["M", "F"];
-it.describe("One To One eager", function (it) {
+
+it.describe("patio.Model oneToOne eager", function (it) {
     var Works, Employee;
     it.beforeAll(function () {
-        Works = patio.addModel("works", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.manyToOne("employee", {fetchType: this.fetchType.EAGER});
-                }
-            }
-        });
-        Employee = patio.addModel("employee", {
-            "static": {
-                init: function () {
-                    this._super(arguments);
-                    this.oneToOne("works", {fetchType: this.fetchType.EAGER});
-                }
-            }
-        });
+        Works = patio.addModel("works");
+        Works.manyToOne("employee", {fetchType: Works.fetchType.EAGER});
+        Employee = patio.addModel("employee");
+        Employee.oneToOne("works", {fetchType: Employee.fetchType.EAGER});
         return helper.createSchemaAndSync(true);
     });
 
@@ -42,10 +31,7 @@ it.describe("One To One eager", function (it) {
     it.describe("create a new model with association", function (it) {
 
         it.beforeAll(function () {
-            return comb.when(
-                Employee.remove(),
-                Works.remove()
-            );
+            return comb.when([Employee.remove(), Works.remove()]);
         });
 
 
@@ -73,10 +59,12 @@ it.describe("One To One eager", function (it) {
     it.context(function (it) {
 
         it.beforeEach(function () {
-            return comb.serial([
-                hitch(Employee, "remove"),
-                hitch(Works, "remove"),
-                function () {
+            return comb
+                .when([
+                    Employee.remove(),
+                    Works.remove()
+                ])
+                .chain(function () {
                     return new Employee({
                         lastName: "last" + 1,
                         firstName: "first" + 1,
@@ -89,17 +77,18 @@ it.describe("One To One eager", function (it) {
                             salary: 100000
                         }
                     }).save();
-                }
-            ]);
+                });
         });
 
         it.should("load associations when querying", function () {
-            return comb.when(Employee.one(), Works.one()).chain(function (res) {
-                var emp = res[0], work = res[1];
-                var empWorks = emp.works, worksEmp = work.employee;
-                assert.instanceOf(worksEmp, Employee);
-                assert.instanceOf(empWorks, Works);
-            });
+            return comb
+                .when([Employee.one(), Works.one()])
+                .chain(function (res) {
+                    var emp = res[0], work = res[1];
+                    var empWorks = emp.works, worksEmp = work.employee;
+                    assert.instanceOf(worksEmp, Employee);
+                    assert.instanceOf(empWorks, Works);
+                });
         });
 
         it.should("allow the removing of associations", function () {
@@ -119,10 +108,7 @@ it.describe("One To One eager", function (it) {
 
     it.context(function () {
         it.beforeEach(function () {
-            return comb.when(
-                Works.remove(),
-                Employee.remove()
-            );
+            return comb.when([Works.remove(), Employee.remove()]);
         });
 
         it.should("allow the setting of associations", function () {
@@ -161,10 +147,11 @@ it.describe("One To One eager", function (it) {
             });
             return e.save().chain(function () {
                 return e.remove().chain(function () {
-                    return comb.when(Employee.all(), Works.all()).chain(function (res) {
-                        assert.lengthOf(res[0], 0);
-                        assert.lengthOf(res[1], 1);
-                    });
+                    return comb.when([Employee.all(), Works.all()])
+                        .chain(function (res) {
+                            assert.lengthOf(res[0], 0);
+                            assert.lengthOf(res[1], 1);
+                        });
                 });
             });
         });

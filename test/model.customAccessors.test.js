@@ -1,11 +1,12 @@
+"use strict";
 var it = require('it'),
     assert = require('assert'),
     helper = require("./data/model.helper.js"),
     patio = require("../lib"),
-    comb = require("comb-proxy");
+    comb = require("comb");
 
 
-it.describe("A model with custom accessors", function (it) {
+it.describe("patio.Model with custom accessors", function (it) {
 
     it.beforeAll(function () {
         return helper.createSchemaAndSync();
@@ -58,7 +59,6 @@ it.describe("A model with custom accessors", function (it) {
             })
             .chain(function (emp) {
                 // Check getters
-                //console.log(emp);
                 assert.equal(emp.firstname, "leia");
                 assert.equal(emp.lastname, "SKYWALKER");
                 // And the actual (raw) value

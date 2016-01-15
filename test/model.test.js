@@ -1,12 +1,13 @@
+"use strict";
+
 var it = require('it'),
     assert = require('assert'),
     helper = require("./data/model.helper.js"),
     patio = require("../lib"),
     sql = patio.SQL,
-    comb = require("comb-proxy"),
-    EventEmitter = require("events").EventEmitter,
+    comb = require("comb"),
     hitch = comb.hitch,
-    config = require("./test.config");
+    config = require("./test.config.js");
 
 var gender = ["M", "F"];
 
@@ -159,7 +160,8 @@ it.describe("patio.Model", function (it) {
                     assert.equal(emp.city, "City " + i);
                 });
                 return Employee.count();
-            }).chain(function (count) {
+            })
+            .chain(function (count) {
                 assert.equal(count, 20);
             });
     });
@@ -186,9 +188,8 @@ it.describe("patio.Model", function (it) {
                 }
                 emps.push(emp);
             }
-            return comb.executeInOrder(Employee, function (emp) {
-                emp.truncate();
-                emp.save(emps);
+            return Employee.truncate().chain(function () {
+                return Employee.save(emps);
             });
         });
 
@@ -294,12 +295,12 @@ it.describe("patio.Model", function (it) {
                 var ids = emps.map(function (emp) {
                     return emp.id;
                 });
-                return comb.when(
+                return comb.when([
                     Employee.map("id"),
                     Employee.order("position").map(function (e) {
                         return e.firstname + " " + e.lastname;
                     })
-                )
+                ])
                     .chain(function (res) {
                         assert.lengthOf(res[0], 20);
                         res[0].forEach(function (id, i) {
@@ -336,16 +337,22 @@ it.describe("patio.Model", function (it) {
                 });
                 return Employee.first(id.gt(ids[5]), id.lt(ids[11])).chain(function (emp) {
                     assert.instanceOf(emp, Employee);
-                    assert.equal(emp.id, ids[6])
+                    assert.equal(emp.id, ids[6]);
                 });
             });
 
             it.should("support last", function () {
-                return Employee.order("firstname").last().chain(function (emp) {
-                    assert.throws(hitch(Employee, "last"));
-                    assert.instanceOf(emp, Employee);
-                    assert.equal(emp.firstname, "first9");
-                });
+                return Employee.order("firstname").last()
+                    .chain(function (emp) {
+                        assert.instanceOf(emp, Employee);
+                        assert.equal(emp.firstname, "first9");
+                    })
+                    .chain(function () {
+                        return Employee.last();
+                    })
+                    .chain(assert.fail, function (err) {
+                        assert.equal(err.message, "QueryError : No order specified");
+                    });
             });
 
             it.should("support stream", function (next) {

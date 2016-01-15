@@ -29,7 +29,8 @@ it.describe("patio.adapters.Redshift", function (it) {
         });
 
         PG_DB["__defineSetter__"]("sqls", function (sql) {
-            return this.__sqls = sql;
+            this.__sqls = sql;
+            return sql;
         });
 
 

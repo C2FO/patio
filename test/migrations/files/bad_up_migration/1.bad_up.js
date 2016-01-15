@@ -1,6 +1,6 @@
 var comb = require("comb");
 exports.up = function (db) {
-    var ret = comb.when(
+    comb.when(
         db.alterTable("test", function () {
             this.renameColumn("column", "column2");
         }),
@@ -12,8 +12,7 @@ exports.up = function (db) {
         })
     );
     throw "error";
-    return ret;
-}
+};
 
 exports.down = function (db) {
     return comb.when(
@@ -30,4 +29,4 @@ exports.down = function (db) {
             this.renameColumn("column2", "column");
         })
     );
-}
+};

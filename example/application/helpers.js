@@ -3,6 +3,7 @@ var patio = require("../../index"),
     helper = require("./schemas"),
     comb = require("comb"),
     models = require("./models");
+
 exports.loadData = function () {
     patio.camelize = true;
     return helper.createTables().chain(function () {
