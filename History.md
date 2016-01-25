@@ -1,3 +1,7 @@
+# 1.1.0
+
+* Adding patio error event on connection errors.
+
 # 1.0.0
 
 * Adding Node 4 and 5 support.
