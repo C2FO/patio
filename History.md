@@ -1,3 +1,7 @@
+# 0.9.6
+
+* Lowering comb-proxy dependency.
+
 # 0.9.5
 
 * Remove `id` key from being created in a JsonArray
