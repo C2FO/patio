@@ -7,7 +7,8 @@ var it = require('it'),
     when = comb.when,
     serial = comb.serial,
     format = comb.string.format,
-    hitch = comb.hitch;
+    hitch = comb.hitch,
+    PgTypes = require('pg-types');
 
 if (process.env.PATIO_DB === "pg") {
     it.describe("patio.adapters.Postgres", function (it) {
@@ -547,6 +548,65 @@ if (process.env.PATIO_DB === "pg") {
                         });
                     }
                 ]);
+            });
+
+            it.describe("parseInt8", function (it) {
+
+                it.beforeEach(function () {
+                    return db.forceCreateTable("posts", function () {
+                        this.postId("bigint");
+                    });
+                });
+
+                it.afterAll(function () {
+                    patio.parseInt8 = false;
+                    return db.dropTable("posts");
+                });
+
+                it.should("parse bigints on select if true", function () {
+                    var ds = db.from("posts");
+                    patio.parseInt8 = true;
+                    return ds.insert({postId: "9007199254740991"})
+                    .chain(function () {
+                        return ds.one();
+                    }).chain(function (post) {
+                        assert.strictEqual(post.postId, 9007199254740991);
+                    });
+                });
+
+                it.should("parse negative bigints as well", function () {
+                    var ds = db.from("posts");
+                    patio.parseInt8 = true;
+                    return ds.insert({postId: "-9007199254740991"})
+                        .chain(function () {
+                            return ds.one();
+                        }).chain(function (post) {
+                            assert.strictEqual(post.postId, -9007199254740991);
+                        });
+                });
+
+                it.should("not parse bigints if false", function () {
+                    var ds = db.from("posts");
+                    patio.parseInt8 = false;
+                    return ds.insert({postId: "9007199254740992"})
+                        .chain(function () {
+                            return ds.one();
+                        }).chain(function (post) {
+                            assert.strictEqual(post.postId, "9007199254740992");
+                        });
+                });
+
+                it.should("should throw if bigint is outside the range of max safe integer", function () {
+                    patio.parseInt8 = true;
+                    var bigIntParser = PgTypes.getTypeParser(20, 'text');
+                    assert.throws(function () {
+                        bigIntParser("9007199254740992");
+                    }, /The value \'9007199254740992\' cannot be represented by a javascript number\./);
+                    assert.throws(function () {
+                        bigIntParser("-9007199254740992");
+                    }, /The value \'\-9007199254740992\' cannot be represented by a javascript number\./);
+                });
+
             });
 
             it.should("support opclass specification", function () {
