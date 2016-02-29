@@ -385,8 +385,14 @@ it.describe("patio", function (it) {
         assert.equal(patio.identifierInputMethod, "underscore");
     });
 
+    it.should("set defaultPrimaryKeyType values when using defaultPrimaryKeyType", function () {
+        patio.defaultPrimaryKeyType = "bigint";
+        assert.equal(patio.defaultPrimaryKeyType, "bigint");
+        assert.equal(Database.defaultPrimaryKeyType, "bigint");
+    });
 
     it.afterAll(function () {
+        patio.defaultPrimaryKeyType = null;
         patio.resetIdentifierMethods();
         return patio.disconnect();
     });

@@ -155,6 +155,30 @@ it.describe("Database", function (it) {
             assert.equal(db.identifierOutputMethodDefault, "toLowerCase");
         });
 
+        it.describe("defaultPrimaryKeyType", function (it) {
+
+            it.should("has a defaultPrimaryKeyType of integer", function () {
+                var db = new Database();
+                assert.equal(db.defaultPrimaryKeyType, "integer");
+                assert.deepEqual(db.serialPrimaryKeyOptions, {
+                    primaryKey: true,
+                    type: "integer",
+                    autoIncrement:true
+                });
+            });
+
+            it.should("allow for overriding the option", function () {
+                var db = new Database({defaultPrimaryKeyType: "bigint"});
+                assert.equal(db.defaultPrimaryKeyType, "bigint");
+                assert.deepEqual(db.serialPrimaryKeyOptions, {
+                    primaryKey: true,
+                    type: "bigint",
+                    autoIncrement:true
+                });
+            });
+
+        });
+
         it.should("respect the identifierInputMethod option", function () {
             var db = new Database({identifierInputMethod: null});
             assert.isNull(db.identifierInputMethod);
