@@ -1,3 +1,7 @@
+# 1.1.1
+
+* Adding `patio.parseInt8` and `patio.defaultPrimaryKeyType` options.
+
 # 1.1.0
 
 * Adding patio error event on connection errors.
