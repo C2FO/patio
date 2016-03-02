@@ -1,3 +1,7 @@
+# 0.9.7
+
+* Adding `patio.parseInt8` and `patio.defaultPrimaryKeyType` options.
+
 # 0.9.6
 
 * Lowering comb-proxy dependency.

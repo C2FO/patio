@@ -630,6 +630,8 @@ patio.createConnection(....);
 
 patio.camelize = true;
 patio.quoteIdentifiers=false;
+patio.parseInt8=false
+patio.defaultPrimaryKeyType = &quot;integer&quot; //&quot;bigint&quot;
 
 patio.createModel(&quot;my_table&quot;);
 
@@ -699,6 +701,8 @@ as:</p>
 </td><tr><tr><td>defaultDatabase</td><td>patio.Database</td><td><code>
 null
              </code></td><td><p>Returns the default database. This is the first database created using <a href='./patio.html#connect'> patio#connect</a>.</p>
+</td><tr><tr><td>defaultPrimaryKeyType</td><td>String</td><td></td><td><p>Set the default primary key type when not specified for all databases by default. By default,
+patio uses &quot;integer&quot;.</p>
 </td><tr><tr><td>identifierInputMethod</td><td>String</td><td></td><td><p>Set the method to call on identifiers going into the database.  This affects
 how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored
 use camelize. The method can include</p>
@@ -722,6 +726,8 @@ The method can include</p>
     <li>Other String instance method names.</li>
 </ul>
 most database implementations in patio use toLowerCase</p>
+</td><tr><tr><td>parseInt8</td><td>Boolean</td><td></td><td><p>Sets whether bigint types should be parsed to a number. An error will be thrown if set and the number is
+set and the number is greater than 2^53 or less than -2^53.</p>
 </td><tr><tr><td>quoteIdentifiers</td><td>Boolean</td><td></td><td><p>Set whether to quote identifiers for all databases by default. By default,
 patio quotes identifiers in all SQL strings.</p>
 </td><tr><tr><td>underscore</td><td>function</td><td></td><td><p>Sets the whether or not to underscore identifiers coming from the database and to camelize

@@ -971,7 +971,7 @@ function (name,table,opts){
    if (isArray(name)) {
        return this.__addCompositeForeignKey(name, table, opts);
    } else {
-       return this.addColumn(name, &quot;integer&quot;, merge({table:table}, opts));
+       return this.addColumn(name, this.db.defaultPrimaryKeyType, merge({table:table}, opts));
    }
            
 }
