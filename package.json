@@ -33,6 +33,7 @@
         "comb-proxy": "~1.0.0",
         "commander": "~2.9.0",
         "hive-cache": "0.0.3",
+        "is-safe-integer": "1.0.1",
         "mysql": "2.10.0",
         "pg": "4.4.3",
         "pg-query-stream": "1.0.0",
