@@ -1787,6 +1787,12 @@ a query is different for the adapter specific connection class.</p>
                
 }</code></td><td><p>The default options for the connection pool.</p>
 </td><tr><tr><td>dataset</td><td>patio.Dataset</td><td></td><td><p>returns an empty adapter specific <a href='./patio_Dataset.html#'> patio.Dataset</a> that can be used to query the <a href='./patio_Database.html#'> patio.Database</a> with.</p>
+</td><tr><tr><td>defaultPrimaryKeyType</td><td>String</td><td><code>
+"integer"
+             </code></td><td><p>Default type for primary/foreign keys when a type is not specified.</p>
+</td><tr><tr><td>defaultPrimaryKeyTypeDefault</td><td>String</td><td><code>
+"integer"
+             </code></td><td><p>Default type for primary/foreign keys when a type is not specified.</p>
 </td><tr><tr><td>defaultSchemaDefault</td><td>{String|patio.sql.Identifier}</td><td><code>function (){
    return null;
                
