@@ -62,6 +62,6 @@
         "patio": "./bin/patio"
     },
     "engines": {
-        "node": ">=4.0.0"
+        "node": ">=4.0.0 <6.0.0"
     }
 }
