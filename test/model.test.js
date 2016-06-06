@@ -14,7 +14,7 @@ var gender = ["M", "F"];
 
 it.describe("patio.Model", function (it) {
 
-    var Employee;
+    var Employee, TextType;
     it.beforeAll(function () {
         Employee = patio.addModel("employee", {
             static: {
@@ -24,6 +24,7 @@ it.describe("patio.Model", function (it) {
                 }
             }
         });
+        TextType = patio.addModel("text_test", {});
         return helper.createSchemaAndSync();
     });
 
@@ -56,6 +57,28 @@ it.describe("patio.Model", function (it) {
         assert.isTrue(Buffer.isBuffer(emp.buffertype));
         assert.isString(emp.texttype);
         assert.isTrue(Buffer.isBuffer(emp.blobtype));
+    });
+
+    it.should("not type cast text types to null if empty", function () {
+        var text = new TextType({
+            texttype: ""
+        });
+        assert.strictEqual(text.texttype, "");
+    });
+
+    it.should("not type cast string types to null if empty", function () {
+        var text = new TextType({
+            stringtype: ""
+        });
+        assert.strictEqual(text.stringtype, "");
+    });
+
+    it.should("not type cast blob types to null if empty", function () {
+        var text = new TextType({
+            blobtype: ""
+        });
+        assert.isNotNull(text.blobtype);
+        assert.strictEqual(text.blobtype.toString(), "");
     });
 
 
