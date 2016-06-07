@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "keywords": [
         "ORM",
         "object relation mapper",

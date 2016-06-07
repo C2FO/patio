@@ -417,7 +417,7 @@
             <em>Source</em>
             <pre class="prettyprint linenums lang-js">
 function (arr){
-   if (!this instanceof JsonArray) {
+   if (!(this instanceof JsonArray)) {
        return new JsonArray(arr);
    }
    Array.call(this);

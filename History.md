@@ -1,3 +1,7 @@
+# 1.2.0
+
+* Fix where text types would be cast to null when empty. [#146](https://github.com/C2FO/patio/pull/146)
+
 # 1.1.1
 
 * Adding `patio.parseInt8` and `patio.defaultPrimaryKeyType` options.
