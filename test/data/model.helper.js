@@ -44,6 +44,15 @@ function createTables(underscore) {
                 this[underscore ? "text_type" : "texttype"]("text");
                 this[underscore ? "blob_type" : "blobtype"]("blob");
             });
+        }).chain(function () {
+            return DB.forceDropTable("text_test").chain(function () {
+                return DB.forceCreateTable("text_test", function () {
+                    this.primaryKey("id");
+                    this["texttype"]("text");
+                    this["blobtype"]("blob");
+                    this["stringtype"]("string", {size: 20});
+                });
+            });
         });
 }
 
@@ -53,6 +62,9 @@ function dropModels() {
 
 function dropTableAndDisconnect() {
     return DB.dropTable("employee")
+        .chain(function () {
+             DB.dropTable("text_test");
+        })
         .chain(function () {
             return patio.disconnect();
         })
