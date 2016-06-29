@@ -1391,6 +1391,20 @@
 
                             </a></li>
                             
+                            <li><a href="./patio_Dataset.html#eager">
+                                
+                                
+                                <span class="label label-label">F</span>
+                                
+                                
+                                
+                                <span class="label label-success">P</span>
+                                
+                                
+                                eager
+
+                            </a></li>
+                            
                             <li><a href="./patio_Dataset.html#eq">
                                 
                                 
@@ -3329,7 +3343,7 @@ to determine if this is a simple SELECT * FROM table.</p>
 </td><tr><tr><td><em>NULL</em></td><td>property</td><td><code>"NULL"</code></td><td><p>Defaults SQL NULL.</p>
 </td><tr><tr><td><em>N_ARITY_OPERATORS</em></td><td>property</td><td><code>ComplexExpression.N_ARITY_OPERATORS</code></td><td><p>Defaults N(Multi arity) OPERATORS. See <a href='./patio_sql_ComplexExpression.html#'> patio.sql.ComplexExpression.N_ARITY_OPERATORS</a>.</p>
 </td><tr><tr><td><em>QUALIFY_KEYS</em></td><td>property</td><td><code>["select", "where", "having", "order", "group"]</code></td><td><p>Default SQL clauses that need qualifying. This may be overrode by adapters.</p>
-</td><tr><tr><td><em>QUERY_METHODS</em></td><td>property</td><td><code>['addGraphAliases', "and", "distinct", "except", "exclude", "filter", "find", "is", "isNot",
+</td><tr><tr><td><em>QUERY_METHODS</em></td><td>property</td><td><code>['addGraphAliases', "and", "distinct", "eager", "except", "exclude", "filter", "find", "is", "isNot",
             "eq", "neq", "lt", "lte", "gt", "gte", "forUpdate", "from", "fromSelf", "graph", "grep", "group",
             "groupAndCount", "groupBy", "having", "intersect", "invert", "limit", "lockStyle", "naked", "or", "order",
             "orderAppend", "orderBy", "orderMore", "orderPrepend", "qualify", "reverse",
@@ -7748,6 +7762,146 @@ function (args){
        return isString(a) ? new Identifier(a) : a;
    });
    return this.mergeOptions({distinct: args});
+           
+}
+    </pre>
+    
+
+
+  
+    <a name="eager"></a>
+    <h3>
+        eager
+        
+        
+        <span class="label label-label">Function</span>
+        
+        
+                
+         <span class="label label-success">Public</span>
+                
+        
+   </h3>
+
+<hr/>
+<em>Defined dataset/query.js</em>
+
+<p><p>Allows the loading of another query and combining them in one patio command.
+Queries can be related or completely unrelated.
+All data comes back as JSON NOT Patio models.</p>
+</p>
+
+    <em>Example</em>
+        <pre class="prettyprint linenums lang-js">
+DB.from(&#x27;company&#x27;).filter({name: &#x27;Amazon&#x27;})
+ .eager({
+     // company from parent query is passed in and usable in the eager query.
+     leader: (company) =&gt; DB.from(&#x27;leader&#x27;).filter({id: company.leaderId}).one()
+ })
+ // Load completely unrelated data.
+ .eager({org: () =&gt; DB.from(&#x27;organization&#x27;).one() })
+ .one()})
+
+ { id: 1,
+   name: &#x27;Amazon.com&#x27;,
+   leader: {
+     id: 1,
+     name: &#x27;Jeff&#x27;
+   },
+   org: {
+     id: 1,
+     name: &#x27;Google Inc.&#x27;
+   }
+ }
+
+Can do one to many loading for every item in the parent dataset.
+Be careful doing this because it can lead to lots of extra queries.
+
+DB.from(&#x27;company&#x27;).filter({state: &#x27;IA&#x27;})
+ .eager({invoices: (company) =&gt; DB.from(&#x27;invoices&#x27;).filter({companyId: company.id}).one() })
+ .all()})
+
+ [
+  { id: 1,
+   name: &#x27;Principal&#x27;,
+   invoices: [
+     { id: 1, amount: 200},
+     { id: 2, amount: 300},
+   ]
+  },
+  { id: 2,
+   name: &#x27;John Deere&#x27;,
+   invoices: [
+     { id: 3, amount: 200},
+     { id: 4, amount: 300},
+   ]
+  }
+ ]
+        </pre>
+
+
+    <em>Arguments</em>
+    <ul>
+    
+        <li> <em>includeDatasets</em>  : </li>
+    
+        <li> <em>fromModel</em>  : </li>
+    
+     </ul>
+
+
+
+
+    
+    <em>Source</em>
+    <pre class="prettyprint linenums lang-js">
+function (includeDatasets,fromModel){
+   var ds = this.mergeOptions({}),
+       originalRowCb = ds.rowCb;
+   if(!ds.__opts._eagerAssoc) {
+       ds.__opts._eagerAssoc = includeDatasets;
+       ds.rowCb = function (topLevelResults) {
+           function toObject(thing) {
+               if (!thing) {
+                   return comb.when(thing);
+               }
+               if (Array.isArray(thing)) {
+                   return comb.when(thing.map(function(item) {
+                       return toObject(item);
+                   }));
+               }
+               if (&#x27;toObject&#x27; in thing) {
+                   return comb.when(thing.toObject());
+               }
+               return comb.when(thing);
+           }
+           var eagerResults = {},
+               whens = [];
+               if (!originalRowCb) {
+                   // pass through for when topLevelResults is already resolved
+                   originalRowCb = function(r){return r;};
+               }
+               return comb.when(originalRowCb(topLevelResults)).chain(function(maybeModel) {
+                   whens = Object.keys(ds.__opts._eagerAssoc).map(function(key) {
+                       return ds.__opts._eagerAssoc[key](maybeModel).chain(function(result) {
+                           return toObject(result).chain(function(res) {
+                               eagerResults[key] = res;
+                               return result;
+                           });
+                       });
+                   });
+                   return comb.when(whens).chain(function () {
+                       return toObject(maybeModel).chain(function(json) {
+                           // merge associations on to main data
+                           return Object.assign(json, eagerResults);
+                       });
+                   });
+               });
+       };
+   }
+   return ds.mergeOptions({
+       _eagerAssoc: Object.assign(ds.__opts._eagerAssoc, includeDatasets)
+   });
            
 }
     </pre>
