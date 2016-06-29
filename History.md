@@ -1,3 +1,7 @@
+# 1.3.0
+
+* Adding eager loading of queries. [#145](https://github.com/C2FO/patio/pull/145)
+
 # 1.2.0
 
 * Fix where text types would be cast to null when empty. [#146](https://github.com/C2FO/patio/pull/146)
