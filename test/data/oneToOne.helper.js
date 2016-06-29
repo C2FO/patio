@@ -13,8 +13,8 @@ module.exports = {
 };
 
 function createSchemaAndSync(underscore) {
-    return createTables(underscore).chain(function(){
-        return patio.syncModels();
+    return createTables(underscore).chain(function(db){
+        return patio.syncModels().chain(db);
     });
 }
 
@@ -60,5 +60,5 @@ function createTables(underscore) {
                 this.salary("float", {size: [20, 8], allowNull: false});
                 this.foreignKey(underscore ? "employee_id" : "employeeId", "employee", {key: "id"});
             });
-        });
+        }).chain(DB);
 }

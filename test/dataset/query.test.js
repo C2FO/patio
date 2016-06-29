@@ -1786,6 +1786,19 @@ it.describe("Dataset queries", function (it) {
         });
     });
 
+    it.describe("#eager", function (it) {
+        var db = new MockDatabase();
+        var dataset = db.from("test").eager({
+          test: function() {
+              return db.from('test2').one();
+          }
+        }).select("name");
+
+        it.should("not effect main SQL query", function () {
+            assert.equal(dataset.sql, 'SELECT name FROM test');
+        });
+    });
+
     it.describe("groupAndCount", function (it) {
         var ds = new Dataset().from("test");
 
