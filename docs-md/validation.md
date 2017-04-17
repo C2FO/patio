@@ -1,4 +1,4 @@
-###[patio.plugins.ValidatorPlugin](./patio_plugins_ValidatorPlugin.html)
+### [patio.plugins.ValidatorPlugin](./patio_plugins_ValidatorPlugin.html)
 
 A validation plugin for patio models. This plugin adds a `validate` method to each [Model](./patio_Model.html)
 class that adds it as a plugin. This plugin does not include most typecast checks as `patio` already checks

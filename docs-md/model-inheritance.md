@@ -1,9 +1,9 @@
 
-#Model Inheritance
+# Model Inheritance
 
 
 
-##[Class Table Inheritance](http://www.martinfowler.com/eaaCatalog/classTableInheritance.html)
+## [Class Table Inheritance](http://www.martinfowler.com/eaaCatalog/classTableInheritance.html)
 
 Consider the following table model.
 

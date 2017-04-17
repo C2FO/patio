@@ -1,5 +1,5 @@
 
-#Logging
+# Logging
 
 Patio uses the [comb.logging](http://pollenware.github.com/comb/symbols/comb.logging.Logger.html) framework for all logging. To set up logging there are two scenarios.
 

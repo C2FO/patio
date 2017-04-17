@@ -1,7 +1,7 @@
-#Querying
+# Querying
 
 
-##Reading objects
+## Reading objects
 
 patio provides a few separate methods for retrieving objects from the database. The underlying
 method is [forEach](./patio_Dataset.html#forEach), which interates each row as the [patio.Database](./patio_Database.html) provides it. However, while [forEach](./patio_Dataset.html#forEach) can and often is used directly, in many cases there is a more convenient retrieval method you can use.
@@ -14,7 +14,7 @@ var errorHandler = function(err){
 }
 ```
 
-##Getting a dataset
+## Getting a dataset
 
 To get a dataset use the [DB.from](./patio_Database.html#from) method.
 
@@ -23,9 +23,9 @@ var DB = patio.connect(<CONNECTION_URI>)
 var User = DB.from("user");
 ```
 
-##Retrieving a Single Object
+## Retrieving a Single Object
 
-###Using a Primary Key
+### Using a Primary Key
 
 The [findById](./patio_Model.html#.findById) is the easiest method to use to find a model instance by its primary key value:
 
@@ -38,7 +38,7 @@ User.findById(1).chain(function(user){
 
 **Note** If there is no record with the given primary key, the promise will resolve with null.
          
-###[first](./patio_Dataset.html#first)
+### [first](./patio_Dataset.html#first)
 
 If you just want the first record in the dataset use [first](./patio_Dataset.html#first).
 
@@ -60,7 +60,7 @@ User.first(sql.name.like('B%')).chain(function(user){
 }, errorHandler);
 ```
                
-###[last](./patio_Dataset.html#last)
+### [last](./patio_Dataset.html#last)
                         
 If you want the last record in the dataset use [last](./patio_Dataset.html#last).
 
@@ -73,7 +73,7 @@ If you want the last record in the dataset use [last](./patio_Dataset.html#last)
      // SELECT * FROM user ORDER BY name DESC LIMIT 1
 }, errorHandler);
 ```
-###[get](./patio_Dataset.html#get)
+### [get](./patio_Dataset.html#get)
       
 Sometimes, instead of wanting an entire row, you only want the value of a specific column. For this [get](./patio_Dataset.html#get) is the method you want:
 
@@ -83,9 +83,9 @@ User.get("name").chain(function(name){
 }, errorHandler);
 ```
 
-##Reading Multiple Records
+## Reading Multiple Records
 
-###[stream](./patio_Dataset.html#stream)
+### [stream](./patio_Dataset.html#stream)
 
 This method allows you to stream records from a database. This is useful if you have too much data to process in memory.
 
@@ -117,7 +117,7 @@ var stream = User
 ```
 
 
-###[all](./patio_Dataset.html#all)
+### [all](./patio_Dataset.html#all)
 
 If you want an array of all of the rows associated with the dataset you should use the [all](./patio_Dataset.html#all) method:
 
@@ -127,7 +127,7 @@ User.all().chain(function(users){
 }, errorHandlers);
 ```
 
-###Array methods
+### Array methods
 
 [patio.Dataset](./patio_Dataset.html) has a few array like methods such as
 
@@ -188,7 +188,7 @@ User.map("name").chain(function(userNames){
 }, errorHandler);
 ```
 
-###[selectMap](./patio_Dataset.html#selectMap)  
+### [selectMap](./patio_Dataset.html#selectMap)  
 
 ```
 User.selectMap("name").chain(function(names){
@@ -196,7 +196,7 @@ User.selectMap("name").chain(function(names){
 }, errorHandler);
 ```
 
-###[selectOrderMap](./patio_Dataset.html#selectOrderMap)
+### [selectOrderMap](./patio_Dataset.html#selectOrderMap)
 
 ```
 User.selectOrderMap("name").chain(function(){
@@ -204,7 +204,7 @@ User.selectOrderMap("name").chain(function(){
 }, errorHandler);
 ```
 
-###[toHash](./patio_Dataset.html#toHash)                  
+### [toHash](./patio_Dataset.html#toHash)                  
 
 patio makes it easy to take an SQL query and return it as a plain object, using the [toHash](./patio_Dataset.html) method:
 
@@ -234,7 +234,7 @@ Users.toHash("name").chain(function(){
 }):
 ```
 
-###[selectHash](./patio_Dataset.html#selectHash)
+### [selectHash](./patio_Dataset.html#selectHash)
 **Note**: [toHash](./patio_Dataset.html#toHash) selects all columns. However, [selectHash](./patio_Dataset.html#selectHash) will only select the columns specified.
 
 ```
@@ -244,14 +244,14 @@ User.selectHash("name", "id").chain(function(){
 });
 ```                    
 
-#Filtering
+# Filtering
 
-##[filter](./patio_Dataset.html#filter)
+## [filter](./patio_Dataset.html#filter)
 
 The [filter](./patio_Dataset.html#filter) method is one of the most used methods when querying a dataset. The filter method similar to [where](./patio_Dataset.html#where) except that it will apply the filter to the WHERE or HAVING clause depending on if a HAVING clause should be used.
 
 
-###Filtering With Objects
+### Filtering With Objects
 
 The most common format for providing filters is via an object. In general, patio treats conditions specified with an object as equality or inclusion. What type of condition is used depends on the values in the object.
 
@@ -318,7 +318,7 @@ If you nest hashes for a top level key then each condition will be applied to th
  });
 ```                
 
-###Array of Two Element Arrays
+### Array of Two Element Arrays
 
 If you use an array of two element arrays, it is treated as an Object. The only advantage to using an array of two element arrays is that it allows you to use values other than strings for keys, so you can do:
 
@@ -327,7 +327,7 @@ If you use an array of two element arrays, it is treated as an Object. The only 
  User.filter([["name", /oB$/], [sql.name, /^Bo/]]);
 ```
 
-###Filter Blocks
+### Filter Blocks
 
 Functions can also be provided to the filter method. Functions act as a "virtual" filter.   
 
@@ -347,7 +347,7 @@ User.filter({name : {between : ['K', 'M']}}, function(){
 }); 
 ```
 
-###Strings
+### Strings
 
 If you have a Boolean column in the database you can provide just the column name.
 
@@ -363,7 +363,7 @@ If you have a Boolean column in the database you can provide just the column nam
  User.filter(sql.literal("name < 'A'"));
 ```
 
-###Expressions
+### Expressions
                 
 patio SQL expressions are instances of subclasses of [Epression][./patio_sql_Expression.html].
 
@@ -390,7 +390,7 @@ User.filter(function(){
 });
 ```
   
-###Strings with Placeholders
+### Strings with Placeholders
                 
 patio also supports place holder strings.
 
@@ -414,7 +414,7 @@ You can also use named placeholders with an object, where the named placeholders
 User.filter("name LIKE {name} AND id = {id}", {name : 'B%', id : 1});
 ```
 
-###Literal Strings
+### Literal Strings
 
 You can also provide a literal string using the [literal](./patio_sql.html#.literal)
 
@@ -433,7 +433,7 @@ However, if you are using any untrusted input, you should use placeholders. In g
  User.filter({ id : id}) // Best solution!
 ```
 
-###Inverting filters               
+### Inverting filters               
 
 You can use the [invert](.patio_Dataset.html#invert) method.
 
@@ -456,7 +456,7 @@ User.filter({id : {neq : 5}});
 }).invert();
 ```
 
-###Excluding filters
+### Excluding filters
 You can use [exclude](./patio_Dataset.html#exclude) to invert only specific filters:
 
 ```
@@ -482,7 +482,7 @@ Or to use the NOT LIKE operator:
 User.exclude(sql.name.like('%o%')) 
 ```
 
-###Removing
+### Removing
            
 To remove all existing filters, use the [unfiltered](./patio_Dataset.html#unfiltered) method:
 
@@ -491,7 +491,7 @@ To remove all existing filters, use the [unfiltered](./patio_Dataset.html#unfilt
  User.filter({id : 1}).unfiltered();
 ```
 
-##Ordering
+## Ordering
                 
 To add order to an SQL statement use the [order](./patio_Dataset.html#order) method.
 
@@ -527,7 +527,7 @@ If you want to prepend a column to the existing order use the [orderPrepend](./p
  // SELECT * FROM user ORDER BY name, id
 ```
 
-###Reversing                
+### Reversing                
 
 To reverse the order of a SQL query use the [reverse](./patio_Dataset.html#reverse) method.
 
@@ -550,7 +550,7 @@ This allows for finer grained control of the ordering of columns.
  User.order("name", sql.id.desc());
 ```
 
-###Removing
+### Removing
 
 To remove ordering use the [unordered](./patio_Dataset.html#unordered) method:
 
@@ -560,7 +560,7 @@ To remove ordering use the [unordered](./patio_Dataset.html#unordered) method:
  // SELECT * FROM user
 ```
 
-##Selecting columns
+## Selecting columns
 
 To only return certain columns use the [select](./patio_Dataset.html#select) method.
 
@@ -601,7 +601,7 @@ To remove selected columns and revert to `SELECT *` use the [selectAll](./patio_
  // SELECT * FROM user
 ```
 
-##Distinct
+## Distinct
 
 To add a `DISTINCT` clause to filter out duplicate rows use the [distinct](./patio_Dataset.html#distinct) method.
 
@@ -612,7 +612,7 @@ To add a `DISTINCT` clause to filter out duplicate rows use the [distinct](./pat
 User.distinct().select("name")
 ```
 
-##Limit and Offset
+## Limit and Offset
 
 To limit the number of rows returned use the [limit](./patio_Dataset.html#limit) method.
 
@@ -637,7 +637,7 @@ To remove the LIMIT and OFFSET clause use the [unlimited](./patio_Dataset.html#u
 ```
 
 
-##Grouping
+## Grouping
 
 The GROUP clause is used to results based on the values of a given group of columns. To provide grouping use the [group](./patio_Dataset.html#group) method:
 
@@ -660,7 +660,7 @@ A common use of grouping is to count based on the number of grouped rows, so pat
  User.groupAndCount("userId");
 ```
 
-##Having
+## Having
 
 The HAVING clause filters the results after the grouping has been applied, instead of before.
 
@@ -677,7 +677,7 @@ If you have a HAVING clause then filter will apply the filter to the HAVING clau
  User.groupAndCount("dateOfBirth").having({count : {gte : 10}}).filter({count : {lt : 15}});
 ```
 
-##Where                
+## Where                
 
 Unlike filter, the where method will always affect the WHERE clause:
 
@@ -693,7 +693,7 @@ Both the WHERE clause and the HAVING clause can be removed by using the unfilter
 User.groupAndCount("id").having({count : {gte : 10}}).where({name  : {like : 'A%'}}).unfiltered();
 ```
 
-##Joins
+## Joins
 
 To join a dataset to another table or dataset. The underlying method used is [joinTable](./patio_Dataset.html#joinTable):
 
@@ -722,7 +722,7 @@ joinTable is not typically used directly, but instead by named join methods:
 ```
 
 
-###Table/Dataset to Join
+### Table/Dataset to Join
 
 For the join methods, the first argument is generally the name of the table to which you are joining. However, you can also provide a
 
@@ -738,7 +738,7 @@ For the join methods, the first argument is generally the name of the table to w
  User.join(Blog.filter({title : {lt : 'A'}}), {userId : sql.id});
 ```
 
-###Join Conditions
+### Join Conditions
 
 The second argument to the specialized join methods is the conditions to use when joining, which is similar to a filter expression, with a few minor exceptions.
 
@@ -800,7 +800,7 @@ User.join("blog", [[sql.userId, sql.id], [sql.id, {between : [1, 5]}]]).sql
 
 ```
 
-###USING Joins
+### USING Joins
 
 JOIN ON is the most common type of join condition, however USING is also another valid SQL join expr that patio supports.
 
@@ -811,7 +811,7 @@ JOIN USING is useful when the columns you are using have the same names in both 
  User.join("blog", [sql.userId])
 ```
 
-###NATURAL Joins
+### NATURAL Joins
 
 NATURAL Joins assume that all columns with the same names used for joining, so you do not need to use a join expression.
 
@@ -820,7 +820,7 @@ NATURAL Joins assume that all columns with the same names used for joining, so y
  User.naturalJoin("blog");
 ```
 
-###Join Blocks
+### Join Blocks
 
 The block should accept 3 arguments, the table alias for the table currently being joined, the table alias for the last table joined (or first table), and an array of previous [patio.sql.JoinClause](./patio_sql_JoinClause.html)s.
 
@@ -843,7 +843,7 @@ or you could do this which is the same thing:
 //      ON ((blog.user_id = user.id) AND (blog.title > user.name))
 ```
 
-##From
+## From
 
 The FROM table is typically the first clause populated when creating a dataset. For a standard [patio.Model](./patio_Model.html), the dataset already has the FROM clause populated, and the most common way to create datasets is with the Database from method.
 
@@ -866,7 +866,7 @@ DB.from("user").from("oldUser");
 **Note:** multiple tables in the FROM clause use a cross join by default, so the number of rows will be number of user times the number of old user.
 
 
-##Subselects
+## Subselects
 
 If you want to perform a subselect you can use the [fromSelf](./patio_Dataset.html#fromSelf) method.
 
@@ -887,7 +887,7 @@ Without fromSelf, you are doing the grouping, and limiting the number of grouped
 
 With fromSelf, you are limiting the number of records before grouping. So if the user with the lowest id had 100 blogs, you'd get 1 result, not 100.
 
-##Locking for Update
+## Locking for Update
 
 patio allows you to easily add a FOR UPDATE clause to your queries so that the records returned can't be modified by another query until the current transaction commits. You just use the [forUpdate](./patio_Dataset.html#forUpdate) method:
 
@@ -903,7 +903,7 @@ patio allows you to easily add a FOR UPDATE clause to your queries so that the r
 
 This will ensure that no other connection modifies the row between when you select it and when the transaction ends.
 
-##Custom SQL
+## Custom SQL
 
 patio makes it easy to use custom SQL by providing the [fetch][./patio_Database.html#fetch] method.
 
@@ -928,7 +928,7 @@ You can also use placeholders:
  DB.from("user").withSql("SELECT * FROM user WHERE id = {id}", {id : 5});
 ```
 
-##Checking for Records
+## Checking for Records
 
 To test if there are any records in the database use the isEmpty method
 
@@ -944,7 +944,7 @@ To test if there are any records in the database use the isEmpty method
  },errorHandler);
 
 ```
-##Aggregate Calculations
+## Aggregate Calculations
 
 There are dataset methods for each of the following aggregate calculations:
 

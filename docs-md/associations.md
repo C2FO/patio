@@ -1,8 +1,8 @@
 
-#Associations
+# Associations
 
 
-##Supported Association types
+## Supported Association types
 
 
 * **oneToMany** : Foreign key in associated model's table points to this model's primary key. Each current model object can be associated with more than one associated model objects. Each associated model object can be associated with only one current model object.
@@ -14,7 +14,7 @@
 * **manyToMany** : A join table is used that has a foreign key that points to this model's primary key and a foreign key that points to the associated model's primary key. Each current model object can be associated with many associated model objects, and each associated model object can be associated with many current model objects.</li>
 
 
-##Options
+## Options
 
 
 
@@ -93,7 +93,7 @@ patio.addModel("class").manyToMany("students", {readOnly : true});
 patio.addModel("class").manyToMany("students", {select : ["firstName", "lastName"]});
 ```
 
-###ManyToOne additional options:
+### ManyToOne additional options:
 
 * **key** : foreignKey in current model's table that references associated model's primary key. Defaults to : "{tableName}Id". Can use an array of strings for a composite key association.
 
@@ -143,7 +143,7 @@ patio.addModel("stepFather").oneToMany("children", {key : "stepFatherKey", prima
 patio.addModel("child").manyToOne("stepFather", {key : "stepFatherKey", primaryKey : "name"});
 ```
 
-###OneToMany and OneToOne additional options:
+### OneToMany and OneToOne additional options:
 
 * **key** : foreign key in associated model's table that references current model's primary key, as a symbol. Defaults to "{thisTableName}Id". Can use an array of columns for a composite key association. **For examples see the ManyToOne examples above**.
 
@@ -151,7 +151,7 @@ patio.addModel("child").manyToOne("stepFather", {key : "stepFatherKey", primaryK
 * primaryKey : column in the current table that **key** option references. Defaults to primary key of the current table. Can use an array of strings for a composite key association. **For examples see the ManyToOne examples above**.
         
 
-###ManyToMany additional options:
+### ManyToMany additional options:
 
 * **joinTable** : name of table that includes the foreign keys to both the current model and the associated model. Defaults to the name of current model and name of associated model, pluralized, sorted, and camelized.
 
@@ -225,7 +225,7 @@ patio.addModel("student")
 ```
 
 
-##Filter Block
+## Filter Block
 You may also pass a function to the association to perform additional filtering on the dataset.
 
 
@@ -254,7 +254,7 @@ patio.addModel("student")
     });
 ```
 
-##[oneToMany](./patio_Model.html#.oneToMany)
+## [oneToMany](./patio_Model.html#.oneToMany)
 
 One of the most common forms of associations. One to Many is the inverse of Many to one. One to Many often describes a parent child relationship, where the One To Many [Model](./patio_Model.html) is the parent, and the many to one model is the child.
 
@@ -357,7 +357,7 @@ When working with eager associations the eagerly loaded association will be fetc
 
 
 
-###[oneToOne](./patio_Model.html#.oneToOne)
+### [oneToOne](./patio_Model.html#.oneToOne)
 
 Similar to `ONE_TO_MANY`  in terms of foreign keys, but only one object is associated to the current object through the association. The methods created are similar to `MANY_TO_ONE` , except that the `ONE_TO_ONE`  setter method saves the passed object.
 
@@ -517,7 +517,7 @@ Capital.order("name").forEach(function(capital){
 lazy loaded. To change this set the **fetchType** to **EAGER**.
 
 
-###[manyToMany](./patio_Model.html#.manyToMany)
+### [manyToMany](./patio_Model.html#.manyToMany)
 
 A join table is used that has a foreign key that points to this model's primary key and a foreign key that
 points to the associated model's primary key. Each current model object can be associated with many associated
