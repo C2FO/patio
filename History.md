@@ -58,41 +58,41 @@
 
 * Removed `\` escaping in postgres adapter as it is not the default in versions >= 9.1
 
-#0.7.0
+# 0.7.0
 
 * Fix for issue [#121](https://github.com/C2FO/patio/issues/121) added the table name to the error thrown.
 * Merged [#120](https://github.com/C2FO/patio/pull/120) this allows tables registered with DB to be looked up properly.
    * This will break any `getModel` call where a table with the same name is added twice.
 * Added documentation about running tests.
 
-#0.6.1
+# 0.6.1
 
 * Added details for logging if the err.detail exists.
 * Changed streaming highWaterMark
 
-#0.6.0
+# 0.6.0
 
 * Fixed issue where grouped expressions with arrays and hashes as items, the expressions generated from the hashes are anded and each array item is ORed properly [#115](https://github.com/C2FO/patio/pull/115)
 
-#0.5.4
+# 0.5.4
 
 * Updated to `errback` the query promise when an error is caught.
 * Fixed issue with setting the `handleRowDescription` on a patio query.
 
-#0.5.3
+# 0.5.3
 
 * Fixed issue with `logError` in transactions.
 
-#0.5.2
+# 0.5.2
 
 * Fixed issue with `streams` in transactions.
 
-#0.5.1
+# 0.5.1
 
 * Update `comb` to `v0.3.0`
 * Fixed issues with `savepoints` and update transaction to conform with docs. [#110](https://github.com/C2FO/patio/pull/110)
 
-#0.5.0
+# 0.5.0
 
 * Added a new `stream` method to allow the streaming of large datasets from the database.
 * Added a new `isolate` option to `db.transaction` to ensure that the transaction is not nested inside of a concurrently running transaction.
@@ -133,7 +133,7 @@
 
 * Fixed constraint creation to accept a function when creating or altering constraints.
 
-#v0.2.15
+# v0.2.15
 
 * Updated patio migrate to use an exit code of `1` if the migration fails. [#92](https://github.com/C2FO/patio/issues/92)
 * Fixed the use of hashes in `andGrouped*` methods.

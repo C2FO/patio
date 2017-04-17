@@ -1,7 +1,7 @@
-#DDL
+# DDL
 
 
-##[createTable](./patio_Database.html#createTable)
+## [createTable](./patio_Database.html#createTable)
 
 
 Patio supports the creation to tables through an instance of [patio.Database](./patio_Database.html#createTable). The [createTable](./patio_Database.html#createTable) method is used by passing it a name of the table to create and a function which performs the actions to create `column`s, `indexe`s, `foreignKey`s, `constraint`s, and `primaryKey`s.
@@ -57,7 +57,7 @@ When creating a table there are a number of methods that can be invoked to creat
 
 The most commonly used methods are:
 
-###[column](./patio_SchemaGenerator.html#column)
+### [column](./patio_SchemaGenerator.html#column)
 
 Add a column to the DDL.  
 
@@ -94,7 +94,7 @@ DB.createTable("test", function(){
 });
 ```
 
-###[primaryKey](./patio_SchemaGenerator.html#primaryKey)
+### [primaryKey](./patio_SchemaGenerator.html#primaryKey)
 
 Adds an auto-incrementing primary key column or a primary key constraint to the DDL
 
@@ -128,7 +128,7 @@ DB.createTable("test", function(){
 });
 ```
 
-###[foreignKey](./patio_SchemaGenerator.html#foreignKey)
+### [foreignKey](./patio_SchemaGenerator.html#foreignKey)
 
 Add a foreign key constraint to the DDL.
 
@@ -161,7 +161,7 @@ DB.createTable("flight_leg", function () {
 });
 ```
 
-###[index](./patio_SchemaGenerator.html#index)
+### [index](./patio_SchemaGenerator.html#index)
 
 Adds an index to the the DDL. For single columns, calling index is the same as using the `index` option when creating the column:
 
@@ -194,7 +194,7 @@ DB.createTable("test", function(){
 });
 ```
 
-###[unique](./patio_SchemaGenerator.html#unique)
+### [unique](./patio_SchemaGenerator.html#unique)
 The unique method creates a unique constraint on the table. A unique constraint generally operates identically to a unique index.
 
 ```
@@ -227,7 +227,7 @@ DB.createTable("test", function(){
 
 ```
 
-###[constraint](./patio_SchemaGenerator.html#constraint)
+### [constraint](./patio_SchemaGenerator.html#constraint)
 
 creates a named table constraint:
 
@@ -252,7 +252,7 @@ DB.createTable("test", function(){
 });
 ```
 
-###[check](./patio_SchemaGenerator.html#check)
+### [check](./patio_SchemaGenerator.html#check)
 
 Operates just like [constraint](./patio_SchemaGenerator.html#constraint), except that it doesn't take a name and it creates an unnamed constraint.
 
@@ -266,7 +266,7 @@ DB.createTable("test", function(){
 });
 ```
 
-##[alterTable](./patio_Database.html#alterTable)
+## [alterTable](./patio_Database.html#alterTable)
 
 [alterTable](./patio_Database.html#alterTable) is used to alter a tables definition. It is used just like [createTable](./patio_Database.html#createTable) where you use a function to alter the table's definition. For a full reference see [patio.AlterTableGenerator](./patio_AlterTableGenerator.html).
 
@@ -282,7 +282,7 @@ DB.createTable("test", function(){
 });
 ```
 
-###[addColumn](./patio_AlterTableGenerator.html#addColumn)
+### [addColumn](./patio_AlterTableGenerator.html#addColumn)
 
 This method adds a column to the table. This method is similar to `createTable`'s column method where the first parameter is the column and the second parameter is the data type and third parameter an optional options hash
 
@@ -294,7 +294,7 @@ This method adds a column to the table. This method is similar to `createTable`'
  });
 ```
 
-###[dropColumn](./patio_AlterTableGenerator.html#dropColumn)
+### [dropColumn](./patio_AlterTableGenerator.html#dropColumn)
 
 This method removes a column from the table definition.
 
@@ -306,7 +306,7 @@ DB.alterTable("test", function(){
  });
 ```
 
-###[renameColumn](./patio_AlterTableGenerator.html#renameColumn)
+### [renameColumn](./patio_AlterTableGenerator.html#renameColumn)
 
 This method renames a column.
 
@@ -318,7 +318,7 @@ DB.alterTable("test", function(){
  });
 ```
 
-###[addPrimaryKey](./patio_AlterTableGenerator.html#addPrimaryKey)
+### [addPrimaryKey](./patio_AlterTableGenerator.html#addPrimaryKey)
  
 This method is used to add a primaryKey to a table incase you forgot to include a primaryKey when creating the table.
 
@@ -344,7 +344,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[addForeignKey](./patio_AlterTableGenerator.html#addForeignKey)
+### [addForeignKey](./patio_AlterTableGenerator.html#addForeignKey)
 
 This method is used to add a foreign key to a table. Like when using `addPrimaryKey` if you pass a string as the first argument then a column will be created.
 
@@ -372,7 +372,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[addIndex](./patio_AlterTableGenerator.html#addIndex)
+### [addIndex](./patio_AlterTableGenerator.html#addIndex)
 
 Just like `createTable`'s index method.
 
@@ -390,7 +390,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[dropIndex](./patio_AlterTableGenerator.html#dropIndex)
+### [dropIndex](./patio_AlterTableGenerator.html#dropIndex)
 
 Drops an index from a table.
 
@@ -408,7 +408,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[addConstraint](./patio_AlterTableGenerator.html#addConstraint)
+### [addConstraint](./patio_AlterTableGenerator.html#addConstraint)
 
 Adds a named constraint to a table. Just like `createTable`'s constraint method.
 
@@ -423,7 +423,7 @@ DB.alterTable("test", function(){
 **Note:** there is not a method to add an unnamed constraint when altering a table.
 
 
-###[addUniqueConstraint](./patio_AlterTableGenerator.html#addUniqueConstraint)
+### [addUniqueConstraint](./patio_AlterTableGenerator.html#addUniqueConstraint)
 
 Adds a unique constraint to a table. Just like `createTable`'s unique method.
 
@@ -433,7 +433,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[dropConstraint](./patio_AlterTableGenerator.html#dropConstraint)
+### [dropConstraint](./patio_AlterTableGenerator.html#dropConstraint)
 
 Drops a named constraint from a table.
 
@@ -453,7 +453,7 @@ DB.alterTable("albums", function(){
 });
 ```
 
-###[setColumnDefault](./patio_AlterTableGenerator.html#setColumnDefault)
+### [setColumnDefault](./patio_AlterTableGenerator.html#setColumnDefault)
 
 Sets a columns default value.
 
@@ -464,7 +464,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[setColumnType](./patio_AlterTableGenerator.html#setColumnType)
+### [setColumnType](./patio_AlterTableGenerator.html#setColumnType)
 
 Sets the columns type.
 
@@ -474,7 +474,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-###[setAllowNull](./patio_AlterTableGenerator.html#setAllowNull)
+### [setAllowNull](./patio_AlterTableGenerator.html#setAllowNull)
 
 Changes the NULL/NOT NULL modifier of a column.
 
@@ -485,7 +485,7 @@ DB.alterTable("test", function(){
 });
 ```
 
-##[patio.Database](./patio_Database.html) modification methods
+## [patio.Database](./patio_Database.html) modification methods
 
 [patio.Database](./patio_Database.html) has methods that act as shortcuts to an [alterTable](./patio_Database.html#alterTable) call these methods include
 
@@ -508,9 +508,9 @@ DB.alterTable("test", function(){
 DB.addColumn("test", "num", "integer");
 ```
 
-##Tables
+## Tables
 
-###[dropTable](./patio_Database.html#dropTable)
+### [dropTable](./patio_Database.html#dropTable)
 
 Can drop either a single table or multiple tables at a time.
 
@@ -522,7 +522,7 @@ DB.dropTable("leg_instance", "flight_leg", "flight", "airplane", "can_land", "ai
 DB.dropTable("leg_instance");
 ```
 
-###[renameTable](./patio_Database.html#renameTable)
+### [renameTable](./patio_Database.html#renameTable)
 
 Renames an existing table.
 
@@ -530,7 +530,7 @@ Renames an existing table.
 DB.renameTable("test", "test_old");
 ```
 
-###[forceCreateTable](./patio_Database.html#forceCreateTable)
+### [forceCreateTable](./patio_Database.html#forceCreateTable)
 
 Forcibly creates a table, attempting to drop it unconditionally (and catching any errors), then creating it. **Note:** This should not be used within a transaction as it could cause the transaction to fail.
 
@@ -543,7 +543,7 @@ DB.forceCreateTable("test", function(){
 });
 ```
 
-###[createTableUnlessExists](./patio_Database.html#createTableUnlessExists)
+### [createTableUnlessExists](./patio_Database.html#createTableUnlessExists)
 
 Creates the table unless the table already exists.
 
@@ -556,9 +556,9 @@ DB.createTableUnlessExists("test", function(){
 });
 ```
 
-##Views
+## Views
 
-###[createView](./patio_Database.html#createView)
+### [createView](./patio_Database.html#createView)
 
 Creates a view based on a dataset or an SQL string:
 
@@ -570,7 +570,7 @@ DB.createView("cheapItems", "SELECT * FROM items WHERE price < 100");
 DB.createView("miscItems", DB[:items].filter({category : 'misc'}));
 ```
 
-###[createOrReplaceView](./patio_Database.html#createOrReplaceView)
+### [createOrReplaceView](./patio_Database.html#createOrReplaceView)
 
 Same as create view but replaces the view if it already exists.
 
@@ -582,7 +582,7 @@ DB.createOrReplaceView("cheapItems", "SELECT * FROM items WHERE price < 100");
 DB.createOrReplaceView("miscItems", DB[:items].filter({category : 'misc'}));
 ```
 
-###[dropView](./patio_Database.html#dropView)
+### [dropView](./patio_Database.html#dropView)
 
 Similar to `dropTable` but instead of a table it drops a view.
 

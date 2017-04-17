@@ -1,10 +1,10 @@
-#Plugins
+# Plugins
 
 One of the powerful features of the `patio` [Model](./models.html) api is plugins. Plugins allow developers to easily extend models to do extra functionality.
 
-##Built In Plugins
+## Built In Plugins
 
-###[patio.plugins.TimeStampPlugin](./patio_plugins_TimeStampPlugin.html)
+### [patio.plugins.TimeStampPlugin](./patio_plugins_TimeStampPlugin.html)
 
 This plugin adds timestamp functionality to models. (i.e updated and created).
 
@@ -106,11 +106,11 @@ var MyModel = patio.addModel("testTable", {
 });                                                                                                               
 ```
 
-###[patio.plugins.ClassTableInhertiance](./patio_plugins_ClassTableInhertiance.html)
+### [patio.plugins.ClassTableInhertiance](./patio_plugins_ClassTableInhertiance.html)
 
 See [inheritance](./model-inheritance.html) page.
 
-###[patio.plugins.ColumnMapper](./patio_plugins_ColumnMapper.html)
+### [patio.plugins.ColumnMapper](./patio_plugins_ColumnMapper.html)
 
 Add a mapped column from another table. This is useful if there columns on                                                               
 another table but you do not want to load the association every time.                                                                    
@@ -171,7 +171,7 @@ employee.update(null, {reloadMapped : false});
 * `column` : The column on the remote table that should be used. This is useful if you want to mapped column named something differently. Defaults to `null`                               
 as the local copy.  
 
-###[patio.plugins.ValidatorPlugin](./patio_plugins_ValidatorPlugin.html)
+### [patio.plugins.ValidatorPlugin](./patio_plugins_ValidatorPlugin.html)
 
 A validation plugin for patio models. This plugin adds a `validate` method to each [Model](./patio_Model.html)
 class that adds it as a plugin. This plugin does not include most typecast checks as `patio` already checks
@@ -290,12 +290,12 @@ The options include
                                                                                                                                                            
                                                                                                                                                                                                                           
 
-##Writing your own plugins
+## Writing your own plugins
 
 Writing your own custom plugin easy!
 
 
-###Example Express plugin
+### Example Express plugin
 
 The following is a simple express plugin to expose routes for models.
 
@@ -484,7 +484,7 @@ var app = express.createServer();
 Flight.route(app);
 ```
 
-###Example Logging Plugin
+### Example Logging Plugin
 
 The folowing plugin adds a logger to each model that uses the plugin. And adds convenience methods for logging.
 

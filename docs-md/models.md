@@ -1,4 +1,4 @@
-#Models
+# Models
 
 Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.
 
@@ -69,7 +69,7 @@ The flow for the above example is as follows:
    * disconnect from the database
  * The final output should be "BobYukon's id is 1".
 
-##Options
+## Options
 
 Models some options that allow for the customization of the way a model be haves when interacting
 with the database.
@@ -200,7 +200,7 @@ patio.addModel("user", {
 });
 ```                    
 
-##Creating a model
+## Creating a model
 To create a Model class to use within your code you use the [patio.addModel](.patio.html#addModel) method. 
 
 ```
@@ -253,9 +253,9 @@ patio.syncModels().chain(function(User1,User2){
 });
 ```
 
-##Custom setters and getters
+## Custom setters and getters
 
-###Setters
+### Setters
 
 patio creates setters and getters for each column in the database if you want alter the value of a particular property before its set on the model you can use a custom setter.
 
@@ -284,7 +284,7 @@ patio.syncModels().chain(function(User){
 });
 ```
 
-###Getters
+### Getters
 
 Custom getters can be used to change values returned from the database but not alter the value when persisting. 
 
@@ -341,7 +341,7 @@ patio.syncModels().chain(function(User){
 ```
 
 
-##Model hooks
+## Model hooks
 
 Each model has the following hooks
 

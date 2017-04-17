@@ -1,11 +1,11 @@
 
         
-#Migrations
+# Migrations
 
 
 Migrates the database using migration files found in the supplied directory.
 
-##Integer Migrations
+## Integer Migrations
 
 Integer migrations are the simpler of the two migrations but are less flexible than timestamp based migrations. In order for patio to determine which versions the file must have the naming format "{versionnumber}.someFileName.js" where versionNumber is a integer **starting at 0** representing the version number.
 
@@ -34,7 +34,7 @@ In order to easily identify where certain schema alterations have taken place it
 ```
 
 
-##Timestamp Migrations
+## Timestamp Migrations
 
 Timestamp migrations are the more complex of the two migrations but offer greater flexibility especially with development teams. This is because Timestamp migrations:
 
@@ -76,24 +76,24 @@ In order to easily identify where certain schema alterations have taken place it
 
 
 
-##Mixed Migrations
+## Mixed Migrations
 
 If you start with IntegerBased migrations and decide to transition to Timestamp migrations the patio will attempt to merge the two migrations. It does this by ordering the files based off of the versionNumber order. So Integerbase migrations will come first. If the version number in any file with a version number lower than or equal to the current verion will be inserted into the schema_migration table and and file with a version greater will be applied up the the supplied target, or greatest version number and will be inserted into the database.
 
-##Migration Files
+## Migration Files
 
 Migration files are files with an up and down method.
                 
-###exports.up
+### exports.up
 
 The up function is called when applying the migration. The up function typically contains create and alter table statements. See [DDL](./DDL.html) for more examples and operations that are available.
 
 
-###exports.down
+### exports.down
 
 The down function is called when rolling back the migration. The down function typically contains drop and alter table statements. See [DDL](./DDL.html) for more examples and operations that are available.
 
-##Example migration file
+## Example migration file
 
 ```
 var comb = require("comb"),
@@ -187,12 +187,12 @@ exports.down = function(db) {
 
 First we wait for both the rename and createTable action to complete, and then we perform some database actions and finally resolve.
 
-##Running migrations
+## Running migrations
 
 
 In order to run a migraton there are two options:
 
-###[patio.migrate](./patio.html#migrate)
+### [patio.migrate](./patio.html#migrate)
 
 **Available options**
                      
@@ -211,7 +211,7 @@ In order to run a migraton there are two options:
   }, errorHandler);
 ```
 
-###Patio Executable
+### Patio Executable
 
 patio comes with an executable script that can be used to run the migrations
 

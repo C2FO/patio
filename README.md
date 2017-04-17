@@ -3,11 +3,11 @@
 
 [![NPM](https://nodei.co/npm/patio.png?downloads=true)](https://nodei.co/npm/patio/)
 
-#[Patio](http://c2fo.github.com/patio)
+# [Patio](http://c2fo.github.com/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
 
-###Installation
+### Installation
 To install patio run
 
 `npm install comb patio`
@@ -16,7 +16,7 @@ If you want to use the patio executable for migrations
 
 `npm install -g patio`
 
-###Running Tests
+### Running Tests
 
 To run the tests 
 
@@ -36,13 +36,13 @@ To run just the mysql tests
 make test-mysql
 ```
 
-###Why Use Patio?
+### Why Use Patio?
                                                                                                                                                              
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
 
 If you want to use the [ORM](http://c2fo.github.com/patio/models.html) functionality you can. If you don't you can just use the [Database](http://c2fo.github.com/patio/DDL.html) and [Datasets](http://c2fo.github.com/patio/querying.html) as a querying API, and if you need to you can [write plain SQL](http://c2fo.github.com/patio/patio_Database.html#run)
 
-###Concepts
+### Concepts
 
 1. Model definitions are defined by the tables in the database.
 
@@ -86,7 +86,7 @@ If you want to use the [ORM](http://c2fo.github.com/patio/models.html) functiona
     ```
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-###Getting Started
+### Getting Started
 
 All the code for this example can be found [here](https://github.com/C2FO/patio/tree/master/example/readme-example)
 
@@ -213,7 +213,7 @@ All the code for this example can be found [here](https://github.com/C2FO/patio/
         });
     ```
 
-###Guides
+### Guides
 
 * [Migrations](http://c2fo.github.com/patio/migrations.html)
 * [Models](http://c2fo.github.com/patio/models.html)
@@ -225,7 +225,7 @@ All the code for this example can be found [here](https://github.com/C2FO/patio/
 * [DDL](http://c2fo.github.com/patio/DDL.html)
 * [Logging](http://c2fo.github.com/patio/logging.html)
 
-###Features
+### Features
 
 * Comprehensive documentation with examples.
 * &gt; 80% test coverage

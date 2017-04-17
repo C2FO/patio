@@ -1,13 +1,13 @@
 
-#Connecting to a database
+# Connecting to a database
 
 
-##[patio.createConnection](./patio.html#createConnection)
+## [patio.createConnection](./patio.html#createConnection)
 
 
 When using [patio.createConnection](./patio.html#createConnection) to connect a database there are two types of parameters you can use.
 
-###Connetion URI
+### Connetion URI
 
 This is a well formed URI that will be used to connect to the database.
 
@@ -33,7 +33,7 @@ This is a well formed URI that will be used to connect to the database.
 var DB = patio.createConnection("mysql://test:testpass@localhost:3306/test?maxConnections=1&minConnections=10");    
 ```
 
-###Connection Object
+### Connection Object
 
 This is an object to used to connect.
 
@@ -76,7 +76,7 @@ var DB = patio.createConnection({
     // 1 connection by default and a max of 10
 ```
 
-##Disconnecting
+## Disconnecting
 
 To disconnect from a database you can use:
 
