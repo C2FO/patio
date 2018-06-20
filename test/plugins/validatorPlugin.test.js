@@ -1046,4 +1046,3 @@ it.describe("patio.plugins.ValidatorPlugin", function (it) {
         return helper.dropModels();
     });
 });
-it.run().both(process.exit);
