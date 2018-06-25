@@ -1,3 +1,9 @@
+# 1.4.0
+
+* Updated dependency for validator from ~1.5.1 to ~10.3.0.
+
+* Updated newer style calls and relaxed new URL check to allow localhost as the earlier version did.
+
 # 1.3.0
 
 * Adding eager loading of queries. [#145](https://github.com/C2FO/patio/pull/145)
