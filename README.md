@@ -18,27 +18,27 @@ If you want to use the patio executable for migrations
 
 ### Running Tests
 
-To run the tests 
+To run the tests
 
 ```
-make test
+grunt test
 ```
 
 To run just the postgres tests
 
 ```
-make test-pg
+grunt test-pg
 ```
 
 To run just the mysql tests
 
 ```
-make test-mysql
+grunt test-mysql
 ```
 
 ### Why Use Patio?
-                                                                                                                                                             
-Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.                                             
+
+Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.
 
 If you want to use the [ORM](http://c2fo.github.com/patio/models.html) functionality you can. If you don't you can just use the [Database](http://c2fo.github.com/patio/DDL.html) and [Datasets](http://c2fo.github.com/patio/querying.html) as a querying API, and if you need to you can [write plain SQL](http://c2fo.github.com/patio/patio_Database.html#run)
 
@@ -85,7 +85,7 @@ If you want to use the [ORM](http://c2fo.github.com/patio/models.html) functiona
     });
     ```
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
 ### Getting Started
 
 All the code for this example can be found [here](https://github.com/C2FO/patio/tree/master/example/readme-example)
@@ -156,7 +156,7 @@ All the code for this example can be found [here](https://github.com/C2FO/patio/
 
 
 4. Connect and query!
-                                                                                                                      
+
     ```javascript
     var patio = require("patio");
 
