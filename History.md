@@ -1,3 +1,11 @@
+# 2.0.0
+
+* Updated dependency for node-pg from 4.4.3 to 7.4.3.
+
+* Updated dependency for pg-types to match node-pg version 1.12.1.
+
+* Update connect signature to allow passing options and a connection string.
+
 # 1.4.0
 
 * Updated dependency for validator from ~1.5.1 to ~10.3.0.
