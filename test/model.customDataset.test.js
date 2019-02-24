@@ -2,7 +2,7 @@ var it = require('it'),
     assert = require('assert'),
     helper = require("./data/model.helper.js"),
     patio = require("../lib"),
-    comb = require("comb-proxy");
+    comb = require("comb");
 
 
 it.describe("A model with a custom dataset", function (it) {

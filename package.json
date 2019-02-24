@@ -30,7 +30,6 @@
     "main": "index.js",
     "dependencies": {
         "comb": "~1.0.0",
-        "comb-proxy": "~1.0.0",
         "commander": "~2.9.0",
         "hive-cache": "0.0.3",
         "is-safe-integer": "1.0.1",

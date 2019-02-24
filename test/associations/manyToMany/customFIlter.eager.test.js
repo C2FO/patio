@@ -5,7 +5,7 @@ var it = require('it'),
     helper = require("../../data/manyToMany.helper.js"),
     patio = require("../../../lib"),
     sql = patio.sql,
-    comb = require("comb-proxy"),
+    comb = require("comb"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"],

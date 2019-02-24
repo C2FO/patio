@@ -4,7 +4,7 @@ var it = require('it'),
     assert = require('assert'),
     helper = require("../../data/manyToMany.helper.js"),
     patio = require("../../../lib"),
-    comb = require("comb-proxy"),
+    comb = require("comb"),
     hitch = comb.hitch;
 
 
