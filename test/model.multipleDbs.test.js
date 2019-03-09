@@ -4,7 +4,7 @@ var it = require('it'),
     events = require("events"),
     sql = patio.SQL,
     config = require("./test.config.js"),
-    comb = require("comb-proxy"),
+    comb = require("comb"),
     hitch = comb.hitch;
 
 var gender = ["M", "F"];

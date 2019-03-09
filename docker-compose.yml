@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: sandbox
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    ports:
+    - "3306:3306"
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: sandbox
+    ports:
+    - "5432:5432"
+
+  patio:
+    image: patio
+    build: .
+    depends_on:
+    - "mysql"
+    - "postgres"
+    network_mode: "host"
+    volumes:
+    - "./lib:/patio/lib:ro"
+    - "./test:/patio/test:ro"

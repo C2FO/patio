@@ -36,6 +36,19 @@ To run just the mysql tests
 grunt test-mysql
 ```
 
+### Running Tests with Docker
+
+In order to provide a consistent test environment and make it easier to test,
+we have included a `Dockerfile` and a `docker-compose.yml` to make it easy to
+test in an isolated environment. You can do so with:
+
+```sh
+docker-compose build
+docker-compose up -d mysql postgres
+sleep 10 # Wait for databases to come up
+docker-compose up patio
+```
+
 ### Why Use Patio?
 
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.
