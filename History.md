@@ -1,3 +1,7 @@
+# 3.0.0
+
+* Support for version 6 of Node.
+
 # 2.0.0
 
 * Updated dependency for node-pg from 4.4.3 to 7.4.3.
