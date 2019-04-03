@@ -1,3 +1,7 @@
+# 3.1.0
+
+* Removed the patio timestamp typeparser in favor of the default in pg-types.
+
 # 3.0.0
 
 * Support for version 6 of Node.
