@@ -32,7 +32,7 @@ it.describe("patio.Model", function (it) {
         var emp = new Employee({
             firstname: "doug",
             lastname: "martin",
-                    //   533607396455579649
+            // 533607396455579649
             position: 9007199254740991,
             midinitial: null,
             gender: "M",
@@ -351,6 +351,8 @@ it.describe("patio.Model", function (it) {
 
             it.should("support one", function () {
                 return Employee.one().chain(function (emp) {
+                    // 533607396455579649
+                    assert(emp.position, 9007199254740991)
                     assert.instanceOf(emp, Employee);
                 });
             });
