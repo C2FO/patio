@@ -32,7 +32,8 @@ it.describe("patio.Model", function (it) {
         var emp = new Employee({
             firstname: "doug",
             lastname: "martin",
-            position: 1,
+                    //   533607396455579649
+            position: 9007199254740991,
             midinitial: null,
             gender: "M",
             street: "1 nowhere st.",
