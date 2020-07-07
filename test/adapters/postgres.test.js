@@ -559,6 +559,7 @@ if (process.env.PATIO_DB === "pg") {
                     return db.dropTable("posts");
                 });
 
+                // TODO: Add a test for find one typecasting in model
                 it.should("parse bigints on select if true", function () {
                     var ds = db.from("posts");
                     patio.parseInt8 = true;
