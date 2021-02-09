@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "3.1.0",
+    "version": "4.0.0",
     "keywords": [
         "ORM",
         "object relation mapper",
@@ -29,7 +29,7 @@
     "author": "Doug Martin (http://c2fo.github.com)",
     "main": "index.js",
     "dependencies": {
-        "comb": "~1.0.0",
+        "comb": "git+https://github.com/c2fo/comb.git",
         "commander": "~2.9.0",
         "hive-cache": "0.0.3",
         "is-safe-integer": "1.0.1",
@@ -61,6 +61,6 @@
         "patio": "./bin/patio"
     },
     "engines": {
-        "node": "6.0.0"
+        "node": ">= 10.0.0"
     }
 }
