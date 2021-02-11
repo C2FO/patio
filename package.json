@@ -29,7 +29,7 @@
     "author": "Doug Martin (http://c2fo.github.com)",
     "main": "index.js",
     "dependencies": {
-        "comb": "git+https://github.com/c2fo/comb.git",
+        "comb": "~2.0.0",
         "commander": "~2.9.0",
         "hive-cache": "0.0.3",
         "is-safe-integer": "1.0.1",
