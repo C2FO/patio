@@ -93,12 +93,17 @@ it.describe("patio.adapters.Redshift", function (it) {
 
 
     it.afterAll(function () {
-        patio.resetIdentifierMethods();
-        return patio.disconnect().chain(() => {
-            console.log('diconnected');
-        }, (err) => {
+        try {
+            patio.resetIdentifierMethods();
+            return patio.disconnect().chain(() => {
+                console.log('diconnected');
+            }, (err) => {
+                console.log(err);
+                throw err;
+            });
+        }catch(err) {
+            console.log('got this caught');
             console.log(err);
-            throw err;
-        });
+        }
     });
 });

@@ -8,6 +8,10 @@ var it = require('it'),
     hitch = comb.hitch;
 
 
+process.on('uncaughtException', (err) => {
+    console.log('got unhandled', err);
+});
+
 var gender = ["M", "F"];
 
 it.describe("patio.Model manyToMany camelize properties", function (it) {
