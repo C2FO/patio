@@ -23,10 +23,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Start Backing Apps
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
-        if: github.event_name == 'pull_request'
       - run: docker-compose build
       - run: docker-compose up -d mysql postgres
       - run: sleep 10
