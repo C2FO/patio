@@ -94,7 +94,7 @@ it.describe("patio.adapters.Redshift", function (it) {
 
     it.afterAll(function () {
         patio.resetIdentifierMethods();
-        return patio.disconnect().then(() => {
+        return patio.disconnect().chain(() => {
             console.log('diconnected');
         }, (err) => {
             console.log(err);

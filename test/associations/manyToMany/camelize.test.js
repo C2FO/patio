@@ -14,6 +14,7 @@ it.describe("patio.Model manyToMany camelize properties", function (it) {
 
     var Company, Employee;
     it.beforeAll(function () {
+        console.log('this one...');
         Company = patio.addModel("company", {
             "static": {
                 identifierOutputMethod: "camelize",
@@ -26,7 +27,13 @@ it.describe("patio.Model manyToMany camelize properties", function (it) {
                 identifierInputMethod: "underscore"
             }
         }).manyToMany("companies");
-        return helper.createSchemaAndSync(true);
+        return helper.createSchemaAndSync(true).chain(() => {
+            console.log('done creating...');
+        }, (err) => {
+            console.log('create error');
+            console.log(err);
+            throw err;
+        });
     });
 
 
