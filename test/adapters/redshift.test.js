@@ -79,32 +79,16 @@ it.describe("patio.adapters.Redshift", function (it) {
                 assert.deepEqual(PG_DB.sqls, ["CREATE TABLE testTable (id bigint identity(0, 1) primary key, testCol text sortkey) diststyle all"]);
             });
         });
+    });
 
-        it.should("not allow using returning statements", function () {
-            return PG_DB.from("test").returning("id").update({hello: "world"}).chain(function () {
-                assert.deepEqual(PG_DB.sqls, ["UPDATE  test SET hello = 'world'"]);
-            }, (err) => {
-                console.log(err);
-                throw err;
-            });
+    it.should("not allow using returning statements", function () {
+        return PG_DB.from("test").returning("id").update({hello: "world"}).chain(function () {
+            assert.deepEqual(PG_DB.sqls, ["UPDATE  test SET hello = 'world'"]);
         });
     });
 
-
-
-
     it.afterAll(function () {
-        try {
-            patio.resetIdentifierMethods();
-            return patio.disconnect().chain(() => {
-                console.log('diconnected');
-            }, (err) => {
-                console.log(err);
-                throw err;
-            });
-        }catch(err) {
-            console.log('got this caught');
-            console.log(err);
-        }
+        patio.resetIdentifierMethods();
+        return patio.disconnect();
     });
 });
