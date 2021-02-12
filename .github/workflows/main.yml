@@ -28,7 +28,7 @@ jobs:
       - run: docker-compose up -d mysql postgres
       - run: sleep 10
       # - run: docker-compose run patio psql -h localhost -c 'create database if not exits sandbox;' -U postgres
-      - run: docker-compose run patio psql -h localhost -c 'create sandbox2;' -U postgres
+      - run: docker-compose run patio psql -h localhost -c 'create database sandbox2;' -U postgres
       - run: docker-compose run patio mysql -h 0.0.0.0 -e 'create database sandbox2;'
       # - run: docker-compose run patio mysql -h 0.0.0.0 -e 'create database sandbox;'
       - run: npm install -g grunt-cli
