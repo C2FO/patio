@@ -85,12 +85,20 @@ it.describe("patio.adapters.Redshift", function (it) {
     it.should("not allow using returning statements", function () {
         return PG_DB.from("test").returning("id").update({hello: "world"}).chain(function () {
             assert.deepEqual(PG_DB.sqls, ["UPDATE  test SET hello = 'world'"]);
+        }, (err) => {
+            console.log(err);
+            throw err;
         });
     });
 
 
     it.afterAll(function () {
         patio.resetIdentifierMethods();
-        return patio.disconnect();
+        return patio.disconnect().then(() => {
+            console.log('diconnected');
+        }, (err) => {
+            console.log(err);
+            throw err;
+        });
     });
 });
