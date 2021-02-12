@@ -26,5 +26,7 @@ jobs:
       - run: docker-compose build
       - run: docker-compose up -d mysql postgres
       - run: sleep 10
-      - run: docker-compose run patio
-
+      # - run: docker-compose run patio
+      - run: npm install -g grunt-cli
+      - run: npm install
+      - run: npm run test
