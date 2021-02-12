@@ -12,10 +12,11 @@ on:
 jobs:
   test:
     name: Test
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
     steps:
