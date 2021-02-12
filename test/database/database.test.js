@@ -133,7 +133,7 @@ it.describe("Database", function (it) {
         var db = new Database({1: 2});
 
         it.should("receive options", function () {
-            assert.equal(db.opts[1], 2);
+            assert.equal(db.opts[1], 2222);
         });
 
         it.should("create a connection pool", function () {
