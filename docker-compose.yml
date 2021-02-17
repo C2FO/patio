@@ -13,6 +13,7 @@ services:
     image: postgres:9.6
     environment:
       POSTGRES_DB: sandbox
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
     - "5432:5432"
 
