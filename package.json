@@ -35,7 +35,7 @@
         "is-safe-integer": "1.0.1",
         "mysql": "2.10.0",
         "pg": "7.4.3",
-        "pg-query-stream": "1.0.0",
+        "pg-query-stream": "1.1.2",
         "pg-types": "1.12.1",
         "validator": "~10.3.0"
     },
