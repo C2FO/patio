@@ -37,13 +37,17 @@
         "pg": "7.4.3",
         "pg-query-stream": "1.0.0",
         "pg-types": "1.12.1",
+        "typescript": "^4.2.4",
         "validator": "~10.3.0"
     },
     "scripts": {
         "test": "grunt test"
     },
     "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.24.0",
+        "@typescript-eslint/parser": "^4.24.0",
         "coveralls": "^2.11.2",
+        "eslint": "^7.26.0",
         "grunt": "^0.4.5",
         "grunt-contrib-jshint": "^0.12.0",
         "grunt-coveralls": "^1.0.0",
