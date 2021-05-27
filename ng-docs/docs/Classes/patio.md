@@ -1,8 +1,13 @@
+---
+id: patio
+title: Patio
+---
+
 A singleton class that acts as the entry point for all actions performed in patio.
 
 *Example*
 
-```
+```js
 var patio = require("patio");
 
 patio.createConnection(....);
@@ -11,40 +16,34 @@ patio.camelize = true;
 patio.quoteIdentifiers=false;
 patio.parseInt8=false
 patio.defaultPrimaryKeyType = "integer" //"bigint"
+patio.createModel("my_table");
 
-patio.createModel("my\_table");
+//CHANGING IDENTIFIER INPUT METHOD
+//use whatever is passed in
+patio.identifierInputMethod = null;
+//convert to uppercase
+patio.identifierInputMethod = "toUpperCase";
+//convert to camelCase
+patio.identifierInputMethod = "camelize";
+//convert to underscore
+patio.identifierInputMethod = "underscore";
 
+//CHANGING IDENTIFIER OUTPUT METHOD
+//use whatever the db returns
+patio.identifierOutputMethod = null;
+//convert to uppercase
+patio.identifierOutputMethod = "toUpperCase";
+//convert to camelCase
+patio.identifierOutputMethod = "camelize";
+//convert to underscore
+patio.identifierOutputMethod = "underscore";
 
- //CHANGING IDENTIFIER INPUT METHOD
-
-
- //use whatever is passed in
-  patio.identifierInputMethod = null;
- //convert to uppercase
- patio.identifierInputMethod = "toUpperCase";
- //convert to camelCase
- patio.identifierInputMethod = "camelize";
- //convert to underscore
- patio.identifierInputMethod = "underscore";
-
-
- //CHANGING IDENTIFIER OUTPUT METHOD
-
- //use whatever the db returns
-  patio.identifierOutputMethod = null;
- //convert to uppercase
- patio.identifierOutputMethod = "toUpperCase";
- //convert to camelCase
- patio.identifierOutputMethod = "camelize";
- //convert to underscore
- patio.identifierOutputMethod = "underscore";
-
- //TURN QUOTING OFF
-  patio.quoteIdentifiers = false
+//TURN QUOTING OFF
+patio.quoteIdentifiers = false
 ```
 
 *Extends*
-* [patio.Time](./patio_Time)
+* [patio.Time](./patio.Time)
 
 ## Properties
 
@@ -89,14 +88,13 @@ patio.createModel("my\_table");
             <td>LOGGER</td>
             <td>Logger</td>
             <td><code>comb.logger("patio")</code></td>
-            <td> Returns the root comb logger using this logger you can set the levels add appenders etc.</td>
+            <td>Returns the root comb logger using this logger you can set the levels add appenders etc.</td>
         </tr>
         <tr>
             <td>camelize</td>
             <td>function</td>
             <td></td>
-            <td>
-                Sets the whether or not to camelize identifiers coming from the database and to underscore identifiers when sending identifiers to the database. Setting this property to true has the same effect as:
+            <td>Sets the whether or not to camelize identifiers coming from the database and to underscore identifiers when sending identifiers to the database. Setting this property to true has the same effect as:
                 <pre>
 patio.identifierOutputMethod = "camelize";
 patio.identifierInputMethod = "underscore";
@@ -104,11 +102,11 @@ patio.identifierInputMethod = "underscore";
             </td>
         </tr>
         <tr>
-        </tr>
             <td>defaultDatabase</td>
             <td>patio.Database</td>
             <td><code>null</code></td>
             <td>Returns the default database. This is the first database created using patio connect.</td>
+        </tr>
         <tr>
             <td>defaultPrimaryKeyType</td>
             <td>String</td>
@@ -119,8 +117,7 @@ patio.identifierInputMethod = "underscore";
             <td>identifierInputMethod</td>
             <td>String</td>
             <td></td>
-            <td>
-                Set the method to call on identifiers going into the database. This affects how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored use camelize. The method can include
+            <td>Set the method to call on identifiers going into the database. This affects how identifiers are sent to the database. So if you use camelCased and the db identifiers are all underscored use camelize. The method can include
                 <ul>
                     <li>toUpperCase</li>
                     <li>toLowerCase</li>
@@ -135,8 +132,7 @@ patio.identifierInputMethod = "underscore";
             <td>identifierOutputMethod</td>
             <td>String</td>
             <td></td>
-            <td>
-                Set the method to call on identifiers coming out of the database. This affects the how identifiers are represented by calling the method on them. The method can include
+            <td>Set the method to call on identifiers coming out of the database. This affects the how identifiers are represented by calling the method on them. The method can include
                 <ul>
                     <li>toUpperCase</li>
                     <li>toLowerCase</li>
@@ -163,8 +159,7 @@ patio.identifierInputMethod = "underscore";
             <td>underscore</td>
             <td>function</td>
             <td></td>
-            <td>
-                Sets the whether or not to underscore identifiers coming from the database and to camelize identifiers when sending identifiers to the database. Setting this property to true has the same effect as:
+            <td>Sets the whether or not to underscore identifiers coming from the database and to camelize identifiers when sending identifiers to the database. Setting this property to true has the same effect as:
                 <pre>
 patio.identifierOutputMethod = "underscore";
 patio.identifierInputMethod = "camelize";
@@ -181,9 +176,9 @@ patio.identifierInputMethod = "camelize";
 *Defined index.js*
 
 *Source*
-```
+```js
 function (){
-   this.\_super(arguments);
+   this._super(arguments);
    var constants = SQL.Constants;
    for (var i in constants) {
        this[i] = constants[i];
@@ -197,11 +192,11 @@ Public *Defined index.js*
 This method is used to create a  [patio.Model](./patio.Model) object.
 
 *Example*
-```
+```js
 var Flight = patio.addModel("flight", {
     instance:{
             toObject:function () {
-                var obj = this.\_super(arguments);
+                var obj = this._super(arguments);
                 obj.weekdays = this.weekdaysArray;
                 obj.legs = this.legs.map(function (l) {
                     return l.toObject();
@@ -209,7 +204,7 @@ var Flight = patio.addModel("flight", {
                 return obj;
             },
 
-            \_setWeekdays:function (weekdays) {
+            _setWeekdays:function (weekdays) {
                 this.weekdaysArray = weekdays.split(",");
                 return weekdays;
             }
@@ -238,10 +233,10 @@ var Flight = patio.addModel("flight", {
 
         getters:{
             flightLeg:function () {
-                if (!this.\_\_flightLeg) {
-                    this.\_\_flightLeg = this.patio.getModel("flightLeg");
+                if (!this.__flightLeg) {
+                    this.__flightLeg = this.patio.getModel("flightLeg");
                 }
-                return this.\_\_flightLeg;
+                return this.__flightLeg;
             }
         }
     }
@@ -259,7 +254,7 @@ var Flight = patio.addModel("flight", {
 
 *Source*
 
-```
+```js
 function (table,supers,proto){
     return model.create.apply(model, arguments);
 }
@@ -271,7 +266,7 @@ Public *Defined index.js*
 This can be used to configure logging. If a options hash is passed in then it will passed to the comb.logging.PropertyConfigurator. If the options are omitted then a ConsoleAppender will be added and the level will be set to info.
 
 *Example*
-```
+```js
 var config = {
     "patio" : {
         level : "INFO",
@@ -295,14 +290,13 @@ patio.configureLogging(config);
 * *opts* :
 
 *Source*
-```
+```js
 function (opts){
-   comb.logger.configure(opts);
-   if (!opts) {
-       LOGGER.level = "info";
-   }
+    comb.logger.configure(opts);
+    if (!opts) {
+        LOGGER.level = "info";
+    }
 }
-    
 ```
 
 ### connect
@@ -310,9 +304,9 @@ function (opts){
 Public *Defined index.js*
 
 *Source*
-```
+```js
 function (){
-   return this.createConnection.apply(this, arguments);
+    return this.createConnection.apply(this, arguments);
 }
 ```
 
@@ -328,7 +322,7 @@ The [patio.Database](./patio.Database) returned can also be used to create([pati
 
 *Example*
 
-```
+```js
 //connect using an object
 var DB = patio.createConnection({
             host : "127.0.0.1",
@@ -341,8 +335,8 @@ var DB = patio.createConnection({
             database : 'test'
 });
 //connect using a connection string
-var CONNECT\_STRING = "mysql://test:testpass@localhost:3306/test?maxConnections=1&minConnections=1";
-var DB = patio.createConnection(CONNECT\_STRING);
+var CONNECT_STRING = "mysql://test:testpass@localhost:3306/test?maxConnections=1&minConnections=1";
+var DB = patio.createConnection(CONNECT_STRING);
 
 //...do something
 DB.createTable("myTable", function(){
@@ -363,7 +357,7 @@ DB.createTable("myTable", function(){
 * *options.database* `String` : the name of the database to use, the database specified here is the default database for all connections.
 
 *Source*
-```
+```js
 function (options){
     var ret = Database.connect(options);
     this.emit("connect", ret);
@@ -383,7 +377,7 @@ Disconnects all databases in use.
 * `comb.Promise` a promise that is resolved once all databases have disconnected.
 
 *Source*
-```
+```js
 function (cb){
     var ret = Database.disconnect(cb), self = this;
     ret.classic(function (err) {
@@ -403,21 +397,21 @@ Public *Defined index.js*
 
 Returns a model from the name of the table for which the model was created.
 
-```
-var TestModel = patio.addModel("test\_model").sync(function(err){
+```js
+var TestModel = patio.addModel("test_model").sync(function(err){
     if(err){
         console.log(err.stack);
     }else{
-        var TestModel = patio.getModel("test\_model");
+        var TestModel = patio.getModel("test_model");
     }
 });
 ```
 
 If you have two tables with the same name in different databases then you can use the db parameter also.
 
-```
-var DB1 = patio.createConnection("mysql://test:testpass@localhost:3306/test\_1");
-var DB2 = patio.createConnection("mysql://test:testpass@localhost:3306/test\_2");
+```js
+var DB1 = patio.createConnection("mysql://test:testpass@localhost:3306/test_1");
+var DB2 = patio.createConnection("mysql://test:testpass@localhost:3306/test_2");
 var Test1 = patio.addModel(DB1.from("test");
 var Test2 = patio.addModel(DB2.from("test");
 
@@ -435,7 +429,7 @@ patio.syncModels().chain(function(){
  different databases.
 
 *Source*
-```
+```js
 function (name,db){
     return model.getModel(name, db);
 }
@@ -448,7 +442,7 @@ Public *Defined index.js*
 Logs a DEBUG level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isDebug) {
         LOGGER.debug.apply(LOGGER, arguments);
@@ -463,7 +457,7 @@ Public *Defined index.js*
 Logs an ERROR level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isError) {
         LOGGER.error.apply(LOGGER, arguments);
@@ -478,7 +472,7 @@ Public *Defined index.js*
 Logs a FATAL level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isFatal) {
         LOGGER.fatal.apply(LOGGER, arguments);
@@ -493,7 +487,7 @@ Public *Defined index.js*
 Logs an INFO level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isInfo) {
         LOGGER.info.apply(LOGGER, arguments);
@@ -508,7 +502,7 @@ Public *Defined index.js*
 Logs a TRACE level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isTrace) {
         LOGGER.trace.apply(LOGGER, arguments);
@@ -522,7 +516,7 @@ Public *Defined index.js*
 Logs a WARN level message to the "patio" logger.
 
 *Source*
-```
+```js
 function (){
     if (LOGGER.isWarn) {
         LOGGER.warn.apply(LOGGER, arguments);
@@ -597,15 +591,15 @@ alterEmployeeNameColumn.1328035360.js
 
 In order to run a migraton all one has to do is call patio.migrate(DB, directory, options);
 
-```
+```js
 var DB = patio.connect("my://connection/string");
-patio.migrate(DB, \_\_dirname + "/migrations").chain(function(){
+patio.migrate(DB, __dirname + "/migrations").chain(function(){
     console.log("migrations finished");
 });
 ```
 
 **Example migration file**
-```
+```js
 //Up function used to migrate up a version
 exports.up = function(db) {
     //create a new table
@@ -641,7 +635,7 @@ is not provided it is retrieved from the database.
 * `Promise` a promise that is resolved once the migration is complete.
 
 *Source*
-```
+```js
 function (db){
     db = isString(db) ? this.connect(db) : db;
     var args = argsToArray(arguments);
@@ -657,7 +651,7 @@ Public *Defined index.js*
 Helper method to sync all models at once.
 
 *Example*
-```
+```js
 var User = patio.addModel("user");
 var Blog = patio.addModel("blog");
 
@@ -685,7 +679,7 @@ patio.syncModels(function(err){
 * `comb.Promise` a promise that will be resolved when the models have been synced.
 
 *Source*
-```
+```js
 function (cb){
     return model.syncModels(cb);
 }

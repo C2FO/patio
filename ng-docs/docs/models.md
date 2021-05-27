@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Models
 
 Models are an optional feature in patio that can be extended to encapsulate, query, and associate tables.

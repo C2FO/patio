@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+---
+
 ### [patio.plugins.ValidatorPlugin](./patio_plugins_ValidatorPlugin.html)
 
 A validation plugin for patio models. This plugin adds a `validate` method to each [Model](./patio_Model.html)

@@ -1,3 +1,7 @@
+---
+sidebar_position: 8
+---
+
 # DDL
 
 ## [createTable](./patio_Database.html#createTable)

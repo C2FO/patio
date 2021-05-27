@@ -1,4 +1,9 @@
+---
+sidebar_position: 6
+---
+
 # Plugins
+
 
 One of the powerful features of the `patio` [Model](./models.html) api is plugins. Plugins allow developers to easily extend models to do extra functionality.
 
