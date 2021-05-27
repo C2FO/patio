@@ -4,32 +4,36 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Choose Your Abstraction',
     Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Patio is different because it allows the developers to
+        choose the level of abtraction they are comfortable with. 
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Database Defined Model',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        As you add models the definition is automatically defined. 
+        This is particularly useful when using a schema designed
+        by another tool (i.e. ActiveRecord, Sequel, etc...)
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Stays Out of Your Way',
     Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        When you define a model you have the freedom to perform any type of query
+        you want.<br />
+        Only want certain columns?<br />
+        Want to run raw SQL?<br />
+        All of that and more is available.
       </>
     ),
   },
