@@ -1,3 +1,7 @@
+# 4.0.1
+
+* Added Typescript types
+
 # 3.1.0
 
 * Removed the patio timestamp typeparser in favor of the default in pg-types.

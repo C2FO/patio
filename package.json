@@ -1,7 +1,7 @@
 {
     "name": "patio",
     "description": "Patio query engine and ORM",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "keywords": [
         "ORM",
         "object relation mapper",
@@ -52,7 +52,8 @@
         "istanbul": "^0.3.14",
         "it": "^1.0.1",
         "jit-grunt": "^0.9.1",
-        "time-grunt": "^1.2.2"
+        "time-grunt": "^1.2.2",
+        "typescript": "^4.3.5"
     },
     "directories": {
         "lib": "lib"
