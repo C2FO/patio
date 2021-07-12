@@ -4,9 +4,6 @@ var it = require('it'),
     Database = patio.Database,
     ConnectionPool = require("../../lib/ConnectionPool"),
     sql = patio.sql,
-    Identifier = sql.Identifier,
-    SQLFunction = sql.SQLFunction,
-    LiteralString = sql.LiteralString,
     helper = require("../helpers/helper"),
     MockDatabase = helper.MockDatabase,
     MockDataset = helper.MockDataset,
@@ -15,19 +12,6 @@ var it = require('it'),
 
 it.describe("Database", function (it) {
 
-    var DummyDataset = comb.define(patio.Dataset, {
-        instance: {
-            first: function () {
-                var ret = new comb.Promise();
-                if (this.__opts.from[0].toString() === "a") {
-                    ret.errback();
-                } else {
-                    ret.callback();
-                }
-                return ret;
-            }
-        }
-    });
     var DummyDatabase = comb.define(patio.Database, {
         instance: {
             constructor: function () {
@@ -61,8 +45,12 @@ it.describe("Database", function (it) {
 
             getters: {
                 dataset: function () {
-                    return new DummyDataset(this);
+                    return new MockDataset(this);
                 }
+            },
+
+            tables: function() {
+                return new comb.Promise().callback(['b']);
             }
         }
     });
@@ -758,7 +746,7 @@ it.describe("Database", function (it) {
             patio.quoteIdentifiers = false;
             db = new DummyDatabase();
         });
-        it.should("try to select the first record from the table's dataset", function () {
+        it.should("returns true if the table is in the list of all tables", function () {
             var a, b;
             return comb.when(
                 db.tableExists("a").chain(function (ret) {
@@ -1228,7 +1216,7 @@ it.describe("Database", function (it) {
             instance: {
                 getters: {
                     dataset: function () {
-                        var ds = new DummyDataset(this);
+                        var ds = new MockDataset(this);
                         ds.get = function () {
                             return this.db.execute(this.select.apply(this, arguments).sql);
                         };
