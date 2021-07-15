@@ -1,3 +1,11 @@
+# 4.1.0
+
+* Change to migrations table existing logic. [PR](https://github.com/C2FO/patio/pull/174)
+
+# 4.0.0
+
+* Node 12 Support! [PR](https://github.com/C2FO/patio/pull/162)
+
 # 3.1.0
 
 * Removed the patio timestamp typeparser in favor of the default in pg-types.
