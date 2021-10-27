@@ -318,10 +318,10 @@ it.describe("Dataset queries", function (it) {
 
         it.should("handle all types of IN/NOT IN queries", function () {
             assert.equal(dataset.filter({id: d1.select("id")}).sql, "SELECT * FROM test WHERE (id IN (SELECT id FROM test WHERE (region = 'Asia')))");
-            assert.equal(dataset.filter({id: []}).sql, "SELECT * FROM test WHERE (id != id)");
+            assert.equal(dataset.filter({id: []}).sql, "SELECT * FROM test WHERE (1 = 0)");
             assert.equal(dataset.filter({id: [1, 2]}).sql, "SELECT * FROM test WHERE (id IN (1, 2))");
             assert.equal(dataset.filter({"id1,id2": d1.select("id1", "id2")}).sql, "SELECT * FROM test WHERE ((id1, id2) IN (SELECT id1, id2 FROM test WHERE (region = 'Asia')))");
-            assert.equal(dataset.filter({"id1,id2": []}).sql, "SELECT * FROM test WHERE ((id1 != id1) AND (id2 != id2))");
+            assert.equal(dataset.filter({"id1,id2": []}).sql, "SELECT * FROM test WHERE (1 = 0)");
             assert.equal(dataset.filter({
                 "id1,id2": [
                     [1, 2],
