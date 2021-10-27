@@ -1,3 +1,7 @@
+# 4.2.0
+
+* Use a `1 = 0` instead of `"col" != "col"` when an empty array is provided as an in clause. [PR](https://github.com/C2FO/patio/pull/195)
+
 # 4.1.0
 
 * Change to migrations table existing logic. [PR](https://github.com/C2FO/patio/pull/174)
