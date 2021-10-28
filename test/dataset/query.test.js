@@ -316,6 +316,10 @@ it.describe("Dataset queries", function (it) {
             assert.equal(dataset.filter('gdp > ?', d1.select(new SQLFunction("avg", "gdp"))).sql, "SELECT * FROM test WHERE (gdp > (SELECT avg(gdp) FROM test WHERE (region = 'Asia')))");
         });
 
+        it.should("handle IN in queries with value as empty array and quoteIdentifiers=true", function () {
+            assert.equal(new Dataset({ quoteIdentifiers: true }).from("test").filter({id: []}).deleteSql, 'DELETE FROM "test" WHERE (1 = 0)');
+        });
+
         it.should("handle all types of IN/NOT IN queries", function () {
             assert.equal(dataset.filter({id: d1.select("id")}).sql, "SELECT * FROM test WHERE (id IN (SELECT id FROM test WHERE (region = 'Asia')))");
             assert.equal(dataset.filter({id: []}).sql, "SELECT * FROM test WHERE (1 = 0)");
