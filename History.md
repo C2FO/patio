@@ -1,3 +1,7 @@
+# 4.2.1
+
+* Handle empty IN clause with quoteIdentifiers=true. [PR](https://github.com/C2FO/patio/pull/196)
+
 # 4.2.0
 
 * Use a `1 = 0` instead of `"col" != "col"` when an empty array is provided as an in clause. [PR](https://github.com/C2FO/patio/pull/195)
