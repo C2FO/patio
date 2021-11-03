@@ -37,7 +37,7 @@
         "pg": "7.4.3",
         "pg-query-stream": "1.0.0",
         "pg-types": "1.12.1",
-        "validator": "~10.3.0"
+        "validator": "~13.7.0"
     },
     "scripts": {
         "test": "grunt test"
