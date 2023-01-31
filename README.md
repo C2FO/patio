@@ -3,7 +3,7 @@
 
 [![NPM](https://nodei.co/npm/patio.png?downloads=true)](https://nodei.co/npm/patio/)
 
-# [Patio](http://c2fo.github.com/patio)
+# [Patio](http://c2fo.github.io/patio)
 
 Patio is a <a href="http://sequel.rubyforge.org/" target="patioapi">Sequel</a> inspired query engine.
 
@@ -53,7 +53,7 @@ docker-compose up patio
 
 Patio is different because it allows the developers to choose the level of abtraction they are comfortable with.
 
-If you want to use the [ORM](http://c2fo.github.com/patio/models.html) functionality you can. If you don't you can just use the [Database](http://c2fo.github.com/patio/DDL.html) and [Datasets](http://c2fo.github.com/patio/querying.html) as a querying API, and if you need to you can [write plain SQL](http://c2fo.github.com/patio/patio_Database.html#run)
+If you want to use the [ORM](http://c2fo.github.io/patio/models.html) functionality you can. If you don't you can just use the [Database](http://c2fo.github.io/patio/DDL.html) and [Datasets](http://c2fo.github.io/patio/querying.html) as a querying API, and if you need to you can [write plain SQL](http://c2fo.github.io/patio/patio_Database.html#run)
 
 ### Concepts
 
@@ -228,15 +228,15 @@ All the code for this example can be found [here](https://github.com/C2FO/patio/
 
 ### Guides
 
-* [Migrations](http://c2fo.github.com/patio/migrations.html)
-* [Models](http://c2fo.github.com/patio/models.html)
-    * [Associations](http://c2fo.github.com/patio/associations.html)
-    * [Inheritance](http://c2fo.github.com/patio/model-inheritance.html)
-    * [Validation](http://c2fo.github.com/patio/validation.html)
-    * [Plugins](http://c2fo.github.com/patio/plugins.html)
-* [Querying](http://c2fo.github.com/patio/querying.html)
-* [DDL](http://c2fo.github.com/patio/DDL.html)
-* [Logging](http://c2fo.github.com/patio/logging.html)
+* [Migrations](http://c2fo.github.io/patio/migrations.html)
+* [Models](http://c2fo.github.io/patio/models.html)
+    * [Associations](http://c2fo.github.io/patio/associations.html)
+    * [Inheritance](http://c2fo.github.io/patio/model-inheritance.html)
+    * [Validation](http://c2fo.github.io/patio/validation.html)
+    * [Plugins](http://c2fo.github.io/patio/plugins.html)
+* [Querying](http://c2fo.github.io/patio/querying.html)
+* [DDL](http://c2fo.github.io/patio/DDL.html)
+* [Logging](http://c2fo.github.io/patio/logging.html)
 
 ### Features
 
@@ -247,29 +247,29 @@ All the code for this example can be found [here](https://github.com/C2FO/patio/
     * MySQL
     * Postgres
     * Redshift
-* [Models](http://c2fo.github.com/patio/models.html)
-    * [Associations](http://c2fo.github.com/patio/associations.html)
-    * [Inheritance](http://c2fo.github.com/patio/model-inheritance.html)
-    * [Validation](http://c2fo.github.com/patio/validation.html)
-    * [Plugins](http://c2fo.github.com/patio/plugins.html)
+* [Models](http://c2fo.github.io/patio/models.html)
+    * [Associations](http://c2fo.github.io/patio/associations.html)
+    * [Inheritance](http://c2fo.github.io/patio/model-inheritance.html)
+    * [Validation](http://c2fo.github.io/patio/validation.html)
+    * [Plugins](http://c2fo.github.io/patio/plugins.html)
 * Simple adapter extensions
-* [Migrations](http://c2fo.github.com/patio/migrations.html)
+* [Migrations](http://c2fo.github.io/patio/migrations.html)
     * Integer and Timestamp based.
-* Powerful [Querying](http://c2fo.github.com/patio/querying.html) API
-* [Transactions](http://c2fo.github.com/patio/patio_Database.html#transaction) with
+* Powerful [Querying](http://c2fo.github.io/patio/querying.html) API
+* [Transactions](http://c2fo.github.io/patio/patio_Database.html#transaction) with
     * Savepoints
     * Isolation Levels
     * Two phase commits
 * SQL Datatype casting
 * Full database CRUD operations
-    * [createTable](http://c2fo.github.com/patio/patio_Database.html#createTable)
-    * [alterTable](http://c2fo.github.com/patio/patio_Database.html#alterTable)
-    * [dropTable](http://c2fo.github.com/patio/patio_Database.html#dropTable)
-    * [insert](http://c2fo.github.com/patio/patio_Dataset.html#insert)
-    * [multiInsert](http://c2fo.github.com/patio/patio_Dataset.html#multiInsert)
-    * [update](http://c2fo.github.com/patio/patio_Dataset.html#update)
-    * [remove](http://c2fo.github.com/patio/patio_Dataset.html#remove)
-    * [query](http://c2fo.github.com/patio/patio_Dataset.html#filter)
+    * [createTable](http://c2fo.github.io/patio/patio_Database.html#createTable)
+    * [alterTable](http://c2fo.github.io/patio/patio_Database.html#alterTable)
+    * [dropTable](http://c2fo.github.io/patio/patio_Database.html#dropTable)
+    * [insert](http://c2fo.github.io/patio/patio_Dataset.html#insert)
+    * [multiInsert](http://c2fo.github.io/patio/patio_Dataset.html#multiInsert)
+    * [update](http://c2fo.github.io/patio/patio_Dataset.html#update)
+    * [remove](http://c2fo.github.io/patio/patio_Dataset.html#remove)
+    * [query](http://c2fo.github.io/patio/patio_Dataset.html#filter)
 
 
 

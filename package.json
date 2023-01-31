@@ -25,8 +25,8 @@
         "type": "git",
         "url": "git@github.com:C2FO/patio.git"
     },
-    "homepage": "http://c2fo.github.com/patio/index.html",
-    "author": "Doug Martin (http://c2fo.github.com)",
+    "homepage": "http://c2fo.github.io/patio/index.html",
+    "author": "Doug Martin (http://c2fo.github.io)",
     "main": "index.js",
     "dependencies": {
         "comb": "~2.0.0",
